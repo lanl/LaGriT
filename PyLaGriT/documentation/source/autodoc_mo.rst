@@ -4,4 +4,5 @@ Mesh Object
 
 .. autoclass:: MO
    :members:
+   :undoc-members:
 

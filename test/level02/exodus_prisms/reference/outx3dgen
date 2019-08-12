@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   macOS          *                 
-*               *    date_compile: 2019/04/08 Static          *                 
-*               *    Run Time: 2019/Apr  8  16:38:29          *                 
+*               *    Program:  LaGriT V3.400   Linux          *                 
+*               *    date_compile: 2019/07/04 dev             *                 
+*               *    Run Time: 2019/Jul 25  08:45:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -371,6 +371,12 @@ connect
  
 LaGriT FINISH: connect                                                          
  
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
+ 
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
        121 values reset for attribute zic                                       
  
@@ -694,6 +700,12 @@ connect
  The mesh is now complete!                                                      
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
        121 values reset for attribute zic                                       
@@ -1081,6 +1093,12 @@ connect
  The mesh is now complete!                                                      
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
        121 values reset for attribute zic                                       

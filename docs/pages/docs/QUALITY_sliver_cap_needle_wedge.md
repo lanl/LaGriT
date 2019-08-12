@@ -1,30 +1,32 @@
 ---
-title: "Poor Quality Tetrahedrons"
+title: "Quality for Tetrahedrons"
 ---
 
-# Using various quality measures to characterize tets as type: sliver, wedge, cap or needle elements.
+# quality measures to characterize tets as type: equilateral, sliver, wedge, cap or needle elements.
 
-### Characteristics
+## Characteristics
 
+- **Equilateral**: Characterized by equal edge lengths, aspect ratio 1, and angles near 70 degrees.
 - **Sliver**: Characterize by small minimum dihedral angle and large maximum dihedral angle but not a large solid angle.
 - **Cap**: Characterize by large maximum solid angle.
 - **Needle**: Characterize by small min/max edge length ratio but not small minimum dihedral angle.
 - **Wedge**: Characterize by small minimum dihedral angle and small min/max edge length ratio.
 
-<br>
+
+See example input and output files for these elements in test/level01/quality.
 
 
 Characteristic                 | Equilateral                                                                                      | Sliver                                                                                      | Cap                                                                                      | Needle                                                                                      | Wedge                                                                                      |
 ------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------                     | -----------------------------------------------------------------------                     | ----------------------------------------------------------------------                     |
 **Picture**                    | <img src="https://lanl.github.io/LaGriT/assets/images/quality_tet_equilateral.png" width="100%"> | <img src="https://lanl.github.io/LaGriT/assets/images/quality_tet_sliver.png" width="100%"> | <img src="https://lanl.github.io/LaGriT/assets/images/quality_tet_cap.png" width="100%"> | <img src="https://lanl.github.io/LaGriT/assets/images/quality_tet_needle.png" width="100%"> | <img src="https://lanl.github.io/LaGriT/assets/images/quality_tet_wedge.png" width="100%"> |
-**Coordinates**                | 0 0 0<br>0 1 1<br>1 0 1<br>1 1 0                                                         |  1   0   0.1<br>-1   0   0.1<br> 0   1  -0.1<br> 0  -1  -0.1<br>                    | 1     0   0<br>1     1   0<br>0     0   0<br>0. 0.25 0.1<br>                     |  .1 -.1  0<br> .1  .1  0<br>-.1   0  0<br>  0   0  1<br>                            |   1  0    0<br> -1  0    0<br>  0  1  0.1<br>  0  1 -0.1<br>                       |
-**Aspect Ratio**               | 1.0                                                                                              | 0.2927                                                                                      | 0.07448                                                                                  | 0.3429                                                                                      | 0.2617                                                                                     |
-**Min Dihedral Angle**         | 7.05288E+01                                                                                      | 1.59424E+01                                                                                 | 1.57932E+01                                                                              | 5.33585E+01                                                                                 | 1.14212E+01                                                                                |
-**Max Dihedral Angle**         | 7.05288E+01                                                                                      | 1.57380E+02                                                                                 | 1.49550E+02                                                                              | 8.74394E+01                                                                                 | 90.0                                                                                       |
+**Coordinates**                | 0 0 0<br>0 1 1<br>1 0 1<br>1 1 0                                                         |  1   0   0.1<br>-1   0   0.1<br> 0   1  -0.1<br> 0  -1  -0.1<br>                    | 1     0   0<br>1     1   0<br>0     0   0<br>0.75 0.25 0.1<br>                     |  .1 -.1  0<br> .1  .1  0<br>-.1   0  0<br>  0   0  1<br>                            |   1  0    0<br> -1  0    0<br>  0  1  0.1<br>  0  1 -0.1<br>                       |
+**Aspect Ratio**               | 1.0                                                                                              | 0.2927                                                                                      | 0.07447                                                                                  | 0.3429                                                                                      | 0.2617                                                                                     |
+**Min Dihedral Angle**         | 7.05288E+01                                                                                      | 1.59424E+01                                                                                 | 1.57931E+01                                                                              | 5.33585E+01                                                                                 | 1.14212E+01                                                                                |
+**Max Dihedral Angle**         | 7.05288E+01                                                                                      | 1.57380E+02                                                                                 | 1.49549E+02                                                                              | 8.74394E+01                                                                                 | 90.0                                                                                       |
 **Max Solid Angle**            | 3.15863E+01                                                                                      | 9.26487E+00                                                                                 | 2.60111E+02                                                                              | 5.56182E+01                                                                                 | 8.19307E+01                                                                                |
-**Min/Max Edge Length Ratio**  | 1.0                                                                                              | 7.14143E-01                                                                                 | 2.59808E-01                                                                              | 1.98030E-01                                                                                 | 0.1                                                                                        |
+**Min/Max Edge Length Ratio**  | 1.0                                                                                              | 7.14143E-01                                                                                 | 2.59807E-01                                                                              | 1.98030E-01                                                                                 | 0.1                                                                                        |
 
-<br>
+
 
 ## Example: LaGriT input file to identify sliver, cap, needle and wedge type elements.
 

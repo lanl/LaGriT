@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:56          *                 
+*               *    Program:  LaGriT V3.400   Linux          *                 
+*               *    date_compile: 2019/07/04 dev             *                 
+*               *    Run Time: 2019/Aug  1  09:44:52          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -91,9 +93,7 @@ regnpts/Channel/5/pset,get,rays/xyz/0.0,-0.5,-0.2/4.0,-0.5,-0.2/4.0,-0.5,0.0/1,1
 .4/                                                                             
   REGNPTS GENERATED POINTS      2217 TO      2664 FOR REGION Channel            
 filter/1,0,0/                                                                   
- 
 FILTER:Use internal epsilonl value =   0.106303492263E-11                       
- 
 FILTER:Dudding duplicate points:         160                                    
 setpts                                                                          
  FOR icr   1 TYPE surface    1   0   0 THERE ARE     1364 POINTS                
@@ -328,9 +328,9 @@ elements with aspect ratio < .01:                    0
 elements with aspect ratio b/w .01 and .02:        149                          
 elements with aspect ratio b/w .02 and .05:        817                          
 elements with aspect ratio b/w .05 and .1 :          0                          
-elements with aspect ratio b/w .1  and .2 :        108                          
-elements with aspect ratio b/w .2  and .5 :       1051                          
-elements with aspect ratio b/w .5  and 1. :       7704                          
+elements with aspect ratio b/w .1  and .2 :        133                          
+elements with aspect ratio b/w .2  and .5 :       1617                          
+elements with aspect ratio b/w .5  and 1. :       7113                          
 min aspect ratio =  0.1664E-01  max aspect ratio =  0.9642E+00                  
  
 epsilonvol:   8.8817842E-13                                                     
@@ -412,11 +412,11 @@ epsilonl, epsilonaspect:   1.0511414E-12  1.1614044E-36
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    5                          
 elements with aspect ratio b/w .01 and .02:         11                          
-elements with aspect ratio b/w .02 and .05:        288                          
-elements with aspect ratio b/w .05 and .1 :        372                          
-elements with aspect ratio b/w .1  and .2 :        334                          
-elements with aspect ratio b/w .2  and .5 :       1681                          
-elements with aspect ratio b/w .5  and 1. :       8528                          
+elements with aspect ratio b/w .02 and .05:        289                          
+elements with aspect ratio b/w .05 and .1 :        374                          
+elements with aspect ratio b/w .1  and .2 :        335                          
+elements with aspect ratio b/w .2  and .5 :       1701                          
+elements with aspect ratio b/w .5  and 1. :       8504                          
 min aspect ratio =  0.2144E-06  max aspect ratio =  0.9939E+00                  
  
 epsilonvol:   8.8817842E-13                                                     

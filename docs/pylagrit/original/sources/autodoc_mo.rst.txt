@@ -2,6 +2,7 @@ Mesh Object
 -----------
 .. automodule:: pylagrit
 
-.. autoclass:: PSet
+.. autoclass:: MO
    :members:
+   :undoc-members:
 

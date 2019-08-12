@@ -1,13 +1,11 @@
-
-Directory to hold unit testing files.
+Directory for LaGriT unit testing.
 
 USAGE:
      ./suite.py --help
 or   python3 ./suite.py --help
+or   python3 ./suite.py --full --level 01
+or   python3 suite.py -l 1 -f -exe="/DIRECTORY_PATH/lagrit"
 
-To test and check level01 with new exectuable:
-
-     python3 suite.py -l 1 -f -exe=EXE_NAME
 
 OUTPUT:
 The screen output will give summary of results, see below.
@@ -27,75 +25,96 @@ NOTES:
   with the correct executable the shell command should be "python <target-script>"
 
 
-################################################################
-Sample screen output for report:
+#####################################################################################
+EXAMPLE: % % python3 suite.py -l 1 -f -exe="/project/eesdev/tam/LaGriT/src/mylagrit" 
+#####################################################################################
+
+# STEP 1 CLEAN ALL DIRECTORIES #
+
+Directory: recon1
+	Clean.
+Directory: io_agf_simple
+	Clean.
+Directory: addmesh_append
+	Clean.
+(...)
+Directory: pset
+	Clean.
+Directory: zone_outside
+	Clean.
+Done. All output files removed from directories.
+
+
+# STEP 2 RUN ALL DIRECTORIES #
 
 =======
 Operating System:	linux
-Executable:		/project/eesdev/tam/LaGriT/src/xlagrit
+Executable:		/project/eesdev/tam/LaGriT/test/../src/lagrit
 Top directory:		/project/eesdev/tam/LaGriT/test/level01
 Out file:		stdout_linux.txt
-	On Mon Mar 18 12:36:05 2019
+	On Wed Jul 24 15:58:00 2019
 =======
- 1  Test Directory addmesh_add -----------------------
-/project/eesdev/tam/LaGriT/src/xlagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
-...
-38  Test Directory zone_outside_minmax -----------------------
-/project/eesdev/tam/LaGriT/src/xlagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
+ 1  Test Directory recon1 -----------------------
+/project/eesdev/tam/LaGriT/test/../src/mylagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
+(...)
+40  Test Directory zone_outside -----------------------
+/project/eesdev/tam/LaGriT/test/../src/mylagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
 Testing Done.
-Check outx3dgen  1  Test Directory addmesh_add -------------------
-    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
-Check outx3dgen  1  Test Directory addmesh_add -------------------
-    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
-Check outx3dgen  2  Test Directory addmesh_append ----------------
-    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
-...
-Check outx3dgen  38  Test Directory zone_outside_minmax ----------
-    Program:  LaGriT V3.304   Linux    : LaGriT successfully completed
 
-Summary:		38 completed outx3dgen files out of 40 test directories
+
+# STEP 3 CHECK ALL DIRECTORIES FOR outx3dgen OUTPUT FILE #
+
+Check outx3dgen  1  Test Directory recon1 -----------------------
+    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
+Check outx3dgen  2  Test Directory io_agf_simple -----------------
+    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
+Check outx3dgen  3  Test Directory addmesh_append ----------------
+(...)
+Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
+Check outx3dgen  40  Test Directory zone_outside -----------------
+    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
+
+Summary:		40 completed outx3dgen files out of 40 test directories
 Output written to:	stdout_linux.txt
 And moved to:		./test_results
 
-Start in directory: /project/eesdev/tam/LaGriT/test/level01 at Mon Mar 18 12:38:52 2019
-.
-.
-1 Check Directory ./addmesh_add --------------------------
 
-Test has 3 diffs at line 5 >>
-Lines Essentially the Same: 3 out of 3
 
-Removed 3 comment lines.
+# STEP 4 COMPARE and CHECK ALL DIRECTORIES #
+
+1 Check Directory ./recon1 --------------------------
+
 No lines differ.
-1 Done with Directory ./addmesh_add -----------------------
+1 Done with Directory ./recon1 -----------------------
  
-2 Check Directory ./addmesh_append --------------------------
+2 Check Directory ./io_agf_simple --------------------------
 
-Test has 3 diffs at line 5 >>
-Lines Essentially the Same: 3 out of 3
+No lines differ.
+2 Done with Directory ./io_agf_simple -----------------------
+ 
+3 Check Directory ./addmesh_append --------------------------
 
-...
+No lines differ.
+(...)
+
+39 Done with Directory ./pset -----------------------
+ 
+40 Check Directory ./zone_outside --------------------------
+
+No lines differ.
+40 Done with Directory ./zone_outside -----------------------
+ 
+All 40 successful!
+Check done.
+
+Full result written to: 
+/project/eesdev/tam/LaGriT/test/level01/diffout_lin.txt
+and copied to ./test_results 
+
 
 ################################################################
-Sample screen output for acceptable changes to LaGriT output information:
-
-Test has 9 diffs at line 132 >>
-Test has 6 extra lines in this chunk.
--              8               10              8    Total
-+              8               10              8       100%
-
-+Max Candidates each element:                12
--
-+Min Candidates each element:                 6
--
-+Total Elements Searched:                    10
--
-+Total Source Elements:                      27
--
-+Total Sink   Elements:                       8
-
+EXAMPLE TEST FAIL 
 ################################################################
-Sample screen output for failure:
 
 39 Check Directory ./single_triangle --------------------------
 
@@ -121,4 +140,6 @@ Removed 10 comment lines.
 
 All checks complete, 1 directories failed out of 40
 
+
+################################################################
 

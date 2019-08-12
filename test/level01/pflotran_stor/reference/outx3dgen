@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux          *                 
-*               *    date_compile: 2017/09/26 Static DB       *                 
-*               *    Run Time: 2017/Oct  5  11:10:45          *                 
+*               *    Program:  LaGriT V3.400   Linux          *                 
+*               *    date_compile: 2019/07/04 dev             *                 
+*               *    Run Time: 2019/Aug  1  09:44:44          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -49,6 +51,12 @@ connect
  The mesh is now complete!                                                      
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
@@ -191,6 +199,12 @@ connect
  
 LaGriT FINISH: connect                                                          
  
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
+ 
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
 RMPOINT: new point count is            4                                        
@@ -331,6 +345,12 @@ connect
  The mesh is now complete!                                                      
  
 LaGriT FINISH: connect                                                          
+ 
+recon/0                                                                         
+RECON2D reconnection loop2d:     1                                              
+RECON: done.                                                                    
+finish                                                                          
+LaGriT FINISH: recon 0 for connect 2d                                           
  
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
@@ -652,8 +672,8 @@ elements with aspect ratio b/w .01 and .02:          0
 elements with aspect ratio b/w .02 and .05:          0                          
 elements with aspect ratio b/w .05 and .1 :          0                          
 elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :          0                          
-elements with aspect ratio b/w .5  and 1. :         36                          
+elements with aspect ratio b/w .2  and .5 :         12                          
+elements with aspect ratio b/w .5  and 1. :         24                          
 min aspect ratio =  0.4946E+00  max aspect ratio =  0.5279E+00                  
  
 epsilonvol:   2.2204460E-13                                                     

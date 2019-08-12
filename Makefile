@@ -142,11 +142,14 @@ OSX_STATIC_LIBS :=
 
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
-	BUILDFLAGS += -Dmacx64
+	BUILDFLAGS  += -Dmacx64
 	OSX_STATIC_LIBS := 
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
-	BUILDFLAGS += -Dlinx64
+	BUILDFLAGS  += -Dlinx64
+else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
+	LINKERFLAGS += -Dwin64
+	BUILDFLAGS  += -Dwin64
 endif
 
 ifeq ($(DEBUG),1)
@@ -200,16 +203,23 @@ help :
 	@echo "$$LAGRIT_HELP"
 
 exodus :
-	export CGNS=NO; \
-	export MATIO=NO; \
+	set -e; \
+	export CGNS=OFF; \
+	export MATIO=OFF; \
 	export SHARED=NO; \
 	export LG_DIR=`pwd`; \
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
+	export BUILD=YES; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
+	git clone --depth 1 https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
 	cd $(EXO_BUILD_DIR)/seacas; \
 	export ACCESS=`pwd`; \
+	if [[ `uname -s` == *"CYGWIN"* ]]; then \
+		BUILD=NO ./install-tpl.sh; \
+		sed -i 's/defined(_WIN32) || defined(__CYGWIN__)/defined(_WIN32)/g' `ls -t -d TPL/zlib-* | head -1`/gzguts.h; \
+		export DOWNLOAD=NO; \
+	fi; \
 	./install-tpl.sh; \
 	cd TPL; \
 	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \

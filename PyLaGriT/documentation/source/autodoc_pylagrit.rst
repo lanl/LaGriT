@@ -4,4 +4,5 @@ PyLaGriT
 
 .. autoclass:: PyLaGriT
    :members:
+   :undoc-members:
 

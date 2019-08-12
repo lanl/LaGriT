@@ -4,7 +4,7 @@
  *
  * sphinx.websupport utilities for all documentation.
  *
- * :copyright: Copyright 2007-2016 by the Sphinx team, see AUTHORS.
+ * :copyright: Copyright 2007-2019 by the Sphinx team, see AUTHORS.
  * :license: BSD, see LICENSE for details.
  *
  */
@@ -301,7 +301,7 @@
     li.hide();
 
     // Determine where in the parents children list to insert this comment.
-    for(i=0; i < siblings.length; i++) {
+    for(var i=0; i < siblings.length; i++) {
       if (comp(comment, siblings[i]) <= 0) {
         $('#cd' + siblings[i].id)
           .parent()
@@ -667,14 +667,14 @@
     getCommentsURL: '/_get_comments',
     acceptCommentURL: '/_accept_comment',
     deleteCommentURL: '/_delete_comment',
-    commentImage: '/static/static/comment.png',
-    closeCommentImage: '/static/static/comment-close.png',
-    loadingImage: '/static/static/ajax-loader.gif',
-    commentBrightImage: '/static/static/comment-bright.png',
-    upArrow: '/static/static/up.png',
-    downArrow: '/static/static/down.png',
-    upArrowPressed: '/static/static/up-pressed.png',
-    downArrowPressed: '/static/static/down-pressed.png',
+    commentImage: '/static/_static/comment.png',
+    closeCommentImage: '/static/_static/comment-close.png',
+    loadingImage: '/static/_static/ajax-loader.gif',
+    commentBrightImage: '/static/_static/comment-bright.png',
+    upArrow: '/static/_static/up.png',
+    downArrow: '/static/_static/down.png',
+    upArrowPressed: '/static/_static/up-pressed.png',
+    downArrowPressed: '/static/_static/down-pressed.png',
     voting: false,
     moderator: false
   };
