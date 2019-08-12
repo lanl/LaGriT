@@ -98,6 +98,18 @@
                 </a>
             </div>
         </li>
+        <li data-color="utility">
+            <div>
+                <a href="{{ "/pages/tutorial/utility/convert_feet_to_meters.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <span uk-icon="icon: code; ratio: 2"></span>
+                        </div>
+                        <p>Convert Between Meters and Feet</p>
+                    </div>
+                </a>
+            </div>
+        </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">2d_connect</div>
