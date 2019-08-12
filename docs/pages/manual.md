@@ -11,8 +11,7 @@ tipue_search_active: true
 ## I. Introduction ##
 
  -  [LaGriT and PyLaGriT](docs/lagrit.md)  
- -  [Tutorial](docs/tutorial.md)  
- -  [Examples and Simple Demos](docs/demos/index.md)  
+ -  [Tutorials and Examples](tutorial/index.md)
  
 ## II. LaGriT Commands ##
  

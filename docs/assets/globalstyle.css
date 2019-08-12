@@ -24,67 +24,8 @@ Global document settings
 
 */
 
-body {
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 300;
-  background: white;
-  padding-top: 0px;
-}
-@media (max-width: 991px) {
-  body {
-    padding-top: 60px;
-  }
-}
-
-a, button { transition: all 0.3s ease; }
-a:hover, a:focus {
-  text-decoration: none;
-  outline: none;
-}
-
-#mainNav {
-  font-family: 'Fira Sans', sans-serif;
-}
-
-p:last-child { margin-bottom: 0; }
-
-blockquote {
-  position: relative;
-  display: inline-block;
-  padding: 0px 10px 10px 20px;
-}
-
-blockquote p {
-  font-style: italic;
-}
-
-h1 {
-  font: 300 32px/1.7 'Open Sans', sans-serif;
-  font-weight: bold;
-  color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h2 {
-  font: 300 24px/1.7 'Open Sans', sans-serif;
-  color: #333;
-  font-weight: bold;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-h3 {
-  font: 300 20px/1.7 'Open Sans', sans-serif;
-  color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-p {
-  font: 300 16px/1.7 'Roboto Slab', serif;
-  color: #333;
+.lg-background-color {
+  background-color: #212328;
 }
 
 code.bold {
@@ -166,14 +107,12 @@ input[type=text]:focus {
   box-shadow: 0 0 5px rgba(109,207,246,.5);
 }
 
-
 input:-moz-placeholder {
   color: #999;
 }
 input::-webkit-input-placeholder {
   color: #999;
 }
-
 
 #searchform input[type=text] {
   display: block;
@@ -225,7 +164,6 @@ Begin footer CSS
 
 
 .footer-distributed{
-  background-color: #212328;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
   width: 100%;
