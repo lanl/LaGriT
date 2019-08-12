@@ -1,8 +1,8 @@
 ---
-title: "LaGriT Tutorial"
+title: "Regions and Points to Tetrahedral Mesh"
 ---
 
-# Tutorial
+# Regions and Points to Tetrahedral Mesh
 -----------------------
 ### **Generating Initial Grids Using the LaGriT Command Language** ###
 
@@ -20,7 +20,7 @@ Detailed descriptions of the LaGriT commands are given in Section II.
 This tutorial covers just the commands needed to generate a simple
 grid. The tutorial will explain how to generate a grid in a unit cube
 containing two materials separated by a plane. Lines that begin with
-an asterisk (*) are comments; keywords are in **bold**.
+an asterisk (\*) are comments; keywords are in **bold**.
 
 ---------------------------------
 
