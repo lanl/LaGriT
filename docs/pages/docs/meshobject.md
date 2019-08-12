@@ -1,67 +1,63 @@
-**a. Mesh Object Definition**
+# Mesh Object Definition
 
 The data structure which contains the information necessary to define a
 mesh is called a Mesh Object. A Mesh Object consists of attributes.
 There is a default template for a Mesh Object composed of the following
 attributes:
 
-**name** (character
-*32 -- mesh object name)
+* **name** (`character*32` -- mesh object name)
 
-**scalar** (integer -- defined to have value 1)
+* **scalar** (`integer` -- defined to have value 1)
 
-**vector** (integer -- defined to have value 3)
+* **vector** (`integer` -- defined to have value 3)
 
-**nnodes** (integer -- number of nodes in the mesh)
+* **nnodes** (`integer` -- number of nodes in the mesh)
 
-**nelements** (integer -- number of elements in the mesh,
+* **nelements** (`integer` -- number of elements in the mesh,
 e.g. triangles, tetrahedra)
 
-**nfaces** (integer -- number of unique topological facets in the mesh,
-e.g. number of edges in 2D or number of element faces in 3D) -- (not set
-or maintained by LaGriT; may be set and maintained by the user)
+* **nfaces** (`integer` -- number of unique topological facets in the mesh,
+e.g. number of edges in 2D or number of element faces in 3D)
+  * Not set or maintained by LaGriT; may be set and maintained by the user
 
-**nedges** (integer -- number of unique edges in mesh) -- (not set or
-maintained by LaGriT; may be set and maintained by the user)
+* **nedges** (`integer` -- number of unique edges in mesh)
+  * Not set or maintained by LaGriT; may be set and maintained by the user
 
-**mbndry** (integer -- value signifying that if the node
-er is greater that mbndry then the node is a boundary node) --
-(default 16000000) (must be greater than 48
-*nnodes and may be reset by
+* **mbndry** (`integer` -- value signifying that if the node
+er is greater than mbndry then the node is a boundary node; default 16000000)
+  * Must be greater than 48 \* nnodes and may be reset by **[connect](commands/CONNECT1.md)** (for an example of usage see [Section III.d](meshobjcon.md#mbndry)).
 
-**[connect](commands/CONNECT1.md)**) (for an example of usage see[Section III.d](meshobjcon.md#mbndry))
+* **ndimensions\_topo** (`integer` -- topological
+dimensionality; 1, 2 or 3. i.e. a non-planar surface would have
+`ndimensions_topo = 2` and `ndimensions_geom = 3`.)
 
-**ndimensions\_topo** (integer -- topological
-dimensionality,1, 2 or 3, i.e. a non-planar surface would have
-ndimensions\_topo = 2 and ndimensions\_geom = 3.)
+* **ndimensions\_geom** (`integer` -- 1, 2 or 3 for
+dimension of geometry; default 3)
 
-**ndimensions\_geom** (integer -- 1, 2 or 3 for
-dimension of geometry) (default 3)
-
-**nodes\_per\_element** (integer -- value dependent on type of mesh;
+* **nodes\_per\_element** (`integer` -- value dependent on type of mesh;
 e.g. for tetrahedral mesh the value will be 4)
 
-**edges\_per\_element** (integer -- value dependent on type of mesh;
+* **edges\_per\_element** (`integer` -- value dependent on type of mesh;
 e.g. for tetrahedral mesh the value will be 6)
 
-**faces\_per\_element** (integer -- topological number of facets per
+* **faces\_per\_element** (`integer` -- topological number of facets per
 element (i.e. in 1D this number is always 2, for 2D use the number of
-edges of the element, for 3D use the number of faces of the element.--(
-value dependent on type of mesh; e.g. for tetrahedral mesh the value
-will be 4))
+edges of the element, for 3D use the number of faces of the element.)
+  * Value dependent on type of mesh; e.g. for tetrahedral mesh the value
+will be 4
 
-**isetwd** (integer array containing pset membership
+* **isetwd** (integer array containing pset membership
 information, see **[pset](commands/PSET.md)** command definition)
 
-**ialias** (integer array of alternate node numbers, i.e. for merged
+* **ialias** (integer array of alternate node numbers, i.e. for merged
 points)
 
-**imt1** (integer array of node material)
+* **imt1** (integer array of node material)
 
-**itp1** (integer array of node type if type &gt; 20 node will
+* **itp1** (integer array of node type if type &gt; 20 node will
 be invisible)
 
- 
+## Nodes
 
 point type | name | description
 ----------- | --- | ------------
@@ -103,22 +99,23 @@ is established by the **settets** command.
 
 **xic**, **yic**, **zic** (real arrays of node coordinates)
 
+## Elements
+
 **itetclr** (integer array of element material)
 
-**itettyp** (element shape)  (for an example of usage see[Section III.d](meshobjcon.md#itettyp))
+**itettyp** (element shape)  (for an example of usage see [Section III.d](meshobjcon.md#itettyp))
 
- 
 
   name |     value | description
   ----------- | --- | ------------
-  ifelmpnt |  1 |     point
-  ifelmlin |  2 |     line
-  ifelmtri |  3    |  triangle 
-  ifelmqud |   4    |  quadrilateral 
-  ifelmtet  |  5    |  tetrahedron 
-  ifelmpyr | 6   |  pyramid
-  ifelmpri | 7   |  prism 
-  ifelmhex | 8   |  hexahedron 
+  ifelmpnt | 1 |     point
+  ifelmlin | 2 |     line
+  ifelmtri | 3    |  triangle 
+  ifelmqud | 4    |  quadrilateral 
+  ifelmtet | 5    |  tetrahedron 
+  ifelmpyr | 6  |  pyramid
+  ifelmpri | 7  |  prism 
+  ifelmhex | 8  |  hexahedron 
   ifelmhyb | 9 |     hybrid
   ifelmply | 10    | polygon
 
@@ -143,12 +140,12 @@ usage see [Section III.d](meshobjcon.md#jtet))
 
 **[dump/gmv](commands/DUMP2.md)**to output polygon data
 
-**vor2d ** (character default **yes**) flag to
+**vor2d** (character default **yes**) flag to
 
 **[dump/gmv](commands/DUMP2.md)** to output voronoi cells and median
 mesh cells for 2D meshes.
 
-**vor3d ** (character default **no**) flag to
+**vor3d** (character default **no**) flag to
 
 **[dump/gmv](commands/DUMP2.md)** to output voronoi cells and median
 mesh cells for 3D meshes.
