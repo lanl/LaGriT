@@ -110,6 +110,18 @@
                 </a>
             </div>
         </li>
+        <li data-color="workflow">
+            <div>
+                <a href="{{ "/pages/tutorial/workflow/regions_points_to_tet.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
+                        </div>
+                        <p>Regions and Points to Tet Mesh</p>
+                    </div>
+                </a>
+            </div>
+        </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">2d_connect</div>
