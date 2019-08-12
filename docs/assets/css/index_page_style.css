@@ -1,14 +1,22 @@
 .extended-content-container {
-    width: 125.5%;
-    margin-left: -13%;
-    margin-bottom: 50px;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    top: -70px;
+    margin-left: -50vw;
+    margin-right: -50vw;
     background-color:#68A5F3;
-    padding: 20px;
+}
+
+@media only screen and (max-width: 960px) {
+  .extended-content-container {
+    top: -40px;
+  }
 }
     
 .extended-content {
-    width:100%;
-    height: 100%;
+    width: 100%;
     background-color:#68A5F3;
     text-align:center;
     color: white;
