@@ -16,7 +16,7 @@ title: LaGriT - Home
                 
     <div class="button" id="button-4">
     <div id="underline"></div>
-    <a href="https://lanl.github.io/LaGriT/pages/docs/tutorial.html">Take the Tutorial</a>
+    <a href="{{ "/pages/tutorial/index.html" | relative_url }}">Take the Tutorial</a>
     </div>
             
   </div>
