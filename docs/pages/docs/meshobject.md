@@ -16,70 +16,61 @@ attributes:
 * **nelements** (`integer` -- number of elements in the mesh,
 e.g. triangles, tetrahedra)
 
-* **nfaces** (`integer` -- number of unique topological facets in the mesh,
-e.g. number of edges in 2D or number of element faces in 3D)
-  * Not set or maintained by LaGriT; may be set and maintained by the user
+* **nfaces** (`integer` -- number of unique topological facets in the mesh, e.g. number of edges in 2D or number of element faces in 3D). *Not set or maintained by LaGriT; may be set and maintained by the user.*
+  
 
-* **nedges** (`integer` -- number of unique edges in mesh)
-  * Not set or maintained by LaGriT; may be set and maintained by the user
+* **nedges** (`integer` -- number of unique edges in mesh) *Not set or maintained by LaGriT; may be set and maintained by the user.*
+  
 
-* **mbndry** (`integer` -- value signifying that if the node
-er is greater than mbndry then the node is a boundary node; default 16000000)
-  * Must be greater than 48 \* nnodes and may be reset by **[connect](commands/CONNECT1.md)** (for an example of usage see [Section III.d](meshobjcon.md#mbndry)).
+* **mbndry** (`integer` -- value signifying that if the node number is greater than **mbndry** then the node is a boundary node; default 16000000) This value must be greater than 48 \* nnodes and may be reset by **[connect](commands/CONNECT1.md)** (for an example of usage see [Section III.d](meshobjcon.md#mbndry)).
+  
 
-* **ndimensions\_topo** (`integer` -- topological
-dimensionality; 1, 2 or 3. i.e. a non-planar surface would have
+* **ndimensions_topo** (`integer` -- topological dimensionality; 1, 2 or 3. i.e. a non-planar surface would have
 `ndimensions_topo = 2` and `ndimensions_geom = 3`.)
 
-* **ndimensions\_geom** (`integer` -- 1, 2 or 3 for
-dimension of geometry; default 3)
+* **ndimensions_geom** (`integer` -- 1, 2 or 3 for dimension of geometry; default 3)
 
-* **nodes\_per\_element** (`integer` -- value dependent on type of mesh;
-e.g. for tetrahedral mesh the value will be 4)
+* **nodes_per_element** (`integer` -- value dependent on type of mesh; e.g. for tetrahedral mesh the value will be 4)
 
-* **edges\_per\_element** (`integer` -- value dependent on type of mesh;
-e.g. for tetrahedral mesh the value will be 6)
+* **edges_per_element** (`integer` -- value dependent on type of mesh; e.g. for tetrahedral mesh the value will be 6)
 
-* **faces\_per\_element** (`integer` -- topological number of facets per
+* **faces_per_element** (`integer` -- topological number of facets per
 element (i.e. in 1D this number is always 2, for 2D use the number of
-edges of the element, for 3D use the number of faces of the element.)
-  * Value dependent on type of mesh; e.g. for tetrahedral mesh the value
-will be 4
+edges of the element, for 3D use the number of faces of the element; e.g. for tetrahedral mesh the value
+will be 4)
 
-* **isetwd** (integer array containing pset membership
-information, see **[pset](commands/PSET.md)** command definition)
 
-* **ialias** (integer array of alternate node numbers, i.e. for merged
-points)
+* **isetwd** (integer array containing pset membership information, see **[pset](commands/PSET.md)** command definition)
 
-* **imt1** (integer array of node material)
+* **ialias** (integer array of alternate node numbers, i.e. for merged points)
 
-* **itp1** (integer array of node type if type &gt; 20 node will
-be invisible)
+* **imt1** (integer array of node materials usually 1 to max_material_id )
 
-## Nodes
+* **itp1** (integer array of node type if type &gt; 20 node will be invisible) These values can be updated anytime with the **resetpts/itp** command. Use **rmpoint/compress** to remove dudded nodes from the mesh object.
 
-point type | name | description
------------ | --- | ------------
-0 |       int |  Interior
-2 |          ini | Interface
-3 |          vrt |  Virtual
-4    |       vin  |  Virtual + interface
-8 |         vif |  Virtual + interface + free
-9    |       alb |  Virtual + Interface + free + reflective
-10    |      rfl | Reflective boundary node 
-11    |      fre |  Free boundary node 
-12    |      irb |  Interface node on reflective boundary
-13    |      ifb |  Interface node on free boundary
-14    |      rfb |  Node on intersection of free boundary and reflective boundary
-15 |         irf | Interface node on intersection of free boundary and reflective boundary
-16    |     vrb |    Virtual node on reflective boundary
-17    |      vfb |  Virtual node on free boundary
-18    |     vrf |  Virtual node on free + reflective boundary
-19    |      vir |  Virtual + interface node on reflective boundary
-20    |      mrg |  Merged node
-21    |      dud | Dudded node
-41    |     par |  Parent node
+
+| itp1 | name | description
+| :--- | :--- | :------------
+|0 |  int | Interior
+|2 |  ini | Interface
+|3 |  vrt | Virtual
+|4 |  vin | Virtual + interface
+|8 |  vif | Virtual + interface + free
+|9 |  alb | Virtual + Interface + free + reflective
+|10 | rfl | Reflective boundary node 
+|11 | fre | Free boundary node 
+|12 | irb | Interface node on reflective boundary
+|13 | ifb | Interface node on free boundary
+|14 | rfb | Node on intersection of free boundary and reflective boundary
+|15 | irf | Interface node on intersection of free boundary and reflective boundary
+|16 | vrb | Virtual node on reflective boundary
+|17 | vfb | Virtual node on free boundary
+|18 | vrf | Virtual node on free + reflective boundary
+|19 | vir | Virtual + interface node on reflective boundary
+|20 | mrg | Merged node
+|21 | dud | Dudded node 
+|41 | par | Parent node for doubly defined nodes
+
 
 **icr1** (integer array of constraint numbers for nodes; the
 value of this array is an index into the **[icontab](#icontab)** table
@@ -87,7 +78,7 @@ of node constraints described later in this section)
 
 **isn1** (integer array of child, parent node correspondence)
 
-Points on material interfaces are given point type 41 (parent). One
+Points on material interfaces are given itp1 point type 41 (parent). One
 child point is spawned for each material meeting at the parent point.
 The isn1 field of the parent point will contain the point number of the
 first child point. The isn1 field of the first child will contain the
@@ -95,50 +86,41 @@ point number of the next child. The isn1 field of the last child will
 contain the point number of the parent. The point types of the child
 points will be 2, 12, 13, 15 or 19 depending on whether the interface
 point is also on an exterior boundary. This parent, child relationship
-is established by the **settets** command.
+is established by the **settets** command and is undone by the **resetpts/parents** command.
 
 **xic**, **yic**, **zic** (real arrays of node coordinates)
 
-## Elements
-
-**itetclr** (integer array of element material)
+**itetclr** (integer array of element materials usually 1 to max_material_id)
 
 **itettyp** (element shape)  (for an example of usage see [Section III.d](meshobjcon.md#itettyp))
 
 
-  name |     value | description
-  ----------- | --- | ------------
-  ifelmpnt | 1 |     point
-  ifelmlin | 2 |     line
-  ifelmtri | 3    |  triangle 
-  ifelmqud | 4    |  quadrilateral 
-  ifelmtet | 5    |  tetrahedron 
-  ifelmpyr | 6  |  pyramid
-  ifelmpri | 7  |  prism 
-  ifelmhex | 8  |  hexahedron 
-  ifelmhyb | 9 |     hybrid
-  ifelmply | 10    | polygon
+ | name     | value | name | description
+ | :------- | :---- | :--- | :--------
+ |ifelmpnt | 1 | pnt | point (also known as node or vertex)
+ |ifelmlin | 2 | lin | line
+ |ifelmtri | 3 | tri | triangle 
+ |ifelmqud | 4 | qud | quadrilateral 
+ |ifelmtet | 5 | tet | tetrahedron 
+ |ifelmpyr | 6 | pyr | pyramid
+ |ifelmpri | 7 | pri | prism 
+ |ifelmhex | 8 | hex | hexahedron 
+ |ifelmhyb | 9 | hyb | hybrid
+ |ifelmply | 10| ply | polygon
 
 **[See supported element types.](supported.md)**
 
-**xtetwd** (real array containing eltset membership information, see
-eltset command definition )
+**xtetwd** (real array containing eltset membership information, see eltset command definition )
 
-**itetoff** (index into itet array for an element)  (for an example of
-usage see [Section III.d](meshobjcon.md#itetoff))
+**itetoff** (index into itet array for an element)  (for an example of usage see [Section III.d](meshobjcon.md#itetoff))
 
-**jtetoff** (index into jtet array for an element)  (for an example of
-usage see [Section III.d](meshobjcon.md#jtetoff))
+**jtetoff** (index into jtet array for an element)  (for an example of usage see [Section III.d](meshobjcon.md#jtetoff))
 
-**itet** (integer array of node vertices for each element)  (for an
-example of usage see [Section III.d](meshobjcon.md#itet))
+**itet** (integer array of node vertices for each element)  (for an example of usage see [Section III.d (meshobjcon.md#itet))
 
-**jtet** (integer array of element connectivity)  (for an example of
-usage see [Section III.d](meshobjcon.md#jtet))
+**jtet** (integer array of element connectivity)  (for an example of usage see [Section III.d](meshobjcon.md#jtet))
 
-**ipolydat** (character default **yes**) flag to
-
-**[dump/gmv](commands/DUMP2.md)**to output polygon data
+**ipolydat** (character default **yes**) flag to add polygon data to the file written by **[dump/gmv](commands/DUMP2.md)**. This can increase the size of the file, turn off with command **cmo/setatt/-def-/ipolydat/no**
 
 **vor2d** (character default **yes**) flag to
 
