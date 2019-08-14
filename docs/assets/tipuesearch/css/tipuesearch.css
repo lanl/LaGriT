@@ -12,7 +12,7 @@ http://www.tipue.com/search
 
 #tipue_search_input, #tipue_search_foot_boxes
 {
-     font: 300 14px/1 Roboto, sans-serif;
+     /*font: 300 14px/1 Roboto, sans-serif;*/
 }
 #tipue_search_results_count, #tipue_search_warning, .tipue_search_content_url, .tipue_search_content_debug, .tipue_search_related_text
 {
