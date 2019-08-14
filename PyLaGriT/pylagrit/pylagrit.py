@@ -52,6 +52,9 @@ class PyLaGriT(spawn):
         self.batch = batch
         self._check_rc()
         if lagrit_exe is not None: self.lagrit_exe = lagrit_exe
+        else:
+            print("Error: Lagrit executable is not defined. Add 'lagrit_exe' option to PyLaGriT (e.g., lg = pylagrit.PyLaGriT(lagrit_exe=<path/to/lagrit/exe>), or create a pylagritrc file as described in the manual.")
+            return
         if gmv_exe is not None: self.gmv_exe = gmv_exe
         if paraview_exe is not None: self.paraview_exe = paraview_exe        
         if self.batch:
