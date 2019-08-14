@@ -1,32 +1,35 @@
 **d. Mesh Object Connectivity**
 
 The Mesh Object attributes **itettyp, itetoff, jtetoff, itet,** and
-**jtet** along with the variables contained in the include file
-local\_element.h completely describe the mesh connectivity. The
+**jtet** along with the variables contained in the include files
+*local_element.h* and *blockcom.h* completely describe the mesh connectivity. The
 following discussion is based on the concept of local facets and local
 edges for an element. The nodes comprising a given element are always
 specified in a well-defined order; hence when one references the 'second
 facet' of an element, one references a pre-defined set of points.
+
 Consider a tetrahedral element, with nodes labeled as in the diagram:
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image232.jpg">
+<img width="320" src="https://lanl.github.io/LaGriT/assets/images/Image232.jpg">
 
- The points are oriented so that the triple product  I1I2 . I2I3 x I2I4 
-is positive, and the volume of the tet is one-sixth of the triple
-product and the right-hand-normals of the facets point outward. The
-local facets are defined as follows:
+The 3D face ordering is such that the right-hand-normals of all facets point outward. 
+For this tetrahedral, the points are oriented so that the triple product  I1I2 x I2I3 x I2I4 
+is positive, and the volume of the tetrahedral is one-sixth of the triple
+product and the right-hand-normals of the facets point outward. 
+
+The local facets for this tetrahedral are defined as follows:
 
   Facet | Point A | Point B  | Point C
-  ----- | ---- | ---- |---- 
-  F1  |   I2  |  I3  |  I4
-  F2  |  I1  |  I4  |  I3
-  F3  |   I1  | I2 |  I4
-  F4 |   I1 |  I3   |I2
+  ----- | -------- | -------- |-------- 
+  F1  |  I2  |  I3 |  I4
+  F2  |  I1  |  I4 |  I3
+  F3  |  I1  |  I2 |  I4
+  F4  |  I1  |  I3 |  I2
 
-   The local edges for a tetrahedral are defined as follows:
+  The local edges for this tetrahedral are defined as follows:
 
-  Edge | Point A | Point B
-  ----- | ----  | ----
+  Edge  | Point A | Point B
+  ----- | ------  | -------
   E1    | I1   | I2
   E2    | I1   | I3
   E3    | I1   | I4
@@ -35,7 +38,7 @@ local facets are defined as follows:
   E6    | I3   | I4
 
   Similarly, local facets and local edges are defined for all element
-  types.  (see [supported element types](supported.md))
+  types.  (see [Supported element types](supported.md))
 
   **itettyp(it)** gives the element type of element
    **it.**
