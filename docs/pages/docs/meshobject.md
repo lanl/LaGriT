@@ -1,11 +1,14 @@
 # Mesh Object Definition
 
 The data structure which contains the information necessary to define a
-mesh is called a Mesh Object. A Mesh Object consists of attributes.
-There is a default template for a Mesh Object composed of the following
-attributes:
+mesh is called a Mesh Object. A Mesh Object consists of attributes that define the
+mesh identified by a mesh object name. Attributes are updated by LaGriT routines and
+can be modified by the user. Use the command **cmo/status** to see the attributes for all mesh objects, 
+or use **cmo/status**/*cmo_name* for the attributes of the mesh object identified by that name.
 
-* **name** (`character*32` -- mesh object name)
+These are the default attributes for a Mesh Object:
+
+* **name** (`character*32` -- mesh object name, this is the unique identifier for any particular mesh object)
 
 * **scalar** (`integer` -- defined to have value 1)
 
@@ -13,20 +16,18 @@ attributes:
 
 * **nnodes** (`integer` -- number of nodes in the mesh)
 
-* **nelements** (`integer` -- number of elements in the mesh,
-e.g. triangles, tetrahedra)
+* **nelements** (`integer` -- number of elements in the mesh, e.g. triangles, tetrahedra)
 
-* **nfaces** (`integer` -- number of unique topological facets in the mesh, e.g. number of edges in 2D or number of element faces in 3D). *Not set or maintained by LaGriT; may be set and maintained by the user.*
+* **nfaces** (`integer` -- number of unique topological facets in the mesh, e.g. number of edges in 2D or number of element faces in 3D). This is not maintained but may be used by certain commands or by the user.
+  
+* **nedges** (`integer` -- number of unique edges in mesh) This is not maintained but may be used by certain commands or by the user.
   
 
-* **nedges** (`integer` -- number of unique edges in mesh) *Not set or maintained by LaGriT; may be set and maintained by the user.*
-  
-
-* **mbndry** (`integer` -- value signifying that if the node number is greater than **mbndry** then the node is a boundary node; default 16000000) This value must be greater than 48 \* nnodes and may be reset by **[connect](commands/CONNECT1.md)** (for an example of usage see [Section III.d](meshobjcon.md#mbndry)).
+* **mbndry** (`integer` -- value signifying that if the node number is greater than **mbndry** then the node is a boundary node; default 16000000) This value must be greater than 48 \* nnodes and may be reset by **[connect](commands/CONNECT1.md)** (for an example of usage see [Mesh Object Connectivity](meshobjcon.md#mbndry)).
   
 
 * **ndimensions_topo** (`integer` -- topological dimensionality; 1, 2 or 3. i.e. a non-planar surface would have
-`ndimensions_topo = 2` and `ndimensions_geom = 3`.)
+ndimensions_topo = 2 and ndimensions_geom = 3.)
 
 * **ndimensions_geom** (`integer` -- 1, 2 or 3 for dimension of geometry; default 3)
 
@@ -40,17 +41,17 @@ edges of the element, for 3D use the number of faces of the element; e.g. for te
 will be 4)
 
 
-* **isetwd** (integer array containing pset membership information, see **[pset](commands/PSET.md)** command definition)
+* **isetwd** (`integer array` containing pset membership information, see **[pset](commands/PSET.md)** command definition)
 
-* **ialias** (integer array of alternate node numbers, i.e. for merged points)
+* **ialias** (`integer array` of alternate node numbers, i.e. for merged points)
 
-* **imt1** (integer array of node materials usually 1 to max_material_id )
+* **imt1** (`integer array` of node material values, must be values greater than zero )
 
-* **itp1** (integer array of node type if type &gt; 20 node will be invisible) These values can be updated anytime with the **resetpts/itp** command. Use **rmpoint/compress** to remove dudded nodes from the mesh object.
+* **itp1** (`integer array` of node types if type &gt; 20 node will be invisible) These values can be updated anytime with the **resetpts/itp** command. Use **rmpoint/compress** to remove dudded nodes from the mesh object.
 
 
-| itp1 | name | description
-| :--- | :--- | :------------
+| itp1  |  name  |  description
+| :---- |  :---- | :------------
 |0 |  int | Interior
 |2 |  ini | Interface
 |3 |  vrt | Virtual
@@ -72,11 +73,11 @@ will be 4)
 |41 | par | Parent node for doubly defined nodes
 
 
-**icr1** (integer array of constraint numbers for nodes; the
+**icr1** (`integer array` of constraint numbers for nodes; the
 value of this array is an index into the **[icontab](#icontab)** table
 of node constraints described later in this section)
 
-**isn1** (integer array of child, parent node correspondence)
+**isn1** (`integer array` of child, parent node correspondence)
 
 Points on material interfaces are given itp1 point type 41 (parent). One
 child point is spawned for each material meeting at the parent point.
@@ -88,104 +89,77 @@ points will be 2, 12, 13, 15 or 19 depending on whether the interface
 point is also on an exterior boundary. This parent, child relationship
 is established by the **settets** command and is undone by the **resetpts/parents** command.
 
-**xic**, **yic**, **zic** (real arrays of node coordinates)
+**xic**, **yic**, **zic** (`real arrays` of node x, y, z coordinates)
 
-**itetclr** (integer array of element materials usually 1 to max_material_id)
+**itetclr** (`integer array` of element material values, should be greater than zero)
 
-**itettyp** (element shape)  (for an example of usage see [Section III.d](meshobjcon.md#itettyp))
+**itettyp** (`integer array` of element shape values. For an example of usage see **[Mesh Object Connectivity](meshobjcon.md#itettyp))**. See element conventions at **[Supported element types](supported.md)**
 
 
- | name     | value | name | description
- | :------- | :---- | :--- | :--------
- |ifelmpnt | 1 | pnt | point (also known as node or vertex)
- |ifelmlin | 2 | lin | line
- |ifelmtri | 3 | tri | triangle 
- |ifelmqud | 4 | qud | quadrilateral 
- |ifelmtet | 5 | tet | tetrahedron 
- |ifelmpyr | 6 | pyr | pyramid
- |ifelmpri | 7 | pri | prism 
- |ifelmhex | 8 | hex | hexahedron 
- |ifelmhyb | 9 | hyb | hybrid
- |ifelmply | 10| ply | polygon
+ |  data_name | value | name  | description
+ | :--------- | :---- | :---- | :--------
+ |ifelmpnt   | 1  | pnt  | point (also known as node or vertex)
+ |ifelmlin   | 2  | lin  | line
+ |ifelmtri   | 3  | tri  | triangle 
+ |ifelmqud   | 4  | qud  | quadrilateral 
+ |ifelmtet   | 5  | tet  | tetrahedron 
+ |ifelmpyr   | 6  | pyr  | pyramid
+ |ifelmpri   | 7  | pri  | prism 
+ |ifelmhex   | 8  | hex  | hexahedron 
+ |ifelmhyb   | 9  | hyb  | hybrid
+ |ifelmply   | 10 | ply  | polygon
 
-**[See supported element types.](supported.md)**
 
-**xtetwd** (real array containing eltset membership information, see eltset command definition )
+**xtetwd** (`integer array` containing eltset membership information, see eltset command definition )
 
-**itetoff** (index into itet array for an element)  (for an example of usage see [Section III.d](meshobjcon.md#itetoff))
+**itetoff** (`integer array` index into itet array list for elements, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#itetoff))
 
-**jtetoff** (index into jtet array for an element)  (for an example of usage see [Section III.d](meshobjcon.md#jtetoff))
+**jtetoff** (`integer array` index into jtet array list for elements, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#jtetoff))
 
-**itet** (integer array of node vertices for each element)  (for an example of usage see [Section III.d (meshobjcon.md#itet))
+**itet** (`integer array` of node vertices for each element, for an example of usage see [Mesh Object Connectivity (meshobjcon.md#itet))
 
-**jtet** (integer array of element connectivity)  (for an example of usage see [Section III.d](meshobjcon.md#jtet))
+**jtet** (`integer array` of element connectivity, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#jtet))
 
-**ipolydat** (character default **yes**) flag to add polygon data to the file written by **[dump/gmv](commands/DUMP2.md)**. This can increase the size of the file, turn off with command **cmo/setatt/-def-/ipolydat/no**
+**ipolydat**, **vor2d**, **vor3d**  (`character yes or no`, default **yes**. These flags include data when writing GMV output files, these can decrease the file size but limits the information written.) **ipolydat** writes polygon data, **vor2d** writes voronoi and median cells for 2D, **vor3d** writes voronoi and median cells for 3D meshes. See **[dump/gmv](commands/DUMP2.md)**
 
-**vor2d** (character default **yes**) flag to
+**epsilon** (`real` value of machine epsilon which will be calculated by the code.)
 
-**[dump/gmv](commands/DUMP2.md)** to output voronoi cells and median
-mesh cells for 2D meshes.
+**epsilonl** (`real` value of smallest edge length that the code can distinguish
+and will be set internally by the code, see **[setsize](commands/SETSIZE.md)** )
 
-**vor3d** (character default **no**) flag to
+**epsilona** (`real` value of smallest area that the code can distinguish and will be set internally by the code )
 
-**[dump/gmv](commands/DUMP2.md)** to output voronoi cells and median
-mesh cells for 3D meshes.
+**epsilonv** (`real` value of smallest volume that the code can distinguish and will be set internally by the code )
 
-**epsilon** (real) value of machine epsilon which will be calculated by
-the code.
+**ipointi**, **ipointj**  (`integer` value with the node number of the first node and last node of the current set of
+nodes, used by the indexing syntax for point sets: / 0,0,0 / **[pset](commands/PSET.md)**)
 
-**epsilonl** (real) value of smallest edge that the code can distinguish
-will be set internally by the code (see[setsize](commands/SETSIZE.md)).
+**idebug** (`integer` value indicating level of debug output, flag values greater than 0 produce increasing levels of output with 5 or greater generating the most information )
 
-**epsilona** (real) value of smallest area that the code can distinguish
-will be set internally by the code.
+**itypconv_sm**, **maxiter_sm** (`integer` values used by the smooth routines. maxiter_sm has default 25 and are the number of smoothing iterations in  **[smooth](commands/SMOOTH.md)** and **[radapt](commands/RADAPT.md)** )
 
-**epsilonv** (real) value of smallest volume that the code can
-distinguish will be set internally by the code.
+**tolconv_sm** (`real` value used by the smooth routines)
 
-**ipointi** (integer) node number of the first node of the last set of
-nodes generated, used by  the 0,0,0 **[pset](commands/PSET.md)**
-syntax
+**nnfreq** (`integer` value with default 1, flag to control reconnection after **[refine](commands/REFINE.md)** This is set to zero to turn off reconnection.)
 
-**ipointj**(integer) node number of the last node of the last set of
-nodes generated, used by  the 0,0,0 **[pset](commands/PSET.md)**
-syntax
+**ivoronoi** (`integer` value with default 1, flag to control reconnection criterion. See **[recon)](commands/RECON.md)** )
 
-**idebug** (integer) debug flag values greater than 0 produce increasing
-levels of output.
-
-**itypconv\_sm** (integer)
-
-**maxiter\_sm** (integer default 25) number of smoothing iterations in
-the [smooth](commands/SMOOTH.md)and [radapt](commands/RADAPT.md)
-routines.
-
-**tolconv\_sm** (real)
-
-**nnfreq** (integer default 1) flag to control reconnection after[refine](commands/REFINE.md) - set to zero to turn off reconnection.
-
-**ivoronoi** (integer default 1) flag to control reconnection criterion
-:
-
+```
 +1 means restore delaunay
-
 -2 means improve geometric quality of the elements
-
-+2 means adaptive reconnection with user supplied routine (see[recon)](commands/RECON.md)
-
++2 means adaptive reconnection with user supplied routine
 +5 means disable all reconnection
+```
 
-**iopt2to2** (integer default 2) flag to contol boundary flips during
-reconnection (see [recon)](commands/RECON.md):
+**iopt2to2** (`integer` value with default 2, flag to contol boundary flips during
+reconnection. See **[recon)](commands/RECON.md)** )
 
-0=exterior boundaries
-
-1=interfaces
-
-2=exterior boundaries and interfaces
-
-3=all
+```
+0 = exterior boundaries
+1 = interfaces
+2 = exterior boundaries and interfaces
+3 = all
+```
 
 **dumptype** (character default binary) Type of gmv file to write.
 
@@ -197,20 +171,14 @@ reconnection (see [recon)](commands/RECON.md):
 
 **enername** (character default eic) Name of energy attribute.
 
-**xmin** (real default 1) minimum x coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
+**xmin**, **xmax** (`real` value with minimum and maximum x coordinate of nodes in the mesh. Values are set internally and by **[setsize](commands/SETSIZE.md)** )
 
-**xmax** (real default 1) maximum x coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
+**ymin**, **ymax** (`real` value with minimum and maximum y coordinate of nodes in the mesh. Values are set internally and by **[setsize](commands/SETSIZE.md)** )
 
-**ymin** (real default 1) minimum y coordinate of nodes in mesh set
-by[setsize](commands/SETSIZE.md))
+**zmin**, **zmax** (`real` value with minimum and maximum z coordinate of nodes in the mesh. Values are set internally and by **[setsize](commands/SETSIZE.md)** )
 
-**ymax** (real default 1) maximum y coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
 
-**zmin** (real default 1) minimum z coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
-
-**zmax** (real default 1) maximum z coordinate of nodes in mesh set by[setsize](commands/SETSIZE.md))
-
-**kdtree\_level** (integer default 0) resolution level
+**kdtree_level** (integer default 0) resolution level
 of[kdtree](commands/kdtree.md)-- 0 means terminal nodes contain 1
 member.
 
