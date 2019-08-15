@@ -1,4 +1,4 @@
-**d. Mesh Object Connectivity**
+# Mesh Object Connectivity
 
 The Mesh Object attributes **itettyp, itetoff, jtetoff, itet,** and
 **jtet** along with the variables contained in the include files
