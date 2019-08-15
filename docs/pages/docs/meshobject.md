@@ -6,7 +6,11 @@ mesh identified by a mesh object name. Attributes are updated by LaGriT routines
 can be modified by the user. Use the command **cmo/status** to see the attributes for all mesh objects, 
 or use **cmo/status**/*cmo_name* for the attributes of the mesh object identified by that name.
 
-These are the default attributes for a Mesh Object:
+
+## Mesh Object Attributes
+
+These are the 65 default attributes for a Mesh Object:
+
 
 * **name** (`character*32` -- mesh object name, this is the unique identifier for any particular mesh object)
 
@@ -122,6 +126,8 @@ is established by the **settets** command and is undone by the **resetpts/parent
 
 **ipolydat**, **vor2d**, **vor3d**  (`character yes or no`, default **yes**. These flags include data when writing GMV output files, these can decrease the file size but limits the information written.) **ipolydat** writes polygon data, **vor2d** writes voronoi and median cells for 2D, **vor3d** writes voronoi and median cells for 3D meshes. See **[dump/gmv](commands/DUMP2.md)**
 
+**dumptype** (`character` with default set to binary, type of gmv file to write)
+
 **epsilon** (`real` value of machine epsilon which will be calculated by the code.)
 
 **epsilonl** (`real` value of smallest edge length that the code can distinguish
@@ -161,15 +167,7 @@ reconnection. See **[recon)](commands/RECON.md)** )
 3 = all
 ```
 
-**dumptype** (character default binary) Type of gmv file to write.
-
-**velname** (character default vels) Name of velocity attribute.
-
-**densname** (character default ric) Name of density attribute.
-
-**presname** (character default pic) Name of pressure attribute.
-
-**enername** (character default eic) Name of energy attribute.
+**velname**, **densname**, **presname**, **enername**  (`character` specialized attribute names for velocity, density, pressure, and energy variables.  Default names set to vels, ric, pic, and eic. )
 
 **xmin**, **xmax** (`real` value with minimum and maximum x coordinate of nodes in the mesh. Values are set internally and by **[setsize](commands/SETSIZE.md)** )
 
@@ -178,81 +176,44 @@ reconnection. See **[recon)](commands/RECON.md)** )
 **zmin**, **zmax** (`real` value with minimum and maximum z coordinate of nodes in the mesh. Values are set internally and by **[setsize](commands/SETSIZE.md)** )
 
 
-**kdtree_level** (integer default 0) resolution level
-of[kdtree](commands/kdtree.md)-- 0 means terminal nodes contain 1
-member.
+**kdtree_level** (`integer` with default value 0. This is the resolution level, number of octree refinements where 0 means terminal nodes contain 1  0 means terminal nodes contain 1 member.)
 
-**max\_number\_of\_sets** (integer default 32) number
-of[pset](commands/PSET.md)and [eltsets](commands/ELTSET2.md) allowed
-- currently restricted to 32.
+**max_number_of_sets** (`integer` with default value of 32. This is the number
+of **[pset](commands/PSET.md)** and **[eltset](commands/ELTSET2.md)** allowed for a single mesh object.)
 
-**number\_of\_psets** (integer) number of defined psets in the mesh.
 
-**number\_of\_eltsets** (integer) number of defined eltsets in the
-mesh.
+**number_of_psets**, **number_of_eltsets** (`integer` value with the number of psets and eltsets in the mesh.)
 
-**geom\_name** (character default -defaultgeom-) name of geometry
-associated with this mesh.  (see [geom)](commands/cmo/cmo_geom.md)
+**psetnames**, **eltsetnames** (`character` are the set names for pset and eltset)
 
- 
+**geom_name** (`character` with default set to -defaultgeom-. This is the name of geometry
+associated with this mesh.  See **[geom)](commands/cmo/cmo_geom.md)**)
 
-The current state of a mesh object can be displayed by the[**cmo/status**](commands/cmo/cmo_status.md)command
+**fset_names** (`integer` value with the number of face sets in the mesh.)
 
-Note: Many commands and the cmo\_get\_info subroutine accept **itp** as
-equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to
+**number_of_fsets** (`character` are the set names for fset.)
 
-**imt**1. The user should never add an attribute whose name is
 
-**itp,imt,icr,isn.**
+The above are the default attributes for each mesh object defined. More attributes will be listed after these defaults if they have been added. The current state and list of attributes of a mesh object can be displayed by using the command **[cmo/status](commands/cmo/cmo_status.md)**.
 
- 
 
 The default Mesh Object can be expanded by adding user defined
-attributes (see [**cmo** **/addatt**](commands/cmo/cmo_addatt.md)).
+attributes with **[cmo/addatt](commands/cmo/cmo_addatt.md)**. User attributes can be removed with **[cmo/delatt](commands/cmo/cmo_delatt.md)**. Default mesh object attributes can not be removed. Some of the LaGriT routines add attributes to the mesh object.
 
- 
 
-The value of parameters can be changed by the cmo/setatt command.
+Many commands and the cmo_get_info code routines accept **itp** as
+equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to
+**imt**1. The user should never add an attribute whose name is
+**itp, imt, icr, isn** as these are reserved as mesh object attributes.
 
-(e.g. **[cmo/setatt/](commands/cmo/cmo_setatt.md)**/epsilonl/1.d-9)
 
-icontabLaGriT will add attributes to the mesh object in certain
-instances. For example, if there are any constrained surfaces, reflect,
-virtual or intrcons types, the following attributes are added to the
-mesh object:
+The value of many of the scalar attributes can be changed by the **[cmo/setatt/](commands/cmo/cmo_setatt.md)** command.
+For instance, cmo/setatt/cmo_name/epsilonl/1.d-9 will set the attribute epsilonl to 1.d-9 for the mesh object named cmo_name.
 
- 
-    
-Command | Description
---- | ---          
-NCONBND   |            number of combinations of constrained surfaces 
-ICONTAB(50,NCONBND)   
-ICONTAB(1,i)    |      number of surfaces contributing to the ith constraint 
-ICONTAB(2,i)   |      degree of freedom of the ith constraint 
-ICONTAB(2+j,i) |       Surface number of the jth surface contributing to the ith constraint
 
-In order to determine which constraint entry applies to node ip,
-retrieve the value
 
-i=icr1 (ip), i.e. ICONTAB(1, icr1(ip)) gives the number of surfaces that
-ip is 
-`on'.
+## Mesh Object Attribute Definition
 
-If icr1(ip) is zero there is no constraint on that node.  The number of
-the surfaces that
-
-ip is 'on' are stored in ICONTAB(3,icrl(ip))...ICONTAB(2 +
-ICONTAB(1,icr1(ip))).
-
-Command | Description
---- | ---
-TENSOR |                   Dimension of XCONTAB 
-XCONTAB(TENSOR,NPOINTS) |  This is a 3x3 matrix which multiplied by the velocity vector, constrains the velocity to the degrees of freedom possessed by the node.  May be constructed by calls to constrainv.
-
-**b.   Mesh Object Attribute Definition** :
-
-Each attribute (either default attribute or use added attribute) in a
-mesh object consists of the following items:
 
 Each attribute (either default attribute or use added attribute) in a
 mesh object consists of the following items:
