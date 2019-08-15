@@ -7,9 +7,19 @@ can be modified by the user. Use the command **cmo/status** to see the attribute
 or use **cmo/status**/*cmo_name* for the attributes of the mesh object identified by that name.
 
 
+The default Mesh Object can be expanded by adding user defined
+attributes with **[cmo/addatt](commands/cmo/cmo_addatt.md)**. User attributes can be removed with **[cmo/delatt](commands/cmo/cmo_delatt.md)**. Default mesh object attributes can not be removed. Some of the LaGriT routines add attributes to the mesh object. The user should never try to add an attribute whose name is
+already listed as a mesh object as these are reserved as mesh object attribute names (See below).
+
+
+The value of many of the scalar attributes can be changed by the **[cmo/setatt/](commands/cmo/cmo_setatt.md)** command.
+For instance, cmo/setatt/cmo_name/epsilonl/1.d-9 will set the attribute epsilonl to 1.d-9 for the mesh object named cmo_name.
+
+
+
 ## Mesh Object Attributes
 
-These are the 65 default attributes for a Mesh Object:
+These are default attributes for a Mesh Object:
 
 
 * **name** (`character*32` -- mesh object name, this is the unique identifier for any particular mesh object)
@@ -49,12 +59,12 @@ will be 4)
 
 * **ialias** (`integer array` of alternate node numbers, i.e. for merged points)
 
-* **imt1** (`integer array` of node material values, must be values greater than zero )
+* **imt1** (or **imt**) (`integer array` of node material values, must be values greater than zero )
 
-* **itp1** (`integer array` of node types if type &gt; 20 node will be invisible) These values can be updated anytime with the **resetpts/itp** command. Use **rmpoint/compress** to remove dudded nodes from the mesh object.
+* **itp1** (or **itp**) (`integer array` of node types if type &gt; 20 node will be invisible) These values can be updated anytime with the **resetpts/itp** command. Use **rmpoint/compress** to remove dudded nodes from the mesh object.
 
 
-| itp1  |  name  |  description
+| itp   |  name  |  description
 | :---- |  :---- | :------------
 |0 |  int | Interior
 |2 |  ini | Interface
@@ -77,11 +87,11 @@ will be 4)
 |41 | par | Parent node for doubly defined nodes
 
 
-**icr1** (`integer array` of constraint numbers for nodes; the
+**icr1** (or **icr**) (`integer array` of constraint numbers for nodes; the
 value of this array is an index into the **[icontab](#icontab)** table
 of node constraints described later in this section)
 
-**isn1** (`integer array` of child, parent node correspondence)
+**isn1** (or **isn**)(`integer array` of child, parent node correspondence)
 
 Points on material interfaces are given itp1 point type 41 (parent). One
 child point is spawned for each material meeting at the parent point.
@@ -194,52 +204,65 @@ associated with this mesh.  See **[geom)](commands/cmo/cmo_geom.md)**)
 **number_of_fsets** (`character` are the set names for fset.)
 
 
-The above are the default attributes for each mesh object defined. More attributes will be listed after these defaults if they have been added. The current state and list of attributes of a mesh object can be displayed by using the command **[cmo/status](commands/cmo/cmo_status.md)**.
-
-
-The default Mesh Object can be expanded by adding user defined
-attributes with **[cmo/addatt](commands/cmo/cmo_addatt.md)**. User attributes can be removed with **[cmo/delatt](commands/cmo/cmo_delatt.md)**. Default mesh object attributes can not be removed. Some of the LaGriT routines add attributes to the mesh object.
-
-
-Many commands and the cmo_get_info code routines accept **itp** as
-equivalent to **itp1; icr** to **icr1, isn** to **isn1**; **imt** to
-**imt**1. The user should never add an attribute whose name is
-**itp, imt, icr, isn** as these are reserved as mesh object attributes.
-
-
-The value of many of the scalar attributes can be changed by the **[cmo/setatt/](commands/cmo/cmo_setatt.md)** command.
-For instance, cmo/setatt/cmo_name/epsilonl/1.d-9 will set the attribute epsilonl to 1.d-9 for the mesh object named cmo_name.
-
+The above are the default attributes for a mesh object. Multiple mesh objects can be defined, all with their own attributes and attribute values. Added attributes will be listed after this list of defaults if they have been added. The current state and list of attributes of a mesh object can be displayed by using the command **[cmo/status](commands/cmo/cmo_status.md)**.
 
 
 ## Mesh Object Attribute Definition
 
 
-Each attribute (either default attribute or use added attribute) in a
-mesh object consists of the following items:
+Each attribute (either default attribute or added attribute) in a mesh object has the following defined:
 
-Attribute | Description
------ |  ---
-name | (character) Attribute name
-typetype | (character) Attribute type<br> INT- Integer<br> REAL - Real number<br> CHARACTER - character variable of length 32<br> VINT - Vector of integer <br> VDOUBLE - Vector of real<br>*8 (this is the default) <br> VCHAR - Vector of character<br>*32<br>
-rank | (character) Attribute rank (must be an attribute for this Mesh object)  default is [scalar](#scalar)
-length | (character) Attribute length (must be an attribute for this Mesh object) default is [nnodes](#nnodes)
-interpolation |  (character) Interpolation option:
-constant | Constant value
-sequence |Set to the node number
-copy |      Copy values
-linear |     Linear interpolation  | this is the default
-user |       User provides a subroutine named user_interpolate ([see IV. e.8](miscell.md))
-log |         Logarithmic interpolation
-asinh |     Asinh interpolation
-min |       Set to the minimum
-max |      Set to the maximum
-incmin |  Set to the minimum plus one (vint attribute only)
-incmax |  Set to the maximum plus one (vint attribute only)
-and |       'and' the bits
-or |         'or' the bits
-persistence |     (character) Attribute persistence:
-permanent |  Can not be deleted
-temporary |  Temporary attribute - this is the default
-ioflag | (character) Attribute IO flag:<br> default is alg<br> a Put this attribute on avs dumps<br> g Put this attribute on gmv dumps<br> f  Put this attribute on fehm dumps<br> l  Put this attribute on LaGriT dumps<br> L Do not write this attribute to LaGriT dumps<br> 
-default |           (real) Attribute value
+
+* **name**  `character` Attribute name, case sensitive.
+
+* **type**  `character` with default VDOUBLE. Attribute type is one of the following, case ignored.
+
+```
+    INT- Integer
+    REAL - Real number
+    CHARACTER - character string (length 32)
+    VINT - Vector of integer
+    VDOUBLE - Vector of real (this is the default)
+    VCHAR - Vector of character strings
+```
+
+* **rank**  `character` with default scalar. This is the attribute rank set by an attribute for this Mesh object, default is [scalar](#scalar)
+
+* **length**  `character` with default nnodes. This is the attribute length set by an attribute for this Mesh object, default is [nnodes](#nnodes)
+
+* **interpolation**   `character` with default linear. This is the interpolation option for routines to use:
+
+```
+    linear   - Linear interpolation  (this is the default)
+    constant - Constant value
+    sequence - Set to the node number
+    copy     - Copy values 
+    user     - User provides a subroutine named user_interpolate
+    log      - Logarithmic interpolation
+    asinh    - Asinh interpolation
+    min      - Set to the minimum
+    max      - Set to the maximum
+    incmin   - Set to the minimum plus one (vint attribute only)
+    incmax   - Set to the maximum plus one (vint attribute only)
+    and      - 'and' the bits
+    or       - 'or' the bits
+```
+
+* **persistence**    `character` with default temporary. Attribute persistence where **permanent** can not be deleted, **temporary** can be deleted.
+
+
+* **ioflag** `character` with default alg. These letters are IO flags to define what type of common output files this attribute can be written to. By default, the dump command will write all attributes, this flag can be used to limit which attributes are dumped.
+```
+    a - write this attribute on avs dumps
+    g - write this attribute on gmv dumps
+    f - write this attribute on fehm dumps
+    l - write this attribute on LaGriT dumps
+    L - Do Not write this attribute on LaGriT dumps
+```
+
+* **default**  `real` default is 0.0. This is the attribute value to initialize the data with.
+
+
+
+
+
