@@ -226,9 +226,9 @@ Each attribute (either default attribute or added attribute) in a mesh object ha
     VCHAR - Vector of character strings
 ```
 
-* **rank**  `character` with default scalar. This is the attribute rank set by an attribute for this Mesh object, default is [scalar](#scalar)
+* **rank**  `character` with default [scalar](#scalar). This is the attribute rank set by an attribute for this Mesh object.
 
-* **length**  `character` with default nnodes. This is the attribute length set by an attribute for this Mesh object, default is [nnodes](#nnodes)
+* **length**  `character` with default [nnodes](#nnodes). This is the attribute length set by an attribute for this Mesh object.
 
 * **interpolation**   `character` with default linear. This is the interpolation option for routines to use:
 
