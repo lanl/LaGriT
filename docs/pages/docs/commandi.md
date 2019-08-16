@@ -1,8 +1,15 @@
 
 # Command Interface
 
-To get started, the user must create a mesh object.
 
+LaGriT runs on the command line as interactive mode or with an input command file. LaGriT will write two output files upon completion, by default they are `lagrit.out` (summary and reports for each command) and `lagrit.log` (saved commands).
+Run on the command line with either method:
+```
+    lagrit
+    lagrit < input_commands.lgi
+```
+
+To get started with the commands, the user must create a mesh object.
 The mesh object can be defined by reading in a mesh file, or by creating one.
 
 
@@ -60,4 +67,16 @@ The current-mesh-object(CMO) is: cmo_1
    
 finish
  
+```
+
+The output file lagrit.out will save the same information you see on the screen while running LaGriT. The output file lagrit.log will save the commands and you can copy this file and possibly edit to run again.
+
+```
+% cat lagrit.log
+
+read/avs/tet.inp/mo_tet                                                         
+read/avs/test_tet_small.inp/cmo_1                                               
+cmo/list                                                                        
+cmo/status/-all-/brief                                                          
+finish                  
 ```
