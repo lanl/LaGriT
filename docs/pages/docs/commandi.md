@@ -24,11 +24,11 @@ There is no limit on the number of Mesh Objects that can be
 defined, but at any time there is only one 'current' or 'active' Mesh
 Object. For more advanced problems, such as those requiring more than
 one Mesh Object or requiring extensions to the basic Mesh Object
-template, the Mesh Object(s) is(are) manipulated via the[**cmo**](commands/CMO2.md) commands.
+template, the Mesh Object(s) is(are) manipulated via the [**cmo**](commands/CMO2.md) commands.
 
 
 For example, additional user defined attributes may be added to
-a Mesh Object by using the[**cmo** **/addatt**](commands/cmo/cmo_addatt.md) command, or the
+a Mesh Object by using the [**cmo** **/addatt**](commands/cmo/cmo_addatt.md) command, or the
 'active' Mesh Object can be changed using the [**cmo/select**](commands/cmo/cmo_select.md) command.
 
 This example session reads 2 mesh files into 2 mesh objects mo_tet and cmo_1. The command **cmo/list** reports all mesh objects including the default template and the 2 new mesh objects. The last mesh object created is the current mesh object. 
