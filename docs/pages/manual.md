@@ -22,10 +22,11 @@ tipue_search_active: true
  
 ## III. Mesh Objects ##
  -  [Mesh Object Definition](docs/meshobject.md)  
+ -  [Mesh Object Connectivity](docs/meshobjcon.md) 
+ -  [Supported Element Types](docs/supported.md)  
+ -  [Geometries](docs/geometries.md) 
  -  [Command Interface](docs/commandi.md )  
  -  [Fortran Interface](docs/fortran.md)  
- -  [Mesh Object Connectivity](docs/meshobjcon.md)  
- -  [Geometries](docs/geometries.md)  
 
 ## IV. Interfacing User Routines to LaGriT ##
  -  [Building an Executable and Running LaGriT](docs/build.md)   

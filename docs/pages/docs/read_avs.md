@@ -1,35 +1,31 @@
-**read/avs**
+# read / avs
 
 read an AVS format file into a mesh object. This command requires either cmo-name to be given in
 the command or for a mesh object to have been created previously. This file format contains no geometry
 information. 
 
-**FORMAT:**
+## SYNTAX
 
 **read**/ filename.[inp or .avs] / cmo_name
 
-**read** **/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
-
-*Note that the filename is case-sensitive, though the extension itself is not.*
+**read** **/avs**/ filename /[cmoname]/[ node_flag / element_flag / attribute_flag]
 
 
-
-
-**OPTIONS:**
+## OPTIONS
  
- 
-| Argument | Default | Description |
-| ----------------- |  ------------- | ----------------------- |
-| node_flag  |  (default=1) |  0 skip node data /  1 read node data |
-| element_flag |    (default=1) |  0 skip element data / 1 read element data |
-| attribute_flag |  (default=1) |  0 skip attribute data / 1 read attribute data |
+
+| Argument           | Default | Description |
+| :----------------- | :------ | :----------------------- |
+| node_flag          |  1      |  0=skip node data   1=read node data |
+| element_flag       |  1      |  0=skip element data  1=read element data |
+| attribute_flag     |  1      |  0=skip attribute data 1=read attribute data |
 
 
-**EXAMPLES:**
+## EXAMPLES
 
 ```
 read/ file1.inp /cmo1
-read/ avs/ file1 /cmo1
+read/ avs / file1 /cmo1
 ```
 
 read into existing and current mesh object
@@ -38,7 +34,7 @@ and skip, do not read the attribute data
 read/ avs / file2.avs / /1/1/0
 ```
 
-**AVS UCD ASCII FILE FORMAT**
+## AVS UCD ASCII FILE FORMAT
 
 AVS (avs.com) is a data visualization tool with ASCII mesh file formats used by LaGriT as they are easy to read and easy to convert from and to other mesh file formats. The Unstructured Cell Data (UCD) format is described here.
 
@@ -55,16 +51,17 @@ The general order of the data is as follows.
 2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
  
 3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
-These are the cell types and the associated keywords:
+These are the cell types and the node order relative to LaGriT elements, see LaGriT element conventions at **[Supported element types](supported.md)**
+
 ```
-line (Line)
-tri (Triangle)
-quad (Quadrilateral)
-hex (Hexahedron)
-prism (Prism)
-tet (Tetrahedron)
-pyr (Pyramid)
-pt (Point)
+pt    (Point)          avs order  = lagrit order
+line  (Line)           avs order  = lagrit order
+tri   (Triangle)       avs order  = lagrit order
+quad  (Quadrilateral)  avs order  = lagrit order
+tet   (Tetrahedron)    avs order  1 2 4 3 =     lagrit order 1 2 3 4
+pyr   (Pyramid)        avs order  1 2 3 4 5 =   lagrit order 2 3 4 5 1
+prism (Prism)          avs order  1 2 3 4 5 6 = lagrit order 4 5 6 1 2 3
+hex   (Hexahedron)     avs order  1 2 3 4 5 6 7 8 = lagrit order 5 6 7 8 1 2 3 4
 ```
 
 4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.
