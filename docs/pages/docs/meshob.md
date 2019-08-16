@@ -11,7 +11,7 @@ Create a new mesh object called cmo_name
 
 Get values of scalar attribute of the mesh object.
 
-**cmo_get_intinfo(**ioption**,cmo_name,iout,lout,itype,ierror)
+**cmo_get_intinfo(ioption**,cmo_name,iout,lout,itype,ierror)
 
 **ioption** is the name of the mesh object attribute whose value is
   to be retrieved; the information retrieved may be one of these key
