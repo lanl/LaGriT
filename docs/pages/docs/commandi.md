@@ -6,8 +6,13 @@ LaGriT runs on the command line as interactive mode or with an input command fil
 Run on the command line with either method:
 ```
     lagrit
+    
     lagrit < input_commands.lgi
 ```
+
+
+Run the Tutorial and see Example command files at [Tutorials and Examples](tutorial/index.md)
+
 
 To get started with the commands, the user must create a mesh object.
 The mesh object can be defined by reading in a mesh file, or by creating one.
