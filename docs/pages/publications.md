@@ -171,6 +171,12 @@ Zhang, Y ; Person, M ; Gable, CW, [Representative hydraulic conductivity
 of hydrogeologic units: Insights from an experimental
 stratigraphy](https://oppie.lanl.gov/oppie/service?url_ver=Z39.88-2004&rft_id=info:lanl-repo/oppie&svc_val_fmt=http://oppie.lanl.gov/openurl/oppie.html&svc_id=info:lanl-repo/svc/oppie/full-rec&svc.oparam1=info:lanl-repo/isi/000247151900006&svc.oparam2=info:lanl-repo/svc/getDIDL&svc.oparam3=%28%22gable%20cw%22%29%20AND%20pubDate:2007&svc.oparam4=0&svc.oparam5=1&svc.oparam6=score%20desc&svc.oparam7=LANL&svc.oparam8=&svc.oparam9=), JOURNAL OF HYDROLOGY (JUN 10 2007) Vol.339, iss.1-2, p.65-78
 
+### Year 2006:
+
+Zyvoloski, G.A., Vesselinov, V.V., [An investigation of numerical grid effects
+in automated calibration](https://www.lanl.gov/orgs/ees/staff/monty/papers/Zyvoloski%20&%20Vesselinov%202006%20grid%20GW.pdf), Ground Water, (Special issue: Modflow and More
+2003: Understanding through Modeling), v.44, no.6, p.814-825, 2006.
+
 ### Year 2005:
 
 Bower, KM; Gable, CW; Zyvoloski, GA "[Grid resolution study of ground
@@ -193,10 +199,6 @@ stratigraphy](assets/images/2005_wrr_zhang_person_paola_gable_wen_davis.pdf)".
 Water Resources Research; November 2005; v.41, no.11, p.1-20
 
 ### Year 2003:
-
-Zyvoloski, G.A., Vesselinov, V.V., [An investigation of numerical grid effects
-in automated calibration](https://www.lanl.gov/orgs/ees/staff/monty/papers/Zyvoloski%20&%20Vesselinov%202006%20grid%20GW.pdf), Ground Water, (Special issue: Modflow and More
-2003: Understanding through Modeling), v.44, no.6, p.814-825, 2006.
 
 Demirel, Melik; Kuprat, Andrew; George, Denise; Rollett, Anthony,
 "[Bridging Simulations and Experiments in Microstructure
