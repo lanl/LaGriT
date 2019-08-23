@@ -10,6 +10,12 @@ To reference LaGriT in a publication use the following citation:
 Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
 &lt;http://lagrit.lanl.gov&gt;, 2013.\*
 
+### Year 2017:
+
+Sentis, M.L., Gable, C.W., [Coupling LaGrit unstructured mesh generation
+and model setup with TOUGH2 flow and transport: A case study](doi.org/10.1016/j.cageo.2017.06.012), Computers
+& Geosciences, 2017, DOI:10.1016/j.cageo.2017.06.012.
+
 ### Year 2014:
 
 Hyman, J.D., Gable, C.W., Painter, S.L Makedonska, N., [Conforming
@@ -187,6 +193,10 @@ stratigraphy](assets/images/2005_wrr_zhang_person_paola_gable_wen_davis.pdf)".
 Water Resources Research; November 2005; v.41, no.11, p.1-20
 
 ### Year 2003:
+
+Zyvoloski, G.A., Vesselinov, V.V., [An investigation of numerical grid effects
+in automated calibration](https://www.lanl.gov/orgs/ees/staff/monty/papers/Zyvoloski%20&%20Vesselinov%202006%20grid%20GW.pdf), Ground Water, (Special issue: Modflow and More
+2003: Understanding through Modeling), v.44, no.6, p.814-825, 2006.
 
 Demirel, Melik; Kuprat, Andrew; George, Denise; Rollett, Anthony,
 "[Bridging Simulations and Experiments in Microstructure
