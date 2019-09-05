@@ -1,35 +1,36 @@
----
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
----
+# cmo / setatt
 
- 
-**setatt**/mo\_name/attribute\_name/ifirst,ilast,istride/value
-mo\_name is type character, required.
+Operation to set mesh object attribute values.
 
-attribute\_name is type character.  If blank, the active mesh object
-will be used.
+## SYNTAX
 
-ifirst,ilast,istride
-for attributes with length = 'nnodes', pset can be supplied
+**cmo / setatt** /mo_name / attribute_name /ifirst,ilast,istride/ value
 
-for attributes with length = 'nelements', eltset can be supplied
+- mo_name is the name of the mesh oject to set values
 
-for other attributes ifirst,ilast,istride must be numbers; if blank then
-all members of the attribute will be modified.
-value is type integer or real depending on the type of the attribute.
+- attribute_name is the name in the mesh object to operate on
+
+- ifirst,ilast,istride is the selection, default 1,0,0 will operate on all members of the attribute. The node or element set syntax can be used instead of the integer range. See **`pset`** and **`eltset`** commands.
+
+- value is type integer or real depending on the type of the attribute.
 Sets the value of the specified attribute in the given range to the
 supplied value.
-Note:  This command requires that the mesh contains one or more nodes.
-**EXAMPLES:**
-mo/setatt/mo/itp1/1,0,0/0
+Note: This command requires that the mesh contains one or more nodes.
 
-mo/setatt**/ 3dmesh**/itetclr** **/eltset**,**get**,blue/3
 
-Will set all elements in the element set 'blue' to have the value of
-itetclr to 3.
+## EXAMPLES
 
-mo/setatt**/**/ndimensions\_geom**////2
+```
+cmo/setatt/mo/itp1/1,0,0/0
+```
+Will set all values of node attribute itp1 to 0
 
-Will reset the ndimensions geometry attribute of the active mesh object
-to 2.
+```
+cmo/setatt/ 3dmesh /itetclr /eltset,get,blue/ 3
+```
+Will set all elements of attribute itetclr and in the element set 'blue' to have the value of 3
+
+```
+cmo/setatt // ndimensions_geom/ 2
+```
+Will reset the ndimensions geometry attribute of the active mesh object to 2
