@@ -364,6 +364,11 @@ def __driver_sidesets(lg,surface_mesh,has_top,boundary_file,full_sidesets):
         mo_surf.addatt('ilayer',vtype='vint',rank='scalar',length='nelements')
         mo_surf.interpolate('map','ioutlet',cmo_bndry,'ioutlet',stride=['eltset','get',esides.name])
 
+    if has_top > 1:
+        mo_surf.addatt('iinlet',vtype='vint',rank='scalar',length='nelements')
+        mo_surf.addatt('ilayer',vtype='vint',rank='scalar',length='nelements')
+        mo_surf.interpolate('map','iinlet',cmo_bndry,'iinlet',stride=['eltset','get',esides.name])
+
     mo_surf.copyatt('zsave',mo_src=mo_surf,attname_sink='zic')
     mo_surf.delatt('zsave')
 
@@ -395,6 +400,25 @@ def __driver_sidesets(lg,surface_mesh,has_top,boundary_file,full_sidesets):
 
         e_out1 = mo_surf.eltset_inter([e1,e2])
         mo_surf.setatt('id_side',faceset_count,stride=['eltset','get',e_out1])
+
+        # If outlet is defined with inlet...
+        if has_top > 1:
+            mo_surf.select()
+            mo_surf.setatt('ilayer',0.)
+
+            elay_inc = ptop.eltset(membership='inclusive')
+            mo_surf.setatt('ilayer',1,stride=['eltset','get',elay_inc.name])
+            mo_surf.setatt('ilayer',0,stride=['eltset','get',etop.name]) # ????
+
+            e1 = mo_surf.eltset_attribute('ilayer',1,boolstr='eq')
+            e2 = mo_surf.eltset_attribute('iinlet',2,boolstr='eq')
+
+            faceset_count += 1
+
+            e_out1 = mo_surf.eltset_inter([e1,e2])
+            mo_surf.setatt('id_side',faceset_count,stride=['eltset','get',e_out1])
+
+            mo_surf.delatt('iinlet')
 
         mo_surf.delatt('ioutlet')
         mo_surf.delatt('ilayer')
@@ -591,7 +615,10 @@ def write_facesets(dem_object,facesets):
             if md_layers == [-1]:
                 sidesets['all'] = fs._data
             elif md_layers == [0]:
-                sidesets['top'] = fs._data
+                if 'top' in sidesets:
+                    sidesets['top2'] = fs._data
+                else:
+                    sidesets['top'] = fs._data
             else:
                 raise ValueError('An unknown error occurred')
         elif fs._has_type == '__FROM_ELEVATION':
@@ -620,6 +647,10 @@ def write_facesets(dem_object,facesets):
         if 'top' in sidesets:
             has_top = True
             cell_atts = { 'ioutlet': sidesets['top'] }
+
+        if 'top2' in sidesets:
+            has_top = 2
+            cell_atts['iinlet'] = sidesets['top2']
 
         full_sidesets = dcopy(full_sidesets) - np.min(full_sidesets) + 1    
 
