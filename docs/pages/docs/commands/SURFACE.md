@@ -79,9 +79,9 @@ surface type in mind.
 <b>surface</b>/s_name/ ibtype / <b>sphere</b> / xc, yc, zc, radius
 </pre>
 
-**sheet** surfaces can be defined by cmo_name that is a 2D quad or triangle connected mesh object. See below for a description of inside/outside or left/right with respect to sheet surfaces.
+**sheet** surfaces can be defined by cmo_name that is a 2D quad or triangle connected mesh object. See **Conventions** below for a description of inside/outside or left/right with respect to sheet surfaces.
 <pre>
-<b>surface</b>/s_name/ <b>sheet</b> / cmo_name
+<b>surface</b>/s_name/ ibtype / <b>sheet</b> / cmo_name
 </pre>
 
 **tabular** (rotated tabular profile) Where point 1 and point 2 define the axis of rotation for the tabular profile with point 1 as the origin. This is followed by pairs of profile descriptors depending on the value of geom. Ifgeom is set to **rz**, then the r value is a radius normal to the axis of rotation and z is the distance along the new axis of rotation. If geom is set to **rt** then theta is the angle from the axis of rotation at point 1 and r is the distance from point 1 along theta. The first pair must start on a new line and all lines must contain pairs of data. The last pair of data must be followed by **end**. Note the use of **&** as a line continuation for the command.
@@ -165,7 +165,7 @@ region / r4 / lt bbox and lt s1 and lt s2
 
 
 
-### inside/outside with respect to sheet surfaces ##
+## Sheet surfaces inside/outside Convention ##
 
 Inside/outside  will be determined by the following algorithm:
 
