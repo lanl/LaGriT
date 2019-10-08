@@ -51,10 +51,18 @@ class PyLaGriT(spawn):
         self.region = {}
         self.batch = batch
         self._check_rc()
-        if lagrit_exe is not None: self.lagrit_exe = lagrit_exe
-        else:
-            print("Error: Lagrit executable is not defined. Add 'lagrit_exe' option to PyLaGriT (e.g., lg = pylagrit.PyLaGriT(lagrit_exe=<path/to/lagrit/exe>), or create a pylagritrc file as described in the manual.")
-            return
+
+        if lagrit_exe is not None:
+            self.lagrit_exe = lagrit_exe
+
+        if self.lagrit_exe is None or os.path.exists(self.lagrit_exe) == False:
+            raise FileNotFoundError(
+                "Error: LaGriT executable is not defined. Add 'lagrit_exe' "\
+                "option to PyLaGriT (e.g., lg = pylagrit.PyLaGriT(lagrit_exe"\
+                "=<path/to/lagrit/exe>), or create a pylagritrc file as "\
+                "described in the manual."
+                )
+
         if gmv_exe is not None: self.gmv_exe = gmv_exe
         if paraview_exe is not None: self.paraview_exe = paraview_exe        
         if self.batch:
@@ -628,11 +636,11 @@ class PyLaGriT(spawn):
             elif ':' in ln:
                 v = ln.split(':')
                 if v[0].strip() == 'lagrit_exe':
-                    self.lagrit_exe = v[1].strip()
+                    self.lagrit_exe = v[1].strip().replace("\"","")
                 elif v[0].strip() == 'gmv_exe':
-                    self.gmv_exe = v[1].strip()
+                    self.gmv_exe = v[1].strip().replace("\"","")
                 elif v[0].strip() == 'paraview_exe':
-                    self.paraview_exe = v[1].strip()
+                    self.paraview_exe = v[1].strip().replace("\"","")
                 else:
                     print('WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\'')
             else:
