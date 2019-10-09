@@ -327,7 +327,7 @@ def plot_facesets(dem_object,fs_list):
     
     cmap = 'tab10'
     
-    def plot_row(fs_object,row):
+    def plot_row(fs_object,row,extent=None):
         empty = np.zeros(np.shape(dem))
         empty.fill(np.nan)
         
@@ -339,8 +339,10 @@ def plot_facesets(dem_object,fs_list):
                 row[0].imshow(empty,extent=extent)
             
             if fs_object._metadata['sides']:
-                row[1].plot(dem_object.boundary[:,0],dem_object.boundary[:,1])
+                row[1].scatter(dem_object.boundary[:,0],dem_object.boundary[:,1])
                 row[1].set_aspect(dem_object.ratio)
+                row[1].set_xlim(extent[:2])
+                row[1].set_ylim(extent[2:])
             else:
                 row[1].imshow(empty,extent=extent)
                 
@@ -365,8 +367,6 @@ def plot_facesets(dem_object,fs_list):
             row[0].imshow(discrete_dem,cmap=cmap,extent=extent)
             
         elif fs_object._has_type == '__SIDESETS':
-            # TODO: has issue where node connection may span across
-            # plot
 
             row[0].imshow(empty,extent=extent)
             row[2].imshow(empty,extent=extent)
@@ -378,10 +378,16 @@ def plot_facesets(dem_object,fs_list):
             bnd = dem_object.boundary
             
             for i in np.unique(data):
+
+                if i == 1 and fs_object._metadata['layers'][0] == 0:
+                    continue
+
                 mask = data == i
-                row[1].plot(bnd[:,0][mask],bnd[:,1][mask])
+                row[1].scatter(bnd[:,0][mask],bnd[:,1][mask])
 
             row[1].set_aspect(dem_object.ratio)
+            row[1].set_xlim(extent[:2])
+            row[1].set_ylim(extent[2:])
                 
         else:
             raise ValueError('Malformed faceset object')
@@ -412,11 +418,11 @@ def plot_facesets(dem_object,fs_list):
         for row in range(rows):
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                plot_row(fs_list[row],axes[row])
+                plot_row(fs_list[row],axes[row],extent=extent)
     else:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
-            plot_row(fs_list[0],top_axes_row)
+            plot_row(fs_list[0],top_axes_row,extent=extent)
 
     plt.show()
     

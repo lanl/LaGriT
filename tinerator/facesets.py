@@ -179,12 +179,24 @@ def __facesets_from_coordinates(coords:dict,boundary:np.ndarray):
             ind = distance.cdist([c], boundary[:,:2]).argmin()
             fs.append(ind)
 
-        fs.sort(reverse=True)
+        # TODO: Band-aid fix.
+        if len(fs) == 2:
+            # Reverse order of fs, only so that the
+            # notion of 'clockwise ordering matters'
+            # stays constant.
+            fs = fs[::-1]
+        else:
+            fs.sort(reverse=True)
 
         # Map the interim space as a new faceset.
         # 'Unmarked' facesets have a default filled value of 1
         for i in range(len(fs)):
-            mat_ids[fs[-1]:fs[i]] = i+2
+            
+            if fs[-1] > fs[i]:
+                mat_ids[fs[-1]:] = i+2
+                mat_ids[:fs[i]] = i+2
+            else:
+                mat_ids[fs[-1]:fs[i]] = i+2
 
         facesets[key] = mat_ids
 

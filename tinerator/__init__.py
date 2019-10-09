@@ -42,7 +42,7 @@ from tinerator.plot import plot_full_mesh
 
 _MAJOR = 0
 _MINOR = 3
-_PATCH = 1
+_PATCH = 2
 VERSION = 'v{0}.{1}.{2}'.format(_MAJOR,_MINOR,_PATCH)
 
 def reprojectShapefile(shapefile:str,outfile:str,projection:str):

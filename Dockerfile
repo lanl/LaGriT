@@ -17,6 +17,10 @@ ARG BASE_CONTAINER=jupyter/minimal-notebook
 FROM $BASE_CONTAINER
 SHELL ["/bin/bash", "-c"] 
 
+ENV APP_PATH=/home/jovyan/
+WORKDIR $APP_PATH
+RUN mkdir bin
+
 LABEL maintainer="Daniel Livingston <livingston@lanl.gov>"
 
 USER root
@@ -59,25 +63,38 @@ RUN conda install --quiet --yes \
     fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
 
+# Install JupyterLab
+RUN pip install jupyterlab
+
 # Install dev version of PyVista
 RUN git clone https://github.com/pyvista/pyvista.git && \
     cd pyvista && \
-    pip install -e . && \
-    cd ..
+    python setup.py install
+
+WORKDIR $APP_PATH
+RUN rm -Rf pyvista
 
 # Build LaGriT and PyLaGriT
-RUN git clone --depth 1 http://github.com/lanl/LaGriT.git LaGriT && \
+RUN git clone --depth 1 https://github.com/lanl/LaGriT.git LaGriT && \
     cd LaGriT && \
     make exodus && make static && \
-    echo "lagrit_exe : \"`pwd`/src/lagrit\"" >> ~/.pylagritrc && \
+    echo "lagrit_exe : \"$APP_PATH/bin/lagrit\"" >> ~/.pylagritrc && \
     cd PyLaGriT && \
     python setup.py install && \
-    cd ../..
+    cp ../src/lagrit $APP_PATH/bin/lagrit
+
+WORKDIR $APP_PATH
+RUN rm -Rf LaGriT
 
 # Build TINerator
-RUN git clone http://github.com/lanl/LaGriT.git tinerator && \
+RUN git clone https://github.com/lanl/LaGriT.git tinerator && \
     cd tinerator && git checkout tinerator && \
     python setup.py install
+
+WORKDIR $APP_PATH
+RUN cp -r tinerator/examples/. examples/
+RUN cp tinerator/README.md . && cp tinerator/LICENSE.md .
+RUN rm -Rf tinerator
 
 # Import matplotlib the first time to build the font cache.
 ENV XDG_CACHE_HOME /home/$NB_USER/.cache/
