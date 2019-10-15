@@ -46,16 +46,11 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 ## USAGE
 
 
-For 2D and connecting points on a planar surface, the mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2. These commands will set the mesh object for connect.
-
+For 2D and connecting points on a planar surface, the mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2. This command will create a mesh object with settings appropriate for the connect command.
 ```
 cmo/create/ cmotri / triplane
 ```
-or
-```
-cmo / create / cmotri / / / tri
-cmo/setatt/cmotri/ndimensions_geom/1 0 0/2
-```
+
 
 
 The connect command does not filter out coincident vertices (sqrt[(xi-xj)<sup>2</sup> + (yi-yj)<sup>2</sup> + (zi-zj)<sup>2</sup>] < epsilon). Use the following commands before connect to remove duplicate points.
@@ -63,6 +58,7 @@ The connect command does not filter out coincident vertices (sqrt[(xi-xj)<sup>2<
 filter/ 1,0,0
 rmpoint/compress
 ```
+
 
 For better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.
 ```
@@ -77,12 +73,21 @@ The connect algorithm creates a triangulation or tetrahedralization of the conve
 A convex geometry is not guaranteed. A point distribution over a large region where spacing varies from very small to very large can result in high aspect ratios with small concavities formed on mesh boundaries. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tets (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.
 
   
-The **connect** command may refuse to add nodes that will result in near
+The connect command may refuse to add nodes that will result in near
   zero-volume tetahedra. The volume tests are based on the mesh object
   epsilons. To ensure that these epsilons are based on the geometry,
   issue a **setsize** command before **setpts**. Expert users may adjust the epsilons with the **cmo/setatt** command. 
 
 
+The connect command will report if it is successful, check to see if there are any problems. For instance, connect may finish but may not be able to include all points due to a non-convex boundary or a poor point distribution. For instance:
+```
+ Dudding      7181 points that have no associated tetrahedra.
+
+ The mesh is complete but could not include all points.                         
+ Number of points that could not be connected:       7181                       
+ 
+LaGriT FINISH: connect        
+```
 
 ## EXAMPLES ##
 
@@ -112,7 +117,7 @@ connect/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
 connect/delaunay/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
-connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
+connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
 ```
 
 Create the Delaunay tetrahedral connectivity of all nodes in the mesh and specify explicitly the coordinates of the enclosing tetrahedron. 
