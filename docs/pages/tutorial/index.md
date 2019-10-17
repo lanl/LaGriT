@@ -32,7 +32,7 @@
 <!-- Tutorial card -->
 <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
         <div class="uk-card-media-left uk-cover-container">
-            <img src="{{ "/pages/tutorial/stratigraphy/images/21_tet_wide.png" | relative_url }}" alt="" uk-cover>
+            <img src="{{ "/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks.png" | relative_url }}" alt="" uk-cover>
             <canvas width="600" height="400"></canvas>
         </div>
     <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
