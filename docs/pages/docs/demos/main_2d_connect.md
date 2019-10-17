@@ -1,13 +1,19 @@
 
-## Description:  connect 2D
+## Examples:  connect 2D
 
 The objective is to connect a set of random points into a triangle mesh.
+
+| Input Random Points | Output Triangle Mesh (boundary nodes red) | 
+| :---: | :---: | 
+|  <img  width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect_pts.png"> |  <img  width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect_tri.png"> | 
+
 
 1. Create a mesh object named mo_tri and create a set of random points within a box.
 2. Connect and Set node itp to mark boundary nodes.
 3. Check mesh quality and write mesh file.
  
-<img  width="400" src="https://lanl.github.io/LaGriT/assets/images/2d_connect_pts.png">
+### Input Commands
+
 ```
 # create a 2D mesh object
 # triplane has ndimensions_topo=2 and ndimensions_geom=2 
@@ -26,22 +32,19 @@ rmpoint / compress
 cmo / setatt / mo_tri / imt / 1 0 0 / 1
 cmo / setatt / mo_tri / itp / 1 0 0 / 0
 
-```
-
-<img  width="400" src="https://lanl.github.io/LaGriT/assets/images/2d_connect_tri.png">
-```
 connect
 
 # set default materials and boundary tags
 cmo / setatt / mo_tri / itetclr / 1 0 0 / 1
 resetpts / itp
 
-# write an AVS format file of the mesh
+# check areas and write an AVS format file of the mesh
 quality
 dump / avs / tri.inp / mo_tri
-``
+```
 
-Output report from quality command for this mesh (see screen and lagrit.out).
+## Output from quality command (see screen output and lagrit.out)
+
 ```
 epsilonl, epsilonaspect:   3.1401849E-13  3.0964614E-38                         
 --------------------------------------------                                    
@@ -64,11 +67,12 @@ element volumes b/w  0.2427E-01 and  0.3354E-01:        13
 min volume =   6.6465893E-03  max volume =   3.3543824E-02                      
 -----------------------------------------------------------                     
         52 total elements evaluated.                                         
-
-``
-
+```
 
 
 
-Note this old example is non-convex and has long tets outside the boundary that need to be removed.
-[Example Antler Ridge](description_2dconn.md)
+
+[Old Example Antler Ridge](description_2dconn.md)
+*Note this old example is non-convex and has long tets outside the boundary that need to be removed.*
+
+
