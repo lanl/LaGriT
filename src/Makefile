@@ -63,6 +63,11 @@ ifneq ($(WITHEXODUS),1)
 	EXOFLAGS += -DNOEXODUS
 endif
 
+SILOFFLAGS = -I/Users/livingston/playground/silo_lagrit/silo-4.10.2/include
+SILOFFLAGS += -L/Users/livingston/playground/silo_lagrit/silo-4.10.2/lib
+SILOFFLAGS += -I/Users/livingston/.bin/lagrit-dev/seacas/include
+SILOFFLAGS += -L/Users/livingston/.bin/lagrit-dev/seacas/lib
+SILOFFLAGS += -lhdf5 -lstdc++ -lsiloh5
 
 ##########################################################################
 # All Source files in directory are processed based on extension name. 
@@ -145,6 +150,9 @@ $(F90_OBJS): $(OBJDIR)%.o: %.f90 ColoredGraphModule.mod GraphModule.mod LowPassF
 
 $(OBJDIR)dumpexodusII.o : dumpexodusII.f
 	$(FC) $(FFLAGS) $(EXOFLAGS) -c -o $@ $<
+
+$(OBJDIR)silo_test.o : silo_test.f
+	$(FC) $(FFLAGS) $(SILOFFLAGS) -c -o $@ $<
 
 $(OBJDIR)tempgable.o : tempgable.f
 	$(FC) $(FFLAGS) -std=legacy -c -o $@ $<

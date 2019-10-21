@@ -945,6 +945,13 @@ C           ************************************************************
 C           massage: AUTOMATIC REFINE/DE-REFINE.
 C
             call massage(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
+         elseif(idsb(1:lenidsb) .eq. 'silo') then
+C
+C           ************************************************************
+C           SILO TEST
+C
+            call silo_test()
 C
          elseif(idsb(1:lenidsb) .eq. 'massage2') then
 C

@@ -114,6 +114,8 @@ TARGETS:
 
        make EXO_BUILD_DIR=/exodus/path/out/ exodus
 
+- make silo
+
 - make test
     Run the LaGriT test suite on the created binary.
     If you have changed or moved LaGriT from src/lagrit, use
@@ -235,6 +237,10 @@ exodus :
 	echo ""; \
 	echo "Alternately, run"; \
 	echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
+
+silo :
+	set -e; 
+
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
