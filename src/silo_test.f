@@ -3,24 +3,51 @@
       include "silo.inc"
 c
     
+        integer, parameter :: NNODES = 4
+        integer, parameter :: NZSHAPES = 1
+        integer, parameter :: LZNODELIST = 6
+        integer, parameter :: NZONES = 2
+        integer, parameter :: NDIMS = 2
 
-        !integer, allocatable :: silo_err, silo_ierr, ndims, nnodes, nelems, optlistid
-        !character*90 :: silo_dbfile
+        integer silo_err, silo_ierr, optlistid
+        integer meshid
+        integer silo_dbfile
 
-        print*,'THIS IS WORKING'
+        real*8  x(NNODES), y(NNODES)
+        integer zshapesize(NZSHAPES), zshapecnt(NZSHAPES) ! 1 == NZSHAPES = 1
+        integer znodelist(LZNODELIST)
 
-        !silo_err = db_create("test.silo", 9, DB_CLOBBER, DB_LOCAL, "test mesh", 9, DB_HDF5, silo_dbfile)
+        data zshapesize /3/ ! triangle
+        data zshapecnt  /2/ ! two triangles
 
-        !silo_err = dbputzl2(silo_dbfile, "zonelist", 8, nei_in, ndims, silo_cv, 
-        !&    silo_nconnects, 1, 0, 0, shapetype, shapesize, shapecounts,
-        !&    NSHAPETYPES, DB_F77NULL, silo_ierr)
+        data x /0.0,1.0,2.0,1.0/
+        data y /0.0,2.0,0.0,-2.0/
+        data znodelist /1,2,3,3,1,4/
 
-        !silo_err = dbputum(silo_dbfile, "pointmesh", 9, ndims, xic, yic, zic, "X", 
-        !&    1, "Y", 1, "Z", 1, DB_DOUBLE, nnodes, nelems, "zonelist", 8, 
-        !&    DB_F77NULLSTRING, 0, optlistid, silo_ierr)
+        silo_err = dbcreate("test.silo", 11, 0, DB_LOCAL,
+     &               "file info", 9, DB_HDF5, silo_dbfile)
 
-        !!silo_err = dbfreeoptlist(optlistid)
-        !silo_err = dbclose(silo_dbfile)c
+        print*,'silo_err = ',silo_err
+
+        silo_err = dbmkoptlist(3, optlistid)
+
+        silo_err = dbputzl(silo_dbfile, 'Zonelist', 8, NZONES, 2,
+     &              znodelist, LZNODELIST, 0,
+     &              zshapesize, zshapecnt, NZSHAPES, silo_ierr)
+
+        print*,'silo_err = ',silo_err
+
+
+        silo_err = dbputum(silo_dbfile, "ucd", 3, NDIMS,
+     &              x, y, DB_F77NULL,
+     &              "X", 1, "Y", 1, DB_F77NULLSTRING, 0, DB_DOUBLE,
+     &              NNODES, NZONES, 'Zonelist', 8, 
+     &              DB_F77NULLSTRING, 0,
+     &              optlistid, meshid)   
+
+        print*,'silo_err = ',silo_err     
+
+        silo_err = dbclose(silo_dbfile)
 
 c
       end subroutine silo_test
