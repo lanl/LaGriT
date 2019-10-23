@@ -53,7 +53,6 @@ c-----------------------------------------------------------------------
       integer lg_error, ilen, itype, n_nodes, nelems
       character(len=90) :: cmo
 
-
       pointer (ixic, xic)
       pointer (iyic, yic)
       pointer (izic, zic)
@@ -74,41 +73,38 @@ c-----------------------------------------------------------------------
 
       NNODES = long(n_nodes)
       NZONES = nelems
-      LZNODELIST = long(nelems * elem_connectivity(1))
+      LZNODELIST = long(nelems * elem_type(1))
+
+      print*,'LZNODELIST = ',LZNODELIST
+      print*,'nelems = ',nelems,'; et = ',elem_type(1)
 
       allocate(x(NNODES))
       allocate(y(NNODES))
       allocate(znodelist(LZNODELIST))
 
-
-c...Initialize coordinate and zonal data.
       x(1:NNODES) = real(xic(1:n_nodes))
       y(1:NNODES) = real(yic(1:n_nodes))
 
       print*,'len = ',size(x)
 
-
       znodelist(1:LZNODELIST) = long(elem_connectivity(1:LZNODELIST))
+
+      print*,'elem_connectivity = ',elem_connectivity(1:LZNODELIST)
+      print*,x
+      
+
+      do i = 1, LZNODELIST
+        znodelist(i) = znodelist(i) - 1
+      enddo
 
       zshapesize(1) = long(elem_connectivity(1))
       zshapecnt(1) = long(nelems)
 
-c...Create a rudimentary option list.
-
-      ierr = dbmkoptlist(3, optlistid)                   ! Create the option list
-
-c...Write zone list. This contains the information which describes each
-c...of the zones in the mesh. The nodelist must be organized such that
-c...zones of each shape are described consecutively.
+      ierr = dbmkoptlist(3, optlistid)
 
       err = dbputzl(dbid, 'Zonelist', 8, NZONES, 2, znodelist,
      .              LZNODELIST, 0,
      .              zshapesize, zshapecnt, NZSHAPES, zlid)
-
-
-
-c...Write the UCD mesh. For any arguments which are not applicable,
-c...use the DB_F77NULL argument. The mesh id is returned in 'meshid'.
 
       err = dbputum(dbid, name, lname, 2, x, y, DB_F77NULL,
      .              "X", 1, "Y", 1, DB_F77NULLSTRING, 0, DB_FLOAT,
@@ -119,10 +115,6 @@ c...use the DB_F77NULL argument. The mesh id is returned in 'meshid'.
       deallocate(x)
       deallocate(y)
       deallocate(znodelist)
-
-c...Write out a UCD variable. Use dbputuv1 for scalar (non-vector)
-c...arrays. The variable ID is returned in 'varid'.
-
 
       builducd = meshid
       end
