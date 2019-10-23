@@ -71,9 +71,9 @@ c-----------------------------------------------------------------------
       call cmo_get_info('itet', cmo, ipitet, ilen, itype, ierror)
       call cmo_get_info('itettyp',cmo,ipitettyp,ilen,itype,ierror)
 
-      NNODES = long(n_nodes)
-      NZONES = nelems
-      LZNODELIST = long(nelems * elem_type(1))
+      NNODES = int(n_nodes,4)
+      NZONES = int(nelems,4)
+      LZNODELIST = int(nelems * elem_type(1),4)
 
       print*,'LZNODELIST = ',LZNODELIST
       print*,'nelems = ',nelems,'; et = ',elem_type(1)
@@ -87,20 +87,22 @@ c-----------------------------------------------------------------------
 
       print*,'len = ',size(x)
 
-      znodelist(1:LZNODELIST) = long(elem_connectivity(1:LZNODELIST))
+      znodelist(1:LZNODELIST) = int(elem_connectivity(1:LZNODELIST),4)
 
-      print*,'elem_connectivity = ',elem_connectivity(1:LZNODELIST)
-      print*,x
-      
+      !print*,'elem_connectivity = ',elem_connectivity(1:LZNODELIST)
+      !print*,x
+
 
       do i = 1, LZNODELIST
         znodelist(i) = znodelist(i) - 1
       enddo
 
-      zshapesize(1) = long(elem_connectivity(1))
-      zshapecnt(1) = long(nelems)
+      zshapesize(1) = int(elem_type(1),4)
+      zshapecnt(1) = int(nelems,4)
 
       ierr = dbmkoptlist(3, optlistid)
+
+      print*,'znodelist = ',znodelist(1:LZNODELIST)
 
       err = dbputzl(dbid, 'Zonelist', 8, NZONES, 2, znodelist,
      .              LZNODELIST, 0,
