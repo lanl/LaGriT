@@ -24,6 +24,11 @@ Global document settings
 
 */
 
+.lg-output {
+  background-color: rgb(40,40,40);
+  color: rgba(255,255,255);
+}
+
 .lg-background-color {
   background-color: #212328;
 }
