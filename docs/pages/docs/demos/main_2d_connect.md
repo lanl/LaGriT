@@ -43,9 +43,11 @@ quality
 dump / avs / tri.inp / mo_tri
 ```
 
-## Output from quality command (see screen output and lagrit.out)
+### Output from quality command 
 
-```
+This quality report confirms all areas are positive and the triangles do not have small aspect ratios.
+
+<pre class="lg-output">
 epsilonl, epsilonaspect:   3.1401849E-13  3.0964614E-38                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
@@ -67,12 +69,12 @@ element volumes b/w  0.2427E-01 and  0.3354E-01:        13
 min volume =   6.6465893E-03  max volume =   3.3543824E-02                      
 -----------------------------------------------------------                     
         52 total elements evaluated.                                         
-```
+</pre>
 
 
 
 
-[Old Example Antler Ridge](description_2dconn.md)
+## [Old Example Antler Ridge](description_2dconn.md)
 *Note this old example is non-convex and has long tets outside the boundary that need to be removed.*
 
 
