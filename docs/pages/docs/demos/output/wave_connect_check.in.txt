@@ -1,0 +1,145 @@
+*--* LAGriT Example Input file
+*--*
+*--* Create a mesh with wave interface and connect 
+*-------------------------------*
+#
+# Use x coordinates to compute z based on sin()
+# z(i)=sin(x(i))
+
+# EDIT to change resolution and file names
+
+# spacing near .25
+define / XMAX / 9.5 
+define / YMAX / 1. 
+define / NX / 40
+define / NY / 5
+
+define HEX_MESH hex.gmv
+define TET_MESH tet.gmv
+
+#-------------------------------------------------
+# Create the quad mesh with wave topology
+
+cmo / create / mosurf / / / quad
+quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1
+createpts/brick/xyz/NX,NY,1/1 0 0 / connect
+cmo / setatt / mosurf / imt / 1 0 0 / 1
+cmo / setatt / mosurf / itetclr / 1 0 0 / 1
+resetpts / itp
+
+math/cos/mosurf/zic/1,0,0/mosurf/xic
+cmo / printatt / mosurf / -xyz- / minmax
+dump / surf_wave.inp / mosurf
+
+#-------------------------------------------------
+# make primary surface files for for input into stack
+
+# these are the values for flat top and flat bottom
+define ZBOT 0.
+define ZTOP 4.
+
+# these are translate values for vertical spacing
+define S1 2.
+define S2 .6 
+define S3 1.5 
+
+cmo select mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S1 
+dump / surf_wave_low.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S2 
+dump / surf_wave_high.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZBOT 
+dump / surf_flat_bot.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZTOP 
+dump / surf_flat_top.inp / mosurf
+
+#-------------------------------------------------
+# Stack layers from bottom to top with vertical refinement 
+cmo/create/mo_stack
+stack/layers/avs/ &
+  surf_flat_bot.inp 1 &
+  surf_wave_low.inp  2 3 &
+  surf_wave_high.inp 3 3 &
+  surf_flat_top.inp 3  3 
+
+dump gmv tmp_stack_layers.gmv mo_stack
+cmo/printatt/mo_stack/ -xyz- minmax
+
+# connect stacked layers into 3D elements
+stack/fill/mohex / mo_stack
+resetpts/itp
+
+# write information about this mesh object
+cmo/printatt/mohex/-xyz- minmax
+quality
+
+# check hex volumes
+cmo/addatt/mohex/volume hex_vol
+cmo/printatt/mohex/hex_vol minmax
+eltset/ ebad / hex_vol/le 0.
+dump HEX_MESH mohex
+
+#-------------------------------------------------
+# GEOMETRY defined for tet mesh 
+cmo/create/motet
+copypts/motet/mohex
+
+# define geometry using surfaces used in stack
+read avs surf_wave_low.inp mos1
+read avs surf_wave_high.inp mos2
+
+cmo select motet
+surface/slow/intrface/sheet/ mos1
+surface/shigh/intrface/sheet/ mos2
+
+# define regions
+# interfaces must have exactly one region
+region/r1/ lt slow
+region/r2/ ge slow and le shigh
+region/r3/ gt shigh
+
+# define material regions
+# exclude internal interfaces
+mregion/mr1/ lt slow
+mregion/mr2/ gt slow and lt shigh
+mregion/mr3/ gt shigh
+
+#-------------------------------------------------
+# CONNECT/check_interface to add nodes as needed
+
+# add attribute to see added nodes
+cmo/addatt/motet/nadd/VINT/scalar/nnodes/linear/
+
+# set some defaults for the connect routine
+filter / 1 0 0
+rmpoint / compress
+setpts
+dump gmv tmp_input_nodes.gmv motet
+cmo/printatt/motet/imt minmax
+
+# connect and check interface connections
+connect / check_interface
+
+# the original 1-2600 are set nadd 1
+# the rest are new nodes with nadd 2
+cmo/setatt/motet/nadd/ 2
+cmo/setatt/motet/nadd/ 1,2600,1 1
+dump gmv connect0.gmv motet
+
+# interpolate element materials from hex mesh
+interpolate/map/motet itetclr/1,0,0/mohex itetclr
+resetpts / itp
+
+# report mesh quality and check for neg ccoefs
+quality
+cmo/addatt/motet/volume/tet_vol
+cmo/addatt/motet/voronoi_volume/vor_vol
+cmo/printatt/motet/tet_vol/minmax
+cmo/printatt/motet/vor_vol/minmax
+dump TET_MESH motet
+
+finish
+# EXIT

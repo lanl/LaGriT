@@ -124,7 +124,7 @@
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">2d_connect</div>
+                <div class="uk-card uk-card-default uk-card-body">connect 2D</div>
             </a>
         </li>
         <li data-color="command">
@@ -164,7 +164,7 @@
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">connect</div>
+                <div class="uk-card uk-card-default uk-card-body">connect 3D</div>
             </a>
         </li>
         <li data-color="command">

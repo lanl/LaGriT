@@ -1,0 +1,139 @@
+# LaGriT Example to connect non-convex mesh
+# Stack wave shaped surfaces into hex mesh
+# Turn off material interface detection 
+# connect / noadd
+# Find and remove bad tets using interpolate
+#-----------------------------------------------
+ 
+# Define variables for spacing
+
+# spacing near .25
+define / XMAX / 9.5 
+define / YMAX / 1. 
+define / NX / 40
+define / NY / 5
+
+#-------------------------------------------------
+# Create the quad mesh with wave as top surface
+# Use x coordinates to compute z based on sin()
+# z(i)=sin(x(i))
+
+cmo / create / mosurf / / / quad
+quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1
+createpts/brick/xyz/NX,NY,1/1 0 0 / connect
+cmo / setatt / mosurf / imt / 1 0 0 / 1
+cmo / setatt / mosurf / itetclr / 1 0 0 / 1
+resetpts / itp
+
+cmo / printatt / mosurf / -xyz- / minmax
+math/cos/mosurf/zic/1,0,0/mosurf/xic
+cmo / printatt / mosurf / -xyz- / minmax
+
+dump / surf_wave.inp / mosurf
+dump / surf_wave.gmv / mosurf
+
+#-------------------------------------------------
+# make layers for for input into stack
+# translate surfaces for vertical spacing
+
+define ZBOT 0.
+define S1 2.
+define S2 .8 
+define S3 1.5 
+
+cmo select mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S1 
+dump / surf_wave_low.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S2 
+dump / surf_wave_high.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S3 
+dump / surf_wave_top.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZBOT 
+dump / surf_flat_bot.inp / mosurf
+
+#-------------------------------------------------
+# CREATE POINT DISTRIBUTION
+# Stack from bottom to top and add refine layers
+cmo/create/mo_stack
+stack/layers/avs/ &
+  surf_flat_bot.inp 1 &
+  surf_wave_low.inp  2 3 &
+  surf_wave_high.inp 3 2 &
+  surf_wave_top.inp  3 3 
+
+# fill stacked quad surfaces with hex elements 
+stack/fill/mohex / mo_stack
+cmo select mohex
+resetpts itp
+
+# write information about this mesh object
+cmo/printatt/mohex/-xyz- minmax
+quality
+
+# check hex volumes
+cmo/addatt/mohex/volume hex_vol
+cmo/printatt/mohex/hex_vol minmax
+eltset/ ebad / hex_vol/le 0.
+
+dump hex_stack.inp mohex
+dump hex_stack.gmv mohex
+
+#-------------------------------------------------
+# CONNECT POINTS INTO TET MESH
+# connect points with no geometry and single material
+# no new points will be added
+
+cmo/create/motet
+copypts/motet/mohex
+
+# remove duplicate points
+# set some defaults for the connect routine
+filter/1,0,0 ; rmpoint/compress
+
+# Initialize to single material and no boundaries
+cmo / setatt / motet / imt / 1 0 0 / 1
+cmo / setatt / motet / itp / 1 0 0 / 0
+
+# connect input points and do not add points
+# material interface detection is turned off 
+connect / noadd
+quality
+
+#-------------------------------------------------
+# INTERPOLATE HEX to TET 
+# interpolate hex materials on to tet mesh elements
+# this will tag tets outside boundary with value 5
+# valid imt and itetclr values are int values gt 0
+interpolate/map/motet itetclr/1,0,0/mohex itetclr/ 5
+
+dump/tet_connect.inp/motet
+cmo/printatt/mohex/ itetclr minmax
+cmo/printatt/motet/ itetclr minmax
+
+# remove bad tets crossing non-convex boundary
+# set interface and boundary nodes with itp values
+cmo/select/motet
+rmmat/ 5
+rmpoint/compress
+resetpts/itp
+
+# get mesh quality statistics
+cmo/addatt/motet/volume/tet_vol
+cmo/addatt/motet/voronoi_volume/vor_vol
+cmo/printatt/motet/tet_vol/minmax
+cmo/printatt/motet/vor_vol/minmax
+quality
+
+# write AVS and GMV mesh file formats
+dump/tet_connect.inp/motet
+dump/tet_connect.gmv/motet
+
+# write minmax of all mesh attributes
+cmo/printatt/motet/ -all- minmax
+
+# Exit
+finish
+
