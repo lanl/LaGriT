@@ -42,24 +42,64 @@ from tinerator.plot import plot_full_mesh
 
 _MAJOR = 0
 _MINOR = 3
-_PATCH = 2
+_PATCH = 3
 VERSION = 'v{0}.{1}.{2}'.format(_MAJOR,_MINOR,_PATCH)
 
-def reprojectShapefile(shapefile:str,outfile:str,projection:str):
+def reprojectShapefile(shapefile_in:str,shapefile_out:str,projection:str) -> None:
     '''
-    Re-projects a shapefile from one coordinate space to
-    another.
+    Re-projects a shapefile and writes it to `shapefile_out`.
 
     # Arguments
-    shapefile (str): filepath to the shapefile
-    outfile (str): file to write re-projected shapefile to
-    projection (str): string with new projection; i.e. 'epsg:3413'
+    shapefile_in (str): filepath to the shapefile
+    shapefile_out (str): file to write re-projected shapefile to
+    projection (str): Proj4 string with new projection; i.e. '+init=epsg:3413'
 
     '''
-    shp = geopandas.read_file(shapefile)
-    shp = shp.to_crs({'init': projection})
-    log.info('Shapefile re-projected to %s' % (projection))
-    shp.to_file(outfile,driver='ESRI Shapefile')
+    shp = geopandas.read_file(shapefile_in)
+    shp = shp.to_crs(projection)
+    cfg.log.info('Shapefile re-projected to: %s' % (projection))
+    shp.to_file(shapefile_out,driver='ESRI Shapefile')
+
+def reprojectRaster(raster_in:str,raster_out:str,dst_crs:str) -> None:
+    '''
+    Re-projects a raster and writes it to `raster_out`.
+
+    # Example
+    ```python
+    reprojectRaster('dem_in.asc','dem_out.tif','EPSG:2856')
+    ```
+
+    # Arguments
+    raster_in (str): Filepath to input raster
+    raster_out (str): Filepath to save reprojected raster
+    dst_crs (str): Desired CRS
+    '''
+
+    from rasterio.warp import calculate_default_transform, reproject, Resampling
+
+    with rasterio.open(raster_in) as src:
+        transform, width, height = calculate_default_transform(
+            src.crs, dst_crs, src.width, src.height, *src.bounds)
+        kwargs = src.meta.copy()
+        kwargs.update({
+            'crs': dst_crs,
+            'transform': transform,
+            'width': width,
+            'height': height
+        })
+    
+        with rasterio.open(raster_out, 'w', **kwargs) as dst:
+            for i in range(1, src.count + 1):
+                reproject(
+                    source=rasterio.band(src, i),
+                    destination=rasterio.band(dst, i),
+                    src_transform=src.transform,
+                    src_crs=src.crs,
+                    dst_transform=transform,
+                    dst_crs=dst_crs,
+                    resampling=Resampling.nearest)
+
+    cfg.log.info('Raster re-projected to: %s' % (dst_crs))
 
 
 def maskRasterWithShapefile(raster_filename:str,

@@ -8,6 +8,7 @@ a DEM projection, and vice versa.
 import numpy as np
 import skimage
 import os
+from osgeo import ogr, gdal, gdal_array
 
 '''
 
@@ -117,6 +118,48 @@ def _smooth_raster_boundary(raster:np.ndarray,width:int,no_data_value:float=np.n
     raster[edges == True] = no_data_value
     return raster
 
+def rasterize_shapefile_like(shpfile:str, model_raster_fname:str, nodata_val:float = 0):
+    """
+    Given a shapefile, rasterizes it so it has
+    the exact same extent as the given model_raster
+
+    Taken from [0].
+
+    [0]: https://github.com/terrai/rastercube/blob/master/rastercube/datasources/shputils.py
+    """
+    
+    dtype = gdal.GDT_Float64
+    print(dtype)
+    
+    model_dataset = gdal.Open(model_raster_fname)
+    shape_dataset = ogr.Open(shpfile)
+    shape_layer = shape_dataset.GetLayer()
+    mem_drv = gdal.GetDriverByName('MEM')
+    mem_raster = mem_drv.Create(
+        '',
+        model_dataset.RasterXSize,
+        model_dataset.RasterYSize,
+        1,
+        dtype
+    )
+    mem_raster.SetProjection(model_dataset.GetProjection())
+    mem_raster.SetGeoTransform(model_dataset.GetGeoTransform())
+    mem_band = mem_raster.GetRasterBand(1)
+    mem_band.Fill(nodata_val)
+    mem_band.SetNoDataValue(nodata_val)
+
+    # http://gdal.org/gdal__alg_8h.html#adfe5e5d287d6c184aab03acbfa567cb1
+    # http://gis.stackexchange.com/questions/31568/gdal-rasterizelayer-doesnt-burn-all-polygons-to-raster
+    err = gdal.RasterizeLayer(
+        mem_raster,
+        [1],
+        shape_layer,
+        None,
+        None,
+        [1]
+    )
+    assert err == gdal.CE_None, 'Could not rasterize layer'
+    return mem_raster.ReadAsArray()
 
 '''
 

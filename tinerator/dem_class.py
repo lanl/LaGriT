@@ -46,6 +46,9 @@ class DEM():
 
         # Mesh characteristics
         self.number_of_layers = 0
+        self.metadata = {
+            'filename': filepath
+        }
 
         self.__replace_infs_with_nans()
 
@@ -292,6 +295,60 @@ class DEM():
 
         return self.feature
 
+
+    def set_river_network_from_raster(self,raster:np.ndarray,threshold:float) -> None:
+        '''
+        Sets the refinement feature from a polyline defined by the
+        `x` and `y` vectors. 
+
+        # Arguments
+        x (list): x-coord list of river network nodes
+        y (list): y-coord list of river network nodes
+
+        # Returns
+        Nothing.
+        '''
+        
+        self.feature = delin.getFeatureTrace(raster,
+                                             feature_threshold=threshold)
+
+        if np.size(self.feature) == 0:
+            raise ValueError("Feature trace is empty. " + \
+                             "Try setting a lower threshold or " + \
+                             "using a different method.")
+
+        self.feature = util.xyVectorToProjection(self.feature,
+                                                 self.cell_size,
+                                                 self.xll_corner,
+                                                 self.yll_corner,
+                                                 self.nrows)
+
+
+        return self.feature
+
+
+    def import_river_network(self,shp_filepath:str) -> None:
+        '''
+        Loads a river network shapefile as a feature to be used
+        for mesh refinement. Use instead of `self.watershed_delineation`.
+
+        # Example
+        ```python
+        my_dem.import_river_network('data/River/river.shp')
+        my_dem.build_refined_triplane()
+        ```
+
+        # Arguments
+        shp_filepath (str): Path to `.shp` file.
+        crs (str): Proj4 CRS to re-project into (optional).
+
+        # Returns
+        Nothing.
+        '''
+
+        raster = util.rasterize_shapefile_like(shp_filepath,self.metadata['filename'])
+
+        self.set_river_network_from_raster(raster,0.5)
 
     def __watershed_delin_as_interactive(self,threshold,method):
         '''
