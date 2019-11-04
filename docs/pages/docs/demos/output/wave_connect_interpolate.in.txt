@@ -15,8 +15,8 @@ define / NY / 5
 
 #-------------------------------------------------
 # Create the quad mesh with wave as top surface
-# Use x coordinates to compute z based on sin()
-# z(i)=sin(x(i))
+# Use x coordinates to compute z based on cos()
+# z(i)=cos(x(i))
 
 cmo / create / mosurf / / / quad
 quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1

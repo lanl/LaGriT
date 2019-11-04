@@ -1,10 +1,5 @@
 
-# Example: connect/noadd for 3D non-convex 
-
-
-### LaGriT input command file with all steps: [wave_connect_interpolate.in.txt](output/wave_connect_interpolate.in.txt)
-
-### LaGriT output report for all steps: [wave_connect_interpolate.out.txt](output/wave_connect_interpolate.out.txt)
+# Example: 3D connect/noadd for non-convex boundary 
 
 
 **`connect / noadd`** with input points from a hex mesh created with **`stack/layers`**. This example has a non-convex boundary and bad elements are created connecting across the outside boundary. This fix uses **`interpolate/map`** from the hex mesh to the tet mesh to tag and remove bad tets connecting outside the boundary.
@@ -20,9 +15,13 @@
 
 [<img width="150" src="output/wave_connect_tet_edges.png">](#step-5-remove-outside-tets) [Step 5. Remove Outside Tets from the mesh](#step-5-remove-outside-tets)
 
+<br>
 
+### LaGriT input command file with all steps: [wave_connect_interpolate.in.txt](output/wave_connect_interpolate.in.txt)
 
+### LaGriT output report for all steps: [wave_connect_interpolate.out.txt](output/wave_connect_interpolate.out.txt)
 
+<br>
 
 ## Step 1 Create Surfaces
 
@@ -39,8 +38,8 @@ define / NY / 5
 
 *-------------------------------------------------
 * Create the quad mesh with wave as top surface
-* Use x coordinates to compute z based on sin()
-* z(i)=sin(x(i))
+* Use x coordinates to compute z based on cos()
+* z(i)=cos(x(i))
 
 cmo / create / mosurf / / / quad
 quadxy/NX NY/0. 0. 0./ XMAX 0. 0./ &
@@ -102,7 +101,7 @@ dump / surf_flat_bot.inp / mosurf
 
 ### Output quad surfaces
 
-Created quad surface with z(i)=sin(x(i))
+Created quad surface with z(i)=cos(x(i))
 <br>
 This surface is used as template to create additional surfaces.
 <br>
