@@ -110,6 +110,32 @@
                 </a>
             </div>
         </li>
+
+	<li data-color="workflow">
+            <div>
+                <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/pages/docs/demos/wave_tet_highres.png" alt="">
+                        </div>
+                        <p>Connect with Curved Surfaces </p>
+                    </div>
+                </a>
+            </div>
+        </li>
+	<li data-color="workflow">
+            <div>
+                <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/pages/docs/demos/wave_hextotet5_tet_edges.png" alt="">
+                        </div>
+                        <p>grid2grid convert hex to tet</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
         <li data-color="workflow">
             <div>
                 <a href="{{ "/pages/tutorial/workflow/regions_points_to_tet.html" | relative_url }}">
@@ -117,7 +143,7 @@
                         <div class="uk-card-media-top">
                             <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
                         </div>
-                        <p>Regions and Points to Tet Mesh</p>
+                        <p>Ray Shooting and Regions for Tet Mesh</p>
                     </div>
                 </a>
             </div>
@@ -153,8 +179,8 @@
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_hextet.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">hextotet</div>
+            <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">grid2grid hextotet5</div>
             </a>
         </li>
         <li data-color="command">
@@ -163,7 +189,7 @@
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/description_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">connect 3D</div>
             </a>
         </li>
