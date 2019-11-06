@@ -1,4 +1,4 @@
-# Mesh Object Connectivity
+# LaGriT Mesh Object Connectivity
 
 The Mesh Object attributes **itettyp, itetoff, jtetoff, itet,** and
 **jtet** along with the variables contained in the include files
@@ -8,7 +8,10 @@ edges for an element. The nodes comprising a given element are always
 specified in a well-defined order; hence when one references the 'second
 facet' of an element, one references a pre-defined set of points.
 
-Consider a tetrahedral element, with nodes labeled as in the diagram:
+For element ordering of nodes, faces, and edges see [LaGriT Supported Element Types](supported.md))
+
+
+The following describes a LaGriT tetrahedral element, with nodes I1-I4 labeled as in the diagram:
 
 <img width="320" src="https://lanl.github.io/LaGriT/assets/images/Image232.jpg">
 
@@ -38,7 +41,7 @@ The local facets for this tetrahedral are defined as follows:
   E6    | I3   | I4
 
   Similarly, local facets and local edges are defined for all element
-  types.  (see [Supported element types](supported.md))
+  types.  (see [LaGriT Supported Element Types](supported.md))
 
   **itettyp(it)** gives the element type of element
    **it.**

@@ -51,17 +51,18 @@ The general order of the data is as follows.
 2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
  
 3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
-These are the cell types and the node order relative to LaGriT elements, see LaGriT element conventions at **[Supported element types](supported.md)**
+
+These are the valid AVS cell types with node order relative to LaGriT ordering conventions as shown at **[LaGriT Supported Element Types](supported.md)**
 
 ```
 pt    (Point)          avs order  = lagrit order
 line  (Line)           avs order  = lagrit order
 tri   (Triangle)       avs order  = lagrit order
 quad  (Quadrilateral)  avs order  = lagrit order
-tet   (Tetrahedron)    avs order  1 2 4 3 =     lagrit order 1 2 3 4
-pyr   (Pyramid)        avs order  1 2 3 4 5 =   lagrit order 2 3 4 5 1
-prism (Prism)          avs order  1 2 3 4 5 6 = lagrit order 4 5 6 1 2 3
-hex   (Hexahedron)     avs order  1 2 3 4 5 6 7 8 = lagrit order 5 6 7 8 1 2 3 4
+tet   (Tetrahedron)    avs order  = 1 2 4 3 
+pyr   (Pyramid)        avs order  = 5 1 2 3 4 
+prism (Prism)          avs order  = 4 5 6 1 2 3 
+hex   (Hexahedron)     avs order  = 5 6 7 8 1 2 3 4 
 ```
 
 4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.

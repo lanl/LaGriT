@@ -1,6 +1,7 @@
-# Supported Element Types
+# LaGriT Supported Element Types
 
-The following element types are recognized by LaGriT. Though underlying code supports hybrid or polygon shaped elements, they are not supported by most the commands. The command pages indicate limitations on element types as they apply.
+The following element types are recognized by LaGriT. Though underlying code supports hybrid or polygon shaped elements, they are not supported by most the commands. The command pages indicate limitations on element types as they apply. Note other mesh formats or applications may have different ordering conventions.
+
 
 - point (pnt) (also known as node or vertex)
 - line (lin)
@@ -92,4 +93,5 @@ The 3D face ordering is such that the right-hand-normals of all facets point out
 
 
 
+These describe ordering conventions used by LaGriT. See documentation for other conventions such as the AVS format described in command [**`read/avs`**](read_avs.md).
 
