@@ -116,7 +116,7 @@
                 <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/pages/docs/demos/output/wave_tet_highres.png" alt="">
+                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
                         </div>
                         <p>Connect with Curved Surfaces </p>
                     </div>
@@ -128,7 +128,7 @@
                 <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
+                            <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
                         <p>grid2grid convert hex to tet</p>
                     </div>
