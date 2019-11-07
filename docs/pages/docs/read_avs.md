@@ -101,10 +101,10 @@ cell_id_1  cell_data_1 ...  cell_data_n
 cell_id_n  cell_data_1 ...  cell_data_n
 </pre>
 
-This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Associated with each node is a data value, there are no cell data. The first line indicates 8 nodes, 1 cell, 1 scaler attribute for the nodes, no attributes for cell or model.
+This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes.  The first line header indicates 8 nodes, 1 element, 2 node attributes, 0 element attributes, 0 model attributes. In the section where attributes are defined, the first line indicates there are 2 attributes, both scalar. After the first attribute line is the list of attribute names along with their type.
 
 <pre>
-8 1 1 0 0 
+8 1 2 0 0 
 1 0.000 0.000 1.000 
 2 1.000 0.000 1.000 
 3 1.000 1.000 1.000 
@@ -115,16 +115,16 @@ This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Ass
 8 0.000 1.000 0.000 
 1 1 hex 1 2 3 4 5 6 7 8 
 002 1 1
-elev, real
-stress, lb/in**2 
-1  1.00   4999.9999  
-2  1.00   18749.9999 
-3  1.00   37500.0000 
-4  1.00   56250.0000 
-5  0.00   74999.9999 
-6  0.00   93750.0001 
-7  0.00   107500.0003 
-8  0.00   5000.0001 
+layer, integer
+stress, real
+1  1   4999.9999  
+2  1   18749.9999 
+3  1   37500.0000 
+4  1   56250.0000 
+5  0   74999.9999 
+6  0   93750.0001 
+7  0   107500.0003 
+8  0   5000.0001 
 
 </pre>
 
