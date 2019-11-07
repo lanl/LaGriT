@@ -23,10 +23,8 @@ The following are definitions for select_type and the select_type_options:
 **`attribute`** forms a pset from all points in ifirst,ilast,istride which have the specified value for a node based
   attribute. If the optional comparator field is given; that operation is used to compare the attribute value to the requested value. *This option was previously named* **zq.** in old releases.
   <pre>
-  <b>pset</b>/pset_name/ attribute_name / ifirst,ilast,istride / [<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> ] / [value]
-  <b>pset</b>/pset_name/ attribute_name / ifirst,ilast,istride / [value] / [<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> ]
-  </pre>
-
+  <b>pset</b> / pset_name / attribute / attribute_name / ifirst,ilast,istride / [<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> ] / [value]
+  <b>pset</b> / pset_name / attribute / attribute_name / ifirst,ilast,istride / [value] / [<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> ]</pre>
 
 **`constraints`** forms a pset of nodes having the specified number of constraints.  The node's **icr** value is used as an index to the **icontab** attribute which gives the number of constraints.  [See chapter III, A](../meshobject.md) for an explanation of the **icontab** entries.
 
