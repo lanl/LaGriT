@@ -163,10 +163,11 @@ def maskRasterWithShapefile(raster_filename:str,
         os.remove(raster_outfile)
 
     # Remove shapefile (as a folder or a file)
-    if os.path.isfile(temp_shp_name):
-        os.remove(temp_shp_name)
-    else:
-        shutil.rmtree(temp_shp_name)
+    if shapefile_reprojection is not None:
+        if os.path.isfile(temp_shp_name):
+            os.remove(temp_shp_name)
+        else:
+            shutil.rmtree(temp_shp_name)
 
     if return_dem:
         return _dem
