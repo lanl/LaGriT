@@ -51,6 +51,8 @@ class PyLaGriT(spawn):
         self.region = {}
         self.batch = batch
         self._check_rc()
+        print(self.lagrit_exe)
+        print(self.lagrit_exe.replace("'",""))
 
         if lagrit_exe is not None:
             self.lagrit_exe = lagrit_exe
@@ -645,6 +647,12 @@ class PyLaGriT(spawn):
                     print('WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\'')
             else:
                 print('WARNING: unrecognized .pylagritrc line \''+ln.strip()+'\'')
+        self.lagrit_exe = self.lagrit_exe.replace("'","")
+        self.gmv_exe = self.gmv_exe.replace("'","")
+        self.paraview_exe = self.paraview_exe.replace("'","")
+        self.lagrit_exe = self.lagrit_exe.replace('"',"")
+        self.gmv_exe = self.gmv_exe.replace('"',"")
+        self.paraview_exe = self.paraview_exe.replace('"',"")
     def extract_surfmesh(self,name=None,cmo_in=None,stride=[1,0,0],reorder=True,resetpts_itp=True,external=False,append=None):
         if name is None:
             name = make_name('mo',self.mo.keys())

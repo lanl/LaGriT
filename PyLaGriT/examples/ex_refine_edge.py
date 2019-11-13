@@ -28,8 +28,8 @@ for i in range(lr):
 mtri = mqua.copypts('triplane')
 mtri.connect()
 # Make sure that not nodes are lost during connect
-if 'The mesh is complete but could not include all points.' in lg.before:
-    print "Error: Lost some points during connect, not completing mesh and exiting workflow!\n"
+if 'The mesh is complete but could not include all points.' in str(lg.before):
+    print("Error: Lost some points during connect, not completing mesh and exiting workflow!\n")
     sys.exit()
 mtri.tri_mesh_output_prep()
 mtri.reorder_nodes(cycle='xic yic zic')

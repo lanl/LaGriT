@@ -1,11 +1,12 @@
 # Set up a five spot co2 injection and brine production problem
 import os,sys
-from fdata import*
-from fpost import*
+#from fdata import*
+#from fpost import*
 import zipfile
 import time
 from glob import glob
 import pylagrit
+import numpy as np
 
 batch = False
 dip = 90. # Degrees, dip of fault, angle is measured from horizontal
@@ -26,7 +27,7 @@ pars = {'k_cap':-18,
 # dimensions
 xmin, xmax = -2000., 6000.
 zmin, zmax = -1000.,0.
-print 'zmin = '+str(zmin)+' zmax '+str(zmax)
+print('zmin = '+str(zmin)+' zmax '+str(zmax))
 zmid = -1.e3        # 1 km depth
 
 fx = pars['fx']         # distance between fault and injector
@@ -43,19 +44,21 @@ xmm = np.linspace(xmin,xmax,nxbase)
 ymm = [0.,25.]
 zmm = np.linspace(zmin,zmax,nzbase+1)
 
-N = len(xmm)*len(ymm)*len(zmm)
-print 'Grid will contain '+str(N) +' nodes'
-print str(len(zmm))+' in the z direction'
-
-# assemble parameters and root names
-dat = fdata()
-dat.work_dir='.'
-
-dat.grid.make(dat.work_dir+os.sep+'GRID.inp',x=xmm,y=ymm,z=zmm)
-dat.grid.write('AVS.inp', format='avs')
+#N = len(xmm)*len(ymm)*len(zmm)
+#print('Grid will contain '+str(N) +' nodes')
+#print(str(len(zmm))+' in the z direction')
+#
+## assemble parameters and root names
+#dat = fdata()
+#dat.work_dir='.'
+#
+#dat.grid.make(dat.work_dir+os.sep+'GRID.inp',x=xmm,y=ymm,z=zmm)
+#dat.grid.write('AVS.inp', format='avs')
 l = pylagrit.PyLaGriT(batch=batch)
+mtemp = l.gridder(xmm,ymm,zmm,connect=True)
+mtemp.dump("AVS.inp")
 m = l.read('AVS.inp')
-z_inj = dat.grid.node_nearest_point((0,0,zmid)).position[2]
+#z_inj = dat.grid.node_nearest_point((0,0,zmid)).position[2]
 #m_l = l.create_line(2, (0.1,0.1,zmin), (0.1,0.1,zmax))
 #m_l.connect_delaunay()
 #m.refine_to_object(m_l,level=3)
@@ -79,8 +82,8 @@ m2 = m.grid2grid_tree_to_fe()
 m2.connect_delaunay()
 
 # Set imt at injector
-p_inj = m.pset_geom( (-.1,-.1,z_inj-0.1), (.1,.1,z_inj+0.1))
-p_inj.setatt('imt',10)
+#p_inj = m.pset_geom( (-.1,-.1,z_inj-0.1), (.1,.1,z_inj+0.1))
+#p_inj.setatt('imt',10)
  
 # set imt of fault
 attr_name = m2.intersect_elements(m_c)
