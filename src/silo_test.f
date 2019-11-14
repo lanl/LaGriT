@@ -28,13 +28,13 @@ ccccccccc
       character*(*)    name          ! Name of mesh to build
       integer(kind=4)  lname         ! Length of name
 
-      include "silo.inc"             ! Don't forget to include this file
+      include "silo.inc"             ! Dont forget to include this file
 
       character(len=90) :: cmo
       character*32 ctype
 
       logical :: DEBUG = .false.
-      real*8, allocatable :: x(:), y(:), z(:)
+      real*8, allocatable :: x(:), y(:), z(:), volumes(:), area_len(:)
 
       integer(kind=4) :: NZONES = 7   ! Number of zones
       integer(kind=4) :: NNODES = 13  ! Number of nodes
@@ -85,10 +85,23 @@ ccccccccc
       allocate(y(NNODES))
       allocate(z(NNODES))
       allocate(znodelist(LZNODELIST))
+      allocate(volumes(NNODES))
+      allocate(area_len(56))
 
       x(1:NNODES) = (xic(1:n_nodes))
       y(1:NNODES) = (yic(1:n_nodes))
       z(1:NNODES) = (zic(1:n_nodes))
+
+      volumes = (/1.5625E-02,3.125E-02,3.125E-02,3.125E-02,
+     .   1.5625E-02,3.1250E-02,6.250E-02,6.250E-02,6.250E-02,
+     .   3.125E-02,3.1250E-02,6.250E-02,6.250E-02,6.250E-02,
+     .   3.125E-02,3.1250E-02,6.250E-02,6.250E-02,6.250E-02,
+     .   3.125E-02,1.5625E-02,3.125E-02,3.125E-02,3.125E-02,
+     .   1.5625E-02/)
+
+      area_len = (/0,2,2,2,1,0,2,0,1,1,0,0,2,1,1,2,0,0,0,0,1,
+     .   0,0,0,0,1,2,1,2,1,0,0,0,0,0,0,2,0,0,2,1,1,1,2,1,2,1,2,
+     .   1,2,2,2,0,2,0,0/)
 
       znodelist(1:LZNODELIST) = int(elem_connectivity(1:LZNODELIST),4)
       znodelist = znodelist - 1  !  shift to 0-index
@@ -145,11 +158,23 @@ ccccccccc
      .              NNODES, NZONES, 'Zonelist', 8,
      .              DB_F77NULLSTRING, 0, optlistid, meshid)
 
+      ierr = dbputuv1(dbid, 'vvolumes', 8, name, lname, 
+     .                volumes, NNODES, DB_F77NULLSTRING,
+     .                0, DB_DOUBLE, DB_NODECENT, optlistid,
+     .                ierr)
+
+            ierr = dbputuv1(dbid, 'vcos', 4, name, lname, 
+     .                area_len, 56, DB_F77NULLSTRING,
+     .                0, DB_DOUBLE, DB_EDGECENT, optlistid,
+     .                ierr)
+
 
       deallocate(x)
       deallocate(y)
       deallocate(z)
       deallocate(znodelist)
+      deallocate(volumes)
+      deallocate(area_len)
 
       builducd = meshid
       end
