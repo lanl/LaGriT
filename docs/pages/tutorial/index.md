@@ -51,7 +51,7 @@
 
 <h1 class="uk-heading-line"><span>Examples</span></h1>
 
-<!-- Examples grid card -->
+<!-- Cards for Example commands, utility, and workflow  -->
 <div uk-filter="target: .js-filter">
 
     <ul class="uk-subnav uk-subnav-pill">
@@ -60,8 +60,49 @@
         <li uk-filter-control="[data-color='utility']"><a href="#">Utility</a></li>
         <li uk-filter-control="[data-color='workflow']"><a href="#">Workflow</a></li>
     </ul>
-
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
+
+<!-- workflow cards -->
+
+       <li data-color="workflow">
+            <div>
+                <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
+                        </div>
+                        <p>Connect with Conforming Curved Interfaces </p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+        <li data-color="workflow">
+            <div>
+                <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                        </div>
+                        <p>Octree Refine Hex using Intersect Object</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+	<li data-color="workflow">
+            <div>
+                <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
+                        </div>
+                        <p>Stacked mesh using grid2grid hex to 5 tets</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
         <li data-color="workflow">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
@@ -74,18 +115,22 @@
                 </a>
             </div>
         </li>
+
         <li data-color="workflow">
             <div>
-                <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
+                <a href="{{ "/pages/tutorial/workflow/regions_points_to_tet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                            <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
                         </div>
-                        <p>Octree Refine Hex, Intersect Object</p>
+                        <p>Tet Mesh using Regions and Ray Shooting</p>
                     </div>
                 </a>
             </div>
         </li>
+
+<!-- utility cards -->
+
         <li data-color="utility">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
@@ -98,79 +143,36 @@
                 </a>
             </div>
         </li>
-        <li data-color="utility">
+	 <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/convert_feet_to_meters.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <span uk-icon="icon: code; ratio: 2"></span>
-                        </div>
-                        <p>Convert Between Meters and Feet</p>
+                        <p>Convert <br> Meters and Feet</p>
                     </div>
                 </a>
             </div>
         </li>
 
-	<li data-color="workflow">
-            <div>
-                <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
-                        </div>
-                        <p>Connect with Curved Surfaces </p>
-                    </div>
-                </a>
-            </div>
-        </li>
-	<li data-color="workflow">
-            <div>
-                <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
-                        </div>
-                        <p>grid2grid convert hex to tet</p>
-                    </div>
-                </a>
-            </div>
-        </li>
+<!-- command cards alphabetical -->
 
-        <li data-color="workflow">
-            <div>
-                <a href="{{ "/pages/tutorial/workflow/regions_points_to_tet.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
-                        </div>
-                        <p>Ray Shooting and Regions for Tet Mesh</p>
-                    </div>
-                </a>
-            </div>
+        <li data-color="command">
+            <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">addmesh</div>
+            </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">connect 2D</div>
             </a>
         </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">rotatept</div>
+       <li data-color="command">
+            <a href="{{ "/pages/docs/demos/description_connect.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">connect 3D</div>
             </a>
         </li>
-        <li data-color="command">
+	 <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_createpts.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">createpts</div>
-            </a>
-        </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">regnpts</div>
-            </a>
-        </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">triangulate</div>
             </a>
         </li>
         <li data-color="command">
@@ -184,23 +186,8 @@
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">sort</div>
-            </a>
-        </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/description_connect.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">connect 3D</div>
-            </a>
-        </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">quality</div>
-            </a>
-        </li>
-        <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">trans</div>
+            <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">negative_aij</div>
             </a>
         </li>
         <li data-color="command">
@@ -209,13 +196,18 @@
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">2d_recon</div>
+            <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">quality</div>
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">addmesh</div>
+            <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">recon 2D</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">regnpts</div>
             </a>
         </li>
         <li data-color="command">
@@ -224,10 +216,27 @@
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">negative_aij</div>
+            <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">rotatept</div>
             </a>
         </li>
+        <li data-color="command">
+            <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">sort</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">trans</div>
+            </a>
+        </li>
+        <li data-color="command">
+            <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}" style="font-weight: bold;">
+                <div class="uk-card uk-card-default uk-card-body">triangulate</div>
+            </a>
+        </li>
+
+
     </ul>
 </div>
 <!-- Examples demos grid -->

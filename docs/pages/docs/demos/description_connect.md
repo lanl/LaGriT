@@ -8,9 +8,26 @@ The objective is to connect a set of existing nodes (3 dimensional)
 
 GMV and AVS format mesh files are written here. The AVS format is common and can be read by many applications. 
 The GMV (General Mesh Viewer) files are best read by GMV but other applications such as VisIt and MATLAB can read them.
+
+
+<a href="output/connect_cube_nodes.png">Input Points<img width="250" src="output/connect_cube_nodes.png"> </a>
+<a href="output/connect_cube_tet.png">Output Tet Mesh<img width="250" src="output/connect_cube_tet.png"> </a>
+
  
 
-## LaGriT command file
+## LaGriT command file input.lgi
+
+On the command line this would be:
+```
+    lagrit < input.lgi
+```
+
+Note all files must end with a "finish" command to exit gracefully. Comments help as reminders for what is being done.
+The use of the **define** command makes it easy to change command parameters from run to run.
+The images above visualize the point file input_points.inp and the tetrahedral mesh output_connect.inp.
+
+
+
 ```
 # TEST connect (3d) (lagrit_input_connect)
 # LaGriT input file to generate an orthogonal grid on
@@ -47,26 +64,25 @@ finish
 ```
 
 
-## Created points and connected tetrahedral mesh
+## LaGriT Output file lagrit.out 
 
-<a href="output/connect_cube_nodes.png">Input Points<img width="300" src="output/connect_cube_nodes.png"> </a>
-<a href="output/connect_cube_tet.png">Output Tet Mesh<img width="300" src="output/connect_cube_tet.png"> </a>
+LaGriT will echo commands and report information during the run. These are written to the screen and the file lagrit.out (or outx3dgen). This information can be very useful, it will report Errors and Warnings to help the user figure out what may have gone wrong. 
 
-
-## Sample output text for createpts
+There are also many commands that report the status and condition of the mesh object. For instance, the **cmo/printatt//-all-/minmax** command writes the current mesh object attributes and the min and max for each. The **quality** command reports element aspect ratios and volumes. Negative or zero volumes can indicate a problem with how the mesh was created.
 
 <pre class="lg-output">
+
 cmo/create/cmo///tet                                                            
 createpts/xyz/nx ny nz/0. 0. 0./1. 1. 1./1 1 1                                  
   RZ GENERATED POINTS                    1 TO                 8000              
+
 cmo/setatt/cmo/imt/1 0 0/1                                                      
 Warning: nelements = 0                                                          
       8000 values reset for attribute imt1               
-</pre>
  
-## Sample output text for connect
-<pre>                                                                                
+
 connect/noadd                                                                   
+
  Coordinates of enclosing tetrahedron are:                                      
           -0.20000D+01   -0.75000D+00   -0.75000D+00                            
            0.50000D+00   -0.75000D+00    0.42500D+01                            
@@ -75,13 +91,9 @@ connect/noadd
  ntets=     29572     node index=     5000     nlstfail=       0 %done=  61.58  
  
  The mesh is now complete!                                                      
- 
 LaGriT FINISH: connect                   
-</pre>
 
 
-## Sample output text showing minmax of the mesh attributes and quality report
-<pre class="lg-output">
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      8000  

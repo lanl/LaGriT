@@ -1,21 +1,8 @@
 
-# Examples: connect 3D
+# Examples: connect 3D non-convex
 
 
-
-## [Example connect cube](description_connect.md)
-
-<a href="output/connect_cube_nodes.png"><img width="250" src="output/connect_cube_nodes.png"> </a>
-<a href="output/connect_cube_tet.png"><img width="250" src="output/connect_cube_tet.png"> </a>
-
-
-**`connect`** single material 3D box of points into a tetrahedral mesh that satisfies the Delaunay criterion.
-The output consists of two mesh files - one showing the point distribution and the other showing the connected tetrahedral mesh.
-
-
-
-
-## [Example connect non-convex stacked mesh](description2_connect.md)
+## [Example connect with sloped top boundary](description2_connect.md)
 
 <a href="output/wave_connect0.png"><img width="250" src="output/wave_connect0.png"></a>
 <a href="output/wave_connect_tet_edges.png"><img width="250" src="output/wave_connect_tet_edges.png"></a>
@@ -28,7 +15,7 @@ This fix uses **`interpolate/map`** from the hex mesh to the tet mesh to tag and
 
 
 
-## [Example connect sloped interfaces causing popped tets](description3_connect.md)
+## [Example connect for conforming sloped interfaces](description3_connect.md)
 
 <a href="output/wave_tet_popped_explode.png"><img width="250" src="output/wave_tet_popped_explode.png"></a>
 <a href="output/wave_tet_highres_explode.png"><img width="250" src="output/wave_tet_highres_explode.png"></a>
@@ -42,7 +29,7 @@ This example is fixed with resolution that improves the height to width ratio of
 
 
 
-## [Example connect with check_interface ](description4_connect.md)
+## [Example connect with check_interface for conforming interfaces ](description4_connect.md)
 
 <a href="output/wave_tet_popped_explode.png"><img width="250" src="output/wave_tet_popped_explode.png"></a>
 <a href="output/wave_tet_check_ex.png"><img width="250" src="output/wave_tet_check_ex.png"></a>
@@ -64,8 +51,10 @@ This example is fixed using defined geometry **`region`**  and the option  **`ch
 
 [**`connect`** command](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) description.
 
+[**`connect`** 3D box Example](description_connect.md) 
 
 [**`grid2grid`** command](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) convert each mesh element to tri or tet elements (such as hex to 5 tets).
+
 
 [**`grid2grid`** Example](description_hextet.md) convert hex mesh to 5 tets each hex.
 
