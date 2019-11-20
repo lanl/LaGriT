@@ -37,8 +37,27 @@ integers.
 <b>math / integrate </b>/cmo_sink/attr_sink/ 1,0,0 / attr_src_field
 </pre>
 
-`operation`: The first parameter is one of the following keywords that
-indicates the type of work to perform.
+`operation` The first parameter a keyword that indicates the type of work to perform, see below.
+
+`cmo_sink` `attr_sink`  are the sink cmo and sink attribute for the math
+results to be written to. These parameters are required for all math
+operations.
+
+
+`1 0 0` is the range where 1 0 0 represents all. This uses the convention start,stop,stride or can be the selections defined by `pset` or `eltset`.
+
+
+`value` is required by some math operations and can be of type constant or can be a cmo attribute.
+The following are allowed:
+
+`cmo_src2/attr_src2/` where `cmo_src2` may be the same name as the source cmo, or the name of a second source cmo.
+
+`attr_src2/` assumes attribute is part of `cmo_src`
+
+`constant` is a numerical value that is provided for some of the operations.
+
+
+### OPERATION OPTIONS
 
 **`plus add minus sub subtract times multiply mult divide min max modulo`** are arithmetic operators; the result is stored in
 `sink_attr` where `sink_attr` = (`src_attr`) *operator* (value). Value can e a constant or mesh object attribute.
@@ -65,6 +84,11 @@ attribute. The result is stored in the `sink_attr`.
 10 to the power specified by `src_attr` and stores the result in the
 `sink_attr`.
 
+**sum** adds all node or element values in attr_src, within the
+selected range and writes the result to attr_sink. The sink attribute
+must be of type 'REAL' or 'INT' (length='scalar') and will be created
+if it does not exist.
+
 **`integrate`**  *for elements only*. It is a function that computes the product of 'field_value' times the 'element volume' at each element and either saves these products (or sums) to the sink attribute.
 
 
@@ -81,27 +105,7 @@ having to use the pair of commands [integrate, sum] and also avoids creating the
 'nelement' long sink attribute)
 
 
-**sum** adds all node or element values in attr_src, within the
-selected range and writes the result to attr_sink. The sink attribute
-must be of type 'REAL' or 'INT' (length='scalar') and will be created
-if it does not exist.
 
-`cmo_sink` `attr_sink`  are the sink cmo and sink attribute for the math
-results to be written to. These parameters are required for all math
-operations.
-
-
-`1 0 0` is the range where 1 0 0 represents all. This may be the integers start,stop,stride or the node or element selections defined by `pset` or `eltset`. 
-
-
-`value` is required by some math operations and can be of type constant or can be a cmo attribute. 
-The following are allowed:
-
-`cmo_src2/attr_src2/` where `cmo_src2` may be the same name as the source cmo, or the name of a second source cmo.
-
-`attr_src2/` assumes attribute is part of `cmo_src`
-
-`constant` is a numerical value
 
 
 
@@ -126,7 +130,7 @@ math/power/ sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/2.0/
 
 math/power/ sink_mo/sink_attribute/1,0,0/2.0/src_mo/src_attribute/
 
-math/power/ sink_mo/sink_attribute/1,0,0/base\_mo/base\_attribute/power_mo/power_attr
+math/power/ sink_mo/sink_attribute/1,0,0/base_mo/base_attribute/power_mo/power_attr
 
 math/exp/ sink_mo/sink_attribute/1,0,0/src_mo/src_attribute/
 
