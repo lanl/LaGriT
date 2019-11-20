@@ -20,9 +20,12 @@ For the standard arithmetic operations, value can be either a constant
 or an attribute. These arithmetic operations work for all types of
 attributes.
 
-For the mathematical functions other than **`floor`** and **`ceiling`**, 
+For the mathematical functions other than **`floor`** and **`ceiling`**,
 value is omitted, and the function is performed on the `src_attr` and
-stored in the `sink_attr`. Mathematical functions other than **`floor`**
+stored in the `sink_attr`. 
+
+
+Mathematical functions other than **`floor`**
 and **`ceiling`** are not implemented for attributes whose values are
 integers.
 
@@ -62,21 +65,17 @@ attribute. The result is stored in the `sink_attr`.
 10 to the power specified by `src_attr` and stores the result in the
 `sink_attr`.
 
-**`integrate`**  *for elements only*. It is a function that computes the product of '*field_value
-*' times the '*element volume*' at each element and either saves these
-products (or sums) to the sink attribute.
+**`integrate`**  *for elements only*. It is a function that computes the product of 'field_value' times the 'element volume' at each element and either saves these products (or sums) to the sink attribute.
 
 
-The '*field_value*' for an element is either the value
+The 'field_value' for an element is either the value
 of attr_src (if attr_src is an element attribute and has length
 'nelements') or is the average of the values at the vertices of the
-element (if attr_src is a node attribute).
-
-If `*sink_attr*` does not exist or if it exists and has length
-'nelements', the products are stored in `*sink_attr*`.
-
-If `*sink_attr*` exists and has length 'scalar', then the
-products are summed up and the result is stored in `*sink_attr*`.
+element (if attr_src is a node attribute).  
+If `sink_attr` does not exist or if it exists and has length
+'nelements', the products are stored in `sink_attr`.
+If `sink_attr` exists and has length 'scalar', then the
+products are summed up and the result is stored in `sink_attr`.
 (If the user requires just the integrated sum this alternative avoids
 having to use the pair of commands [integrate, sum] and also avoids creating the
 'nelement' long sink attribute)
@@ -87,15 +86,15 @@ selected range and writes the result to attr_sink. The sink attribute
 must be of type 'REAL' or 'INT' (length='scalar') and will be created
 if it does not exist.
 
-`*cmo_sink*` `*attr_sink`*  are the sink cmo and sink attribute for the math
+`cmo_sink` `attr_sink`  are the sink cmo and sink attribute for the math
 results to be written to. These parameters are required for all math
 operations.
 
 
-`*1,0,0*` is the range where 1 0 0 is all. This may be the integers start,stop,stride or the node or element selections defined by `*pset*` or `*eltset*`. 
+`1 0 0` is the range where 1 0 0 represents all. This may be the integers start,stop,stride or the node or element selections defined by `pset` or `eltset`. 
 
 
-`*value*` is required by some math operations and can be of type constant or can be a cmo attribute. 
+`value` is required by some math operations and can be of type constant or can be a cmo attribute. 
 The following are allowed:
 
 `cmo_src2/attr_src2/` where `cmo_src2` may be the same name as the source cmo, or the name of a second source cmo.
