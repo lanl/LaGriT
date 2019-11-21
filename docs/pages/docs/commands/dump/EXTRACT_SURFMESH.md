@@ -80,3 +80,58 @@ extract/surfmesh/1,0,0/ mos_all / MO_MESH
 extract/surfmesh/1,0,0/ mos_out / MO_MESH / external
 
 ```
+
+## DEMO
+
+This demonstrates the difference between extracting all or just external boundaries. The first image shows the extracted surfmesh
+which includes the interface between the materials. The second image shows the surfmesh extracted from external boundary only.
+Note the face elements will depend on the element face being extracted, the second surfmesh has been converted from quad elements to tri elements. This may be needed for commands or applications that expect a triangle surface.
+
+|   | 
+| :---:  | :---:  | 
+|   |  |
+|  **Extract all**  |   **Extract external**  | 
+| <img width="250" src="https://lanl.github.io/LaGriT/assets/images/box_surfmesh_all.png">  |  <img width="250" src="https://lanl.github.io/LaGriT/assets/images/box_surfmesh_tri_external.png">  | 
+
+```
+
+define MO_MESH mo_hex
+define/R0/  0.0
+define/Z0/  0.0
+define/R1/ 10.0
+define/Z1/  8.0
+define/ND/  11
+define/NZ/  9
+
+cmo / create / MO_MESH / / / hex
+createpts/brick/xyz/ND ND NZ/R0 R0 Z0/R1 R1 Z1/1 1 1
+
+# COLOR elements material 1 and material 2 
+pset/p2/attribute xic/1,0,0/ gt 6.
+eltset/e2/ inclusive pset,get,p2
+cmo / setatt / MO_MESH / itetclr 1 
+cmo / setatt / MO_MESH / itetclr eltset,get,e2 2 
+
+# SET BOUNDARIES AND INTERFACES
+resetpts/itp
+
+# EXTRACT ALL EXTERNAL AND INTERFACE BOUNDARIES
+extract/surfmesh/1,0,0/ mos_all / MO_MESH
+cmo/copyatt/ mos_all mos_all / itetclr itetclr1
+
+# EXTRACT EXTERNAL ONLY 
+extract/surfmesh/1,0,0/ mos_ext / MO_MESH / external
+cmo/copyatt/ mos_ext mos_ext / itetclr itetclr1
+
+# CONVERT SURFMESH QUADS to TRI
+grid2grid/quadtotri2/ mos_tri / mos_ext
+
+# write files
+dump/avs/ surfmesh_all.inp / mos_all
+dump/avs/ surfmesh_external.inp / mos_ext
+dump/avs/ surfmesh_ext_tri.inp / mos_tri
+
+cmo/status
+
+finish
+```
