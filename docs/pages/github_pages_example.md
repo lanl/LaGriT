@@ -36,7 +36,7 @@ Style taken from Github's Mastering Markdown document
 
 ------------------------------------
 
-In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft). Its use should be applied across all commands. See [the ADDMESH page](docs/commands/ADDMESH.md) for an example of it applied.
+In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide for readers and developers.
 
 This page uses HTML to format box sections to show raw text and the resulting format. Use 
 
@@ -90,30 +90,21 @@ Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
+
 # COMMAND
 
 ## SYNTAX
 </pre>
 <div class="rendered">
-<h1>Page Title</h1>
+<h1>COMMAND</h1>
 
 <h2>SYNTAX</h2>
 </div>
 </div>
 
+## 3. Command Syntax and Descriptions <a name="cmdformatting"></a>
 
-## 2. Formats for Command Descriptions <a name="cmdformatting"></a>
-
-In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. 
-
-| :--------------------------- | :------------------------------------ |
-| **`bold command`**            |``` **`bold command`** ```|
-| **bold literal**              |``` **bold literal** ```  |
-| `unstyled variable`           |``` `unstyled variable` ```|
-| *`italic variable`*           |``` *`italic variable`* ```|
-
-
-The LaGriT command syntax section should be enclosed in the `<pre>` tags:
+The LaGriT command syntax section should be enclosed in the <pre> tags. Use the HTML bold formats for the command name and any literal keywords. 
 
 <div class="markdown-example" id="example-text">
 <!--
@@ -132,18 +123,25 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 </div>
 </div>
 
+In the sections describing words and behavior of the command, the following formats should be followed:
+
+In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. 
+
+| :--------------------------- | :------------------------------------ |
+| **`bold command`**            |``` **`bold command`** ```|
+| **bold literal**              |``` **bold literal** ```  |
+| `unstyled variable`           |``` `unstyled variable` ```|
+| *`italic variable`*           |``` *`italic variable`* ```|
+
 
 ## 3. Inline Code, Examples, Demos <a name="inlinecode"></a>
 
-Command pages may include additional sections. Any inline Code, Examples, or Demos use fenced code blocks and should be wrapped in three backticks. The backticks will format much the same way as the HTML <pre> tags. A block can be indented by indenting the opening and closing backticks with four spaces.
+Command pages may include additional sections. Any inline Code, Examples, or Demos use fenced code blocks and should be wrapped in three backticks. The backticks will format much the same way as the HTML <pre> tags. 
 
 ```
 This is an inline code block with 3 backticks before and after.
 ```
 
-    ```
-    This is an indented inline code block with backticks starting after four space.
-    ```
 
 To display screen output, use the tag <pre class="lg-output"> instead of backtics or other <pre> tags.
 
@@ -166,7 +164,7 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 </div>
 
 
-## 5. Embedding Images
+## 5. Embedding Images <a name="embeddingimages"></a>
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
