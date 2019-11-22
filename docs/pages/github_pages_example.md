@@ -59,7 +59,7 @@ This page uses HTML to format box sections to show raw text and the resulting fo
 
 1. [Page Titles and Headers](#pagetitles)
 2. [Command Formatting](#cmdformatting)
-3. [Inline Code](#inlinecode)
+3. [Inline Code, Examples, Demos](#inlinecode)
 4. [Linking to Other Pages](#linking)
 5. [Embedding Images](#embeddingimages)
 6. [Further Resources](#resources)
@@ -86,46 +86,25 @@ tags: example, quickstart, style
 </div>
 
 Page titles should use the `h1` header class, note the # character must not have spaces before it.
-This is accomplished in Markdown by:
-
-<div class="markdown-example" id="example-text">
-<pre class="source">
-# Page Title 
-</pre>
-<div class="rendered">
-<h1>Page Title</h1>
-</div>
-</div>
-
-
 Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-# Command 
---------------------
+# COMMAND
 
-## 1. Usage 
-### 1.1 First Step 
-This is the first step to using this great command.
-
-### 1.2 Second Step 
-This is the second step to using this command.
+## SYNTAX
 </pre>
 <div class="rendered">
-<h1>My Command</h1>
-<hr/>
-<h2>1. Usage</h2>
-<h3>1.1 First Step</h3>
-  <p>This is the first step to using this great command.<br></p>
-<h3>1.2 Second Step</h3>
-  <p>This is the second step to using this command.</p>
+<h1>Page Title</h1>
+
+<h2>SYNTAX</h2>
 </div>
 </div>
 
-## 2. Formats for Command Syntax <a name="cmdformatting"></a>
 
-When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* for primary mesh objects, etc.
+## 2. Formats for Command Descriptions <a name="cmdformatting"></a>
+
+In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. 
 
 | :--------------------------- | :------------------------------------ |
 | **`bold command`**            |``` **`bold command`** ```|
@@ -134,11 +113,7 @@ When rendering LaGriT commands, in general, use **`bold monospaced font`** for c
 | *`italic variable`*           |``` *`italic variable`* ```|
 
 
-
-Some formatting is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
-Markdown specification includes embedded HTML parsing. 
-
-LaGriT command SYNTAX should be styled as:
+The LaGriT command syntax section should be enclosed in the `<pre>` tags:
 
 <div class="markdown-example" id="example-text">
 <!--
@@ -157,20 +132,24 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 </div>
 </div>
 
-Note how the block in enclosed in the `<pre>` tags.
 
-## 3. Inline Code <a name="inlinecode"></a>
+## 3. Inline Code, Examples, Demos <a name="inlinecode"></a>
 
-Similarily to the section above, for sections(s) of code within a larger normally typed paragraph, literal keywords should be bold and all other objects should be unstyled. 
+Command pages may include additional sections. Any inline Code, Examples, or Demos use fenced code blocks and should be wrapped in three backticks. The backticks will format much the same way as the HTML <pre> tags. A block can be indented by indenting the opening and closing backticks with four spaces.
 
-<div class="markdown-example" id="example-text">
-<pre class="source">
-Similar to merge except `imt`, `icr`, `itetclr` of `mesh2` have the value max(imt(mesh1)) added to `mesh2`.
+```
+This is an inline code block with 3 backticks before and after.
+```
+
+    ```
+    This is an indented inline code block with backticks starting after four space.
+    ```
+
+To display screen output, use the tag <pre class="lg-output"> instead of backtics or other <pre> tags.
+
+<pre class="lg-output">
+This is a block for screen output.
 </pre>
-<div class="rendered">
-<p>Similar to merge except <b>imt</b>, <b>icr</b>, <b>itetclr</b> of <code>mesh2</code> have the value max(imt(mesh1)) added to <code>mesh2</code>.</p>
-</div>
-</div>
 
 ## 4. Linking to Other Pages <a name="linking"></a>
 
@@ -187,25 +166,7 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 </div>
 
 
-## 6. Miscellaneous 
-
-### 6.1 Inline Text Formatting
-
-<div class="markdown-example" id="example-text">
-<pre class="source">
-This is **bold**, *italics*, ~~strikthrough~~, and `code`.
-You can stack these, like:
-**`bold code`**, *`italic code`*, ~~`strikethrough_code`~~.
-</pre>
-<div class="rendered">
-  This is <strong>bold</strong>, <i>italics</i>, <s>strikthrough</s>, and <code>code</code>.
-You can stack these, like:
-
-**`bold code`**, *`italic code`*
-</div>
-</div>
-
-### 6.2 Embedding Images
+## 5. Embedding Images
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
@@ -225,7 +186,7 @@ Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
 </div>
 </div>
 
-## 7. Further Resources <a name="resources"></a>
+## 6. Further Resources <a name="resources"></a>
 
 Markdown supports tables, lists, embedded HTML/Javascript/CSS, images, and more.
 For syntax usage on embedding these elements, a few references can be found below:
