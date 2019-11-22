@@ -86,12 +86,10 @@ This is accomplished in Markdown by:
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-# Page Title #
---------------------
+# Page Title 
 </pre>
 <div class="rendered">
 <h1>Page Title</h1>
-<hr/>
 </div>
 </div>
 
@@ -100,7 +98,7 @@ Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-# My Command #
+# Command 
 --------------------
 
 ## 1. Usage 
@@ -126,8 +124,8 @@ This is the second step to using this command.
 When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
 
 | :---------------------------: | :-------------------------------------------: |
-| **`bold command`**            | <pre class="source">**`bold command`** </pre> |
-| **bold literal**               | <pre class="source">**bold literal** </pre>   |
+| **`bold command`**            | <div class="markdown-example" id="example-text"><pre class="source">**`bold command`** </pre></div> |
+| **bold literal**               | <div class="markdown-example" id="example-text"><pre class="source">**bold literal** </pre> </div>   |
 |   |  |
 
 
