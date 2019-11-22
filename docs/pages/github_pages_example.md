@@ -85,20 +85,28 @@ tags: example, quickstart, style
 </pre>
 </div>
 
-Page titles should use the `h1` header class, note the # character must not have spaces before it.
+Page titles should use the `h1` header class followed by a page line, note the # character must not have spaces in front.
 Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
 
-# COMMAND
+# COMMAND or Page Title
 
-## SYNTAX
+------------------------------------
+
+Page text
+
+## Section Header
+
 </pre>
 <div class="rendered">
-<h1>COMMAND</h1>
-
-<h2>SYNTAX</h2>
+<h1>COMMAND or Page Title</h1>
+<hr>
+  
+Page text
+  
+<h2>Section Header</h2>
 </div>
 </div>
 
