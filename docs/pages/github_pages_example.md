@@ -119,15 +119,16 @@ This is the second step to using this command.
 </div>
 </div>
 
-## 2. Command Formatting <a name="cmdformatting"></a>
+## 2. Formats for Command Syntax <a name="cmdformatting"></a>
 
 When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
 
 | :---------------------------: | :-------------------------------------------: |
-| **`bold command`**            |<pre class="source">**`bold command`** </pre>|
-| **bold literal**               |<pre>**bold literal**</pre>   |
-| **bold literal**               |```**bold literal**</pre>```   |
-|   |  |
+| **`bold command`**            |``` **`bold command`** ```|
+| **bold literal**               |``` **bold literal** ```  |
+| *`italic variable`*               |``` *`italic literal`* ```  |
+| `monospace variable`               |``` `monospace variable` ```   |
+
 
 
 Some formatting is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
@@ -159,14 +160,14 @@ Note how the block in enclosed in the `<pre>` tags.
 
 ## 3. Inline Code <a name="inlinecode"></a>
 
-Similarily to the section above, for sections(s) of code within a larger normally typed paragraph, literal keywords should be bold and all other objects should be unstyled. Mesh objects should be formatted with *`italic monospace`*.
+Similarily to the section above, for sections(s) of code within a larger normally typed paragraph, literal keywords should be bold and all other objects should be unstyled. 
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
-Similar to merge except `imt`, `icr`, `itetclr` of *`mesh2`* have the value `max(imt(mesh1))` added to *`mesh2`*.
+Similar to merge except `imt`, `icr`, `itetclr` of `mesh2` have the value max(imt(mesh1)) added to `mesh2`.
 </pre>
 <div class="rendered">
-<p>Similar to merge except <code>imt</code>, <code>icr</code>, <code>itetclr</code> of <i><code>mesh2</code></i> have the value <code>max(imt(mesh1))</code> added to <i><code>mesh2</code></i>.</p>
+<p>Similar to merge except <b>imt</b>, <b>icr</b>, <b>itetclr</b> of <code>mesh2</code> have the value max(imt(mesh1)) added to <code>mesh2</code>.</p>
 </div>
 </div>
 
