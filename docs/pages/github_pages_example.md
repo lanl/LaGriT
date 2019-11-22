@@ -81,7 +81,7 @@ tags: example, quickstart, style
 </pre>
 </div>
 
-Page titles should use the `h1` header class followed by a horizontal rule.
+Page titles should use the `h1` header class, note the # character must not have spaces before it.
 This is accomplished in Markdown by:
 
 <div class="markdown-example" id="example-text">
@@ -124,8 +124,9 @@ This is the second step to using this command.
 When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
 
 | :---------------------------: | :-------------------------------------------: |
-| **`bold command`**            | <div class="markdown-example" id="example-text"><pre class="source">**`bold command`** </pre></div> |
-| **bold literal**               | <div class="markdown-example" id="example-text"><pre class="source">**bold literal** </pre> </div>   |
+| **`bold command`**            |<pre class="source">**`bold command`** </pre>|
+| **bold literal**               |<pre>**bold literal**</pre>   |
+| **bold literal**               |```**bold literal**</pre>```   |
 |   |  |
 
 
