@@ -121,19 +121,20 @@ This is the second step to using this command.
 
 ## 2. Formats for Command Syntax <a name="cmdformatting"></a>
 
-When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
+When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* for primary mesh objects, etc.
 
-| :---------------------------: | :-------------------------------------------: |
-| **`bold command`**            |``` **`bold command`** ```|
-| **bold literal**               |``` **bold literal** ```  |
-| *`italic variable`*               |``` *`italic literal`* ```  |
-| `monospace variable`               |``` `monospace variable` ```   |
+| :--------------------------- | :------------------------------------ |
+| **`bold command`**            |```**`bold command`**```|
+| **bold literal**              |```**bold literal**```  |
+| `unstyled variable`           |````unstyled variable````|
+| *`italic variable`*           |```*`italic variable`*```|
 
 
 
 Some formatting is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
-Since part of the Markdown specification includes embedded HTML parsing, LaGriT command SYNTAX should be styled as:
+Markdown specification includes embedded HTML parsing. 
 
+LaGriT command SYNTAX should be styled as:
 
 <div class="markdown-example" id="example-text">
 <!--
@@ -142,16 +143,12 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 -->
 <pre class="source">
 &lt;pre&gt;
-&lt;b&gt;addmesh / add&lt;/b&gt; / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
-&lt;b&gt;addmesh / amr&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
-&lt;b&gt;addmesh / append&lt;/b&gt; / mesh3 / mesh1 / mesh2 /
+&lt;b&gt;extract / surfmesh&lt;/b&gt; / 1,0,0 / cmo_out / [cmo_in] / [&lt;b&gt;external&lt;/b&gt;]
 &lt;/pre&gt;
 </pre>
 <div class="rendered">
 <pre>
-<b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
-<b>addmesh / amr</b> / mesh3 / mesh1 / mesh2 /
-<b>addmesh / append</b> / mesh3 / mesh1 / mesh2 /
+<b>extract / surfmesh</b> / 1,0,0 / cmo_out / [cmo_in] / [<b>external</b>]
 </pre>
 </div>
 </div>
