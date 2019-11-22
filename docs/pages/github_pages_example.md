@@ -38,16 +38,48 @@ Style taken from Github's Mastering Markdown document
 
 In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide (draft). Its use should be applied across all commands. See [the ADDMESH page](docs/commands/ADDMESH.md) for an example of it applied.
 
-## Table of Contents ##
+This page uses HTML to format box sections to show raw text and the resulting format. Use 
 
-1. [Page Titles](#pagetitles)
+```
+<div class="markdown-example" id="example-text">
+<pre class="source">
+sample format written to show html text
+</pre>
+<div class="rendered">
+sample format written to show result
+</div>
+</div>
+```
+
+## Table of Contents 
+
+1. [Page Titles and Headers](#pagetitles)
 2. [Command Formatting](#cmdformatting)
 3. [Inline Code](#inlinecode)
 4. [Linking to Other Pages](#linking)
-5. [Formatting Metadata](#metadata)
+5. [Embedding Images](#embeddingimages)
 6. [Further Resources](#resources)
 
-## 1. Page Titles & Headers <a name="pagetitles"></a>
+## 1. Page Headers & Titles <a name="pagetitles"></a>
+
+Each page should contain YAML-formatted metadata at the top of the document.
+See [GitHub's announcement](https://blog.github.com/2013-09-27-viewing-yaml-metadata-in-your-documents/) and a [basic guide on supported tags](https://hackmd.io/s/yaml-metadata#tags).
+
+In general, most metadata will do nothing.
+However, each document should contain at least these specifiers:
+
+1. `title` - this renders as the browser page title, and renders in search
+2. `tags` - this benefits the search functionality as well
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+---
+title: "Example LaGriT Page"
+author: My Name
+tags: example, quickstart, style
+---
+</pre>
+</div>
 
 Page titles should use the `h1` header class followed by a horizontal rule.
 This is accomplished in Markdown by:
@@ -63,6 +95,7 @@ This is accomplished in Markdown by:
 </div>
 </div>
 
+
 Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 
 <div class="markdown-example" id="example-text">
@@ -70,11 +103,11 @@ Subsections should be marked with `h2`, subsubsections with `h3`, etc.
 # My Command #
 --------------------
 
-## 1. Usage ##
-### 1.1 First Step ###
+## 1. Usage 
+### 1.1 First Step 
 This is the first step to using this great command.
 
-### 1.2 Second Step ###
+### 1.2 Second Step 
 This is the second step to using this command.
 </pre>
 <div class="rendered">
@@ -90,10 +123,16 @@ This is the second step to using this command.
 
 ## 2. Command Formatting <a name="cmdformatting"></a>
 
-When rendering LaGriT commands, it is the convention on the LANL website to use **`bold monospaced font`** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
+When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for variable names, mesh objects, etc.
 
-This is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
-Since part of the Markdown specification includes embedded HTML parsing, LaGriT commands should be styled as:
+| :---------------------------: | :-------------------------------------------: |
+| **`bold command`**            | <pre class="source">**`bold command`** </pre> |
+| **bold literal**               | <pre class="source">**bold literal** </pre>   |
+|   |  |
+
+
+Some formatting is difficult to do in pure Markdown, but fortunately very easy to do in HTML.
+Since part of the Markdown specification includes embedded HTML parsing, LaGriT command SYNTAX should be styled as:
 
 
 <div class="markdown-example" id="example-text">
@@ -146,26 +185,6 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 </div>
 </div>
 
-## 5. Formatting Metadata <a name="metadata"></a>
-
-Each page should contain YAML-formatted metadata at the top of the document.
-See [GitHub's announcement](https://blog.github.com/2013-09-27-viewing-yaml-metadata-in-your-documents/) and a [basic guide on supported tags](https://hackmd.io/s/yaml-metadata#tags).
-
-In general, most metadata will do nothing.
-However, each document should contain at least these specifiers:
-
-1. `title` - this renders as the browser page title, and renders in search
-2. `tags` - this benefits the search functionality as well
-
-<div class="markdown-example" id="example-text">
-<pre class="source">
----
-title: "Example LaGriT Page"
-author: My Name
-tags: example, quickstart
----
-</pre>
-</div>
 
 ## 6. Miscellaneous 
 
