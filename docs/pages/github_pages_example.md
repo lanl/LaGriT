@@ -42,14 +42,18 @@ This page uses HTML to format box sections to show raw text and the resulting fo
 
 ```
 <div class="markdown-example" id="example-text">
-<pre class="source">
-sample format written to show html text
+<pre class="source">sample format written to show the raw page text
 </pre>
-<div class="rendered">
-sample format written to show result
+<div class="rendered">sample to show how format will appear on page
 </div>
 </div>
 ```
+<div class="markdown-example" id="example-text">
+<pre class="source">&lt;b&gt;sample&lt;/b&gt; format written to show the raw page text
+</pre>
+  <div class="rendered"><b>sample</b> to show how format will appear on page
+</div>
+</div>
 
 ## Table of Contents 
 
@@ -124,10 +128,10 @@ This is the second step to using this command.
 When rendering LaGriT commands, in general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* for primary mesh objects, etc.
 
 | :--------------------------- | :------------------------------------ |
-| **`bold command`**            |```**`bold command`**```|
-| **bold literal**              |```**bold literal**```  |
-| `unstyled variable`           |````unstyled variable````|
-| *`italic variable`*           |```*`italic variable`*```|
+| **`bold command`**            |``` **`bold command`** ```|
+| **bold literal**              |``` **bold literal** ```  |
+| `unstyled variable`           |``` `unstyled variable` ```|
+| *`italic variable`*           |``` *`italic variable`* ```|
 
 
 
@@ -143,12 +147,12 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 -->
 <pre class="source">
 &lt;pre&gt;
-&lt;b&gt;extract / surfmesh&lt;/b&gt; / 1,0,0 / cmo_out / [cmo_in] / [&lt;b&gt;external&lt;/b&gt;]
+&lt;b&gt;extract/surfmesh&lt;/b&gt;/1,0,0/cmo_out/ [cmo_in] [&lt;b&gt;external&lt;/b&gt;]
 &lt;/pre&gt;
 </pre>
 <div class="rendered">
 <pre>
-<b>extract / surfmesh</b> / 1,0,0 / cmo_out / [cmo_in] / [<b>external</b>]
+<b>extract/surfmesh</b>/1,0,0/cmo_out/ [cmo_in] [<b>external</b>]
 </pre>
 </div>
 </div>
