@@ -4,17 +4,24 @@ Operation to set mesh object attribute values.
 
 ## SYNTAX
 
-**cmo / setatt** /mo_name / attribute_name /ifirst,ilast,istride/ value
+<pre>
 
-- mo_name is the name of the mesh oject to set values
+<b>cmo/setatt</b> / mo_name / attribute_name /ifirst,ilast,istride/ value
 
-- attribute_name is the name in the mesh object to operate on
+<b>cmo/setatt</b> / mo_name / attribute_name / value
 
-- ifirst,ilast,istride is the selection, default 1,0,0 will operate on all members of the attribute. The node or element set syntax can be used instead of the integer range. See **`pset`** and **`eltset`** commands.
+</pre>
 
-- value is type integer or real depending on the type of the attribute.
-Sets the value of the specified attribute in the given range to the
-supplied value.
+
+`mo_name` is the name of the mesh oject to set values
+
+`attribute_name` is the name in the mesh object to operate on
+
+`ifirst,ilast,istride` is the selection where 1,0,0 will operate on all members of the attribute. The node or element set syntax can be used instead of the integer range. See **`pset`** and **`eltset`** commands.
+If the range selection is not present, all members are applied.
+
+`value` is type integer or real depending on the type of the attribute.
+The `value` is assigned to the selected range of `attribute_name'.
 Note: This command requires that the mesh contains one or more nodes.
 
 
@@ -34,3 +41,11 @@ Will set all elements of attribute itetclr and in the element set 'blue' to have
 cmo/setatt // ndimensions_geom/ 2
 ```
 Will reset the ndimensions geometry attribute of the active mesh object to 2
+
+```
+define ATT_RESET xfield
+
+cmo/setatt/ -def- / ATT_RESET /pset,get,p_reset/ 0.0d0                               
+```
+The attribute name is defined in a variable call ATT_RESET. The value zero is assigned to the selected **p_reset** node selection. This will operate on the current and active mesh object, use **cmo/select** to make a mesh object current. 
+
