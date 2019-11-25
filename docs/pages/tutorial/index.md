@@ -49,22 +49,34 @@
 
 <br/><br/>
 
-<h1 class="uk-heading-line"><span>Examples</span></h1>
 
-<!-- Cards for Example commands, utility, and workflow  -->
+
+<h1 class="uk-heading-line"><span>Examples</span></h1>
+<!-- Types are tutorial, demo, utility, commands in order from most complex to simple -->
+
+<p>
+The following examples are grouped according to the level of complexity. See command pages for more examples.
+<b>Commands</b> are examples similar to command pages showing a few lines for syntax and usage. 
+<b>Utility</b>  is  a set of command segments for a particular purpose. 
+<b>Demo</b> is a full set of commands from start to finish demonstrating a particular method.
+<b>Tutorial</b> is a full set of files and commands involving many steps to achieve a final mesh. 
+</p>
+
+<!-- Cards for Example commands, utility, and demo, tutorial  -->
 <div uk-filter="target: .js-filter">
 
     <ul class="uk-subnav uk-subnav-pill">
         <li class="uk-active" uk-filter-control><a href="#">All</a></li>
         <li uk-filter-control="[data-color='command']"><a href="#">Commands</a></li>
         <li uk-filter-control="[data-color='utility']"><a href="#">Utility</a></li>
-        <li uk-filter-control="[data-color='workflow']"><a href="#">Workflow</a></li>
+        <li uk-filter-control="[data-color='demo']"><a href="#">Demo</a></li>
+        <li uk-filter-control="[data-color='tutorial']"><a href="#">Tutorial</a></li>
     </ul>
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
 
-<!-- workflow cards -->
+<!-- demo cards -->
 
-       <li data-color="workflow">
+       <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -77,7 +89,7 @@
             </div>
         </li>
 
-        <li data-color="workflow">
+        <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -90,7 +102,7 @@
             </div>
         </li>
 
-	<li data-color="workflow">
+	<li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -103,7 +115,7 @@
             </div>
         </li>
 
-        <li data-color="workflow">
+        <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -116,7 +128,7 @@
             </div>
         </li>
 
-        <li data-color="workflow">
+        <li data-color="tutorial">
             <div>
                 <a href="{{ "/pages/tutorial/workflow/regions_points_to_tet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">

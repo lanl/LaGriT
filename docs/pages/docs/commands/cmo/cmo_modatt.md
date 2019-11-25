@@ -1,109 +1,132 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4. [en] (X11; U; IRIX 6.5 IP32) [Netscape]'
+title: cmo modatt 
+tags: cmo, modatt, attibute
 ---
 
-   
+# CMO/MODATT
 
- ** modatt**/ mo\_name/att\_name/field\_name/new\_field/
+Modifies a field for a mesh object attribute.
+For more descriptions of the mesh object attributes, see [Mesh Object Definition](docs/meshobject.md)
 
- Modifies the field field\_name for attribute att\_name in Mesh Object
- mo\_name.
+<pre>
+<b>modatt</b>/ cmo_name/ cmo_att_name /cmo_field_name/ new_values
+</pre>
 
-  mo\_name required.
 
-  att\_name required.
+`cmo_name` is the mesh object name. 
 
-  field\_name is type character, required
+`cmo_att_name` is the mesh object attribute. 
 
-  new\_field is the type of the field, required
+`cmo_field_name` is type character, required
 
-  Field\_names (may be lower or upper case):
+`new_values` is new field or fields as appropriate for that field. 
 
-  --------------------- --------------------------------------------------------------------------------------------
-  **name** -            (character) Attribute name 
 
-  t**ype -**            character) Attribute type
 
-                        **INT**- Integer
+## Mesh Object Fields
 
-                        **REAL** - Real number
 
-                        **CHARACTER** - character variable of length 32
+**`name`**            (character) Attribute name
 
-                        **VINT** - Vector of integer 
 
-                        **VDOUBLE** - Vector of real
-*8 (this is the default)
+**`type`**            (character) Attribute type
 
-                        **VCHAR** - Vector of character
-*32
+- **INT** Integer number
 
-  **rank** -            (character) Attribute rank (must be an attribute for this Mesh object)  default is scalar
+- **REAL**  Real number
 
-  **length** -          (character) Attribute length (must be an attribute for this Mesh object) default is nnodes
+- **CHARACTER**  character variable of length 32
 
-  **interpolation** -   (character) Interpolation option: 
+- **VINT**  Vector of integer
 
-  onstant** -        Constant value 
+- **VDOUBLE**  Vector of real *8 (this is the default)
 
-  **sequence** -        Set to the node number
+- **VCHAR**  Vector of character *32
 
-  opy** -            Copy values
 
-  **linear** -          Linear interpolation  - this is the default
 
-   **user** -           User provides a subroutine named user\_interpolate ([see IV. e.8](../../miscell.md))
+**`rank`**            (character) Attribute rank (must be an attribute for this Mesh object), default is scalar
 
-  **log** -             Logarithmic interpolation
 
-  **asinh** -           Asinh interpolation
+**`length`**          (character) Attribute length (must be an attribute for this Mesh object), default is nnodes
 
-  ** min** -             Set to the minimum
 
-  ** max** -             Set to the maximum
+**`interpolation`**    (character) Interpolation option:
 
-  **incmin** -          Set to the minimum plus one (vint attribute only)
+- **constant**        Constant value
 
-  **incmax** -          Set to the maximum plus one (vint attribute only)
+- **sequence**        Set to the node number
 
-  **and** -             'and' the bits
+- **copy**           Copy values
 
-  **or** -              'or' the bits
+- **linear**       Linear interpolation, this is the default
 
-  **persistence** -     (character) Attribute persistence:
+- **user**           User provides a subroutine named user_interpolate
 
-  **permanent -**       Can not be deleted 
+- **log**             Logarithmic interpolation
 
-  emporary** -       Temporary attribute - this is the default
+- **asinh**           Asinh interpolation
 
-  **ioflag** -          (character) Attribute IO flag:
+- **min**           Set to the minimum
 
-                        default is **ag**
+- **max**              Set to the maximum
 
-  **a **                Put this attribute on avs dumps
+- **incmin**           Set to the minimum plus one (vint attribute only)
 
-  **g **                Put this attribute on gmv dumps
+- **incmax**           Set to the maximum plus one (vint attribute only)
 
-  **f**                 Put this attribute on fehm dumps 
+- **and**              'and' the bits
 
-  **l**                 Put this attribute on LaGriT dumps
+- **or**             'or' the bits
 
-  **L**                 Do not write this attribute to LaGriT dumps
 
-  ** default**          (real) Attribute value
-  --------------------- --------------------------------------------------------------------------------------------
 
- 
+**`persistence`**      (character) Attribute persistence:
 
- ** ** **EXAMPLES:**
+- **permanent**       Can not be deleted.
 
-  mo/modatt**/ mo\_tet2/boron**/length**
+- **temporary**        Temporary attribute, this is the default
 
-  mo/modatt/-cmo-**/boron**/length/nnodes**
 
-  mo/modatt/-cmo-**/boron**/default**/10.0
 
-  mo/modatt/-def-**/boron**/default**/10.0
+**`ioflag`**         (character) Attribute IO flag: default is **agl** (avs,gmv, and lagrit)
 
-  mo/modatt**/-def-boron**/interp/user**
+- **a**                Put this attribute on avs dumps
+
+- **g**                Put this attribute on gmv dumps
+
+- **f**                 Put this attribute on fehm dumps
+
+- **l**                 Put this attribute on LaGriT dumps
+
+- **L**                 Do not write this attribute to LaGriT dumps
+
+
+**`default`**          (real) Attribute value
+
+
+
+
+## EXAMPLES
+
+```
+define CMO cmo1
+cmo / modatt / CMO / itp1 / ioflag / l
+cmo / modatt / CMO / icr1 / ioflag / l
+cmo / modatt / CMO / isn1 / ioflag / l
+```
+This is often used to reduce the amount of data written to an AVS format file. By default, the attributes **imt,itp,icr,isn** are written to the file.If not needed, modify the IO output so attributes will not be written unless it is an **l** type for lagrit file formats.
+This example uses a define variable to set the mesh object variable CMO to "cmo1". Note the command parser recogizes these AVS attribute names with or without the letter "1" on the name.
+
+
+```
+cmo/select/ mo_tet
+
+cmo/modatt/-cmo-/boron/length/ nnodes
+
+cmo/modatt/-def-/boron/default/ 10.0
+
+cmo/modatt/-def-/boron/interp/ user
+```
+These set of commands are used to modify the attribute "boron" in the mesh object named "mo_tet". 
+The attribute length is changed from **nelements** to **nnodes**. The default value is set to 10. and the interpolation type is set to **user**.
