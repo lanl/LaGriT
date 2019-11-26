@@ -24,9 +24,9 @@ See Examples below for more on writing ExodusII files with LaGriT.
 <pre>
 <b>dump/exo</b>/file_name/cmo_name 
 
-<b>dump/exodusii</b>/file_name/mo_name 
+<b>dump/exodusii</b>/file_name/cmo_name 
 
-<b>dump/exo</b>/file_name/mo_name [<b>psets</b>] / [<b>eltsets</b>] / [<b>facesets</b> file1 file2 ... filen ]
+<b>dump/exo</b>/file_name/cmo_name [<b>psets</b>] / [<b>eltsets</b>] / [<b>facesets</b>]  [file1 file2 ... filen ]
 </pre>
 
 `file_name` and `cmo_name` are the names of the ExodusII file and mesh object to write.
@@ -41,16 +41,14 @@ The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) as
 **`facesets`** `file1 file2 ... filen`
 If face set information is being provided from files (file1 file2 ... filen) the format of the file is written in AVS UCD cell
 attribute format. The first column is the global cell number (**idelem1**), the second column is the local face number (**idface1**).
+Listing file facesets avoids automatic facesets generated for all psets and eltsets. Only the facesets in the
+files listed in the command will be used to define facesets.
+See examples below.
 
 LIMIT ON FILENAMES: If a command line maximum length is 16384 characters, and if the faceset file names have 12 characters (face0001.inp), you can run dump/exo with about 1300 faceset files before running out of command line space. 
 
 
-Dump ExodusII file with face set information
-where face set information is read from files. This avoids automatic
-facesets generated for all psets and eltsets. Only the facesets in the
-files listed in the command will be used to define facesets.
-
-**`facesets`** / (no file list) Dump ExodusII file with face sets (ExodusII  side sets).  If no faceset files are listed, the face sets will be automatically generated.  Note facesets will be created for all the nodes in each pset, and for all elements in each eltset. This can generate a large number of facesets.
+**`facesets`**  `(no file list)` Dump ExodusII file with face sets (ExodusII  side sets).  If no files are listed, the face sets will be automatically generated.  Note facesets will be created for all the nodes in each pset, and for all elements in each eltset. This can generate a large number of facesets.
 
 
 
@@ -61,10 +59,9 @@ files listed in the command will be used to define facesets.
 createpts / median
 sort / MO_MESH / index / ascending / ikey / itetclr xmed ymed zmed
 reorder / MO_MESH / ikey
-
 dump/exo/hex.exo / MO_MESH 
 ```
-ExodusII will sort elements by their block ID (element itetclr value), do a pre-sort so element numbering is consistent with the written ExodusII file.  This example calls the sort command using the element itetclr values and element  median points (xmed, ymed, zmed). 
+ExodusII will sort elements by their block ID (element itetclr value), do a pre-sort so element numbering is consistent with the written ExodusII file.  This example calls the sort command using the element itetclr values and element  median points (xmed, ymed, zmed). The **reorder** command will order the elements based on the **ikey** ordering. 
 No vertex set, element set or face sets are written for this mesh.
 
 
@@ -73,7 +70,7 @@ dump/exo/ prism_fs.exo / moprism / / / facesets &
   fs_001.faceset, fs_002.faceset, fs_003.faceset, fs_004.faceset & 
   fs_005.faceset, fs_006.faceset, fs_007.faceset 
 ```
-Write an ExodusII file for a prism mesh with 7 facesets defined.
+Write an ExodusII file for a prism mesh with 7 facesets as defined in 7 AVS attribute files. 
 
 
 ```
@@ -92,7 +89,7 @@ The third line writes an ExodusII file with a element set, no vertex set, and no
 This Demo includes a full set of input files to create a stacked mesh, define boundary facesets, and write the ExodusII file.
 
 <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" width="250" alt=""> 
-<a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">Example Stack facesets from Boundary Polygon </a> 
+<a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">Demo Stack facesets from Boundary Polygon </a> 
 
 
 ### DEMO EXODUSII FACESET FILES ON CUBE
@@ -101,11 +98,13 @@ This Demo includes a full set of input files to create a stacked mesh, define bo
 The following creates a cube shaped hex mesh then writes an ExodusII file with top and bottom facesets.
 
 
+<img src="docs/demos/output/write_cube_exo_facesets.png" width="250" alt=""> 
 Input LaGriT command file [write_cube_exo_facesets.lgi](docs/demos/input/write_cube_exo_facesets.lgi.txt)
 
-The hex mesh is created with **`createpts`** and assigned 2 materials to the itetclr array. The mesh elements are sorted by the itetclr values and median xmed, ymed, zmed points. This will ensure that element and face numbers are consistent with ExodusII requirements.
 
-After **`sort`** and **`reorder`** the mesh boundary faces are extracted into a mesh object using [**`extract/surfmesh`**](docs/commands/dump/EXTRACT_SURFMESH.md) The surface mesh is subset into regions representing the top, bottom, and side boundaries defined by the 6 normal directions set by command **`settets/normal`** where **itetclr** is set to 1 (down), 2 (up), 3 (right), 4 (back), 5 (left), and 6 (front).
+The hex mesh is created with **createpts** and assigned 2 materials to the itetclr array. The mesh elements are sorted by the itetclr values and median xmed, ymed, zmed points. This will ensure that element and face numbers are consistent with ExodusII requirements.
+
+After **sort** and **reorder** the mesh boundary faces are extracted into a mesh object using [**`extract/surfmesh`**](docs/commands/dump/EXTRACT_SURFMESH.md) The surface mesh is subset into regions representing the top, bottom, and side boundaries defined by the 6 normal directions set by command **settets/normal** where **itetclr** is set to 1 (down), 2 (up), 3 (right), 4 (back), 5 (left), and 6 (front).
 
 ```
 # Get top faces and write faceset file
@@ -220,45 +219,46 @@ This command file is an example for writing **`psets/eltsets`**, both defined in
 Note all psets and eltsets defined in the mesh object will be written to the ExodusII file.
 
 ```
-dump/exo/test2D_tri_pset_eltset.exo/motri / psets / eltsets /     
+dump/exo/out_2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
 
 ```
 
 <pre class="lg-output">
 
-ExodusII: Start writing to file: out_2D_tri_eltset.exo using cmo: motri  
+ExodusII: Start writing to file: out_2D_tri_pset_eltset.exo using cmo: motri 
  
-Title: LAGRIT TO EXODUSII   
-number of dimension:               2
-number of nodes:                  16
-number of elements:               18
-number of edges:                   0
-number of edge blocks:             0
-number of element blocks:          3
-number of face blocks:             0
-number of node sets:               0
-number of edge sets:               0
-number of element sets:            3
-number of side sets:               0
-number of face sets:               0
-number of node maps:               0
-number of edge maps:               0
-number of face maps:               0
-number of element maps:            0                                            
-
-
-WRITING EXODUS ELEMENT SETS:      3 sets in total 
-
-                      Elemset Names           Set ID     # elements in set   
-Done writing set no. 1 to ExodusII file 
-                              e1                1             9   
-Done writing set no. 2 to ExodusII file 
-                              e2                2             3   
-Done writing set no. 3 to ExodusII file 
-                              e3                3             6   
+Title: LAGRIT TO EXODUSII                              
+number of dimension:               2                    
+number of nodes:                  16                     
+number of elements:               18                      
+number of edges:                   0                       
+number of edge blocks:             0                        
+number of element blocks:          3                         
+number of face blocks:             0                          
+number of node sets:               3                           
+number of edge sets:               0                            
+number of element sets:            3                             
+number of side sets:               0                              
+number of face sets:               0                               
+number of node maps:               0                                
+number of edge maps:               0                                 
+number of face maps:               0                                  
+number of element maps:            0                                   
  
-ExodusII: Done writing to ExodusII file: out_2D_tri_eltset.exo using cmo: motri 
-
+WRITING EXODUS NODE SETS:         3 sets in total                           
+                   Nodeset Names              Set ID           # nodes in set
+                              p1                   1                       13
+                              p2                   2                        7
+                              p3                   3                       11
+ 
+WRITING EXODUS ELEMENT SETS:         3 sets in total                            
+                   Elemset Names              Set ID        # elements in set 
+                              e1                   1                        9
+                              e2                   2                        3 
+                              e3                   3                        6  
+ 
+ExodusII: Done writing to ExodusII file: out_2D_tri_pset_eltset.exo using cmo: motri
+ 
 </pre>
 
 Using **ncdump** command,  the binary ExodusII file can be converted for viewing the psets (node_ns) and eltsets (elem_els):
