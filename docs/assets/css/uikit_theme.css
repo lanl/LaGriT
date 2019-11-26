@@ -49,11 +49,15 @@ strong {
 :not(pre)>kbd,
 :not(pre)>samp {
     font-family: 'Roboto Mono', monospace;
-    font-size: 12px;
-    color: #f0506e;
+    font-size: 17px;
+    color: #5E5E5E;
     white-space: nowrap;
     padding: 2px 6px;
     background: #f8f8f8
+}
+
+strong code {
+    color: #f0506e;
 }
 
 em {
