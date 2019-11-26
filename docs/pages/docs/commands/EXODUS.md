@@ -98,8 +98,8 @@ This Demo includes a full set of input files to create a stacked mesh, define bo
 The following creates a cube shaped hex mesh then writes an ExodusII file with top and bottom facesets.
 
 
-<img src="docs/demos/output/write_cube_exo_facesets.png" width="250" alt=""> 
-Input LaGriT command file [write_cube_exo_facesets.lgi](docs/demos/input/write_cube_exo_facesets.lgi.txt)
+<img src="https://lanl.github.io/LaGriT/pages/docs/demos/output/write_cube_exo_facesets.png" width="250" alt=""> 
+Input LaGriT command file [write_cube_exo_facesets.lgi](https://lanl.github.io/LaGriT/pages/docs/demos/input/write_cube_exo_facesets.lgi.txt)
 
 
 The hex mesh is created with **createpts** and assigned 2 materials to the itetclr array. The mesh elements are sorted by the itetclr values and median xmed, ymed, zmed points. This will ensure that element and face numbers are consistent with ExodusII requirements.
@@ -213,7 +213,7 @@ ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex
 
 ### DEMO USING PSETS AND ELTSETS
 
-Input LaGriT command file [write_exo_pset_eltset.lgi](docs/demos/input/exo_pset_eltset.lgi.txt)
+Input LaGriT command file [write_exo_pset_eltset.lgi](https://lanl.github.io/LaGriT/pages/docs/demos/input/exo_pset_eltset.lgi.txt)
 
 This command file is an example for writing **`psets/eltsets`**, both defined in the mesh object before writing the file.
 Note all psets and eltsets defined in the mesh object will be written to the ExodusII file.
