@@ -15,6 +15,13 @@ body {
     margin: 0
 }
 
+a>strong,
+a>code {
+    text-decoration: underline;
+    text-decoration-color: #DE5C70;
+    text-decoration-thickness: 2px;
+}
+
 a:active,
 a:hover {
     outline: none
@@ -23,7 +30,6 @@ a:hover {
 a,
 .uk-link {
     color: #1e87f0;
-    text-decoration: none;
     cursor: pointer
 }
 
