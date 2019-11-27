@@ -15,7 +15,8 @@ body {
     margin: 0
 }
 
-a>strong {
+a>strong,
+a>code {
     text-decoration: underline;
     text-decoration-color: #DE5C70;
     text-decoration-thickness: 2px;
