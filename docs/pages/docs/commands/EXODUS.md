@@ -5,11 +5,13 @@ tags: dump, exo, exodus, sort
 
 # DUMP / EXO
 
+-------------------
+
 Write a mesh object to a file in the ExodusII format. 
 This command can be used to define ExodusII blocks (itetclr), node sets (psets), element sets (eltsets), and side sets (facesets).
 The facesets are commonly used to define faces on the external mesh to define boundary conditions.
 
-The command [**`extract/surfmesh`**](docs/commands/dump/EXTRACT_SURFMESH.md) can be used to extract the mesh boundary surface and create the faceset attributes to define in an ExodusII mesh file.
+The command [**`extract/surfmesh`**](https://lanl.github.io/LaGriT/pages/docs/commands/dump/EXTRACT_SURFMESH.md) can be used to extract the mesh boundary surface and create the faceset attributes to define in an ExodusII mesh file.
 
 
 NOTE: ExodusII requires that elements are ordered by their block ID (element itetclr value). 
@@ -84,13 +86,17 @@ The second line writes an ExodusII file with vertex set, and no element set and 
 The third line writes an ExodusII file with a element set, no vertex set, and no face set.
 
 
+<hr>
+
 ### DEMO EXODUSII WITH FACESET FILES ON BOUNDARY
 
 This Demo includes a full set of input files to create a stacked mesh, define boundary facesets, and write the ExodusII file.
 
 <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" width="250" alt=""> 
-<a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">Demo Stack facesets from Boundary Polygon </a> 
+Demo Web Pages: <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">ExodusII face sets from Boundary Polygon </a> 
 
+
+<hr>
 
 ### DEMO EXODUSII FACESET FILES ON CUBE
 
@@ -98,13 +104,13 @@ This Demo includes a full set of input files to create a stacked mesh, define bo
 The following creates a cube shaped hex mesh then writes an ExodusII file with top and bottom facesets.
 
 
-<img src="https://lanl.github.io/LaGriT/pages/docs/demos/output/write_cube_exo_facesets.png" width="250" alt=""> 
-Input LaGriT command file [write_cube_exo_facesets.lgi](https://lanl.github.io/LaGriT/pages/docs/demos/input/write_cube_exo_facesets.lgi.txt)
+<img src="https://lanl.github.io/LaGriT/pages/docs/demos/output/write_cube_exo_facesets.png" width="200" alt=""> 
+Input LaGriT command file: [write_cube_exo_facesets.lgi](https://lanl.github.io/LaGriT/pages/docs/demos/input/write_cube_exo_facesets.lgi.txt)
 
 
 The hex mesh is created with **createpts** and assigned 2 materials to the itetclr array. The mesh elements are sorted by the itetclr values and median xmed, ymed, zmed points. This will ensure that element and face numbers are consistent with ExodusII requirements.
 
-After **sort** and **reorder** the mesh boundary faces are extracted into a mesh object using [**`extract/surfmesh`**](docs/commands/dump/EXTRACT_SURFMESH.md) The surface mesh is subset into regions representing the top, bottom, and side boundaries defined by the 6 normal directions set by command **settets/normal** where **itetclr** is set to 1 (down), 2 (up), 3 (right), 4 (back), 5 (left), and 6 (front).
+After **sort** and **reorder** the mesh boundary faces are extracted into a mesh object using [**`extract/surfmesh`**](https://lanl.github.io/LaGriT/pages/docs/commands/dump/EXTRACT_SURFMESH.md) The surface mesh is subset into regions representing the top, bottom, and side boundaries defined by the 6 normal directions set by command **settets/normal** where **itetclr** is set to 1 (down), 2 (up), 3 (right), 4 (back), 5 (left), and 6 (front).
 
 ```
 # Get top faces and write faceset file
@@ -210,6 +216,7 @@ ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex
 </pre>
 
 
+<hr>
 
 ### DEMO USING PSETS AND ELTSETS
 

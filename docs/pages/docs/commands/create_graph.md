@@ -1,9 +1,20 @@
 ---
 title: CREATE_GRAPH
-tags: ok
+tags: create_graph, adjacency, dual graph
 ---
 
-**CREATE\_GRAPH**
+# CREATE_GRAPH (MAY NOT WORK ON 64 bit MACHINES)
+
+-------------------------
+
+## SYNTAX
+
+<pre>
+<b>create_graph / metis</b> / [node  dual] / [nxadj] / [nadjncy]
+
+<b>create_graph/ lagrit</b> / dual / jtetoff / jtet   `
+</pre>
+
 
  Create a node or dual (element) adjacency graph. If node option is
  selected, the graph of node adjacency is created, if dual option is
@@ -19,7 +30,6 @@ tags: ok
  The default name of the attributes that are created are different
  depending on which option (metis or lagrit) is used.
 
- `create_graph / metis / [node  dual] / [nxadj] / [nadjncy]  create_graph/ lagrit / dual / jtetoff / jtet   `
 
  See the [dump](DUMP2.md) command for options to output the adjacency
  graph to a file.`   `
@@ -36,6 +46,8 @@ tags: ok
 
  See instructions in documentation of the [metis](metis.md) command.
 
+
+
 METIS Interface to LaGriT
 
  METIS can be freely distributed provided that:
@@ -47,9 +59,7 @@ METIS Interface to LaGriT
 -   The original documentation <a href="http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/manual.pdf">  (download PDF file of manual) </a> and copyright notice is included
 -   METIS 4.0 Copyright 2001-06, Regents of the University of Minnesota
 
-**FORMAT:**
 
-create_graph / metis / [node  dual] / [nxadj] / [nadjncy]
 
 **EXAMPLES:**
 

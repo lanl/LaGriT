@@ -1,11 +1,29 @@
 ---
 title: DOPING
-tags: ok
+tags: doping, deprecrated
 ---
 
-**DOPING**
+# DOPING (replaced with  [INTERPOLATE](docs/commands/main_interpolate.md))
 
-  Interpolates between mesh object attributes or assigns values to a
+--------------------
+
+# SYNTAX
+
+<pre>
+**doping**/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
+
+**doping**/gaussian/field_out/set|add|sub/ ifirst,ilast,istride/ xyz/x1,y1,z1/x2,y2,z2/lateral_diffusion/ concentration/standard_deviation/ 
+
+**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh] 
+
+**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh]/ [geom_out/geom_ref] 
+
+**doping**/integer1/imt1/set/ifirst,ilast,istride/cmo_ref /imt1/min|max 
+
+**doping**/integer2/field_out2/set/ifirst,ilast,istride/cmo_ref/attr_ref/min|max|minp|maxp/[create|use]
+</pre>
+
+Interpolates between mesh object attributes or assigns values to a
   mesh object attribute.
 
   Options **constant** and **gaussian** assign values to a mesh object
@@ -87,18 +105,8 @@ and where
   unpredictable at interface boundaries because the value of parent
   nodes are unpredictable there.
  
-  **FORMAT:**
  
-**doping**/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
-**doping**/gaussian/field_out/set|add|sub/ ifirst,ilast,istride/ 
-xyz/x1,y1,z1/x2,y2,z2/lateral_diffusion/ concentration/standard_deviation/ 
-**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh] 
-**doping**/table/field_out/set|add|sub/cmo_ref/attr_ref/[linear|log|asinh]/ [geom_out/geom_ref] 
-**doping**/integer1/imt1/set/ifirst,ilast,istride/cmo_ref /imt1/min|max 
-**doping**/integer2/field_out2/set/ifirst,ilast,istride/cmo_ref/attr_ref/ 
-min|max|minp|maxp/[create|use]
- 
-  EXAMPLE:
+## EXAMPLES
  
        doping/constant/density/set/pset,get,mypset/9.73 
 

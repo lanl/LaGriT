@@ -1,9 +1,20 @@
+---
+title: FILTER/ELEMENT 
+tags: filter element 
+---
 
- **FILTER/ELEMENT**
 
-  **FORMAT**:
-  **filter**/[element]/[search\_range]/[**nodelete**|[**delete**]
+# FILTER/ELEMENT
+
+--------------------
+
+## SYNTAX
+
+<pre>
+<b>filter</b>/[ <b>element</b>]/[search_range]/[<b>nodelete</b>|[<b>delete</b>]
+</pre>
   
+
   Search a mesh object for duplicate elements. A duplicate element is
   defined as having the exact same set of nodes in the element
   connectivity list (itet). The order of the nodes in the connectivity

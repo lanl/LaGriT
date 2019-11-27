@@ -1,6 +1,6 @@
 ---
 title: ADDMESH
-tags: ok
+tags: addmesh merge amr append glue excavate 
 --- 
 
 # ADDMESH #
@@ -10,7 +10,17 @@ tags: ok
 This routine joins two meshes together at their common interface to
 produce a third mesh.
 
-## FORMAT: ##
+Some operations may only work with tet meshes.
+
+NOTE: Care must be taken when using these commands because nothing is
+done to clean up the point type (itp) array after the **addmesh**
+operation. The user must often execute a series of
+[**resetpts/itp**](RESETPT.md) and [**filter**](FILTER.md)
+
+
+
+
+## SYNTAX 
 
 <pre>
 <b>addmesh / add</b> / mesh3 / mesh1 / mesh2 / [refine_factor] / [tet edge]
@@ -28,7 +38,6 @@ produce a third mesh.
 
 <br>
 
-## DOCUMENTATION: ##
 
  **`add`** - Find the intersection of mesh1 and mesh2. Refine mesh1 where
  it overlaps mesh2 using the following criteria. `refine_factor`
@@ -94,15 +103,6 @@ produce a third mesh.
  and then a `connect`, to produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).
 
-----------------------------------------------------------------
-
-> NOTE: Care must be taken when using these commands because nothing is
-> done to clean up the point type (itp) array after the **addmesh**
-> operation. The user must often execute a series of
-> [**resetpts/itp**](RESETPT.md) and [**filter**](FILTER.md)
-> commands to get the final desired result.
-
-> NOTE: Some operations may only work with tet meshes.
 
 * [Click here for demos](../demos/index.md)
 

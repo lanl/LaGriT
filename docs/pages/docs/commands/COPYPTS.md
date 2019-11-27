@@ -1,9 +1,11 @@
 ---
 title: COPYPTS
-tags: ok
+tags: copypts, copy
 ---
 
-**COPYPTS**
+# COPYPTS
+
+---------------------
 
   Copy a point distribution. There are two distinct forms of this
   command. The first format is designed to copy points from one mesh
@@ -28,42 +30,61 @@ tags: ok
   that the first form of the command gives the arguments sink first
   then source whereas the second form gives the source then the sink.
 
- **FORMAT:**
 
-  
+## SYNTAX
 
-  **copypts**/sink\_cmo/source\_cmo/1st\_sink\_point/sink\_stride/1st\_source\_point/last\_source\_point/
+<pre>
+<b>copypts</b>/sink_cmo/source_cmo/sink_range/ src_range /source_attribute_name
 
-  source\_stride/sink\_attribute\_name/source\_attribute\_name
+<b>copypts</b>/sink_cmo/source_cmo/sink_range/ src_range 
 
-  **copypts**/1st\_source\_point/last\_source\_point/source\_stride/1st\_sink\_point/sink\_stride
+<b>copypts</b>/ range 
+</pre>
 
-  **copypts** /1st\_point/last\_point/stride
+`sink_cmo` is the name of mesh object to copy points into.
 
- **EXAMPLES:**
+`source_cmo` is the name of mesh object to copy points from.
+
+`range` is the convention using numbers representing ifirst,istride,iend for a set selection.
+The range given as 1,0,0 means all are selected.
+
+
+
+
+## EXAMPLES
  
-       copypts/3dmesh/2dmesh/
+```
+copypts/3dmesh/2dmesh/
+```
        
   Copy all points in 2dmesh to the end of the 3dmesh point list.
   
-       copypts/3dmesh/2dmesh/0,0/pset,get,mypoints/
+```
+opypts/3dmesh/2dmesh/0,0/pset,get,mypoints/
+```
        
   Copy the point set named mypoints from 2dmesh to the end of
   3dmesh point list.
   
-       copypts/3dmesh/2dmesh/100,4/pset,get,mypoints/boron/arsenic/
+```
+opypts/3dmesh/2dmesh/100,4/pset,get,mypoints/boron/arsenic/
+```
   
   Copy the arsenic field from the point set named mypoints
   from 2dmesh replacing the boron field at every fourth point
   beginning at point 100 in 3dmesh. 
   
-        copypts/pset,get,mypoints/0,0/
+```
+copypts/pset,get,mypoints/0,0/
+```
         
   Duplicate the point set named mypoints from the current mesh
   object and place the duplicated points at the end of the point
   list.
   
-        copypts/0,0/pset,get,mypoints/
+```
+copypts/0,0/pset,get,mypoints/
+```
         
   Duplicate the point set named mypoints from the current mesh object
   and place the duplicated points at the end of the point list. Same

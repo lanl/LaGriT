@@ -1,9 +1,16 @@
+---
+title: FILTER 
+tags: filter, filterkd, filter element 
+---
 
- **FILTERKD**
 
- **FILTER**
+# FILTERKD
 
- **FILTER/ELEMENT**
+# FILTER
+
+# FILTER/ELEMENT
+
+----------------------------
 
   This command is used to filter (mark for deletion) a set of nodes
   that are geometricly close, within the tolerance value. This command

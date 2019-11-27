@@ -2,13 +2,15 @@
 
 
  The objective is to stack quad surfaces into a hex mesh then convert each hex element into 5 tets using
- **grid2grid/hextotet5**
+ **`grid2grid/hextotet5`**
 
-Use of **hex2tet** to convert a 3D mesh to a tetrahedral mesh will in general result in a non-Delaunay tetrahedral mesh. 
+Use of **hex2tet5** to convert a 3D mesh to a tetrahedral mesh will in general result in a non-Delaunay tetrahedral mesh. 
 If the ultimate goal is a Delaunay mesh,  use the connect command, see Examples at [connect 3D](main_connect.md) and [connect 2D](main_2d_connect.md).
 
-<a href="output/wave_hex_lines.png" >Stacked Hex Mesh <img width="250" src="output/wave_hex_lines.png"> </a>
-<a href="output/wave_hextotet5_tet_edges.png" >Output Tet Mesh <img width="250" src="output/wave_hextotet5_tet_edges.png"> </a>
+Input Stacked Hex Mesh    Output Hex to 5 Tet Mesh
+
+<a href="output/wave_hex_lines.png" > <img width="250" src="output/wave_hex_lines.png"> </a>
+<a href="output/wave_hextotet5_tet_edges.png" > <img width="250" src="output/wave_hextotet5_tet_edges.png"> </a>
 
 
 ### LaGriT command file: [grid2grid_wave_tet5.in.txt](output/grid2grid_wave_tet5.in.txt)

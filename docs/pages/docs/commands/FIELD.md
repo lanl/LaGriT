@@ -1,5 +1,22 @@
+---
+title: FIELD 
+tags: field 
+---
 
- **FIELD**
+# FIELD
+
+----------------------
+
+## SYNTAX
+<pre>
+<b>field/compose</b>/composition function/ifirst,ilast,istride/field list/
+ 
+<b>field/mfedraw</b>/root file name/x1,y1,z1/x2,y2,z2/field list/
+
+<b>field/scale</b>/scale option/factor/ifirst,ilast,istride/ field list /
+ 
+<b>field/volavg</b>/averaging option/iterations/ifirst,ilast,istride/filed list/ 
+</pre>
 
   The FIELD Command option manipulates one or more specified fields in
   the Current Mesh Object

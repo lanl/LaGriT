@@ -1,46 +1,55 @@
+---
+title: COMPUTE 
+tags: compute, signed_distance_field, distance_field
+---
 
- **COMPUTE**
+# COMPUTE
 
-  This command contains modules that compute various attributes and
-  functions based on one or more
-  mesh objects. This operation will (often) result in new attributes
-  being added to the mesh objects. The
-  action of the command will be controled by the keyword in the second
-  argument position.
+----------------------
+
+
+This command contains modules that compute various attributes and functions based on one or more mesh objects. This operation will (often) result in new attributes
+being added to the mesh objects. The action of the command will be controled by the keyword in the second argument position.  
+
+
+## SYNTAX
+
+<pre>
+<b>compute/distance_field</b>/mo_sink/mo_source/distance_field_attribute
  
-  distance\_field - keyword for distance field calculation. Determine
-  the minimum distance from any node in
-  mo\_source to every node in mo\_sink and place the result in the
-  node based floating point attribute,
-  distance\_field\_attribute in mo\_sink. The computation is
-  accelerated by using the
-  [kdtree](kdtree.md) search
-  algorithm.
+<b>compute/signed_distance_field</b>/mo_sink/mo_source/distance_field_attribute
   
-  signed\_distance\_field - keyword for signed distance field
+<b>compute/linear_transform</b>/mo_main/mo_surface/[direction/att_name]
+</pre>
+
+
+ 
+**`distance_field`** is the keyword for distance field calculation. Determine
+  the minimum distance from any node in
+  mo_source to every node in mo_sink and place the result in the
+  node based floating point attribute,
+  distance_field_attribute in mo_sink. The computation is
+  accelerated by using the [kdtree](kdtree.md) search algorithm.
+  
+
+**`signed_distance_field`** is the keyword for signed distance field
   calculation. Determine the minimum distance    
-  from any node in mo\_source to every node in mo\_sink and place the
+  from any node in mo_source to every node in mo_sink and place the
   result in the node based floating        
-  point attribute, distance\_field\_attribute in mo\_sink. The
+  point attribute, distance_field_attribute in mo_sink. The
   computation is accelerated by using the      
   [kdtree](kdtree.md) search algorithm.
-  Using this option the mo\_source MUST be either a triangle or quad
-  surface        
-  mesh object. If the surfaces form a topologically closed volume then
-  positive, 'above' distance is in the    
-  direction of the surface normal vector. Negative is 'below' the
-  surface. If the surface is not a closed        
-  volume, then the assumptions described in the
-  [surface](SURFACE.md) command are used to determine what is above
-  and what is below the surface.
+
+This option requires the `mo_source` MUST be either a triangle or quad surface mesh object. If the surfaces form a topologically closed volume then
+positive, 'above' distance is in the     direction of the surface normal vector. Negative is 'below' the
+surface. If the surface is not a closed     volume, then the assumptions described in the
+  [surface](SURFACE.md) command are used to determine what is above and what is below the surface.
  
-  linear\_transform - keyword for an extrapolation from an attribute
-  value in a surface onto every node of
-  a 3D mesh.
+
+**`linear_transform`** is the keyword for an extrapolation from an attribute
+  value in a surface onto every node of a 3D mesh.
   
-  Given a 3D
-  mesh and a 2D surface, this command will extrapolate a scalar value
-  from that surface
+Given a 3D mesh and a 2D surface, this command will extrapolate a scalar value from that surface
   onto every point of the mesh. This can be used to (for
   example):
  
@@ -50,13 +59,13 @@
       appropriate spatial coordinate.
   -   Compute the depth relative to a topographic surface to each
       node of a mesh.
+
  
-  This is highly dependant on the spatial relation between the mesh
-  and the surface - values from the
-  surface are extrapolated "downward" into the mesh in the direction
+This is highly dependant on the spatial relation between the mesh
+and the surface - values from the surface are extrapolated "downward" into the mesh in the direction
   specified in the command. The
   direction specified in the command must be one of
-   **zpos, zneg, ypos, yneg, xpos, xneg**
+   `zpos, zneg, ypos, yneg, xpos, xneg`
    
   For example,
   specifing [zpos] will result in the upper (positive
@@ -85,31 +94,21 @@
   be computed with the [math](MATH.md "Math Functions") module.
  
 
- **FORMAT**:
- 
- compute/distance\_field/mo\_sink/mo\_source/distance\_field\_attribute
- 
- compute/signed\_distance\_field/mo\_sink/mo\_source/distance\_field\_attribute
-  
- compute/linear\_transform/mo\_main/mo\_surface/[direction/att\_name
 
- **EXAMPLES**:
+## EXAMPLES
 
-    compute / distance_field / mo_sink / mo_src / dfield
-  
-    compute / signed_distance_field / mo_sink / mo_src / dfield
- 
-    compute / linear_transform / mo_sink / mo_surf                                               
                                                                         
   
-  Example: distance\_field
+```  
+ cmo / create / cmo_src                                            
+ createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/                   
+ cmo / create / cmo_snk                                            
+ createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1        
+
+ compute / distance_field / cmo_snk / cmo_src / dfield             
+
+ finish           
+```
   
-      cmo / create / cmo_src                                            
-      createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/                   
-      cmo / create / cmo_snk                                            
-      createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1        
-      compute / distance_field / cmo_snk / cmo_src / dfield             
-      finish           
-  
-  <img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png">     
+ <img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png" width="300">     
                                                                                                            

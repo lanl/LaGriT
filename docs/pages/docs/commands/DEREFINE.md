@@ -1,4 +1,20 @@
- **DEREFINE**
+---
+title: DEREFINE 
+tags: derefine, minsize 
+---
+
+# DEREFINE
+
+---------------------
+
+## SYNTAX
+
+<pre>
+<b>derefine/minsize</b>/field/pointtype1 pointtype2/refine_type/first_point/last_point/stride/value
+
+<b>derefine/merge</b> /first_point / second_point
+</pre>
+
 
   This routine derefines a mesh by deleting points using the merge
   routine based on one of the following refine\_types. **edge** will
@@ -26,16 +42,17 @@
   used to improve the mesh. **recon** may be used to return to a
   delaunay mesh after using the **derefine** command.
 
- **FORMAT:**
  
-  **derefine/minsize**/field/pointtype1 pointtype2/refine\_type/first\_point/last\_point/stride/value
+## EXAMPLES
 
-  **derefine** **/merge**/first\_point/second\_point
+```
+derefine/minsize/0 0/aspect/ 1 0 0/1.e-3
 
- EXAMPLE:
+derefine/minsize/0 2/volume/pset,get,apset/5.
 
-     derefine/minsize/0 0/aspect/ 1 0 0/1.e-3
-     derefine/minsize/0 2/volume/pset,get,apset/5.
-     derefine/minsize/10 10/edge/1 0 0/5.
-     derefine/minsize/2 2/pinchedge/1 0 0/1
-     derefine/merge/21/22
+derefine/minsize/10 10/edge/1 0 0/5.
+
+derefine/minsize/2 2/pinchedge/1 0 0/1
+
+derefine/merge/21/22
+```

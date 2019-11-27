@@ -1,5 +1,12 @@
+---
+title: EXTRACT 
+tags: extract 
+---
+
 
 # EXTRACT
+
+--------------
 
   This command produces a 2D mesh object from a 3D mesh object. A
   material interface, a plane , an isosurface or a network may be

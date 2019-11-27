@@ -1,9 +1,12 @@
 ---
 title: CONNECT
-tags: connect tet
+tags: connect, tet, Delaunay
 --- 
 
 # CONNECT #
+
+-----------------------
+
 
 Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay criterion requires that the circumsphere (circumcircle) defined by each tetrahedron (triangle) contains no mesh nodes in its interior. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2), use **connect** to create the mesh, then **dump/stor** to compute and output geometric coefficients file.
 

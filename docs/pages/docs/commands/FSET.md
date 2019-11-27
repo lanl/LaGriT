@@ -1,5 +1,11 @@
+---
+title: FSET 
+tags: fset 
+---
 
-**FSET**
+# FSET
+
+---------------
 
  This command  is used to  define a  set  of element faces. Defining
  face sets can be useful for either defining boundary conditions,

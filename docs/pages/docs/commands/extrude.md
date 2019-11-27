@@ -1,9 +1,13 @@
 ---
 title: EXTRUDE
-tags: ok
+tags: extrude
 ---
 
- **EXTRUDE**
+
+# EXTRUDE
+
+----------------
+
 
   This command takes a topologically 1d or 2d mesh (a line, a set of
   line segments, or a planar or non-planar surface) and extrudes it
@@ -15,13 +19,14 @@ tags: ok
   defined vector, the command can optionally find the external surface
   of the volume created and return that to the user.
 
- **FORMAT:**
+## SYNTAX
 
-  **extrude**/mesh1/mesh2/**constmin**/offset**/volumebubble**/[**norm**x1,y1,z1]
+<pre>
+<b>extrude</b>/mesh1/mesh2/<b>constmin</b>/offset/volumebubble/[<b>norm</b> x1,y1,z1]
 
-  OR
 
-  **extrude**/mesh1/mesh2**/interp**/layers**/range1/range2**
+<b>extrude</b>/mesh1/mesh2**/interp</b>/layers</b>/range1/range2
+</pre>
 
   where **range1** and **range2** are defined as
   **[pset,get,** pset_name ** ** ifirst,ilast,istride **]**

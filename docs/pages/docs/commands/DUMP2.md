@@ -1,9 +1,9 @@
 ---
 title: "DUMP"
-categories: write output files
+tags: write output files
 ---
 
-# DUMP #
+# DUMP 
 
 --------------------------------------------
 

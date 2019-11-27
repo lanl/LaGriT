@@ -1,8 +1,11 @@
 ---
 title: crush_thin_tets
+tags: crush_thin_tets, tet
 ---
 
 # CRUSH_THIN_TETS
+
+--------------------
 
 This algorithm can be used to reduce sliver shaped tetrahedrals from a mesh.
 
@@ -12,10 +15,16 @@ This algorithm can be used to reduce sliver shaped tetrahedrals from a mesh.
 <b>crush_thin_tets</b>/ cmo_name / [ TOLCRUSH ] / [pset,get,psetname]
 </pre>
 
-*`TOLCRUSH`* is the optional value providing a measurement selection to crush, the default value is .1
+`cmo_name` is the mesh object name.
 
-**pset,get,** *`psetname`* is the optional node selection for part of the mesh.
 
+`TOLCRUSH` is the optional value providing a measurement selection to crush, the default value is .1
+
+
+**pset,get,** `psetname` is the optional node selection for part of the mesh.
+
+
+## DESCRIPTION
 
 
 **`crush_thin_tets`** loops thru tets of a volume mesh
