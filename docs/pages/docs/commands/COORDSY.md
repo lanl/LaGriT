@@ -19,9 +19,9 @@ This routine defines a local coordinate system to be in effect until
 ## SYNTAX
 
 <pre>
-<br>coordsys</b>/ <b>define</b> /x0,y0,z0/xx,xy,xz/zx,zy,zz/
+<b>coordsys</b>/ <b>define</b> /x0,y0,z0/xx,xy,xz/zx,zy,zz/
 
-<br>coordsys</b>/ ioption
+<b>coordsys</b>/ ioption
 </pre>
 
 **`normal`** return to the normal coordinate system
