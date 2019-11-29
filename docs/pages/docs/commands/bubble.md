@@ -16,7 +16,7 @@ user. This operation will result in a closed surface.
 ## SYNTAX
 
 <pre>
-<b>bubble</b>/mesh1/mesh2/**const** or **min**/offset/[**norm** x1,y1,z1]
+<b>bubble</b>/mesh1/mesh2/<b>const</b> or <b>min</b>/offset/[<b>norm</b> x1,y1,z1]
 </pre>
 
 `mesh1` is the name of the resulting mesh.
@@ -94,7 +94,7 @@ enclosing a volume of prisms being created out of the initial tri
 sheet. First, since **`min`** is used, the "bottom" of the surface would
 be a plane.
 
-Second, because the vector *3, -2.5, -6* is specified, the
+Second, because the vector 3, -2.5, -6 is specified, the
 extrusion will be in that direction (again the magnitude is not
 important, the vector is normalized to a unit vector), not in the
 direction of the average normal of the initial tri surface.
