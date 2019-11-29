@@ -102,6 +102,9 @@ Create and print a brief status of the mesh object named motet.
 cmo/addatt/moquad/zsave/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
 cmo/copyatt/moquad moquad/zsave zic
 cmo/printatt/moquad/-all- minmax  
+```
+
+<pre class="lg-output"> 
 
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00     14241  
@@ -158,7 +161,8 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
  zsave              1.638043335E+03  1.856468628E+03 2.184252930E+02     14241  
-```
+</pre>
+
 Add the attribute zsave to the mesh object and copy zic attribute values into zsave attribute. 
     
     
