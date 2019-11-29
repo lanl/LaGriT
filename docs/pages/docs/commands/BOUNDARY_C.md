@@ -66,14 +66,15 @@ boundary_components / element / 3
 
 ## DEMO for NODE and ELEMENT
 
-<img src="https://lanl.github.io/LaGriT/assets/images/boundary_component_node.png" width=300" alt="BCN">
+
+<img width="300" src="https://lanl.github.io/LaGriT/assets/images/boundary_component_node.png">
                                                                                                        
 Boundary components **node**
 
 Note that the interior nodes have numbnd=0 and the nodes of the upper hole have the same value as the outside boundary since the upper hole can be reached by traversing an edge that is connected to the exterior.  
 
 
-<img src="https://lanl.github.io/LaGriT/assets/images/boundary_component_element.png" width=300"  alt="BCN">
+<img width="300" src="https://lanl.github.io/LaGriT/assets/images/boundary_component_element.png">
 
 Boundary components **element**
 
