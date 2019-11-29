@@ -22,19 +22,17 @@ tags: extrude
 ## SYNTAX
 
 <pre>
-<b>extrude</b>/mesh1/mesh2/<b>constmin</b>/offset/volumebubble/[<b>norm</b> x1,y1,z1]
+<b>extrude</b>/mesh1/mesh2/<b>const min</b>/offset/<b>volume</b>  <b>bubble</b>/[<b>norm</b> x1,y1,z1]
 
 
-<b>extrude</b>/mesh1/mesh2**/interp</b>/layers</b>/range1/range2
+<b>extrude</b>/mesh1/mesh2/<b>interp</b>/<b>layers</b>/range1/range2
 </pre>
 
-  where **range1** and **range2** are defined as
-  **[pset,get,** pset_name ** ** ifirst,ilast,istride **]**
+`range1` and `range2` are defined as **pset,get,** pset_name  or ifirst,ilast,istride (1,0,0 is all).
 
- mesh1 is the name of the resulting mesh.
+ `mesh1` is the name of the resulting mesh.
 
- mesh2 is the name of the initial mesh. This mesh must be made up of
- **lines, tris, quads, or hybrids**.
+ `mesh2` is the name of the initial mesh. This mesh must be made up of **lines, tris, quads, hybrids**.
 
  **const** is a keyword that indicates that the distance from each of
  the points in the initial mesh along the extruding vector will be
@@ -42,7 +40,7 @@ tags: extrude
  same surface or edge characteristics as the original mesh on both the
  initial and newly formed surface or edge, you would use **const**.
 
- ** min** is a keyword and indicates that the minimum distance along the
+ **min** is a keyword and indicates that the minimum distance along the
  extruding vector to a reference plane that is perpendicular to the
  extruding vector will be equal to offset. This means that if you want
  an extruded mesh with at least one flat side, you would use ** min**.
@@ -57,16 +55,16 @@ tags: extrude
  Instead of giving the initial mesh a direction in which to be
  extruded, this keyword specifies that the initial mesh is made up of
  two sets of points to be connected. These point sets are defined by
- **range1** and **range2**. The ranges can be defined using the
+ `range1` and `range2`. The ranges can be defined using the
  standard LaGriT techniques of **pset**, **get**, &lt;pset name&gt; or
  ifirst, ilast, istride.
 
- layers is the number of layers of elements that will be placed between
+ `layers` is the number of layers of elements that will be placed between
  the original two surfaces. This is a good point distribution
  technique. The final number of layers of points will be equal to
  layers+1. It must be an integer.
 
- offset is the length of extrusion. It can either be an integer or a
+ `offset` is the length of extrusion. It can either be an integer or a
  real.
 
  **volume** is a keyword and indicates that the volume that was
@@ -86,7 +84,7 @@ tags: extrude
  Otherwise, if a vector value is specified, the vector is normalized,
  and its direction used to extrude the initial mesh.
 
- **NOTES:**
+ ### NOTES
 
   This code works on meshes containing lines, quads, triangles, or
   hybrid polygons. If there are lines in the initial mesh, they become
@@ -101,16 +99,18 @@ tags: extrude
   initial surface is in. You have been warned.
 
   If the **interp** keyword is used, the code expects the number of
-  points in **range1** and **range2** to be equal, and to correspond
-  such that the first point in **range1** will connect to the first
-  point in **range2** in the final mesh object, etc. Other setups will
+  points in `range1` and `range2` to be equal, and to correspond
+  such that the first point in `range1` will connect to the first
+  point in `range2` in the final mesh object, etc. Other setups will
   result in a twisted, perhaps invalid mesh object.
 
- **EXAMPLES:**
+ ## EXAMPLES
 
-  **extrude**/cmo\_hex/cmo\_quad/**const**/5.0**/volume**
+```
+extrude/cmo_hex/cmo_quad/const/5.0/volume
+```
 
-  This would result in hexes being created out of the initial quad
+ This would result in hexes being created out of the initial quad
   sheet. First, since **const** and **volume** are used, the quad
   sheet will be extruded a constant amount from each point. Second,
   since the extruding vector and **norm** are omitted, the extrusion
@@ -119,18 +119,22 @@ tags: extrude
   an orthogonal direction. (Or, more succinctly, a mesh of
   parallelopipeds of height 5.)
 
-  **extrude**/cmo\_prism/cmo\_tri**/ min**/10**/volume**/1,2,-1
+```
+extrude/cmo_prism/cmo_tri/ min/10/volume/ 1,2,-1
+```
 
-  This command would result in prisms being created out of the initial
-  tri sheet. First, since ** min** is used, the "bottom" of the
+This command would result in prisms being created out of the initial
+  tri sheet. First, since **min** is used, the "bottom" of the
   extruded volume would be a plane. Second, because the vector 1, 2,
   -1 is specified, the extrusion will be in that direction (again the
   magnitude is not important, the vector is normalized to a unit
   vector), not in the direction of the average normal.
 
-  **extrude**/cmo\_bigbox/cmo\_quad/**const**/5.0**/bubble**/
+```
+extrude/cmo_bigbox/cmo_quad/const/5.0/bubble/
+```
 
-  This would result in a surface surrounding an amalgamation of
+This would result in a surface surrounding an amalgamation of
   parallelopipeds created from the initial quad sheet. First, since
   **const** is used the quads will be extruded a constant amount from
   each point in the quad sheet. Second, since the extruding vector and
@@ -139,22 +143,25 @@ tags: extrude
   that form the surface of a group of parallelopipeds extruded 5.0
   units in an orthogonal direction.
 
-  **extrude**/cmo\_arbshape/cmo\_tri**/ min**/7.5**/bubble**/3,-2.5,-6
+```
+extrude/cmo_arbshape/cmo_tri/ min/7.5/bubble/ 3,-2.5,-6
+```
 
-  This command would result in a mesh of tris that form a surface
+This command would result in a mesh of tris that form a surface
   enclosing a volume of prisms being created out of the initial tri
-  sheet. First, since ** min** is used, the "bottom" of the surface
+  sheet. First, since **min** is used, the "bottom" of the surface
   would be a plane. Second, because the vector 3, -2.5, -6 is
   specified, the extrusion will be in that direction (again the
   magnitude is not important, the vector is normalized to a unit
   vector), not in the direction of the average normal of the initial
   tri surface.
 
-  **extrude**/cmo\_prism/cmo\_tris**/interp**/14**/pset, get,**
-  bottom**/pset, get,** top
+```
+extrude/cmo_prism/cmo_tris/interp/14/pset,get,bottom/pset,get,top
+```
 
-  This command would result in a mesh of prisms being created out of
-  the two sets of tri sheets in cmo\_tris as well as 14-1 layers of
+This command would result in a mesh of prisms being created out of
+  the two sets of tri sheets in cmo_tris as well as 14-1 layers of
   additional tris that would be interpolated. First, since interp is
   used, the pset defined by bottom would end up connected to the pset
   defined by top. Second, there would be 14 layers of elements that
