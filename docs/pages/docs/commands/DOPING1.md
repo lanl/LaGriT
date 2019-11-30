@@ -3,7 +3,7 @@ title: DOPING
 tags: doping, deprecrated
 ---
 
-# DOPING replaced with  [INTERPOLATE](https://lanl.github.io/LaGriT/pages/docs/commands/main_interpolate.md)
+# DOPING replaced with  [INTERPOLATE](main_interpolate.md)
 
 --------------------
 
