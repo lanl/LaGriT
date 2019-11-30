@@ -1,9 +1,12 @@
 ---
 title: GRID2GRID
-tags: ok
+tags: grid2grid, hextotet, amr
 ---
 
 # GRID2GRID
+
+
+-------------------
 
 
 The **grid2grid** command converts a mesh with one element
@@ -19,14 +22,14 @@ Note: Use of **grid2grid** to convert an octree refined hexahedral into to a tet
 ## SYNTAX
 
 <pre>
-    <b>grid2grid</b> / ioption / [ cmo_sink ] / [ cmo_source ]
+<b>grid2grid</b> / ioption / [ cmo_sink ] / [ cmo_source ]
 </pre>    
     
 
 ## OPTIONS
 
 
-*`ioption`*: is a character string that determines the element type of the
+`ioption`: is a character string that determines the element type of the
 source and sink meshes. There is no 'default' option - this argument
 must be specified.
 
@@ -39,9 +42,10 @@ must be specified.
 *  **prismtotet14**   prism to 14 tets, four new points (1 + 3 faces).  
 *  **prismtotet18**   prism to 18 tets, six new points (1 + 5 faces).  
 *  **hextotet24**   hex to 24 tets, seven new points (1 + 6 faces).  
-*  **tree\_to\_fe**   quadtree or octree grid to grid with no parent-type elements.  
+*  **tree_to_fe**   quadtree or octree grid to grid with no parent-type elements to clean amr or octree structures. 
 
-*`[ cmo_snk / cmo_src ]`* : the mesh_object names for the new mesh to create and the source mesh object. *cmo_src* is the original grid. *cmo_snk* is the name for the new tet or triangle grid. These may be the same grid, if so desired. If both are left blank, the current mesh object will be used. If only one mesh name
+
+`[ cmo_snk / cmo_src ]` are the mesh_object names for the new mesh to create and the source mesh object. `cmo_src` is the original grid. `cmo_snk` is the name for the new tet or triangle grid. These may be the same grid, if so desired. If both are left blank, the current mesh object will be used. If only one mesh name
 is given, it will be used at the sink mesh, and the current mesh object will be used as the source.
 
 
