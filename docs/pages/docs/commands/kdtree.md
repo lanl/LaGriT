@@ -1,9 +1,12 @@
 ---
 title: KDTREE
-tags: ok
+tags: kdtree
 ---
 
-**KDTREE **
+# KDTREE
+
+----------------------
+
 
 **KDTREE** uses the elements of the current mesh object to produce a
 k-D tree that is stored in the attributes LINKT and SBOX that are
@@ -13,7 +16,7 @@ overlap, **KDTREE** also produces an array SBOX which gives 'safety
 boxes'.  For each node in the k-D tree, there is a corresponding
 safety box which is just big enough to contain all the triangles 
 "under" the node.  The attributes LINKT and SBOX are used by the
-subroutine:  RETRIEVE\_WITHIN\_EPS.  RETRIEVE\_WITHIN\_EPS finds all
+subroutine:  RETRIEVE_WITHIN_EPS.  RETRIEVE_WITHIN_EPS finds all
 elements with epsilon of the query point (xq,yq,zq). What is
 actually returned is a small subset of leaves  (i.e., elements) that
 feasibly could be within epsilon of the query point.  The user must
@@ -21,19 +24,21 @@ then do exact geometric tests on this small subset to actually
 determine which elements are a distance epsilon from the query
 point.
 
+```
+subroutine retrieve\_within\_eps(xq,yq,zq,linkt,sbox,eps,nefound,iefound,ierr)
+```
 
-      subroutine retrieve\_within\_eps(xq,yq,zq,linkt,sbox,
-      eps,nefound,iefound,ierr)
+`xq, yq, zq`  coordinates of query point
 
+`linkt, sbox`   mesh object KDTREE attributes created by the KDTREE command
 
-argument | description
-------------- | -------------------------------------------------------------
-xq, yq, zq   | coordinates of query point
-linkt, sbox   | mesh object KDTREE attributes created by the KDTREE command
-eps          | search epsilon
-nefound    |   number of elements found
-iefound      | array of elements found
-ierr        |  error flag   (0 = no error)
+`eps`      search epsilon
+
+`nefound`      number of elements found
+
+`iefound`    array of elements found
+
+`ierr`       error flag   (0 = no error)
 
 
 The attributes LINKT and SBOX may also be used by the subroutine:
@@ -46,21 +51,28 @@ The user must then do exact geometric tests on this small subset to
 determine points of intersection.
 
 
-    subroutine nearestpoint(xq,yq,zq,xic,yic,zic,itet,xs,ys,zs,
+```
+subroutine nearestpoint(xq,yq,zq,xic,yic,zic,itet,xs,ys,zs,
     linkt,sbox,eps,distpossleaf,mtfound,itfound,ierr)
+```
 
-   
-argument | description
--------------- | -------------------------------------------------------------------------------------------------------------------
-xq, yq, zq   |  coordinates of query point
-xic,yic,zic  |  arrays of coordinates of nodes in the surface mesh object
-itet        |   array containing trianged-node relationship for surface mesh object.
-xs,ys,zs     |  coordinates of previous retrieved "nearestpoint".  If there is no previous query, set these to a very large value
-linkt, sbox  |  mesh object.  KDTREE attributes created by the KDTREE command
-distpossleaf  | work array of length = number of triangles in the surface mesh.
-mtfound    |    number of triangles found
-itfound  |      array of triangle (element number) found
-ierr   |        error flag
+`xq, yq, zq`    coordinates of query point
+
+`xic,yic,zic`  arrays of coordinates of nodes in the surface mesh object
+
+`itet`      array containing trianged-node relationship for surface mesh object.
+
+`xs,ys,zs`  coordinates of previous retrieved "nearestpoint".  If no previous query, set these to a very large value
+
+`linkt, sbox`  mesh object.  KDTREE attributes created by the KDTREE command
+
+`distpossleaf`  work array of length = number of triangles in the surface mesh.
+
+`mtfound`      number of triangles found
+
+`itfound`      array of triangle (element number) found
+
+`ierr`         error flag
 
  
 
