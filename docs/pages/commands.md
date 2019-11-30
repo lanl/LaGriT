@@ -131,7 +131,7 @@ tags: command list all options
 * [**`SETSIZE`**](docs/commands/SETSIZE.md) (set epsilon values based on space size)
 * [**`SETTETS`**](docs/commands/SETTETS.md) (make parent-child nodes, set element material)
 * [**`SMOOTH`**](docs/commands/SMOOTH.md) (optimize with node smoothing)
-* [**`SORT`](docs/commands/SORT.md) (sort an attribute)
+* [**`SORT`**](docs/commands/SORT.md) (sort an attribute)
 * [**`STACK`**](docs/commands/STACK.md) (read and merge surfaces)
 * [**`SURFACE`**](docs/commands/SURFACE.md) (define a geometric surface)
 * [**`SURFPTS`**](docs/commands/SURFPTS.md) (make nodes on a surface)
