@@ -3,11 +3,21 @@ title: DOPING
 tags: doping, deprecrated
 ---
 
+
 # DOPING replaced with  [INTERPOLATE](main_interpolate.md)
 
 --------------------
 
-# SYNTAX
+Old command to interpolate between mesh object attributes or assign values to a mesh object attribute.
+
+
+Note: **`interpolate/map`** replaces the command **`doping/integer1`** which copied source itetclr values
+to sink imt values. **`interpolate/voronoi`** replaces **`doping/integer2`** which copied nearest node source imt to sink imt.
+**`interpolate/continuous`** evolved from the **`doping/table`** command. The interpolate command has newer updates
+to include attribute selections and expanded options.
+
+
+## SYNTAX
 
 <pre>
 <b>doping</b>/constant/field_out/set|add|sub/ ifirst,ilast,istride/value 
@@ -23,8 +33,7 @@ tags: doping, deprecrated
 <b>doping</b>/integer2/field_out2/set/ifirst,ilast,istride/cmo_ref/attr_ref/min|max|minp|maxp/[create|use]
 </pre>
 
-Interpolates between mesh object attributes or assigns values to a
-  mesh object attribute.
+
 
   Options **constant** and **gaussian** assign values to a mesh object
   attribute.  Options **table**, **integer1**, and **integer2**
