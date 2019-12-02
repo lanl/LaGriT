@@ -16,52 +16,30 @@ This command produces an output file from a Mesh Object. Some of the standard gr
 <pre>
 <b>dump</b> / file_type / file_name /[cmo_name]/
 
-<b>dump</b> / file_name.keyword / [cmo_name]/
+<b>dump</b> / file_name.ext / [cmo_name]/
 </pre>
 
-The **`dump`** command is followed by a keyword `file_type` to indicate the type of file to write. 'cmo_name' is the mesh object to write. See descriptions and additional syntax below.
+The **`dump`** command is followed by a keyword `file_type` to indicate the type of file to write. 'cmo_name' is the mesh object to write. The short form of the dump command can be used where the `file_type` is recognized by the file name extension as listed below.
 
-The short form of the dump command can be used where the `file_type` is recognized by the file name extension.
-These include:
+See descriptions and additional syntax below, click on any format name.
 
-**`AVS`** [**.inp** or **.avs**](#avs)
+### RECOGNIZED FILE TYPES
 
-**`Exodusii`** [**.exo** or **.exodusii**](#exodus) 
-
-**`GMV`** [**.gmv**](#gmv) 
-
-**`LaGriT`** [**.lagrit** or **.lg**](#lagrit) 
-
-**`GoCAD`** [**.ts**](#gocad) 
+|   |   |
+| :------ | :---------- | 
+| **`AVS`** [**.inp** or **.avs**](#avs) | **`GMV`** [**.gmv**](#gmv)  | 
+| **`Exodusii`** [**.exo**](#exodus) | **`GoCAD`** [**.ts**](#gocad) |
+| **`LaGriT`** [**.lagrit** or **.lg**](#lagrit) | |
 
 
-Additional file types include:
+### ADDITIONAL FILE TYPES
 
-[**`chad`**](#chad) 
-
-[**`coord`**](#coord)
-
-[**`datex`**](#datex)
-
-[**`elem_adj_node`** or **`elem_adj_elem`**](#elem_adj)
-
-[**`fehm`**](#fehm)
-
-[**`geofest`**](#geofest)
-
-[**`geom`**](#geom)
-
-[**`pflotran`**](#pflotran)
-
-[**`recolor`**](#recolor)
-
-[**`stl`**](#stl)
-
-[**`stor`**](#stor)
-
-[**`tecplot`**](#tecplot)
-
-[**`zone`**, **`zone_imt`**, **`zone_outside`**](#zone)   
+|   |   |    |   |
+| :------ | :---------- | :------ | :---------- | 
+| [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
+| [**`elem_adj_elem`**](#elem_adj) | [**`fehm`**](#fehm) | [**`geofest`**](#geofest) | [**`geom`**](#geom) |
+| [**`pflotran`**](#pflotran) | [**`recolor`**](#recolor) | [**`stl`**](#stl) | [**`stor`**](#stor) |
+| [**`tecplot`**](#tecplot) | [**`zone`**](#zone) | [**`zone_imt`**](#zone) | [**`zone_outside`**](#zone)   |
 
 
 <hr>
