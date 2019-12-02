@@ -70,7 +70,7 @@ The following options are available:
 
 `cmoout` and `cmoin` are the new output mesh object name and source input mesh object name.
 
-`1,0,0` is the range ifirst, iend, istride selection to work on.
+`1,0,0` is the range ifirst, ilast, istride selection to work on.
 
 
 ## EXAMPLES

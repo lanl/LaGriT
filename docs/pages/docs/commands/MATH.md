@@ -37,7 +37,7 @@ results to be written to. These parameters are required for all math
 operations.
 
 
-`1 0 0` is the selected range istart,istride,istop where 1,0,0 represents all. The selections can also be defined by `pset` or `eltset`.
+`1 0 0` is the selected range istart,ilast,istride where 1,0,0 represents all. The selections can also be defined by `pset` or `eltset`.
 
 
 `value` is required by some math operations and can be of type constant or can be a cmo attribute.

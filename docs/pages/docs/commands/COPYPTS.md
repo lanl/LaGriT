@@ -45,7 +45,7 @@ tags: copypts, copy
 
 `source_cmo` is the name of mesh object to copy points from.
 
-`range` is the convention using numbers representing ifirst,istride,iend for a set selection.
+`range` is the convention using numbers representing ifirst,ilast,istride for a set selection.
 The range given as 1,0,0 means all are selected.
 
 
