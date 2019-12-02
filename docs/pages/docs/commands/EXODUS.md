@@ -11,7 +11,7 @@ Write a mesh object to a file in the ExodusII format.
 This command can be used to define ExodusII blocks (itetclr), node sets (psets), element sets (eltsets), and side sets (facesets).
 The facesets are commonly used to define faces on the external mesh to define boundary conditions.
 
-The command [**`extract/surfmesh`**](https://lanl.github.io/LaGriT/pages/docs/commands/dump/EXTRACT_SURFMESH.md) can be used to extract the mesh boundary surface and create the faceset attributes to define in an ExodusII mesh file.
+The command [**`extract/surfmesh`**](dump/EXTRACT_SURFMESH.md) can be used to extract the mesh boundary surface and create the faceset attributes to define in an ExodusII mesh file.
 
 
 NOTE: ExodusII requires that elements are ordered by their block ID (element itetclr value). 
@@ -157,9 +157,9 @@ Note the ExodusII ID for each set will be in the same order as the file names, i
 
 The ExodusII file is written as a binary file and can be read by various
 visualization software such as GMV and Paraview. For documentation on
-the ExodusII API visit <http://gsjaardema.github.io/seacas/md/index.md
-The Exodus utility ncdump can be used to convert the binary to ASCII file for checking that all mesh sections are written as expected. 
+the ExodusII API see http://gsjaardema.github.io/seacas/exodusII-new.pdf 
 
+The NetCDF utility **ncdump** can be used to convert the binary to ASCII file for checking that all mesh sections are written as expected. 
 
 The result is an ExodusII binary mesh with 2 block materials and 2 side sets as reported in the LaGriT output:
 

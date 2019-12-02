@@ -23,11 +23,45 @@ The **`dump`** command is followed by a keyword `file_type` to indicate the type
 
 The short form of the dump command can be used where the `file_type` is recognized by the file name extension.
 These include:
-AVS [**`.inp`** or **`.avs`**](#avs), Exodus [**`.exo`**](#exodus), GMV [**`.gmv`**](#gmv), LaGriT [**`.lagrit`** or **`.lg`**](#lagrit), and GoCAD [**`.ts`**](#gocad). 
+
+**`AVS`** [**.inp** or **.avs**](#avs)
+
+**`Exodusii`** [**.exo** or **.exodusii**](#exodus) 
+
+**`GMV`** [**.gmv**](#gmv) 
+
+**`LaGriT`** [**.lagrit** or **.lg**](#lagrit) 
+
+**`GoCAD`** [**.ts**](#gocad) 
 
 
 Additional file types include:
-**`chad`**(#chad), **`coord`**(#coord), **`datex`**(#datex), [**`elem_adj_node`** or **`elem_adj_elem`**](#elem_adj), [**`fehm`**](#fehm), [**`geofest`**](#geofest), [**`geom`**](#geom), [**`pflotran`**](#pflotran), [**`recolor`**](#recolor), [**`stl`**](#stl), [**`stor`**](#stor), [**`tecplot`**](#tecplot), [**`zone`**, **`zone_imt`**, and **`zone_outside`**](#zone).   
+
+[**`chad`**](#chad) 
+
+[**`coord`**](#coord)
+
+[**`datex`**](#datex)
+
+[**`elem_adj_node`** or **`elem_adj_elem`**](#elem_adj)
+
+[**`fehm`**](#fehm)
+
+[**`geofest`**](#geofest)
+
+[**`geom`**](#geom)
+
+[**`pflotran`**](#pflotran)
+
+[**`recolor`**](#recolor)
+
+[**`stl`**](#stl)
+
+[**`stor`**](#stor)
+
+[**`tecplot`**](#tecplot)
+
+[**`zone`**, **`zone_imt`**, **`zone_outside`**](#zone)   
 
 
 <hr>
