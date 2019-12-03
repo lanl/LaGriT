@@ -46,14 +46,14 @@ forms a pset of nodes having the specified number of constraints.  The node's *
 <pre>
 <b>pset</b>/pset_name/ <b>delete</b>
 </pre>
-removes a previously defined pset
+removes a previously defined pset from current mesh object
 
 
 ### **`eltset`** <a name="eltset"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>eltset</b> / element_set_name
 </pre>
-forms a pset of nodes in the element set named.
+forms a pset of nodes in the element set with the name `element_set_name`.
 
 
 
@@ -78,14 +78,17 @@ forms a pset from all points inside a geometric shape as defined in the followin
 ### **`list`** <a name="list"></a>
 <pre>
 <b>pset</b>/pset_name/<b>list</b> 
+
+<b>pset</b> /  / <b>list</b> 
 </pre>
-lists nodes in a pset or names of all psets for the mesh object.
+list all nodes in `pset_name`. If the 2nd argument is empty, list all names all of psets for the mesh object
+
 
 
 
 ### **`logicals`**  <a name="logicals"></a>
 <pre>
-<b>pset</b>/pset_name/ <b>union</b> or <b>inter</b> or <b>not</b> / pset1[  ,pset2, … psetn ]
+<b>pset</b>/pset_name/ <b>union</b>  <b>inter</b>  <b>not</b> / pset1[  ,pset2, … psetn ]
 </pre>
 logical operations **`union`**, **`inter`** and **`not`** act on previously defined psets.  The definition of the unary operator **`not`** is extended such that **`not`**/p1/p2 means p1 and (not(p2)).
 
@@ -95,7 +98,7 @@ logical operations **`union`**, **`inter`** and **`not`** act on previously defi
 <pre>
 <b>pset</b>/pset_name/<b>region</b> or <b>mregion</b> / region_name / ifirst,ilast,istride
 </pre>
-will return all nodes that are in the specified region or mregion.
+will return all nodes that are in the specified region or mregion as given by its `region_name`.
 
 
 
@@ -122,17 +125,16 @@ identifies nodes on the specified surface as indicated by defining surface_name.
 
 
 
-
 ### **`write`** <a name="write"></a>
 <pre>
-<b>pset</b>/ [pset_name or <b>-all-</b>] / <b>write</b> / file_name[.vertexset] / [<b>ascii</b> or <b>binary</b>]
+<b>pset</b>/ pset_name or <b>-all-</b> / <b>write</b> / file_name[.vertexset] / [<b>ascii</b> or <b>binary</b>]
 </pre>
 write or dump a pset node list to a file, options are **ascii** or **binary**.
 
 
 ### **`zone`** **`zonn`** <a name="zone">
 <pre>
-<b>pset</b> / [name or <b>-all-</b>] / <b>zone</b> or <b>zonn</b> / file_name[.zone or .zonn] / [<b>ascii</b>] [zone_number]
+<b>pset</b> / name or <b>-all-</b> / <b>zone</b> or <b>zonn</b> / file_name[.zone or .zonn] / [<b>ascii</b>] [zone_number]
 </pre>
 write pset node list to a file (FEHM Flow and Transport code zone file format). By default the zone_number is a number 1-n where n is the number of psets defined in the mesh object. Specify a number value for a single zone file with the zone_number option. 
 
