@@ -61,8 +61,9 @@ This page uses HTML to format box sections to show raw text and the resulting fo
 2. [Command Formatting](#cmdformatting)
 3. [Inline Code, Examples, Demos](#inlinecode)
 4. [Linking to Other Pages](#linking)
-5. [Embedding Images](#embeddingimages)
-6. [Further Resources](#resources)
+5. [Long Page Lists](#longpagelists)
+6. [Embedding Images](#embeddingimages)
+7. [Further Resources](#resources)
 
 ## 1. Page Headers & Titles <a name="pagetitles"></a>
 
@@ -171,8 +172,25 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 </div>
 </div>
 
+## 5. Long Page Lists <a name="longpagelists"></a>
 
-## 5. Embedding Images <a name="embeddingimages"></a>
+For pages with a long list of command options, use a clickable table at the top.
+See examples at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html">dump</a>
+
+Table format with page links. The colon on left will make cells left justified. Use colons on both sides to center:
+
+```
+|   |  |   |
+| :---- | | :---- | | :---- | | :---- |
+| [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
+
+...
+
+### **`chad`** <a name="chad"></a>
+
+```
+
+## 6. Embedding Images <a name="embeddingimages"></a>
 
 <div class="markdown-example" id="example-text">
 <pre class="source">
@@ -192,7 +210,7 @@ Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
 </div>
 </div>
 
-## 6. Further Resources <a name="resources"></a>
+## 7. Further Resources <a name="resources"></a>
 
 Markdown supports tables, lists, embedded HTML/Javascript/CSS, images, and more.
 For syntax usage on embedding these elements, a few references can be found below:
