@@ -14,16 +14,16 @@ tags: command list all options
 --------------
 
 
-<br> <a name="a"></a>
+**A**<br> <a name="a"></a>
 * [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
 * [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
 <br><a name="b"></a>
-<br> 
+**B**<br> 
 * [**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
 * [**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
 * [**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
 <br><a name="c"></a>
-<br>
+**C**<br>
 * [**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
 * [**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
 * [**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
@@ -35,25 +35,27 @@ tags: command list all options
 * [**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
 * [**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
 <br><a name="d"></a>
-<br>
+**D**<br>
 * [**`DEFINE`**](docs/commands/DEFINE.md) (assign value to variable name)
 * [**`DEREFINE`**](docs/commands/DEREFINE.md) (merge nodes away)
 * [**`DOPING`**](docs/commands/DOPING1.md) (deprecated, see interpolate)
 * [**`DUMP`**](docs/commands/DUMP2.md) (write output files)
 * [**`DUMP_RECOLOR`**](docs/commands/DUMP_RECOLOR.md) (use adjacency map)
 <br><a name="e"></a>
-<br>
+**E**<br>
 * [**`EDIT`**](docs/commands/EDIT2.md) (print some mesh info)
 * [**`ELMTEST`**](docs/commands/elmtest.md) (validate connectivity)
 * [**`ELTSET`**](docs/commands/ELTSET2.md) (set of elements for mesh object)
 * [**`EXTRACT`**](docs/commands/EXTRACT1.md) (extract a surface)
 * [**`EXTRUDE`**](docs/commands/extrude.md) (extrude a surface)
-### F <a name="f"></a>
+<br><a name="f"></a>
+**F**<br>
 * [**`FIELD`**](docs/commands/FIELD.md) (manipulate a field attribute)
 * [**`FILTER`**](docs/commands/FILTER.md) (filter duplicate nodes)
 * [**`FINISH`**](docs/commands/FINISH.md) (end processing, EXIT)
 * [**`FSET`**](docs/commands/FSET.md) (set of faces for mesh object)
-### G <a name="g"></a>
+<br><a name="g"></a>
+**G**<br>
 * [**`GENIEE`**](docs/commands/GENIEE.md) (make or check element connectivity)
 * [**`GEOMETRY`**](docs/commands/geometry.md) (name geometry for mesh object)
 * [**`GRID2GRID`**](docs/commands/GRID2GRID.md) (convert elements)
