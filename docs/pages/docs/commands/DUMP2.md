@@ -23,7 +23,7 @@ The **`dump`** command is followed by a keyword `file_type` to indicate the type
 
 See descriptions and additional syntax below, click on any format name.
 
-### RECOGNIZED FILE TYPES
+### RECOGNIZED FILE EXTENSIONS for SHORT SYNTAX
 
 |   |   |
 | :------ | :---------- | 
