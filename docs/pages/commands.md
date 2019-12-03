@@ -5,45 +5,34 @@ tags: command list all options
 
 # Alphabetic Listing of LaGriT Commands
 
-|  | | |  | | | |  | | | |  | | | |  | | | |  | 
-| :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: |
-| [A](#a)  | [B](#b)  | [C](#c)  | [D](#d) | A  | B  | C  | D | A  | B  | C  | D | A  | B  | C  | D | A  | B  | C  | D |
+
+|  | | |  | | | |  | | | |  | | | |  | | | |  | | | | | | |
+| :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: |  :----:  | :----:  | :----: |  :----:  | :----:  | :----: |
+| [A](#a)  | [B](#b)  | [C](#c)  | [D](#d) | [E](#e)  | [F](#f)  | [G](#g)  | [H](#h) | [I](#i)  | [J](#j)  | [K](#k)  | [L](#l) | [M](#m)  | [N](#n)  | [O](#o)  | [P](#p) | [Q](#q)  | [R](#r)  | [S](#s)  | [T](#t) |  [U](#u)  | [V](#v)  | [W](#w) |  [X](#x)  | [Y](#y)  | [Z](#z) |
 
 
 --------------
 
 
 <br> <a name="a"></a>
-[**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
-<br>
-[**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
+* [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
+* [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
 <br>
 <br> <a name="b"></a>
-[**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
-<br>
-[**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
-<br>
-[**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
+* [**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
+* [**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
+* [**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
 <br>
 <br> <a name="c"></a>
-[**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
-<br>
-[**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
-<br>
-[**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
-<br>
-[**`COMPUTE`**](docs/commands/COMPUTE.md) (compute a new mesh attribute value)
-<br>
-[**`CONNECT`**](docs/commands/CONNECT1.md) (connect points into tetrahedral mesh)
-<br>
-[**`COORDSYS`**](docs/commands/COORDSY.md) (change coordinate system)
-<br>
-[**`COPYPTS`**](docs/commands/COPYPTS.md) (copy points into mesh object)
-<br>
-[**`CREATEPTS`**](docs/commands/createpts.md) (create point distribution)
-<br>
-[**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
-<br>
+* [**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
+* [**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
+* [**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
+* [**`COMPUTE`**](docs/commands/COMPUTE.md) (compute a new mesh attribute value)
+* [**`CONNECT`**](docs/commands/CONNECT1.md) (connect points into tetrahedral mesh)
+* [**`COORDSYS`**](docs/commands/COORDSY.md) (change coordinate system)
+* [**`COPYPTS`**](docs/commands/COPYPTS.md) (copy points into mesh object)
+* [**`CREATEPTS`**](docs/commands/createpts.md) (create point distribution)
+* [**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
 [**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
 <br>
 <br> <a name="d"></a>
@@ -71,31 +60,26 @@ tags: command list all options
 * [**`GEOMETRY`**](docs/commands/geometry.md) (name geometry for mesh object)
 * [**`GRID2GRID`**](docs/commands/GRID2GRID.md) (convert elements)
 <br>
-<br> <a name="g"></a>
-[**`HELP`**](docs/commands/HELP.md) (print global variable)
-
-[**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
+<br> <a name="h"></a>
+* [**`HELP`**](docs/commands/HELP.md) (print global variable)
+* [**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
 <br>
-<br> <a name="g"></a>
-[**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
-
-[**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
-
-[**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
-
-[**`INTERSECT_ELEMENTS`**](docs/commands/intersectelements.md) (intersect meshes)
-
-[**`INTERPOLATE`**](docs/commands/main_interpolate.md)(values from nodes or elements)
+<br> <a name="i"></a>
+* [**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
+* [**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
+* [**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
+* [**`INTERSECT_ELEMENTS`**](docs/commands/intersectelements.md) (intersect meshes)
+* [**`INTERPOLATE`**](docs/commands/main_interpolate.md)(values from nodes or elements)
 <br>
-<br> <a name="g"></a>
+<br> <a name="k"></a>
 * [**`KDTREE`**](docs/commands/kdtree.md) (represent mesh as kd-tree)
 <br>
-<br> <a name="g"></a>
+<br> <a name="l"></a>
 * [**`LOG`**](docs/commands/LOG.md) (turn log file off and on)
 * [**`LOOP`**](docs/commands/loop.md) (execute command multiple times)
 * [**`LOWER_D`**](docs/commands/lower_d.md) (create lower dimension structures)
 <br>
-<br> <a name="g"></a>
+<br> <a name="m"></a>
 * [**`MASSAGE`**](docs/commands/MASSAGE.md)(optimize the grid)
 * [**`MASSAGE2`**](docs/commands/MASSAGE2.md) (optimize based on gradient field)
 * [**`MATH`**](docs/commands/MATH.md) (math operations on attributes)
@@ -104,24 +88,24 @@ tags: command list all options
 * [**`METIS`**](docs/commands/metis.md) (graph partition algorithms)
 * [**`MODE`**](docs/commands/MODE.md) (set modes)
 * [**`MREGION`**](docs/commands/MREGION.md) (define material region for mesh object)
-
-### N
+<br>
+<br> <a name="n"></a>
 * [**`NEGATIVE_AIJ`**](docs/commands/NEGATIVE.md) (test bndry for neg. coef.)
-
-### O
+<br>
+<br> <a name="o"></a>
 * [**`OFFSETSURF`**](docs/commands/OFFSETSURF.md) (offset a triangulated surface)
-
-### P
+<br>
+<br> <a name="p"></a>
 * [**`PERTURB`**](docs/commands/PERTURB.md) (perturb node locations)
 * [**`PSET`**](docs/commands/PSET.md) (set of nodes for mesh object)
 * [**`PSTATUS`**](docs/commands/PSTATUS.md) (operate on point set)
-
-### Q
+<br>
+<br> <a name="q"></a>
 * [**`QUADXY`**](docs/commands/QUADXY.md) (define a logical X,Y node set)
 * [**`QUADXYZ`**](docs/commands/QUADXYZ1.md) (define a logical X,Y,Z node set)
 * [**`QUALITY`**](docs/commands/QUALITY.md) (report mesh quality values)
-
-### R
+<br>
+<br> <a name="r"></a>
 * [**`RADAPT`**](docs/commands/RADAPT.md) (adaptive smoothing)
 * [**`RANKVOLUME`**](docs/commands/rankvolume.md)(list small volume elements)
 * [**`READ`**](docs/commands/READ.md) (read input file)
@@ -146,8 +130,8 @@ tags: command list all options
 * [**`RZRAN`**](docs/commands/RZRAN.md) (deprecrated, see createpts)
 * [**`RZS`**](docs/commands/RZS.md) (deprecrated, see createpts)
 * [**`RZV`**](docs/commands/RZV_LG.md) (deprecrated, see createpts)
-
-### S
+<br>
+<br> <a name="s"></a>
 * [**`SCALE`**](docs/commands/SCALE.md) (scale node coordinates)
 * [**`SETPTS`**](docs/commands/SETPTS.md) (set node type and material)
 * [**`SETSIZE`**](docs/commands/SETSIZE.md) (set epsilon values based on space size)
@@ -157,14 +141,88 @@ tags: command list all options
 * [**`STACK`**](docs/commands/STACK.md) (read and merge surfaces)
 * [**`SURFACE`**](docs/commands/SURFACE.md) (define a geometric surface)
 * [**`SURFPTS`**](docs/commands/SURFPTS.md) (make nodes on a surface)
-
-### T
+<br>
+<br> <a name="t"></a>
 * [**`TRANS`**](docs/commands/TRANS.md) (translate node coordinates)
 * [**`TRIANGULATE`**](docs/commands/TRIAGN.md) (triangulate inside polygon)
-
-### U
+<br>
+<br> <a name="u"></a>
 * [**`UNG2AVS`**](docs/commands/UNG2AVS.md) (UNGenerate to AVS)
 * [**`UPSCALE`**](docs/commands/UPSCALE.md) (attributes from a fine grid to a coarse grid)
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br> <a name="y"></a>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br> <a name="z"></a>
+<br>
+<br>
+
+
+
+
+
+
+
+
 
 
 
