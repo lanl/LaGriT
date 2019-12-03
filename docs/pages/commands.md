@@ -3,7 +3,7 @@ title: "LaGriT Commands - Alphabetical"
 tags: command list all options
 ---
 
-# Alphabetic Listing of LaGriT Commands
+# Alphabetic Listing of LaGriT Commands <a name="top"></a>
 
 
 |  | | |  | | | |  | | | |  | | | |  | | | |  | | | | | | |
@@ -14,7 +14,7 @@ tags: command list all options
 
 --------------
 
-<br><a name="top"></a>
+
 <br>
 <a name="a"></a><br>
 * [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
@@ -97,7 +97,7 @@ tags: command list all options
 <a name="o"></a><br>
 * [**`OFFSETSURF`**](docs/commands/OFFSETSURF.md) (offset a triangulated surface)
 <br>
-**P**<a name="p"></a><br>
+<a name="p"></a><br>
 * [**`PERTURB`**](docs/commands/PERTURB.md) (perturb node locations)
 * [**`PSET`**](docs/commands/PSET.md) (set of nodes for mesh object)
 * [**`PSTATUS`**](docs/commands/PSTATUS.md) (operate on point set)
