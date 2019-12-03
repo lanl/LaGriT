@@ -70,27 +70,32 @@ tags: command list all options
 * [**`GENIEE`**](docs/commands/GENIEE.md) (make or check element connectivity)
 * [**`GEOMETRY`**](docs/commands/geometry.md) (name geometry for mesh object)
 * [**`GRID2GRID`**](docs/commands/GRID2GRID.md) (convert elements)
+<br>
+<br> <a name="g"></a>
+[**`HELP`**](docs/commands/HELP.md) (print global variable)
 
-### H
-* [**`HELP`**](docs/commands/HELP.md) (print global variable)
-* [**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
+[**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
+<br>
+<br> <a name="g"></a>
+[**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
 
-### I
-* [**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
-* [**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
-* [**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
-* [**`INTERSECT_ELEMENTS`**](docs/commands/intersectelements.md) (intersect meshes)
-* [**`INTERPOLATE`**](docs/commands/main_interpolate.md)(values from nodes or elements)
+[**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
 
-### K
+[**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
+
+[**`INTERSECT_ELEMENTS`**](docs/commands/intersectelements.md) (intersect meshes)
+
+[**`INTERPOLATE`**](docs/commands/main_interpolate.md)(values from nodes or elements)
+<br>
+<br> <a name="g"></a>
 * [**`KDTREE`**](docs/commands/kdtree.md) (represent mesh as kd-tree)
-
-### L
+<br>
+<br> <a name="g"></a>
 * [**`LOG`**](docs/commands/LOG.md) (turn log file off and on)
 * [**`LOOP`**](docs/commands/loop.md) (execute command multiple times)
 * [**`LOWER_D`**](docs/commands/lower_d.md) (create lower dimension structures)
-
-### M
+<br>
+<br> <a name="g"></a>
 * [**`MASSAGE`**](docs/commands/MASSAGE.md)(optimize the grid)
 * [**`MASSAGE2`**](docs/commands/MASSAGE2.md) (optimize based on gradient field)
 * [**`MATH`**](docs/commands/MATH.md) (math operations on attributes)
