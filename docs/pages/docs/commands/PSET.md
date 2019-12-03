@@ -12,42 +12,52 @@ Associate a name with a point set based on various geometric and logical operato
 
 By convention, `ifirst,ilast,istride` syntax represents a range selection defined either by a set of points from ifirst to ilast, with increments of istride (1 by default). A set selection can also be defined with **pset,get,** `pset_name` where `pset_name` has been defined by the following **`PSET`** commands. Most commands with the syntax `ifirst,ilast,istride` can also use **pset,get,** `pset_name`.
  
-The following are the syntax and parameter definitions:
+The following are the syntax and parameter definitions, click on options in table or scroll down the page.
 
- 
-### attribute
-forms a pset from points in selected range which have the specified value for a node based attribute. 
-If the optional comparator field is given; that operation is used to compare the attribute value to the requested value. 
-Note the comparator fields and the value can swap argument order.
-*This option was previously named zq in old releases*.
+
+|    |    |    |    |
+| :------ | :---------- | :------ | :---------- | 
+| [**`attribute`**](#attribute) | [**`constraints`**](#constraints) | [**`delete`**](#delete) | [**`eltset`**](#eltset) |
+| [**`geom`**](#geom) | [**`list`**](#list) | [**`logicals`**](#logicals) | [**`region`**](#region) |
+| [**`seq`**](#geom) | [**`surface`**](#list) | [**`write`**](#write) | [**`zone`**](#zone) |
+
+<hr>
+
+### **`attribute`** <a name="attribute"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>attribute</b> / attribute_name /ifirst,ilast,istride/[<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> ] / [value]
 </pre>
 
+forms a pset from points in selected range which have the specified value for a node based attribute. 
+If the optional comparator field is given; that operation is used to compare the attribute value to the requested value. 
+Note the comparator fields and the value can swap argument order.
+*This option was previously named zq in old releases*.
 
-### constraints
-forms a pset of nodes having the specified number of constraints.  The node's **icr** value is used as an index to the **icontab** attribute which gives the number of constraints.  [See Mesh Object](../meshobject.md) for an explanation of the **icontab** entries.
+
+### **`constraints`** <a name="constraints"></a>
 <pre>
 <b>pset</b>/pset_name/<b>constraints</b>/ num_constraints 
 </pre>
+forms a pset of nodes having the specified number of constraints.  The node's **icr** value is used as an index to the **icontab** attribute which gives the number of constraints.  [See Mesh Object](../meshobject.md) for an explanation of the **icontab** entries.
 
 
-### delete
-removes a previously defined pset
+
+### **`delete`** <a name="delete"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>delete</b>
 </pre>
+removes a previously defined pset
 
 
-### eltset
-forms a pset of nodes in the element set named.
+### **`eltset`** <a name="eltset"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>eltset</b> / element_set_name
 </pre>
+forms a pset of nodes in the element set named.
 
 
-### geom
-forms a pset from all points inside a geometric shape as defined in the following options:
+
+### **`geom`** <a name="geom"></a>
 <pre>
 <b>pset</b>/pset_name/<b>geom / xyz</b> /ifirst,ilast,istride/ xl,yl,zl / xu,yu,zu/ xcen,ycen,zcen
 
@@ -55,6 +65,7 @@ forms a pset from all points inside a geometric shape as defined in the followin
 
 <b>pset</b>/pset_name/<b>geom / rtp</b> /ifirst,ilast,istride/ r1,t1,p1 / r2/t2/p2/ xcen,ycen,zcen
 </pre>
+forms a pset from all points inside a geometric shape as defined in the following options:
 
 -  **xyz** forms a pset from all points inside a box whose corners are xl,yl,zl and xu,yu,zu relative to the geometry center at xc,yc,zc.
 
@@ -64,60 +75,66 @@ forms a pset from all points inside a geometric shape as defined in the followin
     
 
 
-### list
-lists nodes in a pset or names of all psets for the mesh object.
+### **`list`** <a name="list"></a>
 <pre>
-<b>pset</b>/pset_name/<b>list</b> </pre>
+<b>pset</b>/pset_name/<b>list</b> 
+</pre>
+lists nodes in a pset or names of all psets for the mesh object.
 
 
-### union inter not
-logical operations **`union`**, **`inter`** and **`not`** act on previously defined psets.  The definition of the unary operator **`not`** is extended such that **`not`**/p1/p2 means p1 and (not(p2)).
+
+### **`logicals`**  <a name="logicals"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>union</b> or <b>inter</b> or <b>not</b> / pset1[  ,pset2, … psetn ]
 </pre>
+logical operations **`union`**, **`inter`** and **`not`** act on previously defined psets.  The definition of the unary operator **`not`** is extended such that **`not`**/p1/p2 means p1 and (not(p2)).
 
 
-### region mregion 
-will return all nodes that are in the specified region or mregion.
+
+### **`region`** **`mregion`** <a name="region"></a>
 <pre>
 <b>pset</b>/pset_name/<b>region</b> or <b>mregion</b> / region_name / ifirst,ilast,istride
 </pre>
+will return all nodes that are in the specified region or mregion.
 
 
 
-### seq 
-forms a pset of the nodes defined by ifirst, ilast, istride;
-the special syntax,: 1,0,0 refers to all nodes and 0,0,0 refers to the last set of nodes created.
+
+### **`seq`** <a name="seq"></a>
 <pre>
 <b>pset</b>/pset_name/ <b>seq</b> /ifirst,ilast,istride
 </pre>
+forms a pset of the nodes defined by ifirst, ilast, istride;
+the special syntax,: 1,0,0 refers to all nodes and 0,0,0 refers to the last set of nodes created.
 
 
-### surface 
+
+### **`surface`** <a name="surface"></a>
+<pre>
+<b>pset</b>/pset_name/ <b>surface</b> / surface_name / [ifirst,ilast,istride]
+</pre>
 identifies nodes on the specified surface as indicated by defining surface_name.  The following keywords for surface_name can be used:
 
 - **-all-** will identify nodes on all and any surfaces.
 - **-interface-** will identify all nodes on interfaces.
 - **-boundary-** will idendtify nodes on external boundary surfaces.
 
+
+
+
+
+### **`write`** <a name="write"></a>
 <pre>
-<b>pset</b>/pset_name/ <b>surface</b> / surface_name / [ifirst,ilast,istride]
+<b>pset</b>/ [pset_name or <b>-all-</b>] / <b>write</b> / file_name[.vertexset] / [<b>ascii</b> or <b>binary</b>]
 </pre>
-
-
-
-### write
 write or dump a pset node list to a file, options are **ascii** or **binary**.
-<pre>
-  <b>pset</b>/ [pset_name or <b>-all-</b>] / <b>write</b> / file_name[.vertexset] / [<b>ascii</b> or <b>binary</b>]
-</pre>
 
 
-### zone zonn
-write pset node list to a file (FEHM Flow and Transport code zone file format). By default the zone_number is a number 1-n where n is the number of psets defined in the mesh object. Specify a number value for a single zone file with the zone_number option. 
+### **`zone`** **`zonn`** <a name="zone">
 <pre>
 <b>pset</b> / [name or <b>-all-</b>] / <b>zone</b> or <b>zonn</b> / file_name[.zone or .zonn] / [<b>ascii</b>] [zone_number]
 </pre>
+write pset node list to a file (FEHM Flow and Transport code zone file format). By default the zone_number is a number 1-n where n is the number of psets defined in the mesh object. Specify a number value for a single zone file with the zone_number option. 
 
 
 
