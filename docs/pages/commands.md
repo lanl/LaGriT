@@ -8,22 +8,20 @@ tags: command list all options
 
 |  | | |  | | | |  | | | |  | | | |  | | | |  | | | | | | |
 | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: |  :----:  | :----:  | :----: |  :----:  | :----:  | :----: |
-| [ A ](#a)  | [ B ](#b)  | [ C ](#c)  | [ D ](#d) | [ E ](#e)  | [ F ](#f)  | [ G ](#g)  | [ H ](#h) | [ I ](#i)  | [ J ](#j)  | [ K ](#k)  | [ L ](#l) | [ M ](#m)  | [ N ](#n)  | [ O ](#o)  | [ P ](#p) | [ Q ](#q)  | [ R ](#r)  | [ S ](#s)  | [ T ](#t) |  [ U ](#u)  | [ V ](#v)  | [ W ](#w) |  [ X ](#x)  | [ Y ](#y)  | [ Z ](#z) |
+| [&nbsp; A &nbsp;](#a) | [&nbsp; B &nbsp;](#b) | [&nbsp; C &nbsp;](#c) | [&nbsp; D &nbsp;](#d) | [&nbsp; E &nbsp;](#e) | [&nbsp; F &nbsp;](#f) | [&nbsp; G &nbsp;](#g) | [&nbsp; H &nbsp;](#h) | [&nbsp; I &nbsp;](#i) | [&nbsp; J &nbsp;](#j) | [&nbsp; K &nbsp;](#k) | [&nbsp; L &nbsp;](#l) | [&nbsp; M &nbsp;](#m) | [&nbsp; N &nbsp;](#n) | [&nbsp; O &nbsp;](#o) | [&nbsp; P &nbsp;](#p) | [&nbsp; Q &nbsp;](#q) | [&nbsp; R &nbsp;](#r) | [&nbsp; S &nbsp;](#s) | [&nbsp; T &nbsp;](#t) | [&nbsp; U &nbsp;](#u) | [&nbsp; V &nbsp;](#v) | [&nbsp; W &nbsp;](#w) | [&nbsp; X &nbsp;](#x) | [&nbsp; Y &nbsp;](#y) | [&nbsp; Z &nbsp;](#z) |
 
 
 --------------
 
 
-**A**<br> <a name="a"></a>
+**A**<a name="a"></a>
 * [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
 * [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
-<br><a name="b"></a>
-**B**<br> 
+**B**<a name="b"></a>
 * [**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
 * [**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
 * [**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
-<br><a name="c"></a>
-**C**<br>
+**C**<a name="c"></a><br>
 * [**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
 * [**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
 * [**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
@@ -34,15 +32,14 @@ tags: command list all options
 * [**`CREATEPTS`**](docs/commands/createpts.md) (create point distribution)
 * [**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
 * [**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
-<br><a name="d"></a>
-**D**<br>
+<br>
+**D**<a name="d"></a><br>
 * [**`DEFINE`**](docs/commands/DEFINE.md) (assign value to variable name)
 * [**`DEREFINE`**](docs/commands/DEREFINE.md) (merge nodes away)
 * [**`DOPING`**](docs/commands/DOPING1.md) (deprecated, see interpolate)
 * [**`DUMP`**](docs/commands/DUMP2.md) (write output files)
 * [**`DUMP_RECOLOR`**](docs/commands/DUMP_RECOLOR.md) (use adjacency map)
-<br><a name="e"></a>
-**E**<br>
+**E**<a name="e"></a><br>
 * [**`EDIT`**](docs/commands/EDIT2.md) (print some mesh info)
 * [**`ELMTEST`**](docs/commands/elmtest.md) (validate connectivity)
 * [**`ELTSET`**](docs/commands/ELTSET2.md) (set of elements for mesh object)
