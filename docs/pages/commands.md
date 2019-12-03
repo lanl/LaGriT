@@ -14,18 +14,18 @@ tags: command list all options
 
 --------------
 
-
+<br><a name="top"></a>
 <br>
-**A**<a name="a"></a><br>
+<a name="a"></a><br>
 * [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
 * [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
 <br>
-**B**<a name="b"></a><br>
+<a name="b"></a><br>
 * [**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
 * [**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
 * [**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
 <br>
-**C**<a name="c"></a><br>
+<a name="c"></a><br>
 * [**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
 * [**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
 * [**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
@@ -37,51 +37,51 @@ tags: command list all options
 * [**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
 * [**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
 <br>
-**D**<a name="d"></a><br>
+<a name="d"></a><br>
 * [**`DEFINE`**](docs/commands/DEFINE.md) (assign value to variable name)
 * [**`DEREFINE`**](docs/commands/DEREFINE.md) (merge nodes away)
 * [**`DOPING`**](docs/commands/DOPING1.md) (deprecated, see interpolate)
 * [**`DUMP`**](docs/commands/DUMP2.md) (write output files)
 * [**`DUMP_RECOLOR`**](docs/commands/DUMP_RECOLOR.md) (use adjacency map)
 <br>
-**E**<a name="e"></a><br>
+<a name="e"></a><br>
 * [**`EDIT`**](docs/commands/EDIT2.md) (print some mesh info)
 * [**`ELMTEST`**](docs/commands/elmtest.md) (validate connectivity)
 * [**`ELTSET`**](docs/commands/ELTSET2.md) (set of elements for mesh object)
 * [**`EXTRACT`**](docs/commands/EXTRACT1.md) (extract a surface)
 * [**`EXTRUDE`**](docs/commands/extrude.md) (extrude a surface)
 <br>
-**F**<a name="f"></a><br>
+<a name="f"></a><br>
 * [**`FIELD`**](docs/commands/FIELD.md) (manipulate a field attribute)
 * [**`FILTER`**](docs/commands/FILTER.md) (filter duplicate nodes)
 * [**`FINISH`**](docs/commands/FINISH.md) (end processing, EXIT)
 * [**`FSET`**](docs/commands/FSET.md) (set of faces for mesh object)
 <br>
-**G**<a name="g"></a><br>
+<a name="g"></a><br>
 * [**`GENIEE`**](docs/commands/GENIEE.md) (make or check element connectivity)
 * [**`GEOMETRY`**](docs/commands/geometry.md) (name geometry for mesh object)
 * [**`GRID2GRID`**](docs/commands/GRID2GRID.md) (convert elements)
 <br>
-**H**<a name="h"></a><br>
+<a name="h"></a><br>
 * [**`HELP`**](docs/commands/HELP.md) (print global variable)
 * [**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
 <br>
-**I**<a name="i"></a><br>
+<a name="i"></a><br>
 * [**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
 * [**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
 * [**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
 * [**`INTERSECT_ELEMENTS`**](docs/commands/intersectelements.md) (intersect meshes)
 * [**`INTERPOLATE`**](docs/commands/main_interpolate.md)(values from nodes or elements)
 <br>
-**K**<a name="k"></a><br>
+<a name="k"></a><br>
 * [**`KDTREE`**](docs/commands/kdtree.md) (represent mesh as kd-tree)
 <br>
-**L**<a name="l"></a><br>
+<a name="l"></a><br>
 * [**`LOG`**](docs/commands/LOG.md) (turn log file off and on)
 * [**`LOOP`**](docs/commands/loop.md) (execute command multiple times)
 * [**`LOWER_D`**](docs/commands/lower_d.md) (create lower dimension structures)
 <br>
-**M**<a name="m"></a><br>
+<a name="m"></a><br>
 * [**`MASSAGE`**](docs/commands/MASSAGE.md)(optimize the grid)
 * [**`MASSAGE2`**](docs/commands/MASSAGE2.md) (optimize based on gradient field)
 * [**`MATH`**](docs/commands/MATH.md) (math operations on attributes)
@@ -91,10 +91,10 @@ tags: command list all options
 * [**`MODE`**](docs/commands/MODE.md) (set modes)
 * [**`MREGION`**](docs/commands/MREGION.md) (define material region for mesh object)
 <br>
-**N**<a name="n"></a><br>
+<a name="n"></a><br>
 * [**`NEGATIVE_AIJ`**](docs/commands/NEGATIVE.md) (test bndry for neg. coef.)
 <br>
-**O**<a name="o"></a><br>
+<a name="o"></a><br>
 * [**`OFFSETSURF`**](docs/commands/OFFSETSURF.md) (offset a triangulated surface)
 <br>
 **P**<a name="p"></a><br>
@@ -102,12 +102,12 @@ tags: command list all options
 * [**`PSET`**](docs/commands/PSET.md) (set of nodes for mesh object)
 * [**`PSTATUS`**](docs/commands/PSTATUS.md) (operate on point set)
 <br>
-**Q**<a name="q"></a><br>
+<a name="q"></a><br>
 * [**`QUADXY`**](docs/commands/QUADXY.md) (define a logical X,Y node set)
 * [**`QUADXYZ`**](docs/commands/QUADXYZ1.md) (define a logical X,Y,Z node set)
 * [**`QUALITY`**](docs/commands/QUALITY.md) (report mesh quality values)
 <br>
-**R**<a name="r"></a><br>
+<a name="r"></a><br>
 * [**`RADAPT`**](docs/commands/RADAPT.md) (adaptive smoothing)
 * [**`RANKVOLUME`**](docs/commands/rankvolume.md)(list small volume elements)
 * [**`READ`**](docs/commands/READ.md) (read input file)
@@ -133,7 +133,7 @@ tags: command list all options
 * [**`RZS`**](docs/commands/RZS.md) (deprecrated, see createpts)
 * [**`RZV`**](docs/commands/RZV_LG.md) (deprecrated, see createpts)
 <br>
-**S**<a name="s"></a><br>
+<a name="s"></a><br>
 * [**`SCALE`**](docs/commands/SCALE.md) (scale node coordinates)
 * [**`SETPTS`**](docs/commands/SETPTS.md) (set node type and material)
 * [**`SETSIZE`**](docs/commands/SETSIZE.md) (set epsilon values based on space size)
@@ -144,16 +144,17 @@ tags: command list all options
 * [**`SURFACE`**](docs/commands/SURFACE.md) (define a geometric surface)
 * [**`SURFPTS`**](docs/commands/SURFPTS.md) (make nodes on a surface)
 <br>
-**T**<a name="t"></a><br>
+<a name="t"></a><br>
 * [**`TRANS`**](docs/commands/TRANS.md) (translate node coordinates)
 * [**`TRIANGULATE`**](docs/commands/TRIAGN.md) (triangulate inside polygon)
 <br>
-**U**<a name="u"></a><br>
+<a name="u"></a><br>
 * [**`UNG2AVS`**](docs/commands/UNG2AVS.md) (UNGenerate to AVS)
 * [**`UPSCALE`**](docs/commands/UPSCALE.md) (attributes from a fine grid to a coarse grid)
 <br>
 <br>
 <br>
+[Back to Top](#top)
 <br>
 <br>
 <br>
@@ -199,7 +200,7 @@ tags: command list all options
 <br>
 <br>
 <br>
-<br> <a name="y"></a>
+<br> 
 <br>
 <br>
 <br>
