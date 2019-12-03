@@ -181,7 +181,7 @@ Table format with page links. The colon on left will make cells left justified. 
 
 ```
 |   |  |   |
-| :---- | | :---- | | :---- | | :---- |
+| :---- |  :----  | :---- |  :---- |
 | [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
 
 ...

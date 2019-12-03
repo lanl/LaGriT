@@ -5,51 +5,68 @@ tags: command list all options
 
 # Alphabetic Listing of LaGriT Commands
 
+|  | | |  | | | |  | | | |  | | | |  | | | |  | 
+| :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: | :----:  | :----:  | :----:  | :----: |
+| [A](#a)  | [B](#b)  | [C](#c)  | [D](#d) | A  | B  | C  | D | A  | B  | C  | D | A  | B  | C  | D | A  | B  | C  | D |
+
+
 --------------
 
 
-### A
-* [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes)
-* [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
-
-### B
-* [**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
-* [**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
-* [**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
-
-### C
-* [**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
-* [**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
-* [**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
-* [**`COMPUTE`**](docs/commands/COMPUTE.md) (compute a new mesh attribute value)
-* [**`CONNECT`**](docs/commands/CONNECT1.md) (connect points into tetrahedral mesh)
-* [**`COORDSYS`**](docs/commands/COORDSY.md) (change coordinate system)
-* [**`COPYPTS`**](docs/commands/COPYPTS.md) (copy points into mesh object)
-* [**`CREATEPTS`**](docs/commands/createpts.md) (create point distribution)
-* [**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
-* [**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
-
-### D
+<br> <a name="a"></a>
+[**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
+<br>
+[**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
+<br>
+<br> <a name="b"></a>
+[**`BOUNDARY`**](docs/commands/BOUNDAR1.md) (set boundary attributes on surfaces)
+<br>
+[**`BOUNDARY_COMPONENTS`**](docs/commands/BOUNDARY_C.md) (count boundary components)
+<br>
+[**`BUBBLE`**](docs/commands/bubble.md) (extrude to 3D and extract boundary)
+<br>
+<br> <a name="c"></a>
+[**`CALC_RDIST`**](docs/commands/calc_rdist.md) (calculate radial distance)
+<br>
+[**`CMO`**](docs/commands/CMO2.md) (mesh object operations)
+<br>
+[**`COLORMAP`**](docs/commands/COLORMAP.md) (build adjacency map)
+<br>
+[**`COMPUTE`**](docs/commands/COMPUTE.md) (compute a new mesh attribute value)
+<br>
+[**`CONNECT`**](docs/commands/CONNECT1.md) (connect points into tetrahedral mesh)
+<br>
+[**`COORDSYS`**](docs/commands/COORDSY.md) (change coordinate system)
+<br>
+[**`COPYPTS`**](docs/commands/COPYPTS.md) (copy points into mesh object)
+<br>
+[**`CREATEPTS`**](docs/commands/createpts.md) (create point distribution)
+<br>
+[**`CREATE_GRAPH`**](docs/commands/create_graph.md) (create adjacency graph)
+<br>
+[**`CRUSH_THIN_TETS`**](docs/commands/crush_thin_tets.md) (reduce number of thin tets)
+<br>
+<br> <a name="d"></a>
 * [**`DEFINE`**](docs/commands/DEFINE.md) (assign value to variable name)
 * [**`DEREFINE`**](docs/commands/DEREFINE.md) (merge nodes away)
 * [**`DOPING`**](docs/commands/DOPING1.md) (deprecated, see interpolate)
 * [**`DUMP`**](docs/commands/DUMP2.md) (write output files)
 * [**`DUMP_RECOLOR`**](docs/commands/DUMP_RECOLOR.md) (use adjacency map)
-
-### E
+<br>
+<br> <a name="e"></a>
 * [**`EDIT`**](docs/commands/EDIT2.md) (print some mesh info)
 * [**`ELMTEST`**](docs/commands/elmtest.md) (validate connectivity)
 * [**`ELTSET`**](docs/commands/ELTSET2.md) (set of elements for mesh object)
 * [**`EXTRACT`**](docs/commands/EXTRACT1.md) (extract a surface)
 * [**`EXTRUDE`**](docs/commands/extrude.md) (extrude a surface)
-
-### F
+<br>
+<br> <a name="f"></a>
 * [**`FIELD`**](docs/commands/FIELD.md) (manipulate a field attribute)
 * [**`FILTER`**](docs/commands/FILTER.md) (filter duplicate nodes)
 * [**`FINISH`**](docs/commands/FINISH.md) (end processing, EXIT)
 * [**`FSET`**](docs/commands/FSET.md) (set of faces for mesh object)
-
-### G
+<br>
+<br> <a name="g"></a>
 * [**`GENIEE`**](docs/commands/GENIEE.md) (make or check element connectivity)
 * [**`GEOMETRY`**](docs/commands/geometry.md) (name geometry for mesh object)
 * [**`GRID2GRID`**](docs/commands/GRID2GRID.md) (convert elements)
