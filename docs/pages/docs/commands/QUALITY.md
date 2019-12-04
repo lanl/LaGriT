@@ -5,13 +5,16 @@ tags: quality mesh metrics
 
 # QUALITY #
 
-**quality** provides a collection of mesh quality measurements. Together with commands in **cmo/addatt** a good summary of mesh metrics can be reported or used for further mesh optimization. For quality measurments to characterize tet elements by various types, see [Quality Measures](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html).
+------------------------
+
+**`quality`** provides a collection of mesh quality measurements. Together with commands in **`cmo/addatt`** a good summary of mesh metrics can be reported or used for further mesh optimization. For quality measurments to characterize tet elements by various types, see [Quality Measures](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html).
 
 ## SYNTAX ## 
 
 <pre>
 <b>quality</b> / [quality_type] / [quality_type_options]
 </pre>
+
 
 ## DESCRIPTIONS ##
 
@@ -87,10 +90,6 @@ eltset,get,ename will report volumes on elements in defined eltset can be used i
 
 ## EXAMPLES ## 
 
-```
-quality
-```
-display summary of volume and aspect ratios
 
 ```
 quality/aspect
@@ -141,6 +140,13 @@ Example calls using **quality** and **cmo/addatt** commands to show mesh quality
 
 ```
 quality  
+```
+The  default with no arguments will calculate and display element volumes and aspect ratios for the current mesh object.
+
+Output for the quality command with no arguments:
+
+<pre class="lg-output">
+quality
 
 epsilonl, epsilonaspect:   1.4360051E-10  2.9612012E-30                        
 --------------------------------------------                                   
@@ -163,8 +169,7 @@ element volumes b/w  0.2617E+03 and  0.5210E+03:     63714
 min volume =   1.6666667E+01  max volume =   5.2100000E+02                     
 -----------------------------------------------------------                    
     794964 total elements evaluated.    
-```
-Example call and report from the **quality** command with no arguments.
+</pre>
 
 
 [Click Here For more Examples on Quality Measurements](https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html)

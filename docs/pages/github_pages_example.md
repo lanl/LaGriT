@@ -197,16 +197,24 @@ Table format with page links. The colon on left will make cells left justified. 
 
 Below are multiple ways to embed images in a Markdown file.
 Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
+Set Image sizes for a page between 250 and 500. 
 
-&lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png">
-&#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png)
-&lt;img src=&quot;&#123;&#123;'assets/images/sphere_cube_colors26_expand.png' | absolute_url&#125;&#125;&quot; width=&quot;500&quot;>
-&#x0021;&#x005b;alternate text](../../../assets/images/sphere_cube_colors26_expand.png)
-&#x0021;&#x005b;alternate text](&#123;&#123; site.baseurl }}/assets/images/sphere_cube_colors26_expand.png)
-&#x0021;&#x005b;alternate text](&#123;&#123;'assets/images/sphere_cube_colors26_expand.png' | absolute_url&#125;&#125;)
+Using href will make a small image clickable to the full image:
+<a href="output/connect_cube_nodes.png"> <img width="250" src="output/connect_cube_nodes.png"> </a>
+
+Embed with html 
+&lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/cube.png">
+
+Embed with markdown
+&#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/cube.png)
+
+&lt;img src=&quot;&#123;&#123;'assets/images/cube.png' | absolute_url&#125;&#125;&quot; width=&quot;500&quot;>
+&#x0021;&#x005b;alternate text](../../../assets/images/cube.png)
+&#x0021;&#x005b;alternate text](&#123;&#123; site.baseurl }}/assets/images/cube.png)
+&#x0021;&#x005b;alternate text](&#123;&#123;'assets/images/cube.png' | absolute_url&#125;&#125;)
 </pre>
 <div class="rendered">
-<img width="200" src="https://lanl.github.io/LaGriT/assets/images/sphere_cube_colors26_expand.png">
+<img width="200" src="https://lanl.github.io/LaGriT/assets/images/cube.png">
 </div>
 </div>
 
