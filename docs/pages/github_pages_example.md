@@ -180,7 +180,7 @@ See examples at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2
 Table format with page links. The colon on left will make cells left justified. Use colons on both sides to center:
 
 ```
-|   |  |   |
+|   |  |  |  |
 | :---- |  :----  | :---- |  :---- |
 | [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
 
@@ -199,11 +199,11 @@ Below are multiple ways to embed images in a Markdown file.
 Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
 Set Image sizes for a page between 250 and 500. 
 
-Using href will make a small image clickable to the full image:
-<a href="output/connect_cube_nodes.png"> <img width="250" src="output/connect_cube_nodes.png"> </a>
-
 Embed with html 
 &lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/cube.png">
+
+Using href will make a small image clickable to the full image:
+&lt;a href=&quot;300&quot; src=&quot;cube.png">  &lt;img width=&quot;300&quot; src=&quot;cube.png">  &lt;</a>
 
 Embed with markdown
 &#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/cube.png)
