@@ -25,9 +25,9 @@ We therefore will detail several algorithms that are currently implemented for i
   current ones modified as we obtain feed back from users.
 
  
-I. [Edges: Each edge is tested separately to see if it should be tagged for refinement or derefinement](./edges.md)
+[I. Edges: Each edge is tested separately to see if it should be tagged for refinement or derefinement](./edges.md)
   
-II. [Faces: Each face is tested separately for refinement or derefinement.](refine_faces.md)
+[II. Faces: Each face is tested separately for refinement or derefinement.](refine_faces.md)
   
 [III. Tets: Each tetrahedron is tested separately for refinement or derefinement](refine_tets.md)
   
