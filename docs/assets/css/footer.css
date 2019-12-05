@@ -4,6 +4,10 @@ Begin footer CSS
 
 */
 
+li {
+  margin-bottom: 5px;
+}
+
 .lg-output {
   font-size: 0.9em;
   background-color: rgb(40,40,40);
