@@ -41,6 +41,9 @@ tags: ok
 
 **rmpoint/womesh**
 
+rmpoint/sparse (for experts) requires reconnection when done.
+
+
 **EXAMPLES:**
 
     rmpoint/pset, get, pset1
