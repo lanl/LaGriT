@@ -14,7 +14,7 @@ Thus, after calling **`REFINE2D`** once, a triangle will be tessellated into 4 t
 
 <pre>
 <b>refine2d</b>
-<pre>
+</pre>
 
 ## Examples
 
