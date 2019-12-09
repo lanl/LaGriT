@@ -1,8 +1,11 @@
 ---
 title: RESETPTS
+tags: resetpts, itp
 ---
 
 # RESETPTS
+
+-----------------------
 
 Reset values for node **imt** material color, **itp** type, or **isn** parent-child for doubly defined nodes.
 
