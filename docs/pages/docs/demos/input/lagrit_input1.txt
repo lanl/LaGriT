@@ -1,0 +1,8 @@
+cmo/create/3dmesh
+surface/outer/reflect/box/0,0,0/1,1,1
+region/r1/ le outer /
+mregion/m1/ le outer /
+createpts/xyz/5,3,4/0,0,0/1,1,1/1,1,1/1,0,0/1.5,1,1/
+setpts
+dump/gmv/out1.gmv
+finish

@@ -1,0 +1,20 @@
+*TEST rotatept (lagrit_input_rotatept)
+cmo/create/abc/tet
+createpts/rtz/9,5,2/0.,0.,0./10.,360.,2./1,1,1/
+pset/rays/seq/1,0,0
+dump/ gmv / output1.gmv /abc
+zq/xic/pset,get,rays
+*
+* rotation in xy-plane about z-axis
+rotatept/pset,get,rays/nocopy/0.,0.,0./0./30.
+dump/ gmv / output2.gmv /abc
+*
+* rotation "away from" z-axis
+rotatept/pset,get,rays/nocopy/0.,0.,0./15./00.
+dump/ gmv / output3.gmv /abc
+zq/xic/1,0,0
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish
