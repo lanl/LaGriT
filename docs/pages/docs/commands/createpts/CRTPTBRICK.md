@@ -1,10 +1,11 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: CREATEPTS/BRICK
+tags: createpts/brick
 ---
 
 # CREATEPTS/BRICK
+
+------------------
 
 Builds a set nodes (logically rectangular) and create finite element hexahedral connectivity. This command is similar to the deprecated **rz** command format except that symmetry flags are included. A second format specifies that a mesh be created and connected. These commands require a hex or quad cmo to be defined. See also [**`createpts`**](CRTPTSRZ.md) command without the brick option which will create an unconnected point distribution.
 

@@ -9,7 +9,8 @@ tags: createpts sphere
 
 Builds a sphere by generating coordinates of points and also modifies zoning by ratio-zoning point distributions. See the **`rz`** command for more details. 
 
-Use **`connect`** to generate tet or triangle connectivity.
+Use **`connect`** to generate tet or triangle connectivity for all types except option **`8`** which generates the hex connectivity.
+
 
 ## SYNTAX
 
@@ -27,7 +28,8 @@ Use **`connect`** to generate tet or triangle connectivity.
 *   **`2`** generates a sphere by subdividing an icosahedron placed on the surface of a sphere. Icosahedral gridding is made up of 10 diamonds per shell. Each diamond is made up of `n**2` nodes (where n must be of the form `2**i+1`). There are 2 nodes (the poles of the sphere) at which 5 diamonds meet and 10 nodes where 3 diamonds meet; hence there are a minimum of 12 nodes per shell. The number of nodes per shell can be 12, 42, 162, 642,...etc. 
 
 
-*   **`8`** generates a hexahedral icosahedron grid. This option distributes points and generates the grid connectivity data structures.
+*   **`8`** generates a hexahedral icosahedron grid. This option distributes points and generates the grid connectivity data structures. This option does not require a connect command.
+
     
 *  **`diamond`** generates the points for one diamond of the icosahedron.
 

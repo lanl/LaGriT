@@ -1,105 +1,78 @@
 ---
 title: CREATEPTS/RANDOM
-tags: ok
---- 
+tags: CREATEPTS/random 
+---
+
 
 # CREATEPTS/RANDOM
 
-This routine is used to add random points with a given target
-spacing to the region of space defined by the input minimum and
-maximum coordinate values using the specified geometry (xyz, rtz, or
-rtp), and the given local origin (specified in xyz coordinates).
 
-Within the bounding geometry, the points are distributed uniformly
-in space, with the average separation targeted at the input value of
-the spacing.  Near the boundaries of the geometry, the uniform
-distribution is modified slightly in order to create a well defined
-outer boundary.  Points are added separately on the corners, edges,
-and surfaces of the bounding geometry, uniformly randomly
-distributed with the same target spacing on each of these boundary
-objects. Points in the interior are offset by the specified edge
-protection distance from the exterior.  This separation helps
-LaGriT's connect algorithm avoid creating artificial "pits" in the
-interface surfaces.
+--------------------
 
-## FORMAT
+
+This routine is used to add random points with a given target spacing to the region of space defined by the input minimum and
+maximum coordinate values using the specified geometry (xyz, rtz, or rtp), and the given local origin (specified in xyz coordinates).
+
+Within the bounding geometry, the points are distributed uniformly in space, with the average separation targeted at the input value of
+the spacing.  Near the boundaries of the geometry, the uniform distribution is modified slightly in order to create a well defined
+outer boundary.  Points are added separately on the corners, edges, and surfaces of the bounding geometry, uniformly randomly
+distributed with the same target spacing on each of these boundary objects. Points in the interior are offset by the specified edge
+protection distance from the exterior.  
+
+This separation helps LaGriT's connect algorithm avoid creating artificial "pits" in the interface surfaces.
+
+While only `createpts/random` is required (will result in a single point at the origin), it is recommended that you use as the minimal command, first line below.
+
+
+## SYNTAX
 
 <pre>
-<b>createpts/random</b> / cgeom / spacing / rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3 &
-  [/ xoff,yoff,zoff / edgedist / ranseed1,ranseed2 ]
+<b>createpts/random</b> /geom/spacing/ rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3 
+
+<b>createpts/random</b> /geom/spacing/rmin1,rmin2,rmin3 /rmax1,rmax2,rmax3 / &
+                        [ xoff,yoff,zoff / edgedist / ranseed1,ranseed2 ]
 </pre>
 
-while only `createpts/random` is required (will result in a single
-point at the origin), it is recommended that you use as the minimal
-command: `createpts/random / cgeom / spacing /  rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3`.
+
+### Geometry Options for `geom`:
+
  
-* cgeom
+  **xyz** specifies Cartesian coordinates (default).
 
-  * geometry label (same convention as for rz)
+  **rtz** specifies cylindrical coordinates.
 
-  * allowed values: xyzrtprtz (cartesian, cylindrical, spherical)
+  **rtp** specifies spherical coordinates.
 
-  * default: xyz if not present, error return if not allowed
  
-* spacing
+###  Options:
 
-  * target separation between the random points
+`spacing` is the target separation between the random points, values must be &gt; 0 (default is 1).
 
-  * allowed values: spacing&gt;0
-
-  * default: spacing=1
  
-* rmin1,rmin2,rmin3 / rmax1,rmax2,rmax3
+`rmin1,rmin2,rmin3` / `rmax1,rmax2,rmax3` are the minimum and maximum coordinate values (defaults: rmin=0, rmax=rmin).
+For **rtz** rmax2-rmin2 must be  &lt;= 360. For **rtp** the values should be rmax2 &lt;= 180, and  rmax3-rmin3 &lt;= 360.
+All min values must be &gt;= 0.
 
-  * minimum and maximum coordinate values
 
-  * allowed values:
-
-      * all geometries: rmax.ge.rmin
-
-      * **rtz:** rmin1.ge.0, rmax2-rmin2.le.360
-
-      * **rtp**: rmin1.ge.0, rmin2.ge.0, rmax2.le., rmax3-rmin3.le.360
-
-  * defaults: rmin=0, rmax=rmin
  
-* xoff,yoff,zoff (specified in xyz coordinate system)
+`xoff,yoff,zoff` is the local origin shift specified in xyz coordinate system (default is 0).
 
-  * local origin shift
-
-  * defaults: 0
  
-* edgedist
+`edgedist` is the edge protection distance (default and recommended: spacing/2).
+Note: if the spacing is larger with respect to the dimension of the geometry, the default setting may result in few or no interior
+  nodes.  In this case decrease the value of edgedist.  
 
-  * edge protection distance
 
-  * default: spacing/2
+`ranseed1, ranseed2` are seeds for the random number generator, the  default is -1 (do not re-seed, recommended).  If either seed is .le. zero, the seeds are ignored.  Recommended values if reseed:
+<br>
+large-ish integers, ranseed1 > ranseed2 > 0, ranseed2 odd.
+<br>
+No initial seeds are needed, and repeating the command with the identical parameters and seeds should result
+    in the identical point distribution. Repeating the command with no seeds specified should result in
+    different point locations with the same distribution.  
 
-  * recommended value: spacing/2
 
-  * Note: if the spacing is larger with respect to the dimension of the
-  geometry, the default setting may result in few or no interior
-  nodes.  In this case decrease the value of edgedlist.
- 
-* ranseed1,ranseed2
-
-  * seeds for the random number generator
-
-  * defaults: -1 (do not re-seed, recommended)
-
-    * if either seed is .le. zero, the seeds are ignored
-
-  * recommended values if reseed:
-
-    * large-ish integers, ranseed1 > ranseed2 > 0, ranseed2 odd.
-
-  * No initial seeds are needed, and repeating the command
-    with the identical parameters and seeds should result
-    in the identical point distribution. Repeating the
-    command with no seeds specified should result in
-    different point locations with the same distribution.
-
-   
+<hr>   
 
 ## EXAMPLES
 
