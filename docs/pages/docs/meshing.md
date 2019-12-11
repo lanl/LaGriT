@@ -3,7 +3,7 @@ title: Mesh Design and Considerations
 tags: mesh design, quality 
 ---
 
-# Mesh Design and Considerations
+# Mesh Design Considerations
 
 ------------
 
@@ -18,13 +18,13 @@ LaGriT is used to generate meshes with control volume discretization such that t
 <hr>
 
 
-### [Tet Quality Measures with LaGriT](QUALITY_sliver_cap_needle_wedge.md) 
+[**Tet Quality Measures with LaGriT**](QUALITY_sliver_cap_needle_wedge.md) 
 
 
-### [GDSA Example with 4 Geologic Model Types](https://meshing.lanl.gov/proj/SFWD_models/images/index.html)  
+[**GDSA Example with 4 Geologic Model Types**](https://meshing.lanl.gov/proj/SFWD_models/images/index.html)  
 
 
-### [LANL Meshing Examples](https://meshing.lanl.gov/)  
+[**LANL Meshing Examples**](https://meshing.lanl.gov/)  
 
 
  

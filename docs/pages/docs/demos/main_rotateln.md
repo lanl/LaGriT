@@ -3,20 +3,18 @@ title: ROTATELN DEMO
 tags: rotateln, rotate line
 ---
 
-# ROTATELN
-
-----------------------
 
 
-## DEMO ROTATE CYLINDER IN BOX
+## DEMO ROTATED CYLINDER IN BOX
 
-Use **rotateln** and **trans** to move a cylinder.
+Create a box with a cylinder object, use **rotateln** and **trans** to move the cylinder.
+
 
 |  |  |   | 
 | :---: | :---: | :---:  | 
 |  |  |   | 
 |  **Rotated Points** |  **Remove dud points** |  **tet mesh**  | 
-| <img width="300" src="output/mesh_rot_allpts.png"> | <img width="300" src="output/mesh_rot_rmpts.png"> | <img width="300" src="output/mesh_rot_tet.png">  | 
+| <a href="output/mesh_rot_allpts.png"> <img width="300" src="output/mesh_rot_allpts.png"></a> | <a href="output/mesh_rot_rmpts.png"><img width="300" src="output/mesh_rot_rmpts.png"></a> | <a href="output/mesh_rot_tet.png"><img width="300" src="output/mesh_rot_tet.png"></a>  | 
 
 
 
@@ -30,11 +28,12 @@ Points are spread by surrounding the whole object with a cylinder shell of point
 these points and the major axis of the cylinder. Points are distributed along these rays inside the cylindrical region. 
 A background rectangular grid of points is spread outside the cylinder.
 The rz command always distributes points with the z-axis as the axis of symmetry
+The first image shows the points (magenta and green) and the ray points (in black).
 
 4. Rotate and translate
 Use the rotateln and trans commands to move the point distribution after it is created.
 
-5. Set node and element materials and connect into a tet mesh.
+5. Set node and element materials, remove ray points (black points in image), and connect into a tet mesh.
 
 
 
