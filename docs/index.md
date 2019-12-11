@@ -66,21 +66,26 @@ developed to easily generate meshes by extrusion, dimensional reduction,
 coarsening and refinement of synthetic and realistic data. PyLaGriT
 enhances the workflow, enabling rapid iterations for use in simulations
 incorporating uncertainty in system geometry and automatic mesh
-generation. See Description and Manual [here](/pylagrit/original/index.html).
-
-LaGriT and PyLaGriT are now distributed as open-source software under a
-BSD 3-Clause License (See
-[License](pages/licensing.md)).
+generation. 
 
 
-- [Online Manual](pages/manual.md)
-- [Features](pages/features.md)
-- [Applications](pages/applications.md)
-- [Development Team](pages/development.md)
-- [Graphics examples](pages/graphics.md)
+## Documentation
+
+
+- [LaGriT Manual](pages/manual.md)
+- [PyLaGriT Manual](/pylagrit/original/index.html)
+
+
+## About LaGriT
+
+
 - [Licensing](pages/licensing.md)
+- [Applications](pages/applications.md)
+- [Graphics examples](pages/graphics.md)
 - [Publications](pages/publications.md)
 - [Release Notes](pages/release.md)
 - [LaGriT Style Guide](pages/github_pages_example.md)
 
-Contact the LaGriT team through email to tamiller@lanl.gov.
+
+
+### LaGriT Development Team [Contacts](pages/development.md)

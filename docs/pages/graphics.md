@@ -1,69 +1,26 @@
-LaGriT Examples                   
+---
+title: GRAPHICS 
+tags: graphics
+---
+
+# LaGriT GRAPHICS                   
+
 ---------------                   
+
 [Geology](https://meshing.lanl.gov/)                                
+
 [Semiconductor](semiexamples.md)                                
+
 [Geometry](geometry.md)        
+
 [Hexahedral grids](hex.md)     
+
 [Hybrid](hybrid.md)            
+
 [Grain growth](grain.md)               
 
-Examples are:                     
 
-			 addmesh_options
-			               
-			 create_icosohedron_sphere_me 
-			sh_spherical_shell_mesh
-			       
-			 createpts_diamond_spherical_ 
-			icosahedron
-			                      
-			 createpts_octree_points
-			      
-			 createpts_random_cylindar
-			    
-			 createpts_random_sphere
-			      
-			 createpts_random_xyz_cube
-			   
-			 cube_10x10x1_mesh_3_node_d 
-			ensities
-			                         
-			 cube_mesh_3_node_densities
-			 
-			 cube_mesh_3_node_densities
-			 
-			_offset_nodes
-			                   
-			 cube_mesh_ray_shooting_set
-			 
-			_boundary_nodes
-			                 
-			 define_geometry_to_a_mesh_ 
-			object
-			                           
-			 distance_field_signed
-			        
-			 metis_partition_reorder
-			      
-			 pset_command
-			                  
-			 read_zone_files
-			              
-			 refine_2d_triangles
-			          
-			 refine_3d_tetrahedra
-			         
-			 refine_hex_octree
-			            
-			 refine_quad_quadtree
-			         
-			 smooth_cube_4_materials
-			     
-			 translate_nodes
-               
-
-Still Images                      
-------------                      
+## Still Images                      
 
 -   [Mesh for scanning microscopy simulation](denise.md)     
 -   [Tetrahedral LaGriT mesh for Microstructure Evolution](tinkas.md)      
@@ -71,8 +28,7 @@ Still Images
 -   [Laplacian smoothing](tee.md)         
 -   <a href="https://lanl.github.io/LaGriT/assets/images/biology.pdf" download> Biological Structures (PDF) </a>
 
-Gif Animations                    
---------------                    
+## Gif Animations                    
 
 -   <a href="https://lanl.github.io/LaGriT/assets/images/99.gif">  Grain growth in large cube </a>   
 -   <a href="https://lanl.github.io/LaGriT/assets/images/tmap-a.gif">  Grain growth with temperature-dependent mobility </a>
@@ -101,6 +57,3 @@ Gif Animations
     -   <a href="https://lanl.github.io/LaGriT/assets/images/dendriteng.gif">  without grid [temperature field displayed] </a>                 
 
  
-             
-            
-
