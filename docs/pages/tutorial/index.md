@@ -55,11 +55,14 @@
 <!-- Types are tutorial, demo, utility, commands in order from most complex to simple -->
 
 The following are grouped according to the level of complexity. For specific command examples, see the [command index](/pages/commands.md).
+Select All, or by one of the categories:
 
 - <b>Commands</b> are command examples showing a few lines for syntax and usage. 
 - <b>Utility</b>  is  a set of commands for a particular utility. 
 - <b>Demo</b> is a set of commands from start to finish demonstrating a particular method.
 - <b>Tutorial</b> is a full set of files and commands involving many steps to achieve a final mesh. 
+
+<hr>
 
 
 <!-- Cards for Example commands, utility, and demo, tutorial  -->
@@ -154,6 +157,20 @@ The following are grouped according to the level of complexity. For specific com
             </div>
         </li>
 
+      <li data-color="tutorial">
+            <div>
+                <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
+                        </div>
+                        <p>Tet Mesh using Stratigraphic Surfaces</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+
 <!-- utility cards -->
 
         <li data-color="utility">
@@ -241,7 +258,7 @@ The following are grouped according to the level of complexity. For specific com
             </a>
         </li>
         <li data-color="command">
-            <a href="{{ "/pages/docs/demos/main_rotatept.html" | relative_url }}" style="font-weight: bold;">
+            <a href="{{ "/pages/docs/demos/description_rotatept.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">rotatept</div>
             </a>
         </li>
