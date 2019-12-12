@@ -1,132 +1,156 @@
 ---
 title: SMOOTH
-tags: ok
+tags: smooth
 ---
 
- **SMOOTH**
 
-The **smooth** command smooths 2D or 3D mesh objects. For adaptive
-smoothing see the **[radapt](RADAPT.md)** command. **smooth** takes a
-2D or 3D mesh object and moves nodes, without changing the connectivity
-of the grid, in order to improve the aspect ratios and distribution of
+# SMOOTH
+
+----------------------
+
+Smooth or optimize a 2D or 3D mesh object. 
+
+For adaptive smoothing see the **[radapt](RADAPT.md)** command. **smooth** takes a 2D or 3D mesh object 
+and moves nodes, without changing the connectivity of the grid, in order to improve the aspect ratios and distribution of
 elements in the mesh.
 
-An optional control value between zero and one for options **esug**,
-**mega**, **geometry**, **elliptical** and **random** affects the amount
-of node movement. The default (control =0.) results in the standard
-smoothing scheme. Increasing control towards 1. causes the scheme to be
-progressively more controlled (moving the mesh less), until at control
-=1., there is no mesh movement whatsoever.
+There are nine smoothing algorithms available. 
+<br>
+[**esug**](#esug), [**elliptic**](#elliptic) and [**random**](#random) are for [2D](#2d).
+<br>
+[**laplace**](#laplace), [**aspect**](#aspect) and [**lpfilter**](#lpfilter) are for both [2D and 3D](#2d3d).
+<br>
+[**mega**](#mega), [**network**](#network) and [**geometry**](#geometry) are for [3D](#3d).
 
-By default, the second argument is **position**. This results in the
-positions of the nodes being changed. (Other options will be added in
-the future for implementation of smoothing using node velocities.)
 
-There are nine smoothing algorithms available. **esug**, **elliptic**
-and **random**  are for 2D grids, **laplace**, **aspect** and
-**lpfilte**r  for 2D or 3D grids, **mega, network** and **geometry** are
-for 3D grids:
 
-1
-. **esug** --- Elliptic Smoothing for Unstructured Grids. This is the
-default for 2D mesh objects. It can only be used on triangular 2D mesh
-objects. (Ref.: Ahmed Khamayseh and Andrew Kuprat, "[Anisotropic
-Smoothing and Solution Adaption for Unstructured
-Grids](../../<a href="https://lanl.github.io/LaGriT/assets/images/ahmandrew1.pdf" download> </a>", Int. J. Num. Meth. Eng., Vol. 39,
-pp. 3163-3174 (1996).)
+## SYNTAX 
 
-2.**elliptic** --- Similar to esug but the 'guards' which prevent a grid
-from folding are turned off. (Thus esug is preferred.)
+For all commands:
 
-3. **random** -- a node's position is set to a randomly weighted average
-position of its neighbors. 'Guards' keep the elements from inverting.
+**`position`** results in the positions of nodes being changed. Other options have not been implemented.
 
-4. **laplace** ---On a 3D tetahedral mesh moves a node to the average
-position of its neighbors where neighbor is defined as the set of nodes
-connected to the candidate node by an edge where the node types (itp1) 
-and node constraints (icr1) are a 'subset' of the candidate node type
-and constraints.  A node will not be moved if the result is an inverted
-element. The following controls may be supplied:
+`ifirst,ilast,istride` is the selection of points designated by node numbers or **pset**,get,pname. 1,0,0 will select all.
 
-Command | Default | Description
---- | --- | ---
-  rlxwt | 0.5 |                 weight for underrelaxed  Laplacian smothing              
-  ntimes | 5 |                  number of smoothing iterations  
-  nwttry | 3 |                 number of attempts to not tangle the mesh by halving the  smoothing weight.               
-  useisn | 1 |                 1 means interface nodes are smoothed based along a multimaterial edge with all the same materials as the candidate node. 0 means interface nodes are smoothed based on all interface neighbors             
-  extrnbr (**inclusive**) | |   **inclusive**means do not   restrict neighbors  **exclusive** means restrict    neighbors to nodes in pset      
 
- 5. **aspect**---Adjusts node positions such that the aspect ratio of
-the elements is improved.  The default damage tolerance for
-**smooth//aspect** is infinity, so it can be used as a general smooth
-which has the effect of improving worst aspect ratio.
+The internal variable **maxiter_sm** (default=25) controls the maximum number of iterations 
+and can be changed using the **[assign](ASSIGN.md)** command. e.g.  (assign /// maxiter_sm/10). 
 
-6
-. **lpfilter**---This smooths surface networks by a low-pass filtering
-of the coordinate data.
 
-(filtdeg default = 30, k\_pb default = 0.1)
+## SYNTAX 2D ONLY <a name="2d"></a>
+<pre>
+<b>smooth/position</b>/<b>esug elliptic  random</b>/ [ifirst,ilast,istride ]/[control] 
+</pre>
 
- 7**. mega ---** Minimum Error Gradient Adaption. This option creates a
-smoothed grid which is adapted to the standard function with constant
-Hessian f(x,y,z)=x2+y2+z2. Can be used on hybrid 3D meshes and guards
-against mesh folding. Adaption to this function creates a uniform
-isotropic mesh.  The code variable **maxiter\_sm** (default=25) controls
-the maximum number of **mega** iterations.  The value of **maxiter\_sm**
-may be changed using the **[assign](ASSIGN.md)** command
-(**assign**//**/ maxiter\_sm**/10).  (Ref.: Randolph E. Bank and R. Kent
-Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.
-Anal. tol. 34, Issue 3, pp. 9-9 (19).)
+**`esug`** <a name="esug"></a>
+ Elliptic Smoothing for Unstructured Grids with guards against folding. This is the default for 2D mesh objects. It can only be used on triangular 2D mesh objects.
+(Ref.: Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996).) 
 
-8. **geometry** --- Geometry ("plump element") adaption. Default for 3D.
-Can be used on hybrid 3D meshes It uses the **mega** algorithm but
-retains only the leading geometry term; the term containing the Hessian
-has been dropped. This algorithm guards against mesh folding.
 
-9. **network** --- This option smooths the surface network of a 3D
-tetrahedral grid.  Volume nodes are not moved.  The material volumes are
-conserved.  By default a check is performed to verify that no elements
-are inverted; the user may turn this check off with the **nocheck**
-option.  This option will not work correctly (will not conserve volume)
-on grids which have two areas of a material connected at a single node
-or edge; each material region must have face connectivity.  The number
-of iterations is controlled by the niter argument (default is 10) and
-the weight argument controls the amount of movement (from 0. to 1.
-default is 1.).  Combining this type of smooth with volume smoothing
-will help to avoid element inversions.
+**`elliptic`** <a name="elliptic"></a>
+similar to **esug** except the 'guards' which prevent a grid from folding are turned off. (Thus esug is preferred.) 
 
-**FORMAT:**
 
-**smooth** **/position** **/esug** **mega** **geometry** **elliptic** **random**/
-[ifirst,ilast,istride ]/[control]
+**`random`** <a name="random"></a>
+ a node's position is set to a randomly weighted average position of its neighbors. 'Guards' keep the elements from inverting. 
 
-**smooth** **/position** **/lpfilter**// [ifirst,ilast,istride]
-/[filtdeg]/[k\_pb]**/network**
 
-**network** smoothing applies to a network of curves in 2D or 3D, or to
-a network of surfaces in 3D.  The materiality of the cells (if any) is
-ignored.
+`control` is a real number with a default = 0 which results in the standard smoothing scheme. Increasing control towards 1. causes the scheme to be progressively more controlled (moving the mesh less), until at control =1., there is no mesh movement.
 
-**smooth** **/position** **/aspect**//[ifirst,ilast,istride/toldamage]
 
-**smooth** **/position/laplace**/[ifisrt,ilast,istride]/[rlxwt]/[ntimes]/[nwtty]/[useisn]/[extrnbr]
+## SYNTAX 2D and 3D <a name="2d3d"></a>
+<pre>
+<b>smooth/position/aspect</b>    // [ifirst,ilast,istride]/ [toldamage] 
+<b>smooth/position/lpfilter</b> // [ifirst,ilast,istride] /[filtdeg]/[k_pb]/<b>network</b>
+<b>smooth/position/laplace</b> / [ifisrt,ilast,istride]/[rlxwt]/[ntimes]/[nwtty]/[useisn]/[extrnbr] 
+</pre>
 
-**smooth** **/position/network**/[ifisrt,ilast,istride]/[niter]/[weight]/[**check** **nocheck**
 
-**EXAMPLES:**
+**`aspect`**  <a name="aspect"></a>
+Adjusts node positions such that the aspect ratio of the elements is improved.
+  - `toldamge` (default is infinity) is the damage tolerance, so it can be used as a general smooth which has the effect of improving worst aspect ratio.
 
-1. Smooth all nodes in the mesh using esug in 2D or geometry in 3D.
 
-		smooth
+**`lpfilter`**  <a name="lpfilter"></a>
+This smooths surface networks by a low-pass filtering of the coordinate data. 
+- `fltdeg` (default 30)
+- `k_pb` (default 0.1)
+- **network** applies to a network of curves in 2D or 3D, or to a network of surfaces in 3D.  The cell materials are ignored.
 
-2. Smooth all nodes in the mesh, using controlled smoothing with control=0.5.
 
-		smooth / / / 1,0,0 / 0.5
+**`laplace`**  <a name="laplace"></a>
+On a 3D tetahedral mesh moves a node to the average position of its neighbors where neighbor is defined as the set of nodes connected to the candidate node by an edge where the node types (itp1) and node constraints (icr1) are a 'subset' of the candidate node type and constraints.  A node will not be moved if the result is an inverted element. The following controls may be supplied: 
+-  `rlxwt` (default 0.5 ) weight for underrelaxed  Laplacian smothing              
+-  `ntimes` (default 5 )  number of smoothing iterations  
+-  `nwttry` (default 3 )  number of attempts to not tangle the mesh by halving the  smoothing weight.               
+-  `useisn` (default 1 )  means interface nodes are smoothed based along an edge with the same materials as the candidate node. 
+0 means interface nodes are smoothed based on all interface neighbors.             
+- `extrnbr` (default **inclusive**) means do not restrict neighbors.  **exclusive** means restrict neighbors to pset nodes.     
 
-3. Smooth a 3D grid by combining network and volume smooths.
 
-		pset/p2/attribute/itp1/1,0,0/0/eq
-		smooth /position /network/1,0,0/3/1./heck
-		smooth/position/geometry/pset,get,p2
-		smooth /position /network/1,0,0/3/1./heck
-		smooth/position/geometry/pset,get,p2
+## SYNTAX 3D ONLY <a name="3d"></a> 
+<pre>
+<b>smooth/position</b>/<b>mega geometry</b>/ [ifirst,ilast,istride ]/[control] 
+<b>smooth/position/network</b>/[ifisrt,ilast,istride]/[niter]/[weight]/[<b>check nocheck</b>]
+</pre>
+
+`control` is a real number with a default = 0 which results in the standard smoothing scheme. Increasing control towards 1. causes the scheme to be progressively more controlled (moving the mesh less), until at control =1., there is no mesh movement.
+
+**`mega`**  <a name="mega"></a>
+Minimum Error Gradient Adaption. This option creates a smoothed grid which is adapted to the standard function with constant
+Hessian f(x,y,z)=x2+y2+z2. Can be used on hybrid 3D meshes and guards against mesh folding. 
+Adaption to this function creates a uniform isotropic mesh.
+
+(Ref.: Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.  Anal. tol. 34, Issue 3, pp. 9-9 (19).)
+
+**`geometry`**  <a name="geometry"></a>
+Geometry ("plump element") adaption. Default for 3D.
+Can be used on hybrid 3D meshes It uses the **mega** algorithm but retains only the leading geometry term; 
+the term containing the Hessian has been dropped. This algorithm guards against mesh folding.
+
+
+**`network`**  <a name="network"></a>
+This option smooths the surface network of a 3D tetrahedral grid.  Volume nodes are not moved.  
+The material volumes are conserved.  Combining this type of smooth with volume smoothing will help to avoid element inversions.
+- `niter` (default 10 ) number of iterations
+- `weight` (default 1. ) controls the amount of movement (from 0. to 1.). 
+- **check** (default) By default a check is performed to verify that no elements are inverted.
+- **nocheck** turns off check for inverted elements. This option will not work correctly (will not conserve volume)
+on grids which have two areas of a material connected at a single node or edge; each material region must have face connectivity.  
+
+
+<hr>
+
+
+## EXAMPLES
+
+```
+smooth
+```
+Smooth all nodes in the mesh using esug in 2D or geometry in 3D.
+
+
+```
+smooth / / / 1,0,0 / 0.5
+```
+Smooth all nodes in the mesh, using controlled smoothing with control=0.5.
+
+
+```
+pset/p2/attribute/itp1/1,0,0/0/eq
+smooth /position /network/1,0,0/3/1./check
+smooth/position/geometry/pset,get,p2
+smooth /position /network/1,0,0/3/1./check
+smooth/position/geometry/pset,get,p2
+```
+Smooth a 3D grid by combining network and volume smooths.
+
+```
+compute/distance_field/CMO_SINK mobj_sm dfield
+pset/pin/attribute dfield/1,0,0/ le 120.
+
+assign///maxiter_sm/6                                                           
+smooth/position/esug/pset,get,pin
+```
+Smooth a 2D grid within 120 distance from mobj_sm and control the number of iterations by using the **assign** command.
+
