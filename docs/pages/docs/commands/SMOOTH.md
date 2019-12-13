@@ -16,8 +16,8 @@ elements in the mesh.
 
 There are nine smoothing algorithms available:
 
-| [2D](#2d) | [2D and 3D](#2d3d) | [3D](#3d) |
-| :-------- | :-------- | :-------- | 
+| &nbsp;[2D](#2d)&nbsp; | [2D and 3D](#2d3d) | &nbsp;[3D](#3d)&nbsp; |
+| :--------: | :--------: | :--------: | 
 | [esug](#esug) | [laplace](#laplace) | [mega](#mega) |
 | [elliptic](#elliptic) | [aspect](#aspect) | [network](#network) |
  [random](#random) |  [lpfilter](#lpfilter) | [geometry](#geometry) |
