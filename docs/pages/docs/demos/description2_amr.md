@@ -18,7 +18,7 @@ title: '
 
   Input
 
-       [lagrit\_input\_amr](../lagrit_input_amr)
+       [lagrit_input_amr](input/lagrit_input_amr.txt)
 
    
 

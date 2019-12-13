@@ -10,7 +10,7 @@ The full set of 15 examples and input.lgi command file are found in test/level01
  
 [lagrit_input_voronoi](lagrit_input_voronoi.md) View LaGriT command file.
  
-[lagrit_input_voronoi](lagrit_input_voronoi) Download LaGriT command file.
+[lagrit_input_voronoi](demos/input/lagrit_input_voronoi.txt) Download LaGriT command file.
 
 
 

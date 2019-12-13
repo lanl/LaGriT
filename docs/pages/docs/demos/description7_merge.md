@@ -16,7 +16,7 @@ title: '
 
   Input
 
-       [lagrit\_input\_merge](../lagrit_input_merge)
+       [lagrit_input_merge](input/lagrit_input_merge.txt)
 
    
 
@@ -24,9 +24,9 @@ title: '
  
     ----------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh1_tn.gif""" ""](image/addmesh_merge/addmesh_mesh1.gif" [Input1](image/addmesh_merge/addmesh_mesh1.gif"   [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh2_tn.gif""" ""](image/addmesh_merge/addmesh_mesh2.gif" [Input2](image/addmesh_merge/addmesh_mesh2.gif"   [
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh3_tn.gif""" ""](image/addmesh_merge/addmesh_mesh3.gif" [Merged](image/addmesh_merge/addmesh_mesh3.gif"
+<img width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh1_tn.gif"](image/addmesh_merge/addmesh_mesh1.gif" [Input1](image/addmesh_merge/addmesh_mesh1.gif"   [
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh2_tn.gif"](image/addmesh_merge/addmesh_mesh2.gif" [Input2](image/addmesh_merge/addmesh_mesh2.gif"   [
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_merge/addmesh_mesh3_tn.gif"](image/addmesh_merge/addmesh_mesh3.gif" [Merged](image/addmesh_merge/addmesh_mesh3.gif"
     ----------------------------------------------------------------------------------------------------------------------------------------------------------------- ----------------------------------------------------------------------------------------------------------------------------------------------------------------- -----------------------------------------------------------------------------------------------------------------------------------------------------------------
  
  

@@ -5,7 +5,7 @@
 
  Example:
 
- [lagrit\_input\_2dconnect](../lagrit_input_2dconnect.txt)
+ [lagrit_input_2dconnect](input/lagrit_input_2dconnect.txt)
 
 ```
 # read the input points

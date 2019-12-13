@@ -15,12 +15,12 @@ title: Example 3: addmesh/append
 
  Input
 
-      [lagrit\_input\_append](../lagrit_input_append)
+      [lagrit_input_append](input/lagrit_input_append.txt)
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append1_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append1_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append2_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append2_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append3_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_append/addmesh_append3_tn.gif">

@@ -14,8 +14,8 @@ title: Example 2: createpts in a cylindrical geometry
 
  Input
 
-  [lagrit\_input\_creatertz](../lagrit_input_creatertz)
+  [lagrit_input_creatertz](input/lagrit_input_creatertz.txt)
 
  Output Image
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image2tn.gif"> 

@@ -16,10 +16,10 @@ title: Example 8: creatpts in a spherical geometry using shells as region bounda
 
  Input     
 
-  [lagrit\_input\_createsphere3](../lagrit_input_createsphere3)
+  [lagrit_input_createsphere3](input/lagrit_input_createsphere3.txt)
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8tn.gif"> 
+<img width="300" src="https://lanl.github.io/LaGriT/assets/images/image8tn.gif"> 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image8btn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image8btn.gif"> 

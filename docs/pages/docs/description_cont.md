@@ -12,7 +12,7 @@ The full set of 5 examples and input.lgi command file are found in test/level01/
  
 [lagrit_input_continuous](lagrit_input_map.md) View LaGriT command file.
  
-[lagrit_input_continuous](lagrit_input_map) Download LaGriT command file.
+[lagrit_input_continuous](demos/input/lagrit_input_map.txt) Download LaGriT command file.
 
 
 

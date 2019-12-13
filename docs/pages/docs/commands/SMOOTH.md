@@ -8,19 +8,20 @@ tags: smooth
 
 ----------------------
 
-Smooth or optimize a 2D or 3D mesh object. 
+Smooth a 2D or 3D mesh object. 
 
 For adaptive smoothing see the **[radapt](RADAPT.md)** command. **smooth** takes a 2D or 3D mesh object 
 and moves nodes, without changing the connectivity of the grid, in order to improve the aspect ratios and distribution of
 elements in the mesh.
 
-There are nine smoothing algorithms available. 
-<br>
-[**esug**](#esug), [**elliptic**](#elliptic) and [**random**](#random) are for [2D](#2d).
-<br>
-[**laplace**](#laplace), [**aspect**](#aspect) and [**lpfilter**](#lpfilter) are for both [2D and 3D](#2d3d).
-<br>
-[**mega**](#mega), [**network**](#network) and [**geometry**](#geometry) are for [3D](#3d).
+There are nine smoothing algorithms available:
+
+| [2D](#2d) | [2D and 3D](#2d3d) | [3D](#3d) |
+| :-------- | :-------- | :-------- | 
+| [esug](#esug) | [laplace](#laplace) | [mega](#mega) |
+| [elliptic](#elliptic) | [aspect](#aspect) | [network](#network) |
+ [random](#random) |  [lpfilter](#lpfilter) | [geometry](#geometry) |
+
 
 
 
@@ -37,14 +38,15 @@ The internal variable **maxiter_sm** (default=25) controls the maximum number of
 and can be changed using the **[assign](ASSIGN.md)** command. e.g.  (assign /// maxiter_sm/10). 
 
 
-## SYNTAX 2D ONLY <a name="2d"></a>
+## SYNTAX 2D  <a name="2d"></a>
 <pre>
 <b>smooth/position</b>/<b>esug elliptic  random</b>/ [ifirst,ilast,istride ]/[control] 
 </pre>
 
 **`esug`** <a name="esug"></a>
  Elliptic Smoothing for Unstructured Grids with guards against folding. This is the default for 2D mesh objects. It can only be used on triangular 2D mesh objects.
-(Ref.: Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996).) 
+
+*Ref.: Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)*
 
 
 **`elliptic`** <a name="elliptic"></a>
@@ -55,7 +57,7 @@ similar to **esug** except the 'guards' which prevent a grid from folding are tu
  a node's position is set to a randomly weighted average position of its neighbors. 'Guards' keep the elements from inverting. 
 
 
-`control` is a real number with a default = 0 which results in the standard smoothing scheme. Increasing control towards 1. causes the scheme to be progressively more controlled (moving the mesh less), until at control =1., there is no mesh movement.
+`control` (default 0 )  from standard smoothing scheme to 1 which causes the scheme to be progressively more controlled, at 1 there is no mesh movement.
 
 
 ## SYNTAX 2D and 3D <a name="2d3d"></a>
@@ -88,20 +90,23 @@ On a 3D tetahedral mesh moves a node to the average position of its neighbors wh
 - `extrnbr` (default **inclusive**) means do not restrict neighbors.  **exclusive** means restrict neighbors to pset nodes.     
 
 
-## SYNTAX 3D ONLY <a name="3d"></a> 
+## SYNTAX 3D  <a name="3d"></a> 
 <pre>
 <b>smooth/position</b>/<b>mega geometry</b>/ [ifirst,ilast,istride ]/[control] 
 <b>smooth/position/network</b>/[ifisrt,ilast,istride]/[niter]/[weight]/[<b>check nocheck</b>]
 </pre>
 
-`control` is a real number with a default = 0 which results in the standard smoothing scheme. Increasing control towards 1. causes the scheme to be progressively more controlled (moving the mesh less), until at control =1., there is no mesh movement.
+
+`control` (default 0 )  from standard smoothing scheme to 1 which causes the scheme to be progressively more controlled, at 1 there is no mesh movement.
+
 
 **`mega`**  <a name="mega"></a>
 Minimum Error Gradient Adaption. This option creates a smoothed grid which is adapted to the standard function with constant
 Hessian f(x,y,z)=x2+y2+z2. Can be used on hybrid 3D meshes and guards against mesh folding. 
 Adaption to this function creates a uniform isotropic mesh.
 
-(Ref.: Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.  Anal. tol. 34, Issue 3, pp. 9-9 (19).)
+*Ref.: Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.  Anal. tol. 34, Issue 3, pp. 9-9 (19)*
+
 
 **`geometry`**  <a name="geometry"></a>
 Geometry ("plump element") adaption. Default for 3D.

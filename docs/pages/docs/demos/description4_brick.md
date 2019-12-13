@@ -16,10 +16,10 @@ title:  Example 4: creatpts in a rectangular geometry that includes a material i
 
  Input     
 
-  [lagrit\_input\_createbrick](../lagrit_input_createbrick)
+  [lagrit_input_createbrick](input/lagrit_input_createbrick.txt)
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image4tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image4btn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image4btn.gif">

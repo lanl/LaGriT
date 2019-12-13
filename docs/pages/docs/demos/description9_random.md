@@ -14,9 +14,9 @@ title: Example 9: random distribution of points in a box
 
  Input     
 
-  [lagrit\_input\_createrandom](../lagrit_input_createrandom)
+  [lagrit_input_createrandom](input/lagrit_input_createrandom.txt)
 
  Image of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/random_tn.gif">
 

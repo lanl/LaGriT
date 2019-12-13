@@ -15,15 +15,15 @@ title: Example 4: addmesh / delete
 
  Input
 
-      [lagrit\_input\_delete](../lagrit_input_delete)
+      [lagrit_input_delete](input/lagrit_input_delete.txt)
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_mesh1_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_mesh1_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_mesh2_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_mesh2_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_delete_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_delete/addmesh_delete_tn.gif">
 
   
 

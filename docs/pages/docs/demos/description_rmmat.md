@@ -9,26 +9,26 @@ Example 1: test using rmmat to modify a mesh.
 
 Input
 
- [lagrit\_input\_rmmat](../lagrit_input_rmmat)
+ [lagrit_input_rmmat](input/lagrit_input_rmmat.txt)
 
 Images of GMV input and output
 
 Mesh with single material
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat1_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat1_tn.gif">
 
 rmmat / element
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat4_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat4_tn.gif">
 
 Mesh with two materials
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat2_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat2_tn.gif">
 
 rmmat / node
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat3_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat3_tn.gif">
 
 rmmat / all
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat5_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/rmmat5_tn.gif">

@@ -11,7 +11,7 @@ Example 1: define various point sets within a geometry
 
 Input
 
- [lagrit\_input\_pset](../lagrit_input_pset)
+ [lagrit_input_pset](input/lagrit_input_pset.txt)
 
 Images of GMV input and output
 
@@ -20,9 +20,9 @@ Images of GMV input and output
 
 Input geometry 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/pset2_tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/pset2_tn.gif"> 
 
-<img height="300" width="300" src="transparent.gif">  
+<img  width="300" src="transparent.gif">  
 
 
  
