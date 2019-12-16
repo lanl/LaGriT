@@ -134,13 +134,14 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 
 In the sections describing words and behavior of the command, the following formats should be followed:
 
-In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. 
+In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. The general *italic* is for use in text for notes or references.
 
 | :--------------------------- | :------------------------------------ |
 | **`bold command`**            |``` **`bold command`** ```|
 | **bold literal**              |``` **bold literal** ```  |
 | `unstyled variable`           |``` `unstyled variable` ```|
 | *`italic variable`*           |``` *`italic variable`* ```|
+| *italic text*                 |``` *italic text* ```|
 
 
 ## 3. Inline Code, Examples, Demos <a name="inlinecode"></a>
