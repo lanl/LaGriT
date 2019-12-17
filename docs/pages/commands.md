@@ -152,6 +152,8 @@ tags: command list all options
 * [**`UNG2AVS`**](docs/commands/UNG2AVS.md) (UNGenerate to AVS)
 * [**`UPSCALE`**](docs/commands/UPSCALE.md) (attributes from a fine grid to a coarse grid)
 <br>
+<br> <a name="z"></a>
+* [**`ZQ`**](docs/commands/ZQ.md) (deprecrated, see cmo/setatt)
 <br>
 <br>
 [Back to Top](#top)
@@ -215,7 +217,6 @@ tags: command list all options
 <br>
 <br>
 <br>
-<br> <a name="z"></a>
 <br>
 <br>
 
