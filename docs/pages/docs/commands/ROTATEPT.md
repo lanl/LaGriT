@@ -13,7 +13,7 @@ Rotates a point distribution about a point.
 
 
 <pre>
-<b>rotateln</b>/ifirst,ilast,istride/[<b>no</b>]<b>copy</b> /xcen,ycen,zcen/theta/phi 
+<b>rotatept</b>/ifirst,ilast,istride/[<b>no</b>]<b>copy</b> /xcen,ycen,zcen/theta/phi 
 </pre>
 
 

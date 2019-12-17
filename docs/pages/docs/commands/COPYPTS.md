@@ -60,14 +60,14 @@ copypts/3dmesh/2dmesh/
   Copy all points in 2dmesh to the end of the 3dmesh point list.
   
 ```
-opypts/3dmesh/2dmesh/0,0/pset,get,mypoints/
+copypts/3dmesh/2dmesh/0,0/pset,get,mypoints/
 ```
        
   Copy the point set named mypoints from 2dmesh to the end of
   3dmesh point list.
   
 ```
-opypts/3dmesh/2dmesh/100,4/pset,get,mypoints/boron/arsenic/
+copypts/3dmesh/2dmesh/100,4/pset,get,mypoints/boron/arsenic/
 ```
   
   Copy the arsenic field from the point set named mypoints
