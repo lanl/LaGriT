@@ -134,12 +134,16 @@ So, we're going to have to escape the HTML tags to get them literally rendered..
 
 In the sections describing words and behavior of the command, the following formats should be followed:
 
-In general, use **`bold monospaced font`** for commands, **bold** for literal keywords and `unstyled monospace` for primary variable names, and *`italic variable`* as needed for additional variables. The general *italic* is for use in text for notes or references.
+In general, use **`bold monospaced font`** for commands and methods, **bold** for keywords or reserved words, and `unstyled monospace` for primary variable names. The italics  *`italic variable`* as needed for additional variables. The general *italic* is for use in text for notes or references.
+
+The following are used for a command syntax and description:
 
 | :--------------------------- | :------------------------------------ |
-| **`bold command`**            |``` **`bold command`** ```|
-| **bold literal**              |``` **bold literal** ```  |
-| `unstyled variable`           |``` `unstyled variable` ```|
+| [**`COMMAND link`**]()            |``` [**`COMMAND`**](file.md) ```|
+| **`COMMAND`**            |``` **`COMMAND`** ```|
+| **`method`**             |``` **`method`** ```|
+| `variable`                    |``` `variable` ```|
+| **reserved_words**              |``` **reserved_words** ```  |
 | *`italic variable`*           |``` *`italic variable`* ```|
 | *italic text*                 |``` *italic text* ```|
 
@@ -204,7 +208,7 @@ Embed with html
 &lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/cube.png">
 
 Using href will make a small image clickable to the full image:
-&lt;a href=&quot;300&quot; src=&quot;cube.png">  &lt;img width=&quot;300&quot; src=&quot;cube.png">  &lt;</a>
+&lt;a href=&quot;cube.png">  &lt;img width=&quot;300&quot; src=&quot;cube.png">  &lt;/a>
 
 Embed with markdown
 &#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/cube.png)
