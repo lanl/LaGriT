@@ -138,14 +138,18 @@ In general, use **`bold monospaced font`** for commands and methods, **bold** fo
 
 The following are used for a command syntax and description:
 
+| Appearance | Markdown Text |
 | :--------------------------- | :------------------------------------ |
 | [**`COMMAND link`**]()            |``` [**`COMMAND`**](file.md) ```|
 | **`COMMAND`**            |``` **`COMMAND`** ```|
 | **`method`**             |``` **`method`** ```|
 | `variable`                    |``` `variable` ```|
-| **reserved_words**              |``` **reserved_words** ```  |
+| **keyword**              |``` **keyword** ```  |
+| [**keyword_link**]()              |``` [**keyword_link**](file.md) ```  |
+| [plain link]()              |``` [plain link](file.md) ```  |
 | *`italic variable`*           |``` *`italic variable`* ```|
 | *italic text*                 |``` *italic text* ```|
+
 
 
 ## 3. Inline Code, Examples, Demos <a name="inlinecode"></a>
