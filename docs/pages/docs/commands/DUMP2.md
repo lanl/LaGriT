@@ -16,30 +16,29 @@ This command produces an output file from a Mesh Object. Some of the standard gr
 <pre>
 <b>dump</b> / file_type / file_name /[cmo_name]/
 
-<b>dump</b> / file_name.ext / [cmo_name]/
+<b>dump</b> / file<b>.inp .gmv .lagrit .lg .exo .ts</b> / [cmo_name]/
 </pre>
 
-The **`dump`** command is followed by a keyword `file_type` to indicate the type of file to write. 'cmo_name' is the mesh object to write. The short form of the dump command can be used where the `file_type` is recognized by the file name extension as listed below.
+The **`dump`** command is followed by a keyword `file_type` to indicate the type of file to write. 'cmo_name' is the mesh object to write. 
+<br>
+The second line shows the short form where `file_type` is recognized by the file name extension as listed below.
 
-See descriptions and additional syntax below, click on any format name.
 
-### RECOGNIZED FILE EXTENSIONS for SHORT SYNTAX
+### EXTENSIONS for SHORT SYNTAX
 
-|   |   |
-| :------ | :---------- | 
-| **`AVS`** [**.inp** or **.avs**](#avs) | **`GMV`** [**.gmv**](#gmv)  | 
-| **`Exodusii`** [**.exo**](#exodus) | **`GoCAD`** [**.ts**](#gocad) |
-| **`LaGriT`** [**.lagrit** or **.lg**](#lagrit) | |
+|   |   |  | | |
+| :------ | :---------- | :---------- | :---------- | :---------- | 
+|&nbsp;&nbsp; **AVS** [**.inp** or **.avs**](#avs) |&nbsp;&nbsp; **GMV** [**.gmv**](#gmv)  |&nbsp;&nbsp; **Exodusii** [**.exo**](#exodus) |&nbsp;&nbsp; **GoCAD** [**.ts**](#gocad) |&nbsp;&nbsp; **LaGriT** [**.lagrit** or **.lg**](#lagrit) | 
 
 
 ### ADDITIONAL FILE TYPES
 
 |   |   |    |   |
 | :------ | :---------- | :------ | :---------- | 
-| [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
-| [**`elem_adj_elem`**](#elem_adj) | [**`fehm`**](#fehm) | [**`geofest`**](#geofest) | [**`geom`**](#geom) |
-| [**`pflotran`**](#pflotran) | [**`recolor`**](#recolor) | [**`stl`**](#stl) | [**`stor`**](#stor) |
-| [**`tecplot`**](#tecplot) | [**`zone`**](#zone) | [**`zone_imt`**](#zone) | [**`zone_outside`**](#zone)   |
+|&nbsp;&nbsp; [**chad**](#chad) &nbsp;&nbsp; |&nbsp;&nbsp; [**coord**](#coord) &nbsp;&nbsp; |&nbsp;&nbsp; [**datex**](#datex) &nbsp;&nbsp; |&nbsp;&nbsp; [**elem_adj_node**](#elem_adj) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**elem_adj_elem**](#elem_adj) &nbsp;&nbsp; |&nbsp;&nbsp; [**fehm**](#fehm) &nbsp;&nbsp; |&nbsp;&nbsp; [**geofest**](#geofest) &nbsp;&nbsp; |&nbsp;&nbsp; [**geom**](#geom) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**pflotran**](#pflotran) &nbsp;&nbsp; |&nbsp;&nbsp; [**recolor**](#recolor) &nbsp;&nbsp; |&nbsp;&nbsp; [**stl**](#stl) &nbsp;&nbsp; |&nbsp;&nbsp; [**stor**](#stor) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**tecplot**](#tecplot) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_imt**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_outside**](#zone) &nbsp;&nbsp;   |
 
 
 <hr>
@@ -50,7 +49,14 @@ See descriptions and additional syntax below, click on any format name.
 <b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
 </pre>
 
-Will write the AVS UCD (Unstructured Cell Data) file format. The keyword **`avs`**  = **`avs2`** with attribute values written as real or integer depending on type. **`avs1`** = old avs with all attribute values written as real (larger file size). **`avs2`** = avs. The four optional *`iopt_`* values indicate which information to write or skip, default is everything on with iopt values = 1 1 1 1.
+Will write the AVS UCD (Unstructured Cell Data) file format. 
+
+**`avs`**  = **`avs2`** writes data values as real or integer depending on type with spacing dependent on size of values. 
+
+**`avs1`** = old avs writes all data values as real with large spacing (larger file size). 
+
+`iopt values` indicate which data to write or skip, default is everything on with `iopt` values = 1 1 1 1.
+
 
 For example, 
 

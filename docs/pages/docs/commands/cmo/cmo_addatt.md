@@ -11,7 +11,7 @@ tags: cmo addatt
  The **`cmo/addatt`** command is used to add and initialize a mesh object attribute. 
 
  
-The general version of the [**cmo/addatt**](#general) adds and initializes a new mesh object attribute. 
+The general version of the [**`cmo/addatt`**](#general) adds and initializes a new mesh object attribute. 
 <br>
 
 
@@ -23,12 +23,12 @@ If the named attribute already exists, values in the attribute will be overwritt
 
 |          |             |              |               |               
 | :-------        |  :-------      |  :-------     |   :-------     |   
-| [scalar](#scalar)  |  [vector](#vector)    | [median](#median)   |     |
-| [edge_connections](#edge_connections) | [num_node_diff](#num_node_diff) | [xyz_rtp](#xyz_rtp)  |  [xyz_rtz](#xyz_rtz)    | 
-| [volume](#volume)  | [voronoi](#voronoi)  |  [voronoi_volume](#voronoi_volume)    |  [hybrid_volume](#hybrid_volume)   | 
-| [sumnode](#sumnode)   |  [avgnode](#avgnode)   | [minnode](#minnode)   |  [maxnode](#maxnode)   |
-| [ang_mind](#ang_mind)   |  [ang_minr](#ang_minr)   | [ang_maxd](#ang_maxd)   |  [ang_maxr](#ang_maxr)   |
-| [ang_mind_solid](#ang_mind_solid)   |  [ang_minr_solid](#ang_minr_solid)   | [ang_maxd_solid](#ang_maxd_solid)   |  [ang_maxr_solid](#ang_maxr_solid)   |
+|&nbsp;&nbsp; [scalar](#scalar)  |&nbsp;&nbsp;  [vector](#vector)    |&nbsp;&nbsp; [median](#median)   |     |
+|&nbsp;&nbsp; [edge_connections](#edge_connections) | &nbsp;&nbsp; [num_node_diff](#num_node_diff) |&nbsp;&nbsp;  [xyz_rtp](#xyz_rtp)  |&nbsp;&nbsp;  [xyz_rtz](#xyz_rtz)    | 
+|&nbsp;&nbsp; [volume](#volume)  |&nbsp;&nbsp; [voronoi](#voronoi)  |&nbsp;&nbsp;  [voronoi_volume](#voronoi_volume)    |&nbsp;&nbsp;  [hybrid_volume](#hybrid_volume)   | 
+|&nbsp;&nbsp; [sumnode](#sumnode)   |&nbsp;&nbsp;  [avgnode](#avgnode)   |&nbsp;&nbsp; [minnode](#minnode)   |&nbsp;&nbsp;  [maxnode](#maxnode)   |
+|&nbsp;&nbsp; [ang_mind](#ang_mind)   |&nbsp;&nbsp;  [ang_minr](#ang_minr)   |&nbsp;&nbsp; [ang_maxd](#ang_maxd)   |&nbsp;&nbsp;  [ang_maxr](#ang_maxr)   |
+|&nbsp;&nbsp; [ang_mind_solid](#ang_mind_solid)   |&nbsp;&nbsp;  [ang_minr_solid](#ang_minr_solid)   |&nbsp;&nbsp; [ang_maxd_solid](#ang_maxd_solid)   |&nbsp;&nbsp;  [ang_maxr_solid](#ang_maxr_solid)   |
 
 
 **Valid Keywords for 2D:**
@@ -39,8 +39,8 @@ compute the normals to the surface mesh.
 
 |          |             |              |               |               
 | :-------        |  :-------      |  :-------     |   :-------     |   
-| [area_normal](#area_normal)  |  [unit_area_normal](#unit_area_normal)    |  [synth_normal_area](#synth_normal_area)   |  [synth_normal_angle](#area_normal_angle)   |
-| [area](#volume)  |  [length](#volume) |  [voronoi_varea](#voronoi_varea)    |  [quad_quality](#quad_quality)   |   
+|&nbsp;&nbsp; [area_normal](#area_normal)  |&nbsp;&nbsp;  [unit_area_normal](#unit_area_normal)    |&nbsp;&nbsp;  [synth_normal_area](#synth_normal_area)   |&nbsp;&nbsp;  [synth_normal_angle](#area_normal_angle)   |
+|&nbsp;&nbsp; [area](#volume)  |&nbsp;&nbsp;  [length](#volume) |&nbsp;&nbsp;  [voronoi_varea](#voronoi_varea)    |&nbsp;&nbsp;  [quad_quality](#quad_quality)   |   
 
 
 
@@ -227,7 +227,7 @@ Create attribute named boron3 with default mesh object settings.
   
   
   
-## EXAMPLES of KEWORD FORMAT
+## EXAMPLES of KEYWORD FORMAT
   
   
 ```
@@ -294,7 +294,7 @@ cmo / addatt / cmo / maxnode / elem_max_boron / boron
 Various examples.
 
 
-## EXAMPLE QUAD QUALITY:
+## EXAMPLE quad_quality:
 
 ```
 cmo/addatt/cmoquad / quad_quality / quality regularity flag

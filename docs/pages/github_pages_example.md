@@ -186,12 +186,13 @@ will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDME
 For pages with a long list of command options, use a clickable table at the top.
 See examples at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html">dump</a>
 
-Table format with page links. The colon on left will make cells left justified. Use colons on both sides to center:
+Table format with page links. The colon on left will make cells left justified. Use colons on both sides to center.
+Add explicit spaces to avoid cell text running into adjacent cell text.
 
 ```
 |   |  |  |  |
 | :---- |  :----  | :---- |  :---- |
-| [**`chad`**](#chad) | [**`coord`**](#coord) | [**`datex`**](#datex) | [**`elem_adj_node`**](#elem_adj) |
+|&nbsp;&nbsp; [**`chad`**](#chad) |&nbsp;&nbsp; [**`coord`**](#coord) |&nbsp;&nbsp; [**`datex`**](#datex) |&nbsp;&nbsp; [**`elem_adj_node`**](#elem_adj) |
 
 ...
 
