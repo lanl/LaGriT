@@ -1,58 +1,60 @@
 ---
-GENERATOR: 'Mozilla/4.79C-SGI [en] (X11; U; IRIX64 6.5 IP30) [Netscape]'
 title: 'cmo/addatt - add an attribute to a mesh object'
+tags: cmo addatt
 ---
 
-cmo/attribute\_derive
----------------------
+# cmo/attribute_derive
 
- The mo/attribute\_derive** command is used to give one mesh object
+
+------------
+
+
+ 
+
+ 
+ ## SYNTAX
+
+<pre>
+ <b>cmo/attribute_derive</b> / sink_mo_name /  [ src_mo_name ]
+ 
+ <b>cmo/attribute_union</b> / sink_mo_name /  src_mo_name 
+</pre>
+
+**cmo/attribute_derive** is used to give one mesh object
  (at least) the same set of attributes as another mesh object. This is
  useful, for example, for merging two mesh objects. Specifically, it
  looks at the set of attributes present in the source mesh, compares it
  to the set of attributes in the sink mesh, and adds to the sink mesh
  any attributes that it is missing.
 
- 
-
- The command needs a target mesh to be designated. If no source mesh is
- given, it will use the current mesh object.
-
- **FORMAT:**
-
-  mo/attribute\_derive** / sink\_mo\_name /  [ src\_mo\_name ]
-
- 
-
- **EXAMPLES:**
-
-  [mo** **/attribute\_derive**/cmo\_sink/cmo\_src]{.style1
-  [mo** **/attribute\_derive**/empty\_cmo]{.style1
-
-cmo/attribute\_union
---------------------
-
- The mo/attribute\_union** command is used to give two mesh objects
+**cmo/attribute_union**  is used to give two mesh objects
  the same set of attributes as each other. This is useful, for example,
  for merging two mesh objects. Specifically, it looks at the set of
  attributes present in each mesh, compares it to the set of attributes
  in the other mesh, and makes it so each mesh posesses the union of the
- two sets of attributes. In particular, this is just a wrapper for the
- above call - it executes
- [attribute\_derive]{style="font-weight: bold;" twice, once in each
- direction.
+ two sets of attributes. In particular, this is just a wrapper and executes
+ **attribute_derive** twice, once in each direction.
+
+  
+`sink_mo_name` is the new or modified mesh object.
+
+`src_mo_name` is mesh object to derive from. If no source mesh is
+ given, it will use the current mesh object. The **attribute_union** command needs both the sink and source meshes to be designated.
+
+
+
+ ## EXAMPLES
+
+```
+cmo/attribute_derive/cmo_sink/cmo_src
+cmo/attribute_derive/empty_cmo
+
+cmo/attribute_union/ cmo2 / cmo1
+```
+
 
  
 
- The command needs both meshes to be designated.
-
- **FORMAT:**
-
-  mo/attribute\_union** / sink\_mo\_name /  src\_mo\_name
-
  
 
- **EXAMPLES:**
-
-  [mo** **/attribute\_derive**/cmo2/cmo1]{.style1
-  []{.style1
+ 
