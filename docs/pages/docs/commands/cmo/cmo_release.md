@@ -1,18 +1,28 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: cmo/release
+Tags: cmo release
 ---
 
- ** ** ** **
+# cmo/release
 
- **release**/ mo\_name/
+-----------
 
-  mo\_name is type character, required.
+Delete a mesh object and release memory.
 
-  Deletes the Mesh Object mo\_name.
+## SYNTAX
 
- **EXAMPLES:**
+<pre>
+<b>cmo/ release </b>/ mo_name/
+</pre>
 
-  mo/release**/ mo\_tet2
+`mo_name` is type character, required.
 
-  mo/release/-cmo-**
+
+
+## EXAMPLES
+
+```
+cmo/release/ mo_tet2
+
+cmo/release/-cmo-
+```
