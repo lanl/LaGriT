@@ -5,6 +5,7 @@ tags: cmo addatt
 
 # cmo/attribute_derive
 
+# cmo/attribute_union
 
 ------------
 
@@ -12,7 +13,7 @@ tags: cmo addatt
  
 
  
- ## SYNTAX
+## SYNTAX
 
 <pre>
  <b>cmo/attribute_derive</b> / sink_mo_name /  [ src_mo_name ]
@@ -27,13 +28,11 @@ tags: cmo addatt
  to the set of attributes in the sink mesh, and adds to the sink mesh
  any attributes that it is missing.
 
-**cmo/attribute_union**  is used to give two mesh objects
- the same set of attributes as each other. This is useful, for example,
+**cmo/attribute_union** is a wrapper and executes **attribute_derive** twice, once in each direction and is used to give two mesh objects the same set of attributes as each other. This is useful, for example,
  for merging two mesh objects. Specifically, it looks at the set of
  attributes present in each mesh, compares it to the set of attributes
  in the other mesh, and makes it so each mesh posesses the union of the
- two sets of attributes. In particular, this is just a wrapper and executes
- **attribute_derive** twice, once in each direction.
+ two sets of attributes. 
 
   
 `sink_mo_name` is the new or modified mesh object.
@@ -43,7 +42,7 @@ tags: cmo addatt
 
 
 
- ## EXAMPLES
+## EXAMPLES
 
 ```
 cmo/attribute_derive/cmo_sink/cmo_src
