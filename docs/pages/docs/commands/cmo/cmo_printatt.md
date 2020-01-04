@@ -1,67 +1,75 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/printatt"
+Tags: cmo printatt
 ---
 
-  
 
- **printatt/mo\_name/attribute\_name
+# cmo/printatt
 
- **printatt/mo\_name/attribute\_name/ [print\_opt] /
- [index\_set]
+---------------
 
-  **attribute\_name -  ** name of valid cmo attribute or category of
-  attributes
+## SYNTAX
 
- **        node       ** = all attributes of nnodes length
+<pre>
+<b>cmo/printatt</b>/ mo_name/ attribute_name
 
-        **  element  **  = all attributes of nelements length
+<b>cmo/printatt</b>/ mo_name/ attribute_name / [ print_option ] [ index_set ]
 
-  **-all-**         = all attributes of the cmo
+<b>cmo/printatt</b>/ mo_name/ [<b>-all- -xyz- node element</b> ] / [ <b>minmax list value</b> ] / [ index_set ]
+</pre>
 
-  **-xyz- **       = xic, yic, and zic attributes of the cmo
+ 
+`attribute_name` -  name of valid cmo attribute or category of attributes. The category selections are:
+- **-all-** will printall attributes in the mesh object
+- **-xyz-** will print attributes xic,yic,zic
+- **node** will print all attributes of length nnodes
+- **element** will print all attributes of length nelements
 
- **        print\_opt**   ='value' or 'list' or 'minmax'
+`print_option` is the print display option.
+- **value**  this is default, prints attribute values
+- **list**   will print attribute name along with its length
+- **minmax** will print name and the min and max of the attribute field and length
 
-  **value**          = this is default, prints attribute values
-
-  l**ist**              =print attribute name along with its length
-
-  ** minmax**      = print name, min and max of the attribute field,
-  and its l length
-
+`index_set` is the range istart,istride,ilast using pset, eltset, or index numbers where 1,0,0 are all.
+ 
    
 
- **EXAMPLES:**
+## EXAMPLES
 
- print field values:
+ 
+```
+cmo/printatt/mo1/zic/3,8,0
 
- mo/printatt/mo1/zic/3,8,0
+cmo/printatt/mo1/itetclr/eltset,get,eset1
+```
+print values for attribute zic for nodes between index 3 and 8
 
- mo/printatt/mo1/itetclr**/eltset,get**,eset1
+print values for attribute itetclr for elements in the element set eset1
 
- print attribute names:
 
- mo printatt/mo1**/-all-/list**
+ 
+```
+cmo printatt/mo1/-all-/list
 
- mo printatt/mo1**/node/list**
+cmo printatt/mo1/node/list
+```
+print attribute names for all attributes in the mesh object mo1
 
- print min and max of attribute fields:
+print attribute names for all attributes of length nnodes
 
- mo printatt/mo1**/-all-/minmax**
+ 
+```
+cmo/printatt/mo1/-all-/minmax
 
- mo printatt/mo1**/-xyz-/minmax**
+cmo/printatt/mo1/-xyz-/minmax
 
- mo printatt/mo1/xic**/ minmax**/7,10,0
+cmo/printatt/mo1/xic/ minmax/7,10,0
 
- mo printatt/mo1** **/itp1**/minmax/pset,get**,psetr1
+cmo/printatt/mo1/itp1/minmax/pset,get,pset1
 
- attribute itp1 has length 'nnodes' hence the pset syntax is valid
-
- mo printatt/mo1** **/itetclr**/minmax/eset,get**,smallets
-
- attribute itetclr has length 'nelements' hence the eset syntax is
- valid
+cmo/printatt/mo1/itetclr/minmax/eltset,get,e_small
+```
+print min and max of attributes
 
   
 
