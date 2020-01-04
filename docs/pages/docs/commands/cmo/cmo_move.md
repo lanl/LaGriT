@@ -1,27 +1,35 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/move"
+Tags: cmo move
 ---
 
+# cmo/move
+
+Moves or rename a mesh object to a new name.
+
+---------
+
+## SYNTAX
   
+<pre>
+<b>cmo/move</b>/ mo_name / master_mo /
+</pre>
 
- ** move**/ mo\_name/master\_mo/
+`mo_name` is the new name for master mesh object, required.
 
-  mo\_name is type character, required.
-
-  master\_mo is type character, default is **-cmo-**'
-
-  Changes the name of Mesh Object, master\_mo, to mo\_name. The output
-  Mesh Object, mo\_name, will become the Current Mesh Object. If
-  mo\_name is the same as master\_mo nothing happens. If mo\_name
+`master_mo` is the mesh object to move or rename, default is **-cmo-**. If
+  mo_name is the same as master_mo nothing happens. If mo_name
   exists it is over written.
 
- **EXAMPLES:**
 
-  mo/move**/ mo\_tet2/mo\_tet1
+## EXAMPLES
 
-  mo/move/-mo-/mo\_tet1
+```
+  cmo/move/ mo_tet2/mo_tet1
 
-  mo/move**/ mo\_tet2
+  cmo/move/-mo-/mo_tet1
 
-  mo/move**/ mo\_tet2**/-cmo-**
+  cmo/move/ mo_tet2
+
+  cmo/move/ mo_tet2/-cmo-
+```
