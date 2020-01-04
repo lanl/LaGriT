@@ -1,21 +1,30 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/newlen"
+Tags: cmo newlen
 ---
 
-  
+# cmo/newlen
 
- **newlen**/mo\_name/
+-------
 
-   mo\_name is type character, default is **-cmo-**
+ Changes the length of all memory managed arrays for Mesh Object to the proper length.
 
-     Changes the length of all memory managed arrays for Mesh Object
- mo\_name to the proper length.
+## SYNTAX
 
- **EXAMPLES:**
+<pre>
+<b>cmo/newlen</b>/ mo_name /
+</pre>
 
-  mo/newlen**/ mo\_tet2
+`mo_name` is the name of the mesh object, default is **-cmo-**
 
-  mo/newlen/-cmo-**
+    
 
-  mo/newlen**
+## EXAMPLES
+
+```
+  cmo/newlen/ mo_tet2
+
+  cmo/newlen/-cmo-
+
+  cmo/newlen
+```
