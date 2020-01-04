@@ -13,11 +13,12 @@ Mesh Objects may by the Current Mesh Object. There is also one
 Default Mesh Object which is used as the template for generating new
 Mesh Objects.
 
+The following are CMO options, click to see more details.
 
-| CMO Option         | Short Description (click on option for more details) | Brief Syntax                                       | 
+| &nbsp;&nbsp;CMO Options &nbsp;&nbsp;| Short Description | Brief Syntax      | 
 | :----------------- | :--------------------------------------------- | :--------------------------------------------------|
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**  </a> | Add user attribute | **cmo/addatt**/mo/att_name/type/rank/length|
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**  </a> | Create attributes  | **cmo/addatt**/mo/keyword/keyword_options |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Add user attribute &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | **cmo/addatt**/mo/att_name/type/rank/length|
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Create attributes  | **cmo/addatt**/mo/keyword/keyword_options |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_derive`** </a> | Give mo derived attributes from another mo | **cmo/attribute_derive**/sink_mo/src_mo |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_union`** </a> | Combine attributes of two mesh objects | **cmo/attribute_union**/mo_1/mo_2  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_compress.html">**`compress`** </a> | Compress mo arrays to actual lengths | **cmo/compress**/mo_name |
@@ -49,9 +50,10 @@ Mesh Objects.
 
 ## CONVENTION
 
-As a result of any command that generates a new mesh object, the newly generated mesh object becomes active. 
-As a result of any command that changes a mesh object (e.g. `copyatt`) the changed mesh object becomes active.
-Use `cmo/select` to explicitly specify the current and active mesh object.
+As a result of any command that generates a new mesh object, the newly generated mesh object becomes active. <br>
+As a result of any command that changes a mesh object (e.g. **copyatt**) the changed mesh object becomes active.<br>
+Use **cmo/select** to explicitly specify the current and active mesh object.
+
 
 ## RESERVED NAMES
 
@@ -68,26 +70,28 @@ The following names are reserved and used in the various cmo commands:
 **`-xyz-`**: Mesh Object Attributes xic, yic, and zic
 
 
-## CMO PARAMETERS, DEFAULTS and POSSIBLE VALUES
+## CMO PARAMETERS
   
-|  Attribute    | Type, Defaults                      | Possible Values                                    |
-| :-------------| :-----------------------------------| :--------------------------------------------------|
-|`mo_name`      | character                         | |
-|`att_name`     | character                         | |
-|`mesh_type`    | character                         | **tet,hex,pri,pyr,tri,triplane,quad,hyb,line,pnt** |
-|`type`         | character, default: **`VDOUBLE`** |  **VDOUBLE** real array <br>  **VINT** integer array <br> **VCHAR** array of character*32 <br> **INT** a single integer variable (length =1 rank =1 by definition) <br> **REAL** a single real variable (length =1 rank =1 by definition) <br> **CHARACTER** a single character*32 variable (length =1 rank =1 by definition) |
-|`rank`         | character, default: **`scalar`**  | **scalar** one entry per array element <br> **vector** 3 entries per array element <br> **tensor** 9 entries per array element <br> any previously defined **INT** attribute including user defined attributes may be used as rank |
-|`length`       | character, default: **`nnodes`**  |  any previously defined **INT** attribute including user defined attributes may be used as length |
-|`interpolate`  | character, default: **`linear`**  | **copy, sequence, linear, log, asinh, max, min, user,and,or,incmax** |
-|`ioflag`       | character                         | **a, g, f, l, no** -- for avs, gmv, fehm, LaGriT |
+|  Attribute    |  Possible Values (type character) default in bold              |
+| :-------------|  :--------------------------------------------------|
+|`mo_name`      |  |
+|`att_name`     |  |
+|`mesh_type`    |   **tet**, hex, pri, pyr, tri, triplane, quad, hyb, line, pnt  |
+|`type`         |  **VDOUBLE**, VINT, VCHAR, INT, REAL, CHARACTER |
+|`rank`         |  **scalar**, vector, tensor, or any INT attribute |
+|`length`       | **nnodes** or  any INT attribute  |
+|`interpolate`&nbsp;&nbsp;  |  **`linear`**  copy, sequence, log, asinh, max, min, user, and,or,incmax |
+|`ioflag`       |  a g, f, l -- for output of avs, gmv, fehm, LaGriT |
 
 
-## EXAMPLE COMMANDS AND OUTPUT
+## EXAMPLES
 
 ```
 cmo/create/motet                                                                
-cmo/status/motet/ brief                                                          
- 
+cmo/status/motet/ brief 
+```
+Create and print a brief status of the mesh object named motet:
+<pre class="lg-output"> 
 The current-mesh-object(CMO) is: motet                                          
  
   2 Mesh Object name: motet                                                     
@@ -95,15 +99,15 @@ The current-mesh-object(CMO) is: motet
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                   active   
-```
-Create and print a brief status of the mesh object named motet.
+</pre>
 
 ```
 cmo/addatt/moquad/zsave/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
 cmo/copyatt/moquad moquad/zsave zic
 cmo/printatt/moquad/-all- minmax  
 ```
-
+Add the attribute zsave to the mesh object and copy zic attribute values into zsave attribute:
+    
 <pre class="lg-output"> 
 
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -163,8 +167,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  zsave              1.638043335E+03  1.856468628E+03 2.184252930E+02     14241  
 </pre>
 
-Add the attribute zsave to the mesh object and copy zic attribute values into zsave attribute. 
-    
+
     
 
 
