@@ -1,16 +1,20 @@
+---
+Title: "cmo/readatt"
+Tags: cmo readatt
+---
 
 # CMO / READATT
 
+-----------------
+
 Read field style data from file. Expects same number of values each line.
-
-Any line starting with "#" will be ignored.
-
-Any line starting with a character string will be ignored.
+<br>Any line starting with "#" will be ignored.
+<br>Any line starting with a character string will be ignored.
 
 
 
 
-# SYNTAX
+## SYNTAX
 
 <pre>
 <b>cmo/readatt </b> /cmo_name/attr1/[attr2..] operation / filename
@@ -32,9 +36,9 @@ but they will be read in the order they occur. Attributes are assumed to be node
 ## EXAMPLES
 
 ```
- cmo / create / mo_name / / / tet
+cmo / create / mo_name / / / tet
 
- cmo/readatt/mo_name/ xic,yic,zic,node_val1,node_val2  / 1,0,0 / input_tab.dat 
+cmo/readatt/mo_name/ xic,yic,zic,node_val1,node_val2  / 1,0,0 / input_tab.dat 
 ```
 
 Read x,y,z coordinates and some values into node attributes node_val1 and node_val2 from a file of tabular data.
@@ -51,17 +55,17 @@ zone t="facies" I=191, J=136, K= 57
   ...
 </pre>
  
+ 
 ``` 
-cmo/readatt /mo_tet2/xic,yic,zic/add///myfile
+cmo/readatt /mo_tet2/xic,yic,zic/add /// myfile
 ```
-
 New nodes will be added to mo_tet2, and their coordinates will be supplied from the file. The value of nnodes will be updated.
 For this example 2 nodes and their values will be added to mo_tet2.
 
 Contents of myfile:
 <pre class="lg-output">
 0.017     12.65     7.25 
-1.1         10.2         3.4
+1.1       10.2      3.4
 </pre>
 
 
@@ -72,7 +76,6 @@ cmo/readatt /mo_tet2/itp1/new_node_attr/pset,set,p1/myfile
 The values of itp1 will be replaced. If new_node\attr does not exist it will be created as a VDOUBLE node based attribute. 
 
 ```
-
 # read values into temporary mesh node attributes
 cmo / create / mo_temp
 cmo / readatt / mo_temp / permx permy permz por / 1 0 0 / file.table
