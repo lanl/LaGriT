@@ -1,32 +1,37 @@
 ---
 Title: cmo/delatt
+Tags:
 ---
 
-# cmo / delatt
+# cmo/delatt
 
-Deletes the attribute att_name from the current Mesh Object, mo_name. This will not
-delete an attribute with a persistence of 'permanent'.
+------------
+
+Deletes an attribute from a Mesh Object. 
 
 ## SYNTAX
 
-**cmo** / **delatt**/ `mo_name` / `att_name`
+<pre>
+<b>cmo / delatt </b>/ mo_name / att_name
 
-**cmo** / **DELATT**/ `mo_name` / `att_name`
+<b>cmo / DELATT </b>/ mo_name / att_name
+</pre>
 
 
-**`delatt`** Deletes the attribute `att_name` from the current Mesh Object, `mo_name`. This will not
+**`delatt`** delete attribute from the current Mesh Object. This will not
 delete an attribute with a persistence of 'permanent'.
 
 
-**`DELATT`** Deletes the attribute `att_name` from the current Mesh Object, `mo_name` even if it has a persistence of 'permanent'.
+**`DELATT`** delete attribute from the current Mesh Object even if it has a persistence of 'permanent'.
+
+`mo_name` is the mesh object. The mesh object name must be specified, but keywords can be used, such as -cmo- for current mesh object.
 
 
-The mesh object name must be specified, but keywords can be used, such as -cmo- for current mesh object.
-
-The attribute name must be specified, but keywords can be used, such as -all- for all attributes in the mesh object.
+`att_name` is the name of the attribute to delete from the mesh object. The attribute name must be specified, but keywords can be used, such as -all- for all attributes in the mesh object.
 
 
- ## EXAMPLES
+
+## EXAMPLES
  
 ```
 cmo/delatt/ mo_tet /boron
