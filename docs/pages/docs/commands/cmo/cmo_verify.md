@@ -1,22 +1,34 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/verify"
+Tags: cmo verify
 ---
 
+# cmo/verify
+
+------------
+
+Verify that Mesh Object is consistent.
+
+## SYNTAX
  
-**verify**/ mo\_name/
-mo\_name is type character, default is **'-all-'**
+<pre>
+<b>cmo/verify</b>/ mo_name /
+</pre>
 
-Verifies that Mesh Object mo\_name is consistent.
+`mo_name` is the mesh object, default is **-all-**.
+
 
  
-**EXAMPLES:**
-mo/verify**/ mo\_tet2
+## EXAMPLES
 
-mo/verify/-cmo-**
+```
+cmo/verify/ mo_tet2
 
-mo/verify**
+cmo/verify/-cmo-
 
-mo/verify/-all-**
+cmo/verify
 
-mo/verify/-default-**
+cmo/verify/-all-
+
+cmo/verify/-default-
+```
