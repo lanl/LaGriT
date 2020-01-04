@@ -15,11 +15,11 @@ Mesh Objects.
 
 The following are CMO options, click to see more details.
 
-| &nbsp;&nbsp;CMO Options &nbsp;&nbsp;| Short Description | Brief Syntax      | 
+| CMO Options &nbsp;&nbsp;&nbsp;&nbsp;|  Short Description &nbsp;&nbsp;&nbsp;&nbsp; | Brief Syntax      | 
 | :----------------- | :--------------------------------------------- | :--------------------------------------------------|
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Add user attribute &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | **cmo/addatt**/mo/att_name/type/rank/length|
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Create attributes  | **cmo/addatt**/mo/keyword/keyword_options |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_derive`** </a> | Give mo derived attributes from another mo | **cmo/attribute_derive**/sink_mo/src_mo |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_derive`** </a> &nbsp;&nbsp;| Give mo derived attributes from another mo | **cmo/attribute_derive**/sink_mo/src_mo |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_union`** </a> | Combine attributes of two mesh objects | **cmo/attribute_union**/mo_1/mo_2  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_compress.html">**`compress`** </a> | Compress mo arrays to actual lengths | **cmo/compress**/mo_name |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_constraint.html">**`constraint`** </a> | Get surface constraints from mo to another | **cmo/constraint**/cmo_sink/cmo_src  |
@@ -48,11 +48,12 @@ The following are CMO options, click to see more details.
 
 
 
-## CONVENTION
+## Active CMO
 
-As a result of any command that generates a new mesh object, the newly generated mesh object becomes active. <br>
-As a result of any command that changes a mesh object (e.g. **copyatt**) the changed mesh object becomes active.<br>
-Use **cmo/select** to explicitly specify the current and active mesh object.
+A mesh object is made current or active:
+- As a result of any command that generates a new mesh object
+- As a result of any command that changes a mesh object (e.g. **copyatt**)
+- Use **cmo/select** to explicitly specify the current active mesh object.
 
 
 ## RESERVED NAMES
@@ -70,7 +71,7 @@ The following names are reserved and used in the various cmo commands:
 **`-xyz-`**: Mesh Object Attributes xic, yic, and zic
 
 
-## CMO PARAMETERS
+## CMO Parameters
   
 |  Attribute    |  Possible Values (type character) default in bold              |
 | :-------------|  :--------------------------------------------------|
@@ -80,7 +81,7 @@ The following names are reserved and used in the various cmo commands:
 |`type`         |  **VDOUBLE**, VINT, VCHAR, INT, REAL, CHARACTER |
 |`rank`         |  **scalar**, vector, tensor, or any INT attribute |
 |`length`       | **nnodes** or  any INT attribute  |
-|`interpolate`&nbsp;&nbsp;  |  **`linear`**  copy, sequence, log, asinh, max, min, user, and,or,incmax |
+|`interpolate`&nbsp;&nbsp;  |  **linear**  copy, sequence, log, asinh, max, min, user, and,or,incmax |
 |`ioflag`       |  a g, f, l -- for output of avs, gmv, fehm, LaGriT |
 
 
