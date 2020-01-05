@@ -7,44 +7,46 @@ tags: cmo operations options
 
 --------------------------
 
-The `cmo` command operates on the selected Mesh Object(MO). There can be
-many Mesh Objects in the code for a given problem. Only one of these
-Mesh Objects may by the Current Mesh Object. There is also one
+These Current Mesh Object commands operate on the selected Mesh Object. 
+<br>There can be many Mesh Objects in the code for a given problem. Only one 
+Mesh Object at a time is the Current and Active Mesh Object. (There is also one
 Default Mesh Object which is used as the template for generating new
-Mesh Objects.
+Mesh Objects).
 
-The following are CMO options, click to see more details.
 
-| CMO Options &nbsp;&nbsp;&nbsp;&nbsp;|  Short Description &nbsp;&nbsp;&nbsp;&nbsp; | Brief Syntax      | 
+Each Mesh Object is has both default and user added attributes. The following are CMO (Current Mesh Object) options, click to see more details.
+
+
+| CMO Options &nbsp;&nbsp; |  Short Description &nbsp;&nbsp; | Brief Syntax      | 
 | :----------------- | :--------------------------------------------- | :--------------------------------------------------|
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Add user attribute &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | **cmo/addatt**/mo/att_name/type/rank/length|
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp;&nbsp;&nbsp; | Create attributes  | **cmo/addatt**/mo/keyword/keyword_options |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_derive`** </a> &nbsp;&nbsp;| Give mo derived attributes from another mo | **cmo/attribute_derive**/sink_mo/src_mo |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp; | Add an attribute to cmo &nbsp;&nbsp; | **cmo/addatt**/mo/att_name/type/rank/length|
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">**`addatt`**</a> &nbsp;&nbsp; | Create  new cmo attributes &nbsp;&nbsp; | **cmo/addatt**/mo/keyword/keyword_options |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_derive`** </a> &nbsp;&nbsp;| Derive attributes from another cmo | **cmo/attribute_derive**/sink_mo/src_mo |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html">**`attribute_union`** </a> | Combine attributes of two mesh objects | **cmo/attribute_union**/mo_1/mo_2  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_compress.html">**`compress`** </a> | Compress mo arrays to actual lengths | **cmo/compress**/mo_name |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_constraint.html">**`constraint`** </a> | Get surface constraints from mo to another | **cmo/constraint**/cmo_sink/cmo_src  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_copy.html">**`copy`** </a> | Copy identical mo to mo_new | **cmo/copy**/mo_new/mo_master  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_compress.html">**`compress`** </a> | Compress cmo arrays to actual lengths | **cmo/compress**/mo_name |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_constraint.html">**`constraint`** </a> | Get surface constraints from cmo to another | **cmo/constraint**/cmo_sink/cmo_src  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_copy.html">**`copy`** </a> | Copy a cmo to new cmo | **cmo/copy**/mo_new/mo_master  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_copyatt.html">**`copyatt`** </a> | Copy attribute values to another attribute | **cmo/copyatt**/mo mosrc/att att_src  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_create.html">**`create`** </a> | Create a new mesh object | **cmo/create**/mo_name [/// mesh_type] | 
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html">**`delatt`** </a> | Delete a mesh object attribute | **cmo/delatt**/mo_name/att_name   |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html">**`DELATT`** </a> | Force Delete a mesh object attribute | **cmo/DELATT**/mo_name/att_name  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_release.html">**`delete`** </a> | Delete an existing mesh object | **cmo/delete**/mo_name   |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_derive.html">**`derive`** </a> | Copy mo to new mo with empty data  | **cmo/derive**/mo_name/master_mo  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_geom.html">**`geometry`** </a> | Give geometry to mo from another mo | **cmo/geometry**/mo_name/geometry_name |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_length.html">**`length`** </a> | Print memory length for mo attribute | **cmo/length**/mo_name/att_name  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_create.html">**`create`** </a> | Create a new cmo | **cmo/create**/mo_name [/// mesh_type] | 
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html">**`delatt`** </a> | Delete a cmo attribute | **cmo/delatt**/mo_name/att_name   |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html">**`DELATT`** </a> | Force Delete a cmo attribute | **cmo/DELATT**/mo_name/att_name  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_release.html">**`delete`** </a> | Delete an existing cmo | **cmo/delete**/mo_name   |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_derive.html">**`derive`** </a> | Copy cmo to new cmo with empty data  | **cmo/derive**/mo_name/master_mo  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_geom.html">**`geometry`** </a> | Give geometry to cmo from another cmo | **cmo/geometry**/mo_name/geometry_name |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_length.html">**`length`** </a> | Print memory length for cmo attributes | **cmo/length**/mo_name/att_name  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_list.html">**`list`** </a> | List all mesh objects | **cmo/list**  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_memory.html">**`memory`** </a> | Set length for mo memory | **cmo/memory**/mo_name/num_nodes/num_elements |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_modatt.html">**`modatt`** </a> | Modify mo attribute parameters | **cmo/modatt**/mo/att_name/parameter/value  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_move.html">**`move`** </a> | Change the name of a mo | **cmo/move**/mo_new/mo_old  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_newlen.html">**`newlen`** </a> | Adjust memory lengths by nnodes and nelements | **cmo/newlen**/mo_name  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_memory.html">**`memory`** </a> | Set length for cmo memory | **cmo/memory**/mo_name/num_nodes/num_elements |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_modatt.html">**`modatt`** </a> | Modify cmo attribute parameters | **cmo/modatt**/mo/att_name/parameter/value  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_move.html">**`move`** </a> | Change the name of a cmo | **cmo/move**/mo_new/mo_old  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_newlen.html">**`newlen`** </a> | Adjust attribute lengths  | **cmo/newlen**/mo_name  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_printatt.html">**`printatt`** </a> | Print attribute values | **cmo/printatt**/mo/att_name/[**minmax**] [1,0,0]  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_readatt.html">**`readatt`** </a> | Read attribute values from file | **cmo/readatt**/mo/att1,att2,[...] /1,0,0/file  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_release.html">**`release`** </a> | Delete an existing mesh object | **cmo/release**/mo_name   |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_select.html">**`select`** </a> | Make selected mo current and default | **cmo/select**/mo_name   |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setatt.html">**`setatt`** </a> | Set the values of mo attributes | **cmo/setatt**/mo/att_name/[1,0,0]/value  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setid.html">**`set_id`** </a> | Create attribute with id values (order) | **cmo/set_id**/mo/**node** or **element**/att_name  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_select.html">**`select`** </a> | Make  cmo current and active | **cmo/select**/mo_name   |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setatt.html">**`setatt`** </a> | Set values in cmo attributes | **cmo/setatt**/mo/att_name/[1,0,0]/value  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setid.html">**`set_id`** </a> | Create attribute with id numbers | **cmo/set_id**/mo/**node** or **element**/att_name  |
 |<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_status.html">**`status`** </a> | Print mesh object status | **cmo/status**/mo_name/ [**brief**]  |
-|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_verify.html">**`verify`** </a> | Verify memory for mo is consistent | **cmo/verify**/mo_name  |
+|<a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_verify.html">**`verify`** </a> | Verify memory for cmo | **cmo/verify**/mo_name  |
 
 
 
