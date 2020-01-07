@@ -26,7 +26,7 @@ tipue_search_active: true
  -  [Mesh Object Connectivity](docs/meshobjcon.md) 
  -  [Supported Element Types](docs/supported.md)  
  -  [Geometries](docs/geometries.md) 
- -  [Command Interface](docs/commandi.md )  
+ -  [Command Interface](docs/commandi.md)  
  -  [Fortran Interface](docs/fortran.md)  
 
 ## IV. Interfacing User Routines to LaGriT ##
