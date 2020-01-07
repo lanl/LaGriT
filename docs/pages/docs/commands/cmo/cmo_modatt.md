@@ -6,7 +6,7 @@ tags: cmo, modatt, attibute
 # CMO/MODATT
 
 Modifies a field for a mesh object attribute.
-For more descriptions of the mesh object attributes, see [Mesh Object Definition](docs/meshobject.md)
+For more descriptions of the mesh object attributes, see [Mesh Object Definition](../../meshobject.md)
 
 <pre>
 <b>modatt</b>/ cmo_name/ cmo_att_name /cmo_field_name/ new_values
