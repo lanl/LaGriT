@@ -1,13 +1,21 @@
+---
+Title: "command interface"
+Tags: Manual command interface
+---
+
 
 # Command Interface
+
+---
 
 
 LaGriT runs on the command line as interactive mode or with an input command file. LaGriT will write two output files upon completion, by default they are `lagrit.out` (summary and reports for each command) and `lagrit.log` (saved commands).
 Run on the command line with either method:
+
 ```
-    lagrit
+lagrit
     
-    lagrit < input_commands.lgi
+lagrit < input_commands.lgi
 ```
 
 
@@ -38,8 +46,6 @@ The command **cmo / status / -all- / brief** gives a brief description of each m
 The command **finish** will exit the command line interface.
 
 ```
-
-
 read / avs / tet.inp / mo_tet                                                    
                                                                 
 read / avs / test_tet_small.inp / cmo_1
