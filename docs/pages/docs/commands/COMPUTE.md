@@ -85,13 +85,10 @@ and the surface - values from the surface are extrapolated "downward" into the m
   surface and main meshes.
  
   Other places to look for modules that compute some standard mesh
-  attributes include, [quality](QUALITY.md "Mesh Quality"), which
-  will
-  compute aspect ratio and volume,
-  [cmo/addatt](cmo/cmo_addatt.md), which will
-  compute normal vectors, dihedral angles, solid
-  angles, meadian points, Voronoi points and more. User functions can
-  be computed with the [math](MATH.md "Math Functions") module.
+  attributes include, [**QUALITY**](QUALITY.md), which
+  will compute aspect ratio and volume,
+  [**cmo/addatt**](cmo/cmo_addatt.md), which will compute normal vectors, dihedral angles, solid
+  angles, meadian points, Voronoi points and more. User functions can be computed with  [**MATH**](MATH.md).
  
 
 
