@@ -11,7 +11,7 @@ tipue_search_active: true
 ## I. Introduction ##
 
  -  [LaGriT and PyLaGriT](docs/lagrit.md)  
- -  [LaGriT Features](../features.md)  
+ -  [LaGriT Features](features.md)  
  -  [Mesh Design Considerations](docs/meshing.md)  
  -  [Tutorials and Examples](tutorial/index.md)
  
