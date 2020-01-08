@@ -146,7 +146,7 @@ Select All, or by one of the categories:
 
      <li data-color="demo">
             <div>
-                <a href="/pages/docs/demos/main_extract_surfmesh.html">
+                <a href="{{ "/pages/docs/demos/main_extract_surfmesh.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
