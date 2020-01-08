@@ -1,5 +1,6 @@
 ---
 title: EXTRACT/SURFMESH
+tags: extract surfmesh 
 ---
 
 # EXTRACT / SURFMESH
@@ -16,6 +17,8 @@ Not all attributes in the input mesh object are created
   attributes, only xic,yic,zic,itet,jtet,itetoff,itettyp, and icr1
   are set. The node attribute imt is set to 1. The icontab array is copied from the
   input mesh object to the output mesh object.
+
+The elements of the extracted surfmesh are detirmined by the faces of the original mesh elements. So if the original mesh is hexahedral, the surfmesh will be quads, if it is tetrahedral, the surfmesh will be triangles. If you want all triangles in the surfmesh you can first convert the mesh to tetrahedrals using the command [**`grid2grid`**](../GRID2GRID.md).
 
 
 Note:  the **itp** array of the input mesh object must be correctly set. 
@@ -65,11 +68,11 @@ Note if itetclr is set to a single value and the itp array is updated, there wil
   face in the original mesh.  For multi-material, the convention is that the normal points
   into the larger material id (itetclr) material.
 
-* **itetclr0** and **itetclr1** material colors (itetclr) of each side of the extracted surface. 0 indicates a face on the boundary.
-* **idelem0**  and **idelem1**  element number on each side of the extracted surface.  
-* **idface0**  and **idface1**  the local face number for each element on either side of the extracted surface. 
-* **facecol** is a model face number constructed from the itetclr0 and itetclr1 attributes and is not guaranteed that the same facecol value will not be given to two disjoint patches of mesh faces.  
-* **idnode0** provides the mapping from nodes in the extracted interface network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is
+* **itetclr0** (values 0 to max material) and **itetclr1** (values 1 to max material) based on itetclr material values on each side of the extracted surface. 0 indicates a face on the boundary.
+* **idelem0** (values 0 to nelements) and **idelem1** (values 1 to nelements)  element number on each side of the extracted surface.  
+* **idface0** (values 0 to num element faces) and **idface1** (values 0 to num element faces)  the local face number for each element on either side of the extracted surface. 
+* **facecol** (values between 0 and max material) is a model face number constructed from the itetclr0 and itetclr1 attributes and is not guaranteed that the same facecol value will not be given to two disjoint patches of mesh faces.  
+* **idnode0** (values 0 to nnodes) provides the mapping from nodes in the extracted interface network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is
    the parent node in the input mesh object that corresponds to node J in the output mesh object. 
 
 
@@ -83,55 +86,23 @@ extract/surfmesh/1,0,0/ mos_out / MO_MESH / external
 
 ## DEMO
 
-This demonstrates the difference between extracting all or just external boundaries. The first image shows the extracted surfmesh
-which includes the interface between the materials. The second image shows the surfmesh extracted from external boundary only.
-Note the face elements will depend on the element face being extracted, the second surfmesh has been converted from quad elements to tri elements. This may be needed for commands or applications that expect a triangle surface.
+This demonstrates the difference between extracting all or just external boundaries. 
 
-|   | 
-| :---:  | :---:  | 
-|   |  |
-|  **Extract all**  |   **Extract external**  | 
-| <img width="250" src="https://lanl.github.io/LaGriT/assets/images/box_surfmesh_all.png">  |  <img width="250" src="https://lanl.github.io/LaGriT/assets/images/box_surfmesh_tri_external.png">  | 
+The first image shows the original hex mesh and nodes colored by the **itp** boundary tags. The image is clipped at the front to show the internal 0 value itp nodes and the tagged interface nodes with value 2. 
 
-```
+The second image shows the extracted surfmesh which includes the interface between the materials. 
 
-define MO_MESH mo_hex
-define/R0/  0.0
-define/Z0/  0.0
-define/R1/ 10.0
-define/Z1/  8.0
-define/ND/  11
-define/NZ/  9
+The third image shows the surfmesh extracted from external boundary only.
 
-cmo / create / MO_MESH / / / hex
-createpts/brick/xyz/ND ND NZ/R0 R0 Z0/R1 R1 Z1/1 1 1
+Note the face elements will depend on the element face being extracted.
 
-# COLOR elements material 1 and material 2 
-pset/p2/attribute xic/1,0,0/ gt 6.
-eltset/e2/ inclusive pset,get,p2
-cmo / setatt / MO_MESH / itetclr 1 
-cmo / setatt / MO_MESH / itetclr eltset,get,e2 2 
+See Full Demo at [Demo Extract Surfmesh](../../demos/main_extract_surfmesh.md). 
+Click on images for full size.
 
-# SET BOUNDARIES AND INTERFACES
-resetpts/itp
 
-# EXTRACT ALL EXTERNAL AND INTERFACE BOUNDARIES
-extract/surfmesh/1,0,0/ mos_all / MO_MESH
-cmo/copyatt/ mos_all mos_all / itetclr itetclr1
+|  |  |   | 
+| :---: | :---: | :---:  | 
+|  **Input Hex Mesh** |  **surfmesh all** |  **surfmesh external**  | 
+| <a href="../../demos/output/box_hex_itp_clip.png"> <img width="300" src="../../demos/output/box_hex_itp_clip.png"></a> | <a href="../../demos/output/box_surfmesh_all.png"> <img width="300" src="../../demos/output/box_surfmesh_all.png"></a> | <a href="../../demos/output/box_quad_external.png"><img width="300" src="../../demos/output/box_quad_external.png"></a> |  
+| Hex mesh colored by itetclr material, nodes show itp values (clip front)|  extract all boundaries and interfaces, color by itetclr1 (clip front) |  extract external boundaries only, color by itetclr1 (clip front) |  
 
-# EXTRACT EXTERNAL ONLY 
-extract/surfmesh/1,0,0/ mos_ext / MO_MESH / external
-cmo/copyatt/ mos_ext mos_ext / itetclr itetclr1
-
-# CONVERT SURFMESH QUADS to TRI
-grid2grid/quadtotri2/ mos_tri / mos_ext
-
-# write files
-dump/avs/ surfmesh_all.inp / mos_all
-dump/avs/ surfmesh_external.inp / mos_ext
-dump/avs/ surfmesh_ext_tri.inp / mos_tri
-
-cmo/status
-
-finish
-```
