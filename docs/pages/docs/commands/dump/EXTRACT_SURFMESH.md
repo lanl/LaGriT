@@ -18,9 +18,9 @@ Not all attributes in the input mesh object are created
   input mesh object to the output mesh object.
 
 
-  The **itp** array of the input mesh object must be correctly set prior
-  to calling **`extract/surfmesh`**. 
-  Use the command [**`resetpts/itp`**](https://lanl.github.io/LaGriT/pages/docs/commands/RESETPTS.html) which will identify nodes on the outside and also on material interfaces for multi-value itetclr values. 
+Note:  the **itp** array of the input mesh object must be correctly set. 
+  Use the command [**`resetpts/itp`**](../RESETPTS.md) which will identify nodes on the outside and also on material interfaces for multi-value itetclr values. 
+See more about this attribute at [Mesh Object](../meshobject.md).
 
  
 

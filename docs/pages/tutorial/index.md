@@ -144,6 +144,20 @@ Select All, or by one of the categories:
             </div>
         </li>
 
+     <li data-color="demo">
+            <div>
+                <a href="/pages/docs/demos/main_extract_surface.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
+                        </div>
+                        <p>Extract Surfmesh</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+
         <li data-color="tutorial">
             <div>
                 <a href="{{ "/pages/tutorial/tutorials/regions_points_to_tet.html" | relative_url }}">
@@ -162,7 +176,7 @@ Select All, or by one of the categories:
                 <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/pages/tutorial/stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
+                            <img src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
                         </div>
                         <p>Tet Mesh using Stratigraphic Surfaces</p>
                     </div>

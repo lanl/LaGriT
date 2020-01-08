@@ -48,7 +48,8 @@ tags: command list all options
 * [**`EDIT`**](docs/commands/EDIT2.md) (print some mesh info)
 * [**`ELMTEST`**](docs/commands/elmtest.md) (validate connectivity)
 * [**`ELTSET`**](docs/commands/ELTSET2.md) (set of elements for mesh object)
-* [**`EXTRACT`**](docs/commands/EXTRACT1.md) (extract a surface)
+* [**`EXTRACT`**](docs/commands/EXTRACT1.md) (extract 2D from 3D)
+* [**`EXTRACT SURFMESH`**](docs/commands/dump/EXTRACT_SURFMESH.md) (extract boundary surface)
 * [**`EXTRUDE`**](docs/commands/extrude.md) (extrude a surface)
 <br>
 <a name="f"></a><br>
