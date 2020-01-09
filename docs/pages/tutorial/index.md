@@ -58,7 +58,7 @@ The following are grouped according to the level of complexity. For specific com
 Select All, or by one of the categories:
 
 - <b>Commands</b> are command examples showing a few lines for syntax and usage. 
-- <b>Utility</b>  is  a set of commands for a particular utility. 
+- <b>Utility</b>  is  a set of commands for a particular task. 
 - <b>Demo</b> is a set of commands from start to finish demonstrating a particular method.
 - <b>Tutorial</b> is a full set of files and commands involving many steps to achieve a final mesh. 
 
@@ -199,6 +199,17 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
+
+        <li data-color="utility">
+            <div>
+                <a href="{{ "/pages/docs/demos/extract_facesets.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <p>Convert <br> Extract Face and Node Sets</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
 	 <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/convert_feet_to_meters.html" | relative_url }}">

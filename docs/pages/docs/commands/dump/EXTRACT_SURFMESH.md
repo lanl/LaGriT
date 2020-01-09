@@ -22,8 +22,8 @@ The elements of the extracted surfmesh are detirmined by the faces of the origin
 
 
 Note:  the **itp** array of the input mesh object must be correctly set. 
-  Use the command [**`resetpts/itp`**](../RESETPTS.md) which will identify nodes on the outside and also on material interfaces for multi-value itetclr values. 
-See more about this attribute at [Mesh Object](../meshobject.md).
+  Use the command [**`resetpts/itp`**](../RESETPT.md) which will identify nodes on the outside and also on material interfaces for multi-value itetclr values. 
+See more about this attribute at [Mesh Object](../../meshobject.md).
 
  
 
@@ -77,26 +77,24 @@ Note if itetclr is set to a single value and the itp array is updated, there wil
 
 
 ## EXAMPLES
+
 ```
 extract/surfmesh/1,0,0/ mos_all / MO_MESH
 
 extract/surfmesh/1,0,0/ mos_out / MO_MESH / external
-
 ```
 
-## DEMO
+<hr>
+
+## Demo Extract Surfmesh
 
 This demonstrates the difference between extracting all or just external boundaries. 
+See Full Demo at [Demo Extract Surfmesh](../../demos/main_extract_surfmesh.md). 
 
 The first image shows the original hex mesh and nodes colored by the **itp** boundary tags. The image is clipped at the front to show the internal 0 value itp nodes and the tagged interface nodes with value 2. 
+<br> The second image shows the extracted surfmesh which includes the interface between the materials. 
+<br> The third image shows the surfmesh extracted from external boundary only.
 
-The second image shows the extracted surfmesh which includes the interface between the materials. 
-
-The third image shows the surfmesh extracted from external boundary only.
-
-Note the face elements will depend on the element face being extracted.
-
-See Full Demo at [Demo Extract Surfmesh](../../demos/main_extract_surfmesh.md). 
 Click on images for full size.
 
 
@@ -105,4 +103,58 @@ Click on images for full size.
 |  **Input Hex Mesh** |  **surfmesh all** |  **surfmesh external**  | 
 | <a href="../../demos/output/box_hex_itp_clip.png"> <img width="300" src="../../demos/output/box_hex_itp_clip.png"></a> | <a href="../../demos/output/box_surfmesh_all.png"> <img width="300" src="../../demos/output/box_surfmesh_all.png"></a> | <a href="../../demos/output/box_quad_external.png"><img width="300" src="../../demos/output/box_quad_external.png"></a> |  
 | Hex mesh colored by itetclr material, nodes show itp values (clip front)|  extract all boundaries and interfaces, color by itetclr1 (clip front) |  extract external boundaries only, color by itetclr1 (clip front) |  
+
+<hr>
+
+## Demo Write Face Sets            
+
+This example shows how extract/surfmesh can be used to write boundary face information that can be used by ExodusII files to define facesets (side sets).
+See Full Demo at [Demo Write Face and Node Sets](../../demos/extract_facesets.md).
+
+Write the mesh element number **idelem1** and element face number **idface1** to define a boundary or surface in order to set model conditions.
+
+*Note it is very important that you use the model source mesh to get the intended node and element numbers.
+If you subset or change the source mesh, the node and element numbers might change so your faceset list will not be valid.*
+
+```
+# extract surface faces from boundary and interfaces
+extract/surfmesh/ 1,0,0 / mo_surf / mo_master
+
+# subset the surface to selected faces
+# select faces on interface below material 2
+cmo/select/ mo_surf
+eltset/ e_delete/ itetclr0 ne 2
+rmpoint / element / eltset get e_delete
+rmpoint / compress
+
+# write file with element-face number pairs
+# using the surfmesh attributes idelem1 and idface1
+# first delete all the attributes we do not want to write
+cmo / DELATT / mo_surf / itetclr0
+cmo / DELATT / mo_surf / idnode0
+cmo / DELATT / mo_surf / idelem0
+cmo / DELATT / mo_surf / facecol
+cmo / DELATT / mo_surf / itetclr1
+cmo / DELATT / mo_surf / idface0
+
+dump / avs / mat2_interface.facesets / mo_surf / 0 0 1 2
+```
+
+The file mat2_interface.facesets will have the element number and the boundary face local number for the selected faces.
+In this case the faces are all upward facing and all faces are id 2 on the tet element they are extracted from. 
+
+<pre class="lg-output">
+    0   0   0   2   0
+00002  1  1
+idelem1, integer 
+idface1, integer 
+  1503  2
+  1504  2
+  1508  2
+  1509  2
+  1513  2
+  1514  2
+  1518  2
+...
+</pre>
 

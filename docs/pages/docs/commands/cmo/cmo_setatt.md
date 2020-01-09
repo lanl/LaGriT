@@ -9,6 +9,8 @@ Tags: cmo setatt
 
 Operation to set mesh object attributes with values.
 
+See the description of mesh object and attributes for setting options. [Mesh Object}(../../meshobject.md)
+
 
 ## SYNTAX
 
@@ -34,9 +36,10 @@ The `value` is assigned to the selected range of `attribute_name'.
 ## EXAMPLES
 
 ```
-cmo/setatt/mo/itp1/1,0,0/0
+cmo/setatt/mo/imt/1,0,0/1
+cmo/setatt/mo/itp/1,0,0/0
 ```
-Will set all values of node attribute itp1 to 0
+Will set all values of node attribute imt to 1 and itp1 to 0, this is often done to set defaults  before using **connect**.
 
 ```
 cmo/setatt/ 3dmesh /itetclr /eltset,get,blue/ 3
@@ -44,14 +47,14 @@ cmo/setatt/ 3dmesh /itetclr /eltset,get,blue/ 3
 Will set all elements of attribute itetclr and in the element set 'blue' to have the value of 3
 
 ```
-cmo/setatt // ndimensions_geom/ 2
+cmo/setatt // ndimensions_geom / 2
 ```
 Will reset the ndimensions geometry attribute of the active mesh object to 2
 
+
 ```
 define ATT_RESET xfield
-
-cmo/setatt/ -def- / ATT_RESET /pset,get,p_reset/ 0.0d0                               
+cmo/setatt/ -def- / ATT_RESET /pset,get,p_reset/ 0.0d0
 ```
 The attribute name is defined in a variable call ATT_RESET. The value zero is assigned to the  **p_reset** node selection. This will operate on the current active mesh object, use **cmo/select** to make a mesh object current. 
 
