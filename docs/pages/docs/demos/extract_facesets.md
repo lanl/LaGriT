@@ -9,6 +9,9 @@ Tags: extract surfmesh facesets boundary interface
 
 For syntax and description see [**`EXTRACT_SURFMESH`**](../commands/dump/EXTRACT_SURFMESH.md).
 
+For usage with ExodusII files see [**`DUMP EXO`**](../commands/EXODUS.md).
+
+
 This example shows how extract/surfmesh can be used to write boundary face information that can be used by ExodusII files to define facesets (side sets). 
 
 The **extract/surfmesh** is used to extact a surface mesh from the boundary and or interfaces of a source mesh.
