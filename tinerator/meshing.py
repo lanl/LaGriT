@@ -346,13 +346,14 @@ def _stacked_mesh(lg,
                   surface_mesh,
                   outfile:str,
                   layers:list,
-                  matids=None,
-                  xy_subset=None,
-                  nlayers=None):
+                  matids=None):
     '''
     Created a stacked mesh with layer thickness described by the variable
     layers.
     '''
+    
+    layers = list(layers)
+    matids = list(matids)
 
     if matids is None:
         matids = [1]*len(layers)
@@ -360,18 +361,20 @@ def _stacked_mesh(lg,
     if layers[0] != 0.:
         layers = [0.0] + layers
         matids = [0] + matids
+        
         assert len(layers) == len(matids)
 
-    stack_files = ['layer%d.inp' % (len(layers)-i) for i in range(len(layers))]
-    if nlayers is None:
-        nlayers=['']*(len(stack_files)-1)
-
-    cfg.log.info('Stacking %d layers' % len(nlayers))
+    matids = matids[::-1]
     
-    motmp_top = surface_mesh.copy()#lg.read(infile)
+    stack_files = ['layer%d.inp' % (len(layers)-i) for i in range(len(layers))]
+    nlayers=['']*len(stack_files)
+
+    cfg.log.info('Stacking %d layers' % (len(nlayers) - 1))
+    
+    motmp_top = surface_mesh.copy()
 
     for (i,offset) in enumerate(layers):
-        cfg.log.info('Adding layer %d with thickness %s' % (i+1,str(offset)))
+        cfg.log.info('Adding layer %d with thickness %s' % (i,str(offset)))
         motmp_top.math('sub','zic',value=offset)
         motmp_top.dump('layer%d.inp' % (i+1))
 
@@ -384,8 +387,7 @@ def _stacked_mesh(lg,
     stack.stack_layers(stack_files,
                        flip_opt=True,
                        nlayers=nlayers,
-                       matids=matids,
-                       xy_subset=xy_subset)
+                       matids=matids)
 
     cmo_prism = stack.stack_fill()
     cmo_prism.resetpts_itp()
@@ -443,5 +445,3 @@ def __generateSingleColumnPrism(lg,
 
     cmo_prism.addatt('cell_vol',keyword='volume')
     cmo_prism.dump(outfile)
-
-
