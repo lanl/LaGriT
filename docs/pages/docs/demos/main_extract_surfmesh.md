@@ -10,6 +10,8 @@ tags: extract surfmesh
 
 For syntax and description see [**`EXTRACT_SURFMESH`**](../commands/dump/EXTRACT_SURFMESH.md).
 
+For usage with ExodusII files see [**`DUMP EXO`**](../commands/EXODUS.md).
+
 
 This demonstrates the difference between extracting all interfaces and boundaries and extracting external boundaries only. 
 <br>The LaGriT input and output report file are included below.
