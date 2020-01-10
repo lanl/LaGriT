@@ -204,7 +204,7 @@ Select All, or by one of the categories:
             <div>
                 <a href="{{ "/pages/docs/demos/extract_facesets.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <p>Convert <br> Extract Face and Node Sets</p>
+                        <p> Extract Face and Node Sets <br> with extract/surfmesh</p>
                     </div>
                 </a>
             </div>

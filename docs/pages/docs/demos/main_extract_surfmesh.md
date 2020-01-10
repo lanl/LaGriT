@@ -5,12 +5,16 @@ tags: extract surfmesh
 
 
 
-## DEMO EXTRACT/SURFMESH 
+## DEMO extract/surfmesh
 
-This demonstrates the difference between extracting all interfaces and boundaries and extracting external boundaries only. 
+
 For syntax and description see [**`EXTRACT_SURFMESH`**](../commands/dump/EXTRACT_SURFMESH.md).
 
-The LaGriT input and output log file are included below.
+For usage with ExodusII files see [**`DUMP EXO`**](../commands/EXODUS.md).
+
+
+This demonstrates the difference between extracting all interfaces and boundaries and extracting external boundaries only. 
+<br>The LaGriT input and output report file are included below.
 
 
 |  |  |   | 
@@ -44,7 +48,7 @@ The output from these commands are included in the example LaGriT input and outp
 Six new element attributes and one node attribute, are added to the output mesh object.
 - itetclr0 and itetclr1 material colors (itetclr) of each side of the extracted surface. 0 indicates a face on the boundary.
 - idelem0 and idelem1 element number on each side of the extracted surface.
-- idface0 and idface1 the local face number for each element on either side of the extracted surface.
+- idface0 and idface1 the local face number for each element on either side of the extracted surface. A tet will have 4 faces and a hex will have 6 faces.
 - facecol is a model face number constructed from the itetclr0 and itetclr1 attributes and is not guaranteed that the same facecol value will not be given to two disjoint patches of mesh faces.
 - idnode0 provides the mapping from nodes in the extracted interface network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is the parent node in the input mesh object that corresponds to node J in the output mesh object.
 
@@ -61,6 +65,8 @@ This demo uses the [grid2grid](../commands/GRID2GRID.md) command to convert each
 Some of the extracted quad mesh objects will no longer have values that make sense, particularly the itetclr0, idface0 etc attributes that have values from the oritinal hex mesh. These attributes can be removed with the [**cmo/DELATT/**](../commands/cmo/cmo_delatt.md) command.
 
 After the triangle mesh is created, we can set the materials based on normals in 6 directions. This is a quick way to check that triangles have outward pointing normals. Use the command [**settets/normal**](../commands/SETTETS.md).
+
+*Note: after quad elements are split into tri elements, the **extract/surfmesh** attributes no longer apply.*
 
 
 |  |  |   

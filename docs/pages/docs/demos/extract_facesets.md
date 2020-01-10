@@ -3,20 +3,25 @@ Title: Demo Write Face and Node Sets
 Tags: extract surfmesh facesets boundary interface
 ---
 
-# Demo Write Face and Node Sets
+# DEMO Write Face and Node Sets
 
 ------------------
 
+For syntax and description see [**`EXTRACT_SURFMESH`**](../commands/dump/EXTRACT_SURFMESH.md).
+
+For usage with ExodusII files see [**`DUMP EXO`**](../commands/EXODUS.md).
+
+
 This example shows how extract/surfmesh can be used to write boundary face information that can be used by ExodusII files to define facesets (side sets). 
-For syntax and description see command [**extract/surfmesh**](../commands/dump/EXTRACT_SURFMESH.md). 
-The **extract/surfmesh** command will create a surface mesh object extracted from the boundary and or interfaces of the mesh.
-The commands add some useful attributes that relate the surface faces to the source elements.
 
-Write the mesh element number **idelem1** and element face number **idface1** to define a boundary or surface in order to set model conditions.
+The **extract/surfmesh** is used to extact a surface mesh from the boundary and or interfaces of a source mesh.
+This command adds some useful attributes that relate the surface faces to the source mesh elements.
 
-Write the node sets as an FEHM zone file or as an AVS format file.
+This Demo shows how to
+- Write the mesh element number **idelem1** and element face number **idface1** to define a boundary or surface in order to set model conditions.
+- Write the mesh node sets as an FEHM zone file or as an AVS format file.
 
-*Note it is very important that you use the model source mesh to get the intended node and element numbers. If you subset or change the source mesh, the node and element numbers might change so your faceset list will not be valid.*
+*Note it is very important that you use the model source mesh to get the intended node and element numbers. If you subset or change the source mesh, the node and element numbers might change so your face and node list will not be valid.*
 
 ```
 # LaGriT Example for face sets using extract/surfmesh
