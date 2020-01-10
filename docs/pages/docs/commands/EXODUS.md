@@ -220,7 +220,7 @@ ExodusII: Done writing to ExodusII file: output_hex_final.exo using cmo: mohex
 
 ### DEMO USING PSETS AND ELTSETS
 
-Input LaGriT command file [write_exo_pset_eltset.lgi](https://lanl.github.io/LaGriT/pages/docs/demos/input/exo_pset_eltset.lgi.txt)
+Input LaGriT command file [write_exo_pset_eltset.lgi](../demos/input/write_exo_pset_eltset.lgi.txt)
 
 This command file is an example for writing **`psets/eltsets`**, both defined in the mesh object before writing the file.
 Note all psets and eltsets defined in the mesh object will be written to the ExodusII file.
