@@ -15,7 +15,7 @@ The command [**`extract/surfmesh`**](dump/EXTRACT_SURFMESH.md) can be used to ex
 
 
 NOTE: ExodusII requires that elements are ordered by their block ID (element itetclr value). 
-ExodusII routines will automatically sort by these values, so we pre-sort before calling **`dump/exo`** 
+ExodusII routines will automatically sort by these values, so we pre-sort before calling **dump/exo** 
 so that element and node numbering is consistent with any set definitions.
 Both Paraview (sets) and GMV (surfaces) can be used to view ExodusII mesh files with face sets.
 
