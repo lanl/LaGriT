@@ -1434,7 +1434,53 @@ class MO(object):
         stride = [str(v) for v in stride]
         cmd = '/'.join(['cmo/setatt',self.name,attname,','.join(stride),str(value)])
         self.sendline(cmd)
+    def set_id(self,option,node_attname='id_node',elem_attname='id_elem'):
+        '''
+        This command creates integer attributes that contain the node and/or
+        element number. If later operations delete nodes or
+        elements causing renumbering, these attributes will contain the
+        original node or element number.
 
+        :arg option: create attribute for nodes, elements, or both {'both','node','element'}
+        :type name: str
+
+        :arg node_attname: name for new node attribute
+        :type node_attname: str
+
+        :arg elem_attname: name for new element attribute
+        :type elem_attname: str
+
+        Example:
+        from pylagrit import PyLaGriT
+        #create source mesh
+        npts = (11,11,11)
+        mins = (0.,0.,0.)
+        maxs = (1.,1.,1.)
+        mesh = lg.create()
+        mesh.createpts_brick_xyz(npts,mins,maxs)
+
+        #write node and element attribute numbers
+        mesh.set_id('both',node_attname='node_att1',elem_attname='elem_att1')
+
+        #select and remove points
+        p_mins = (0.5,0.,0.)
+        p_maxs = (1.,1.,1.)
+        points = mesh.pset_geom_xyz(p_mins,p_maxs)
+        mesh.rmpoint_pset(points)
+
+        #dump mesh with original node and element numbering saved
+        mesh.dump('set_id_test.gmv')
+        '''
+        if option == 'both':
+            cmd = '/'.join(['cmo/set_id',self.name,option,node_attname,elem_attname])
+        elif option == 'node':
+            cmd = '/'.join(['cmo/set_id',self.name,option,node_attname])
+        elif option == 'element':
+            cmd = '/'.join(['cmo/set_id',self.name,option,elem_attname])
+        else:
+            print("ERROR: 'option' must be 'both' or 'node' or 'element'")
+            return
+        self.sendline(cmd)
     def information(self):
         '''
         Returns a formatted dictionary with mesh information.
