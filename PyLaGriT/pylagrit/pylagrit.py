@@ -1452,22 +1452,21 @@ class MO(object):
 
         Example:
         from pylagrit import PyLaGriT
+        #instantiate PyLaGriT
+        lg = PyLaGriT()
         #create source mesh
         npts = (11,11,11)
         mins = (0.,0.,0.)
         maxs = (1.,1.,1.)
         mesh = lg.create()
         mesh.createpts_brick_xyz(npts,mins,maxs)
-
         #write node and element attribute numbers
         mesh.set_id('both',node_attname='node_att1',elem_attname='elem_att1')
-
         #select and remove points
         p_mins = (0.5,0.,0.)
         p_maxs = (1.,1.,1.)
         points = mesh.pset_geom_xyz(p_mins,p_maxs)
         mesh.rmpoint_pset(points)
-
         #dump mesh with original node and element numbering saved
         mesh.dump('set_id_test.gmv')
         '''

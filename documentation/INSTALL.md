@@ -46,12 +46,6 @@ If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-n
 
     make exodus
 
-or, on Ubuntu, you can build Exodus directly from a [PPA](https://launchpad.net/~nschloe/+archive/ubuntu/seacas-nightly/):
-
-    sudo add-apt-repository ppa:nschloe/seacas-nightly
-    sudo apt-get update
-    sudo apt-get install seacas-bin
-
 Note that Exodus is optional, though recommended for full functionality.
 
 ### 1.4. Compiling LaGriT
