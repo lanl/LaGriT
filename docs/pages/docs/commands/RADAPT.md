@@ -9,11 +9,11 @@ tags: radapt, adaptive smoothing
 --------------------
 
 The command radapt performs r-adaption smoothing on 2D or 3D mesh objects. 
-For a more general version of smoothing see command [**`smooth`**](SMOOTH.md).
+For a more general version of smoothing see command [**`SMOOTH`**](SMOOTH.md).
 
 
-**`radapt`** takes a 2D or 3D mesh object and moves nodes (specifically the nodes selected by
-  `ifirst,ilast,istride`), without changing the connectivity of the mesh, in order to adapt the mesh to best capture the behavior of a specified field or to an adaption function **`fadpt`** supplied by the user.
+This command takes a 2D or 3D mesh object and moves nodes (specifically the nodes selected by
+  `ifirst,ilast,istride`), without changing the connectivity of the mesh, in order to adapt the mesh to best capture the behavior of a specified field or to an adaption function **fadpt** supplied by the user.
 
 ## SYNTAX
 
@@ -23,15 +23,16 @@ For a more general version of smoothing see command [**`smooth`**](SMOOTH.md).
 <b>radapt</b> / [<b>position</b>] / <b>esug</b> or <b>mega</b>/  [ifirst,ilast,istride] /  [<b>user</b>]
 </pre>
 
-## SYNTAX for fadpt adaption function
+## SYNTAX for the adaption function
+
 <pre>
-subroutine fadpt(xvec,yvec,zvec, imtvec, nvec, time, fvec) 
-  xvec, yvec, zvec - Vectors of x, y, and z coordinates of the points where the function is to be evaluated. 
-  imtvec - Vector of imt values for the case where function value depends on material type as well as position (ie. functions with discontinuities). 
-  nvec - Vector length (= number of places where function is to be evaluated).
-  time - Time (scalar), for time-dependent functions.
-  fvec - Vector of adaption function values.
+subroutine <b>fadpt</b>(xvec,yvec,zvec, imtvec, nvec, time, fvec) 
 </pre>
+xvec, yvec, zvec - Vectors of x, y, and z coordinates of the points where the function is to be evaluated. 
+imtvec - Vector of imt values for the case where function value depends on material type as well as position (ie. functions with discontinuities). 
+nvec - Vector length (= number of places where function is to be evaluated).
+time - Time (scalar), for time-dependent functions.
+fvec - Vector of adaption function values.
 
 ## DESCRIPTION
 
@@ -43,8 +44,10 @@ There are two adaptive smoothing algorithms available:
   the command line, **esug** will attempt to adapt the grid to the
   specified field. If the keyword **user** is specified in the command
   line, **esug** will attempt to adapt the grid to an *adaption
-  function* defined by the user-supplied subroutine **`fadpt`**. *Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution
-  Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)*.
+  function* defined by the user-supplied subroutine **`fadpt`**. 
+<br>
+Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution
+  Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)
   
   2. **`mega`** Minimum Error Gradient Adaption. For adaptive
   smoothing purposes, **mega** can only be used on 3D meshes, and only
@@ -52,8 +55,9 @@ There are two adaptive smoothing algorithms available:
   then **radapt** may be instructed to use the interpolation mode associated with the attribute to **refresh** the attribute values.
   The default is **stale** in which case the attribute value will not be updated to reflect the new node position. In either case, the
   user is cautioned to carefully consider the validity of the data used for the adaption. **mega** can be used to adapt hybrid meshes
-  as well as tetrahedral meshes. *Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.
-  Anal. Vol. 34, Issue 3, pp. 9-9 (19)*.
+  as well as tetrahedral meshes. 
+<br>
+Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.  Anal. Vol. 34, Issue 3, pp. 9-9 (19)
 
 
 If `field` adaption is used, the user has specified a valid `field`

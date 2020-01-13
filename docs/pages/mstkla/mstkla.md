@@ -1,60 +1,21 @@
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/construction24.gif">"249"
-"87"<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/construc6.gif">"248" "166"
 
-------------------------------------------------------------------------
 
-**MSTKLA - Mesh ToolKit interface to [LAgrit](http://lagrit.lanl.gov)**
+# MSTKLA - Mesh ToolKit interface to LaGriT
+
+Note these pages have not been updated to newer versions of MSTKLA
 
 (LA-UR-99-6711)
 
 ------------------------------------------------------------------------
 
-**DIRECT LINKS**
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/model.gif">"142"
-"24"](http://www.ees.lanl.gov/staff/rao/mstkla/Geom.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/mesh.gif">"143"
-"26"](http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/utilities.gif">"143"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/attributes.gif">"1"
-"26"](MeshAttributes.md)
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelenty.gif">"144"
-"24"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEntity.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelregn.gif">"141"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelface.gif">"143"
-"26"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modeledge.gif">"143"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/modelvert.gif">"142"
-"24"](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/genregn.gif">"1"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshregn.gif">"143"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshface.gif">"143"
-"26"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshedge.gif">"143"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/meshvert.gif">"143"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/trivia.gif">"144"
-"25"](http://www.ees.lanl.gov/staff/rao/mstkla/trivia.md)
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
 Questions, Comments, Suggestions? Contact:
 
-                Rao V Garimella,
-PostDoc                                                                      
-Tel: (505) 665-4636
+Rao V Garimella,
 
-                EES-5, MS D0                                       
-'
-
-      '
-
-                                   FAX: (505) 665-69
-
-                Los Alamos National Lab                              ( 
-)-(  )                                Email: <rao@lanl.gov
-
-                Los Alamos, NM 8
+Email: rao@lanl.gov
 
 ------------------------------------------------------------------------
 
- 
 
 **MSTKLA** is a C interface to the **LaGriT** code which is designed to
 make it easier to use the LaGriT functionality. It tries to hide some of
@@ -77,9 +38,9 @@ faked on the fly.
 The mesh and model entities are related through the concept of
 **CLASSIFICATION**.
 
-**"A mesh entity is classified on a model entity if it forms all or
+"A mesh entity is classified on a model entity if it forms all or
 part of that model entity's discretization (grid) but not its
-boundary's".**
+boundary's".
 
 So mesh regions can be classified only on a model region.  Mesh faces
 can be classified on a model face or a model region. Mesh vertices can
@@ -111,121 +72,72 @@ underlying database is (LaGriT or something else). So, for example, I am
 hoping that an operator to retrieve the nodes of an element will retain
 the same form shown below regardless of how it functions internally:
 
-*void* **MR\_Vertices**(*PMeshObj* mesh, *PMeshRegn* reg, *int 
-**nv,
-*PMeshVert 
-**rverts);
+void MR_Vertices(PMeshObj mesh, PMeshRegn reg, int nv, PMeshVert rverts);
 
-I will try hard to maintain this API constant but cannot absolutely
-guarantee it.
+I will try hard to maintain this API constant but cannot absolutely guarantee it.
 
- 
-[]{#parent-childAlso see **[Parent-Child Node (Vertex)
-Issues](http://www.ees.lanl.gov/staff/rao/mstkla/parent-child.md)**
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-[]{#typedefs[TYPEDEFS](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) 
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-[]{#MSTKLA_Init**MSTKLA Interface Operators**
-
-------------------------------------------------------------------------
+parent-child Also see [Parent-Child Node](parent-child.md)
 
 
-------------------------------------------------------------------------
+typedefs[TYPEDEFS](prelim.md)
+
+
+## MSTKLA_Init MSTKLA Interface Operators
+
+
 
 **MESH INITIALIZATION:**
 
- 
 
-*void* **MSTKLA\_Init**(*void*);
+void MSTKLA_Init(void);
 
 Initialize the mesh toolkit.
 
-------------------------------------------------------------------------
 
 **MESH OPERATORS:**
 
- 
 
- []{#MESH OBJECT:[MESH
-OBJECT:](http://www.ees.lanl.gov/staff/rao/mstkla/Mesh.md)
+MESH OBJECT: [MESH OBJECT](Mesh.md)
 
- []{#MESH REGION:[MESH
-REGION:](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md)
+MESH REGION:[MESH REGION](MeshRegion.md)
 
- []{#MESH FACE:[MESH
-FACE:](http://www.ees.lanl.gov/staff/rao/mstkla/MeshFace.md)
+MESH FACE:[MESH FACE](MeshFace.md)
 
- []{#MESH EDGE:[MESH
-EDGE:](http://www.ees.lanl.gov/staff/rao/mstkla/MeshEdge.md)
+MESH EDGE:[MESH EDGE](MeshEdge.md)
 
- []{#MESH VERTEX:[MESH
-VERTEX:](http://www.ees.lanl.gov/staff/rao/mstkla/MeshVertex.md)
-
- 
-
- []{#GENERIC MESH REGION QUERIES:[GENERIC MESH REGION
-QUERIES:](http://www.ees.lanl.gov/staff/rao/mstkla/GenRegion.md)
-
-------------------------------------------------------------------------
+MESH VERTEX:[MESH VERTEX](MeshVertex.md)
 
 
-------------------------------------------------------------------------
+GENERIC MESH REGION QUERIES:[GENERIC MESH REGION QUERIES](GenRegion.md)
 
-[]{#GMTKLA_Init**GEOMETRIC MODEL INITIALIZATION:**
 
-*void* **GMTKLA\_Init**(*void*);
+**GMTKLA_Init GEOMETRIC MODEL INITIALIZATION:**
+
+void GMTKLA_Init(void);
 
 Initialize the geometric model interface.
 
-------------------------------------------------------------------------
 
 **MODEL OPERATORS:**
 
- []{#GEOMETRIC MODEL:[GEOMETRIC
-MODEL:](http://www.ees.lanl.gov/staff/rao/mstkla/Geom.md)
 
- []{#MODEL ENTITY:[MODEL
-ENTITY:](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEntity.md)
+GEOMETRIC MODEL:[GEOMETRIC MODEL](Geom.md)
 
- []{#MODEL REGION:[MODEL
-REGION:](http://www.ees.lanl.gov/staff/rao/mstkla/GeomRegion.md)
+MODEL ENTITY:[MODEL ENTITY](GeomEntity.md)
 
- []{#MODEL FACE:[MODEL
-FACE:](http://www.ees.lanl.gov/staff/rao/mstkla/GeomFace.md)
+MODEL REGION:[MODEL REGION](GeomRegion.md)
 
- []{#MODEL EDGE:[MODEL
-EDGE:](http://www.ees.lanl.gov/staff/rao/mstkla/GeomEdge.md)
+MODEL FACE:[MODEL FACE](GeomFace.md)
 
- []{#MODEL VERTEX[MODEL
-VERTEX](http://www.ees.lanl.gov/staff/rao/mstkla/GeomVertex.md)
----&gt; Not implemented fully
+MODEL EDGE:[MODEL EDGE](GeomEdge.md)
 
- 
-
-------------------------------------------------------------------------
+MODEL VERTEX: [MODEL VERTEX](GeomVertex.md)  *Not implemented fully*
 
 
-------------------------------------------------------------------------
+UTILITIES: [UTILITIES:](utilities.md)
 
-[]{#UTILITIES:**[UTILITIES:](http://www.ees.lanl.gov/staff/rao/mstkla/utilities.md)**
 
-------------------------------------------------------------------------
+EXAMPLE: [EXAMPLE OF PROGRAMMING WITH MSTKLA](example.md)**
 
-------------------------------------------------------------------------
-[]{#EXAMPLE**[EXAMPLE OF PROGRAMMING WITH
-MSTKLA](http://www.ees.lanl.gov/staff/rao/mstkla/example.md)**
+EXECUTABLE: [LIBRARIES, INCLUDE FILES AND CREATING AN EXECUTABLE](linking.md)
 
- 
-
-------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-[]{#EXECUTABLE**[LIBRARIES, INCLUDE FILES AND CREATING AN
-EXECUTABLE](http://www.ees.lanl.gov/staff/rao/mstkla/linking.md)**
