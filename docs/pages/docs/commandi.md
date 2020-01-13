@@ -19,14 +19,14 @@ lagrit < input_commands.lgi
 ```
 
 
-Run the Tutorial and see Example command files at [Tutorials and Examples](tutorial/index.md)
+Run the Tutorial and see Example command files at [Tutorials and Examples](../tutorial/index.md)
 
 
 To get started with the commands, the user must create a mesh object.
 The mesh object can be defined by reading in a mesh file, or by creating one.
 
 
-To create an empty mesh object use the command [**cmo** **/create**/](commands/cmo/cmo_create.md) mesh_name. 
+To create an empty mesh object use the command [**cmo/create**](commands/cmo/cmo_create.md) mesh_name. 
 
 There is no limit on the number of Mesh Objects that can be
 defined, but at any time there is only one 'current' or 'active' Mesh
@@ -36,16 +36,19 @@ template, the Mesh Object(s) is(are) manipulated via the [**cmo**](commands/CMO2
 
 
 For example, additional user defined attributes may be added to
-a Mesh Object by using the [**cmo** **/addatt**](commands/cmo/cmo_addatt.md) command, or the
+a Mesh Object by using the [**cmo/addatt**](commands/cmo/cmo_addatt.md) command, or the
 'active' Mesh Object can be changed using the [**cmo/select**](commands/cmo/cmo_select.md) command.
 
 This example session reads 2 mesh files into 2 mesh objects mo_tet and cmo_1. The command **cmo/list** reports all mesh objects including the default template and the 2 new mesh objects. The last mesh object created is the current mesh object. 
 
 The command **cmo / status / -all- / brief** gives a brief description of each mesh object.
 
-The command **finish** will exit the command line interface.
+The command **finish** will exit the command line interface. A command file MUST have a **finish** for a clean exit.
 
-```
+The following is an example of the screen output during a session, this will also be recorded in file **lagrit.out**
+
+<pre class="lg-output"> 
+
 read / avs / tet.inp / mo_tet                                                    
                                                                 
 read / avs / test_tet_small.inp / cmo_1
@@ -78,11 +81,11 @@ The current-mesh-object(CMO) is: cmo_1
    
 finish
  
-```
+</pre>
 
 The output file lagrit.out will save the same information you see on the screen while running LaGriT. The output file lagrit.log will save the commands and you can copy this file and possibly edit to run again.
 
-```
+<pre class="lg-output"> 
 % cat lagrit.log
 
 read/avs/tet.inp/mo_tet                                                         
@@ -90,4 +93,4 @@ read/avs/test_tet_small.inp/cmo_1
 cmo/list                                                                        
 cmo/status/-all-/brief                                                          
 finish                  
-```
+</pre>
