@@ -36,7 +36,7 @@ The **itp** values are shown in the image as round points:
 
 The middle image shows the quad surface extracted from the hex mesh with the default option of all boundaries and interfaces.
 
-The second image shows the quad surface extracted from the hex mesh with the option **external** which ignores internal interfaces.
+The third image shows the quad surface extracted from the hex mesh with the option **external** which ignores internal interfaces. Only the external boundary surface is created.
 
 The surface element type will depend on the element face being extracted, a hex element will produce a quad surface, a tet element will produce a tri surface.
 
