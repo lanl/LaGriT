@@ -65,12 +65,12 @@ cmo/setatt/mo_surf/itetclr/ 3
 
 # select faces on interface below material 2
 eltset/ e_set1/ itetclr0 eq 2
-cmo/setatt/ mo_surf / itetclr/eltset,get,e_set1 1
+cmo/setatt/ mo_surf / itetclr/eltset,get,e_set1 2
 
 # select faces at top of mesh 
 pset/ptop/ attribute zic/1,0,0/ ge ZMAX
 eltset/ etop / exclusive / pset,get,ptop
-cmo/setatt/ mo_surf / itetclr/ eltset,gt,etop 2
+cmo/setatt/ mo_surf / itetclr/ eltset,gt,etop 1
 
 # check faces for correct selection
 cmo/printatt/ mo_surf / itetclr minmax
