@@ -67,7 +67,7 @@ SILOFFLAGS = -I/Users/livingston/playground/silo_lagrit/silo-4.10.2/include
 SILOFFLAGS += -L/Users/livingston/playground/silo_lagrit/silo-4.10.2/lib
 SILOFFLAGS += -I/Users/livingston/.bin/lagrit-dev/seacas/include
 SILOFFLAGS += -L/Users/livingston/.bin/lagrit-dev/seacas/lib
-SILOFFLAGS += -lhdf5 -lstdc++ -lsiloh5
+SILOFFLAGS += -lhdf5 -lstdc++ -lsiloh5 -ldl -lz -g -lm -lstdc++ -cpp -fbounds-check
 
 ##########################################################################
 # All Source files in directory are processed based on extension name. 

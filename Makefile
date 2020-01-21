@@ -48,6 +48,12 @@ EXO_CMAKE_FLAGS :=
 LG_UTIL_LIB := lg_util_lib.a
 SRC_LIB := lagrit_lib.a
 
+SILOFFLAGS = -I/Users/livingston/playground/silo_lagrit/silo-4.10.2/include
+SILOFFLAGS += -L/Users/livingston/playground/silo_lagrit/silo-4.10.2/lib
+SILOFFLAGS += -I/Users/livingston/.bin/lagrit-dev/seacas/include
+SILOFFLAGS += -L/Users/livingston/.bin/lagrit-dev/seacas/lib
+SILOFFLAGS += -lhdf5 -lstdc++ -lsiloh5 -ldl -lz -g -lm -lstdc++ -cpp -fbounds-check
+
 define LAGRIT_H_TEXT
 c
 c----------------------------------------------------------------
@@ -158,8 +164,8 @@ ifeq ($(DEBUG),1)
 	LINKERFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
 	BUILDFLAGS +=  -g -fbacktrace -ffpe-trap=invalid,zero,overflow,underflow,denormal
 else
-	LINKERFLAGS += -O
-	BUILDFLAGS += -O
+	LINKERFLAGS += -O2
+	BUILDFLAGS += -O2
 endif
 
 ifeq ($(wildcard $(EXO_LIB_DIR)),)
@@ -178,7 +184,7 @@ release: BUILD_TYPE = Release
 release: build
 
 build : header before
-	$(FC) -o $(EXE_NAME) $(BUILDLIBS) $(BUILDFLAGS)
+	$(FC) -o $(EXE_NAME) $(BUILDLIBS) $(BUILDFLAGS) $(SILOFFLAGS)
 
 header :
 	@echo "$$LAGRIT_H_TEXT" > src/lagrit.h
