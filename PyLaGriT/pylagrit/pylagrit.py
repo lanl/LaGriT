@@ -1442,7 +1442,7 @@ class MO(object):
         original node or element number.
 
         :arg option: create attribute for nodes, elements, or both {'both','node','element'}
-        :type name: str
+        :type option: str
 
         :arg node_attname: name for new node attribute
         :type node_attname: str
