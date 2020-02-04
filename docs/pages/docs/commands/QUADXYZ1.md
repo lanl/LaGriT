@@ -9,7 +9,9 @@ tags: quadxyz point distribution
 -----------------------
 
 
-Define arbitrary, logical hexahedrons of points in 3D(xyz) space.
+
+Define arbitrary, logical set of points in 3D(xyz) space. <br>
+The set of points can be connected into hexahedrals by using the command **createpts/brick** as shown in the example.
 See example and image below.
 
 
@@ -45,7 +47,7 @@ quadxyz/NPTS NPTS NPTS/ &
 
 createpts/brick/xyz/NPTS NPTS NPTS/1,0,0/connect
 ```
-Create a 2x2x2 point distribution and connect into a single hex element with 8 points as shown in the image.
+Create a 2x2x2 point distribution (mesh object with 0 elements). Then use createpts/brick to create connectivity. The result is a single hex with 8 points as shown in the image.
 
 Click on image for full size.
 
