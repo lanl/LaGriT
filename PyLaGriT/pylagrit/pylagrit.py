@@ -2826,10 +2826,10 @@ class MO(object):
         '''
         return self.subset(geom='xyz', **minus_self(locals()))
         
-    def quadxy(self,nnodes,pts):
+    def quadxy(self,nnodes,pts,connect=True):
         '''
-        Define and connect an arbitrary, logical quad of points in 3D space
-        with nnodes(x,y,z) nodes
+        Define an arbitrary, logical quad of points in 3D space
+        with nnodes(x,y,z) nodes. By default, the nodes will be connected.
 
         :arg nnodes: The number of nodes to create in each dimension. 
                       One value must == 1 and the other two must be > 1.
@@ -2838,9 +2838,13 @@ class MO(object):
         :arg pts: The four corners of the quad surface, defined in counter 
                    clockwise order (the normal to the quad points is defined
                    using the right hand rule and the order of the points).
-        :arg pts:  list of 3-tuples (float)
+        :type pts:  list of four 3-tuples (float)
+
+        :arg connect: connect points
+        :type connect: bool
 
         Example:
+            >>> #To use pylagrit, import the module.
             >>> import pylagrit
 
             >>> #Start the lagrit session.
@@ -2859,13 +2863,13 @@ class MO(object):
             >>> #Define nnodes
             >>> nnodes = (29,1,82)
 
-            >>> #Create and connect plane
+            >>> #Create and connect skewed plane
             >>> qua.quadxy(nnodes,pts)
             
         '''
         self.select()
         quadpts = [n for n in nnodes if n != 1]
-        assert len(quadpts) ==2, 'nnodes must be have one value == 1 and two values > 1'
+        assert len(quadpts) ==2, 'nnodes must have one value == 1 and two values > 1'
         nnodes = [str(v) for v in nnodes]
 
         c = ''
@@ -2874,8 +2878,72 @@ class MO(object):
             c += '/'+','.join(list(map(str,v)))
         self.sendline('quadxy/%d,%d%s' % (quadpts[0],quadpts[1],c))
 
-        cmd = '/'.join(['createpts','brick','xyz',','.join(nnodes),'1,0,0','connect'])
+        if connect:
+            cmd = '/'.join(['createpts','brick','xyz',','.join(nnodes),'1,0,0','connect'])
+            self.sendline(cmd)
+
+    def quadxyz(self,nnodes,pts,connect=True):
+        '''
+        Define an arbitrary and logical set of points in 3D (xyz) space.
+        The set of points will be connected into hexahedrons by default. Set 'connect=False' to prevent connection.
+
+        :arg nnodes: The number of nodes including the 1st and last point along each X, Y, Z axis. The number of points will be 1 more than the number of elements in each dimension.
+        :type nnodes: tuple(int, int, int)
+
+        :arg pts: The eight corners of the hexahedron. The four bottom corners are listed first,
+        then the four top corners. Each set of corners (bottom and top) are defined in counter-clockwise
+        order (the normal to the quad points is defined using the right hand rule and the order of the points).
+        :arg pts:  list of eight 3-tuples (float)
+
+        :arg connect: connect points
+        :type connect: bool
+
+       Example:
+            >>> #To use pylagrit, import the module.
+            >>> import pylagrit
+
+            >>> #Start the lagrit session.
+            >>> lg = pylagrit.PyLaGriT()
+
+            >>> #Create a mesh object.
+            >>> hex = lg.create()
+            
+            >>> #Define 4 bottom points in correct order
+            >>> p1 = (0.0,0.0,0.0)
+            >>> p2 = (1.0,0.0,0.02)
+            >>> p3 = (1.0,1.0,0.0)
+            >>> p4 = (0.0,1.0,0.1)
+
+            >>> #Define 4 top points in correct order
+            >>> p5 = (0.0,0.0,1.0)
+            >>> p6 = (1.0,0.0,1.0)
+            >>> p7 = (1.0,1.0,1.0)
+            >>> p8 = (0.0,1.0,1.1)
+
+            >>> pts = [p1,p2,p3,p4,p5,p6,p7,p8]
+
+            >>> #Define nnodes
+            >>> nnodes = (3,3,3)
+
+            >>> #Create and connect skewed hex mesh
+            >>> hex.quadxyz(nnodes,pts)
+            >>> #Dump mesh
+            >>> hex.dump('quadxyz_test.gmv')
+            
+        '''
+        self.select()
+        assert len(nnodes) ==3, 'nnodes must be have three values'
+        assert len(pts) == 8, 'pts must contain eight sets of points'
+        nnodes = [str(v) for v in nnodes]
+        cmd = '/'.join(['quadxyz',','.join(nnodes)])
+        for v in pts:
+            assert len(v) == 3,'each entry in pts must contain 3 (x,y,z) values'
+            cmd += '/ &\n' +','.join(list(map(str,v)))
         self.sendline(cmd)
+
+        if connect:
+            cmd = '/'.join(['createpts','brick','xyz',','.join(nnodes),'1,0,0','connect'])
+            self.sendline(cmd)
 
     def rzbrick(self,n_ijk,connect=True,stride=(1,0,0),coordinate_space='xyz'):
         '''
