@@ -14,7 +14,7 @@ Define arbitrary, logical set of points in 3D(xyz) space, no elements are create
 The set of points can be connected into hexahedrals by using the command [**`createpts/brick`**](createpts/CRTPTBRICK.md) as shown in the example and image below.
 
 
-This point distribution is defined by 6 points along the xyz axis. This differs from **createpts/brick/xyz/** which generates a logicially rectangular distribution defined by 2 points at the mininum and maximum corners of the domain and then generates connectivity for elements.
+This point distribution is defined by 8 points along the xyz axis. This differs from **createpts/brick/xyz/** which generates a logicially rectangular distribution defined by 2 points at the mininum and maximum corners of the domain and then generates connectivity for elements.
 
 
 
