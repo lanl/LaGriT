@@ -7,10 +7,14 @@ tags: createpts/brick
 
 ------------------
 
-Builds a set nodes (logically rectangular) and create finite element hexahedral connectivity. This command is similar to the deprecated **rz** command format except that symmetry flags are included. A second format specifies that a mesh be created and connected. These commands require a hex or quad cmo to be defined. See also [**`createpts`**](CRTPTSRZ.md) command without the brick option which will create an unconnected point distribution.
+Builds a set nodes (logically rectangular) and creates finite element connectivity. This command is similar to the [**quadxyz**](../QUADXYZ1.md) command except that symmetry flags are included and elements are created. 
 
 
-This command can be used to create finite element hexahedral connectivity on a logically rectangular set of nodes created by another method (for example, with **quadxyz** ).
+The **brick** option specifies that a mesh is connected into elements. This command can be used to create finite element connectivity on a logically rectangular set of nodes created by another method. See  [**quadxyz**](../QUADXYZ1.md) or [**`createpts`**](CRTPTSRZ.md) command without the **brick** option.
+
+
+These commands require a hex or quad cmo type mesh object, use  
+``` cmo/create/mo_name / / / hex``` or ``` cmo/create/mo_name / / / quad```.
 
 
 ## SYNTAX
