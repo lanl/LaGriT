@@ -3903,12 +3903,3 @@ def make_name( base, names ):
 def minus_self(kvpairs):
     del kvpairs['self']
     return kvpairs
-
-def zone_to_zonn(zonefile):
-    zonnfile = os.path.splitext(zonefile)[0]+".zonn"
-    with open(zonefile,'r') as fh:
-        fh.readline()
-        lns = fh.readlines()
-    with open(zonnfile,'w') as fout:
-        fout.write('zonn\n')
-        for l in lns: fout.write(l)
