@@ -14,11 +14,11 @@ def zone_to_zonn(zonefile):
 
 def spherical_writeFEHM(node_locations,filename_base,title="default"):
     '''
-    Create FEHM .stor and .inp input files for 1d spherical simulations.
+    Create FEHM .stor and .fehmn input files for 1d spherical simulations.
     Assumes logical 1D structure.
     :arg node_locations: radial location of nodes
     :type node_locations: array(float)
-    :arg filename_base: base name for the .stor and .inp files
+    :arg filename_base: base name for the .stor and .fehmn files
     :type filename_base: str
     :arg title: optional title for simulation
     :type title: str
@@ -29,7 +29,7 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     nodes = np.linspace(0.0,200.0)
     filename_base = "test"
     title = "test sim"
-    # write .stor and .inp files
+    # write .stor and .fehmn files
     util.spherical_writeFEHM(nodes,filename_base,title)
     ''' 
     # stor file header
@@ -141,14 +141,15 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
         count += 1
 
     # close stor file
+    _ = sfile.write("\n")
     _ = sfile.close()
 
-    # open inp file
-    inpfile = filename_base + ".inp"
-    ifile = open(inpfile,"w")
-    # write inp header and neq
+    # open fehmn file
+    fehmnfile = filename_base + ".fehmn"
+    ifile = open(fehmnfile,"w")
+    # write header and neq
     _ = ifile.write("coor\n%d\n"%neq)
-    # write inp node number and radial location
+    # write node number and radial location
     for i in range(1,neq+1):
         print("        %3d        %12f        0        0"%(i,node_locations[i-1]), file=ifile)
     # write connectivity 
@@ -156,8 +157,9 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     _ = ifile.write("%d %d\n"%(2,neq-1))
     for i in range(1,neq):
         print("%3d   %3d   %3d"%(i,i,i+1), file=ifile)
-    # close inp file
-    ifile.close()
+    # close fehmn file
+    _ = ifile.write("\nstop\n")
+    _ = ifile.close()
 
 def spherical_faces(node_locations):
     '''
