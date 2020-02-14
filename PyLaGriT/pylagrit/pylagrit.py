@@ -981,7 +981,7 @@ class PyLaGriT(spawn):
         motmp.delete()
         self.mo[name] = motri
         return self.mo[name]
-    def createpts(self, crd, npts, mins, maxs, elem_type,rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
+    def createpts(self, crd, npts, mins, maxs, elem_type, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
         '''
         Create and Connect Points
         
@@ -997,6 +997,8 @@ class PyLaGriT(spawn):
         :type maxs: tuple(int, int, int)
         :kwarg elem_type: The type of mesh object to create
         :type  elem_type: str
+        :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
+        :type  vc_switch: tuple(int, int, int)
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         :returns: MO
@@ -1009,10 +1011,10 @@ class PyLaGriT(spawn):
             assert numpy.all(numpy.array(npts)>1), "%r elem_type requires all npts greater than 1" % elem_type
             assert numpy.all((numpy.array(maxs)-numpy.array(mins))>0), "%r elem_type requires all ranges (max-min) greater than 0" % elem_type
         mo = self.create(elem_type=elem_type,name=name)
-        mo.createpts(crd, npts, mins, maxs, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
+        mo.createpts(crd, npts, mins, maxs, vc_switch=vc_switch, rz_switch=rz_switch, rz_value=rz_value, connect=connect)
         return mo
-    def createpts_xyz(self, npts, mins, maxs, elem_type,rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
-        return self.createpts('xyz',npts,mins,maxs,mesh,rz_switch,rz_value,connect=connect,name=name)
+    def createpts_xyz(self, npts, mins, maxs, elem_type, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
+        return self.createpts('xyz',npts,mins,maxs,elem_type,vc_switch,rz_switch,rz_value,connect=connect,name=name)
     def createpts_dxyz(self, dxyz, mins, maxs, elem_type, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True,name=None):
         '''
         Create and Connect Points to create an orthogonal hexahedral mesh. The
@@ -1072,11 +1074,11 @@ class PyLaGriT(spawn):
         mo = self.create(elem_type=elem_type,name=name)
         mo.createpts_dxyz(dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True)
         return mo
-    def createpts_rtz(self, npts, mins, maxs, elem_type, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        return self.createpts('rtz',npts,mins,maxs,elem_type,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, elem_type, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        return self.createpts('rtp',npts,mins,maxs,elem_type, rz_switch,rz_value,connect=connect)
-    def createpts_line(self, npts, mins, maxs, elem_type='line', rz_switch=(1,1,1),name=None):
+    def createpts_rtz(self, npts, mins, maxs, elem_type, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtz',npts,mins,maxs,elem_type,vc_switch,rz_switch,rz_value,connect=connect)
+    def createpts_rtp(self, npts, mins, maxs, elem_type, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        return self.createpts('rtp',npts,mins,maxs,elem_type,vc_switch,rz_switch,rz_value,connect=connect)
+    def createpts_line(self, npts, mins, maxs, elem_type='line', vc_switch=(1,1,1), rz_switch=(1,1,1),name=None):
         '''
         Create and Connect Points in a line
         
@@ -1086,12 +1088,14 @@ class PyLaGriT(spawn):
         :type mins: tuple(int, int, int)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
+        :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
+        :type  vc_switch: tuple(int, int, int)
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         
         '''
         mo = self.create(elem_type,name=name)
-        mo.createpts_line( npts, mins, maxs, rz_switch=rz_switch)
+        mo.createpts_line( npts, mins, maxs, vc_switch=vc_switch,rz_switch=rz_switch)
         return mo
     def gridder(self,x=None,y=None,z=None,connect=False,elem_type='tet',name=None,filename='gridder.inp'):
         '''
@@ -2576,7 +2580,7 @@ class MO(object):
         ef = mo_surf.eltset_attribute('itetclr',6)
         fs['front'] = ef.create_faceset(base_name+'_front.avs')
         return fs
-    def createpts(self, crd, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=False):
+    def createpts(self, crd, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=False):
         '''
         Create and Connect Points
         
@@ -2590,6 +2594,8 @@ class MO(object):
         :type mins: tuple(int, int, int)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
+        :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
+        :type  vc_switch: tuple(int, int, int)
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         
@@ -2598,10 +2604,11 @@ class MO(object):
         npts = [str(v) for v in npts]
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
+        vc_switch = [str(v) for v in vc_switch]
         rz_switch = [str(v) for v in rz_switch]
         rz_value = [str(v) for v in rz_value]
 
-        cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(rz_switch),','.join(rz_value)])
+        cmd = '/'.join(['createpts',crd,','.join(npts),','.join(mins),','.join(maxs),','.join(vc_switch),','.join(rz_switch),','.join(rz_value)])
         self.sendline(cmd)
 
         if connect:
@@ -2611,8 +2618,8 @@ class MO(object):
                 cmd = '/'.join(['createpts','brick',crd,','.join(npts),'1,0,0','connect'])
             self.sendline(cmd)
 
-    def createpts_xyz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+    def createpts_xyz(self, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        self.createpts('xyz',npts,mins,maxs,vc_switch,rz_switch,rz_value,connect=connect)
     def createpts_dxyz(self, dxyz, mins, maxs, clip='under', hard_bound='min',rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
         '''
         Create and Connect Points to create an orthogonal hexahedral mesh. The
@@ -2660,14 +2667,15 @@ class MO(object):
                 return
         npts += 1
         npts.astype('int')
-        self.createpts('xyz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
+        vc_switch = (1,1,1) #always vertex nodes for dxyz method
+        self.createpts('xyz',npts,mins,maxs,vc_switch,rz_switch,rz_value,connect=connect)
         if self._parent.verbose:
             self.minmax_xyz()
-    def createpts_rtz(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        self.createpts('rtz',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_rtp(self, npts, mins, maxs, rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
-        self.createpts('rtp',npts,mins,maxs,rz_switch,rz_value,connect=connect)
-    def createpts_line(self, npts, mins, maxs, rz_switch=(1,1,1)):
+    def createpts_rtz(self, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        self.createpts('rtz',npts,mins,maxs,vc_switch,rz_switch,rz_value,connect=connect)
+    def createpts_rtp(self, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=True):
+        self.createpts('rtp',npts,mins,maxs,vc_switch,rz_switch,rz_value,connect=connect)
+    def createpts_line(self, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1)):
         '''
         Create and Connect Points in a line
         
@@ -2677,6 +2685,8 @@ class MO(object):
         :type mins: tuple(int, int, int)
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
+        :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
+        :type  vc_switch: tuple(int, int, int)
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
         :type  rz_switch: tuple(int, int, int)
         
@@ -2684,9 +2694,10 @@ class MO(object):
         
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
+        vc_switch = [str(v) for v in vc_switch]
         rz_switch = [str(v) for v in rz_switch]
 
-        cmd = '/'.join(['createpts','line',str(npts),' ',' ',','.join(mins+maxs),','.join(rz_switch)])
+        cmd = '/'.join(['createpts','line',str(npts),' ',' ',','.join(mins+maxs),','.join(vc_switch),','.join(rz_switch)])
         self.sendline(cmd)
     def createpts_brick(
             self, crd, npts, mins, maxs,  
