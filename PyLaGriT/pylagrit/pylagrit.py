@@ -2886,7 +2886,7 @@ class MO(object):
         c = ''
         for v in pts:
             assert len(v) == 3,'vectors must be of length 3 (x,y,z)'
-            c += '/'+','.join(list(map(str,v)))
+            c += '/&\n'+','.join(list(map(str,v)))
         self.sendline('quadxy/%d,%d%s' % (quadpts[0],quadpts[1],c))
 
         if connect:
