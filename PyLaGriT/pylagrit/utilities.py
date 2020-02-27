@@ -99,40 +99,39 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     _ = sfile.write(header)
     _ = sfile.write(params_header)
 
+    # Boolean flag indicating if newline was just written
+    newline = False
+
     # write Voronoi volumes
     count = 1
     for vol in volumes:
         print("  %1.12e"%vol, end = "" if count % 5 else "\n", file=sfile)
         count += 1
-    _ = sfile.write("\n")
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
 
     # write row counts
     count = 1
     for row in row_count:
         print("        %3d"%row, end = "" if count % 5 else "\n", file=sfile)
         count += 1
-    _ = sfile.write("\n")
 
     # write row entries
-    count = 1
     for row in row_entries:
         print("        %3d"%row, end = "" if count % 5 else "\n", file=sfile)
         count += 1
-    _ = sfile.write("\n")
 
     # write geometric coefficient indices
-    count = 1
     for idx in coeff_indices:
         print("        %3d"%idx, end = "" if count % 5 else "\n", file=sfile)
         count += 1
-    _ = sfile.write("\n")
 
     # write diagonal indices
-    count = 1
     for idx in diagonal_indices:
         print("        %3d"%idx, end = "" if count % 5 else "\n", file=sfile)
         count += 1
-    _ = sfile.write("\n")
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
 
     # write geometric coefficients
     count = 1
@@ -141,7 +140,8 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
         count += 1
 
     # close stor file
-    _ = sfile.write("\n")
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
     _ = sfile.close()
 
     # open fehmn file
