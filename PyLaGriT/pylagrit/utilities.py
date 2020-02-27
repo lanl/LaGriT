@@ -110,22 +110,31 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     # write row counts
     count = 1
     for row in row_count:
-        print("        %3d"%row, end = "" if count % 5 else "\n", file=sfile)
+        print(" %9d"%row, end = "" if count % 5 else "\n", file=sfile)
         count += 1
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
 
     # write row entries
+    count = 1
     for row in row_entries:
-        print("        %3d"%row, end = "" if count % 5 else "\n", file=sfile)
+        print(" %9d"%row, end = "" if count % 5 else "\n", file=sfile)
         count += 1
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
 
     # write geometric coefficient indices
+    count = 1
     for idx in coeff_indices:
-        print("        %3d"%idx, end = "" if count % 5 else "\n", file=sfile)
+        print(" %9d"%idx, end = "" if count % 5 else "\n", file=sfile)
         count += 1
+    if (count - 1) % 5:
+        _ = sfile.write("\n")
 
     # write diagonal indices
+    count = 1
     for idx in diagonal_indices:
-        print("        %3d"%idx, end = "" if count % 5 else "\n", file=sfile)
+        print(" %9d"%idx, end = "" if count % 5 else "\n", file=sfile)
         count += 1
     if (count - 1) % 5:
         _ = sfile.write("\n")
