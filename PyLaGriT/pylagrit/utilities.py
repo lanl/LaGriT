@@ -99,9 +99,6 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     _ = sfile.write(header)
     _ = sfile.write(params_header)
 
-    # Boolean flag indicating if newline was just written
-    newline = False
-
     # write Voronoi volumes
     count = 1
     for vol in volumes:
