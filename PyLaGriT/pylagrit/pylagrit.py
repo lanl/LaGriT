@@ -2701,7 +2701,7 @@ class MO(object):
         self.sendline(cmd)
     def createpts_brick(
             self, crd, npts, mins, maxs,  
-            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)
+            vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)
         ):
         '''
         Create and Connect Points
@@ -2722,10 +2722,8 @@ class MO(object):
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
         
-        :kwarg ctr: Defines the center of each cell. For 0, points are placed in
-                    the middle of each cell. For 1, points are placed at the 
-                    edge of each cell.
-        :type  ctr: tuple(int, int, int)
+        :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
+        :type  vc_switch: tuple(int, int, int)
 
         :kwarg rz_switch: Determines true or false (1 or 0) for using ratio 
                           zmoning values.  
@@ -2741,7 +2739,7 @@ class MO(object):
         maxs = [float(v) for v in maxs]
         xmn, ymn, zmn = map(str, mins)
         xmx, ymx, zmx = map(str, maxs)
-        iiz, ijz, ikz = map(str, ctr)
+        iiz, ijz, ikz = map(str, vc_switch)
         iirat, ijrat, ikrat = map(str, rz_switch)
         xrz, yrz, zrz = map(str, rz_vls)
 
@@ -2753,19 +2751,19 @@ class MO(object):
 
     def createpts_brick_xyz(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
+            vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect Cartesian coordinate points.'''
         self.createpts_brick('xyz', **minus_self(locals()))
 
     def createpts_brick_rtz(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
+            vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect cylindrical coordinate points.'''
         self.createpts_brick('rtz', **minus_self(locals()))
         
     def createpts_brick_rtp(
             self, npts, mins, maxs, 
-            ctr=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
+            vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(npts, **minus_self(locals()))
         
