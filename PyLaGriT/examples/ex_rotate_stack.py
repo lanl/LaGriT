@@ -24,12 +24,12 @@ stack_files = ['tmp_lay_top.inp 1,9']
 
 i = 1
 for li,m,a in zip(layer_interfaces,matnum,addnum):
-    layer.math('sub',li,'zic',cmosrc=mtop)
+    layer.math('sub','zic',value=li,cmosrc=mtop)
     stack_files.append('tmp_lay'+str(i)+'.inp '+str(int(m))+', '+str(a))
     layer.dump('tmp_lay'+str(i)+'.inp')
     i += 1
 
-layer.math('sub',2,'zic',cmosrc=mtop)
+layer.math('sub','zic',2,cmosrc=mtop)
 #layer.setatt('zic',-2.)
 layer.dump('tmp_lay_bot.inp')
 stack_files.append('tmp_lay_bot.inp 2')
@@ -37,7 +37,7 @@ stack_files.reverse()
 
 # Create stacked layer mesh and fill
 stack = lg.create()
-stack.stack_layers('avs',stack_files,flip_opt=True)
+stack.stack_layers(stack_files,file_type='avs',flip_opt=True)
 stack_hex = stack.stack_fill()
 
 
