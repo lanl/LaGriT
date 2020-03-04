@@ -348,7 +348,7 @@ C     Write .fehm coord and elem ascii file
 C
 C   
       write(iunit,'(a4)') 'coor'
-      write(iunit,'(i8)') nnodes
+      write(iunit,'(i10)') nnodes
       do i=1,nnodes
          write(iunit,9040) i,xic(i),yic(i),zic(i)
  9040    format(i10,3(1pe20.12))
