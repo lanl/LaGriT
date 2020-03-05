@@ -348,7 +348,7 @@ C     Write .fehm coord and elem ascii file
 C
 C   
       write(iunit,'(a4)') 'coor'
-      write(iunit,'(i8)') nnodes
+      write(iunit,'(i10)') nnodes
       do i=1,nnodes
          write(iunit,9040) i,xic(i),yic(i),zic(i)
  9040    format(i10,3(1pe20.12))
@@ -364,7 +364,7 @@ C
             i2=itet1(index+2)
             i3=itet1(index+3)
             write(iunit,9050) it,i1,i2,i3
- 9050       format(10i8)
+ 9050       format(10i12)
          enddo
       elseif(nsdtopo.eq.3.and.nen.eq.4.and.nef.eq.4) then
          ns=4
