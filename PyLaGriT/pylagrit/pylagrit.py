@@ -1971,6 +1971,48 @@ class MO(object):
         self.sendline(cmd)
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
+    def eltset_write(self,filename_root,eset_name=None,ascii=True):
+        '''
+        Write element set(s) to a file in ascii or binary format
+
+        :arg filename_root: root name of file
+        :type filename_root: str
+        :arg eset_name: name of eltset to write; if blank, all eltsets in mesh object are written
+        :type eset_name: EltSet object
+        :arg ascii: Switch to indicate ascii [True] or binary [False]
+        :type name: boolean
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy as np
+            >>> import sys
+            >>> 
+            >>> lg = PyLaGriT()
+            >>> 
+            >>> dxyz = np.array([0.1,0.25,0.25])
+            >>> mins = np.array([0.,0.,0.])
+            >>> maxs = np.array([1.,1.,1.])
+            >>> mqua = lg.createpts_dxyz(dxyz,mins,maxs,'quad',hard_bound=('min','max','min'),connect=True)
+            >>> 
+            >>> example_pset1 = mqua.pset_geom_xyz(mins,maxs-(maxs-mins)/2)
+            >>> example_eset1 = example_pset1.eltset()
+            >>> example_pset2 = mqua.pset_geom_xyz(mins+maxs/2,maxs)
+            >>> example_eset2 = example_pset2.eltset()
+            >>> # to write one specific eltset
+            >>> mqua.eltset_write('test_specific',eset_name=example_eset1)
+            >>> # to write all eltsets
+            >>> mqua.eltset_write('test_all')
+        '''
+        if eset_name is None:
+            name = '-all-'
+        else:
+            name = eset_name.name
+        if ascii is True:
+            ascii = 'ascii'
+        else:
+            ascii = 'binary'
+        cmd = '/'.join(['eltset',name,'write',filename_root,ascii])
+        self._parent.sendline(cmd)
     def rmpoint_pset(self,pset,itype='exclusive',compress=True,resetpts_itp=True):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
