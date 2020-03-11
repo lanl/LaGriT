@@ -2447,6 +2447,27 @@ class MO(object):
     def dump_zone_imt(self,filename,imt_value):
         cmd = ['dump','zone_imt',filename,self.name,str(imt_value)]
         self.sendline('/'.join(cmd))
+    def dump_pflotran(self,filename_root,nofilter_zero=False):
+        '''
+        Dump PFLOTRAN UGE file
+
+        :arg filename_root: root name of UGE file
+        :type filename_root: str
+        :arg nofilter_zero:  Set to true to write zero coefficients to file
+        :type nofilter_zero: boolean
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> l = PyLaGriT()
+            >>> m = l.create()
+            >>> m.createpts_xyz((3,3,3),(0.,0.,0.),(1.,1.,1.),rz_switch=[1,1,1],connect=True)
+            >>> m.status ()
+            >>> m.status (brief=True)
+            >>> m.dump_pflotran('test_pflotran_dump')
+        '''
+        cmd = ['dump','pflotran',filename_root,self.name]
+        if nofilter_zero: cmd.append('nofilter_zero')
+        self.sendline('/'.join(cmd))
     def dump_zone_outside(self,filename,keepatt=False,keepatt_median=False,keepatt_voronoi=False):
         cmd = ['dump','zone_outside',filename,self.name]
         if keepatt: cmd.append('keepatt')
