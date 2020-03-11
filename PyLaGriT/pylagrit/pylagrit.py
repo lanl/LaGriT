@@ -3467,29 +3467,29 @@ class MO(object):
         :arg maxpenetr: maximum distance along ray that points will be distributed
         :type maxpenetr: int or float
 
-                example:
-                >>> import numpy as np
-                >>> from pylagrit import PyLaGriT
-                >>> import sys
-                >>> 
-                >>> lg = PyLaGriT(lagrit_exe='/Users/jbeisman/Software/LaGriT/src/lagrit')
-                >>> p1 = (30.0,0.0,0.0)
-                >>> p2 = (30.0,1.0,0.0)
-                >>> p3 = (30.0,1.0,0.1)
-                >>> pts = [p1,p2,p3]
-                >>> 
-                >>> npts = (3,3,3)
-                >>> mins = (0,0,0)
-                >>> maxs = (10,10,10)
-                >>> #mesh = lg.create()
-                >>> mesh = lg.createpts_xyz(npts,mins,maxs,'hex',connect=False)
-                >>> rayend = mesh.pset_geom_xyz(mins,maxs,ctr=(5,5,5))
-                >>> mesh.rmpoint_compress(filter_bool=True)
-                >>> eighth = mesh.surface_box(mins,(5,5,5))
-                >>> boolstr2 = 'gt '+eighth.name
-                >>> reg2 = mesh.region(boolstr2)
-                >>> mesh.regnpts_xyz(pts,reg2,1000,stride=rayend)
-                >>> mesh.dump('regn_test.gmv')
+            example:
+            >>> import numpy as np
+            >>> from pylagrit import PyLaGriT
+            >>> import sys
+            >>> 
+            >>> lg = PyLaGriT()
+            >>> p1 = (30.0,0.0,0.0)
+            >>> p2 = (30.0,1.0,0.0)
+            >>> p3 = (30.0,1.0,0.1)
+            >>> pts = [p1,p2,p3]
+            >>> 
+            >>> npts = (3,3,3)
+            >>> mins = (0,0,0)
+            >>> maxs = (10,10,10)
+            >>> #mesh = lg.create()
+            >>> mesh = lg.createpts_xyz(npts,mins,maxs,'hex',connect=False)
+            >>> rayend = mesh.pset_geom_xyz(mins,maxs,ctr=(5,5,5))
+            >>> mesh.rmpoint_compress(filter_bool=True)
+            >>> eighth = mesh.surface_box(mins,(5,5,5))
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mesh.regnpts_xyz(pts,reg2,1000,stride=rayend)
+            >>> mesh.dump('regn_test.gmv')
         '''
         self.regnpts(geom='xyz',**minus_self(locals()))
     def regnpts_rtz(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
@@ -3532,6 +3532,55 @@ class MO(object):
         :type maxpenetr: int or float
         '''
         self.regnpts('rtp',pts_cmd,**minus_self(locals()))
+    def setpts(self,no_interface=False,closed_surfaces=False):
+        '''
+        Set point types and imt material by calling surfset and regset routines.
+
+        :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
+        :type ray_points: float 3-tuple 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+
+            example:
+            >>> import numpy as np
+            >>> from pylagrit import PyLaGriT
+            >>> import sys
+            >>> lg = PyLaGriT()
+            >>> mesh = lg.create()
+            >>> mins = (0,0,0)
+            >>> maxs = (5,5,5)
+            >>> eighth = mesh.surface_box(mins,maxs)
+            >>> boolstr1 = 'le '+eighth.name
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg1 = mesh.region(boolstr1)
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mreg1 = mesh.mregion(boolstr1)
+            >>> mreg2 = mesh.mregion(boolstr2)
+            >>> mesh.createpts_xyz((10,10,10), (0,0,0), (10,10,10),connect=False)
+            >>> mesh.setpts()
+            >>> mesh.connect()
+            >>> mesh.dump('setpts_test.gmv')
+        '''
+
+        cmd = 'setpts'
+        if no_interface and closed_surfaces:
+            print('Error: no_interface and closed_surfaces are mutually exclusive')
+            return
+        if no_interface:
+            cmd += '/no_interface'
+        elif closed_surfaces:
+            cmd += '/closed_surfaces/reflect'
+        self.sendline(cmd)
     def smooth(self,*args,**kwargs):
         if 'algorithm' not in kwargs: self.sendline('smooth')
         else:
