@@ -89,7 +89,7 @@ class PyLaGriT(spawn):
         if self.batch:
             print("expect disabled during batch mode")
         else:
-            super(PyLaGriT, self).expect(expectstr,timeout=timeout) 
+            super(PyLaGriT, self).expect(expectstr,timeout=timeout)
     def sendline(self, cmd, verbose=True, expectstr='Enter a command'):
         if self.batch:
             self.fh.write(cmd+'\n')
@@ -1405,34 +1405,6 @@ class MO(object):
             print("ERROR: 'option' must be 'both' or 'node' or 'element'")
             return
         self.sendline(cmd)
-    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surfaces.keys())
-        mins = [str(v) for v in mins]
-        maxs = [str(v) for v in maxs]
-        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
-        self.sendline(cmd)
-        self.surfaces[name] = Surface(name,self)
-        return self.surfaces[name]
-    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surfaces.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
-        self.sendline(cmd)
-        self.surfaces[name] = Surface(name,self)
-        return self.surfaces[name]
-    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surfaces.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        coord3 = [str(v) for v in coord3]
-        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
-        self.sendline(cmd)
-        self.surfaces[name] = Surface(name,self)
-        return self.surfaces[name]
     def information(self):
         '''
         Returns a formatted dictionary with mesh information.
@@ -1473,7 +1445,7 @@ class MO(object):
                     atts['nodes'] = int(split[4])
                 if 'number of elements' in lline:
                     atts['elements'] = int(split[-1])
-                if 'dimensions geomoetry' in lline:
+                if 'dimensions geometry' in lline:
                     atts['dimensions'] = int(split[3])
                 if 'element type' in lline:
                     atts['type'] = split[-1]
@@ -1512,7 +1484,7 @@ class MO(object):
         '''
         Define PSet by Geometry
         
-        Selects points from geomoetry specified by string geom and returns a 
+        Selects points from geometry specified by string geom and returns a 
         PSet.
         
         :arg  mins: Coordinate of one of the shape's defining points.
@@ -2953,7 +2925,7 @@ class MO(object):
             
         '''
         self.select()
-        assert len(nnodes) ==3, 'nnodes must be have three values'
+        assert len(nnodes) ==3, 'nnodes must contain three values'
         assert len(pts) == 8, 'pts must contain eight sets of points'
         nnodes = [str(v) for v in nnodes]
         cmd = '/'.join(['quadxyz',','.join(nnodes)])
@@ -3444,6 +3416,122 @@ class MO(object):
         else:
             cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,' '.join(stride),'/'.join(values),inclusive_flag,'amr '+str(prd_choice)])
         self._parent.sendline(cmd)
+    def regnpts(self,geom,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        if isinstance(stride,PSet): stride = 'pset get '+stride.name
+        else: stride = ','.join([str(v) for v in stride])
+        end = str(irratio)+' '+str(rrz)
+        if maxpenetr is not None: end = end+'/'+str(maxpenetr)
+        ptdist=str(ptdist)
+        if geom == 'xyz':
+            assert len(ray_points) == 3, 'ray_points must contain three sets of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ','.join(list(map(str,p)))+'/'
+        elif geom == 'rtz':
+            assert len(ray_points) == 2, 'ray_points must contain two sets of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ' &\n' +','.join(list(map(str,p)))+'/'
+        elif geom == 'rtp':
+            assert len(ray_points) == 2, 'ray_points must contain one set of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ' &\n' +','.join(list(map(str,p)))+'/'
+        else:
+            print('Error: geom must be of type xyz rtz or rtp')
+            return
+        name = region.name
+        cmd = '/'.join(['regnpts',name,ptdist,stride,geom,pts])
+        cmd += end
+        print(cmd)
+        self.sendline(cmd)
+    def regnpts_xyz(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a plane and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: three points that define plane which rays emante from
+        :type ray_points: 3-tuple of float 3-tuples 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+
+                example:
+                >>> import numpy as np
+                >>> from pylagrit import PyLaGriT
+                >>> import sys
+                >>> 
+                >>> lg = PyLaGriT(lagrit_exe='/Users/jbeisman/Software/LaGriT/src/lagrit')
+                >>> p1 = (30.0,0.0,0.0)
+                >>> p2 = (30.0,1.0,0.0)
+                >>> p3 = (30.0,1.0,0.1)
+                >>> pts = [p1,p2,p3]
+                >>> 
+                >>> npts = (3,3,3)
+                >>> mins = (0,0,0)
+                >>> maxs = (10,10,10)
+                >>> #mesh = lg.create()
+                >>> mesh = lg.createpts_xyz(npts,mins,maxs,'hex',connect=False)
+                >>> rayend = mesh.pset_geom_xyz(mins,maxs,ctr=(5,5,5))
+                >>> mesh.rmpoint_compress(filter_bool=True)
+                >>> eighth = mesh.surface_box(mins,(5,5,5))
+                >>> boolstr2 = 'gt '+eighth.name
+                >>> reg2 = mesh.region(boolstr2)
+                >>> mesh.regnpts_xyz(pts,reg2,1000,stride=rayend)
+                >>> mesh.dump('regn_test.gmv')
+        '''
+        self.regnpts(geom='xyz',**minus_self(locals()))
+    def regnpts_rtz(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a line and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: two points that define cylinder which rays emante from
+        :type ray_points: 2-tuple of float 3-tuples 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+        '''
+        self.regnpts('rtz',pts_cmd,**minus_self(locals()))
+    def regnpts_rtp(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
+        :type ray_points: float 3-tuple 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+        '''
+        self.regnpts('rtp',pts_cmd,**minus_self(locals()))
     def smooth(self,*args,**kwargs):
         if 'algorithm' not in kwargs: self.sendline('smooth')
         else:
@@ -3483,6 +3571,34 @@ class MO(object):
         if name is None:
             name = make_name('s',self.surfaces.keys())
         cmd = '/'.join(['surface',name,ibtype,'sheet',self.name])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        mins = [str(v) for v in mins]
+        maxs = [str(v) for v in maxs]
+        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        coord3 = [str(v) for v in coord3]
+        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
         self.sendline(cmd)
         self.surfaces[name] = Surface(name,self)
         return self.surfaces[name]
