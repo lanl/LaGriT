@@ -47,8 +47,6 @@ class PyLaGriT(spawn):
     def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, timeout=300, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
-        self.surface = {}
-        self.region = {}
         self.batch = batch
         self._check_rc()
 
@@ -538,85 +536,6 @@ class PyLaGriT(spawn):
         if connect: connectstr = 'connect'
         else: connectstr = ' '
         return self.addmesh( mo1, mo2, 'excavate', name, bfsstr, connectstr )
-    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        mins = [str(v) for v in mins]
-        maxs = [str(v) for v in maxs]
-        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        coord3 = [str(v) for v in coord3]
-        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def region_bool(self,bool,name=None): 
-        '''
-        Create region using boolean string
-
-        :param bool: String of boolean operations
-        :type bool: str
-        :param name: Internal lagrit name for mesh object
-        :type name: string
-        :returns: Region
-
-        Example:
-            >>> from pylagrit import PyLaGriT
-            >>> import numpy
-            >>> lg = PyLaGriT()
-            >>> # Read in mesh
-            >>> motet = lg.read('tet_matclr.inp')
-            >>> # fault coordinates in feet
-            >>> cs = [[498000.,381946.,0.],
-            >>>       [497197.,381946.,0.],
-            >>>       [494019.,384890.,0.],
-            >>>       [490326.,386959.,0.],
-            >>>       [487822.,388599.,0.],
-            >>>       [486337.,390755.,0.],
-            >>>       [486337.,392000.,0.]]
-            >>> # Convert to meters
-            >>> cs = numpy.array(cs)/3.28
-            >>> # Create surfaces of fault
-            >>> ss = []
-            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
-            >>>     p3 = p1.copy()
-            >>>     p3[2] = -4000.
-            >>>     ss.append(lg.surface_plane(p1,p2,p3))
-            >>> # Create region by boolean operations of fault surfaces
-            >>> boolstr = ''
-            >>> for i,s in enumerate(ss):
-            >>>     if not i == 0: boolstr += ' and '
-            >>>     boolstr += 'le '+s.name
-            >>> r = lg.region_bool(boolstr)
-            >>> # Create pset from region
-            >>> p = motet.pset_region(r)
-            >>> # Change imt value for pset
-            >>> p.setatt('imt',21)
-            >>> motet.dump_zone_imt('tet_nefault',21)
-
-        '''
-        if name is None:
-            name = make_name('r',self.region.keys())
-        cmd = '/'.join(['region',name,bool])
-        self.sendline(cmd)
-        self.region[name] = Region(name,self)
-        return self.region[name]
     def _check_rc(self):
         # check if pyfehmrc file exists
         rc_wd1 = os.getcwd()+os.sep+'.pylagritrc'
@@ -1244,7 +1163,9 @@ class MO(object):
         self._parent = parent
         self.pset = {}
         self.eltset = {}
-        self.region = {}
+        self.regions = {}
+        self.mregions = {}
+        self.surfaces = {}
     def __repr__(self):
         return self.name
     def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
@@ -1484,6 +1405,34 @@ class MO(object):
             print("ERROR: 'option' must be 'both' or 'node' or 'element'")
             return
         self.sendline(cmd)
+    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        mins = [str(v) for v in mins]
+        maxs = [str(v) for v in maxs]
+        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        coord3 = [str(v) for v in coord3]
+        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
     def information(self):
         '''
         Returns a formatted dictionary with mesh information.
@@ -3532,17 +3481,23 @@ class MO(object):
         self.resetpts_itp()
     def surface(self,name=None,ibtype='reflect'):
         if name is None:
-            name = make_name('s',self._parent.surface.keys())
+            name = make_name('s',self.surfaces.keys())
         cmd = '/'.join(['surface',name,ibtype,'sheet',self.name])
         self.sendline(cmd)
-        self._parent.surface[name] = Surface(name,self._parent)
-        return self._parent.surface[name]
-    def region_bool(self,bool,name=None): 
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def region_bool(self,bool,name=None):
+        '''
+        This method is deprecated and will be replaced by the MO.region() method in future releases.
+
+        '''
+        self.region(**minus_self(locals()))
+    def region(self,boolstr,name=None):
         '''
         Create region using boolean string
 
-        :param bool: String of boolean operations
-        :type bool: str
+        :param boolstr: String of boolean operations
+        :type boolstr: str
         :param name: Internal lagrit name for mesh object
         :type name: string
         :returns: Region
@@ -3551,43 +3506,53 @@ class MO(object):
             >>> from pylagrit import PyLaGriT
             >>> import numpy
             >>> lg = PyLaGriT()
-            >>> # Read in mesh
-            >>> motet = lg.read('tet_matclr.inp')
-            >>> # fault coordinates in feet
-            >>> cs = [[498000.,381946.,0.],
-            >>>       [497197.,381946.,0.],
-            >>>       [494019.,384890.,0.],
-            >>>       [490326.,386959.,0.],
-            >>>       [487822.,388599.,0.],
-            >>>       [486337.,390755.,0.],
-            >>>       [486337.,392000.,0.]]
-            >>> # Convert to meters
-            >>> cs = numpy.array(cs)/3.28
-            >>> # Create surfaces of fault
-            >>> ss = []
-            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
-            >>>     p3 = p1.copy()
-            >>>     p3[2] = -4000.
-            >>>     ss.append(lg.surface_plane(p1,p2,p3))
-            >>> # Create region by boolean operations of fault surfaces
-            >>> boolstr = ''
-            >>> for i,s in enumerate(ss):
-            >>>     if not i == 0: boolstr += ' and '
-            >>>     boolstr += 'le '+s.name
-            >>> r = motet.region_bool(boolstr)
-            >>> # Create pset from region
-            >>> p = motet.pset_region(r)
-            >>> # Change imt value for pset
-            >>> p.setatt('imt',21)
-            >>> motet.dump_zone_imt('tet_nefault',21)
-
+            >>> mesh = lg.create()
+            >>> mins = (0,0,0)
+            >>> maxs = (5,5,5)
+            >>> eighth = mesh.surface_box(mins,maxs)
+            >>> boolstr1 = 'le '+eighth.name
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg1 = mesh.region(boolstr1)
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mreg1 = mesh.mregion(boolstr1)
+            >>> mreg2 = mesh.mregion(boolstr2)
+            >>> mesh.createpts_brick_xyz((10,10,10), (0,0,0), (10,10,10))
+            >>> mesh.rmregion(reg1)
+            >>> mesh.dump('reg_test.gmv')
         '''
         if name is None:
-            name = make_name('r',self.region.keys())
-        cmd = '/'.join(['region',name,bool])
+            name = make_name('r',self.regions.keys())
+        cmd = '/'.join(['region',name,boolstr])
         self.sendline(cmd)
-        self.region[name] = Region(name,self)
-        return self.region[name]
+        self.regions[name] = Region(name,self)
+        return self.regions[name]
+    def mregion(self,boolstr,name=None):
+        '''
+        Create mregion using boolean string
+
+        :param boolstr: String of boolean operations
+        :type boolstr: str
+        :param name: Internal lagrit name for mesh object
+        :type name: string
+        :returns: MRegion
+        '''
+        if name is None:
+            name = make_name('mr',self.mregions.keys())
+        cmd = '/'.join(['mregion',name,boolstr])
+        self.sendline(cmd)
+        self.mregions[name] = MRegion(name,self)
+        return self.mregions[name]
+    def rmregion(self,region,rmpoints=True,filter_bool=False,resetpts_itp=True):
+        '''
+        Remove points that lie inside region 
+
+        :param region: name of region points will be removed from
+        :type region: Region
+        '''
+        name = region.name
+        cmd = '/'.join(['rmregion',name])
+        self.sendline(cmd)
+        if rmpoints: self.rmpoint_compress(filter_bool=filter_bool,resetpts_itp=resetpts_itp)
     def quality(self,*args,quality_type=None,save_att=False):
         cmd = ['quality']
         if quality_type is not None:
@@ -3619,7 +3584,7 @@ class Surface(object):
     def release(self):
         cmd = 'surface/'+self.name+'/release'
         self._parent.sendline(cmd)
-        del self._parent.surface[self.name]
+        del self._parent.surfaces[self.name]
 
 class PSet(object):
     ''' Pset class'''
@@ -3955,6 +3920,22 @@ class Region(object):
         self._parent = parent
     def __repr__(self):
         return str(self.name)
+    def release(self):
+        cmd = 'region/'+self.name+'/release'
+        self._parent.sendline(cmd)
+        del self._parent.regions[self.name]
+
+class MRegion(object):
+    ''' Region class'''
+    def __init__(self, name, parent):
+        self.name = name
+        self._parent = parent
+    def __repr__(self):
+        return str(self.name)
+    def release(self):
+        cmd = 'mregion/'+self.name+'/release'
+        self._parent.sendline(cmd)
+        del self._parent.mregions[self.name]
 
 class FaceSet(object):
     ''' FaceSet class'''
