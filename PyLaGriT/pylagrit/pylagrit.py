@@ -1402,6 +1402,38 @@ class MO(object):
         if mo_src is None: mo_src = self
         cmd = '/'.join(['cmo/copyatt',self.name,mo_src.name,attname_sink,attname_src])
         self.sendline(cmd)
+    def add_element_attribute(self,attname,keyword=None,vtype='VDOUBLE',rank='scalar',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
+        '''
+        Add a list of attributes to elements
+
+        :arg attnames: Attribute name to add
+        :type attnames: str
+        :arg keyword: Keyword used by lagrit for specific attributes
+        :type name: str
+        :arg vtype: Type of variable {'VDOUBLE','VINT',...}
+        :type name: str
+
+        '''
+        if keyword is None:
+            self.addatt(attname,vtype=vtype,rank=rank,length='nelements',interpolate=interpolate,persistence=persistence,ioflag=ioflag,value=value)
+        else:
+            self.addatt(attname,keyword=keyword,vtype=vtype,rank=rank,length='nelements',interpolate=interpolate,persistence=persistence,ioflag=ioflag,value=value)
+    def add_node_attribute(self,attname,keyword=None,vtype='VDOUBLE',rank='scalar',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
+        '''
+        Add a list of attributes to nodes
+
+        :arg attnames: Attribute name to add
+        :type attnames: str
+        :arg keyword: Keyword used by lagrit for specific attributes
+        :type name: str
+        :arg vtype: Type of variable {'VDOUBLE','VINT',...}
+        :type name: str
+
+        '''
+        if keyword is None:
+            self.addatt(attname,vtype=vtype,rank=rank,length='nnodes',interpolate=interpolate,persistence=persistence,ioflag=ioflag,value=value)
+        else:
+            self.addatt(attname,keyword=keyword,vtype=vtype,rank=rank,length='nnodes',interpolate=interpolate,persistence=persistence,ioflag=ioflag,value=value)
     def addatt(self,attname,keyword=None,vtype='VDOUBLE',rank='scalar',length='nnodes',interpolate='linear',persistence='permanent',ioflag='',value=0.0):
         '''
         Add a list of attributes
