@@ -47,8 +47,6 @@ class PyLaGriT(spawn):
     def __init__(self, lagrit_exe=None, verbose=True, batch=False, batchfile='pylagrit.lgi', gmv_exe=None, paraview_exe=None, timeout=300, *args, **kwargs):
         self.verbose = verbose
         self.mo = {}
-        self.surface = {}
-        self.region = {}
         self.batch = batch
         self._check_rc()
 
@@ -91,7 +89,7 @@ class PyLaGriT(spawn):
         if self.batch:
             print("expect disabled during batch mode")
         else:
-            super(PyLaGriT, self).expect(expectstr,timeout=timeout) 
+            super(PyLaGriT, self).expect(expectstr,timeout=timeout)
     def sendline(self, cmd, verbose=True, expectstr='Enter a command'):
         if self.batch:
             self.fh.write(cmd+'\n')
@@ -538,85 +536,6 @@ class PyLaGriT(spawn):
         if connect: connectstr = 'connect'
         else: connectstr = ' '
         return self.addmesh( mo1, mo2, 'excavate', name, bfsstr, connectstr )
-    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        mins = [str(v) for v in mins]
-        maxs = [str(v) for v in maxs]
-        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
-        if name is None:
-            name = make_name('s',self.surface.keys())
-        coord1 = [str(v) for v in coord1]
-        coord2 = [str(v) for v in coord2]
-        coord3 = [str(v) for v in coord3]
-        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
-        self.sendline(cmd)
-        self.surface[name] = Surface(name,self)
-        return self.surface[name]
-    def region_bool(self,bool,name=None): 
-        '''
-        Create region using boolean string
-
-        :param bool: String of boolean operations
-        :type bool: str
-        :param name: Internal lagrit name for mesh object
-        :type name: string
-        :returns: Region
-
-        Example:
-            >>> from pylagrit import PyLaGriT
-            >>> import numpy
-            >>> lg = PyLaGriT()
-            >>> # Read in mesh
-            >>> motet = lg.read('tet_matclr.inp')
-            >>> # fault coordinates in feet
-            >>> cs = [[498000.,381946.,0.],
-            >>>       [497197.,381946.,0.],
-            >>>       [494019.,384890.,0.],
-            >>>       [490326.,386959.,0.],
-            >>>       [487822.,388599.,0.],
-            >>>       [486337.,390755.,0.],
-            >>>       [486337.,392000.,0.]]
-            >>> # Convert to meters
-            >>> cs = numpy.array(cs)/3.28
-            >>> # Create surfaces of fault
-            >>> ss = []
-            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
-            >>>     p3 = p1.copy()
-            >>>     p3[2] = -4000.
-            >>>     ss.append(lg.surface_plane(p1,p2,p3))
-            >>> # Create region by boolean operations of fault surfaces
-            >>> boolstr = ''
-            >>> for i,s in enumerate(ss):
-            >>>     if not i == 0: boolstr += ' and '
-            >>>     boolstr += 'le '+s.name
-            >>> r = lg.region_bool(boolstr)
-            >>> # Create pset from region
-            >>> p = motet.pset_region(r)
-            >>> # Change imt value for pset
-            >>> p.setatt('imt',21)
-            >>> motet.dump_zone_imt('tet_nefault',21)
-
-        '''
-        if name is None:
-            name = make_name('r',self.region.keys())
-        cmd = '/'.join(['region',name,bool])
-        self.sendline(cmd)
-        self.region[name] = Region(name,self)
-        return self.region[name]
     def _check_rc(self):
         # check if pyfehmrc file exists
         rc_wd1 = os.getcwd()+os.sep+'.pylagritrc'
@@ -1244,7 +1163,9 @@ class MO(object):
         self._parent = parent
         self.pset = {}
         self.eltset = {}
-        self.region = {}
+        self.regions = {}
+        self.mregions = {}
+        self.surfaces = {}
     def __repr__(self):
         return self.name
     def sendline(self,cmd, verbose=True, expectstr='Enter a command'):
@@ -1556,7 +1477,7 @@ class MO(object):
                     atts['nodes'] = int(split[4])
                 if 'number of elements' in lline:
                     atts['elements'] = int(split[-1])
-                if 'dimensions geomoetry' in lline:
+                if 'dimensions geometry' in lline:
                     atts['dimensions'] = int(split[3])
                 if 'element type' in lline:
                     atts['type'] = split[-1]
@@ -1595,7 +1516,7 @@ class MO(object):
         '''
         Define PSet by Geometry
         
-        Selects points from geomoetry specified by string geom and returns a 
+        Selects points from geometry specified by string geom and returns a 
         PSet.
         
         :arg  mins: Coordinate of one of the shape's defining points.
@@ -2003,6 +1924,48 @@ class MO(object):
         self.sendline(cmd)
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
+    def eltset_write(self,filename_root,eset_name=None,ascii=True):
+        '''
+        Write element set(s) to a file in ascii or binary format
+
+        :arg filename_root: root name of file
+        :type filename_root: str
+        :arg eset_name: name of eltset to write; if blank, all eltsets in mesh object are written
+        :type eset_name: EltSet object
+        :arg ascii: Switch to indicate ascii [True] or binary [False]
+        :type name: boolean
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> import numpy as np
+            >>> import sys
+            >>> 
+            >>> lg = PyLaGriT()
+            >>> 
+            >>> dxyz = np.array([0.1,0.25,0.25])
+            >>> mins = np.array([0.,0.,0.])
+            >>> maxs = np.array([1.,1.,1.])
+            >>> mqua = lg.createpts_dxyz(dxyz,mins,maxs,'quad',hard_bound=('min','max','min'),connect=True)
+            >>> 
+            >>> example_pset1 = mqua.pset_geom_xyz(mins,maxs-(maxs-mins)/2)
+            >>> example_eset1 = example_pset1.eltset()
+            >>> example_pset2 = mqua.pset_geom_xyz(mins+maxs/2,maxs)
+            >>> example_eset2 = example_pset2.eltset()
+            >>> # to write one specific eltset
+            >>> mqua.eltset_write('test_specific',eset_name=example_eset1)
+            >>> # to write all eltsets
+            >>> mqua.eltset_write('test_all')
+        '''
+        if eset_name is None:
+            name = '-all-'
+        else:
+            name = eset_name.name
+        if ascii is True:
+            ascii = 'ascii'
+        else:
+            ascii = 'binary'
+        cmd = '/'.join(['eltset',name,'write',filename_root,ascii])
+        self._parent.sendline(cmd)
     def rmpoint_pset(self,pset,itype='exclusive',compress=True,resetpts_itp=True):
         if isinstance(pset,PSet): name = pset.name
         elif isinstance(pset,str): name = pset
@@ -2478,6 +2441,27 @@ class MO(object):
         self.dump(filename,'lagrit',format)
     def dump_zone_imt(self,filename,imt_value):
         cmd = ['dump','zone_imt',filename,self.name,str(imt_value)]
+        self.sendline('/'.join(cmd))
+    def dump_pflotran(self,filename_root,nofilter_zero=False):
+        '''
+        Dump PFLOTRAN UGE file
+
+        :arg filename_root: root name of UGE file
+        :type filename_root: str
+        :arg nofilter_zero:  Set to true to write zero coefficients to file
+        :type nofilter_zero: boolean
+
+        Example:
+            >>> from pylagrit import PyLaGriT
+            >>> l = PyLaGriT()
+            >>> m = l.create()
+            >>> m.createpts_xyz((3,3,3),(0.,0.,0.),(1.,1.,1.),rz_switch=[1,1,1],connect=True)
+            >>> m.status ()
+            >>> m.status (brief=True)
+            >>> m.dump_pflotran('test_pflotran_dump')
+        '''
+        cmd = ['dump','pflotran',filename_root,self.name]
+        if nofilter_zero: cmd.append('nofilter_zero')
         self.sendline('/'.join(cmd))
     def dump_zone_outside(self,filename,keepatt=False,keepatt_median=False,keepatt_voronoi=False):
         cmd = ['dump','zone_outside',filename,self.name]
@@ -2973,7 +2957,7 @@ class MO(object):
             
         '''
         self.select()
-        assert len(nnodes) ==3, 'nnodes must be have three values'
+        assert len(nnodes) ==3, 'nnodes must contain three values'
         assert len(pts) == 8, 'pts must contain eight sets of points'
         nnodes = [str(v) for v in nnodes]
         cmd = '/'.join(['quadxyz',','.join(nnodes)])
@@ -3464,6 +3448,171 @@ class MO(object):
         else:
             cmd = '/'.join(['refine',refine_option,field,interpolation,refine_type,' '.join(stride),'/'.join(values),inclusive_flag,'amr '+str(prd_choice)])
         self._parent.sendline(cmd)
+    def regnpts(self,geom,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        if isinstance(stride,PSet): stride = 'pset get '+stride.name
+        else: stride = ','.join([str(v) for v in stride])
+        end = str(irratio)+' '+str(rrz)
+        if maxpenetr is not None: end = end+'/'+str(maxpenetr)
+        ptdist=str(ptdist)
+        if geom == 'xyz':
+            assert len(ray_points) == 3, 'ray_points must contain three sets of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ','.join(list(map(str,p)))+'/'
+        elif geom == 'rtz':
+            assert len(ray_points) == 2, 'ray_points must contain two sets of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ' &\n' +','.join(list(map(str,p)))+'/'
+        elif geom == 'rtp':
+            assert len(ray_points) == 2, 'ray_points must contain one set of points'
+            pts = ''
+            for p in ray_points:
+                assert len(p) == 3,'each entry in ray_points must contain 3 (x,y,z) values'
+                pts += ' &\n' +','.join(list(map(str,p)))+'/'
+        else:
+            print('Error: geom must be of type xyz rtz or rtp')
+            return
+        name = region.name
+        cmd = '/'.join(['regnpts',name,ptdist,stride,geom,pts])
+        cmd += end
+        print(cmd)
+        self.sendline(cmd)
+    def regnpts_xyz(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a plane and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: three points that define plane which rays emante from
+        :type ray_points: 3-tuple of float 3-tuples 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+
+            example:
+            >>> import numpy as np
+            >>> from pylagrit import PyLaGriT
+            >>> import sys
+            >>> 
+            >>> lg = PyLaGriT()
+            >>> p1 = (30.0,0.0,0.0)
+            >>> p2 = (30.0,1.0,0.0)
+            >>> p3 = (30.0,1.0,0.1)
+            >>> pts = [p1,p2,p3]
+            >>> 
+            >>> npts = (3,3,3)
+            >>> mins = (0,0,0)
+            >>> maxs = (10,10,10)
+            >>> #mesh = lg.create()
+            >>> mesh = lg.createpts_xyz(npts,mins,maxs,'hex',connect=False)
+            >>> rayend = mesh.pset_geom_xyz(mins,maxs,ctr=(5,5,5))
+            >>> mesh.rmpoint_compress(filter_bool=True)
+            >>> eighth = mesh.surface_box(mins,(5,5,5))
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mesh.regnpts_xyz(pts,reg2,1000,stride=rayend)
+            >>> mesh.dump('regn_test.gmv')
+        '''
+        self.regnpts(geom='xyz',**minus_self(locals()))
+    def regnpts_rtz(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a line and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: two points that define cylinder which rays emante from
+        :type ray_points: 2-tuple of float 3-tuples 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+        '''
+        self.regnpts('rtz',pts_cmd,**minus_self(locals()))
+    def regnpts_rtp(self,ray_points,region,ptdist,stride=[1,0,0],irratio=0,rrz=0,maxpenetr=None):
+        '''
+        Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point and finding the intersection of each ray with the surfaces that define the region.
+
+        :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
+        :type ray_points: float 3-tuple 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+        '''
+        self.regnpts('rtp',pts_cmd,**minus_self(locals()))
+    def setpts(self,no_interface=False,closed_surfaces=False):
+        '''
+        Set point types and imt material by calling surfset and regset routines.
+
+        :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
+        :type ray_points: float 3-tuple 
+        :arg region: region to generate points within
+        :type region: Region
+        :arg ptdist: parameter that determines point distribution pattern
+        :type ptdist: int float or str
+        :arg stride: points to shoot rays through
+        :type stride: int or PSet
+        :arg irratio: parameter that determines point distribution pattern
+        :type irratio: int
+        :arg rrz: ratio zoning value
+        :type rrz: int or float
+        :arg maxpenetr: maximum distance along ray that points will be distributed
+        :type maxpenetr: int or float
+
+            example:
+            >>> import numpy as np
+            >>> from pylagrit import PyLaGriT
+            >>> import sys
+            >>> lg = PyLaGriT()
+            >>> mesh = lg.create()
+            >>> mins = (0,0,0)
+            >>> maxs = (5,5,5)
+            >>> eighth = mesh.surface_box(mins,maxs)
+            >>> boolstr1 = 'le '+eighth.name
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg1 = mesh.region(boolstr1)
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mreg1 = mesh.mregion(boolstr1)
+            >>> mreg2 = mesh.mregion(boolstr2)
+            >>> mesh.createpts_xyz((10,10,10), (0,0,0), (10,10,10),connect=False)
+            >>> mesh.setpts()
+            >>> mesh.connect()
+            >>> mesh.dump('setpts_test.gmv')
+        '''
+
+        cmd = 'setpts'
+        if no_interface and closed_surfaces:
+            print('Error: no_interface and closed_surfaces are mutually exclusive')
+            return
+        if no_interface:
+            cmd += '/no_interface'
+        elif closed_surfaces:
+            cmd += '/closed_surfaces/reflect'
+        self.sendline(cmd)
     def smooth(self,*args,**kwargs):
         if 'algorithm' not in kwargs: self.sendline('smooth')
         else:
@@ -3501,17 +3650,51 @@ class MO(object):
         self.resetpts_itp()
     def surface(self,name=None,ibtype='reflect'):
         if name is None:
-            name = make_name('s',self._parent.surface.keys())
+            name = make_name('s',self.surfaces.keys())
         cmd = '/'.join(['surface',name,ibtype,'sheet',self.name])
         self.sendline(cmd)
-        self._parent.surface[name] = Surface(name,self._parent)
-        return self._parent.surface[name]
-    def region_bool(self,bool,name=None): 
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_box(self,mins,maxs,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        mins = [str(v) for v in mins]
+        maxs = [str(v) for v in maxs]
+        cmd = '/'.join(['surface',name,ibtype,'box',','.join(mins),','.join(maxs)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_cylinder(self,coord1,coord2,radius,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        cmd = '/'.join(['surface',name,ibtype,'cylinder',','.join(coord1),','.join(coord2),str(radius)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def surface_plane(self,coord1,coord2,coord3,name=None,ibtype='reflect'):
+        if name is None:
+            name = make_name('s',self.surfaces.keys())
+        coord1 = [str(v) for v in coord1]
+        coord2 = [str(v) for v in coord2]
+        coord3 = [str(v) for v in coord3]
+        cmd = '/'.join(['surface',name,ibtype,'plane',' &\n'+','.join(coord1),' &\n'+','.join(coord2),' &\n'+','.join(coord3)])
+        self.sendline(cmd)
+        self.surfaces[name] = Surface(name,self)
+        return self.surfaces[name]
+    def region_bool(self,bool,name=None):
+        '''
+        This method is deprecated and will be replaced by the MO.region() method in future releases.
+
+        '''
+        self.region(**minus_self(locals()))
+    def region(self,boolstr,name=None):
         '''
         Create region using boolean string
 
-        :param bool: String of boolean operations
-        :type bool: str
+        :param boolstr: String of boolean operations
+        :type boolstr: str
         :param name: Internal lagrit name for mesh object
         :type name: string
         :returns: Region
@@ -3520,43 +3703,53 @@ class MO(object):
             >>> from pylagrit import PyLaGriT
             >>> import numpy
             >>> lg = PyLaGriT()
-            >>> # Read in mesh
-            >>> motet = lg.read('tet_matclr.inp')
-            >>> # fault coordinates in feet
-            >>> cs = [[498000.,381946.,0.],
-            >>>       [497197.,381946.,0.],
-            >>>       [494019.,384890.,0.],
-            >>>       [490326.,386959.,0.],
-            >>>       [487822.,388599.,0.],
-            >>>       [486337.,390755.,0.],
-            >>>       [486337.,392000.,0.]]
-            >>> # Convert to meters
-            >>> cs = numpy.array(cs)/3.28
-            >>> # Create surfaces of fault
-            >>> ss = []
-            >>> for p1,p2 in zip(cs[:-1],cs[1:]):
-            >>>     p3 = p1.copy()
-            >>>     p3[2] = -4000.
-            >>>     ss.append(lg.surface_plane(p1,p2,p3))
-            >>> # Create region by boolean operations of fault surfaces
-            >>> boolstr = ''
-            >>> for i,s in enumerate(ss):
-            >>>     if not i == 0: boolstr += ' and '
-            >>>     boolstr += 'le '+s.name
-            >>> r = motet.region_bool(boolstr)
-            >>> # Create pset from region
-            >>> p = motet.pset_region(r)
-            >>> # Change imt value for pset
-            >>> p.setatt('imt',21)
-            >>> motet.dump_zone_imt('tet_nefault',21)
-
+            >>> mesh = lg.create()
+            >>> mins = (0,0,0)
+            >>> maxs = (5,5,5)
+            >>> eighth = mesh.surface_box(mins,maxs)
+            >>> boolstr1 = 'le '+eighth.name
+            >>> boolstr2 = 'gt '+eighth.name
+            >>> reg1 = mesh.region(boolstr1)
+            >>> reg2 = mesh.region(boolstr2)
+            >>> mreg1 = mesh.mregion(boolstr1)
+            >>> mreg2 = mesh.mregion(boolstr2)
+            >>> mesh.createpts_brick_xyz((10,10,10), (0,0,0), (10,10,10))
+            >>> mesh.rmregion(reg1)
+            >>> mesh.dump('reg_test.gmv')
         '''
         if name is None:
-            name = make_name('r',self.region.keys())
-        cmd = '/'.join(['region',name,bool])
+            name = make_name('r',self.regions.keys())
+        cmd = '/'.join(['region',name,boolstr])
         self.sendline(cmd)
-        self.region[name] = Region(name,self)
-        return self.region[name]
+        self.regions[name] = Region(name,self)
+        return self.regions[name]
+    def mregion(self,boolstr,name=None):
+        '''
+        Create mregion using boolean string
+
+        :param boolstr: String of boolean operations
+        :type boolstr: str
+        :param name: Internal lagrit name for mesh object
+        :type name: string
+        :returns: MRegion
+        '''
+        if name is None:
+            name = make_name('mr',self.mregions.keys())
+        cmd = '/'.join(['mregion',name,boolstr])
+        self.sendline(cmd)
+        self.mregions[name] = MRegion(name,self)
+        return self.mregions[name]
+    def rmregion(self,region,rmpoints=True,filter_bool=False,resetpts_itp=True):
+        '''
+        Remove points that lie inside region 
+
+        :param region: name of region points will be removed from
+        :type region: Region
+        '''
+        name = region.name
+        cmd = '/'.join(['rmregion',name])
+        self.sendline(cmd)
+        if rmpoints: self.rmpoint_compress(filter_bool=filter_bool,resetpts_itp=resetpts_itp)
     def quality(self,*args,quality_type=None,save_att=False):
         cmd = ['quality']
         if quality_type is not None:
@@ -3588,7 +3781,7 @@ class Surface(object):
     def release(self):
         cmd = 'surface/'+self.name+'/release'
         self._parent.sendline(cmd)
-        del self._parent.surface[self.name]
+        del self._parent.surfaces[self.name]
 
 class PSet(object):
     ''' Pset class'''
@@ -3924,6 +4117,22 @@ class Region(object):
         self._parent = parent
     def __repr__(self):
         return str(self.name)
+    def release(self):
+        cmd = 'region/'+self.name+'/release'
+        self._parent.sendline(cmd)
+        del self._parent.regions[self.name]
+
+class MRegion(object):
+    ''' Region class'''
+    def __init__(self, name, parent):
+        self.name = name
+        self._parent = parent
+    def __repr__(self):
+        return str(self.name)
+    def release(self):
+        cmd = 'mregion/'+self.name+'/release'
+        self._parent.sendline(cmd)
+        del self._parent.mregions[self.name]
 
 class FaceSet(object):
     ''' FaceSet class'''
