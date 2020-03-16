@@ -32,7 +32,7 @@ tags: extrude
 
  `mesh1` is the name of the resulting mesh.
 
- `mesh2` is the name of the initial mesh. This mesh must be made up of **lines, tris, quads, hybrids**.
+ `mesh2` is the name of the initial mesh. This mesh must be a valid mesh object with valid element types of **line, tri, quad** and in some cases **hybrid**.
 
  **const** is a keyword that indicates that the distance from each of
  the points in the initial mesh along the extruding vector will be
@@ -84,7 +84,7 @@ tags: extrude
  Otherwise, if a vector value is specified, the vector is normalized,
  and its direction used to extrude the initial mesh.
 
- ### NOTES
+### NOTES
 
   This code works on meshes containing lines, quads, triangles, or
   hybrid polygons. If there are lines in the initial mesh, they become
@@ -104,7 +104,7 @@ tags: extrude
   point in `range2` in the final mesh object, etc. Other setups will
   result in a twisted, perhaps invalid mesh object.
 
- ## EXAMPLES
+## EXAMPLES
 
 ```
 extrude/cmo_hex/cmo_quad/const/5.0/volume
