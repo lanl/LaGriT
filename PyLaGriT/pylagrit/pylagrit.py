@@ -3769,8 +3769,45 @@ class MO(object):
         self.quality(boolean,str(value),quality_type='angle',save_att=save_att)
     def quality_pcc(self):
         self.quality(quality_type='pcc')
+    def rmmat(self,material_number,option='',exclusive=False):
+        ''' 
+        This routine is used to remove points that are of a specified material value 
+        (itetclr for elements or imt for nodes). Elements with the specified material 
+        value are flagged by setting the element material type negative. They are not 
+        removed from the mesh object.
+        :param material_number: Number of material
+        :type material_number: int
+        :param option: {'','node','element','all'}, 'node' removes nodes with imt=material_number, 'element' removes elements with itetclr=material_number, 'all' or '' removes nodes and elements with material_number equal to imt and itetclr, respectively
+        :type option: str
+        :param exclusive: if True, removes everything except nodes with imt=material and removes everything except elements with itetclr= material number.
+        :type exclusive: bool
+        '''
+        cmd = ['rmmat',str(material_number),option]
+        if exclusive: cmd.append('exclusive')
+        self.sendline('/'.join(cmd))
+    def rmmat_element(self,material_number,exclusive=False):
+        ''' 
+        This routine is used to remove elements that are of a specified material value 
+        (itetclr for elements). Elements with the specified material value are flagged 
+        by setting the element material type negative. They are not removed from the mesh 
+        object.
+        :param material_number: Number of material
+        :type material_number: int
+        :param exclusive: if True, removes everything except elements with itetclr=material number.
+        :type exclusive: bool
+        '''
+        self.rmmat(material_number,option='element',exclusive=exclusive)
+    def rmmat_node(self,material_number,exclusive=False):
+        ''' 
+        This routine is used to remove points that are of a specified material value 
+        (imt).
+        :param material_number: Number of material (imt)
+        :type material_number: int
+        :param exclusive: if True, removes everything except nodes with imt=material_number
+        :type exclusive: bool
+        '''
+        self.rmmat(material_number,option='node',exclusive=exclusive)
 
- 
 class Surface(object):
     ''' Surface class'''
     def __init__(self, name, parent):
