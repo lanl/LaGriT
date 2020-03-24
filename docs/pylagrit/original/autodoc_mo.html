@@ -41,6 +41,44 @@
 <em class="property">class </em><code class="descclassname">pylagrit.</code><code class="descname">MO</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mesh object class</p>
 <dl class="method">
+<dt id="pylagrit.MO.add_element_attribute">
+<code class="descname">add_element_attribute</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.add_element_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes to elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em>) – Attribute name to add</li>
+<li><strong>keyword</strong> – Keyword used by lagrit for specific attributes</li>
+<li><strong>vtype</strong> – Type of variable {‘VDOUBLE’,’VINT’,…}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.add_node_attribute">
+<code class="descname">add_node_attribute</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.add_node_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes to nodes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em>) – Attribute name to add</li>
+<li><strong>keyword</strong> – Keyword used by lagrit for specific attributes</li>
+<li><strong>vtype</strong> – Type of variable {‘VDOUBLE’,’VINT’,…}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.MO.addatt">
 <code class="descname">addatt</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>length='nnodes'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.addatt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a list of attributes</p>
@@ -265,7 +303,7 @@ boundary.</p>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts">
-<code class="descname">createpts</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and Connect Points</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -278,6 +316,7 @@ boundary.</p>
 <li><strong>npts</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – The number of points to create in line</li>
 <li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
 <li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
 <li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
@@ -288,7 +327,7 @@ boundary.</p>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_brick">
-<code class="descname">createpts_brick</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>ctr=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_brick</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and Connect Points</p>
 <p>Creates a grid of points in the mesh object and connects them.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -302,9 +341,7 @@ boundary.</p>
 <li><strong>npts</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The number of points to create in each dimension.</li>
 <li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
 <li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
-<li><strong>ctr</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines the center of each cell. For 0, points are placed in
-the middle of each cell. For 1, points are placed at the 
-edge of each cell.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
 <li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio 
 zmoning values.</li>
 <li><strong>rz_vls</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Ratio zoning values. Each point will be multiplied by
@@ -318,19 +355,19 @@ a scale of the value for that dimension.</li>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_brick_rtp">
-<code class="descname">createpts_brick_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>ctr=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_brick_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and connect spherical coordinates.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_brick_rtz">
-<code class="descname">createpts_brick_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>ctr=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_brick_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and connect cylindrical coordinate points.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_brick_xyz">
-<code class="descname">createpts_brick_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>ctr=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_xyz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_brick_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_xyz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and connect Cartesian coordinate points.</p>
 </dd></dl>
 
@@ -365,7 +402,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_line">
-<code class="descname">createpts_line</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_line" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_line</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and Connect Points in a line</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -375,6 +412,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <li><strong>npts</strong> (<em>int</em>) – The number of points to create in line</li>
 <li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
 <li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
 <li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
@@ -390,17 +428,17 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_rtp">
-<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtp" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_rtz">
-<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtz" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.createpts_xyz">
-<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_xyz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_xyz" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -516,6 +554,37 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.MO.dump_pflotran">
+<code class="descname">dump_pflotran</code><span class="sig-paren">(</span><em>filename_root</em>, <em>nofilter_zero=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_pflotran" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump PFLOTRAN UGE file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_root</strong> (<em>str</em>) – root name of UGE file</li>
+<li><strong>nofilter_zero</strong> (<em>boolean</em>) – Set to true to write zero coefficients to file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">createpts_xyz</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span><span class="n">rz_switch</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">(</span><span class="n">brief</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dump_pflotran</span><span class="p">(</span><span class="s1">&#39;test_pflotran_dump&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.MO.dump_pset">
 <code class="descname">dump_pset</code><span class="sig-paren">(</span><em>filerootname</em>, <em>zonetype='zone'</em>, <em>pset=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_pset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dump zone file of psets
@@ -594,6 +663,50 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <dt id="pylagrit.MO.eltset_union">
 <code class="descname">eltset_union</code><span class="sig-paren">(</span><em>eset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_union" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_write">
+<code class="descname">eltset_write</code><span class="sig-paren">(</span><em>filename_root</em>, <em>eset_name=None</em>, <em>ascii=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write element set(s) to a file in ascii or binary format</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_root</strong> (<em>str</em>) – root name of file</li>
+<li><strong>eset_name</strong> (<em>EltSet object</em>) – name of eltset to write; if blank, all eltsets in mesh object are written</li>
+<li><strong>ascii</strong> – Switch to indicate ascii [True] or binary [False]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">createpts_dxyz</span><span class="p">(</span><span class="n">dxyz</span><span class="p">,</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="p">,</span><span class="s1">&#39;quad&#39;</span><span class="p">,</span><span class="n">hard_bound</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">),</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_pset1</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="o">-</span><span class="p">(</span><span class="n">maxs</span><span class="o">-</span><span class="n">mins</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_eset1</span> <span class="o">=</span> <span class="n">example_pset1</span><span class="o">.</span><span class="n">eltset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_pset2</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="o">+</span><span class="n">maxs</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">maxs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_eset2</span> <span class="o">=</span> <span class="n">example_pset2</span><span class="o">.</span><span class="n">eltset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># to write one specific eltset</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">eltset_write</span><span class="p">(</span><span class="s1">&#39;test_specific&#39;</span><span class="p">,</span><span class="n">eset_name</span><span class="o">=</span><span class="n">example_eset1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># to write all eltsets</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">eltset_write</span><span class="p">(</span><span class="s1">&#39;test_all&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.extract_surfmesh">
@@ -909,6 +1022,27 @@ best results.</p>
 <code class="descname">mins</code><a class="headerlink" href="#pylagrit.MO.mins" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="pylagrit.MO.mregion">
+<code class="descname">mregion</code><span class="sig-paren">(</span><em>boolstr</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.mregion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create mregion using boolean string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>boolstr</strong> (<em>str</em>) – String of boolean operations</li>
+<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MRegion</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="pylagrit.MO.ndim_geo">
 <code class="descname">ndim_geo</code><a class="headerlink" href="#pylagrit.MO.ndim_geo" title="Permalink to this definition">¶</a></dt>
@@ -983,7 +1117,7 @@ if the calculated offset is to be added or subtracted from the coordinate.</p>
 <dt id="pylagrit.MO.pset_geom">
 <code class="descname">pset_geom</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>ctr=(0</em>, <em>0</em>, <em>0)</em>, <em>geom='xyz'</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_geom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define PSet by Geometry</p>
-<p>Selects points from geomoetry specified by string geom and returns a 
+<p>Selects points from geometry specified by string geom and returns a 
 PSet.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1144,9 +1278,9 @@ Refer to <a class="reference external" href="http://lagrit.lanl.gov/docs/convent
 
 <dl class="method">
 <dt id="pylagrit.MO.quadxy">
-<code class="descname">quadxy</code><span class="sig-paren">(</span><em>nnodes</em>, <em>pts</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quadxy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Define and connect an arbitrary, logical quad of points in 3D space
-with nnodes(x,y,z) nodes</p>
+<code class="descname">quadxy</code><span class="sig-paren">(</span><em>nnodes</em>, <em>pts</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quadxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define an arbitrary, logical quad of points in 3D space
+with nnodes(x,y,z) nodes. By default, the nodes will be connected.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1154,10 +1288,10 @@ with nnodes(x,y,z) nodes</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>nnodes</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The number of nodes to create in each dimension. 
 One value must == 1 and the other two must be &gt; 1.</li>
-<li><strong>pts</strong> – The four corners of the quad surface, defined in counter 
+<li><strong>pts</strong> (<em>list of four 3-tuples</em><em> (</em><em>float</em><em>)</em>) – The four corners of the quad surface, defined in counter 
 clockwise order (the normal to the quad points is defined
 using the right hand rule and the order of the points).</li>
-<li><strong>pts</strong> – list of 3-tuples (float)</li>
+<li><strong>connect</strong> (<em>bool</em>) – connect points</li>
 </ul>
 </td>
 </tr>
@@ -1165,7 +1299,8 @@ using the right hand rule and the order of the points).</li>
 </table>
 <dl class="docutils">
 <dt>Example:</dt>
-<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
+<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Start the lagrit session.</span>
@@ -1188,8 +1323,85 @@ using the right hand rule and the order of the points).</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nnodes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">82</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create and connect plane</span>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create and connect skewed plane</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">qua</span><span class="o">.</span><span class="n">quadxy</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span><span class="n">pts</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quadxyz">
+<code class="descname">quadxyz</code><span class="sig-paren">(</span><em>nnodes</em>, <em>pts</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quadxyz" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Define an arbitrary and logical set of points in 3D (xyz) space.
+The set of points will be connected into hexahedrons by default. Set ‘connect=False’ to prevent connection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">arg nnodes:</th><td class="field-body">The number of nodes including the 1st and last point along each X, Y, Z axis. The number of points will be 1 more than the number of elements in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type nnodes:</th><td class="field-body">tuple(int, int, int)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">arg pts:</th><td class="field-body">The eight corners of the hexahedron. The four bottom corners are listed first,</td>
+</tr>
+</tbody>
+</table>
+<p>then the four top corners. Each set of corners (bottom and top) are defined in counter-clockwise
+order (the normal to the quad points is defined using the right hand rule and the order of the points).
+:arg pts:  list of eight 3-tuples (float)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">arg connect:</th><td class="field-body">connect points</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type connect:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Start the lagrit session.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">pylagrit</span><span class="o">.</span><span class="n">PyLaGriT</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create a mesh object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define 4 bottom points in correct order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define 4 top points in correct order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p5</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p6</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p7</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p8</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">,</span><span class="n">p4</span><span class="p">,</span><span class="n">p5</span><span class="p">,</span><span class="n">p6</span><span class="p">,</span><span class="n">p7</span><span class="p">,</span><span class="n">p8</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define nnodes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nnodes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create and connect skewed hex mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span><span class="o">.</span><span class="n">quadxyz</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span><span class="n">pts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#Dump mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;quadxyz_test.gmv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
@@ -1267,15 +1479,15 @@ using the right hand rule and the order of the points).</li>
 </dd></dl>
 
 <dl class="method">
-<dt id="pylagrit.MO.region_bool">
-<code class="descname">region_bool</code><span class="sig-paren">(</span><em>bool</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.region_bool" title="Permalink to this definition">¶</a></dt>
+<dt id="pylagrit.MO.region">
+<code class="descname">region</code><span class="sig-paren">(</span><em>boolstr</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create region using boolean string</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bool</strong> (<em>str</em>) – String of boolean operations</li>
+<li><strong>boolstr</strong> (<em>str</em>) – String of boolean operations</li>
 <li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
 </ul>
 </td>
@@ -1290,39 +1502,103 @@ using the right hand rule and the order of the points).</li>
 <dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Read in mesh</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">motet</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;tet_matclr.inp&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># fault coordinates in feet</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">498000.</span><span class="p">,</span><span class="mf">381946.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">497197.</span><span class="p">,</span><span class="mf">381946.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">494019.</span><span class="p">,</span><span class="mf">384890.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">490326.</span><span class="p">,</span><span class="mf">386959.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">487822.</span><span class="p">,</span><span class="mf">388599.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">486337.</span><span class="p">,</span><span class="mf">390755.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">486337.</span><span class="p">,</span><span class="mf">392000.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Convert to meters</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span><span class="o">/</span><span class="mf">3.28</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create surfaces of fault</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ss</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p1</span><span class="p">,</span><span class="n">p2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">cs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">p3</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">p3</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4000.</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">surface_plane</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create region by boolean operations of fault surfaces</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">boolstr</span> <span class="o">+=</span> <span class="s1">&#39; and &#39;</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">boolstr</span> <span class="o">+=</span> <span class="s1">&#39;le &#39;</span><span class="o">+</span><span class="n">s</span><span class="o">.</span><span class="n">name</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">motet</span><span class="o">.</span><span class="n">region_bool</span><span class="p">(</span><span class="n">boolstr</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create pset from region</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">motet</span><span class="o">.</span><span class="n">pset_region</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Change imt value for pset</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">motet</span><span class="o">.</span><span class="n">dump_zone_imt</span><span class="p">(</span><span class="s1">&#39;tet_nefault&#39;</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mins</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxs</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eighth</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">surface_box</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr1</span> <span class="o">=</span> <span class="s1">&#39;le &#39;</span><span class="o">+</span><span class="n">eighth</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr2</span> <span class="o">=</span> <span class="s1">&#39;gt &#39;</span><span class="o">+</span><span class="n">eighth</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">region</span><span class="p">(</span><span class="n">boolstr1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg2</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">region</span><span class="p">(</span><span class="n">boolstr2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mreg1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">mregion</span><span class="p">(</span><span class="n">boolstr1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mreg2</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">mregion</span><span class="p">(</span><span class="n">boolstr2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">createpts_brick_xyz</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">rmregion</span><span class="p">(</span><span class="n">reg1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;reg_test.gmv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.region_bool">
+<code class="descname">region_bool</code><span class="sig-paren">(</span><em>bool</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.region_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is deprecated and will be replaced by the MO.region() method in future releases.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts">
+<code class="descname">regnpts</code><span class="sig-paren">(</span><em>geom, ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_rtp">
+<code class="descname">regnpts_rtp</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_rtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>float 3-tuple</em>) – single (x,y,z) point that defines center of spher which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> (<em>int</em><em> or </em><em>float</em>) – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_rtz">
+<code class="descname">regnpts_rtz</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a line and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>2-tuple of float 3-tuples</em>) – two points that define cylinder which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> (<em>int</em><em> or </em><em>float</em>) – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_xyz">
+<code class="descname">regnpts_xyz</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a plane and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>3-tuple of float 3-tuples</em>) – three points that define plane which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -1334,6 +1610,45 @@ using the right hand rule and the order of the points).</li>
 <dt id="pylagrit.MO.resetpts_itp">
 <code class="descname">resetpts_itp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.resetpts_itp" title="Permalink to this definition">¶</a></dt>
 <dd><p>set node type from connectivity of mesh</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat">
+<code class="descname">rmmat</code><span class="sig-paren">(</span><em>material_number</em>, <em>option=''</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove points that are of a specified material value 
+(itetclr for elements or imt for nodes). Elements with the specified material 
+value are flagged by setting the element material type negative. They are not 
+removed from the mesh object.
+:param material_number: Number of material
+:type material_number: int
+:param option: {‘’,’node’,’element’,’all’}, ‘node’ removes nodes with imt=material_number, ‘element’ removes elements with itetclr=material_number, ‘all’ or ‘’ removes nodes and elements with material_number equal to imt and itetclr, respectively
+:type option: str
+:param exclusive: if True, removes everything except nodes with imt=material and removes everything except elements with itetclr= material number.
+:type exclusive: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat_element">
+<code class="descname">rmmat_element</code><span class="sig-paren">(</span><em>material_number</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove elements that are of a specified material value 
+(itetclr for elements). Elements with the specified material value are flagged 
+by setting the element material type negative. They are not removed from the mesh 
+object.
+:param material_number: Number of material
+:type material_number: int
+:param exclusive: if True, removes everything except elements with itetclr=material number.
+:type exclusive: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat_node">
+<code class="descname">rmmat_node</code><span class="sig-paren">(</span><em>material_number</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove points that are of a specified material value 
+(imt).
+:param material_number: Number of material (imt)
+:type material_number: int
+:param exclusive: if True, removes everything except nodes with imt=material_number
+:type exclusive: bool</p>
 </dd></dl>
 
 <dl class="method">
@@ -1359,6 +1674,20 @@ using the right hand rule and the order of the points).</li>
 <dt id="pylagrit.MO.rmpoint_pset">
 <code class="descname">rmpoint_pset</code><span class="sig-paren">(</span><em>pset</em>, <em>itype='exclusive'</em>, <em>compress=True</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmpoint_pset" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmregion">
+<code class="descname">rmregion</code><span class="sig-paren">(</span><em>region</em>, <em>rmpoints=True</em>, <em>filter_bool=False</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmregion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove points that lie inside region</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – name of region points will be removed from</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.rotateln">
@@ -1470,9 +1799,73 @@ Note:  The end points of the  line segment must extend well beyond the point set
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="pylagrit.MO.set_id">
+<code class="descname">set_id</code><span class="sig-paren">(</span><em>option</em>, <em>node_attname='id_node'</em>, <em>elem_attname='id_elem'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.set_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command creates integer attributes that contain the node and/or
+element number. If later operations delete nodes or
+elements causing renumbering, these attributes will contain the
+original node or element number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>option</strong> (<em>str</em>) – create attribute for nodes, elements, or both {‘both’,’node’,’element’}</li>
+<li><strong>node_attname</strong> (<em>str</em>) – name for new node attribute</li>
+<li><strong>elem_attname</strong> (<em>str</em>) – name for new element attribute</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:
+from pylagrit import PyLaGriT
+#instantiate PyLaGriT
+lg = PyLaGriT()
+#create source mesh
+npts = (11,11,11)
+mins = (0.,0.,0.)
+maxs = (1.,1.,1.)
+mesh = lg.create()
+mesh.createpts_brick_xyz(npts,mins,maxs)
+#write node and element attribute numbers
+mesh.set_id(‘both’,node_attname=’node_att1’,elem_attname=’elem_att1’)
+#select and remove points
+p_mins = (0.5,0.,0.)
+p_maxs = (1.,1.,1.)
+points = mesh.pset_geom_xyz(p_mins,p_maxs)
+mesh.rmpoint_pset(points)
+#dump mesh with original node and element numbering saved
+mesh.dump(‘set_id_test.gmv’)</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="pylagrit.MO.setatt">
 <code class="descname">setatt</code><span class="sig-paren">(</span><em>attname, value, stride=[1, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.setatt" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.setpts">
+<code class="descname">setpts</code><span class="sig-paren">(</span><em>no_interface=False</em>, <em>closed_surfaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.setpts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set point types and imt material by calling surfset and regset routines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>float 3-tuple</em>) – single (x,y,z) point that defines center of spher which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.MO.settets">
@@ -1648,6 +2041,21 @@ defined by mins and maxs.</p>
 <dl class="method">
 <dt id="pylagrit.MO.surface">
 <code class="descname">surface</code><span class="sig-paren">(</span><em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_box">
+<code class="descname">surface_box</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_box" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_cylinder">
+<code class="descname">surface_cylinder</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>radius</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_cylinder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_plane">
+<code class="descname">surface_plane</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_plane" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -1967,6 +2375,7 @@ values are used to upscale values on to the sink mesh nodes.</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stratigraphic.html">Stratigraphic Hex Mesh Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="autodoc.html">Class Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="autodoc_pylagrit.html">PyLaGriT Class</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh Class</a></li>

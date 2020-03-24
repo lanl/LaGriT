@@ -13,7 +13,13 @@ PyLaGriT, Python interface for LaGriT
 
    Getting Started <gettingstarted.rst>    
 
+   Stratigraphic Hex Mesh Tutorial <stratigraphic.rst>
+
    Class Documentation <autodoc.rst>
+
+PyLaGriT source code is packaged with LaGriT source code `here <https://github.com/lanl/LaGriT>`_.
+
+Example scripts can be found `here <https://github.com/lanl/LaGriT/tree/master/PyLaGriT/examples>`_.
 
 Indices and tables
 ==================

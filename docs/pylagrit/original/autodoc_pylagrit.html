@@ -262,7 +262,7 @@ the mesh object.</p>
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.createpts">
-<code class="descname">createpts</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=False</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=False</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and Connect Points</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -276,6 +276,7 @@ the mesh object.</p>
 <li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
 <li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
 <li><strong>elem_type</strong> (<em>str</em>) – The type of mesh object to create</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
 <li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
@@ -352,7 +353,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.createpts_line">
-<code class="descname">createpts_line</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type='line'</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_line" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_line</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type='line'</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and Connect Points in a line</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -362,6 +363,7 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 <li><strong>npts</strong> (<em>int</em>) – The number of points to create in line</li>
 <li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
 <li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
 <li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
 </ul>
 </td>
@@ -372,17 +374,17 @@ maxs-mins. clip and hard_bound options can be mixed by specifying tuples
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.createpts_rtp">
-<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtp" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtp" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.createpts_rtz">
-<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_rtz" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.createpts_xyz">
-<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_xyz" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>elem_type</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.createpts_xyz" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -837,65 +839,6 @@ object.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="pylagrit.PyLaGriT.region_bool">
-<code class="descname">region_bool</code><span class="sig-paren">(</span><em>bool</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.region_bool" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create region using boolean string</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>bool</strong> (<em>str</em>) – String of boolean operations</li>
-<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Region</p>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>Example:</dt>
-<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Read in mesh</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">motet</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;tet_matclr.inp&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># fault coordinates in feet</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">498000.</span><span class="p">,</span><span class="mf">381946.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">497197.</span><span class="p">,</span><span class="mf">381946.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">494019.</span><span class="p">,</span><span class="mf">384890.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">490326.</span><span class="p">,</span><span class="mf">386959.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">487822.</span><span class="p">,</span><span class="mf">388599.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">486337.</span><span class="p">,</span><span class="mf">390755.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>      <span class="p">[</span><span class="mf">486337.</span><span class="p">,</span><span class="mf">392000.</span><span class="p">,</span><span class="mf">0.</span><span class="p">]]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Convert to meters</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cs</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span><span class="o">/</span><span class="mf">3.28</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create surfaces of fault</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ss</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p1</span><span class="p">,</span><span class="n">p2</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">cs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">p3</span> <span class="o">=</span> <span class="n">p1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">p3</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4000.</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">ss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lg</span><span class="o">.</span><span class="n">surface_plane</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create region by boolean operations of fault surfaces</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ss</span><span class="p">):</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="n">boolstr</span> <span class="o">+=</span> <span class="s1">&#39; and &#39;</span>
-<span class="gp">&gt;&gt;&gt; </span>    <span class="n">boolstr</span> <span class="o">+=</span> <span class="s1">&#39;le &#39;</span><span class="o">+</span><span class="n">s</span><span class="o">.</span><span class="n">name</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">region_bool</span><span class="p">(</span><span class="n">boolstr</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create pset from region</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">motet</span><span class="o">.</span><span class="n">pset_region</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Change imt value for pset</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">motet</span><span class="o">.</span><span class="n">dump_zone_imt</span><span class="p">(</span><span class="s1">&#39;tet_nefault&#39;</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="pylagrit.PyLaGriT.run_batch">
 <code class="descname">run_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.run_batch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -908,21 +851,6 @@ object.</p>
 written.  Only a limited number of bytes may be sent for each
 line in the default terminal mode, see docstring of <code class="xref py py-meth docutils literal notranslate"><span class="pre">send()</span></code>.</p>
 </dd></dl>
-
-<dl class="method">
-<dt id="pylagrit.PyLaGriT.surface_box">
-<code class="descname">surface_box</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_box" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylagrit.PyLaGriT.surface_cylinder">
-<code class="descname">surface_cylinder</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>radius</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_cylinder" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="pylagrit.PyLaGriT.surface_plane">
-<code class="descname">surface_plane</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.PyLaGriT.surface_plane" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="method">
 <dt id="pylagrit.PyLaGriT.tri_mo_from_polyline">
@@ -980,6 +908,7 @@ Points are expected to be defined clockwise by default</p>
 <h3>Navigation</h3>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stratigraphic.html">Stratigraphic Hex Mesh Tutorial</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="autodoc.html">Class Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">PyLaGriT Class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="autodoc_mo.html">Mesh Class</a></li>
