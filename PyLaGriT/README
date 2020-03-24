@@ -1,4 +1,5 @@
 PyLaGriT Class
+##############
 
 - The PyLaGriT class provides a python interface to the Los Alamos Grid Toolbox. 
 - The PyLaGrit class is derived class of the perplex packages spawn class, and its objects contains all of spawn's functionality. 

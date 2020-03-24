@@ -21,6 +21,18 @@ PyLaGriT source code is packaged with LaGriT source code `here <https://github.c
 
 Example scripts can be found `here <https://github.com/lanl/LaGriT/tree/master/PyLaGriT/examples>`_.
 
+Development team
+################
+* Dylan Harp <dharp@lanl.gov>
+
+* Daniel Livingston <livingston@lanl.gov>
+
+* James (Joe) Beisman <jjbeisman@gmail.com>
+
+* Terry Miller <tamiller@lanl.gov>
+
+* Carl Gable <gable@lanl.gov>
+
 Indices and tables
 ==================
 
