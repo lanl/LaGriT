@@ -10,10 +10,11 @@ If you are on Windows, see Section 4.0 on this page for more information.
 ### 1.1. Pre-requisites
 
 * GCC / G++ / GFORTRAN 8.0.0+
-* CMake 5.9+ / Make
+* CMake 3.10+
 * Git
 * Bash
 * wget
+* Python 3
 
 Linux users will also require the following:
 
@@ -27,11 +28,15 @@ On Ubuntu, run
 
 to install all non-stock pre-requisites.
 
-On macOS, run
+On macOS, if you use [Homebrew](https://brew.sh), run
 
-    brew update && brew install gcc wget
+    brew update && brew install gcc wget cmake python
+
+or, if you use [MacPorts](https://www.macports.org), 
+
+    sudo port selfupdate && sudo port install cmake gcc wget python
     
-if `gfortran` is not present on your system.
+to install all non-stock pre-requisites.
 
 ### 1.2. Cloning LaGriT
 
@@ -68,6 +73,8 @@ Run the command
     make test
     
 to validate the LaGriT compilation. Note that if you compiled without Exodus, one test should fail (`write_exo`).
+
+The test suite requires Python 3 or above.
 
 ### 1.6. Troubleshooting
 
