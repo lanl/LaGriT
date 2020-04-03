@@ -564,6 +564,43 @@ class DEM():
         return self._surface_mesh
 
 
+    def construct_surface_mesh(self,nodes:np.ndarray,tris:np.ndarray):
+        '''
+        Function that allows a user to explicitly set the nodes and elements
+        of the surface mesh. For example, one could construct or load in a mesh 
+        externally and pass the values here.
+
+        # Arguments
+        nodes (np.ndarray): Nx3 Numpy array with x,y,z values
+        tris (np.ndarray): Nx3 Numpy array with triangle connectivity
+        '''
+
+        surface_mesh = '_surface_temp.inp'
+
+        with open(surface_mesh,'w') as f:
+            f.write('{} {} 0 0 0\n'.format(nodes.shape[0],tris.shape[0]))
+
+            for (i,node) in enumerate(nodes):
+                f.write('{} {} {} {}\n'.format(
+                    i+1,
+                    *nodes[i])
+                )
+
+            for (i,cell) in enumerate(tris):
+                f.write('{} 1 tri {} {} {}\n'.format(
+                    i+1,
+                    *list(map(int,tris[i])))
+                )
+
+        self._surface_mesh = self.lg.read('_surface_temp.inp')
+
+        try:
+            os.remove(surface_mesh)
+        except OSError as e:
+            print("Could not clean up temporary file: ",e)
+
+        return self._surface_mesh
+
 
     def build_layered_mesh(self,
                            layers,
