@@ -1,3 +1,4 @@
+import os
 import richdem as rd
 import numpy as np
 from pylagrit import PyLaGriT

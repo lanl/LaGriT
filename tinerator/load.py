@@ -172,3 +172,15 @@ def from_shapefile(shapefile,outfile=None,SRTM_30=True):
     return __download_dem(shapefile=shapefile,outfile=outfile,SRTM_30=SRTM_30,crop=True)
 
 
+def empty():
+    '''Returns an empty DEM object'''
+    _dem = from_matrix(np.zeros((1,1)))
+    _dem.dem = None
+    _dem.mask = None
+
+    try:
+        os.remove('tmp_raster.asc')
+    except Exception:
+        pass
+
+    return _dem
