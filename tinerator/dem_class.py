@@ -565,7 +565,7 @@ class DEM():
         return self._surface_mesh
 
 
-    def construct_surface_mesh(self,nodes:np.ndarray,tris:np.ndarray):
+    def construct_surface_mesh(self,nodes:np.ndarray,tris:np.ndarray,zero_indexed:bool = False):
         '''
         Function that allows a user to explicitly set the nodes and elements
         of the surface mesh. For example, one could construct or load in a mesh 
@@ -575,6 +575,15 @@ class DEM():
         nodes (np.ndarray): Nx3 Numpy array with x,y,z values
         tris (np.ndarray): Nx3 Numpy array with triangle connectivity
         '''
+
+        if not isinstance(tris, np.ndarray):
+            tris = np.array(tris)
+
+        if not isinstance(nodes, np.ndarray):
+            nodes = np.ndarray
+
+        if zero_indexed:
+            tris += 1
 
         surface_mesh = '_surface_temp.inp'
 
@@ -599,6 +608,12 @@ class DEM():
             os.remove(surface_mesh)
         except OSError as e:
             print("Could not clean up temporary file: ",e)
+
+        # Handle the boundary
+        _, bedges = boundary.get_alpha_shape(tris)
+        bedges -= 1
+        bedges = boundary.order_boundary_nodes(bedges)
+        self.boundary = nodes[bedges]
 
         return self._surface_mesh
 
