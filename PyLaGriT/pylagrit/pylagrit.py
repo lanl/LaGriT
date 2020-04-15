@@ -1,8 +1,7 @@
 from pexpect import spawn
-from subprocess import call, PIPE
-import os,sys
+from subprocess import call
+import os, sys
 import glob
-import re
 from collections import  OrderedDict
 import numpy
 import warnings
