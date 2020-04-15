@@ -9,7 +9,9 @@ setup(name='pylagrit',
 	url='lagrit.lanl.gov',
 	license='LGPL',
 	install_requires=[
-		'pexpect==4.6.0',],
+		'pexpect==4.6.0',
+		'numpy',
+		],
 	packages=[
 		'pylagrit',]
 	)
