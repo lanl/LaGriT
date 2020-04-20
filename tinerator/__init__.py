@@ -36,14 +36,19 @@ import tinerator.boundary as boundary
 import tinerator.utilities as util
 import tinerator.plot as plot
 from tinerator.dem_class import DEM
+import tinerator.future as future
 
 from tinerator.plot import plot_triplane
 from tinerator.plot import plot_full_mesh
 
 _MAJOR = 0
 _MINOR = 3
-_PATCH = 3
+_PATCH = 4
 VERSION = 'v{0}.{1}.{2}'.format(_MAJOR,_MINOR,_PATCH)
+
+def test():
+    future.mesh.test_mesh()
+    future.layering.test_layering()
 
 def reprojectShapefile(shapefile_in:str,shapefile_out:str,projection:str) -> None:
     '''

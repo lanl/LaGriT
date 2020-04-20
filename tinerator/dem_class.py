@@ -12,6 +12,7 @@ import tinerator.plot as tinplot
 import tinerator.watershed_deliniation as delin
 import tinerator.meshing as mesh
 import tinerator.attributes as attrib
+import tinerator.future as future
 
 class DEM():
     '''
@@ -612,8 +613,7 @@ class DEM():
         # Handle the boundary
         _, bedges = boundary.get_alpha_shape(tris)
         bedges -= 1
-        bedges = boundary.order_boundary_nodes(bedges)
-        self.boundary = nodes[bedges]
+        self.boundary = nodes[boundary.order_boundary_nodes(bedges)]
 
         return self._surface_mesh
 
@@ -650,6 +650,60 @@ class DEM():
                                                 matids=matids)
 
         self.number_of_layers = len(layers)
+        
+        return self._stacked_mesh
+
+    def proportional_sublayering(self,layers:list):
+
+        f_temp = 'temp.inp'
+        self._surface_mesh.dump(f_temp)
+
+        # Parse AVS surface mesh into a data structure
+        with open(f_temp,'r') as f:
+            header = f.readline().strip().split()
+            nnodes = int(header[0])
+            nelems = int(header[1])
+
+            nodes = np.zeros((nnodes,3),dtype=float)
+            elems = np.zeros((nelems,3),dtype=int)
+
+            for i in range(nnodes):
+                node = list(map(float,f.readline().split()[1:]))
+                nodes[i,:] = node
+
+            for i in range(nelems):
+                elem = list(map(float,f.readline().split()[3:]))
+                elems[i,:] = elem
+
+        os.remove(f_temp)
+
+        m = future.mesh.Mesh()
+        m.nodes = nodes
+        m.elements = elems
+        m.element_type = future.mesh.ElementType.TRIANGLE
+
+        stacked = future.layering.stack(m,layers)
+
+        # Create the `layertyp` node attribute to mimic what LaGriT does
+        layertyp = np.zeros((stacked.n_nodes,1),dtype=int)
+        nodes_per_layer = stacked.metadata['layering']['nodes_per_layer']
+        layertyp[:nodes_per_layer] = -2
+        layertyp[-nodes_per_layer:] = -1
+        stacked.add_attribute('layertyp',layertyp,attrb_type='node')
+
+        future.helper.write_avs(
+            f_temp,
+            stacked.nodes,
+            stacked.elements,
+            cname='prism',
+            matid=stacked.material_id,
+            node_attributes={ 'layertyp': stacked.get_attribute('layertyp') }
+        )
+
+        self._stacked_mesh = self.lg.read(f_temp)
+        self.number_of_layers = stacked.metadata['layering']['num_layers']
+
+        os.remove(f_temp)
         
         return self._stacked_mesh
 
