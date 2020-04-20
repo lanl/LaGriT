@@ -1,8 +1,7 @@
-from pylagrit.pexpect import spawn
-from subprocess import call, PIPE
-import os,sys
+from pexpect import spawn
+from subprocess import call
+import os, sys
 import glob
-import re
 from collections import  OrderedDict
 import numpy
 import warnings
@@ -26,9 +25,9 @@ class LaGriT_Warning(Warning):
     pass
 
 class PyLaGriT(spawn):
-    ''' 
+    '''
     Python lagrit class
-    
+
     :param lagrit_exe: Path to LaGriT executable
     :type lagrit_exe: str
     :param verbose: If True, LaGriT terminal output will be displayed
@@ -62,10 +61,10 @@ class PyLaGriT(spawn):
                 )
 
         if gmv_exe is not None: self.gmv_exe = gmv_exe
-        if paraview_exe is not None: self.paraview_exe = paraview_exe        
+        if paraview_exe is not None: self.paraview_exe = paraview_exe
         if self.batch:
             try: self.fh = open(batchfile, 'w')
-            except IOError as e: 
+            except IOError as e:
                 print("Unable to open "+batchfile+": {1}".format(e.strerror))
                 print("Batch mode disabled")
                 self.batch = False
@@ -73,7 +72,7 @@ class PyLaGriT(spawn):
                 self.batchfile = batchfile
                 self.fh.write('# PyLaGriT generated LaGriT script\n')
         else:
-            super(PyLaGriT, self).__init__(self.lagrit_exe,timeout=timeout,*args, **kwargs) 
+            super(PyLaGriT, self).__init__(self.lagrit_exe,timeout=timeout,*args, **kwargs)
             self.expect()
             if verbose: print(_decode_binary(self.before))
     def run_batch(self):
@@ -114,10 +113,10 @@ class PyLaGriT(spawn):
             print("To return to python terminal, type a '"+escape_character+"' character")
             print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
             print(self.after)
-            super(PyLaGriT, self).interact(escape_character=escape_character) 
+            super(PyLaGriT, self).interact(escape_character=escape_character)
     def cmo_status(self, cmo=None, brief=False, verbose=True):
         cmd = 'cmo/status'
-        if cmo: cmd += '/'+cmo 
+        if cmo: cmd += '/'+cmo
         if brief: cmd += '/brief'
         self.sendline(cmd, verbose=verbose)
     def read(self,filename,filetype=None,name=None,binary=False):
@@ -190,12 +189,12 @@ class PyLaGriT(spawn):
             # dump lagrit doesn't seem to ever dump multiple mos now???
             mos = []
             for line in _decode_binary(self.before).splitlines():
-                if 'Mesh Object name:' in line: 
+                if 'Mesh Object name:' in line:
                     nm = line.split(':')[1].strip()
                     self.mo[nm] = MO(nm,self)
                     mos.append(self.mo[nm])
             if len(mos) == 1:
-                if name is not None and name != mos[0].name: 
+                if name is not None and name != mos[0].name:
                     self.sendline('cmo/copy/'+name+'/'+mos[0].name)
                     self.sendline('cmo/release/'+mos[0].name)
                 return mos[0]
@@ -234,11 +233,11 @@ class PyLaGriT(spawn):
                     fh.write(' %d'%conn[i+1])
                 fh.write('\n')
         return self.read(avs_filename)
-    
+
     def read_sheetij(self,name,filename,NXY,minXY,DXY,connect=True,file_type='ascii',flip='none',skip_lines=0,data_type='float'):
         '''
         Creates a quad mesh from an elevation file. Note the input file is read as Z(i,j) into the cmo attribute 'zic'
-        
+
         :param name: name of mesh object
         :type name: string
         :param filename: Elevation filename
@@ -260,44 +259,44 @@ class PyLaGriT(spawn):
         :param data_type: read in elevation data as either float or double
         :type data_type: string
         :returns: MO
-        
+
         Example 1 - Building a surface mesh from Modflow elevation file:
             >>> #To use pylagrit, import the module.
             >>> from pylagrit import PyLaGriT
             >>> import numpy as np
-            >>> 
+            >>>
             >>> # Instantiate PyLaGriT
             >>> l = PyLaGriT()
-            >>> 
+            >>>
             >>> # Elevation files are typically headerless unwrapped vectors
             >>> # Define parameters to pack these elements into a matrix
             >>> ncols = 276
             >>> nrows = 313
             >>> DXY = [100,100]
-            >>> 
+            >>>
             >>> elev_surface = l.read_sheetij('surfacemesh', 'example.mod', [ncols, nrows], [0, 0], DXY, flip='y')
             >>> elev_surface.paraview()
-        
+
         '''
-        
+
         NXY = [str(v) for v in NXY]
         minXY = [str(v) for v in minXY]
         DXY = [str(v) for v in DXY]
-        
+
         connect_str = 'connect' if connect==True else 'points'
         skip_str = 'skip %d' % skip_lines
-        
+
         data_type = data_type.lower()
         file_type = file_type.lower()
-        
+
         if data_type not in ['float', 'double']:
             raise ValueError("data_type must be float or double")
-        
+
         if file_type not in ['ascii', 'binary']:
             raise ValueError("file_type must be ascii or binary")
-        
+
         flip_str = flip.lower()
-        
+
         if flip_str in ['x', 'y', 'xy', 'none']:
             if flip_str == 'x':    flip_str = 'xflip'
             if flip_str == 'y':    flip_str = 'yflip'
@@ -305,22 +304,22 @@ class PyLaGriT(spawn):
             if flip_str == 'none': flip_str = ''
         else:
             raise ValueError("Argument flip must be: 'x', 'y', 'xy', or 'none'")
-        
+
         # Create new mesh object with given name
         self.sendline('cmo/create/{}'.format(name))
         self.sendline('cmo/select/{}'.format(name))
-        
+
         # Read in elevation file and append to mesh
         cmd = ['read','sheetij',filename,','.join(NXY),','.join(minXY),','.join(DXY),skip_str,flip_str,connect_str,file_type,data_type]
         self.sendline('/'.join(cmd))
-        
+
         self.mo[name] = MO(name,self)
         return self.mo[name]
-        
+
     def read_modflow(self, materials_file, nrows, ncols, name=None, DXY = [100,100], height=7.75, filename=None):
         '''
         Reads in a Modflow elevation file (and, optionally, an HDF5/txt file containing node materials) and generates and returns hexagonal mesh.
-        
+
         :param filename: Filename of Modflow elevation data file
         :type filename: str
         :param nrows: Number of rows in elevation file
@@ -339,44 +338,44 @@ class PyLaGriT(spawn):
         :type materials_keys: list (str)
         :returns: MO
         '''
-    
-    
+
+
         if name is None:
             name = make_name('mo',self.mo.keys())
-    
+
         x = numpy.arange(0,ncols+1,1)
         y = numpy.arange(0,nrows+1,1)
         z = numpy.arange(0,2*height,height) # x2 because of half-open interval: [start, stop)
-    
+
         # Generate hexmesh
         # Alternately, just extrude elev_surface
         hexmesh = self.gridder(x,y,z,elem_type='hex',connect=True,name=name)
-    
+
         # Capture hexmesh points as pset
         hexset = hexmesh.pset_geom((0,0,0),(max(x), max(y), max(z)), ctr=(0,0,0), stride=(0,0,0), geom='xyz', name='hexset')
 
         # Scale hexmesh to match length of surface (optimize later)
         hexset.scale('relative','xyz',[DXY[0],DXY[1],1],[0,0,0])
-    
+
         # Translate such that 50% of mesh is above z=0 and 50% is under
         hexset.trans((0,0,0),(0,0,-height/2))
-    
+
         # Capture points < 0
         hex_bottom = hexmesh.pset_attribute('zic', 0, comparison='lt', stride=(0,0,0), name='pbot')
-    
+
         # Set hex mesh z-coord to 0
         hexmesh.setatt('zic', 0.)
-        
+
         try:
             imt_data = numpy.loadtxt(materials_file)
         except:
             print("ERROR: materials file {} not found!".format(materials_file))
             return
-        
+
         # Write out to hidden materials file
         tmp_file = "._tmp_materials.txt"
         tmp_materials = open(tmp_file,"w")
-        
+
         imt_dims = numpy.shape(imt_data)
         nrows = imt_dims[0]
         ncols = imt_dims[1]
@@ -386,7 +385,7 @@ class PyLaGriT(spawn):
         # Ensure that imt values are greater than 0
         imt_min = min(imt_types)
         correction = 0
-        
+
         #if imt_min < 0:
         #    imt_types = [int(i + 1 + abs(imt_min)) for i in imt_types]
         #    correction = 1 + abs(imt_min)
@@ -402,35 +401,35 @@ class PyLaGriT(spawn):
 
         # Close write file
         tmp_materials.close()
-    
+
         # Project materials onto surface
         mtrl_surface = self.read_sheetij('mo_mat', tmp_file, [ncols, nrows], [0,0], DXY)
-        
+
         # Create psets based on imt values, assign global imt from psets
         #for i in range(0,len(imt_types)):
         #    mtrl_surface.pset_attribute('zic', imt_types[i], comparison='eq', stride=(0,0,0), name='p{}'.format(i))
         #    mtrl_surface.setatt('imt', imt_types[i], stride=['pset','get','p{}'.format(i)])
 
         #mtrl_surface.setatt('zic', 0.)
-    
+
         hexmesh.addatt('mod_bnds',vtype='VINT',rank='scalar',length='nelements')
         hexmesh.copyatt('zic',attname_sink='mod_bnds',mo_src=mtrl_surface)
         self.sendline('cmo/printatt/{}/mod_bnds/minmax'.format(hexmesh.name))
         self.sendline('cmo/printatt/{}/zic/minmax'.format(mtrl_surface.name))
-    
+
         hexmesh.addatt('pts_topbot')
         hexmesh.setatt('pts_topbot',1.)
         hexmesh.setatt('pts_topbot',2.,stride=['pset','get',hex_bottom.name])
-        
+
         #hexmesh.addatt('newimt')
         #hexmesh.interpolate('continuous','newimt',mtrl_surface,'imt')
         #hexmesh.copyatt('newimt','imt') # Probably unnecessary
         #hexmesh.delatt('newimt')
-    
+
         if filename != None:
             # Load modflow elevation map into surface
             elev_surface = self.read_sheetij('motmp', filename, [ncols, nrows], [0, 0], DXY, flip='y')
-    
+
             # Copy elevation to new attribute and set all surface point height to 0
             elev_surface.addatt('z_elev')
             elev_surface.copyatt('zic','z_elev',elev_surface)
@@ -447,7 +446,7 @@ class PyLaGriT(spawn):
 
         self.mo[name] = MO(name,self)
         return self.mo[name]
-    
+
     def boundary_components(self, style='node',material_id_number=None,reset=None):
         '''
         Calculates the number of connected components of a mesh for diagnostic purposes.
@@ -459,18 +458,18 @@ class PyLaGriT(spawn):
         :param reset: May be either True, False, or None
         :type reset: bool
         '''
-        
+
         cmd = ['boundary_components',style]
-        
+
         if material_id_number: cmd.append(str(material_id_number))
         if reset is not None:
             if reset == True:
                 cmd.append('reset')
             elif reset == False:
                 cmd.append('noreset')
-        
+
         self.sendline('/'.join(cmd))
-    
+
     def addmesh(self, mo1, mo2, style='add', name=None, *args):
         if isinstance(mo1,MO): mo1name = mo1.name
         elif isinstance(mo1,str): mo1name = mo1
@@ -485,7 +484,7 @@ class PyLaGriT(spawn):
         if name is None:
             name = make_name('mo',self.mo.keys())
         cmd = '/'.join(['addmesh',style,name,mo1name,mo2name])
-        for a in args: 
+        for a in args:
             if isinstance(a, str):
                 cmd = '/'.join([cmd,a])
             elif isinstance(a,list):
@@ -522,7 +521,7 @@ class PyLaGriT(spawn):
             return
         if name is None:
             name = make_name('mo',self.mo.keys())
-        cmd = '/'.join(['addmesh','intersect',name,psetname,mo1name,mo2name])        
+        cmd = '/'.join(['addmesh','intersect',name,psetname,mo1name,mo2name])
         self.sendline(cmd)
         self.pset[name] = PSet(name,self)
         return self.pset[name]
@@ -586,20 +585,20 @@ class PyLaGriT(spawn):
         if append: cmd.append(append)
         self.sendline( '/'.join(cmd))
         self.mo[name] = MO(name,self)
-        return self.mo[name] 
-              
+        return self.mo[name]
+
     def read_script(self, fname):
         '''
         Read a LaGriT Script
-        
-        Given a script name, executes the script in LaGriT. 
-        
+
+        Given a script name, executes the script in LaGriT.
+
         :param fname: The name or path to the lagrit script.
         :type fname: str
-        '''     
-           
+        '''
+
         f = open(fname)
-        commands = f.readlines()   
+        commands = f.readlines()
         for c in commands:
             #Remove newlines and spaces
             c = ''.join(c.split())
@@ -627,7 +626,7 @@ class PyLaGriT(spawn):
 
     def define(self,**kwargs):
         '''
-        Pass in a variable number of arguments to be defined in 
+        Pass in a variable number of arguments to be defined in
         LaGriT's internal global scope.
 
         Note that it is generally considered bad practice in PyLaGriT
@@ -646,23 +645,23 @@ class PyLaGriT(spawn):
 
         for key,value in kwargs.items():
             self.sendline('define / {0} / {1}'.format(key,value))
-                            
+
     def convert(self, pattern, new_ft):
         '''
         Convert File(s)
-        
-        For each file of the pattern, creates a new file in the new_ft format. 
+
+        For each file of the pattern, creates a new file in the new_ft format.
         The new files will be inside the directory that the LaGriT object was
-        instantiated. The name of each file will be the same as the original 
+        instantiated. The name of each file will be the same as the original
         file with the extension changed to new_ft.
-        
+
         Supports conversion from avs, and gmv files.
         Supports conversion to avs, exo, and gmv files.
-         
-        :param pattern: Path, name or unix style file pattern of files to be 
+
+        :param pattern: Path, name or unix style file pattern of files to be
                         converted.
         :type  pattern: str
-        
+
         :param new_ft: New format to convert files.
         :type  new_ft: str
 
@@ -682,49 +681,49 @@ class PyLaGriT(spawn):
             >>> lg.convert('test.gmv', 'exo')
             >>> lg.convert('test.gmv', 'avs')
         '''
-        
+
         #Make sure I support the new filetype.
         if new_ft not in ['avs', 'gmv', 'exo']:
             raise ValueError('Conversion to %s not supported.'%new_ft)
-        
+
         #Make sure there are file patterns of this type.
         fnames = glob.glob(pattern)
         if len(fnames) ==  0:
             raise OSError('No files found matching that name or pattern.')
-        
+
         for rpath in fnames:
             #Set everything up for lagrit.
             path = os.path.abspath(rpath)
             fname = path[path.rfind('/')+1:path.rfind('.')]
             old_ft = path[path.rfind('.')+1:]
-            
+
             #Check that I support the old filetype.
             if old_ft not in ['avs', 'gmv']:
                 raise ValueError('Conversion from %s not supported.'%old_ft)
-  
+
             try:
-                os.symlink(path, 'old_format')   
+                os.symlink(path, 'old_format')
             except OSError as err:
-                raise err('Unable to create a symbolic link.') 
-                  
+                raise err('Unable to create a symbolic link.')
+
             #Run the commands in lagrit.
-            self.sendline('read/%s/old_format/temp_cmo'%old_ft)   
+            self.sendline('read/%s/old_format/temp_cmo'%old_ft)
             self.sendline('dump/%s/%s.%s/temp_cmo'%(new_ft, fname, new_ft))
 
             #Clean up created data.
             self.sendline('cmo/release/temp_cmo')
             os.unlink('old_format')
-            
+
     def merge(self, mesh_objs, elem_type="tet",name=None):
         '''
         Merge Mesh Objects
-        
+
         Merges two or more mesh objects together and returns the combined mesh
         object.
-        
+
         :param mesh_objs: An argument list of mesh objects.
         :type  mesh_objs: MO list
-        
+
         Returns: MO.
 
         Example:
@@ -747,7 +746,7 @@ class PyLaGriT(spawn):
             >>> for mo in ms: mo.delete()
             >>> mo_merge.rmpoint_compress(filter_bool=True,resetpts_itp=True)
             >>> mo_merge.paraview(filename='mo_merge.inp')
-        ''' 
+        '''
         if name is None:
             name = make_name('mo',self.mo.keys())
         self.mo[name] = MO(name,self)
@@ -765,85 +764,85 @@ class PyLaGriT(spawn):
     def create(self, elem_type='tet', name=None, npoints=0, nelements=0):
         '''
         Create a Mesh Object
-        
-        Creates a mesh object in lagrit and an MO in the LaGriT object. Returns 
-        the mesh object. 
-        
+
+        Creates a mesh object in lagrit and an MO in the LaGriT object. Returns
+        the mesh object.
+
         :kwarg name: Name to be given to the mesh object.
         :type  name: str
-        
+
         :kwarg mesh: The type of mesh object to create.
         :type  mesh: str
-        
+
         :kwarg npoints: The number of points.
         :type  npoints: int
-        
+
         :kwarg nelements: The number of elements.
         :type  nelements: int
-        
+
         Returns: MO
         '''
-                        
+
         if type(name) is type(None):
-            name = make_name('mo', self.mo.keys())     
+            name = make_name('mo', self.mo.keys())
         self.sendline('cmo/create/%s/%i/%i/%s'%(name, npoints, nelements, elem_type))
         self.mo[name] = MO(name, self)
         return self.mo[name]
-        
+
     def create_tet(self, name=None, npoints=0, nelements=0):
         '''Create a tetrahedron mesh object.'''
         return self.create(elem_type='tet', **minus_self(locals()))
-        
+
     def create_hex(self, name=None, npoints=0, nelements=0):
         '''Create a hexagon mesh object.'''
         return self.create(elem_type='hex', **minus_self(locals()))
-        
+
     def create_pri(self, name=None, npoints=0, nelements=0):
         '''Create a prism mesh object.'''
-        return self.create(elem_type='pri', **minus_self(locals()))  
-            
+        return self.create(elem_type='pri', **minus_self(locals()))
+
     def create_pyr(self, name=None, npoints=0, nelements=0):
         '''Create a pyramid mesh object.'''
         return self.create(elem_type='pyr', **minus_self(locals()))
-        
+
     def create_tri(self, name=None, npoints=0, nelements=0):
         '''Create a triangle mesh object.'''
         return self.create(elem_type='tri', **minus_self(locals()))
-        
+
     def create_qua(self, name=None, npoints=0, nelements=0):
         '''Create a quadrilateral mesh object.'''
-        return self.create(elem_type='qua', **minus_self(locals())) 
-             
+        return self.create(elem_type='qua', **minus_self(locals()))
+
     def create_hyb(self, name=None, npoints=0, nelements=0):
         '''Create a hybrid mesh object.'''
         return self.create(elem_type='hyb', **minus_self(locals()))
-        
+
     def create_line(self, npoints=0, mins=[], maxs=[], rz_switch=(1,1,1), name=None):
         '''Create a line mesh object.'''
         mo_new = self.create(elem_type='lin', name=name, npoints=npoints)
         if len(mins) == 3 and len(maxs) == 3:
             mo_new.createpts_line(npoints,mins,maxs,rz_switch)
         return mo_new
-        
+
     def create_triplane(self, name=None, npoints=0, nelements=0):
         '''Create a triplane mesh object.'''
         return self.create(elem_type='triplane', **minus_self(locals()))
-        
+
     def copy(self, mo, name=None):
         '''
         Copy Mesh Object
-        
+
         Copies a mesh object, mo, and returns the MO object.
         '''
-        
+
         #Check if name was specified, if not just generate one.
         if type(name) is type(None):
             name = make_name('mo', self.mo.keys())
-        
+
         #Create the MO in lagrit and the PyLaGriT object.
         self.sendline('cmo/copy/%s/%s'%(name, str(mo)))
         self.mo[name] = MO(name, self)
-        
+
         return self.mo[name]
     def dump(self, filename, mos=[], filetype='binary'):
         '''
@@ -870,7 +869,7 @@ class PyLaGriT(spawn):
         :type coords: lst(floats) or ndarray(floats)
         :param order: ordering of points, clockwise by default
         :type order: string
-        :param filename: Name of avs polyline file to create 
+        :param filename: Name of avs polyline file to create
         :type filename: string
         :param name: Internal lagrit name for mesh object
         :type name: string
@@ -903,9 +902,9 @@ class PyLaGriT(spawn):
     def createpts(self, crd, npts, mins, maxs, elem_type, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=False, name=None):
         '''
         Create and Connect Points
-        
-        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
-                    'rtz' (cylindrical coordinates), or 
+
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates),
+                    'rtz' (cylindrical coordinates), or
                     'rtp' (spherical coordinates).
         :type  crd: str
         :arg  npts: The number of points to create in line
@@ -918,10 +917,10 @@ class PyLaGriT(spawn):
         :type  elem_type: str
         :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
         :type  vc_switch: tuple(int, int, int)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
         :returns: MO
-        
+
         '''
         if elem_type.startswith(('triplane','qua')):
             assert numpy.where(numpy.array(npts)<=1)[0].shape[0]==1, "%r elem_type requires one (1) in npts" % elem_type
@@ -956,33 +955,33 @@ class PyLaGriT(spawn):
         :type clip: string or tuple(string,string,string)
         :kwarg hard_bound: Whether to use the "min" or "max" as the hard constraint on dimension
         :type hard_bound: string or tuple(string,string,string)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
         :kwarg connect: Whether or not to connect points
         :type  connect: boolean
-        
+
         Example:
             >>> from pylagrit import PyLaGriT
             >>> l = PyLaGriT()
-            >>> 
+            >>>
             >>> # Create 2x2x2 cell mesh
             >>> m = l.create()
             >>> m.createpts_dxyz((0.5,0.5,0.5),(0.,0.,0.),(1.,1.,1.),rz_switch=[1,1,1],connect=True)
             >>> m.paraview()
             >>> #m.gmv()
-            >>> 
+            >>>
             >>> # Create 2x2x2 mesh where maxs will be truncated to nearest value under given maxs
             >>> m_under = l.create()
             >>> m_under.createpts_dxyz((0.4,0.4,0.4),(0.,0.,0.),(1.,1.,1.),rz_switch=[1,1,1],connect=True)
             >>> m_under.paraview()
             >>> #m_under.gmv()
-            >>> 
+            >>>
             >>> # Create 3x3x3 mesh where maxs will be truncated to nearest value over given maxs
             >>> m_over = l.create()
             >>> m_over.createpts_dxyz((0.4,0.4,0.4),(0.,0.,0.),(1.,1.,1.),clip='over',rz_switch=[1,1,1],connect=True)
             >>> m_over.paraview()
             >>> #m_over.gmv()
-            >>> 
+            >>>
             >>> # Create 3x3x3 mesh where x and y maxs will be truncated to nearest value over given maxs
             >>> # and z min will be truncated  to nearest value
             >>> m_mixed = l.create()
@@ -1000,7 +999,7 @@ class PyLaGriT(spawn):
     def createpts_line(self, npts, mins, maxs, elem_type='line', vc_switch=(1,1,1), rz_switch=(1,1,1),name=None):
         '''
         Create and Connect Points in a line
-        
+
         :arg  npts: The number of points to create in line
         :type npts: int
         :arg  mins: The starting value for each dimension.
@@ -1009,9 +1008,9 @@ class PyLaGriT(spawn):
         :type maxs: tuple(int, int, int)
         :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
         :type  vc_switch: tuple(int, int, int)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
-        
+
         '''
         mo = self.create(elem_type,name=name)
         mo.createpts_line( npts, mins, maxs, vc_switch=vc_switch,rz_switch=rz_switch)
@@ -1047,12 +1046,12 @@ class PyLaGriT(spawn):
             >>> mqua.paraview()
         '''
         dim = 0
-        if x is not None: 
-            if len(x) > 0: dim += 1 
-        if y is not None: 
-            if len(y) > 0: dim += 1 
-        if z is not None: 
-            if len(z) > 0: dim += 1 
+        if x is not None:
+            if len(x) > 0: dim += 1
+        if y is not None:
+            if len(y) > 0: dim += 1
+        if z is not None:
+            if len(z) > 0: dim += 1
         if dim == 0:
             print("ERROR: must define at least one of x, y, z arrays")
             return
@@ -1085,16 +1084,16 @@ class PyLaGriT(spawn):
             outfile.write('\n')
         outfile.write('\n')
         outfile.close()
-        
+
         m = self.create(elem_type) if name == None else self.create(elem_type, name=name)
         m.read(filename)
-            
+
         if elem_type in ['quad','hex'] and connect:
-            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect'] 
+            cmd = ['createpts','brick','xyz',' '.join([str(len(x)),str(len(y)),str(len(z))]),'1 0 0','connect']
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
-            
+
         self.sendline('cmo/printatt/{}/-xyz- minmax'.format(m.name))
         return m
     def points(self,coords,connect=False,elem_type='tet',filename='points.inp'):
@@ -1150,12 +1149,12 @@ class PyLaGriT(spawn):
         m = self.create(elem_type)
         m.read(filename)
         if elem_type in ['quad','hex'] and connect:
-            cmd = ['createpts','brick','xyz',' '.join([str(len(coords)),str(len(coords)),str(len(coords))]),'1 0 0','connect'] 
+            cmd = ['createpts','brick','xyz',' '.join([str(len(coords)),str(len(coords)),str(len(coords))]),'1 0 0','connect']
             m.sendline('/'.join(cmd))
         elif connect:
             m.connect()
         return m
- 
+
 class MO(object):
     ''' Mesh object class'''
     def __init__(self, name, parent):
@@ -1492,7 +1491,7 @@ class MO(object):
                 try:
                     name,atype,rank,length,inter,persi,io,value = split[1:]
                 except ValueError:
-                    continue 
+                    continue
 
                 atts['attributes'][name] = {}
                 atts['attributes'][name]['type'] = atype
@@ -1508,174 +1507,174 @@ class MO(object):
                     atts['attributes'][name]['value'] = value
 
         return atts
-        
+
     def pset_geom(
-            self, mins, maxs, 
+            self, mins, maxs,
             ctr=(0,0,0), geom='xyz', stride=(1,0,0), name=None
         ):
         '''
         Define PSet by Geometry
-        
-        Selects points from geometry specified by string geom and returns a 
+
+        Selects points from geometry specified by string geom and returns a
         PSet.
-        
+
         :arg  mins: Coordinate of one of the shape's defining points.
-                     xyz (Cartesian):   (x1, y1, z1); 
+                     xyz (Cartesian):   (x1, y1, z1);
                      rtz (Cylindrical): (radius1, theta1, z1);
                      rtp (Spherical):   (radius1, theta1, phi1);
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Coordinate of one of the shape's defining points.
-                     xyz (Cartesian):   (x2, y2, z2); 
+                     xyz (Cartesian):   (x2, y2, z2);
                      rtz (Cylindrical): (radius2, theta2, z2);
                      rtp (Spherical):   (radius2, theta2, phi2);
         :type maxs: tuple(int, int, int)
-        
+
         :kwarg ctr: Coordinate of the relative center.
         :type  ctr: tuple(int, int, int)
-        
-        :kwarg geom: Type of geometric shape: 'xyz' (spherical), 
+
+        :kwarg geom: Type of geometric shape: 'xyz' (spherical),
                      'rtz' (cylindrical), 'rtp' (spherical)
         :type  geom: str
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
-        
+
         if name is None:
             name = make_name('p',self.pset.keys())
-            
+
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
         stride = [str(v) for v in stride]
         center = [str(v) for v in ctr]
-        
+
         cmd = '/'.join(['pset', name, 'geom', geom, ','.join(stride),
                         ','.join(mins),','.join(maxs), ','.join(center)])
         self.sendline(cmd)
         self.pset[name] = PSet(name, self)
-        
+
         return self.pset[name]
 
     def pset_geom_xyz(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
         '''
         Define PSet by Tetrahedral Geometry
-        
+
         Selects points from a Tetrahedral region.
-        
-        :arg  mins: Coordinate point of 1 of the tetrahedral's corners. 
+
+        :arg  mins: Coordinate point of 1 of the tetrahedral's corners.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Coordinate point of 1 of the tetrahedral's corners.
         :type maxs: tuple(int, int, int)
-        
+
         :kwarg ctr: Coordinate of the relative center.
         :type  ctr: tuple(int, int, int)
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         return self.pset_geom(geom='xyz', **minus_self(locals()))
 
     def pset_geom_rtz(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
         '''
-        Forms a pset of nodes within the cylinder or cylindrical shell section 
+        Forms a pset of nodes within the cylinder or cylindrical shell section
         given by radius1 to radius2, and angles theta1 to theta2 and height z1 to z2.
         Refer to http://lagrit.lanl.gov/docs/conventions.html for an explanation of angles
-        
-        :arg  mins: Defines radius1, theta1, and z1. 
+
+        :arg  mins: Defines radius1, theta1, and z1.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Defines radius2, theta2, and z2.
         :type maxs: tuple(int, int, int)
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         :kwarg ctr: Coordinate of the relative center.
         :type  ctr: tuple(int, int, int)
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         return self.pset_geom(geom='rtz', **minus_self(locals()))
-        
+
     def pset_geom_rtp(self, mins, maxs, ctr=(0,0,0), stride=(1,0,0), name=None):
         '''
-        Forms a pset of nodes within the sphere, sperical shell or sperical section 
-        given by radius1 to radius2, and angles theta1 to theta2 (0 - 180) and angles 
+        Forms a pset of nodes within the sphere, sperical shell or sperical section
+        given by radius1 to radius2, and angles theta1 to theta2 (0 - 180) and angles
         phi1 to phi2 (0 - 360).
         Refer to http://lagrit.lanl.gov/docs/conventions.html for an explanation of angles
-        
-        :arg  mins: Defines radius1, theta1, and phi1. 
+
+        :arg  mins: Defines radius1, theta1, and phi1.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Defines radius2, theta2, and phi2.
         :type maxs: tuple(int, int, int)
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         :kwarg ctr: Coordinate of the relative center.
         :type  ctr: tuple(int, int, int)
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         return self.pset_geom(geom='rtp', **minus_self(locals()))
-        
+
     def pset_attribute(self, attribute,value,comparison='eq',stride=(1,0,0), name=None):
         '''
-        Define PSet by attribute 
-        
+        Define PSet by attribute
+
         :kwarg attribute: Nodes defined by attribute ID.
         :type  attribute: str
-        
+
         :kwarg value: attribute ID value.
         :type  value: integer
-        
+
         :kwarg comparison: attribute comparison, default is eq.
-        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne] 
-        
+        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne]
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         if name is None:
             name = make_name('p',self.pset.keys())
-            
+
         stride = [str(v) for v in stride]
-        
+
         cmd = '/'.join(['pset', name, 'attribute', attribute, ','.join(stride),
                         str(value),comparison])
         self.sendline(cmd)
@@ -1686,17 +1685,17 @@ class MO(object):
     def compute_distance(self, mo, option='distance_field', attname='dfield'):
         '''
         Compute distance from one mesh object to another
-        
+
         :kwarg mo: Mesh object to compute distance to base mesh from
-        :type  mo: LaGriT mesh object 
-        
+        :type  mo: LaGriT mesh object
+
         :kwarg option: The type of distance field calculation. Available choices
          are 'distance_field' and 'signed_distance_field'.
         :type  option: str
-        
+
         :kwarg attname: The name of the attribute to be created in the base mesh.
         :type  attname: str
-        
+
         Returns: New attribute in base mesh object
 
         Example:
@@ -1715,7 +1714,7 @@ class MO(object):
         #compute distance and store in sink mesh attribute 'dfield'
         snk_mo.compute_distance(src_mo)
         snk_mo.dump('comptest.gmv')
-        '''        
+        '''
         if option not in ['distance_field', 'signed_distance_field']:
             print("ERROR: 'option' must be 'distance_field' or 'signed_distance_field'")
             return
@@ -1726,18 +1725,18 @@ class MO(object):
         '''
         Given a 3D mesh and a 2D surface, this command will extrapolate a scalar
          value from that surface onto every point of the mesh.
-        
+
         :kwarg surf_mo: Surface mesh object to extrapolate from
-        :type  surf_mo: LaGriT mesh object 
-        
-        :kwarg dir: The direction values are extrapolated from. Choices are one 
+        :type  surf_mo: LaGriT mesh object
+
+        :kwarg dir: The direction values are extrapolated from. Choices are one
         of: 'zpos', 'zneg', 'ypos', 'yneg', 'xpos', 'xneg'
         :type  dir: str
-        
-        :kwarg attname: The name of the attribute in the surface mesh to be 
+
+        :kwarg attname: The name of the attribute in the surface mesh to be
         extrapolated
         :type  attname: str
-        
+
         Returns: New attribute in base mesh object
 
         Example:
@@ -1751,45 +1750,45 @@ class MO(object):
         nnodes = (30,30,1)
         surf = lg.create_qua()
         surf.quadxy(nnodes,pts)
-        
+
         #make surface mesh interesting
         surf.math('sin','zic',cmosrc=surf,attsrc='xic')
         surf.math('multiply','zic',value=5.0,cmosrc=surf,attsrc='zic')
         surf.perturb(0.,0.,1.)
         surf.math('add','zic',value=60.0,cmosrc=surf,attsrc='zic')
-        
+
         #create base mesh
         hex = lg.create_hex()
         hex.createpts_brick_xyz([30,30,20],[0.,0.,0.],[300.,300.,50.])
         hex.resetpts_itp()
-        
+
         #extrapolate z values from surface mesh to base mesh
         hex.compute_extrapolate(surf)
         hex.dump('extrapolated.gmv')
-        '''        
+        '''
 
         self.sendline('/'.join(['compute','linear_transform',self.name,surf_mo.name,dir,attname]))
 
     def pset_region(self, region, stride=(1,0,0), name=None):
         '''
         Define PSet by region
-        
+
         :kwarg region: region to create pset
         :type  value: PyLaGriT Region object
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         if name is None:
             name = make_name('p',self.pset.keys())
-            
+
         stride = [str(v) for v in stride]
-        
+
         cmd = '/'.join(['pset', name, 'region',region.name, ','.join(stride)])
         self.sendline(cmd)
         self.pset[name] = PSet(name, self)
@@ -1799,23 +1798,23 @@ class MO(object):
     def pset_surface(self, surface, stride=(1,0,0), name=None):
         '''
         Define PSet by surface
-        
+
         :kwarg surface: surface to create pset
         :type  value: PyLaGriT Surface object
-        
+
         :kwarg stride: Nodes defined by ifirst, ilast, and istride.
         :type  stride: list[int, int, int]
-        
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
         '''
         if name is None:
             name = make_name('p',self.pset.keys())
-            
+
         stride = [str(v) for v in stride]
-        
+
         cmd = '/'.join(['pset', name, 'surface',surface.name, ','.join(stride)])
         self.sendline(cmd)
         self.pset[name] = PSet(name, self)
@@ -1825,31 +1824,31 @@ class MO(object):
     #def pset_not(self, ps, name=None):
     #    '''
     #    Return PSet from Logical Not
-    #    
+    #
     #    Defines and returns a PSet from points that are not inside the PSet, ps.
     #    '''
-    #    
+    #
     #    #Generated a name if one is not specified.
     #    if name is None:
     #        name = make_name('p',self.pset.keys())
-    #    
+    #
     #    #Create the new PSET in lagrit and the pylagrit object.
     #    cmd = 'pset/%s/not/%s'%(name, str(ps))
     #    self.sendline(cmd)
     #    self.pset[name] = PSet(name, self)
-    #    
+    #
     #    return self.pset[name]
 
     def pset_bool(self, pset_list, boolean='union', name=None):
         '''
         Return PSet from boolean operation on list of psets
-        
+
         Defines and returns a PSet from points that are not inside the PSet, ps.
         '''
         #Generated a name if one is not specified.
         if name is None:
             name = make_name('p',self.pset.keys())
-        
+
         #Create the new PSET in lagrit and the pylagrit object.
         cmd = ['pset',name,boolean]
         if isinstance(pset_list,PSet): cmd.append(pset_list.name)
@@ -1866,8 +1865,8 @@ class MO(object):
         return self.pset_bool(pset_list,boolean='not',name=name)
     def resetpts_itp(self):
         '''
-        set node type from connectivity of mesh 
-        
+        set node type from connectivity of mesh
+
         '''
         self.sendline('resetpts/itp')
 
@@ -1939,14 +1938,14 @@ class MO(object):
             >>> from pylagrit import PyLaGriT
             >>> import numpy as np
             >>> import sys
-            >>> 
+            >>>
             >>> lg = PyLaGriT()
-            >>> 
+            >>>
             >>> dxyz = np.array([0.1,0.25,0.25])
             >>> mins = np.array([0.,0.,0.])
             >>> maxs = np.array([1.,1.,1.])
             >>> mqua = lg.createpts_dxyz(dxyz,mins,maxs,'quad',hard_bound=('min','max','min'),connect=True)
-            >>> 
+            >>>
             >>> example_pset1 = mqua.pset_geom_xyz(mins,maxs-(maxs-mins)/2)
             >>> example_eset1 = example_pset1.eltset()
             >>> example_pset2 = mqua.pset_geom_xyz(mins+maxs/2,maxs)
@@ -1986,7 +1985,7 @@ class MO(object):
         if compress: self.rmpoint_compress(resetpts_itp=resetpts_itp)
     def rmpoint_compress(self,filter_bool=False,resetpts_itp=True):
         '''
-        remove all marked nodes and correct the itet array 
+        remove all marked nodes and correct the itet array
 
         :param resetpts_itp: set node type from connectivity of mesh
         :type resetpts_itp: bool
@@ -2017,17 +2016,17 @@ class MO(object):
         cmd = '/'.join(['trans',','.join(stride),','.join(xold),','.join(xnew)])
         self.sendline(cmd)
     def rotateln(self,coord1,coord2,theta,center=[0,0,0],copy=False,stride=(1,0,0)):
-        ''' 
-        Rotates a point distribution (specified by ifirst,ilast,istride) about a line. 
-        The copy option allows the user to make a copy of the original points as well 
-        as the rotated points, while copy=False just keeps the rotated points themselves. 
-        The line of rotation defined by coord1 and coord2 needs to be defined such that 
-        the endpoints extend beyond the point distribution being rotated. theta (in degrees) 
-        is the angle of rotation whose positive direction is determined by the right-hand-rule, 
-        that is, if the thumb of your right hand points in the direction of the line 
-        (1 to 2), then your fingers will curl in the direction of rotation. center is the point 
-        where the line can be shifted to before rotation takes place. 
-        If the copy option is chosen, the new points will have only coordinate values 
+        '''
+        Rotates a point distribution (specified by ifirst,ilast,istride) about a line.
+        The copy option allows the user to make a copy of the original points as well
+        as the rotated points, while copy=False just keeps the rotated points themselves.
+        The line of rotation defined by coord1 and coord2 needs to be defined such that
+        the endpoints extend beyond the point distribution being rotated. theta (in degrees)
+        is the angle of rotation whose positive direction is determined by the right-hand-rule,
+        that is, if the thumb of your right hand points in the direction of the line
+        (1 to 2), then your fingers will curl in the direction of rotation. center is the point
+        where the line can be shifted to before rotation takes place.
+        If the copy option is chosen, the new points will have only coordinate values
         (xic, yic, zic); no values will be set for any other mesh object attribute for these points.
         Note:  The end points of the  line segment must extend well beyond the point set being rotated.
 
@@ -2108,17 +2107,17 @@ class MO(object):
                            (deviation from average surface normal) that triggers refinement.
 
         The final, optional keywork argument(s) can be one or more of nosmooth, norecon, lite,
-        ignoremats, strictmergelength, checkaxy, semiexclusive, and exclusive.  
+        ignoremats, strictmergelength, checkaxy, semiexclusive, and exclusive.
 
         Specifying nosmooth will turn off the 'smooth' step by skipping the call to SGD.
         Specifying norecon will turn off all 'recon' steps.
         If lite is specified, only one iteration of the merging/reconnection/smoothing
-        loop is executed, and a reconnection after edge refinement is omitted. 
+        loop is executed, and a reconnection after edge refinement is omitted.
         This is suitable for applications, such as Gradient Weighted Moving Finite
         Elements, where MASSAGE is called repeatedly.
 
         The optional argument ignoremats causes MASSAGE to process the multimaterial
-        mesh in a single material mode; it ignores the material interfaces. 
+        mesh in a single material mode; it ignores the material interfaces.
 
         The optional argument strictmergelength forces strict interpretation of
         merge_length so that there is no merging along the edges of flat elements.
@@ -2126,7 +2125,7 @@ class MO(object):
 
         If checkaxy is given, then we insure that for 2D meshes, the output mesh
         will have positive xy-projected triangle areas, provided that the input mesh
-        had them in the first place. 
+        had them in the first place.
 
         If exclusive is given, then edge refinement operations will only be performed
         on edges whose endpoints are both in the PSET that MASSAGE is working on.
@@ -2145,7 +2144,7 @@ class MO(object):
         cmd = ['massage',str(bisection_len),str(merge_len),str(toldamage)]
 
         if tolroughness is not None:
-            cmd.append(str(tolroughness)) 
+            cmd.append(str(tolroughness))
         if stride is not None:
             stride = [str(x) for x in stride]
             cmd.append(','.join(stride))
@@ -2171,7 +2170,7 @@ class MO(object):
         It is necessary to have this file when using this routine, as the field
         must be updated after each refinement iteration.
 
-        Use this function in conjunction with PyLaGriT.define(**kwargs) for 
+        Use this function in conjunction with PyLaGriT.define(**kwargs) for
         best results.
 
         See MASSAGE for other arguments.
@@ -2179,10 +2178,10 @@ class MO(object):
 
         cmd = ['massage2',filename,str(min_scale),str(bisection_len),str(merge_len),str(toldamage)]
         if tolroughness is not None:
-            cmd.append(str(tolroughness)) 
+            cmd.append(str(tolroughness))
         if stride is not None:
             stride = [str(x) for x in stride]
-            cmd.append(','.join(stride)) 
+            cmd.append(','.join(stride))
 
         # Add optional boolean arguments
         _iter = zip(['nosmooth','norecon','strictmergelength','checkaxy','semiexclusive',
@@ -2204,7 +2203,7 @@ class MO(object):
 
         cmd = ['perturb',','.join([str(x) for x in stride]),str(xfactor),str(yfactor),str(zfactor)]
         self.sendline('/'.join(cmd))
-    
+
 
     def upscale(self, method, attsink, cmosrc, attsrc=None, stride=(1,0,0), boundary_choice=None, keepatt=False,
                 set_id=False):
@@ -2214,7 +2213,7 @@ class MO(object):
         cell of every node in the coarser sink mesh. Nodes on cell boundaries are assigned to two or more sink
         nodes. Then the attributes of all the source nodes within a source node's cell are upscaled into a
         single value based on the chosen method. Mesh elements and connectivity are ignored and only node
-        values are used to upscale values on to the sink mesh nodes. 
+        values are used to upscale values on to the sink mesh nodes.
 
         :param method: Type of upscaling: sum, min, max, and averages ariave, harave, geoave
         :type method: str
@@ -2368,11 +2367,11 @@ class MO(object):
             return
         #if format is not None: cmd = '/'.join(['dump',format])
         #else: cmd = 'dump'
-        if filename and format: 
+        if filename and format:
             if format in ['fehm','zone_outside','zone_outside_minmax']: filename = filename.split('.')[0]
             if format is 'stor' and len(args)==0: filename = filename.split('.')[0]
             cmd = '/'.join(['dump',format,filename,self.name])
-        elif format: 
+        elif format:
             if format in ['avs','avs2']: filename = self.name+'.inp'
             elif format is 'fehm': filename = self.name
             elif format is 'gmv': filename = self.name+'.gmv'
@@ -2430,7 +2429,7 @@ class MO(object):
         else: cmd = '/'.join([cmd,' '])
         if len(facesets):
             cmd = '/'.join([cmd,'facesets'])
-            for fc in facesets: 
+            for fc in facesets:
                 cmd += ' &\n'+fc.filename
         self.sendline(cmd)
     def dump_gmv(self,filename,format='binary'):
@@ -2599,9 +2598,9 @@ class MO(object):
     def createpts(self, crd, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1), rz_value=(1,1,1), connect=False):
         '''
         Create and Connect Points
-        
-        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
-                    'rtz' (cylindrical coordinates), or 
+
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates),
+                    'rtz' (cylindrical coordinates), or
                     'rtp' (spherical coordinates).
         :type  crd: str
         :arg  npts: The number of points to create in line
@@ -2612,11 +2611,11 @@ class MO(object):
         :type maxs: tuple(int, int, int)
         :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
         :type  vc_switch: tuple(int, int, int)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
-        
+
         '''
-        
+
         npts = [str(v) for v in npts]
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
@@ -2656,11 +2655,11 @@ class MO(object):
         :type clip: string or tuple(string,string,string)
         :kwarg hard_bound: Whether to use the "min" or "max" as the hard constraint on dimension
         :type hard_bound: string or tuple(string,string,string)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
         :kwarg connect: Whether or not to connect points
         :type  connect: boolean
-        
+
         '''
         if isinstance(hard_bound,str): hard_bound = numpy.array([hard_bound,hard_bound,hard_bound])
         if isinstance(clip,str): clip = numpy.array([clip,clip,clip])
@@ -2694,7 +2693,7 @@ class MO(object):
     def createpts_line(self, npts, mins, maxs, vc_switch=(1,1,1), rz_switch=(1,1,1)):
         '''
         Create and Connect Points in a line
-        
+
         :arg  npts: The number of points to create in line
         :type npts: int
         :arg  mins: The starting value for each dimension.
@@ -2703,11 +2702,11 @@ class MO(object):
         :type maxs: tuple(int, int, int)
         :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
         :type  vc_switch: tuple(int, int, int)
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio zoning values.
         :type  rz_switch: tuple(int, int, int)
-        
+
         '''
-        
+
         mins = [str(v) for v in mins]
         maxs = [str(v) for v in maxs]
         vc_switch = [str(v) for v in vc_switch]
@@ -2716,40 +2715,40 @@ class MO(object):
         cmd = '/'.join(['createpts','line',str(npts),' ',' ',','.join(mins+maxs),','.join(vc_switch),','.join(rz_switch)])
         self.sendline(cmd)
     def createpts_brick(
-            self, crd, npts, mins, maxs,  
+            self, crd, npts, mins, maxs,
             vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)
         ):
         '''
         Create and Connect Points
-        
-        Creates a grid of points in the mesh object and connects them. 
-        
-        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates), 
-                    'rtz' (cylindrical coordinates), or 
+
+        Creates a grid of points in the mesh object and connects them.
+
+        :arg crd: Coordinate type of either 'xyz' (cartesian coordinates),
+                    'rtz' (cylindrical coordinates), or
                     'rtp' (spherical coordinates).
         :type  crd: str
-        
+
         :arg  npts: The number of points to create in each dimension.
         :type npts: tuple(int, int, int)
-        
+
         :arg  mins: The starting value for each dimension.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: The ending value for each dimension.
         :type maxs: tuple(int, int, int)
-        
+
         :kwarg vc_switch: Determines if nodes represent vertices (1) or cell centers (0).
         :type  vc_switch: tuple(int, int, int)
 
-        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio 
-                          zmoning values.  
+        :kwarg rz_switch: Determines true or false (1 or 0) for using ratio
+                          zmoning values.
         :type  rz_switch: tuple(int, int, int)
-        
+
         :kwarg rz_vls: Ratio zoning values. Each point will be multiplied by
                        a scale of the value for that dimension.
         :type  rz_vls: tuple(int, int, int)
         '''
-        
+
         ni, nj, nk = map(str, npts)
         mins = [float(v) for v in mins]
         maxs = [float(v) for v in maxs]
@@ -2759,55 +2758,55 @@ class MO(object):
         iirat, ijrat, ikrat = map(str, rz_switch)
         xrz, yrz, zrz = map(str, rz_vls)
 
-        t = (crd, ni, nj, nk, xmn, ymn, zmn, xmx, ymx, zmx) 
+        t = (crd, ni, nj, nk, xmn, ymn, zmn, xmx, ymx, zmx)
         t = t + (iiz, ijz, ikz, iirat, ijrat, ikrat, xrz, yrz, zrz)
         cmd = 'createpts/brick/%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/%s,%s,%s/'+\
               '%s,%s,%s/%s,%s,%s'
         self.sendline(cmd%t)
 
     def createpts_brick_xyz(
-            self, npts, mins, maxs, 
+            self, npts, mins, maxs,
             vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect Cartesian coordinate points.'''
         self.createpts_brick('xyz', **minus_self(locals()))
 
     def createpts_brick_rtz(
-            self, npts, mins, maxs, 
+            self, npts, mins, maxs,
             vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect cylindrical coordinate points.'''
         self.createpts_brick('rtz', **minus_self(locals()))
-        
+
     def createpts_brick_rtp(
-            self, npts, mins, maxs, 
+            self, npts, mins, maxs,
             vc_switch=(1,1,1), rz_switch=(1,1,1), rz_vls=(1,1,1)):
         '''Create and connect spherical coordinates.'''
         self.createpts_brick(npts, **minus_self(locals()))
-        
+
     def createpts_median(self):
         self.sendline('createpts/median')
     def subset(self, mins, maxs, geom='xyz'):
         '''
         Return Mesh Object Subset
-        
+
         Creates a new mesh object that contains only a geometric subset defined
-        by mins and maxs. 
-        
+        by mins and maxs.
+
         :arg  mins: Coordinate of one of the shape's defining points.
-                     xyz (Cartesian):   (x1, y1, z1); 
+                     xyz (Cartesian):   (x1, y1, z1);
                      rtz (Cylindrical): (radius1, theta1, z1);
                      rtp (Spherical):   (radius1, theta1, phi1);
         :typep mins: tuple(int, int, int)
-        
+
         :arg  maxs: Coordinate of one of the shape's defining points.
-                     xyz (Cartesian):   (x2, y2, z2); 
+                     xyz (Cartesian):   (x2, y2, z2);
                      rtz (Cylindrical): (radius2, theta2, z2);
                      rtp (Spherical):   (radius2, theta2, phi2);
         :type maxs: tuple(int, int, int)
-        
-        :kwarg geom: Type of geometric shape: 'xyz' (spherical), 
+
+        :kwarg geom: Type of geometric shape: 'xyz' (spherical),
                      'rtz' (cylindrical), 'rtp' (spherical)
         :type  geom: str
-        
+
         Returns: MO object
 
         Example:
@@ -2825,42 +2824,42 @@ class MO(object):
             >>> mo.subset((3,3,3),(5,5,5))
 
         '''
-        
+
         lg = self._parent
         new_mo = lg.copy(self)
         sub_pts = new_mo.pset_geom(mins, maxs, geom=geom)
         rm_pts = new_mo.pset_not(sub_pts)
-        
+
         new_mo.rmpoint_pset(rm_pts)
         return new_mo
-        
+
     def subset_xyz(self, mins, maxs):
         '''
         Return Tetrehedral MO Subset
-        
-        Creates a new mesh object that contains only a tetrehedral subset 
-        defined by mins and maxs. 
-        
-        :arg  mins: Coordinate point of 1 of the tetrahedral's corners. 
+
+        Creates a new mesh object that contains only a tetrehedral subset
+        defined by mins and maxs.
+
+        :arg  mins: Coordinate point of 1 of the tetrahedral's corners.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Coordinate point of 1 of the tetrahedral's corners.
         :type maxs: tuple(int, int, int)
-        
+
         Returns: MO object
         '''
         return self.subset(geom='xyz', **minus_self(locals()))
-        
+
     def quadxy(self,nnodes,pts,connect=True):
         '''
         Define an arbitrary, logical quad of points in 3D space
         with nnodes(x,y,z) nodes. By default, the nodes will be connected.
 
-        :arg nnodes: The number of nodes to create in each dimension. 
+        :arg nnodes: The number of nodes to create in each dimension.
                       One value must == 1 and the other two must be > 1.
         :type nnodes: tuple(int, int, int)
 
-        :arg pts: The four corners of the quad surface, defined in counter 
+        :arg pts: The four corners of the quad surface, defined in counter
                    clockwise order (the normal to the quad points is defined
                    using the right hand rule and the order of the points).
         :type pts:  list of four 3-tuples (float)
@@ -2877,7 +2876,7 @@ class MO(object):
 
             >>> #Create a mesh object.
             >>> qua = lg.create_qua()
-            
+
             >>> #Define 4 points in correct order
             >>> p1 = (0.0,200.0,-400.0)
             >>> p2 = (0.0,-200.0,-400.0)
@@ -2890,7 +2889,7 @@ class MO(object):
 
             >>> #Create and connect skewed plane
             >>> qua.quadxy(nnodes,pts)
-            
+
         '''
         self.select()
         quadpts = [n for n in nnodes if n != 1]
@@ -2932,7 +2931,7 @@ class MO(object):
 
             >>> #Create a mesh object.
             >>> hex = lg.create()
-            
+
             >>> #Define 4 bottom points in correct order
             >>> p1 = (0.0,0.0,0.0)
             >>> p2 = (1.0,0.0,0.02)
@@ -2954,7 +2953,7 @@ class MO(object):
             >>> hex.quadxyz(nnodes,pts)
             >>> #Dump mesh
             >>> hex.dump('quadxyz_test.gmv')
-            
+
         '''
         self.select()
         assert len(nnodes) ==3, 'nnodes must contain three values'
@@ -2975,16 +2974,16 @@ class MO(object):
         Builds a brick mesh and generates a nearest neighbor connectivity matrix
 
         Currently only configured for this flavor of syntax:
-         
+
             rzbrick/xyz|rtz|rtp/ni,nj,nk/pset,get,name/connect/
 
         Use this option with quadxyz to connect logically rectangular grids.
 
-        :arg n_ijk: number of points to be created in each direction. 
+        :arg n_ijk: number of points to be created in each direction.
         :type n_ijk: tuple
         :arg connect: connect points
         :type connect: bool
-        :arg stride: Stride to select 
+        :arg stride: Stride to select
         :type stride: tuple
         :arg coordinate_space: xyz,rtz,or rtp coordinate spaces
         :type coordinate_space: str
@@ -3008,33 +3007,33 @@ class MO(object):
     def subset_rtz(self, mins, maxs):
         '''
         Return Cylindrical MO Subset
-        
-        Creates a new mesh object that contains only a cylindrical subset 
-        defined by mins and maxs. 
-        
-        :arg  mins: Defines radius1, theta1, and z1. 
+
+        Creates a new mesh object that contains only a cylindrical subset
+        defined by mins and maxs.
+
+        :arg  mins: Defines radius1, theta1, and z1.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Defines radius2, theta2, and z2.
         :type maxs: tuple(int, int, int)
-        
+
         Returns: MO object
         '''
         return self.subset(geom='rtz', **minus_self(locals()))
-        
+
     def subset_rtp(self, mins, maxs):
         '''
         Return Spherical MO Subset
-        
-        Creates a new mesh object that contains only a spherical subset 
-        defined by mins and maxs. 
-        
-        :arg  mins: Defines radius1, theta1, and phi1. 
+
+        Creates a new mesh object that contains only a spherical subset
+        defined by mins and maxs.
+
+        :arg  mins: Defines radius1, theta1, and phi1.
         :type mins: tuple(int, int, int)
-        
+
         :arg  maxs: Defines radius2, theta2, and phi2.
         :type maxs: tuple(int, int, int)
-        
+
         Returns: MO object
         '''
         return self.subset(geom='rtp', **minus_self(locals()))
@@ -3042,18 +3041,18 @@ class MO(object):
     def grid2grid(self, ioption, name=None):
         '''
         Convert a mesh with one element type to a mesh with another
-        
+
         :arg ioption: type of conversion:
-            quadtotri2   quad to 2 triangles, no new points. 
-            prismtotet3   prism to 3 tets, no new points. 
-            quadtotri4   quad to 4 triangles, with one new point. 
-            pyrtotet4   pyramid to 4 tets, with one new point. 
-            hextotet5   hex to 5 tets, no new points. 
-            hextotet6   hex to 6 tets, no new points. 
-            prismtotet14   prism to 14 tets, four new points (1 + 3 faces). 
-            prismtotet18   prism to 18 tets, six new points (1 + 5 faces). 
-            hextotet24   hex to 24 tets, seven new points (1 + 6 faces). 
-            tree_to_fe   quadtree or octree grid to grid with no parent-type elements. 
+            quadtotri2   quad to 2 triangles, no new points.
+            prismtotet3   prism to 3 tets, no new points.
+            quadtotri4   quad to 4 triangles, with one new point.
+            pyrtotet4   pyramid to 4 tets, with one new point.
+            hextotet5   hex to 5 tets, no new points.
+            hextotet6   hex to 6 tets, no new points.
+            prismtotet14   prism to 14 tets, four new points (1 + 3 faces).
+            prismtotet18   prism to 18 tets, six new points (1 + 5 faces).
+            hextotet24   hex to 24 tets, seven new points (1 + 6 faces).
+            tree_to_fe   quadtree or octree grid to grid with no parent-type elements.
         :type option: str
         :arg name: Internal Lagrit name of new mesh object, automatically created if None
         :type name: str
@@ -3067,31 +3066,31 @@ class MO(object):
         return self._parent.mo[name]
     def grid2grid_tree_to_fe(self, name=None):
         '''
-        Quadtree or octree grid to grid with no parent-type elements. 
+        Quadtree or octree grid to grid with no parent-type elements.
         :arg name: Internal Lagrit name of new mesh object, automatically created if None
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='tree_to_fe', **minus_self(locals()))
     def grid2grid_quadtotri2(self, name=None):
         '''
-        Quad to 2 triangles, no new points. 
+        Quad to 2 triangles, no new points.
         :arg name: Internal Lagrit name of new mesh object, automatically created if None
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='quadtotri2', **minus_self(locals()))
     def grid2grid_prismtotet3(self, name=None):
         '''
-        Quad to 2 triangles, no new points. 
-        Prism to 3 tets, no new points. 
+        Quad to 2 triangles, no new points.
+        Prism to 3 tets, no new points.
         :arg name: Internal Lagrit name of new mesh object, automatically created if None
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='prismtotet3', **minus_self(locals()))
     def grid2grid_quadtotri4(self, name=None):
         '''
@@ -3100,7 +3099,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='quadtotri4', **minus_self(locals()))
     def grid2grid_pyrtotet4(self, name=None):
         '''
@@ -3109,7 +3108,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='pyrtotet4', **minus_self(locals()))
     def grid2grid_hextotet5(self, name=None):
         '''
@@ -3118,7 +3117,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='hextotet5', **minus_self(locals()))
     def grid2grid_hextotet6(self, name=None):
         '''
@@ -3127,7 +3126,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='hextotet6', **minus_self(locals()))
     def grid2grid_prismtotet14(self, name=None):
         '''
@@ -3136,7 +3135,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='prismtotet14', **minus_self(locals()))
     def grid2grid_prismtotet18(self, name=None):
         '''
@@ -3145,7 +3144,7 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='prismtotet18', **minus_self(locals()))
     def grid2grid_hextotet24(self, name=None):
         '''
@@ -3154,12 +3153,12 @@ class MO(object):
         :type name: str
 
         Returns MO object
-        '''        
+        '''
         return self.grid2grid(ioption='hextotet24', **minus_self(locals()))
     def connect(self, option1='delaunay', option2=None, stride=None, big_tet_coords=[]):
         '''
         Connect the nodes into a Delaunay tetrahedral or triangle grid.
-        
+
         :arg option1: type of connect: delaunay, noadd, or check_interface
         :type option: str
         :arg option2: type of connect: noadd, or check_interface
@@ -3168,7 +3167,7 @@ class MO(object):
         :type stride: tuple(int)
         '''
         cmd = ['connect',option1]
-        if stride is not None and option is 'delaunay': 
+        if stride is not None and option is 'delaunay':
             stride = [str(v) for v in stride]
             cmd += [','.join(stride)]
             for b in big_tet_coords:
@@ -3220,12 +3219,12 @@ class MO(object):
     def extrude(self, offset, offset_type='const', return_type='volume', direction=[], name=None):
         '''
         Extrude mesh object to new mesh object
-        This command takes the current mesh object (topologically 1d or 2d mesh (a line, a set of line 
-        segments, or a planar or non-planar surface)) and extrudes it into three 
-        dimensions along either the normal to the curve or surface (default), 
+        This command takes the current mesh object (topologically 1d or 2d mesh (a line, a set of line
+        segments, or a planar or non-planar surface)) and extrudes it into three
+        dimensions along either the normal to the curve or surface (default),
         along a user defined vector, or to a set of points that the user has specified.
-        If the extrusion was along the normal of the surface or along a user 
-        defined vector, the command can optionally find the external surface of 
+        If the extrusion was along the normal of the surface or along a user
+        defined vector, the command can optionally find the external surface of
         the volume created and return that to the user.
         Refer to http://lagrit.lanl.gov/docs/commands/extrude.html for more details on arguments.
 
@@ -3234,7 +3233,7 @@ class MO(object):
         :type name: str
         :arg offset: Distance to extrude
         :type offset: float
-        :arg offset_type: either const or min (interp will be handled in the PSET class in the future)         
+        :arg offset_type: either const or min (interp will be handled in the PSET class in the future)
         :type offset_type: str
         :arg return_type: either volume for entire mesh or bubble for just the external surface
         :type return_type: str
@@ -3282,23 +3281,23 @@ class MO(object):
             else:
                 e_refine.refine()
             e_refine.delete()
-        if imt is not None: 
+        if imt is not None:
             attr_name = self.intersect_elements(mo)
             e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
             p = e_attr.pset()
             p.setatt('imt',13)
             p.delete()
-        
+
 
     def intersect_elements(self, mo, attr_name='attr00'):
         '''
-        This command takes two meshes and creates an element-based attribute in mesh1 
-        that contains the number of elements in mesh2 that intersected the respective 
+        This command takes two meshes and creates an element-based attribute in mesh1
+        that contains the number of elements in mesh2 that intersected the respective
         element in mesh1. We define intersection as two elements sharing any common point.
-        
+
         :arg mo: Mesh object to intersect with current mesh object to determine where to refine
         :type mo: PyLaGriT mesh object
-        :arg attr_name: Name to give created attribute 
+        :arg attr_name: Name to give created attribute
         :type attr_name: str
         :returns: attr_name
         '''
@@ -3350,14 +3349,14 @@ class MO(object):
         cmd.append(' &')
         self.sendline('/'.join(cmd),expectstr='\r\n')
         self._parent.sendline(' '.join([filelist[0],str(matids[0]),'/ &']),expectstr='\r\n')
-        for f,nl,md in zip(filelist[1:-1],nlayers[0:-1],matids[1:-1]): 
+        for f,nl,md in zip(filelist[1:-1],nlayers[0:-1],matids[1:-1]):
             self._parent.sendline(' '.join([f,str(md),str(nl),'/ &']),expectstr='\r\n')
         cmd = [' '.join([filelist[-1],str(matids[-1]),str(nlayers[-1])])]
         if flip_opt is True: cmd.append('flip')
         if buffer_opt is not None: cmd.append('buffer '+buffer_opt)
         if truncate_opt is not None: cmd.append('trun '+truncate_opt)
         if pinchout_opt is not None: cmd.append('pinch '+pinchout_opt)
-        if not len(cmd) == 0: 
+        if not len(cmd) == 0:
             self._parent.sendline('/'.join(cmd))
     def stack_fill(self,name=None):
         if name is None: name = make_name('mo', self._parent.mo.keys())
@@ -3391,16 +3390,16 @@ class MO(object):
         self.settets('normal')
     def triangulate(self,order='clockwise'):
         '''
-        triangulate will take an ordered set of nodes in the current 2d mesh object that define a perimeter of a polygon and create a trangulation of the polygon.  The nodes are assumed to lie in the xy plane; the z coordinate is ignored.  No checks are performed to verify that the nodes define a legal perimeter (i.e. that segments of the perimeter do not cross).  The code will connect the last node to the first node to complete the perimeter. 
+        triangulate will take an ordered set of nodes in the current 2d mesh object that define a perimeter of a polygon and create a trangulation of the polygon.  The nodes are assumed to lie in the xy plane; the z coordinate is ignored.  No checks are performed to verify that the nodes define a legal perimeter (i.e. that segments of the perimeter do not cross).  The code will connect the last node to the first node to complete the perimeter.
 
-        This code support triangulation of self-intersecting polygons (polygon with holes), assuming that the order of the nodes are correct. Moreover the connectivity of the polyline must also be defined correctly. No checks are made. 
+        This code support triangulation of self-intersecting polygons (polygon with holes), assuming that the order of the nodes are correct. Moreover the connectivity of the polyline must also be defined correctly. No checks are made.
 
-        One disadvantage of the algorithm for triangulating self-intersecting polygons is that it does not always work. For example, if the holes have complicated shapes, with many concave vertices, the code might fail. In this case, the user may try to rotate the order of the nodes: 
-            NODE_ID: 
-                1 -> 2 
-                2 -> 3 
-                ... 
-                N -> 1 
+        One disadvantage of the algorithm for triangulating self-intersecting polygons is that it does not always work. For example, if the holes have complicated shapes, with many concave vertices, the code might fail. In this case, the user may try to rotate the order of the nodes:
+            NODE_ID:
+                1 -> 2
+                2 -> 3
+                ...
+                N -> 1
 
             :param order: direction of point ordering
             :type order: string
@@ -3436,7 +3435,7 @@ class MO(object):
                 >>> # dump fehm files
                 >>> motri.dump_fehm('nk_mesh00')
                 >>> # view results
-                >>> motri.paraview() 
+                >>> motri.paraview()
 
         '''
         self.sendline('triangulate/'+order)
@@ -3485,7 +3484,7 @@ class MO(object):
         Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a plane and finding the intersection of each ray with the surfaces that define the region.
 
         :arg ray_points: three points that define plane which rays emante from
-        :type ray_points: 3-tuple of float 3-tuples 
+        :type ray_points: 3-tuple of float 3-tuples
         :arg region: region to generate points within
         :type region: Region
         :arg ptdist: parameter that determines point distribution pattern
@@ -3503,13 +3502,13 @@ class MO(object):
             >>> import numpy as np
             >>> from pylagrit import PyLaGriT
             >>> import sys
-            >>> 
+            >>>
             >>> lg = PyLaGriT()
             >>> p1 = (30.0,0.0,0.0)
             >>> p2 = (30.0,1.0,0.0)
             >>> p3 = (30.0,1.0,0.1)
             >>> pts = [p1,p2,p3]
-            >>> 
+            >>>
             >>> npts = (3,3,3)
             >>> mins = (0,0,0)
             >>> maxs = (10,10,10)
@@ -3529,7 +3528,7 @@ class MO(object):
         Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a line and finding the intersection of each ray with the surfaces that define the region.
 
         :arg ray_points: two points that define cylinder which rays emante from
-        :type ray_points: 2-tuple of float 3-tuples 
+        :type ray_points: 2-tuple of float 3-tuples
         :arg region: region to generate points within
         :type region: Region
         :arg ptdist: parameter that determines point distribution pattern
@@ -3549,7 +3548,7 @@ class MO(object):
         Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point and finding the intersection of each ray with the surfaces that define the region.
 
         :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
-        :type ray_points: float 3-tuple 
+        :type ray_points: float 3-tuple
         :arg region: region to generate points within
         :type region: Region
         :arg ptdist: parameter that determines point distribution pattern
@@ -3569,7 +3568,7 @@ class MO(object):
         Set point types and imt material by calling surfset and regset routines.
 
         :arg ray_points: single (x,y,z) point that defines center of spher which rays emante from
-        :type ray_points: float 3-tuple 
+        :type ray_points: float 3-tuple
         :arg region: region to generate points within
         :type region: Region
         :arg ptdist: parameter that determines point distribution pattern
@@ -3741,7 +3740,7 @@ class MO(object):
         return self.mregions[name]
     def rmregion(self,region,rmpoints=True,filter_bool=False,resetpts_itp=True):
         '''
-        Remove points that lie inside region 
+        Remove points that lie inside region
 
         :param region: name of region points will be removed from
         :type region: Region
@@ -3770,10 +3769,10 @@ class MO(object):
     def quality_pcc(self):
         self.quality(quality_type='pcc')
     def rmmat(self,material_number,option='',exclusive=False):
-        ''' 
-        This routine is used to remove points that are of a specified material value 
-        (itetclr for elements or imt for nodes). Elements with the specified material 
-        value are flagged by setting the element material type negative. They are not 
+        '''
+        This routine is used to remove points that are of a specified material value
+        (itetclr for elements or imt for nodes). Elements with the specified material
+        value are flagged by setting the element material type negative. They are not
         removed from the mesh object.
         :param material_number: Number of material
         :type material_number: int
@@ -3786,10 +3785,10 @@ class MO(object):
         if exclusive: cmd.append('exclusive')
         self.sendline('/'.join(cmd))
     def rmmat_element(self,material_number,exclusive=False):
-        ''' 
-        This routine is used to remove elements that are of a specified material value 
-        (itetclr for elements). Elements with the specified material value are flagged 
-        by setting the element material type negative. They are not removed from the mesh 
+        '''
+        This routine is used to remove elements that are of a specified material value
+        (itetclr for elements). Elements with the specified material value are flagged
+        by setting the element material type negative. They are not removed from the mesh
         object.
         :param material_number: Number of material
         :type material_number: int
@@ -3798,8 +3797,8 @@ class MO(object):
         '''
         self.rmmat(material_number,option='element',exclusive=exclusive)
     def rmmat_node(self,material_number,exclusive=False):
-        ''' 
-        This routine is used to remove points that are of a specified material value 
+        '''
+        This routine is used to remove points that are of a specified material value
         (imt).
         :param material_number: Number of material (imt)
         :type material_number: int
@@ -3959,21 +3958,21 @@ class PSet(object):
         :arg scale_center: Geometric center to scale from
         :type scale_center: list
         '''
-        
+
         scale_type = scale_type.lower()
         scale_geom = scale_geom.lower()
-        
+
         if scale_geom not in ['xyz', 'rtz', 'rtp']:
             print("ERROR: 'scale_geom' must be one of 'xyz', 'rtz', or 'rtp'")
             return
-        
+
         if scale_type not in ['relative', 'absolute']:
             print("ERROR: 'scale_type' must be one of 'relative' or 'absolute'")
             return
-        
+
         scale_factor = [str(v) for v in scale_factor]
         scale_center = [str(v) for v in scale_center]
-        
+
         cmd = ['scale',','.join(['pset','get',self.name]),scale_type,scale_geom,','.join(scale_factor),','.join(scale_center)]
         self._parent.sendline('/'.join(cmd))
 
@@ -3990,24 +3989,24 @@ class PSet(object):
 
         cmd = ['perturb',','.join(['pset','get',self.name]),str(xfactor),str(yfactor),str(zfactor)]
         self._parent.sendline('/'.join(cmd))
-    
+
     def trans(self, xold, xnew):
         '''
         Translate points within a pset by the linear translation from (xold, yold, zold) to (xnew, ynew, znew)
-        
+
         :arg xold: Tuple containing point (xold, yold, zold) to translate from
         :type xold: tuple
         :arg xnew: Tuple containing point (xnew, ynew, znew) to translate to
         :type xnew: tuple
         '''
-        
+
         xold = [str(v) for v in xold]
         xnew = [str(v) for v in xnew]
-        
+
         cmd = ['trans',','.join(['pset','get',self.name]),','.join(xold),','.join(xnew)]
         self._parent.sendline('/'.join(cmd))
     def smooth(self,*args,**kwargs):
-        if 'algorithm' not in kwargs: 
+        if 'algorithm' not in kwargs:
             algorithm = ' '
         else:
             algorthm = kwargs['algorithm']
@@ -4017,27 +4016,27 @@ class PSet(object):
 
     def pset_attribute(self, attribute,value,comparison='eq',name=None):
         '''
-        Define PSet from another PSet by attribute 
-        
+        Define PSet from another PSet by attribute
+
         :kwarg attribute: Nodes defined by attribute ID.
         :type  attribute: str
-        
+
         :kwarg value: attribute ID value.
         :type  value: integer
-        
+
         :kwarg comparison: attribute comparison, default is eq.
-        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne] 
-        
+        :type  comparison: can use default without specifiy anything, or list[lt|le|gt|ge|eq|ne]
+
         :kwarg name: The name to be assigned to the PSet created.
         :type  name: str
-        
+
         Returns: PSet object
 
         Usage: newpset = oldpset.pset_attribute('attribute','value','comparison')
         '''
         if name is None:
             name = make_name('p',self._parent.pset.keys())
-                    
+
         cmd = '/'.join(['pset', name, 'attribute '+attribute, 'pset,get,'+self.name,
                         ' '+comparison+' '+str(value)])
 
@@ -4087,7 +4086,7 @@ class EltSet(object):
             >>> from pylagrit import PyLaGriT
             >>> import numpy
             >>> import sys
-            >>> 
+            >>>
             >>> df = 0.0005 # Fault half aperture
             >>> lr = 7 # Levels of refinement
             >>> nx = 4 # Number of base mesh blocks in x direction
@@ -4095,22 +4094,22 @@ class EltSet(object):
             >>> d_base = df*2**(lr+1) # Calculated dimension of base block
             >>> w = d_base*nx # Calculated width of model
             >>> d = d_base*nz # Calculated depth of model
-            >>> 
+            >>>
             >>> lg = PyLaGriT()
-            >>> 
+            >>>
             >>> # Create discrete fracture mesh
             >>> dxyz = numpy.array([d_base,d_base,0.])
             >>> mins = numpy.array([0.,-d,0.])
             >>> maxs = numpy.array([w,0,0])
             >>> mqua = lg.createpts_dxyz(dxyz,mins,maxs,'quad',hard_bound=('min','max','min'),connect=True)
-            >>> 
+            >>>
             >>> for i in range(lr):
             >>>     prefine = mqua.pset_geom_xyz(mins-0.1,(0.0001,0.1,0))
             >>>     erefine = prefine.eltset()
             >>>     erefine.refine()
             >>>     prefine.delete()
             >>>     erefine.delete()
-            >>> 
+            >>>
             >>> mtri = mqua.copypts('triplane')
             >>> mtri.connect()
             >>> # Make sure that not nodes are lost during connect
@@ -4125,7 +4124,7 @@ class EltSet(object):
             >>> mtri.setatt('imt',1)
             >>> pfault.setatt('imt',10)
             >>> psource.setatt('imt',20)
-            >>> 
+            >>>
             >>> mtri.paraview(filename='discrete_fracture.inp')
         '''
         cmd = '/'.join(['refine','eltset','eltset,get,'+self.name,'amr '+str(amr)])
@@ -4185,8 +4184,8 @@ def make_name( base, names ):
     while name in names:
         i += 1
         name = base+str(i)
-    return name 
-    
+    return name
+
 def minus_self(kvpairs):
     del kvpairs['self']
     return kvpairs

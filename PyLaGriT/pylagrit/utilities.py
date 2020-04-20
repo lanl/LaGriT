@@ -31,7 +31,7 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     title = "test sim"
     # write .stor and .fehmn files
     util.spherical_writeFEHM(nodes,filename_base,title)
-    ''' 
+    '''
     # stor file header
     now = datetime.now()
     print_datetime = now.strftime("%m/%d/%Y  %H:%M:%S")
@@ -158,7 +158,7 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
     # write node number and radial location
     for i in range(1,neq+1):
         print("        %3d        %12f        0        0"%(i,node_locations[i-1]), file=ifile)
-    # write connectivity 
+    # write connectivity
     _ = ifile.write("\nelem\n")
     _ = ifile.write("%d %d\n"%(2,neq-1))
     for i in range(1,neq):
@@ -169,7 +169,7 @@ def spherical_writeFEHM(node_locations,filename_base,title="default"):
 
 def spherical_faces(node_locations):
     '''
-    Calculate radial interface locations given radial node locations. 
+    Calculate radial interface locations given radial node locations.
     Assumes 1st and last nodes lie on domain boundary.
     :arg node_locations: radial location of nodes
     :type node_locations: array_like(float)
@@ -180,7 +180,7 @@ def spherical_faces(node_locations):
 
 def spherical_areas(interface_locations):
     '''
-    Calculate spherical area of each interface given radial interface locations. 
+    Calculate spherical area of each interface given radial interface locations.
     :arg interface_locations: radial location of interfaces
     :type interface_locations: array_like(float)
     Returns: array of spherical interface areas of size interface_locations
@@ -190,7 +190,7 @@ def spherical_areas(interface_locations):
 
 def spherical_dx(node_locations):
     '''
-    Calculate Delaunay edge lengths given radial node locations. 
+    Calculate Delaunay edge lengths given radial node locations.
     :arg node_locations: radial location of nodes
     :type node_locations: array_like(float)
     Returns: array of Delaunay edge lengths of size node_locations - 1

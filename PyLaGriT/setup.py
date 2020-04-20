@@ -8,7 +8,10 @@ setup(name='pylagrit',
 	author_email='dharp@lanl.gov',
 	url='lagrit.lanl.gov',
 	license='LGPL',
+	install_requires=[
+		'pexpect==4.6.0',
+		'numpy',
+		],
 	packages=[
-		'pylagrit',
-		'pylagrit.pexpect']
+		'pylagrit',]
 	)

@@ -23,7 +23,9 @@
 *.lagrit
 
 # Build files
-*.o 
+*.o
 *.a
 *.mod
 src/lagrit
+
+*.egg-info
