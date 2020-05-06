@@ -1,3 +1,4 @@
+import os
 import richdem as rd
 import numpy as np
 from pylagrit import PyLaGriT
@@ -11,6 +12,7 @@ import tinerator.plot as tinplot
 import tinerator.watershed_deliniation as delin
 import tinerator.meshing as mesh
 import tinerator.attributes as attrib
+import tinerator.future as future
 
 class DEM():
     '''
@@ -564,6 +566,57 @@ class DEM():
         return self._surface_mesh
 
 
+    def construct_surface_mesh(self,nodes:np.ndarray,tris:np.ndarray,zero_indexed:bool = False):
+        '''
+        Function that allows a user to explicitly set the nodes and elements
+        of the surface mesh. For example, one could construct or load in a mesh 
+        externally and pass the values here.
+
+        # Arguments
+        nodes (np.ndarray): Nx3 Numpy array with x,y,z values
+        tris (np.ndarray): Nx3 Numpy array with triangle connectivity
+        '''
+
+        if not isinstance(tris, np.ndarray):
+            tris = np.array(tris)
+
+        if not isinstance(nodes, np.ndarray):
+            nodes = np.ndarray
+
+        if zero_indexed:
+            tris += 1
+
+        surface_mesh = '_surface_temp.inp'
+
+        with open(surface_mesh,'w') as f:
+            f.write('{} {} 0 0 0\n'.format(nodes.shape[0],tris.shape[0]))
+
+            for (i,node) in enumerate(nodes):
+                f.write('{} {} {} {}\n'.format(
+                    i+1,
+                    *nodes[i])
+                )
+
+            for (i,cell) in enumerate(tris):
+                f.write('{} 1 tri {} {} {}\n'.format(
+                    i+1,
+                    *list(map(int,tris[i])))
+                )
+
+        self._surface_mesh = self.lg.read('_surface_temp.inp')
+
+        try:
+            os.remove(surface_mesh)
+        except OSError as e:
+            print("Could not clean up temporary file: ",e)
+
+        # Handle the boundary
+        _, bedges = boundary.get_alpha_shape(tris)
+        bedges -= 1
+        self.boundary = nodes[boundary.order_boundary_nodes(bedges)]
+
+        return self._surface_mesh
+
 
     def build_layered_mesh(self,
                            layers,
@@ -597,6 +650,60 @@ class DEM():
                                                 matids=matids)
 
         self.number_of_layers = len(layers)
+        
+        return self._stacked_mesh
+
+    def proportional_sublayering(self,layers:list):
+
+        f_temp = 'temp.inp'
+        self._surface_mesh.dump(f_temp)
+
+        # Parse AVS surface mesh into a data structure
+        with open(f_temp,'r') as f:
+            header = f.readline().strip().split()
+            nnodes = int(header[0])
+            nelems = int(header[1])
+
+            nodes = np.zeros((nnodes,3),dtype=float)
+            elems = np.zeros((nelems,3),dtype=int)
+
+            for i in range(nnodes):
+                node = list(map(float,f.readline().split()[1:]))
+                nodes[i,:] = node
+
+            for i in range(nelems):
+                elem = list(map(float,f.readline().split()[3:]))
+                elems[i,:] = elem
+
+        os.remove(f_temp)
+
+        m = future.mesh.Mesh()
+        m.nodes = nodes
+        m.elements = elems
+        m.element_type = future.mesh.ElementType.TRIANGLE
+
+        stacked = future.layering.stack(m,layers)
+
+        # Create the `layertyp` node attribute to mimic what LaGriT does
+        layertyp = np.zeros((stacked.n_nodes,1),dtype=int)
+        nodes_per_layer = stacked.metadata['layering']['nodes_per_layer']
+        layertyp[:nodes_per_layer] = -2
+        layertyp[-nodes_per_layer:] = -1
+        stacked.add_attribute('layertyp',layertyp,attrb_type='node')
+
+        future.helper.write_avs(
+            f_temp,
+            stacked.nodes,
+            stacked.elements,
+            cname='prism',
+            matid=stacked.material_id,
+            node_attributes={ 'layertyp': stacked.get_attribute('layertyp') }
+        )
+
+        self._stacked_mesh = self.lg.read(f_temp)
+        self.number_of_layers = stacked.metadata['layering']['num_layers']
+
+        os.remove(f_temp)
         
         return self._stacked_mesh
 

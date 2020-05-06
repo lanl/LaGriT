@@ -154,7 +154,7 @@ def _add_attribute(lg,
     # TODO: Streamline this
     with open(_array_out,'w') as f:
         for i in range(dem_dimensions[1]*dem_dimensions[0]):
-            f.write('%d\n' % (data[i]))
+            f.write('%.3f\n' % float(data[i]))
 
     cfg.log.debug('Wrote raster data to ' + _array_out)
 
@@ -168,12 +168,17 @@ def _add_attribute(lg,
     #   4. Extruding the quad mesh such that the z-axis spans the stacked mesh
     #   5. Interpolating the data onto the stacked mesh
 
+
+    # WARNING: reading into `imt` demotes value into an integer.
     mo_pts = lg.read_att(_array_out,'imt',operation=(1,0,0))
     mo_quad = lg.create(elem_type='quad')
-    mo_quad.quadxy([NX,NY,1],[[extent[0],extent[2],0.],
-                              [extent[1],extent[2],0.],
-                              [extent[1],extent[3],0.],
-                              [extent[0],extent[3],0.]])
+    mo_quad.quadxy((NX,NY,1),[
+            [extent[0],extent[2],0.],
+            [extent[1],extent[2],0.],
+            [extent[1],extent[3],0.],
+            [extent[0],extent[3],0.]
+        ]
+    )
 
     cfg.log.debug('Raster dimensions: [' + str(NX) + ',' + str(NY) + ',1]')
 
@@ -227,7 +232,6 @@ def _add_attribute(lg,
                                      stride=['eltset','get',current_layer.name])
 
         stacked_mesh.delatt('elttmp')
-
 
     # Remove temporary meshes
     for mesh in [mo_pts,mo_extrude,mo_quad]:

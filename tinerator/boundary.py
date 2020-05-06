@@ -5,6 +5,93 @@ import math
 from scipy.spatial.distance import euclidean,cdist
 import tinerator.config as cfg
 
+def get_alpha_shape(connectivity: np.ndarray):
+    '''
+    Extracts the boundary nodes and connectivity for an 
+    arbitrary triangular surface mesh.
+
+    # Arguments
+    connectivity (np.ndarray): Nx3 matrix of triangle connectivity
+
+    # Returns
+    Boundary nodes, boundary edges
+    '''
+
+    # Algorithm inspired by: https://stackoverflow.com/a/14109211/5150303
+
+    # Get all edges in the triangulation
+    edges = np.vstack(
+        (
+            connectivity[:,:2],
+            connectivity[:,1:],
+            np.transpose(
+                np.array([connectivity[:,-1],connectivity[:,0]])
+            )
+        )
+    )
+
+    # Count how many times each edge appears in the primary mesh
+    count = {}
+
+    for e in edges:
+        e = (min(e),max(e))
+        
+        if e in count:
+            count[e] += 1
+        else:
+            count[e] = 1
+
+    edge_keys = [edge for edge in count.keys() if count[edge] == 1]
+    boundary_edges = np.array([edge for edge in edges if (min(edge),max(edge)) in edge_keys])
+    boundary_nodes = np.unique(boundary_edges.flatten())
+
+    return boundary_nodes, boundary_edges
+
+
+def order_boundary_nodes(boundary_edges: np.ndarray):
+    '''
+    Orders an Nx2 matrix of edges into a clockwise representation of 
+    nodes. The edges must form a closed loop, and each node may only belong
+    to two edge segments.
+
+    # Arguments
+    boundary_edges (np.ndarray): Nx2 matrix of edges: ((v_i, v_j), ...)
+
+    # Returns
+    Ordered array of boundary node indices
+    '''
+
+    # Algorithm inspired by: https://stackoverflow.com/a/14109211/5150303
+
+    bb = boundary_edges.tolist()
+    
+    ss = []
+    v_start, v_next = bb.pop(0)
+    ss.append(v_next)
+    
+    while True:
+        
+        for i in range(len(bb)):
+            v_i, v_j = bb[i]
+            
+            if v_i == v_next:
+                bb.pop(i)
+                v_next = v_j
+                break
+            
+        ss.append(v_next)
+        
+        # The loop has been closed!
+        if v_next == v_start:
+            break
+        
+        # This will be true once we have popped every element from bb...
+        if len(bb) == 0:
+            raise ValueError("Boundary is not a closed loop")
+
+    return np.array(ss)
+
+
 def orderPointsClockwise(points:np.ndarray,opt:str='polar',clockwise:bool=True):
     '''
     Given a 2D array of points, this function reorders points clockwise.

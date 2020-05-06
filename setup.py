@@ -3,7 +3,7 @@ from distutils.core import setup
 
 setup(
     name = "tinerator",
-    packages = ["tinerator"],
+    packages = ["tinerator","tinerator.future"],
     version = "0.3.1",
     description = "DEM -> Refined TIN Generation",
     license = 'BSD-3',
