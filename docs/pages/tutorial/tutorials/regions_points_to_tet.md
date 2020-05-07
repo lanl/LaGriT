@@ -262,7 +262,7 @@ points into a tetrahedral mesh:
     
     # rayend points are set to invisible (21 is the code for invisible)
     # they were used as end points of the rays in the regnpts command
-    cmo/setall//itp/pset,get,rayend/21/
+    cmo/setatt//itp/pset,get,rayend/21/
     
     # assign material colors to the points
     # identify points that are on material interfaces
