@@ -2,6 +2,7 @@ import numpy as np
 from copy import deepcopy
 #from scipy import interpolate
 #from scipy import ndimage as nd
+import skimage
 import skimage.transform
 
 import tinerator.utilities as util
