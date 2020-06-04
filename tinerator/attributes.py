@@ -190,7 +190,7 @@ def _add_attribute(lg,
     mo_extrude.addatt('id_strat',vtype=dtype,length='nelements')
     mo_extrude.copyatt('id_strat',mo_src=mo_quad,attname_sink='id_strat')
 
-    stacked_mesh = stacked_mesh.copy()
+    #stacked_mesh = stacked_mesh.copy()
 
     # Default to material_id - 'itetclr'
     if attribute_name is not None:
