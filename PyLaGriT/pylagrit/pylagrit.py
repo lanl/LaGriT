@@ -3341,7 +3341,7 @@ class MO(object):
         return self._parent.mo[name]
     def stack_layers(self,filelist,file_type='avs',nlayers=None,matids=None,xy_subset=None,
                      buffer_opt=None,truncate_opt=None,
-                     pinchout_opt=None,flip_opt=False,fill=False):
+                     pinchout_opt=None,dpinchout_opt=(None,None),flip_opt=False,fill=False):
         if nlayers is None: nlayers = ['']*(len(filelist)-1)
         if matids is None: matids = [1]*len(filelist)
         cmd = ['stack/layers',file_type]
@@ -3356,6 +3356,9 @@ class MO(object):
         if buffer_opt is not None: cmd.append('buffer '+buffer_opt)
         if truncate_opt is not None: cmd.append('trun '+truncate_opt)
         if pinchout_opt is not None: cmd.append('pinch '+pinchout_opt)
+        if dpinchout_opt[0] is not None: 
+            cmd.append('dpinch '+str(dpinchout_opt[0]))
+            cmd.append('dmin '+str(dpinchout_opt[1]))
         if not len(cmd) == 0:
             self._parent.sendline('/'.join(cmd))
     def stack_fill(self,name=None):
