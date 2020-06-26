@@ -9,10 +9,11 @@ tags: upscale
 
 
 The **upscale** command is used to interpolate attribute values from nodes of a fine source mesh to node attributes of a coarse sink mesh.
- The subroutine finds nodes of the fine source mesh within the Voronoi cell of every node in the coarser sink mesh. Nodes on cell boundaries
- are assigned to two or more sink nodes. Then the attributes of all the source nodes within a source node's cell are upscaled into a single
- value based on the chosen method. Mesh elements and connectivity are ignored and only node values are used to upscale values on to the sink mesh nodes.
+This is most often used to assign geostatistical property values from an application to the computational mesh for modeling.
 
+This command finds dense source nodes that are within the Voronoi cell of every node in the coarser sink mesh. The voronoi volume around each sink node is the bucket that captures all node values to compute. Nodes on the voronoi boundaries
+ are assigned to two or more sink nodes. Then the attributes of all the source nodes within a source node's cell are upscaled into a single
+ value based on the chosen method. 
 
  A kdtree node search is used to find the source mesh nodes located in
  each of the Voronoi sink point volumes. It is possible for source
@@ -20,6 +21,12 @@ The **upscale** command is used to interpolate attribute values from nodes of a 
  default, all nodes found in each Voronoi volume are used to upscale to
  the enclosed sink node. In this case, source nodes on multiple Voronoi
  boundaries will be included in upscale calculations more than once.
+ 
+ It is important that the source points be denser than the sink mesh node spacing. If no source points are found within a voronoi volume, the source point is given a value of 0.
+ 
+ Geostat data sometimes generate very small values close to zero that are not appropriate for modeling. It is recommended that a mininum reasonable value be assigned. Be sure the range of source values are what is intended.
+ 
+ For the averaging methods, make sure there are no source values of 0.
 
 
 
