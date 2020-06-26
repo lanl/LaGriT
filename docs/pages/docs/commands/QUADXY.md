@@ -22,11 +22,30 @@ The nodes can be connected using the **`createpts/brick/xyz`** command.
 ## EXAMPLES
 
 ```
+# create quad sheet
+define NX 3
+define NY 5
 cmo/create/moquad/ / / quad
-quadxy/ 3 5 /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0. 
-createpts/brick/xyz/ 3 5 1 /1,0,0/connect
+quadxy/ NX NY /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0. 
+createpts/brick/xyz/ NX NY 1 /1,0,0/connect
+
+# read elevations from data file with x y z coordinates
+# save z to attribute named elev and set to 0 same as template
+cmo / create/ motmp
+cmo readatt motmp /xic,yic,zic/1,0,0/ ev_points.dat
+cmo/addatt/motmp/ elev/VDOUBLE/scalar/nnodes/linear/permanent/
+cmo/copyatt/ motmp motmp/ elev zic
+cmo/setatt/ motmp / zic 0.
+
+# assign the z values from the point data to the template
+interpolate/voronoi/moquad zic/1,0,0/ motmp elev 
+cmo/printatt/moquad/ zic minmax
+dump/avs/ quad_surface.inp/ moquad
 ```
-XY Flat, as shown in first image. Create a 3 x 5 quad grid on the XY plane where Z = 0.
+This is XY Flat, as shown in first image, a 3 x 5 quad grid on the XY plane where Z = 0.
+Next, this example shows how point data can then be copied into this quad template.
+It is important that the quadxy template and the point set have the same NX NY.
+But node order does not matter as interpolate will assign elevation from nearest node.
 
 ```
 define X1 2.0
@@ -52,7 +71,8 @@ createpts/brick/xyz/NX NY NZ/1,0,0/connect
 
 
 ```
-XZ Twisted, as shown in last image. Create a 6 x 24 quad grid with a twist.
+This example shows XZ Twisted, as shown in last image. Create a 6 x 24 quad grid with a twist.
+The quadxy command enables assignment to the 4 corners such that the surface is not planer.
 
 
 
