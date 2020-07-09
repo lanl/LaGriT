@@ -280,8 +280,7 @@ class DEM():
             _thresh = np.unique(accumulation)
             threshold = _thresh[int(0.1*len(_thresh))]
 
-        self.feature = delin.getFeatureTrace(self.accumulation_matrix,
-                                             feature_threshold=threshold)
+        self.feature = delin.getFeatureTrace(self.accumulation_matrix,feature_threshold=threshold).astype(float)
 
         if np.size(self.feature) == 0:
             raise ValueError("Feature trace is empty. " + \
