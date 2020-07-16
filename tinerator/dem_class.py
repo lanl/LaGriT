@@ -757,6 +757,49 @@ class DEM():
 
         attrib.remove_attribute(mesh,attribute_name)
 
+    def add_attribute_from_vector(
+            self,
+            v: np.ndarray, 
+            attrb_type: str = 'element', 
+            attrb_name:str = 'vector',
+            apply_to_stacked_mesh=True
+        ):
+        '''
+        Directly assign a node or element attribute from 
+        an array of length n_nodes or n_elements.
+        
+        `attrb_type` should be either 'element' or 'node'.
+        '''
+
+        assert np.max(v.shape) == v.size, 'Vector is not 1-D'
+        
+        if apply_to_stacked_mesh:
+            mesh = self._stacked_mesh
+        else:
+            mesh = self._surface_mesh
+
+        np.savetxt('tmp_attrb.dat', v, delimiter='\n')
+        mo1 = self.lg.read_att('tmp_attrb.dat', 'fattrb', operation = '1 0 0')
+        
+        if attrb_type.lower()[:4] == 'node':
+            mesh.add_node_attribute(attrb_name)
+        else:
+            mesh.add_element_attribute(attrb_name)
+            
+        mesh.copyatt('fattrb', attname_sink=attrb_name, mo_src=mo1)
+            
+        mo1.delete()
+        os.remove('tmp_attrb.dat')
+
+
+    def node_to_element_attribute(self, node_attribute: str, element_attribute: str, apply_to_stacked_mesh=True):
+
+        if apply_to_stacked_mesh:
+            mesh = self._stacked_mesh
+        else:
+            mesh = self._surface_mesh
+
+        mesh.interpolate('voronoi',element_attribute,mesh,node_attribute)
 
     def map_function_to_attribute(self,
                                   operator='+',

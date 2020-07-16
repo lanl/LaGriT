@@ -351,12 +351,12 @@ def _stacked_mesh(lg,
     Created a stacked mesh with layer thickness described by the variable
     layers.
     '''
-    
-    layers = list(layers)
-    matids = list(matids)
 
     if matids is None:
         matids = [1]*len(layers)
+
+    layers = list(layers)
+    matids = list(matids)
 
     if layers[0] != 0.:
         layers = [0.0] + layers
