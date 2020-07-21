@@ -14,7 +14,7 @@ Some operations may only work with tet meshes.
 
 NOTE: Care must be taken when using these commands because nothing is
 done to clean up the point type (itp) array after the **addmesh**
-operation. The user must often execute a series of
+operation. The user must often use the commands
 [**resetpts/itp**](RESETPT.md) and [**filter**](FILTER.md)
 
 
@@ -91,16 +91,17 @@ operation. The user must often execute a series of
  the tet grid that fit into one quad face of the hex grid). Pyramid
  elements will be constructed in the region where the two meshes join.
 
- **`excavate`** - mesh1 must be a 3D mesh (of any geometry) and mesh2
+ **`excavate`** - The circumscribed sphere of each triangle of mesh2 is computed and any vertex in mesh1 that falls inside one of the circumscribed spheres is removed along with any cells of mesh1 associated with the removed vertices.  mesh1 must be a 3D mesh (of any geometry) and mesh2
  must be a 2D triangular mesh. This then excavates an area in mesh1
  around mesh2, such that the surface could then be inserted into the 3D
  mesh (such as to insert a fault into a background terrain mesh). The
  background mesh, minus the excavated/removed nodes, is put into mesh3.
- If the optional `[bfs]` argument is given, the routine will use a
- breadth-first search algorithm to find nodes to remove, as opposed to
- the default KD-tree algorithm. If the optional `[connect]` argument is
- given, the program will, after excavation, execute an `addmesh/append`,
- and then a `connect`, to produce a fully connected mesh with the surface
+ The following options are available:
+ 
+ - `[bfs]` will use a breadth-first search algorithm to find nodes to remove, as opposed to
+ the default KD-tree algorithm.
+ - `[connect]` after excavation the following commands will be executed: **addmesh/append**
+ and then **connect**. This will produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).
 
 
