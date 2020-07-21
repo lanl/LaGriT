@@ -105,5 +105,6 @@ operation. The user must often use the commands
  (mesh2) inserted into the background (mesh1).
 
 
-* [Click here for demos](../demos/index.md)
+
+[Click here for demos](../demos/index.md)
 
