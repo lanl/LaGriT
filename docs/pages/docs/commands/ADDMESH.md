@@ -91,7 +91,7 @@ operation. The user must often use the commands
  the tet grid that fit into one quad face of the hex grid). Pyramid
  elements will be constructed in the region where the two meshes join.
 
- **`excavate`** - The circumscribed sphere of each triangle of mesh2 is computed and any vertex in mesh1 that falls inside one of the circumscribed spheres is removed along with any cells of mesh1 associated with the removed vertices.  mesh1 must be a 3D mesh (of any geometry) and mesh2
+ **`excavate`** - The circumscribed sphere of each triangle of mesh2 is computed and any node in mesh1 that falls inside one of the circumscribed spheres is marked as a dudded node, along with any cells of mesh1 associated with these nodes.  mesh1 must be a 3D mesh (of any geometry) and mesh2
  must be a 2D triangular mesh. This then excavates an area in mesh1
  around mesh2, such that the surface could then be inserted into the 3D
  mesh (such as to insert a fault into a background terrain mesh). The
@@ -99,7 +99,7 @@ operation. The user must often use the commands
  The following options are available:
  
  - `[bfs]` will use a breadth-first search algorithm to find nodes to remove, as opposed to
- the default KD-tree algorithm.
+ the default KD-tree algorithm. This will find candidate nodes for deletion within the maximum circumradius of the surface. Then a breadth-first search across the surface will be searched for an element large enough to contain the candidate node.
  - `[connect]` after excavation the following commands will be executed: **addmesh/append**
  and then **connect**. This will produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).
