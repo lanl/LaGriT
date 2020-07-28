@@ -15,6 +15,12 @@ For modeling applications with complex stratigraphy, depending on the mesh, you 
 
 LaGriT is used to generate meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations. Developed by Los Alamos National Laboratory as open source software, LaGriT provides a variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. Examples of methods used for geologic applications include unstructured and structured, both with adaptive refinement to geological features. The unstructured approach allows the creation of meshes that exactly conform to the geometric model, but requires some expertise in building the mesh such that it will also meet the Delaunay criteria. The easier method is to use a structured mesh with fine resolution, or a coarser mesh that uses octree refinement to increase resolution in user specified regions of interest. These result in stair-stepped geometries instead of smooth, but can be acceptable for where the geometry spacing is small relative to the full model domain. (Sentis and Gable, 2017).
 
+
+2017 Sentis, M.L., Gable, C.W., Coupling LaGrit unstructured mesh generation and model setup with TOUGH2 flow and transport: A case study, Computers & Geosciences, 2017, DOI:doi.org/10.1016/j.cageo.2017.06.012.
+ 
+2006 Zyvoloski, G. & Vesselinov, Velimir. An Investigation of Numerical Grid Effects in Parameter Estimation. Ground water. 44. 814-25. 10.1111/j.1745-6584.2006.00203.x.
+
+
 <hr>
 
 
