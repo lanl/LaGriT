@@ -36,7 +36,8 @@ def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linke
                 print_links(link_fle, depth+1, max_depth, out_fle, md_file_list, already_linked)
 
 # CHANGE THIS LINE TO LOCATION OF REPO:
-repo_location = '/Users/nknapp/Desktop/LaGriT/docs/'
+# repo_location = '/Users/nknapp/Desktop/LaGriT/docs/'
+repo_location = '/project/eesdev/tam/clone/LaGriT/docs/'
 
 dr = repo_location + 'pages'
 md_file_list = []

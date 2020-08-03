@@ -1,5 +1,7 @@
 [~~FSET~~](pages/FSET)
 
+[~~SEARCH~~](pages/SEARCH)
+
 [**applications**](pages/applications)
 
 [~~commands~~](pages/commands)
@@ -35,8 +37,6 @@
 [~~QUALITY_sliver_cap_needle_wedge~~](pages/docs/QUALITY_sliver_cap_needle_wedge)
 
 [~~REFINE1~~](pages/docs/REFINE1)
-
-[~~REGNPTS~~](pages/docs/REGNPTS)
 
 [**References**](pages/docs/References)
 
@@ -104,13 +104,15 @@
 
 [~~commandi~~](pages/docs/commandi)
 
+[~~.SMOOTH.md.~~](pages/docs/commands/.SMOOTH.md.)
+
 [~~.nfs00000000c046df2c00000_temp~~](pages/docs/commands/.nfs00000000c046df2c00000_temp)
 
 [**.nfs00000000c0ab90aa00000_temp**](pages/docs/commands/.nfs00000000c0ab90aa00000_temp)
 
 [~~.nfs00000000c12fd5bd00000_temp~~](pages/docs/commands/.nfs00000000c12fd5bd00000_temp)
 
-[**ADDMESH**](pages/docs/commands/ADDMESH)
+[~~ADDMESH~~](pages/docs/commands/ADDMESH)
 
 [**ASSIGN**](pages/docs/commands/ASSIGN)
 
@@ -118,9 +120,9 @@
 
 [**BOUNDARY_C**](pages/docs/commands/BOUNDARY_C)
 
-[**CMO2**](pages/docs/commands/CMO2)
+[~~CMO2~~](pages/docs/commands/CMO2)
 
-[**COLORMAP**](pages/docs/commands/COLORMAP)
+[~~COLORMAP~~](pages/docs/commands/COLORMAP)
 
 [**COMPUTE**](pages/docs/commands/COMPUTE)
 
@@ -128,27 +130,25 @@
 
 [~~COORDSY~~](pages/docs/commands/COORDSY)
 
-[**COPYPTS**](pages/docs/commands/COPYPTS)
+[~~COPYPTS~~](pages/docs/commands/COPYPTS)
 
 [~~DEFINE~~](pages/docs/commands/DEFINE)
 
 [~~DEREFINE~~](pages/docs/commands/DEREFINE)
 
-[**DOPING1**](pages/docs/commands/DOPING1)
+[~~DOPING1~~](pages/docs/commands/DOPING1)
 
 [**DUMP2**](pages/docs/commands/DUMP2)
 
-[**DUMP_RECOLOR**](pages/docs/commands/DUMP_RECOLOR)
+[~~DUMP_RECOLOR~~](pages/docs/commands/DUMP_RECOLOR)
 
-[**EDIT2**](pages/docs/commands/EDIT2)
+[~~EDIT2~~](pages/docs/commands/EDIT2)
 
-[**ELTSET2**](pages/docs/commands/ELTSET2)
+[~~ELTSET2~~](pages/docs/commands/ELTSET2)
 
 [**EXODUS**](pages/docs/commands/EXODUS)
 
 [~~EXTRACT1~~](pages/docs/commands/EXTRACT1)
-
-[**EXTRUDE**](pages/docs/commands/EXTRUDE)
 
 [~~FIELD~~](pages/docs/commands/FIELD)
 
@@ -162,45 +162,45 @@
 
 [**GENIEE**](pages/docs/commands/GENIEE)
 
-[**GRID2GRID**](pages/docs/commands/GRID2GRID)
+[~~GRID2GRID~~](pages/docs/commands/GRID2GRID)
 
 [~~HELP~~](pages/docs/commands/HELP)
 
-[**HEXTOTE**](pages/docs/commands/HEXTOTE)
+[~~HEXTOTE~~](pages/docs/commands/HEXTOTE)
 
-[**INPUT**](pages/docs/commands/INPUT)
+[~~INPUT~~](pages/docs/commands/INPUT)
 
-[**INTERSECT**](pages/docs/commands/INTERSECT)
+[~~INTERSECT~~](pages/docs/commands/INTERSECT)
 
-[*LOG*](pages/docs/commands/LOG)
+[~~LOG~~](pages/docs/commands/LOG)
 
-[**MASSAGE**](pages/docs/commands/MASSAGE)
+[~~MASSAGE~~](pages/docs/commands/MASSAGE)
 
-[**MASSAGE2**](pages/docs/commands/MASSAGE2)
+[~~MASSAGE2~~](pages/docs/commands/MASSAGE2)
 
-[**MATh**](pages/docs/commands/MATh)
+[~~MATH~~](pages/docs/commands/MATH)
 
-[**MERGE**](pages/docs/commands/MERGE)
+[~~MERGE~~](pages/docs/commands/MERGE)
 
-[**MODE**](pages/docs/commands/MODE)
+[~~MODE~~](pages/docs/commands/MODE)
 
-[**MREGION**](pages/docs/commands/MREGION)
+[~~MREGION~~](pages/docs/commands/MREGION)
 
-[**NEGATIVE**](pages/docs/commands/NEGATIVE)
+[~~NEGATIVE~~](pages/docs/commands/NEGATIVE)
 
-[**OFFSETSURF**](pages/docs/commands/OFFSETSURF)
+[~~OFFSETSURF~~](pages/docs/commands/OFFSETSURF)
 
-[**PERTURB**](pages/docs/commands/PERTURB)
+[~~PERTURB~~](pages/docs/commands/PERTURB)
 
-[**PSET**](pages/docs/commands/PSET)
+[~~PSET~~](pages/docs/commands/PSET)
 
-[**PSTATUS**](pages/docs/commands/PSTATUS)
+[~~PSTATUS~~](pages/docs/commands/PSTATUS)
 
-[**QUADXY**](pages/docs/commands/QUADXY)
+[~~QUADXY~~](pages/docs/commands/QUADXY)
 
 [~~QUADXYZ1~~](pages/docs/commands/QUADXYZ1)
 
-[**QUALITY**](pages/docs/commands/QUALITY)
+[~~QUALITY~~](pages/docs/commands/QUALITY)
 
 [~~RADAPT~~](pages/docs/commands/RADAPT)
 
@@ -210,73 +210,75 @@
 
 [**REFINE**](pages/docs/commands/REFINE)
 
-[**REGION**](pages/docs/commands/REGION)
+[~~REGION~~](pages/docs/commands/REGION)
 
-[**REGNPTS**](pages/docs/commands/REGNPTS)
+[~~REGNPTS~~](pages/docs/commands/REGNPTS)
 
-[**REORDER**](pages/docs/commands/REORDER)
+[~~REORDER~~](pages/docs/commands/REORDER)
 
-[**RESETPT**](pages/docs/commands/RESETPT)
+[~~RESETPT~~](pages/docs/commands/RESETPT)
 
-[**RM**](pages/docs/commands/RM)
+[~~RM~~](pages/docs/commands/RM)
 
-[**RMMAT**](pages/docs/commands/RMMAT)
+[~~RMMAT~~](pages/docs/commands/RMMAT)
 
-[**RMPOINT**](pages/docs/commands/RMPOINT)
+[~~RMPOINT~~](pages/docs/commands/RMPOINT)
 
-[**RMREGION**](pages/docs/commands/RMREGION)
+[~~RMREGION~~](pages/docs/commands/RMREGION)
 
-[**RMSPHERE**](pages/docs/commands/RMSPHERE)
+[~~RMSPHERE~~](pages/docs/commands/RMSPHERE)
 
-[**RMSURF**](pages/docs/commands/RMSURF)
+[~~RMSURF~~](pages/docs/commands/RMSURF)
 
-[**ROTATELN**](pages/docs/commands/ROTATELN)
+[~~ROTATELN~~](pages/docs/commands/ROTATELN)
 
-[**ROTATEPT**](pages/docs/commands/ROTATEPT)
+[~~ROTATEPT~~](pages/docs/commands/ROTATEPT)
 
-[**RZ**](pages/docs/commands/RZ)
+[~~RZ~~](pages/docs/commands/RZ)
 
-[**RZAMR**](pages/docs/commands/RZAMR)
+[~~RZAMR~~](pages/docs/commands/RZAMR)
 
-[*RZBRICK*](pages/docs/commands/RZBRICK)
+[~~RZBRICK~~](pages/docs/commands/RZBRICK)
 
-[*RZRAN*](pages/docs/commands/RZRAN)
+[~~RZRAN~~](pages/docs/commands/RZRAN)
 
-[*RZS*](pages/docs/commands/RZS)
+[~~RZS~~](pages/docs/commands/RZS)
 
-[*RZV_LG*](pages/docs/commands/RZV_LG)
+[~~RZV_LG~~](pages/docs/commands/RZV_LG)
 
 [~~SCALE~~](pages/docs/commands/SCALE)
 
-[**SETPTS**](pages/docs/commands/SETPTS)
+[~~SETPTS~~](pages/docs/commands/SETPTS)
 
 [**SETSIZE**](pages/docs/commands/SETSIZE)
 
-[**SETTETS**](pages/docs/commands/SETTETS)
+[~~SETTETS~~](pages/docs/commands/SETTETS)
 
-[**SMOOTH**](pages/docs/commands/SMOOTH)
+[~~SMOOTH~~](pages/docs/commands/SMOOTH)
 
-[**SORT**](pages/docs/commands/SORT)
+[~~SORT~~](pages/docs/commands/SORT)
 
-[*STACK*](pages/docs/commands/STACK)
+[**STACK**](pages/docs/commands/STACK)
 
-[*SURFACE*](pages/docs/commands/SURFACE)
+[~~SURFACE~~](pages/docs/commands/SURFACE)
 
-[**SURFPTS**](pages/docs/commands/SURFPTS)
+[~~SURFPTS~~](pages/docs/commands/SURFPTS)
 
-[**TRANS**](pages/docs/commands/TRANS)
+[~~TRANS~~](pages/docs/commands/TRANS)
 
-[**TRIAGN**](pages/docs/commands/TRIAGN)
+[~~TRIAGN~~](pages/docs/commands/TRIAGN)
 
-[**UNG2AVS**](pages/docs/commands/UNG2AVS)
+[~~UNG2AVS~~](pages/docs/commands/UNG2AVS)
 
 [**UPSCALE**](pages/docs/commands/UPSCALE)
+
+[~~ZQ~~](pages/docs/commands/ZQ)
 
 [~~bubble~~](pages/docs/commands/bubble)
 
 [~~calc_rdist~~](pages/docs/commands/calc_rdist)
 
-[**cmo_addatt**](pages/docs/commands/cmo/cmo_addatt)
+[~~cmo_addatt~~](pages/docs/commands/cmo/cmo_addatt)
 
 [**cmo_att_derive**](pages/docs/commands/cmo/cmo_att_derive)
 
@@ -324,9 +326,7 @@
 
 [~~cmo_verify~~](pages/docs/commands/cmo/cmo_verify)
 
-[~~cmo_setatt~~](pages/docs/commands/cmo_setatt)
-
-[**creatE_graph**](pages/docs/commands/creatE_graph)
+[~~create_graph~~](pages/docs/commands/create_graph)
 
 [~~createpts~~](pages/docs/commands/createpts)
 
@@ -348,31 +348,35 @@
 
 [~~cresphere~~](pages/docs/commands/createpts/cresphere)
 
+[**crush_thin_tets**](pages/docs/commands/crush_thin_tets)
+
 [**DUMP3**](pages/docs/commands/dump/DUMP3)
 
 [~~EXTRACT_SURFMESH~~](pages/docs/commands/dump/EXTRACT_SURFMESH)
 
 [~~elmtest~~](pages/docs/commands/elmtest)
 
-[**geometry**](pages/docs/commands/geometry)
+[~~extrude~~](pages/docs/commands/extrude)
 
-[**intersectelements**](pages/docs/commands/intersectelements)
+[~~geometry~~](pages/docs/commands/geometry)
 
-[**kdtree**](pages/docs/commands/kdtree)
+[~~intersectelements~~](pages/docs/commands/intersectelements)
+
+[~~kdtree~~](pages/docs/commands/kdtree)
 
 [**loop**](pages/docs/commands/loop)
 
-[**lower_d**](pages/docs/commands/lower_d)
+[~~lower_d~~](pages/docs/commands/lower_d)
 
 [**main_interpolate**](pages/docs/commands/main_interpolate)
 
 [**memory**](pages/docs/commands/memory)
 
-[**metis**](pages/docs/commands/metis)
+[~~metis~~](pages/docs/commands/metis)
 
 [**rankvolume**](pages/docs/commands/rankvolume)
 
-[**refine2d**](pages/docs/commands/refine2d)
+[~~refine2d~~](pages/docs/commands/refine2d)
 
 [**connect_notes**](pages/docs/connect_notes)
 
@@ -434,13 +438,19 @@
 
 [~~description2_amr~~](pages/docs/demos/description2_amr)
 
+[~~description2_connect~~](pages/docs/demos/description2_connect)
+
 [~~description2_rtz~~](pages/docs/demos/description2_rtz)
 
 [~~description3_append~~](pages/docs/demos/description3_append)
 
+[~~description3_connect~~](pages/docs/demos/description3_connect)
+
 [~~description3_rtp~~](pages/docs/demos/description3_rtp)
 
 [~~description4_brick~~](pages/docs/demos/description4_brick)
+
+[~~description4_connect~~](pages/docs/demos/description4_connect)
 
 [~~description4_delete~~](pages/docs/demos/description4_delete)
 
@@ -476,8 +486,6 @@
 
 [~~description_regnpts~~](pages/docs/demos/description_regnpts)
 
-[~~description_rivara~~](pages/docs/demos/description_rivara)
-
 [~~description_rmmat~~](pages/docs/demos/description_rmmat)
 
 [~~description_rotatept~~](pages/docs/demos/description_rotatept)
@@ -488,7 +496,15 @@
 
 [~~description_tri~~](pages/docs/demos/description_tri)
 
-[**index**](pages/docs/demos/index)
+[~~extract_facesets~~](pages/docs/demos/extract_facesets)
+
+[~~index~~](pages/docs/demos/index)
+
+[~~lagrit_input_continuous.md.~~](pages/docs/demos/input/lagrit_input_continuous.md.)
+
+[**lagrit_input_map.md.**](pages/docs/demos/input/lagrit_input_map.md.)
+
+[~~lagrit_input_voronoi.md.~~](pages/docs/demos/input/lagrit_input_voronoi.md.)
 
 [~~main_2d_connect~~](pages/docs/demos/main_2d_connect)
 
@@ -503,6 +519,8 @@
 [~~main_createpts1~~](pages/docs/demos/main_createpts1)
 
 [~~main_dump~~](pages/docs/demos/main_dump)
+
+[~~main_extract_surfmesh~~](pages/docs/demos/main_extract_surfmesh)
 
 [~~main_hextet~~](pages/docs/demos/main_hextet)
 
@@ -520,9 +538,9 @@
 
 [~~main_rmmat~~](pages/docs/demos/main_rmmat)
 
-[~~main_rotatept~~](pages/docs/demos/main_rotatept)
+[~~main_rotateln~~](pages/docs/demos/main_rotateln)
 
-[~~main_rotatept1~~](pages/docs/demos/main_rotatept1)
+[~~main_rotatept~~](pages/docs/demos/main_rotatept)
 
 [~~main_sort~~](pages/docs/demos/main_sort)
 
@@ -580,11 +598,19 @@
 
 [~~lagrit~~](pages/docs/lagrit)
 
+[~~lagrit_input_continuous~~](pages/docs/lagrit_input_continuous)
+
+[**lagrit_input_map**](pages/docs/lagrit_input_map)
+
+[~~lagrit_input_voronoi~~](pages/docs/lagrit_input_voronoi)
+
 [~~main_createpts~~](pages/docs/main_createpts)
 
 [~~main_dump~~](pages/docs/main_dump)
 
 [~~memmang~~](pages/docs/memmang)
+
+[~~meshing~~](pages/docs/meshing)
 
 [~~meshob~~](pages/docs/meshob)
 
@@ -794,7 +820,7 @@
 
 [~~read_gmv~~](pages/docs/read_gmv)
 
-[~~read_gocad~~](pages/docs/read_gocad)
+[**read_gocad**](pages/docs/read_gocad)
 
 [~~read_iges_grid~~](pages/docs/read_iges_grid)
 
@@ -818,8 +844,6 @@
 
 [~~supported~~](pages/docs/supported)
 
-[~~tutorial~~](pages/docs/tutorial)
-
 [**writing**](pages/docs/writing)
 
 [~~features~~](pages/features)
@@ -835,6 +859,8 @@
 [~~geometry~~](pages/geometry)
 
 [~~geosphere~~](pages/geosphere)
+
+[~~github_pages_example~~](pages/github_pages_example)
 
 [~~grain~~](pages/grain)
 
@@ -1446,8 +1472,6 @@
 
 [~~metis~~](pages/new_md/metis)
 
-[~~miscell~~](pages/new_md/miscell)
-
 [~~DUMP2~~](pages/new_md/old/DUMP2)
 
 [~~DUMP3~~](pages/new_md/old/DUMP3)
@@ -1526,15 +1550,33 @@
 
 [**publications**](pages/publications)
 
-[**release**](pages/release)
+[~~release~~](pages/release)
 
-[~~lagrit_release_notes_081021~~](pages/release_notes/lagrit_release_notes_081021)
+[**lagrit_release_notes_081021**](pages/release_notes/lagrit_release_notes_081021)
 
-[**lagrit_release_notes_V3.00**](pages/release_notes/lagrit_release_notes_V3.00)
+[**lagrit_release_notes_V1.0.2**](pages/release_notes/lagrit_release_notes_V1.0.2)
+
+[~~lagrit_release_notes_V1.0.3~~](pages/release_notes/lagrit_release_notes_V1.0.3)
+
+[~~lagrit_release_notes_V1.00~~](pages/release_notes/lagrit_release_notes_V1.00)
+
+[**lagrit_release_notes_V1.1.0**](pages/release_notes/lagrit_release_notes_V1.1.0)
+
+[~~lagrit_release_notes_V1.1.2~~](pages/release_notes/lagrit_release_notes_V1.1.2)
+
+[~~lagrit_release_notes_V1.1.4~~](pages/release_notes/lagrit_release_notes_V1.1.4)
+
+[~~lagrit_release_notes_V1.100~~](pages/release_notes/lagrit_release_notes_V1.100)
+
+[**lagrit_release_notes_V2.002**](pages/release_notes/lagrit_release_notes_V2.002)
+
+[~~lagrit_release_notes_V3.00~~](pages/release_notes/lagrit_release_notes_V3.00)
 
 [**lagrit_release_notes_V3.100**](pages/release_notes/lagrit_release_notes_V3.100)
 
 [**lagrit_release_notes_V3.200**](pages/release_notes/lagrit_release_notes_V3.200)
+
+[~~search_page~~](pages/search_page)
 
 [~~semi~~](pages/semi)
 
@@ -1547,6 +1589,38 @@
 [~~tee~~](pages/tee)
 
 [~~tinkas~~](pages/tinkas)
+
+[~~index~~](pages/tutorial/index)
+
+[~~gallery~~](pages/tutorial/stratigraphy/images/gallery)
+
+[**index**](pages/tutorial/stratigraphy/index)
+
+[**step_01**](pages/tutorial/stratigraphy/step_01)
+
+[**step_02**](pages/tutorial/stratigraphy/step_02)
+
+[**step_03**](pages/tutorial/stratigraphy/step_03)
+
+[**step_04**](pages/tutorial/stratigraphy/step_04)
+
+[**step_05**](pages/tutorial/stratigraphy/step_05)
+
+[**step_06**](pages/tutorial/stratigraphy/step_06)
+
+[**step_07**](pages/tutorial/stratigraphy/step_07)
+
+[**step_08**](pages/tutorial/stratigraphy/step_08)
+
+[**step_09**](pages/tutorial/stratigraphy/step_09)
+
+[**step_10_exo**](pages/tutorial/stratigraphy/step_10_exo)
+
+[**step_10_fehm**](pages/tutorial/stratigraphy/step_10_fehm)
+
+[~~regions_points_to_tet~~](pages/tutorial/tutorials/regions_points_to_tet)
+
+[~~convert_feet_to_meters~~](pages/tutorial/utility/convert_feet_to_meters)
 
 [~~util~~](pages/util)
 
