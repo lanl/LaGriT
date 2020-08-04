@@ -20,7 +20,7 @@ def list_in_dr(dr):
 			if '.md' in fle:
 				filter_file(os.path.join(root, fle))
 
-dr = '/Users/nknapp/Desktop/LaGriT/docs/pages/'
+dr = '/project/eesdev/tam/clone/LaGriT/docs/pages/'
 
 list_in_dr(dr)
 

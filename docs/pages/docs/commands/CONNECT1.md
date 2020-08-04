@@ -177,3 +177,6 @@ Create the Delaunay tetrahedral connectivity of  all nodes in the
  [Click here for 2D demos](../demos/main_2d_connect.md)
 
  [Click here for 3D demos](../demos/main_connect.md)
+
+The **connect** command replaces the LaGriT V1 command **search/delaunay**.
+
