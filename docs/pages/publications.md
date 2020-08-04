@@ -1,20 +1,9 @@
 # LaGriT Related Publications
 
-To reference LaGriT in a publication use the following citation:
-
-> Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
-&lt;http://lagrit.lanl.gov&gt;, year\_of\_lagrit\_version.
-
-**For example:**
-
-Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
-&lt;http://lagrit.lanl.gov&gt;, 2013.\*
-
 ### Year 2017:
 
 Sentis, M.L., Gable, C.W., [Coupling LaGrit unstructured mesh generation
-and model setup with TOUGH2 flow and transport: A case study](doi.org/10.1016/j.cageo.2017.06.012), Computers
-& Geosciences, 2017, DOI:10.1016/j.cageo.2017.06.012.
+and model setup with TOUGH2 flow and transport: A case study](doi.org/10.1016/j.cageo.2017.06.012), Computers & Geosciences, 2017, DOI:10.1016/j.cageo.2017.06.012.
 
 ### Year 2014:
 
@@ -379,6 +368,8 @@ Research Center, Mississippi State Univ. Press, 1996.
 
 ### Year 1995:
 
+C. W. Gable, Terry Cherry, Harold Trease, George A. Zyvoloski, "[Geomesh Grid Generation](https://hwbdocuments.env.nm.gov/Los%20Alamos%20National%20Labs/References/9672.PDF)", Yucca Mountain Site Characterization Project Milestone 4075: Letter Report, LA-UR-95-4143 (1995)
+
 Khamayseh, Ahmed; Ortega, Frank; Trease, Harold, "Ray Tracing for Point
 Distribution in Unstructured Grid Generation", LA-UR-95-4470 (1995).
 
@@ -391,4 +382,5 @@ Zyvoloski, G. and C. W. Gable, "Site Scale Modeling of Radionuclide
 Transport At Yucca Mountain, NV: Grid Generation and Reactive Tracers,"
 Los Alamos National Laboratory, LA-UR-94-1041, 1994. (PDF is not
 available)
+
 

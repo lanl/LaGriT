@@ -43,9 +43,10 @@ tipue_search_active: true
 
 
 
-## [LaGriT References](docs/References.md)   
+### [LaGriT References](docs/References.md)   
 
+### [LaGriT Publications](publications.md)   
 
-## [LaGriT on Github](https://github.com/lanl/LaGriT)
+### [LaGriT on Github](https://github.com/lanl/LaGriT)
 
 
