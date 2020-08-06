@@ -92,6 +92,20 @@ Select All, or by one of the categories:
             </div>
         </li>
 
+
+	<li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/description_brick_trunc.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/brick_tet_truncated.png" alt="">
+                        </div>
+                        <p> Brick Tet Mesh Truncated by Surface</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
         <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
@@ -112,7 +126,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
-                        <p>Stacked mesh using grid2grid hex to 5 tets</p>
+                        <p>Stacked mesh hex to 5 tets instead of connect</p>
                     </div>
                 </a>
             </div>
