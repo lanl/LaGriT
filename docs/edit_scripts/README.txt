@@ -14,7 +14,12 @@ Need script to find files to remove.
 
 It looks like pages/new_md
 are duplicates Nathan was using but were not used for final pages.
-Check these and remove if possible.
+Check these and remove
+
+Find unlinked .md files and either link or remove
+python find_unlinked_files.py
+awk '{if ($1 == 0) print $0}' find_unlinked_files.out.txt > unlinked.txt
+
 
 
 

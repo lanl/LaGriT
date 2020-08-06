@@ -1,9 +1,10 @@
 ---
+title: picture index
+tags: review, graphics, unlinked
 Author: Jan Wills
-GENERATOR: 'Mozilla/4.7C-SGI [en] (X11; I; IRIX64 6.5 IP30) [Netscape]'
 ---
 
- LaGriT Pictures
+# LaGriT Pictures
 
    <img height="300" width="300" src="bl_pin.gif">"21" "21"[Mesh for scanning
    microscopy
