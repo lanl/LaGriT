@@ -11,25 +11,22 @@ This example command file creates the surfaces and mesh, there are no input file
 
 ### LaGriT macro called by command file: [reset_truncated_nodes_imt.mlgi.txt](input/reset_truncated_nodes_imt.mlgi.txt)
 
-### LaGriT output report: [lagrit_output_brick_trunc.txt](output/lagrit_output_brick_trunc.txt
-)
+### LaGriT output report: [lagrit_output_brick_trunc.txt](output/lagrit_output_brick_trunc.txt)
 
 
-Input Regular Hex Mesh and Surfaces   
+Input Regular Hex Mesh and Surfaces   Output Truncated tet Mesh
 
 <a href="input/brick_hex_w_surfaces.png" > <img width="250" src="input/brick_hex_w_surfaces.png"> </a>
+<a href="output/brick_tet_truncated.png" > <img width="250" src="output/brick_tet_truncated.png"> </a>
 
-Output Truncated tet Mesh
 
-The output is a truncated tet mesh defined by surfaces regions.
-Both the cells and the nodes are colored by surface regions.
+Truncated tet mesh with outside top boundary nodes
 
-<a href="output/brick_tet_materials.png" > <img width="250" src="output/brick_tet_materials.png"> </a>
+<a href="output/brick_tet_outside_top.png" > <img width="250" src="output/brick_tet_outside_top.png"> </a>
 
-Truncated tet mesh with outside boundary nodes
+Truncated tet mesh with nodes defined by material regions
 
-<a href="output/output/brick_tet_outside_top.png" > <img width="250" src="output/output/brick_tet_outside_top..png"> </a>
-
+<a href="output/brick_tet_materials_imt.png" > <img width="250" src="output/brick_tet_materials_imt.png"> </a>
 
 
 
