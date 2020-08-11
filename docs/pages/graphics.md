@@ -11,8 +11,6 @@ tags: graphics
 
 [Semiconductor](semiexamples.md)                                
 
-[Geometry](geometry.md)        
-
 [Hexahedral grids](hex.md)     
 
 [Hybrid](hybrid.md)            

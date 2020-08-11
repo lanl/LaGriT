@@ -10,7 +10,7 @@ tags: geometry, regions
 Initialize a geometry or change the name of the current geometry.
 
 To associate this geometry with a mesh object
-  use the [cmo/geometry](cmo/cmo_geom.md) command.  See [Geometries](/pages/docs/geometries.md) for a
+  use the [cmo/geometry](cmo/cmo_geom.md) command.  See [Geometries](../geometries.md) for a
   discussion of geometry.
 
 <pre>
