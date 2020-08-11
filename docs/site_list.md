@@ -1,7 +1,3 @@
-[~~FSET~~](pages/FSET)
-
-[~~SEARCH~~](pages/SEARCH)
-
 [**applications**](pages/applications)
 
 [~~commands~~](pages/commands)
@@ -12,27 +8,7 @@
 
 [~~development~~](pages/development)
 
-[~~description1~~](pages/docs/2d_connect/html/description1)
-
-[~~main_2d_connect~~](pages/docs/2d_connect/html/main_2d_connect)
-
-[~~CREATEPTSAMR~~](pages/docs/CREATEPTSAMR)
-
-[~~CRTPTBRICK~~](pages/docs/CRTPTBRICK)
-
-[~~CRTPTRZRAN~~](pages/docs/CRTPTRZRAN)
-
-[~~CRTPTRZV_LG~~](pages/docs/CRTPTRZV_LG)
-
-[~~CRTPTSRZ~~](pages/docs/CRTPTSRZ)
-
 [~~DEFINEII~~](pages/docs/DEFINEII)
-
-[~~DUMP3~~](pages/docs/DUMP3)
-
-[**Document2**](pages/docs/Document2)
-
-[~~EXTRACT_SURFMESH~~](pages/docs/EXTRACT_SURFMESH)
 
 [~~QUALITY_sliver_cap_needle_wedge~~](pages/docs/QUALITY_sliver_cap_needle_wedge)
 
@@ -42,8 +18,6 @@
 
 [~~STOR_Form~~](pages/docs/STOR_Form)
 
-[~~Tutoria1~~](pages/docs/Tutoria1)
-
 [~~accessing~~](pages/docs/accessing)
 
 [~~arrcomp~~](pages/docs/arrcomp)
@@ -52,55 +26,9 @@
 
 [~~assignmt~~](pages/docs/assignmt)
 
-[~~brickpic1~~](pages/docs/brickpic1)
-
 [**build**](pages/docs/build)
 
 [~~charlen~~](pages/docs/charlen)
-
-[**cmo_addatt**](pages/docs/cmo_addatt)
-
-[~~cmo_compress~~](pages/docs/cmo_compress)
-
-[~~cmo_constraint~~](pages/docs/cmo_constraint)
-
-[~~cmo_copy~~](pages/docs/cmo_copy)
-
-[~~cmo_copyatt~~](pages/docs/cmo_copyatt)
-
-[~~cmo_create~~](pages/docs/cmo_create)
-
-[~~cmo_delatt~~](pages/docs/cmo_delatt)
-
-[~~cmo_derive~~](pages/docs/cmo_derive)
-
-[~~cmo_geom~~](pages/docs/cmo_geom)
-
-[~~cmo_length~~](pages/docs/cmo_length)
-
-[~~cmo_list~~](pages/docs/cmo_list)
-
-[~~cmo_memory~~](pages/docs/cmo_memory)
-
-[~~cmo_modatt~~](pages/docs/cmo_modatt)
-
-[~~cmo_move~~](pages/docs/cmo_move)
-
-[~~cmo_newlen~~](pages/docs/cmo_newlen)
-
-[~~cmo_printatt~~](pages/docs/cmo_printatt)
-
-[~~cmo_readatt~~](pages/docs/cmo_readatt)
-
-[~~cmo_release~~](pages/docs/cmo_release)
-
-[~~cmo_select~~](pages/docs/cmo_select)
-
-[~~cmo_setid~~](pages/docs/cmo_setid)
-
-[~~cmo_status~~](pages/docs/cmo_status)
-
-[~~cmo_verify~~](pages/docs/cmo_verify)
 
 [~~commandi~~](pages/docs/commandi)
 
@@ -384,53 +312,11 @@
 
 [~~conventions~~](pages/docs/conventions)
 
-[**createpts**](pages/docs/createpts)
-
-[~~description1~~](pages/docs/createpts/html/description1)
-
-[~~description2~~](pages/docs/createpts/html/description2)
-
-[~~description3~~](pages/docs/createpts/html/description3)
-
-[~~description4~~](pages/docs/createpts/html/description4)
-
-[~~description5~~](pages/docs/createpts/html/description5)
-
-[~~description6~~](pages/docs/createpts/html/description6)
-
-[~~description7~~](pages/docs/createpts/html/description7)
-
-[~~description8~~](pages/docs/createpts/html/description8)
-
-[~~main_createpts~~](pages/docs/createpts/html/main_createpts)
-
-[~~main_createpts1~~](pages/docs/createpts/html/main_createpts1)
-
-[~~createpts_interp~~](pages/docs/createpts_interp)
-
-[~~createpts_median~~](pages/docs/createpts_median)
-
-[~~createpts_voronoi~~](pages/docs/createpts_voronoi)
-
-[~~createptsdes1~~](pages/docs/createptsdes1)
-
-[~~createptsdes2~~](pages/docs/createptsdes2)
-
-[~~createptsdes3~~](pages/docs/createptsdes3)
-
-[~~crebrickdes1~~](pages/docs/crebrickdes1)
-
-[~~cresphere~~](pages/docs/cresphere)
-
-[~~crezxyz~~](pages/docs/crezxyz)
-
 [~~d~~](pages/docs/d)
 
 [~~defineev~~](pages/docs/defineev)
 
 [~~definemo~~](pages/docs/definemo)
-
-[~~.main_pset1.md.~~](pages/docs/demos/.main_pset1.md.)
 
 [~~description1_add~~](pages/docs/demos/description1_add)
 
@@ -473,6 +359,8 @@
 [~~description_2dconn~~](pages/docs/demos/description_2dconn)
 
 [~~description_2drecon~~](pages/docs/demos/description_2drecon)
+
+[~~description_brick_trunc~~](pages/docs/demos/description_brick_trunc)
 
 [~~description_connect~~](pages/docs/demos/description_connect)
 
@@ -552,14 +440,6 @@
 
 [~~test~~](pages/docs/demos/test)
 
-[~~description_cont~~](pages/docs/description_cont)
-
-[~~description_dump~~](pages/docs/description_dump)
-
-[~~description_map~~](pages/docs/description_map)
-
-[~~description_voronoi~~](pages/docs/description_voronoi)
-
 [~~distributep~~](pages/docs/distributep)
 
 [~~dividereg~~](pages/docs/dividereg)
@@ -567,24 +447,6 @@
 [~~edges~~](pages/docs/edges)
 
 [**errors**](pages/docs/errors)
-
-[~~cresphere~~](pages/docs/examples/createpts/html/cresphere)
-
-[~~description1a~~](pages/docs/examples/createpts/html/description1a)
-
-[~~description1b~~](pages/docs/examples/createpts/html/description1b)
-
-[~~description1c~~](pages/docs/examples/createpts/html/description1c)
-
-[~~description2a~~](pages/docs/examples/createpts/html/description2a)
-
-[~~description3a~~](pages/docs/examples/createpts/html/description3a)
-
-[~~example~~](pages/docs/examples/createpts/html/example)
-
-[~~example3~~](pages/docs/examples/createpts/html/example3)
-
-[~~picture2~~](pages/docs/examples/createpts/html/picture2)
 
 [~~fortran~~](pages/docs/fortran)
 
@@ -598,16 +460,6 @@
 
 [~~lagrit~~](pages/docs/lagrit)
 
-[~~lagrit_input_continuous~~](pages/docs/lagrit_input_continuous)
-
-[**lagrit_input_map**](pages/docs/lagrit_input_map)
-
-[~~lagrit_input_voronoi~~](pages/docs/lagrit_input_voronoi)
-
-[~~main_createpts~~](pages/docs/main_createpts)
-
-[~~main_dump~~](pages/docs/main_dump)
-
 [~~memmang~~](pages/docs/memmang)
 
 [~~meshing~~](pages/docs/meshing)
@@ -620,195 +472,9 @@
 
 [~~miscell~~](pages/docs/miscell)
 
-[~~description_2dconn~~](pages/docs/new_md/demos/2d_connect/test/html/description_2dconn)
-
-[~~description_2dconn~~](pages/docs/new_md/demos/2d_connect/test/html/image/description_2dconn)
-
-[~~main_2d_connect~~](pages/docs/new_md/demos/2d_connect/test/html/main_2d_connect)
-
-[~~description_2drecon~~](pages/docs/new_md/demos/2d_recon/html/description_2drecon)
-
-[~~main_2d_recon~~](pages/docs/new_md/demos/2d_recon/html/main_2d_recon)
-
-[~~description_2drecon~~](pages/docs/new_md/demos/2d_recon/test/html/description_2drecon)
-
-[~~main_2d_recon~~](pages/docs/new_md/demos/2d_recon/test/html/main_2d_recon)
-
-[~~description1_add~~](pages/docs/new_md/demos/addmesh/html/description1_add)
-
-[~~description2_amr~~](pages/docs/new_md/demos/addmesh/html/description2_amr)
-
-[~~description3_append~~](pages/docs/new_md/demos/addmesh/html/description3_append)
-
-[~~description4_delete~~](pages/docs/new_md/demos/addmesh/html/description4_delete)
-
-[~~description5_intersect~~](pages/docs/new_md/demos/addmesh/html/description5_intersect)
-
-[~~description6_match~~](pages/docs/new_md/demos/addmesh/html/description6_match)
-
-[~~description7_merge~~](pages/docs/new_md/demos/addmesh/html/description7_merge)
-
-[~~main_addmesh~~](pages/docs/new_md/demos/addmesh/html/main_addmesh)
-
-[~~description1_add~~](pages/docs/new_md/demos/addmesh/test/html/description1_add)
-
-[~~description2_amr~~](pages/docs/new_md/demos/addmesh/test/html/description2_amr)
-
-[~~description3_append~~](pages/docs/new_md/demos/addmesh/test/html/description3_append)
-
-[~~description4_delete~~](pages/docs/new_md/demos/addmesh/test/html/description4_delete)
-
-[~~description5_intersect~~](pages/docs/new_md/demos/addmesh/test/html/description5_intersect)
-
-[~~description6_match~~](pages/docs/new_md/demos/addmesh/test/html/description6_match)
-
-[~~description7_merge~~](pages/docs/new_md/demos/addmesh/test/html/description7_merge)
-
-[~~test~~](pages/docs/new_md/demos/addmesh/test/html/test)
-
-[~~description_connect~~](pages/docs/new_md/demos/connect/test/html/description_connect)
-
-[~~main_connect~~](pages/docs/new_md/demos/connect/test/html/main_connect)
-
-[~~description1_xyz~~](pages/docs/new_md/demos/createpts/html/description1_xyz)
-
-[~~description2_rtz~~](pages/docs/new_md/demos/createpts/html/description2_rtz)
-
-[~~description3_rtp~~](pages/docs/new_md/demos/createpts/html/description3_rtp)
-
-[~~description4_brick~~](pages/docs/new_md/demos/createpts/html/description4_brick)
-
-[~~description5_sphere~~](pages/docs/new_md/demos/createpts/html/description5_sphere)
-
-[~~description6_sphereB~~](pages/docs/new_md/demos/createpts/html/description6_sphereB)
-
-[~~description7_brickB~~](pages/docs/new_md/demos/createpts/html/description7_brickB)
-
-[~~description8_sphereC~~](pages/docs/new_md/demos/createpts/html/description8_sphereC)
-
-[~~description9_random~~](pages/docs/new_md/demos/createpts/html/description9_random)
-
-[~~main_createpts~~](pages/docs/new_md/demos/createpts/html/main_createpts)
-
-[~~main_createpts1~~](pages/docs/new_md/demos/createpts/html/main_createpts1)
-
-[~~description1_xyz~~](pages/docs/new_md/demos/createpts/test/html/description1_xyz)
-
-[~~description2_rtz~~](pages/docs/new_md/demos/createpts/test/html/description2_rtz)
-
-[~~description3_rtp~~](pages/docs/new_md/demos/createpts/test/html/description3_rtp)
-
-[~~description4_brick~~](pages/docs/new_md/demos/createpts/test/html/description4_brick)
-
-[~~description5_sphere~~](pages/docs/new_md/demos/createpts/test/html/description5_sphere)
-
-[~~description6_sphereB~~](pages/docs/new_md/demos/createpts/test/html/description6_sphereB)
-
-[~~description7_brickB~~](pages/docs/new_md/demos/createpts/test/html/description7_brickB)
-
-[~~description8_sphereC~~](pages/docs/new_md/demos/createpts/test/html/description8_sphereC)
-
-[~~description9_random~~](pages/docs/new_md/demos/createpts/test/html/description9_random)
-
-[~~main_createpts~~](pages/docs/new_md/demos/createpts/test/html/main_createpts)
-
-[~~description_dump~~](pages/docs/new_md/demos/dump/html/description_dump)
-
-[~~main_dump~~](pages/docs/new_md/demos/dump/html/main_dump)
-
-[~~description_dump~~](pages/docs/new_md/demos/dump/test/html/description_dump)
-
-[~~main_dump~~](pages/docs/new_md/demos/dump/test/html/main_dump)
-
-[~~description_hextet~~](pages/docs/new_md/demos/hextotet/html/description_hextet)
-
-[~~main_hextet~~](pages/docs/new_md/demos/hextotet/html/main_hextet)
-
-[~~main_hextet1~~](pages/docs/new_md/demos/hextotet/html/main_hextet1)
-
-[~~description_hextet~~](pages/docs/new_md/demos/hextotet/test/html/description_hextet)
-
-[~~main_hextet~~](pages/docs/new_md/demos/hextotet/test/html/main_hextet)
-
-[~~index~~](pages/docs/new_md/demos/index)
-
-[~~description_pset~~](pages/docs/new_md/demos/pset/html/description_pset)
-
-[~~main_pset~~](pages/docs/new_md/demos/pset/html/main_pset)
-
-[~~main_pset1~~](pages/docs/new_md/demos/pset/html/main_pset1)
-
-[~~description_pset~~](pages/docs/new_md/demos/pset/test/html/description_pset)
-
-[~~main_pset~~](pages/docs/new_md/demos/pset/test/html/main_pset)
-
-[~~description_qual~~](pages/docs/new_md/demos/quality_pcc/test/html/description_qual)
-
-[~~main_qual~~](pages/docs/new_md/demos/quality_pcc/test/html/main_qual)
-
-[~~description_rivara~~](pages/docs/new_md/demos/refine_rivara/test/html/description_rivara)
-
-[~~main_rivara~~](pages/docs/new_md/demos/refine_rivara/test/html/main_rivara)
-
-[~~description_regnpts~~](pages/docs/new_md/demos/regnpts/test/html/description_regnpts)
-
-[~~main_regnpts~~](pages/docs/new_md/demos/regnpts/test/html/main_regnpts)
-
-[~~description_rmmat~~](pages/docs/new_md/demos/rmmat/html/description_rmmat)
-
-[~~main_rmmat~~](pages/docs/new_md/demos/rmmat/html/main_rmmat)
-
-[~~description_rmmat~~](pages/docs/new_md/demos/rmmat/test/html/description_rmmat)
-
-[~~main_rmmat~~](pages/docs/new_md/demos/rmmat/test/html/main_rmmat)
-
-[~~description_rotatept~~](pages/docs/new_md/demos/rotatept/html/description_rotatept)
-
-[~~main_rotatept~~](pages/docs/new_md/demos/rotatept/html/main_rotatept)
-
-[~~main_rotatept1~~](pages/docs/new_md/demos/rotatept/html/main_rotatept1)
-
-[~~description_rotatept~~](pages/docs/new_md/demos/rotatept/test/html/description_rotatept)
-
-[~~main_rotatept~~](pages/docs/new_md/demos/rotatept/test/html/main_rotatept)
-
-[~~description_sort~~](pages/docs/new_md/demos/sort/html/description_sort)
-
-[~~main_sort~~](pages/docs/new_md/demos/sort/html/main_sort)
-
-[~~description_sort~~](pages/docs/new_md/demos/sort/test/html/description_sort)
-
-[~~main_sort~~](pages/docs/new_md/demos/sort/test/html/main_sort)
-
-[~~description_trans~~](pages/docs/new_md/demos/trans/test/html/description_trans)
-
-[~~main_trans~~](pages/docs/new_md/demos/trans/test/html/main_trans)
-
-[~~description_tri~~](pages/docs/new_md/demos/triangulate/html/description_tri)
-
-[~~main_tri~~](pages/docs/new_md/demos/triangulate/html/main_tri)
-
-[~~main_tri1~~](pages/docs/new_md/demos/triangulate/html/main_tri1)
-
-[~~description_tri~~](pages/docs/new_md/demos/triangulate/test/html/description_tri)
-
-[~~main_tri~~](pages/docs/new_md/demos/triangulate/test/html/main_tri)
-
-[~~description_tri~~](pages/docs/new_md/demos/triangulate_old/test/html/description_tri)
-
-[~~main_tri~~](pages/docs/new_md/demos/triangulate_old/test/html/main_tri)
-
-[~~picturesweek~~](pages/docs/picturesweek)
+[*picturesweek*](pages/docs/picturesweek)
 
 [~~pointsel~~](pages/docs/pointsel)
-
-[~~quadxyzdes1~~](pages/docs/quadxyzdes1)
-
-[~~quadxyzdes2~~](pages/docs/quadxyzdes2)
-
-[~~quadxyzin1~~](pages/docs/quadxyzin1)
-
-[~~quadxyzin2~~](pages/docs/quadxyzin2)
 
 [~~read_avs~~](pages/docs/read_avs)
 
@@ -849,16 +515,6 @@
 [~~features~~](pages/features)
 
 [~~finite~~](pages/finite)
-
-[~~geocoord~~](pages/geocoord)
-
-[~~geocyl~~](pages/geocyl)
-
-[~~geohex~~](pages/geohex)
-
-[~~geometry~~](pages/geometry)
-
-[~~geosphere~~](pages/geosphere)
 
 [~~github_pages_example~~](pages/github_pages_example)
 
@@ -928,7 +584,7 @@
 
 [~~utilities~~](pages/mstkla/utilities)
 
-[~~pictures~~](pages/pictures)
+[*pictures*](pages/pictures)
 
 [**publications**](pages/publications)
 
@@ -948,8 +604,6 @@
 
 [~~lagrit_release_notes_V1.1.4~~](pages/release_notes/lagrit_release_notes_V1.1.4)
 
-[~~lagrit_release_notes_V1.100~~](pages/release_notes/lagrit_release_notes_V1.100)
-
 [**lagrit_release_notes_V2.002**](pages/release_notes/lagrit_release_notes_V2.002)
 
 [~~lagrit_release_notes_V3.00~~](pages/release_notes/lagrit_release_notes_V3.00)
@@ -965,8 +619,6 @@
 [~~semi2~~](pages/semi2)
 
 [~~semiexamples~~](pages/semiexamples)
-
-[~~table~~](pages/table)
 
 [~~tee~~](pages/tee)
 
@@ -1003,6 +655,8 @@
 [~~regions_points_to_tet~~](pages/tutorial/tutorials/regions_points_to_tet)
 
 [~~convert_feet_to_meters~~](pages/tutorial/utility/convert_feet_to_meters)
+
+[~~reset_truncated_nodes_imt~~](pages/tutorial/utility/reset_truncated_nodes_imt)
 
 [~~util~~](pages/util)
 

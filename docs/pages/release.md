@@ -22,5 +22,7 @@ Release Notes
 
 [LaGriT V1.0.2 2000 ](release_notes/lagrit_release_notes_V1.0.2.md) V1.0.1 to V1.0.2 Notes
 
+[LaGriT V1.10 1999 ](release_notes/lagrit_release_notes_V1.100.md) V1.100 Notes
+
 [LaGriT V1.00 1999 ](release_notes/lagrit_release_notes_V1.00.md) V1.00 Notes
 
