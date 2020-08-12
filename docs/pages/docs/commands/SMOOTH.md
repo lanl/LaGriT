@@ -46,7 +46,8 @@ and can be changed using the **[assign](ASSIGN.md)** command. e.g.  (assign /// 
 **`esug`** <a name="esug"></a>
  Elliptic Smoothing for Unstructured Grids with guards against folding. This is the default for 2D mesh objects. It can only be used on triangular 2D mesh objects.
 
-*Ref.: Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)*
+
+*Ref.: Randolph E. Bank and R. Kent Smith, “Mesh Smoothing Using A Posteriori Error Estimates”, SIAM J. Num. Anal. Vol. 34, Issue 3, pp. 979-997, 1997.*
 
 
 **`elliptic`** <a name="elliptic"></a>
