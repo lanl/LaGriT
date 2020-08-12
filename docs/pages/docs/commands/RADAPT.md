@@ -46,8 +46,10 @@ There are two adaptive smoothing algorithms available:
   line, **esug** will attempt to adapt the grid to an *adaption
   function* defined by the user-supplied subroutine **`fadpt`**. 
 <br>
-Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution
-  Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)
+
+
+*Ref.: Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution Adaption for Unstructured Grids", Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)*
+
   
   2. **`mega`** Minimum Error Gradient Adaption. For adaptive
   smoothing purposes, **mega** can only be used on 3D meshes, and only
@@ -57,7 +59,9 @@ Ahmed Khamayseh and Andrew Kuprat, "Anisotropic Smoothing and Solution
   user is cautioned to carefully consider the validity of the data used for the adaption. **mega** can be used to adapt hybrid meshes
   as well as tetrahedral meshes. 
 <br>
-Randolph E. Bank and R. Kent Smith, "Mesh Smoothing Using A Posteriori Error Estimates", SIAM J. Num.  Anal. Vol. 34, Issue 3, pp. 9-9 (19)
+
+
+*Ref.: Randolph E. Bank and R. Kent Smith, “Mesh Smoothing Using A Posteriori Error Estimates”, SIAM J. Num. Anal. Vol. 34, Issue 3, pp. 979-997, 1997.*
 
 
 If `field` adaption is used, the user has specified a valid `field`
