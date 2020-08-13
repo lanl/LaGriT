@@ -144,8 +144,8 @@ OSX_STATIC_LIBS :=
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
 	BUILDFLAGS += -Dmacx64
-    OSX_STATIC_LIBS := -dynamiclib -lgfortran -static-libgfortran -static-libgcc
-    OSX_STATIC_LIBS += $(shell gfortran -print-file-name=libquadmath.a) 
+	OSX_STATIC_LIBS := -dynamiclib -lgfortran
+	OSX_STATIC_LIBS += $(shell gfortran -print-file-name=libquadmath.a) 
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
 	BUILDFLAGS += -Dlinx64
