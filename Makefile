@@ -139,12 +139,13 @@ BUILDLIBS := src/lagrit_main.o src/lagrit_fdate.o src/$(SRC_LIB) lg_util/src/$(L
 
 LINKERFLAGS := -fcray-pointer -fdefault-integer-8 -m64
 BUILDFLAGS  := -fcray-pointer -fdefault-integer-8 -m64 -fno-sign-zero -lm -lstdc++
-OSX_STATIC_LIBS := 
+OSX_STATIC_LIBS :=
 
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
 	BUILDFLAGS += -Dmacx64
-	OSX_STATIC_LIBS := 
+    OSX_STATIC_LIBS := -dynamiclib -lgfortran -static-libgfortran -static-libgcc
+    OSX_STATIC_LIBS += $(shell gfortran -print-file-name=libquadmath.a) 
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
 	BUILDFLAGS += -Dlinx64
@@ -229,7 +230,7 @@ exodus :
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
-static: BUILDFLAGS += -static-libgfortran -static-libgcc
+static: BUILDFLAGS += -static-libgfortran -static-libgcc ${OSX_STATIC_LIBS}
 static: build
 
 %.o : %.f
