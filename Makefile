@@ -18,7 +18,7 @@
 #    FC90 (default: gfortran) : Fortran90 source compiler
 #    WITH_EXODUS (default: 1) : Build with or without Exodus
 #    DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
-#    EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
+#    SEACAS_DIR (default: LAGRIT_ROOT_DIR/seacas) : SEACAS ExodusII library location
 #    EXE_NAME (default: src/lagrit) : binary filename for LaGriT
 #    EXO_CMAKE_FLAGS (default: none) : Add custom CMake flags to pass to cmake-exodus
 #================================================================#
@@ -41,8 +41,9 @@ MINOR_VERSION := 320
 BUILD_DATE := $(shell date +%Y/%m/%d)
 BUILD_TYPE := Release
 EXE_NAME := src/lagrit
-EXO_BUILD_DIR := $(shell pwd)
-EXO_LIB_DIR := $(shell pwd)/seacas/lib
+SEACAS_DIR := $(shell pwd)/seacas
+SEACAS_LIB_DIR := $(SEACAS_DIR)/lib
+SEACAS_INC_DIR := $(SEACAS_DIR)/include
 EXO_CMAKE_FLAGS := 
 
 LG_UTIL_LIB := lg_util_lib.a
@@ -108,11 +109,11 @@ TARGETS:
     Debug build (with static libraries)
 
 - make exodus
-    Download and build the SANDIA ExodusII Fortran library.
+    Download and build the SEACAS ExodusII Fortran library.
     By default, it will download to the current working directory.
     This can be changed by running
 
-       make EXO_BUILD_DIR=/exodus/path/out/ exodus
+       make SEACAS_DIR=/path/to/save/exodus/libs/ exodus
 
 - make test
     Run the LaGriT test suite on the created binary.
@@ -126,7 +127,7 @@ OPTIONS:
     FC90 (default: gfortran) : Fortran90 source compiler
     WITH_EXODUS (default: 1) : Build with or without Exodus
     DEBUG (default: 0) : Built in debug (1) or optimized (0) mode
-    EXO_LIB_DIR (default: LAGRIT_ROOT_DIR/seacas/lib) : ExodusII library location
+    SEACAS_DIR (default: LAGRIT_ROOT_DIR/seacas/) : SEACAS ExodusII library location
     EXE_NAME (default: src/lagrit) : binary filename for LaGriT
     EXO_CMAKE_FLAGS (default: none) : Add custom CMake flags to pass to cmake-exodus
 
@@ -157,12 +158,12 @@ else
 	BUILDFLAGS += -O -ffpe-summary=none
 endif
 
-ifeq ($(wildcard $(EXO_LIB_DIR)),)
-        EXO_LIB_DIR := /usr/lib
+ifeq ($(wildcard $(SEACAS_LIB_DIR)),)
+        SEACAS_LIB_DIR := /usr/lib
 endif
 
 ifeq ($(WITH_EXODUS),1)
-	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
+	BUILDFLAGS += -L$(SEACAS_LIB_DIR) -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
 	FAIL_THRESH := 1
 else
 	FAIL_THRESH := 3
@@ -180,7 +181,7 @@ header :
 
 before : src/lagrit_main.o src/lagrit_fdate.o
 	make -C lg_util/src/ LIB=$(LG_UTIL_LIB) CC=$(CC) FC=$(FC) DEBUG=$(DEBUG)
-	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITH_EXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(EXO_LIB_DIR)/../include DEBUG=$(DEBUG)
+	make -C src/ LIB=$(SRC_LIB) WITHEXODUS=$(WITH_EXODUS) CC=$(CC) FC=$(FC) EXO_INCLUDE_DIR=$(SEACAS_INC_DIR) DEBUG=$(DEBUG)
 
 clean :
 	make -C lg_util/src/ clean
@@ -207,8 +208,8 @@ exodus :
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas; \
-	cd $(EXO_BUILD_DIR)/seacas; \
+	git clone https://github.com/gsjaardema/seacas.git $(SEACAS_DIR); \
+	cd $(SEACAS_DIR); \
 	export ACCESS=`pwd`; \
 	./install-tpl.sh; \
 	cd TPL; \
@@ -217,14 +218,14 @@ exodus :
 	cd $(LG_DIR); \
 	echo "Exodus successfully built!"; \
 	echo "Build directory:"; \
-	echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
+	echo "   $(SEACAS_DIR)"; \
 	echo ""
 	echo "To compile LaGriT with Exodus, append the above"; \
 	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
 	echo "and run \"make [options] [target]\"."; \
 	echo ""; \
 	echo "Alternately, run"; \
-	echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
+	echo "  make SEACAS_DIR=$(SEACAS_DIR) [target]"
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
