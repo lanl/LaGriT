@@ -213,6 +213,7 @@ exodus :
 	export NEEDS_ZLIB=YES; \
 	export GNU_PARALLEL=OFF; \
 	export BUILD=YES; \
+	export CRAY=OFF; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
 	git clone --depth 1 https://github.com/gsjaardema/seacas.git $(SEACAS_DIR) || true; \
 	cd $(SEACAS_DIR); \
@@ -224,18 +225,18 @@ exodus :
 	fi; \
 	./install-tpl.sh; \
 	cd TPL; \
-	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
-	make && make install; \
-	cd $(LG_DIR); \
-	echo "Exodus successfully built!"; \
-	echo "Build directory:"; \
-	echo "   $(SEACAS_DIR)"; \
-	echo ""
-	echo "To compile LaGriT with Exodus, append the above"; \
-	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
-	echo "and run \"make [options] [target]\"."; \
-	echo ""; \
-	echo "Alternately, run"; \
+	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES && \
+	make && make install && \
+	cd $(LG_DIR) && \
+	echo "Exodus successfully built!" && \
+	echo "Build directory:"  && \
+	echo "   $(SEACAS_DIR)" && \
+	echo "" && \
+	echo "To compile LaGriT with Exodus, append the above" && \
+	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)" && \
+	echo "and run \"make [options] [target]\"." && \
+	echo "" && \
+	echo "Alternately, run" && \
 	echo "  make SEACAS_DIR=$(SEACAS_DIR) [target]"
 
 static: BUILD_TYPE = Static
