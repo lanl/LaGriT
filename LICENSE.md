@@ -1,6 +1,6 @@
 # License (BSD)
 
-LANL Software: LA-CC-15-069 No. C15097
+LANL Software: LA-CC-15-069 Copyright No. C15097
 
 This software is open source available under the BSD-3 license.
 

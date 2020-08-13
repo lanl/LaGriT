@@ -1,250 +1,309 @@
 ---
-GENERATOR: 'Mozilla/4. [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
 title: 'cmo/addatt'
+tags: cmo addatt 
 ---
 
 
 # cmo/addatt
 
+-------------------
 
- The **cmo/addatt** command is used to add and initialize a new mesh
- object attribute. There are two variations on the command syntax, general and keyword.
- 
- 
-## GENERAL FORMAT:
- 
- The general version of the **cmo/addatt** command is used to add and initialize a new mesh
- object attribute. Note for the general form, parameters will resort to default settings if not
- included on the command line. 
- See the **[modatt](cmo_modatt.md)** command for details on these  attribute parameters.
-
-  **cmo/addatt** / mo\_name / att\_name / [ type / rank / length /
-  interpolate / persistence / ioflag / value ]
+ The **`cmo/addatt`** command is used to add and initialize a mesh object attribute. 
 
  
-## KEYWORD FORMAT:
+The general version of the [**`cmo/addatt`**](#general) adds and initializes a new mesh object attribute. 
+<br>
+
+
+The [keyword](#keywords) version of the command recognizes keywords to create and/or fill attribute as defined by the keyword being used.
+If the named attribute already exists, values in the attribute will be overwritten.
+
+
+**Valid Keywords:**
+
+|          |             |              |               |               
+| :-------        |  :-------      |  :-------     |   :-------     |   
+|&nbsp;&nbsp; [scalar](#scalar)  |&nbsp;&nbsp;  [vector](#vector)    |&nbsp;&nbsp; [median](#median)   |     |
+|&nbsp;&nbsp; [edge_connections](#edge_connections) | &nbsp;&nbsp; [num_node_diff](#num_node_diff) |&nbsp;&nbsp;  [xyz_rtp](#xyz_rtp)  |&nbsp;&nbsp;  [xyz_rtz](#xyz_rtz)    | 
+|&nbsp;&nbsp; [volume](#volume)  |&nbsp;&nbsp; [voronoi](#voronoi)  |&nbsp;&nbsp;  [voronoi_volume](#voronoi_volume)    |&nbsp;&nbsp;  [hybrid_volume](#hybrid_volume)   | 
+|&nbsp;&nbsp; [sumnode](#sumnode)   |&nbsp;&nbsp;  [avgnode](#avgnode)   |&nbsp;&nbsp; [minnode](#minnode)   |&nbsp;&nbsp;  [maxnode](#maxnode)   |
+|&nbsp;&nbsp; [ang_mind](#ang_mind)   |&nbsp;&nbsp;  [ang_minr](#ang_minr)   |&nbsp;&nbsp; [ang_maxd](#ang_maxd)   |&nbsp;&nbsp;  [ang_maxr](#ang_maxr)   |
+|&nbsp;&nbsp; [ang_mind_solid](#ang_mind_solid)   |&nbsp;&nbsp;  [ang_minr_solid](#ang_minr_solid)   |&nbsp;&nbsp; [ang_maxd_solid](#ang_maxd_solid)   |&nbsp;&nbsp;  [ang_maxr_solid](#ang_maxr_solid)   |
+
+
+**Valid Keywords for 2D:**
+
+Some calculations are only supported for mesh objects of type line, tri, and quad. 
+If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first extract a surface mesh and then 
+compute the normals to the surface mesh. 
+
+|          |             |              |               |               
+| :-------        |  :-------      |  :-------     |   :-------     |   
+|&nbsp;&nbsp; [area_normal](#area_normal)  |&nbsp;&nbsp;  [unit_area_normal](#unit_area_normal)    |&nbsp;&nbsp;  [synth_normal_area](#synth_normal_area)   |&nbsp;&nbsp;  [synth_normal_angle](#area_normal_angle)   |
+|&nbsp;&nbsp; [area](#volume)  |&nbsp;&nbsp;  [length](#volume) |&nbsp;&nbsp;  [voronoi_varea](#voronoi_varea)    |&nbsp;&nbsp;  [quad_quality](#quad_quality)   |   
+
+
+
+## GENERAL SYNTAX <a name="general"></a>
+
+<pre>
+<b>cmo/addatt</b>/mo_name/ att_name / [ type / rank / length / interpolate / persistence / ioflag / value ]
+</pre>
+
+
+`mo_name` is the name of the mesh object to add attribute to.
+
+`att_name` is the name of the new attribute for the mesh object.
+
+`type / rank / length / interpolate / persistence / ioflag / value` are parameters for the new attribute. The defaults are: type (vdouble), rank (scalar), length (nnodes), interpolation (linear), persistance (temporary), ioflag (agl), value (0.0).  See [**`MODATT`**](cmo_modatt.md) for descriptions of mesh object attribute parameters.
+
+
+
+## KEYWORD SYNTAX <a name="keywords"></a> 
+
+<pre>
+<b>cmo/addatt</b>/mo_name/ keyword / keyword_parameters / 
+
+<b>cmo/addatt/-def-</b>/ keyword / keyword_parameters / 
+</pre>
+
+### KEYWORDS for 4th parameter:
+
  
- The keyword syntax uses keywords to create and/or fill a valid attribute
- with values as defined by the keyword being used.
- The keyword is the fourth token on the command line and the syntax for each keyword 
- is unique as defined below. If the named attribute already exists, values will be
- overwritten with values as indicated by the keyword.
- This syntax can also derive a vector attribute from three attributes or derive three 
- scalar attributes from a vector attribute.
-
-  **cmo/addatt** / mo\_name / **area\_normal** / normal\_type /
-  att\_v\_name
-
-  **cmo/addatt** / mo\_name / **unit\_area\_normal** / normal\_type /
-  att\_v\_name
-
-  **cmo/addatt** / mo\_name / **volume** / att\_name
-
-  **cmo/addatt** / mo\_name / **vector** / att\_v\_snk / att\_1src,
-  att\_2src, att\_3src
-
-  **cmo/addatt** / mo\_name / **scalar** / att\_1snk, att\_2snk,
-  att\_3snk / att\_v\_src
+<a name="scalar"></a>
+**scalar** / `att_1snk att_2snk att_3snk` / `att_v_src` <br> creates three node or element scalar attributes from a vector attribute.
 
 
-### KEYWORDS:
+<a name="vector"></a>
+**vector** / `att_v_snk` / `att_1src att_2src att_3src`<br> creates node or element attribute of rank vector from three existing scalar attributes. The new attribute will have a length = rank x nnodes (or nelements).  *Note: vector type attributes are not supported in many of the **dump** formats including AVS and GMV. Convert a vector attribute to multiple scalar attributes before writing to file.*
 
- 
-**vector**: creates att\_v\_snk of rank vector from three existing attributes att\_1src, att\_2src, and att\_3src
 
-**scalar**: creates three attributes att\_1snk, att\_2snk, and att\_3snk from an attribute att\_v\_src of rank vector.
+<a name="median"></a>
+**median** / [`xmed ymed zmed`]<br> creates three element attributes that are the coordinates of the median point (average value of the vertices) of each element. This is valid for all element types.  (default attribute names are xmed, ymed, zmed) 
 
-**area\_normal**: creates vector attribute att\_v\_name and fills with the x,y,z components of area normals for each face. 
-The new attribute is nelements in length, type is VDOUBLE, and rank is vector. normal\_type choices include **xyz, rtz**, and **rtp**. 
+
+<a name="edge_connections"></a>
+**edge_connections** / `att_sink`<br> creates an integer node attribute with the number of edge connections to each node. 
+
+
+<a name="node_num_diff"></a>
+**node_num_diff** / `att_sink`<br> creates an integer attribute with the maximum difference in node number between the node and any node it is connected to. 
+That is for node i connected to nodes j_1, j_2, ...j_n, the attribute will contain attribute=max(i-j_1,i-j_2, ... i-j_n)
+
+
+
+<a name="volume"></a>
+**volume** or **area** / `att_name`<br> creates an element attribute of type VDOUBLE. For **volume** the attribute is filled with **volume**(if 3D), **area**(if 2D) or **length**(if lines). Currently implemented for triangle areas.
+
+
+
+<a name="voronoi"></a>
+**voronoi** / `xvor, yvor, zvor`<br> creates three element attributes that are the x y z coordinates of the Voronoi point (center of circumscribed circle or sphere) of each element. This is only valid for elements of type tri and tet. This command does not check if a mesh is Delaunay, so a better keyword might be circumscribed_center. (Default attribute names are xvor, yvor, zvor).
+
+
+
+<a name="voronoi_volume"></a>
+**voronoi_volume** / `att_name`<br> creates a node attribute of type VDOUBLE. Currently implemented for a tetrahedral mesh by calling the build stor function to form the Voronoi bounding area for each node. See more about build stor in [dump/stor](../DUMP2.md).
+
+
+<a name="hybrid_volume"></a>
+**hybrid_volume** / `att_name`<br> creates a node attribute of type VDOUBLE which contains the volume of each hybrid median-Voronoi control volume. This is currently implemented for a tetrahedral mesh by calling the build stor function with the hybrid option. See [dump/stor](../DUMP2.md) for details on what hybrid median-Voronoi volumes are. Currently this option is only available for 3D tetrahedral meshes.
+
+
+
+<a name="sumnode"></a>
+**sumnode** / `att_name_elem` / `att_name_node`<br>  creates an element attribute and fills it with the sum of each elements' node attribute values.
+
+
+<a name="avgnode"></a>
+**avgnode** / `att_name_elem` / `att_name_node` <br> creates an element attribute and fills it with the average of each elements' node attribute values.
+
+
+<a name="minnode"></a>
+**minnode** / `att_name_elem` / `att_name_node` <br> creates an element attribute and fills it with the minimum of each elements' node attribute values.
+
+
+<a name="maxnode"></a>
+**maxnode** / `att_name_elem` / `att_name_node` <br> creates an element attribute and fills it with the maximum of each elements' node attribute values.
+
+
+<a name="xyz_rtp"></a>
+**xyz_rtp** / [ `[att_node_r att_node_theta att_node_phi` ]<br> creates three node attributes and fills them with the node coordinate, x y z in spherical coordinates, radius, theta, phi. (Defaults are c_r, c_theta, c_phi). 
+
+
+<a name="xyz_rtz"></a>
+**xyz_rtz** / [ `c_r, c_theta, c_z` ]<br> creates three node attributes and fills them with the node coordinate, x y z in cylindrical coordinates, radius, theta, z. (Defaults are c_r, c_theta, c_z).
+
+
+
+<a name="area_normal"></a>
+**area_normal** / `normal_type / att_v_name`<br> creates an element attribute of rank vector and fills with the x y z components of area normals for each face. 
+The `normal_type` choices include **xyz, rtz**, and **rtp**. 
 The area normal is a vector perpendicular to the triangle face with length equal to the area of the triangle. Currently implemented for **xyz** on triangles only.
 
 
-**unit\_area\_normal**: is a vector perpendicular to the triangle face with length equal to one. 
-This command has the same format as **area\_normal**.
+<a name="unit_area_normal"></a>
+**unit_area_normal** / `normal_type / att_v_name`<br> creates an element attribute of rank vector and fills with the x y z components of vector perpendicular to the face and with length equal to one.
+The `normal_type` choices include **xyz, rtz**, and **rtp**.                                                                          
+The area normal is a vector perpendicular to the triangle face with length equal to the area of the triangle. Currently implemented for **xyz** on triangles only.
 
 
-**volume** or **area**: creates an attribute nelements in length and type VDOUBLE. For **volume** keyword the att_name attribute 
-is filled with **volume**(if 3D), **area**(if 2D) or **length**(if lines). Currently implemented for triangle areas.
-
-
-**median** creates three element attributes (default names xmed, ymed, zmed) that are the coordinates of the median point (average value of the vertices) of each element. This is valid for all element types.
-
-
-**voronoi** creates three element attributes (default names xvor, yvor, zvor) that are the coordinates of the Voronoi point (center of circumscribed circle or sphere) of each element. This is only valid for elements of type tri and tet. This command does not check if a mesh is Delaunay, so a better syntax might be to call this circumscribed_center.
   
-  
-**voronoi_volume** creates a node attribute nnodes in length and type VDOUBLE. Currently implemented for a tetrahedral mesh by calling the build stor function to form the Voronoi bounding area for each node. (See more in dump/stor.)
-  
-  
-**hybrid_volume** creates a node attribute nnodes in length and of type VDOUBLE which contains the volume of each hybrid median-Voronoi control volume. This is currently implemented for a tetrahedral mesh by calling the build stor function with the hybrid option. See dump/stor for details on what hybrid median-Voronoi volumes are. Currently this option is only available for 3D tetrahedral meshes.
-  
-  
-**voronoi_varea** creates three node attributes nnodes in length and type VDOUBLE. The attributes represent each of the x,y,z components for the Voronoi areas formed by surrounding nodes. Currently implemented for a triangle mesh by calling the same routine that is used to compute the Voronoi areas for the external faces of a tetrahedral mesh. Works only on a triangle mesh. (See more in dump/zone_outside)
-  
-  
-**edge_connections** creates and integer attribute with the number of edge connections to each node. node_num_diff: creates an integer attribute with the maximum difference in node number between the node and any node it is connected to. That is for node i connected to nodes j_1, j_2, ...j_n, the attribute will contain attribute=max(|i-j_1|,|i-j_2|, ... |i-j_n|)
-
-
-**xyz_rtp** creates three node attributes and fill them with the node coordinate, x,y,z in spherical coordinates, r,theta,phi. Default values for the attribute, if not specified are, c_r, c_theta, c_phi. 
-
-
-**xyz_rtz** create three node attributes and fill them with the node coordinate, x,y,z in cylindrical coordinates, r,theta,z. Default values for the attribute, if not specified are, c_r, c_theta, c_z .
-
-
- **synth_normal_area** create node attributes, x_n_norm, y_n_norm, z_n_norm, and fill them with the area weighted normal of each node.
-
-
-**synth_normal_angle** create a node attributes, x_n_norm, y_n_norm, z_n_norm, and fill them with the angle weighted normal of each node. 
-
-
-*Note these synthetic node normal calculations are only supported for mesh objects of type line, tri and quad. If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first extract a surface mesh and then compute the normals to the surface mesh. The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected.*
-
-
-**sumnode** create an element attribute att_name_elem and fill it with the sum of the elements' node attribute, att_name_node.
+<a name="voronoi_varea"></a>
+**voronoi_varea** / `att_name_xn att_name_yn att_name_zn`<br> creates three node attributes with type VDOUBLE. The attributes represent each of the x y z components for the Voronoi areas formed by surrounding nodes. Currently implemented for a triangle mesh by calling the same routine that is used to compute the Voronoi areas for the external faces of a tetrahedral mesh. Works only on a triangle mesh. See more in [dump/zone_outside](../DUMP2.md).
   
 
-**avgnode** create an element attribute att_name_elem and fill it with the average of the elements' node attribute, att_name_node.
+<a name="synth_normal_area"></a>
+**synth_normal_area** <br>  creates three node attributes, x_n_norm, y_n_norm, z_n_norm, and fills them with the area weighted normal of each node.
 
 
-**minnode** create an element attribute att_name_elem and fill it with the minimum value of the elements' node attribute, att_name_node.
+<a name="synth_normal_angle"></a>
+**synth_normal_angle** <br> creates three node attributes, x_n_norm, y_n_norm, z_n_norm, and fills them with the angle weighted normal of each node. 
 
 
-**maxnode** create an element attribute att_name_elem and fill it with the maximum of the elements' node attribute, att_name_node.
+*The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected.*
+
  
- 
-**quad_quality** creates element attributes att_name_quality, att_name_regularity, and att_name_flag. These three attributes all describe the quality of each quadrilateral in a quad mesh. See example below.
+<a name="quad_quality"></a>
+**quad_quality** / `att_name_quality / att_name_regularity / att_name_flag` <br> creates element attributes att_name_quality, att_name_regularity, and att_name_flag. These three attributes all describe the quality of each quadrilateral in a quad mesh. See example below.
 
-  
+
+
 The following commands create element attributes related to element angle measurments.
 
 The Dihedral angle calculations are supported for tri, quad, tet, pyramid, prism, hex.
-
 The Solid angle calculation is only supported for tet elements.
 
-See also the command quality for adding attributes such as element aspect ratio(quality/aratio) and edge length ratio 
+See also the command [**`QUALITY`**](../QUALITY.md) for adding attributes such as element aspect ratio(quality/aratio) and edge length ratio (quality/edge_ratio), minimum edge length (quality/ edge_min) and maximum edge length (quality/edge_max).
 
-(quality/edge_ratio), minimum edge length (quality/ edge_min) and maximum edge length (quality/edge_max).
+<a name="ang_mind"></a>
+**ang_mind** / `att_name` <br> create a scalar element attribute and fill it with the minimum dihedral angle (degrees) of the element
+
+<a name="ang_min"></a>
+**ang_minr** / `att_name` <br> create a scalar element attribute and fill it with the minimum dihedral angle (radian) of the element
+
+<a name="ang_maxd"></a>
+**ang_maxd** / `att_name`<br>  create a scalar element attribute and fill it with the maximum dihedral angle (degrees) of the element
+
+<a name="ang_maxr"></a>
+**ang_maxr** / `att_name` <br> create a scalar element attribute and fill it with the maximum dihedral angle (radian) of the element
+
+*These dihedral angles will be between 0 and 2pi.*
+
+<a name="ang_mind_solid"></a>
+**ang_mind_solid** / `att_name` <br> create a scalar element attribute and fill it with the minimum solid angle (degrees) of the element
+
+<a name="ang_mind_solid"></a>
+**ang_maxd_solid** / `att_name` <br> create a scalar element attribute and fill it with the minimum solid angle (radian) of the element
+
+<a name="ang_mind_solid"></a>
+**ang_minr_solid** / `att_name` <br> create a scalar element attribute and fill it with the maximum solid angle (degrees) of the element
+
+<a name="ang_mind_solid"></a>
+**ang_maxr_solid** / `att_name` <br> create a scalar element attribute and fill it with the maximum solid angle (radian) of the element
+
+*These solid angles will be between 0 and 4pi.*
 
 
 
-**ang_mind** create a scalar element attribute and fill it with the minimum dihedral angle (degrees) of the element
+## EXAMPLES of GENERAL FORMAT
 
-**ang_minr** create a scalar element attribute and fill it with the minimum dihedral angle (radian) of the element
+```
+cmo/addatt/ cmo1 / boron1 /VDOUBLE/scalar/nnodes/asinh/permanent
+```
+Create node attribute named boron1 with interpolate method of asinh.
 
-**ang_maxd** create a scalar element attribute and fill it with the maximum dihedral angle (degrees) of the element
-
-**ang_maxr** create a scalar element attribute and fill it with the maximum dihedral angle (radian) of the element
-
-*Dihedral angle will be between 0 and 2π.*
-
-
-**ang_mind_solid** create a scalar element attribute and fill it with the minimum solid angle (degrees) of the element
-
-**ang_maxd_solid** create a scalar element attribute and fill it with the minimum solid angle (radian) of the element
-
-**ang_minr_solid** create a scalar element attribute and fill it with the maximum solid angle (degrees) of the element
-
-**ang_maxr_solid** create a scalar element attribute and fill it with the maximum solid angle (radian) of the element
-
-*Solid angle will be between 0 and 4π.*
-
-
-
-## EXAMPLES of GENERAL FORMAT:
-
-
-  **cmo** **/addatt**/ cmo1 / boron1 **/VDOUBLE** **/scalar** **/nnodes** **/asinh** **/permanent**
+```  
+cmo/addatt/ cmo1 /z_save/VDOUBLE/scalar/nnodes/linear/permanent/
+cmo/copyatt/ cmo1 cmo1 / z_save zic
+```  
+Create node attribute named z_save then use **copyatt** to copy values from zic to z_save.
   
-  Create node attribute named boron1 with interpolate method of asinh.
+```  
+cmo/addatt/ cmo1 /boron3 /VDOUBLE/scalar/nnodes/user/temporary/ .1
+```  
+Create temporary node attribute named boron3 and fill with value .1
   
-  **cmo/addatt**/ cmo1 /z_save **/VDOUBLE/scalar/nnodes/linear/permanent/**
-  
-  **cmo/copyatt/** cmo1 cmo1 / z_save zic
-  
-  Create node attribute named z_save then use **copyatt** to copy values from zic to z_save.
-  
-  
-  **cmo/addatt**/ cmo1 /boron3 **/VDOUBLE/scalar/nnodes/user/temporary**/ .1
-  
-  Create temporary node attribute named boron3 and fill with value .1
-  
-  
-  **cmo/addatt/-default-**/boron3
-  
-  Create attribute named boron3 with default mesh object settings.
-  
-  
-  
-  
-## EXAMPLES of KEWORD FORMAT:
+```  
+cmo/addatt/-default-/boron3
+```
+Create attribute named boron3 with default mesh object settings.
   
   
-**cmo/addatt**/ cmotri / **area\_normal** / anorm
+  
+  
+## EXAMPLES of KEYWORD FORMAT
+  
+  
+```
+cmo/addatt/ cmotri / area_normal / anorm
+```
   
 Create and fill element vector named anorm with the x,y,z components for area normals of each triangle.
   
   
-**cmo/addatt**/ cmotri / **unit\_area\_normal** / n\_face
-  
+```
+cmo/addatt/ cmotri / unit_area_normal / n_face
+```
 Create and fill element vector named n\_face with the x,y,z components for unit area normals of each triangle.
   
   
-**cmo/addatt**/cmo1/ **scalar** / xnorm, ynorm, znorm / anorm
-  
+```
+cmo/addatt/cmo1/ scalar / xnorm, ynorm, znorm / anorm
+```
 Create attributes xnorm, ynorm, znorm from the three components of the vector attribute anorm.
   
   
-**cmo/addatt**/cmo1/ **vector** / vnorm /xnorm, ynorm, znorm
+```
+cmo/addatt/cmo1/ vector / vnorm /xnorm, ynorm, znorm
+```
+Create vector attribute vnorm from the three attributes xnorm, ynorm, znorm with length nnode (or nelement) x 3.
   
-Create vector attribute vnorm from the three attributes xnorm, ynorm, znorm.
   
-  
-**cmo/addatt**/ cmotri / **area** / darea
-  
+```
+cmo/addatt/ cmotri / area / darea
+```
 Create and fill attribute named darea with area of each triangle.
   
-**cmo/addatt** / cmotet / **voronoi_volume** / vor_vol
-  
+```
+cmo/addatt / cmotet / voronoi_volume / vor_vol
+```
 Create and fill attribute named vor_vol with Voronoi volume of each node in tetrahedral mesh.
 
-**cmo/addatt** / cmotet / **hybrid_volume** / hybrid_vol
-
+```
+cmo/addatt / cmotet / hybrid_volume / hybrid_vol
+```
 Create and fill an attribute named hybrid_vol with the hybrid median-Voronoi volume of each node in a tetrahedral mesh.
 
 
-**cmo/addatt** / cmotri / **voronoi_varea** / xvarea yvarea zvarea
-
+```
+cmo/addatt/cmotri/ voronoi_varea / xvarea yvarea zvarea
+```
 Create and fill attributes xvarea, yvarea, and zvarea with xyz components of the Voronoi areas for each node in triangle mesh.
 
 
-**cmo / addatt** / cmo / **ang_mind** / ang_mind
-
-**cmo / addatt** / cmo / **ang_minr** / ang_minr
-
-**cmo / addatt** / cmo / **ang_maxd** / ang_maxd
-
-**cmo / addatt** / cmo / **ang_maxr** / ang_maxr
-
-**cmo / addatt** / cmo / **ang_mind_solid** / sang_mind
-
-**cmo / addatt** / cmo / **ang_minr_solid** / sang_minr
-
-**cmo / addatt** / cmo / **ang_maxd_solid** / sang_maxd
-
-**cmo / addatt** / cmo / **ang_maxr_solid** / sang_maxr
-
-**cmo / addatt** / cmo / **synth_normal_area**
-
-**cmo / addatt** / cmo / **synth_normal_angle**
-
-**cmo / addatt** / cmo / **sumnode** / elem_sum_imt / imt 
-
-**cmo / addatt** / cmo / **maxnode** / elem_max_boron / boron 
+```
+cmo / addatt / cmo / ang_mind / ang_mind
+cmo / addatt / cmo / ang_minr / ang_minr
+cmo / addatt / cmo / ang_maxd / ang_maxd
+cmo / addatt / cmo / ang_maxr / ang_maxr
+cmo / addatt / cmo / ang_mind_solid / sang_mind
+cmo / addatt / cmo / ang_minr_solid / sang_minr
+cmo / addatt / cmo / ang_maxd_solid / sang_maxd
+cmo / addatt / cmo / ang_maxr_solid / sang_maxr
+cmo / addatt / cmo / synth_normal_area
+cmo / addatt / cmo / synth_normal_angle
+cmo / addatt / cmo / sumnode / elem_sum_imt / imt 
+cmo / addatt / cmo / maxnode / elem_max_boron / boron 
+```
+Various examples.
 
 
-## EXAMPLE QUAD QUALITY:
+## EXAMPLE quad_quality:
 
-**cmo/addatt** / cmoquad / **quad_quality** / quality regularity flag
+```
+cmo/addatt/cmoquad / quad_quality / quality regularity flag
+```
 
 Create attributes named quality, regularity, and flag with several quad quality measures.
 

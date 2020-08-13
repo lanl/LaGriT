@@ -10,12 +10,12 @@
  
   Input
 
- [lagrit\_input\_add](../lagrit_input_add)
+ [lagrit_input_add](input/lagrit_input_add.txt)
 
   Images of GMV output
  
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1.gif">  
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1.gif">  
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2.gif">  
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2.gif">  
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh3.gif">  
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh3.gif">  

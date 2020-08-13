@@ -1,25 +1,29 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+title: "cmo/compress"
+tags: cmo compress
 ---
 
-** ** 
+# cmo/compress
 
- ompress**/ mo\_name
+Shortens all memory managed arrays for Mesh Object to their actual lengths.
 
-  ** mo\_name** is type character, default is **-cmo-**
+## SYNTAX
 
-  Shortens all memory managed arrays for Mesh Object mo\_name to their
-  actual lengths.
+<pre>
+cmo/compress/ mo_name
+</pre>
 
- 
+`mo_name` is type character, default is the current mesh object.
 
-**EXAMPLES:**
 
-mo/compress**/ mo\_tet2
+## EXAMPLES
 
-mo/compress/-cmo-**
+```
+cmo/compress/ mo_tet2
 
-mo/compress**
+cmo/compress/-cmo-
 
-mo/compress/-all-**
+cmo/compress
+
+cmo/compress/-all-
+```

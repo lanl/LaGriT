@@ -1,12 +1,26 @@
 ---
 title: RZ
-tags: ok
+tags: rz, create points
 ---
 
- **RZ**
+# RZ (deprecated, see [CREATEPTS](createpts.md) )
+
+
+----------------------
+
 
   This command adds points to the mesh. It can distribute points
   evenly or according to a ratio zoning method.
+
+
+## SYNTAX
+
+<pre>
+<b>rz /xyz rtz rtp</b>/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/ iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
+
+<b>rz/line</b>/np///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/
+</pre>
+
 
   **xyz** specifies Cartesian coordinates.
 
@@ -32,30 +46,19 @@ tags: ok
   line of rotation in the **rotateln** command.
   ni,nj,nk number of points to be created in each direction.
 
-  xmin,ymin,zmin minimums for coordinates.
+  `xmin,ymin,zmin` minimums for coordinates.
 
-  xmax,ymax,zmax maximums for coordinates.
+  `xmax,ymax,zmax` maximums for coordinates.
 
-  iiz,ijz,ikz if =0 then mins and maxs are used as cell centers
+  `iiz,ijz,ikz` if =0 then mins and maxs are used as cell centers, if =1 then mins and maxs are used as cell vertices
 
-  if =1 then mins and maxs are used as cell vertices
+  `iirat,ijrat,ikrat` ratio zoning switches (0=off,1=on)
 
-  iirat,ijrat,ikrat ratio zoning switches (0=off,1=on)
-
-  xrz,yrz,zrz ratio zoning value - distance is multiplied by this
-  value for each subsequent point.
-
-   
-
- **FORMAT:**
-
- **rz** **/xyz** **rtz** **rtp**ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/ iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
-
- **rz/line**/np///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/
+  `xrz,yrz,zrz` ratio zoning value - distance is multiplied by this value for each subsequent point.
 
  
 
- **EXAMPLES:**
+## EXAMPLES
 
       rz /xyz /5,3,10 /0.,2.,0. /5.,6.,2. /1,1,1/
 

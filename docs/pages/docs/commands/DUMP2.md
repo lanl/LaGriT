@@ -1,60 +1,71 @@
 ---
 title: "DUMP"
-categories: write output files
+tags: write output files
 ---
 
-# DUMP #
+# DUMP 
 
 --------------------------------------------
 
-This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV and TECPLOT. See below for full list of file types that can be written. The list is in alphabetic order and describes each valid file_type with syntax and usage. 
+This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV, and TECPLOT. See alphabetic list below for descriptions and syntax.
 
-## GENERAL SYNTAX: ##
+## SYNTAX 
+
+<hr>
 
 <pre>
 <b>dump</b> / file_type / file_name /[cmo_name]/
+
+<b>dump</b> / file<b>.inp .gmv .lagrit .lg .exo .ts</b> / [cmo_name]/
 </pre>
 
-The dump command is followed by a keyword for file type. Valid file type keywords are listed below and include: `gmv`, `avs`, `avs2`, `chad`, `coord`, `datex`, `elem_adj_node`, `elem_adj_elem`, `fehm`, `geofest`, `geom`, `gmv`, `gocad`, `lagrit`, `recolor`, `stl`, `stor`, `tecplot`, `zone`, `zone_imt`, and `zone_outside`.   
-
-The `file_type` keyword is followed by a string to be used as whole or part of file name as described below.
-
-
-## SHORT SYNTAX: ##
-
-<pre>
-<b>dump</b> / file_name.extension / [cmo_name]
-</pre>
-
-where extension implies the file type designation. Valid exetensions are recognized:   
-AVS (`.inp` or `.avs`), Exodus (`.exo`), GMV (`.gmv`), LaGriT (`.lagrit` or `.lg`), and GoCAD (`.ts`). 
-
-## FILE TYPES: ##
-
-### Jump to file format: ###
-
-| [`avs`](#avs)       | [`avs2`](#avs2)  | [`chad`](#chad)  | [`coord`](#coord)  |  [`datex`](#datex) |
-|---------------------|------------------|------------------|--------------------|--------------------|
-| [`elem_adj_*`](#elem_adj) | [`exo`](#exodus)  | [`fehm`](#fehm)  | [`geofest`](#geofest)  | [`geom`](#geom)  |
-| [`gmv`](#gmv)  | [`gocad`](#gocad)  | [`lagrit`](#lagrit)  | [`pflotran`](#pflotran)  | [`recolor`](#recolor)  |
-| [`stl`](#stl)  | [`stor`](#stor)  | [`tecplot`](#tecplot)  | [`zone`](#zone)  |   |
-
+The **`dump`** command is followed by a keyword `file_type` to indicate the type of file to write. 'cmo_name' is the mesh object to write. 
 <br>
+The second line shows the short form where `file_type` is recognized by the file name extension as listed below.
 
-### **`AVS`** <a name="avs"></a> OR **`AVS2`** <a name="avs2"></a>
+
+### EXTENSIONS for SHORT SYNTAX
+
+|   |   |  | | |
+| :------ | :---------- | :---------- | :---------- | :---------- | 
+|&nbsp;&nbsp; **AVS** [**.inp** or **.avs**](#avs) |&nbsp;&nbsp; **GMV** [**.gmv**](#gmv)  |&nbsp;&nbsp; **Exodusii** [**.exo**](#exodus) |&nbsp;&nbsp; **GoCAD** [**.ts**](#gocad) |&nbsp;&nbsp; **LaGriT** [**.lagrit** or **.lg**](#lagrit) | 
+
+
+### ADDITIONAL FILE TYPES
+
+|   |   |    |   |
+| :------ | :---------- | :------ | :---------- | 
+|&nbsp;&nbsp; [**chad**](#chad) &nbsp;&nbsp; |&nbsp;&nbsp; [**coord**](#coord) &nbsp;&nbsp; |&nbsp;&nbsp; [**datex**](#datex) &nbsp;&nbsp; |&nbsp;&nbsp; [**elem_adj_node**](#elem_adj) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**elem_adj_elem**](#elem_adj) &nbsp;&nbsp; |&nbsp;&nbsp; [**fehm**](#fehm) &nbsp;&nbsp; |&nbsp;&nbsp; [**geofest**](#geofest) &nbsp;&nbsp; |&nbsp;&nbsp; [**geom**](#geom) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**pflotran**](#pflotran) &nbsp;&nbsp; |&nbsp;&nbsp; [**recolor**](#recolor) &nbsp;&nbsp; |&nbsp;&nbsp; [**stl**](#stl) &nbsp;&nbsp; |&nbsp;&nbsp; [**stor**](#stor) &nbsp;&nbsp; |
+|&nbsp;&nbsp; [**tecplot**](#tecplot) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_imt**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_outside**](#zone) &nbsp;&nbsp;   |
+
+
+<hr>
+
+### **`AVS`** <a name="avs"></a>
 
 <pre>
-<b>dump / avs</b> OR <b>avs2</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
+<b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
 </pre>
 
-Will write the AVS UCD (Unstructured Cell Data) file format. The keyword **`avs`**  = **`avs2`** with attribute values written as real or integer depending on type. **`avs1`** = old avs with all attribute values written as real (larger file size). The four optional *`iopt_`* values indicate which information to write or skip, default is everything on with iopt values = 1 1 1 1.
+Will write the AVS UCD (Unstructured Cell Data) file format. 
+
+**`avs`**  = **`avs2`** writes data values as real or integer depending on type with spacing dependent on size of values. 
+
+**`avs1`** = old avs writes all data values as real with large spacing (larger file size). 
+
+`iopt values` indicate which data to write or skip, default is everything on with `iopt` values = 1 1 1 1.
+
 
 For example, 
 
 <pre>
-dump / avs / file.inp / cmo_name
+<b>dump</b> / avs / file.inp / cmo_name
 
-dump / avs / file.inp / cmo_name / 1, 1, 0, 0
+<b>dump</b> / avs / file.inp / cmo_name / 1, 1, 0, 0
+
+<b>dump</b>/ file_name<b>.inp</b> / cmo_name
 </pre>
 
 the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes. 
@@ -111,7 +122,7 @@ Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in C
 <b>dump / coord</b> / file_name /[cmo_name]/
 </pre>
 
-> See also `dump/fehm`
+See also **`dump/fehm`**
 
 Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by [clicking here for details](dump/DUMP3.md).
 
@@ -129,7 +140,7 @@ will output a file with Geometry, Element, Region, Location, and Dataset in DATE
 
 <br>
 
-### **`ELEM_ADJ_ELEM` && `ELEM_ADJ_NODE`** <a name="elem_adj"></a>
+### **`ELEM_ADJ_ELEM`** or **`ELEM_ADJ_NODE`** <a name="elem_adj"></a>
 
 <pre>
 <b>dump / elem_adj_elem</b> / file_name* / mo_name / [ <b>delatt</b>  OR  <b>keepatt</b>  OR  <b>attonly</b> ]
@@ -152,7 +163,7 @@ File format: `node_number number_of_adjacent_elem e1 e2 ... en`
 
 <br>
 
-### **`Exodus`** <a name="exodus"></a>
+### **`EXO`** or **`EXODUSII`** <a name="exodus"></a>
 
 <pre>
 <b>dump / exo</b>  OR  <b>exodusii</b> / file_name / mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
@@ -231,12 +242,13 @@ will write an ascii file containing the geometry information for the current run
 ### **`GMV`** <a name="gmv"></a>
 
 <pre>
-<b>dump / gmv /</b> file_name / [mesh-object] / [binary OR ascii] 
+<b>dump / gmv /</b> file_name / [mo_name] / [<u><b>binary</b></u> or <u><b>ascii</b></u> ]
+
+<b>dump</b>/ file_name<b>.gmv</b> / [mo_name] /
 </pre>
 
 Write a file to be read by the graphics program GMV.  The defaults are binary and current mesh object.
-
-*NOTE:  For LaGriT versions dated after October 1999, use `cmo/setatt//ipolydat/no` to reduce file size. This command will keep the polygon data from being written to GMV files.*
+Use **cmo/setatt//ipolydat/no** to reduce file size. This command will keep the polygon data from being written to GMV files.
 
 For more on GMV visit: http://www.generalmeshviewer.com
 
@@ -248,7 +260,7 @@ For more on GMV visit: http://www.generalmeshviewer.com
 <b>dump / gocad /</b> file_name 
 </pre>
 
-Write a gocad TSURF file.
+Write a gocad TSURF file of triangle elements.
 
 <br>
 
@@ -258,7 +270,7 @@ Write a gocad TSURF file.
 <b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
 </pre>
 
-Write a LaGriT restart file that contains geometry and mesh object information. The geometry belongs to the `cmo_name` with which it was created.  The  `cmo_name` can be `-all-` in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the `dump` command was issued. The default file type is binary. 
+Write a LaGriT restart file that contains geometry and mesh object information. The geometry belongs to the `cmo_name` with which it was created.  The  `cmo_name` can be **-all-** in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the **`dump`** command was issued. The default file type is binary. 
 
 <br>
 
@@ -269,9 +281,9 @@ Write a LaGriT restart file that contains geometry and mesh object information. 
 <b>dump / pflotran</b> / file_name_root / cmo_name / nofilter_zero
 </pre>
 
-Write coefficient matrix (stor) style values in PFLOTRAN `.uge` format file. The default `dump/pflotran` command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
+Write coefficient matrix (stor) style values in PFLOTRAN **.uge** format file. The default **`dump/pflotran`** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
 
-The following is the format used by PFLOTRAN for `.uge` (explicit unstructured grid) file.
+The following is the format used by PFLOTRAN for **.uge** (explicit unstructured grid) file.
 
 The first block are the list of ids of cells and the coordinates of cell centroids and the volumes of the cells. The PFLOTRAN cells are Voronoi volumes, one for each node.
 
@@ -328,9 +340,9 @@ Output in STL, stereo lithography format. This is only supported for triangle me
 [all  OR  graph  OR  coefs  OR  none] / [hybrid  OR  nohybrid ] 
 </pre>
 
-Same syntax as `dump/fehm` except the only output is the FEHM sparse matrix coefficient STOR file `rootname.stor`. 
+Same syntax as **`dump/fehm`** except the only output is the FEHM sparse matrix coefficient STOR file `rootname.stor`. 
 File can be written in ascii or binary (fortran unformatted platform dependent). The area coefficient values can be written as scalar or vector.
-The compression default is `all` which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
+The compression default is **all** which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
 The stor file is one of a set of files written when the fehm file type is called. 
 
 [Click here for further explanation of syntax options.](dump/DUMP3.md)
@@ -346,7 +358,7 @@ The stor file is one of a set of files written when the fehm file type is called
 </pre>
 
 Write a file to be read by the Tecplot graphics package.  The output file is ascii. Only node attributes are output, element attributes are ignored and not output. Tecplot does not support prism or pyramid element types so they are written as eight node, degenerate hex elements. 
-The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is `.plt`. If a name is given without the `.plt` suffix, a suffix `.plt` is added. 
+The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is **.plt**. If a name is given without the **.plt** suffix, a suffix ".plt" is added. 
 
 Output is ascii. This output format does not support output of a mesh with nodes but zero elements. If there are zero elements, a header is written but node coordinate information is not output.
 
@@ -400,7 +412,7 @@ There are two files written:
 
 1. file_name_outside.zone is a node list for each of 6 possible external boundaries. 
 
-If keepatt is specified, then 6 node based attributes are added to the mesh object with the names `top`, `bottom`, `left_w`, `right_e`, `back_n`, and `front_s`. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for `top`, `front_s`, and `left_w`.
+If keepatt is specified, then 6 node based attributes are added to the mesh object with the names  **bottom**, **top**,  **right_e**, **back_n**, **front_s**, and **left_w**. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w.
 
 * 1 = top = top = positive z direction (0,0,1) 
 * 2 = bottom = bottom = negative z direction (0,0,-1) 

@@ -1,6 +1,6 @@
 ---
 title: Online Manual
-tags: ok
+tags: manual, index
 tipue_search_active: true
 --- 
 
@@ -11,22 +11,23 @@ tipue_search_active: true
 ## I. Introduction ##
 
  -  [LaGriT and PyLaGriT](docs/lagrit.md)  
- -  [Tutorial](docs/tutorial.md)  
- -  [Examples and Simple Demos](docs/demos/index.md)  
+ -  [LaGriT Features](features.md)  
+ -  [Mesh Design Considerations](docs/meshing.md)  
+ -  [Tutorials and Examples](tutorial/index.md)
  
 ## II. LaGriT Commands ##
  
- -  [Conventions](docs/conventions.md)  
+ -  [Syntax Conventions](docs/conventions.md)  
  -  [Alphabetic listing of LaGriT commands](commands.md)  
  -  [LaGriT commands by Category](commands_cat.md)  
- -  [Table of LaGriT Commands](table.md)  
  
 ## III. Mesh Objects ##
  -  [Mesh Object Definition](docs/meshobject.md)  
- -  [Command Interface](docs/commandi.md )  
+ -  [Mesh Object Connectivity](docs/meshobjcon.md) 
+ -  [Supported Element Types](docs/supported.md)  
+ -  [Geometries](docs/geometries.md) 
+ -  [Command Interface](docs/commandi.md)  
  -  [Fortran Interface](docs/fortran.md)  
- -  [Mesh Object Connectivity](docs/meshobjcon.md)  
- -  [Geometries](docs/geometries.md)  
 
 ## IV. Interfacing User Routines to LaGriT ##
  -  [Building an Executable and Running LaGriT](docs/build.md)   
@@ -41,6 +42,11 @@ tipue_search_active: true
  -  [Fatal memory management errors](docs/errors.md#panic)    
 
 
-[**LaGriT References**](docs/References.md)   
 
-[**LaGriT on Github**](https://github.com/lanl/LaGriT)
+### [LaGriT References](docs/References.md)   
+
+### [LaGriT Publications](publications.md)   
+
+### [LaGriT on Github](https://github.com/lanl/LaGriT)
+
+

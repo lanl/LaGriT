@@ -1,9 +1,11 @@
 ---
 title: "CREATEPTS"
-tags: createpts
+tags: createpts, options
 ---
  
-# CREATEPTS #
+# CREATEPTS 
+
+--------------------
 
 This command adds points to a mesh object. For some special cases, it will also produce element connectivity. The **createpts** command is a wrapper for the deprecated **rz** type commands.
   

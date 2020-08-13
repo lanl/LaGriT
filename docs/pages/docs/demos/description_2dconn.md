@@ -3,21 +3,45 @@
  The objective is to connect a set of existing nodes (2 dimensional) into a triangle mesh that satisfies the Delaunay criterion using the  **connect** command.
  The output consists of two gmv files - one showing the point  distribution and the other showing the resulting triangle mesh.
 
- Input
+ Example:
 
- [lagrit\_input\_2dconnect](../lagrit_input_2dconnect)
+ [lagrit_input_2dconnect](input/lagrit_input_2dconnect.txt)
 
- Images of GMV output:
+```
+# read the input points
+read / avs / input.inp / cmopts
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1_tn.gif"
+# create 2D mesh object and copy points
+cmo/create/cmotri/ / /triplane
+copypts/cmotri/ cmopts
+cmo/delete/cmopts
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1.gif" 
+# remove duplicate points if they exist
+cmo/select/cmotri
+filter/1,0,0
+rmpoint/compress
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1.gif"   
+# connect the points and set itp array
+connect
+resetpts/itp
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2_tn.gif"
+# write AVS format file of the tri plane
+dump / avs / output_2d_conn.inp / cmotri
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2.gif"
+# report mesh information
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+```
+ 
+Input points:
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2.gif"
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect1.gif" > 
+
+
+Triangulation after connect:
+
+<img width="350" src="https://lanl.github.io/LaGriT/assets/images/2d_connect2.gif" >
+
+
 

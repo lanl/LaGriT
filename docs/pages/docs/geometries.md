@@ -1,4 +1,4 @@
-**e. Geometries**
+# Geometries
 
 A geometry consists of a set of surfaces and regions that are defined in
 terms of existing surfaces.  A name is associated with the geometry data

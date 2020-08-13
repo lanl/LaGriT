@@ -11,12 +11,12 @@ title: Example 6: addmesh / match
 
  Input
 
-  [lagrit\_input\_match](../lagrit_input_match)
+  [lagrit_input_match](input/lagrit_input_match.txt)
 
  Images of GMV output  
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1_tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh1_tn.gif"> 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh2_tn.gif">
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh3_tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/addmesh_mesh3_tn.gif"> 

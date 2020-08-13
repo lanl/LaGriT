@@ -6,17 +6,25 @@ tags: hex to tet connect
 # HEXTOTET #
 --------
 
-IMPORTANT NOTE: This command, while still recognized, has a newer more readable syntax, see [grid2grid](GRID2GRID.md) instead.
+This command, while still recognized, has a newer more readable syntax, see [grid2grid](GRID2GRID.md) instead.
 
- The **`hextotet`** command creates a tetrahedral grid from 3D grids. In
- 2D the elements are converted to triangles. The first parameter
- ioption determines how the conversion is performed.
+The **`hextotet`** command creates a tetrahedral grid from 3D grids, and triangles from 2D.
+The first parameter *ioption* determines how the conversion is performed.
 
-## FORMAT: ##
+
+NOTE: Use of **hextotet** (or **grid2grid**) to convert a 3D mesh to a tetrahedral mesh will in general result in a non-Delaunay tetrahedral mesh. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2) then using **hextotet** and then **dump/stor** to compute and output geometric coefficients, is not a good idea. If the ultimate goal is a a geometric coefficients file, one should use **connect** to connect vertices into a Delaunay mesh.
+
+ 
+Note: Use of **hextotet** to convert an octree refined hexahedral into to a tetrahedral mesh should not be done. You will get a result, however, no special algorithms are implemented to connect across interfaces where octree resolution changes and hanging nodes occur. One should instead copy the octree vertex set into a tet mesh object and use **connect** to create a tetrahedral mesh.
+
+
+## SYNTAX
 
 <pre>
  <b>hextotet</b> / [ ioption ] / cmo_snk / cmo_src / [ <b>rmvolume</b>]
  </pre>
+ 
+## OPTIONS
 
 *`ioption`* is a numerical number indicating the number of tets or
 triangles to break each element into. If this parameter is missing then
@@ -47,20 +55,20 @@ The selections include:
  **24**   hex to 24 tets, seven new points (1 + 6 faces).
 
 
-cmo\_snk / cmo\_src : are the mesh\_object names. cmo\_src is the
-original grid. cmo\_snk is the name for the new tet or triangle grid.
+*`cmo_snk / cmo_src`* : are the mesh_object names. cmo_src is the
+original grid. cmo_snk is the name for the new tet or triangle grid.
 
-**rmvolume** : keyword is optional and will assign
-hextotet\_remove\_volume and hextotet\_remove\_duplicates to 'yes'. This
+**`rmvolume`** : keyword is optional and will assign
+hextotet_remove_volume and hextotet_remove_duplicates to 'yes'. This
 will enable hextotet to use its own algorithm for removing elements with
 zero volume and duplicate points. It may be prone to epsilon errors for
 grids over large areas. By default, zero volumes and duplicate points
-are not removed from the new mesh object cmo\_snk.
+are not removed from the new mesh object cmo_snk.
 
 
 
 
-**EXAMPLES:**
+## EXAMPLES
 
 <pre>
  hextotet / 24 / cmo_tet / cmo_hex

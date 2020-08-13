@@ -1,12 +1,13 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
-title: FIELD
+title: ELMTEST
+tags: elmtest, jtet, connectivity
 ---
 
  
 
- **ELMTEST**
+# ELMTEST
+
+-----------------------
 
   This command test a mesh for valid jtet connectivity.  If the mesh
   is a network it allows for jtet loops; in this case the jtet
@@ -18,10 +19,15 @@ title: FIELD
   if the node numbers are the same even if a node number appears more
   that once.
 
- **FORMAT:**
+## SYNTAX
 
-  **elmtest** /[/nwrite] where nwrite is the number of warning
-  messages to print.  The default for nwrite is 20.
+<pre>
+<b>elmtest</b> /[nwrite]
+</pre>
+
+
+`nwrite` is the number of warning messages to print.  The default for nwrite is 20.
+
 
  **EXAMPLES:**
 

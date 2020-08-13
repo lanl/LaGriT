@@ -1,23 +1,33 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/memory"
+Tags: cmo memory
 ---
 
- 
+# cmo/memory
 
- ** memory**/mo\_name/number\_nodes/number\_elements
+--------
 
  Allows the user to preset the size of the memory managed arrays for
- Mesh Object, mo\_name.
+ the named Mesh Object.
 
- mo\_name required.
 
- number\_nodes required.
+## SYNTAX
 
- number\_elements required.
+<pre>
+<b>cmo/memory</b>/ mo_name / number_nodes/ number_elements
+</pre>
 
- **EXAMPLES:**
+`mo_name`is the name of the mesh object, required. The keyword **-cmo-** may be used to act on current mesh object.
 
-  mo/memory**/ mo\_tet2/1000/10000
+`number_nodes` is the size for the nnodes mesh object arrays, required.
 
-  mo/memory/-cmo-**/1000/10000
+`number_elements` is the size for the nelements mesh object arrays, required.
+
+
+## EXAMPLES
+
+```
+cmo/memory/ mo_tet2/1000/10000
+
+cmo/memory/ -cmo- /1000/10000
+```

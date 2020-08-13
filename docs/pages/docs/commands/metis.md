@@ -1,16 +1,18 @@
 ---
 title: METIS
-tags: ok
+tags: 
 ---
 
  METIS
  -------
+ 
+ **This command may not work with 64 bit machines, this version of METIS is 32 bit**
 
- Interface METIS graph partition and reorder package with LaGriT. For
- details of METIS algorithms and descriptions of the third command line
- argument see:
+ Interface to the METIS graph partition and reorder package with LaGriT. 
+ See METIS package description at
 
  <http://glaros.dtc.umn.edu/gkhome/views/metis>
+ 
 
  Partition algorithm divides mesh into npartition parts attempting to
  assign an equal number of graph vertices (nodes or elements) to each
@@ -24,45 +26,36 @@ tags: ok
  permutation vector in reorder. The reorder algorithms will compute
  fill-reducing orderings of sparse matrices.
 
-METIS Interface to LaGriT
 
- METIS can be freely distributed provided that:
+## METIS Interface to LaGriT
 
- -   A reference to the following paper is included: *“A Fast and
-     Highly Quality Multilevel Scheme for Partitioning Irregular
-     Graphs”. George Karypis and Vipin Kumar. SIAM Journal on
-     Scientific Computing, Vol. 20, No. 1, pp. 359—392, 1999.*
- -   The original documentation ([PDF file of the
-     manual](http://glaros.dtc.umn.edu/gkhome/fetch/sw/metis/manual.pdf" download> </a>)
-     and copyright notice is include
- -   METIS 4.0 Copyright 2001-06, Regents of the University of
-     Minnesota
+### PARTITION
 
-FORMAT (partition):
+<pre>
+<b>metis</b> / partition / metis_partmeshnodal  metis_partmeshdual/ node dual / npartitions / inodeprt / ielemprt
+</pre>
 
- 
+### REORDER
 
- **metis** / partition / metis\_partmeshnodal  metis\_partmeshdual/ node 
- dual / npartitions / inodeprt / ielemprt
+<pre>
+<b>metis</b> / reorder / metis\_edgend  metis\_nodend / node  dual /[iperm] / [invperm]
+</pre>
 
-FORMAT (reorder):
+### REORDER WITH WEIGHTS
 
- **metis** / reorder / metis\_edgend  metis\_nodend / node  dual /
- [iperm] / [invperm]
+<pre>
+<b>metis</b> / reorder / mmetis\_nodewnd / node  dual / [iperm] /[invperm] / ivert_weight
+</pre>
 
-FORMAT (reorder with weights):
 
- **metis** / reorder / mmetis\_nodewnd / node  dual / [iperm] /
- [invperm] / ivert\_weight
-
-EXAMPLES (partition):
+## EXAMPLES
 
 		 metis / partition / metis\_partmeshnodal / node / 32 / inodeprt / ielemprt
 		 metis / partition / metis\_partmeshdual / dual / 32 / inodeprt /  ielemprt
 		 metis / partition / metis\_partmeshnodal / node / 32 / -def- / -def-
 		 metis / partition / metis\_partmeshnodal / node / 32
 
-EXAMPLES (reorder):
+
  
 		 metis / reorder / metis\_edgend / dual
 		 metis / reorder / metis\_nodend / node
@@ -70,6 +63,7 @@ EXAMPLES (reorder):
 		 metis / reorder / metis\_nodend / dual / -def- / -def-
 		 metis / reorder / metis\_nodend / dual / ieprm1 / ieinvprm1
 		 metis / reorder / metis\_edgend / nodereorder/-def-/ieprm1
+
 
 EXAMPLE LaGriT Control File:
 
@@ -166,7 +160,20 @@ EXAMPLE LaGriT Control File:
      dump /  gmv / metis_hex_reorder.gmv / mo_hex
      dump /  gmv / metis_tet_reorder.gmv / mo_tet
 
-     finish                                                                          
+     finish   
+     
+ 
+METIS can be freely distributed provided that:
+```
+A reference to the following paper is included: *“A Fast and
+Highly Quality Multilevel Scheme for Partitioning Irregular
+Graphs”. George Karypis and Vipin Kumar. SIAM Journal on
+Scientific Computing, Vol. 20, No. 1, pp. 359—392, 1999.*
+and copyright notice is include
+
+METIS 4.0 Copyright 2001-06, Regents of the University of Minnesota
+```
+
 
  
 

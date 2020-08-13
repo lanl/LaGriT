@@ -1,57 +1,72 @@
 ---
-title: CREATEPTS xyz rtz rtp line
+title: CREATEPTS/ xyz rtz rtp line
+tags: CREATEPTS xyz rtz rtp line
 ---
 
- 
-# CREATEPTS/ xyz rtz rtp line #
 
-  This command adds points to a mesh object. It can distribute points evenly or according to a ratio zoning method as indicated by the choices **xyz**, **rtz**, **rtp**, or **line**. These points can be connected into a tet mesh object. If you want a connected hex mesh object, use the **createpts/brick** commands instead.
+# CREATEPTS/ xyz rtz rtp line 
+
+-----------
+
+
+This command adds points to a mesh object. It can distribute points evenly or according to a ratio zoning method as indicated by the choices **xyz**, **rtz**, **rtp**, or **line**. These points can be connected into a tet mesh object. 
+
+
+If you want a connected hex mesh object, use the [**createpts/brick**](CRTPTBRICK.md) commands instead.
   
-## FORMAT ##
+
+## SYNTAX 
 
 <pre> 
-cmo/create/ mo_name / / / tet
-
 <b>createpts</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat /xrz,yrz,zrz ]
 
 <b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
- </pre>
+</pre>
+
+*Note these points are added to a tri or tet mesh object as defined with the create command or generated from another command.*
  
+
+### Distribution Types:
 
 **`xyz`** Cartesian coordinates.
 
-**`rtz`** Cylindrical coordinates with center at (0,0,0). Use a **trans** command to move the center to a new location. The minimum and maximum coordinates are the triplets: radius from the cylinder's axis, angle in the xy-plane measured from the x-axis, and height along the z-axis. 
-  Note that the **rtz** always results in a (partial) cylinder of points
-  centered around the z axis. Use the **rotateln** command to orient
-  the cylinder. For example, to center the cylinder around the y axis,
-  specify the x axis as the line of rotation in the **rotateln** command.
 
-**`rtp`** Spherical coordinates with center at (0,0,0). Use a **trans** command to move the center to a new location. The minimum and maximum coordinates are the triplets:   
-  radius from the center of the sphere axis, angle in the zy-plane measured from the positive z-axis, and the angle in the xy-plane measured from the positive x-axis ([see II.a.11](../../conventions.md)). 
+**`rtz`** Cylindrical coordinates with center at (0,0,0).  The minimum and maximum coordinates are the triplets: radius from the cylinder's axis, angle in the xy-plane measured from the x-axis, and height along the z-axis. 
+  Note that the **rtz** always results in a (partial) cylinder of points
+  centered around the z axis. Use the **rotateln** and **trans** command to move cylinder.
+
+**`rtp`** Spherical coordinates with center at (0,0,0), use a **trans** command to move  center to a new coordinate. 
+The minimum and maximum coordinates are the triplets:   radius from the center of the sphere axis, angle in the zy-plane measured from the positive z-axis, and the angle in the xy-plane measured from the positive x-axis. [See  Conventions](../../conventions.md). 
+
 
 **`line`** this option implies xyz and will distribute npoint nodes from (xmin,ymin,zmin) to (xmax,ymax,zmaz)
   
+
+### Distribution Options:
+
   
-*`ni,nj,nk`* are the number of points to be created in each direction.
+`ni,nj,nk` are the number of points to be created in each direction.
 
-*`xmin,ymin,zmin`* are the minimums for coordinates.
+`xmin,ymin,zmin` are the minimums for coordinates.
 
-*`xmax,ymax,zmax`* are the maximums for coordinates.
+`xmax,ymax,zmax` are the maximums for coordinates.
 
-*`iiz,ijz,ikz`* 0 or 1 switches 
+`iiz,ijz,ikz` 0 or 1 switches 
   
-* if 0 then mins and maxs are used as cell centers
+* if = 0 then mins and maxs are used as cell centers
 
-* if 1 then mins and maxs are used as cell vertices
+* if = 1 then mins and maxs are used as cell vertices
     
 
-*`iirat,ijrat,ikrat`* ratio zoning switches 0=off (default), 1=on
-
-*`xrz,yrz,zrz`* ratio zoning value - distance is multiplied by this
-  value for each subsequent point.
+`iirat,ijrat,ikrat` ratio zoning switches 0=off (default), 1=on
 
 
-# EXAMPLES #
+`xrz,yrz,zrz` ratio zoning value - distance is multiplied by this value for each subsequent point.
+
+
+<hr>
+
+## EXAMPLES 
 
 ```
 createpts/xyz/ 5,3,10 /0.,2.,0./5.,6.,2./1,1,1/

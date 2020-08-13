@@ -40,6 +40,9 @@ ifeq ($(OPSYS),Darwin)
 else ifeq ($(OPSYS),Linux)
 	FFLAGS += -Dlinx64
 	CFLAGS += -Dlinx64
+else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
+	LINKERFLAGS += -Dwin64
+	BUILDFLAGS  += -Dwin64
 endif
 
 ifeq ($(DEBUG),1)

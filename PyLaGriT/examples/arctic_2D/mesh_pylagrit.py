@@ -11,7 +11,7 @@ l = PyLaGriT()
 # Create base layer
 layer = l.create_qua()
 layer.createpts_xyz((nx,2,1),[0.,0.,0.],[distance,dy,0.],rz_switch=[1,1,1],connect=True)
-layer.setatt('itetclr',12)
+layer.setatt('itetclr',1)
 layer.minmax_xyz()
 
 # Create top of mesh
@@ -71,7 +71,7 @@ matnum = [2]*len(layers)
 layer_interfaces = numpy.cumsum(layers)
 i = 1
 for li,m,a in zip(layer_interfaces,matnum,addnum):
-    layer.math('sub',li,'zic',cmosrc=peat_bot)
+    layer.math('sub','zic',li,cmosrc=peat_bot)
     stack_files.append('tmp_lay'+str(i)+'.inp '+str(int(m))+', '+str(a))
     layer.dump('tmp_lay'+str(i)+'.inp')
     i += 1
@@ -83,7 +83,7 @@ stack_files.reverse()
 
 # Create stacked layer mesh and fill
 stack = l.create()
-stack.stack_layers('avs',stack_files,flip_opt=True)
+stack.stack_layers(stack_files,file_type='avs',flip_opt=True)
 stack_hex = stack.stack_fill()
 
 # Create boundary facesets, dictionary of PyLaGriT faceset objects is returned

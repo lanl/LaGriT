@@ -433,7 +433,37 @@ C
          call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
      *    clengths(i),cinterp,cpers,cioflags(i),ierror_return)
          call cmo_get_info(crank,cmo,iranks(i),ilen,ityp,icscode)
+
+C        code has been written to handle rank 3 vectors
+C        but is not handling the part where values are written
+C        ie, if rank 3, only one third of values written
+C        and all other values written are corrupted
+C        So until fixed, do not write vector rank 3 
 C
+C     NOTE: Writing a vector, there is only 1 attribute not 3 (irank)
+C     Internally lagrit has an array 3x nnodes (or elements)
+C     Write AVS format for vector should look something like:
+C     Header: nnodes nelements 3 0 0
+C     Data:
+C     1 3
+C     vector_name, real
+C     1 varray(1,1) varray(2,1) varray(3,1)
+C     2 varray(1,2) varray(2,2) varray(3,2)
+
+         if (crank(1:6) .eq. "vector") then
+            write(logmess,"(a)")
+     1     'ERROR dumpavs: vector output not supported.'
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,"(a)")
+     1     'convert vector to scalars with cmo/addatt'
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,"(a)")
+     1     'ERROR dumpavs: No Action '
+            call writloga('default',0,logmess,1,ierr)
+            write(logmess,"(a)")
+            goto 9999
+         endif
+         
          len1=icharlnf(cioflags(i))
          iflag=0
          ioffs(1)=0
@@ -444,6 +474,7 @@ C
                nvalues=nvalues+1
                idx(nvalues)=i
                lvalues=lvalues+iranks(i)
+
                ioffs(i)=irowlen
                irowlen=irowlen+iranks(i)
             endif

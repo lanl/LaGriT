@@ -1,41 +1,40 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+title: "cmo/constraint"
+tags: cmo constraint
 ---
 
-mo/constraint**
+# cmo/constraint
 
-         mo/constraint**/cmo\_sink/cmo\_src
-
- Associate the surface constraint information of the mesh object
- cmo\_src with cmo\_sink.  The number of constraints and the constraint
+Associate the surface constraint information of the mesh object
+ cmo_src with cmo_sink.  The number of constraints and the constraint
  table ( nconbnd, icontrab) are copied from the source mesh object to
- the sink mesh object.  Since nconbnd and icontab are mesh object
- attributes, they must be explicity copied if a new mesh is to use an
- existing geometry.  [See III.A](../../meshobject.md)  for a
- description of nconbnd and incontab.
+ the sink mesh object.  
+ 
+ Since **nconbnd** and **icontab** are mesh object
+ attributes, they must be explicity copied if a new mesh is to use an existing geometry.
+ See [Mesh Object](../../meshobject.md)  for descriptions.
 
-    **EXAMPLES:**
 
- mo/create**/cmotet
+## SYNTAX
 
- **geometry/create**/boxg
+<pre>
+<b>cmo/constraint</b>/ cmo_sink/ cmo_src
+</pre>
+        
 
- **surface/s1**/
+ 
+## EXAMPLES
 
- **surface/s2**
-
- **region**
-
- ** mregion**
-
- ...
-
- mo/create/mohex**///hex**
-
- mo/geometry**/boxg
-
- mo/constraint/mohex/cmotet
- This example will use the geometry (surfaces regions and material
- regions) defined when creating cmotest and apply the geometry to the
- mesh object cmohex.
+```
+cmo/create/cmotet 
+geometry/create/boxg 
+surface/s1/ 
+surface/s2 
+region 
+mregion 
+... 
+cmo/create/cmohex///hex 
+cmo/geometry/boxg 
+cmo/constraint/cmohex/cmotet
+```
+This example will use the geometry (surfaces regions and material regions) defined when creating cmotest and apply the geometry to the mesh object cmohex.

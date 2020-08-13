@@ -1,27 +1,42 @@
+---
+title: FSET 
+tags: fset 
+---
 
-**FSET**
+# FSET
+
+---------------
 
  This command  is used to  define a  set  of element faces. Defining
  face sets can be useful for either defining boundary conditions,
  material interfaces, or surface subsets for further mesh processing.
 
- **FORMAT:**
+## SYNTAX
 
-  [fset ] / name / pset, get, pointsetname
+<pre>
+<b>fset</b> / name / pset, get, pointsetname
+</pre>
   
-  The fset name must be an integer or
+`name` must be an integer or
   character string. Currently, only 32 named face sets may exist.
   However, any number of integer-numbered face sets (up to the total
-  number of faces in the problem) may be defined. Face sets may be
-  used in all of the usual ways that eltsets and psets may be used,
-  e.g :
+  number of faces in the problem) may be defined. 
   
-  mo/setatt/3dmesh/fluid\_structure **/fset**,**get**,blue/
+ Face sets may be used in all of the usual ways that eltsets and psets may be used.
  
-  where fluid\_structure is the name of a face set attribute.
   
-  **NOTE: All modules do not support use of fset.**
+ NOTE: Not all modules support use of **fset.**
 
- EXAMPLE:
+## EXAMPLES
 
-     fset / fname / pset, get psetname
+```
+fset / fname / pset,get, psetname
+```
+
+```
+cmo/setatt/3dmesh/fluid_structure /fset,get,blue/
+```
+where fluid_structure is the name of a face set attribute
+
+
+

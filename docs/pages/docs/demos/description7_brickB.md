@@ -15,11 +15,11 @@ title: 'Example 7: creatpts in a logically rectangular geometry'
  Input
 
      
- [lagrit\_input\_createbrick2](../lagrit_input_createbrick2)
+ [lagrit_input_createbrick2](input/lagrit_input_createbrick2.txt)
 
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image7tn.gif"> 
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image7btn.gif"> 

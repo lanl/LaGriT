@@ -50,8 +50,16 @@ clean:
 
 .PHONY: html
 html:
+	rm -rf $(BUILDDIR)/html
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
+	find $(BUILDDIR)/html -name "*.html" | xargs sed -i'.original' -e 's/_static/static/g'
+	find $(BUILDDIR)/html -name "*.html" | xargs sed -i'.original' -e 's/_image/image/g'
+	find $(BUILDDIR)/html -name "*.html" | xargs sed -i'.original' -e 's/_sources/sources/g'
+	mv $(BUILDDIR)/html/_static $(BUILDDIR)/html/static
+	mv $(BUILDDIR)/html/_images $(BUILDDIR)/html/images
+	mv $(BUILDDIR)/html/_sources $(BUILDDIR)/html/sources
+	rm -f $(BUILDDIR)/html/*.original
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 .PHONY: dirhtml

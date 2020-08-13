@@ -1,33 +1,41 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/derive"
+Tags: cmo derive
 ---
 
+Create a new mesh object derived from an existing mesh object.
+
+# cmo/derive
+
+----------
+
+## SYNTAX
+
+<pre>
+<b>cmo/derive</b>/ mo_name / master_mo/
+</pre>
+
+`mo_name` is the new mesh object to create,  it will be an image of the master mesh object but will
+contain no data. This mesh object will become the current mesh object.
+If mo_name is the same as master_mo nothing happens. If mo_name exists it is over written.
+
+`master_mo` is the template for deriving a new Mesh Object. (default is -cmo- or current mesh object).
+
  
+## EXAMPLES
 
-**derive**/ mo\_name/master\_mo/
-mo\_name is type character, required.
+```
+cmo/derive/ mo_tet2/mo_tet1
 
-master\_mo is type character, default is -cmo-
+cmo/derive/-cmo-/ mo_tet1
 
-Uses Mesh Object, master\_mo, as the template for deriving Mesh Object,
-mo\_name. Mesh Object, mo\_name, will be an image of master\_mo but will
-contain no data. The output Mesh Object, mo\_name, will become the
-Current Mesh Object. If mo\_name is the same as master\_mo nothing
-happens. If mo\_name exists it is over written.
+cmo/derive/ mo_tet2
 
- 
-** ** **EXAMPLES:**
-mo/derive**/ mo\_tet2/mo\_tet1
+cmo/derive/ mo_tet2/-cmo-
 
-mo/derive/-cmo-**/ mo\_tet1
+cmo/derive/-default-/-cmo-
 
-mo/derive**/ mo\_tet2
+cmo/derive/ mo_tet2/-default-
 
-mo/derive**/ mo\_tet2**/-cmo-**
-
-mo/derive/-default-/-cmo-**
-
-mo/derive**/ mo\_tet2**/-default-**
-
-mo/derive/-default-**/ mo\_tet1
+cmo/derive/-default-/ mo_tet1
+```

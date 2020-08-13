@@ -186,7 +186,7 @@ c parser variables for subroutine call
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
  
-      integer ics, ierror, icscode
+      integer ics, ierror, icscode, iwrite
       character*40 isubname
 c
       integer iunit_in, iunit_out
@@ -208,7 +208,7 @@ c local parser variables
       integer msg(10)
       real*8 xmsg(10)
       integer imsg(10)
-      character*32 cmsg(10)
+      character*32 cmsg(10), file_avs, file_ung
 C
 C
 C#######################################################################
@@ -218,16 +218,27 @@ C
 C#######################################################################
 C
       isubname='ung2avs'
+      iunit_in = -1
+      iunit_out = -1
+      ierror = 0
+      iwrite = 1
 C
       if(nwds .eq. 3 .or. nwds .eq. 4 .or. nwds .eq. 5) then
+
+        file_avs =  cmsgin(2)
         call hassign (iunit_out, cmsgin(2), ierror)
         if (iunit_out.lt.0 .or. ierror.lt.0) then
+          iwrite = 0
+          ierror = 1
           call x3d_error(isubname,'out hassign bad file unit')
           goto 9999
         endif
 
+        file_ung =  cmsgin(3)
         call hassign (iunit_in, cmsgin(3), ierror)
         if (iunit_in.lt.0 .or. ierror.lt.0) then
+          iwrite = 0
+          ierror = 1
           call x3d_error(isubname,'in  hassign bad file unit')
           goto 9999
         endif
@@ -257,9 +268,12 @@ C
         end if
  
       else
+         write(logmess,'(a)') "ERROR: command not recognized."
+         call writloga('default',0,logmess,0,ics)
          write(logmess,3000)
  3000    format(' UNG2AVS / file_out / file_in / [z_value] ')
          call writloga('default',0,logmess,0,ics)
+         goto 9999
       endif
 C
 c initialize values
@@ -271,21 +285,33 @@ c
       polytrue = .false.
       nwds = 0
  
-c read file to calculate maximum number of nodes -- for memory management
-      do length=1, 1000000
-         read(iunit_in,'(a)', end=90) input_msg
-      end do
- 90   continue
-      rewind (iunit_in)
+c     read file to calculate maximum number of nodes -- for memory management
+c     change loop to avoid length restriction and check for empty file
+      length = 0 
+      do 
+        read (iunit_in,*, END=90) 
+        length = length + 1 
+      end do 
+90    rewind (iunit_in)
+
+      if (length .le. 0) then
+         write(logmess,'(a,a)') "ERROR: empty file: ",file_ung
+         call writloga('default',0,logmess,0,ics)
+         ierror = ierror + 1
+         iwrite = 0
+         goto 9999
+      endif
  
 c allocate memory
+
       call mmgetblk ('mat_nums',isubname,ipmat_nums,length,2,icscode)
       call mmgetblk ('x_value',isubname,ipx_value,length,2,icscode)
       call mmgetblk ('y_value',isubname,ipy_value,length,2,icscode)
       call mmgetblk ('line_end',isubname,ipline_end,length,2,icscode)
  
 c read and parse string
-      do i=1, 1000000
+c      do i=1, 1000000
+       do i=1, length
          read(iunit_in,'(a)', end=100) input_msg
          lenparse = len(input_msg)
  
@@ -331,7 +357,6 @@ c calculate number of nodes and write x,y
             line_end(nnodes) = .false.
          end if
       end do
-      print*, 'ERROR, loop size needs to be increased'
  
  100  continue
 c
@@ -403,8 +428,34 @@ c deallocate memory
       call mmrelblk ('y_value',isubname,ipy_value,icscode)
       call mmrelblk ('line_end',isubname,ipline_end, icscode)
  
-      if (iunit_out.gt.0) close (iunit_out)
-      if (iunit_in.gt.0) close (iunit_in)
- 
+      if (iunit_in.gt.0) then 
+        close (iunit_in)
+        write(logmess,'(a,a)') "UNG2AVS file read: ",file_ung
+        call writloga('default',0,logmess,0,ics)
+        write(logmess,'(a,i15)') 
+     &  "UNG2AVS read number lines: ",length
+        call writloga('default',0,logmess,0,ics)
+      else 
+        ierror = ierror + 1
+      endif
+
+      if (ierror .ne. 0) then
+        write(logmess,'(a,a)') "UNG2AVS file NOT read: ",file_ung
+        call writloga('default',0,logmess,0,ics)
+      endif
+
+      if (iunit_out.gt.0) then
+        close (iunit_out)
+        write(logmess,'(a,a)') "UNG2AVS file written: ",file_avs
+        call writloga('default',0,logmess,1,ics)
+      else
+        ierror = ierror + 1
+      endif
+
+      if (iwrite .ne. 1) then
+        write(logmess,'(a,a)') "UNG2AVS file NOT written: ",file_avs
+        call writloga('default',0,logmess,1,ics)
+      endif
+
       return
       end

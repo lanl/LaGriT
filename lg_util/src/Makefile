@@ -35,6 +35,9 @@ ifeq ($(OPSYS),Darwin)
 else ifeq ($(OPSYS),Linux)
 	FFLAGS += -Dlinx64
 	CFLAGS += -Dlinx64
+else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
+	FFLAGS += -Dwin64 -m64
+	CFLAGS += -Dwin64
 endif
 
 ifeq ($(DEBUG),1)

@@ -16,8 +16,8 @@ title: Example 5: createpts in a spherical geometry using shells as region bound
 
  Input
 
-  [lagrit\_input\_createsphere](../lagrit_input_createsphere)
+  [lagrit_input_createsphere](input/lagrit_input_createsphere.txt)
 
  Image of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image5tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image5tn.gif">

@@ -1,28 +1,36 @@
 ---
 Title: GEOMETRY
-tags: ok
+tags: geometry, regions
 ---
 
- **GEOMETRY**
+# GEOMETRY
 
-  **geometry/create** /geom\_name
- 
-  Initialize a geometry called geom\_name. Change the name of the
-  current geometry to geom\_name. Save all values associated with the
-  previous geometry.  To associate this geometry with a mesh object
-  use the [cmo/geometry](cmo/cmo_geom.md) command.  See [III.E](/pages/docs/geometries.md) for a
+------------------
+
+Initialize a geometry or change the name of the current geometry.
+
+To associate this geometry with a mesh object
+  use the [cmo/geometry](cmo/cmo_geom.md) command.  See [Geometries](../geometries.md) for a
   discussion of geometry.
+
+<pre>
+<b>geometry/create</b> /geom_name
  
-  **geometry/release** /geom\_name
+<b>geometry/release</b> /geom_name
+</pre>
+
+**`create`** Initialize a geometry called `geom_name`. 
  
-  Release all data structures related to geometry, geom\_name and
-  remove geom\_name from the list of geometries.
+**`release`** Change the name of the current geometry to `geom_name`. Release all data structures related to geometry, geom_name and remove geom_name from the list of geometries.
 
- **EXAMPLES:**
 
-  **geometry/create**/new\_geom/
+## EXAMPLES
 
-  **geometry/releas**e/old\_geom/
+```
+geometry/create/new_geom/
+
+geometry/release/old_geom/
+```
 
    
 

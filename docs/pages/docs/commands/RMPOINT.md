@@ -1,63 +1,89 @@
 ---
 title: RMPOINT
-tags: ok
+tags: rmpoint
 ---
 
- **RMPOINT**
+# RMPOINT
 
-  Removes nodes or marks nodes for removal points or removes elements
-  from a mesh.   The first option sets the node type flag 
-  [itp=**ifitpdud** (21)] to indicate that the set of nodes are
-  treated as invisible, but does not actually remove the nodes. 
-  Elements will also be removed.  If  **inclusive** is specified, any
-  element containing a marked node will be removed.  If  **exclusive**
-  is specified (default), any element containing a retained node is
-  retained.  The second option, **compress**, removes the invisible
-  nodes (i.e. those nodes whose itp1 value is 21) from the data
-  structure and material-wise resequences all remaining nodes.  The
-  third option, **zero\_volume**, will remove elements whose volumes
-  are less than or equal to the specified threshold.  The fourth
-  option, **element,** will remove all marked elements from the mesh. 
-  Marked elements have a negative value for the first entry in the
-  itet vertex list.  The fifth option will remove a specified list of
-  elements from the mesh.  The sixth option will remove elements that
-  are specified in a named element set from the mesh. The seventh
-  option, **womesh** will delete stray nodes that are not connected to
-  any element and that are not parent nodes.
+---------------------
 
-**FORMAT:**
 
-**rmpoint**/ifirst,ilast,istride/[**exclusive** **inclusive** ]
+Tag or remove nodes and elements from a mesh.   
 
-**rmpoint**/**compress**/
 
-**rmpoint/zero\_volume**/threshold
+Dudded nodes, or nodes marked for removal have  their  itp array mareked with **ifitpdud** (21).
+Dudded elements have a negative value for the first entry in the **itet** vertex list.  
 
-**rmpoint/element**
+The tagged mesh object nodes and elements are treated as invisible until they are removed from the mesh object. 
 
-**rmpoint/element**/tet list
 
-**rmpoint/element/eltset,**get,esetname
+## SYNTAX
 
-**rmpoint/womesh**
+<pre>
+<b>rmpoint</b>/ifirst,ilast,istride/[<b>exclusive</b> or <b>inclusive</b> ]
 
-**EXAMPLES:**
+<b>rmpoint</b>/<b>compress</b>/
 
-    rmpoint/pset, get, pset1
+<b>rmpoint/zero_volume</b>/threshold
 
-mark all the nodes in pset1 for removal.  Remove elements all of
-whose vertices are members of pset1.
+<b>rmpoint/element</b> [tet_list or <b>eltset,get</b>,esetname]
 
-    rmpoint/compress
+<b>rmpoint/womesh</b> 
 
-remove all marked nodes and correct the itet array
+<b>rmpoint/sparse</b> 
 
-    rmpoint/zero\_volume/1.e-16
+</pre>
 
-remove all elements with volumes less than 1.e-16
 
-    rmpoint/element/27 259 1009
+`/ifirst,ilast,istride` / [**exclusive** or **inclusive** ] does not remove but marks the selected nodes and elements for removal.
+If  **exclusive** (default), an element is marked only if all of its nodes are in the selection. If  **inclusive**, any element with a node from the selected set  will be marked.  
 
-remove the three specified elements
 
-    rmpoint/element/eltset, get, myeset
+
+**`compress`** remove and update all tagged nodes and elements. This will update arrays  and material-wise resequences all remaining nodes. This will change the node ordering and numbers of the mesh.
+
+ 
+
+**`zero_volume`** will remove elements whose volumes are less than or equal to the specified `threshold`. 
+
+
+**`element`** will remove all marked (negative **itet**) elements from the mesh. Elements can be specified by a `tet_list` or **eltset,get**,esetname.
+
+
+**`womesh`** will delete stray nodes that are not connected to any element and that are not parent nodes. 
+
+
+**`sparse`** is to be used with caution and requires reconnection when done.
+
+
+
+
+
+
+## EXAMPLES
+
+```
+rmpoint/ pset,get,pset1
+rmpoint/compress
+```
+Mark all the nodes in pset1 for removal.  Remove elements all of whose vertices are members of pset1.
+Remove all marked nodes and update the mesh object arrays. 
+
+
+```
+rmpoint/zero_volume/1.e-16
+rmpoint/compress
+```
+Remove all elements with volumes less than 1.e-16
+
+```
+rmpoint/element/27 259 1009
+rmpoint/compress
+```
+Remove the three specified elements
+
+```
+rmpoint/element/eltset,get,e_mat1
+rmpoint/compress
+```
+Remove the elements in the element set named e_mat1

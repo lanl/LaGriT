@@ -14,8 +14,8 @@ title: Example 3: creatpts in a spherical geometry
 
  Input     
 
-  [lagrit\_input\_creatertp](../lagrit_input_creatertp)
+  [lagrit_input_creatertp](input/lagrit_input_creatertp.txt)
 
  Image of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image3tn.gif">

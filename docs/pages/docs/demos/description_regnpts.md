@@ -11,16 +11,16 @@ Example 1: test using regnpts to create point distributions and meshes.
 
 Input
 
- [lagrit\_input\_regnpts](../lagrit_input_regnpts)
+ [lagrit_input_regnpts](input/lagrit_input_regnpts.txt)
 
 Images of GMV input and output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts1_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts1_tn.gif"""
 
 Outer region and inner region edges and nodes
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts3_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts3_tn.gif"""
 
 Inner region surface and outer region nodes
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts2_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts2_tn.gif"""

@@ -1,59 +1,55 @@
-
 ---
 title: "sort"
-categories: sort command
+categories: sort 
 ---
 
-# sort #
+# SORT 
+
+----------------
 
 
- The **sort** command creates a sort key for chosen node or element
- attributes. Sort can be in ascending or descending order and will not
- alter current mesh object values (though the **line\_graph** option
- will create three new attributes; see below). One can perform a sort
- on a single attribute or in the case of **index** or **rank** sorting,
- one can perform a multi-key sort. The **line\_graph** sort does not
- sort on an attribute but instead sorts line segment elements into a
- reasonable order based on connectivity. In each case the sort key that
- is created can be used in the **reorder** command to change the node
- or element ordering of the mesh object.
+The **sort** command creates a sort key for chosen node or element attributes. 
+Sort can be in ascending or descending order and will not alter current mesh object values.
+
+
+The mesh object is not re-ordered but a sort key is created. Use [**`REORDER`**](REORDER.md) to change the node or element ordering of the mesh object.
+
+
  
- 
-## SYNTAX for SINGLE KEY ##
+## SYNTAX
 
 <pre>
- <b>sort</b> / cmo_name / <b> bins </b> / [ <b> ascending</b> or <b> descending </b> ] / sort_key_name / sort_attribute / [epsilon_user]
-</pre>
+<b>sort</b>/mo_name/<b>bins</b> /[<b> ascending</b> or <b>descending</b>]/key_name/ sort_attribute / [epsilon_user]
 
+<b>sort</b>/mo_name/<b>index</b> or <b>rank</b>/[<b>ascending</b> or <b>descending</b>]/key_name/ in_att1, in_att2, in_att3 ...
 
-## SYNTAX for MULTI-KEY ##
-
-<pre>
- <b>sort</b> / cmo_name / <b>index</b> or <b>rank</b> / [ <b>ascending</b> or <b>descending</b> ] / sort_key_name / in_att1, in_att2, in_att3 ...
+<b>sort</b>/mo_name/<b>line_graph</b> /[<b>ascending</b> or <b> descending</b>]/key_name/[<b>elements</b> or <b>nodes</b>]
 </pre>
  
- 
-## SYNTAX for LINE GRAPH ##
 
-<pre>
- <b>sort</b> / cmo_name / <b>line_graph</b> / [ <b>ascending</b> or <b> descending</b> ] / sort_key_name / [ <b>elements </b> or <b> nodes</b> ]
-</pre>
- 
- The command parameters include the cmo_name, followed by the
- sort_type. The ordering is indicated by **`ascending`** or
- **`descending`**. A new attribute is created with the name given by sort_key.
- For the **`bins`**, **`index`**, and **`rank`** options, sorting is
- performed on the sort_attributes which can be a single attribute name
- or a list of attribute names. This list is formed with attribute names
- in_att1, in_att2, through in_attn. The **`line_graph`** option does
- not take any attributes as arguments because it sorts based on the
- connectivity of the elements, which must be line segments.
+For all commands:
 
-## Command Options ##
+`mo_name` is the name of a valid mesh object or **-def-** which selects the currently active mesh object.
 
-*`cmo_name`* is the name of a valid mesh object or **-def-** which selects the currently active mesh object.
 
-*`sort_type`* The sorting methods include **`bins`**, **`index`**, **`rank`** and **`line_graph`** See below.
+`sort_type` sorting methods include **`bins`**, **`index`**, **`rank`** and **`line_graph`** See below.
+
+
+ **`ascending`** or **`descending`** detirmines the ordering direction. Note this parameter is ignored by the **line_graph** method but must be present for consistency with other sort variations. 
+
+
+`key_name` is the name of the sort key attribute created. The **reorder** command uses this to reorder the mesh.
+This is an integer vector (VINT) which will hold the output sort key values. If no name is given for `key_name`, a name will be created which will be  **ikey_** and the first attribute name in sort_attributes. For the **`line_graph`** option, the default `key_name` will be called **ikey_line_graph**.
+
+
+*`sort_attributes`* The name of one or more existing attribute names. Each attribute will be used as a node of element based array upon which the sorting routine will sort. Multi-key sorts can have an arbitrary number
+of input attributes. Attribute in_att1(n) has priority over in_att2(n) in breaking ties. Note: all attributes are put into a type real work array before being sent to the sort routine.
+Note the **line_graph** does not use attributes as it sorts line elements based on connectivity (see method below). 
+
+
+
+###  Single-Key sort: 
+
 
 **`bins`** is a single-key sort which assigns each in_att1 value a bin
  number. If in_att1 is an integer then bins each have a unique integer
@@ -67,8 +63,11 @@ categories: sort command
  multiplier, *epsilon_user*, will override the default value of 1.e-10.
 
 
+### Multi-Key sort:
+
 **`index`** is a single or multi-key sort that constructs an index table such that
  in_att1(ikey(1)) is the first entry in the sorted array, in_att1(ikey(2)) is the second, etc.
+
 
 **`rank`** is a single or multi-key sort that constructs a rank table such that the tables ith entry give the rank of the ith entry of the sorted arrays. The rank table is derived from the index table by:
 <pre>
@@ -76,6 +75,9 @@ categories: sort command
    rank(index(j)) = j
  end
 </pre>
+
+
+### Line Graph sort:
 
 
 **`line_graph`** is a sort for connected line segments for arranging into a reasonable order. The sorted order for components which are not polylines or polygons is unspecified, but it will usually be reasonable because the underlying
@@ -125,39 +127,29 @@ categories: sort command
  This is necessary for triangulation as "TRIANGULATE" routine requires
  the nodes to be in either clockwise or counterclockwise order.
 
-**`ascending`** or **`descending`**  is the sort_order to order the sort_attributes. The **`line_graph`** sort will ignore this option, but it still expects the field to be present for consistency with the other sort variations.
 
-*`sort_key_name`* The name for an integer vector (VINT) which will hold the output sort key values. If the name exists it will be used. If no name is given for sort_key_name, a name will be created which will be the concatination
-of **ikey_** and the first attribute name in sort_attributes (i.e./-def-/imt will produce a sort key named ikey_imt). For the **`line_graph`** option, the default key will be called **ikey_line_graph**.
-
-*`sort_attributes`* The name of one or more existing attribute names. Each attribute will be used as a node of element based array upon which the sorting routine will sort. Multi-key sorts can have an arbitrary number
-of input attributes. Attribute in_att1(n) has priority over in_att2(n) in breaking ties. Note: all attributes are put into a type real work array before being sent to the sort routine.
+<hr>
 
 
-
-## EXAMPLES ##
+## EXAMPLES 
 
 <pre>
      sort / cmo / line_graph / ascending / ikey / elements
-     </pre>
+</pre>
 
- Sort the line segment elements into a reasonable order based on
- connectivity. This also creates attributes cid, ctype, and loop_id
- (see above).
+Sort the line segment elements into a reasonable order based on connectivity. This also creates attributes cid, ctype, and loop_id (see above).
  
+
 <pre>
  sort / cmo / index / ascending / ikey / imt zic yic xic
 </pre>
+Multi-key sort first by imt then to break ties consider z coordinate, then if there are further ties, use y coordinate. Use x coordinate as final tie breaker.
 
- Multi-key sort first by imt then to break ties consider z coordinate,
- then if there are further ties, use y coordinate. Use x coordinate as
- final tie breaker.
 
 <pre>
      sort / cmo / rank / descending / ikey / yic
 </pre>
-
- Produce ranking of nodes based on y coordinate in descending order.
+Produce ranking of nodes based on y coordinate in descending order.
 
 <pre>
      sort / cmo / index /-def-/-def-/ xic yic zic
@@ -195,11 +187,13 @@ reorder/MOSORT/ ikey
 Sort and reorder a set of nodes based on a source mesh, based on node id and position xyz. Use **`interpolate/voronoi`** to associate each node with the good mesh node id's. We check to see if the ordering for both mesh objects is different by subtracting the node id of one from the second. The result would be 0 for all nodes that match position and node id. Sort mesh object using the attribute with the interpolated node id's, then reorder using the ikey values.
  
 
-**LINKS:**
 
- [Example 1 for sort and reorder](../sort_lagrit_input_1)
+## LINKS
 
- [Example 2 for sort and reorder](../sort_lagrit_input_2)
+[LaGriT command file example 1 for sort and reorder](../demos/input/sort_lagrit_input_1.txt)
+
+[LaGrit command file example 2 for sort and reorder](../demos/input/sort_lagrit_input_2.txt)
+
 
 ## OLD FORMAT - No longer supported but syntax will still work. ##
 

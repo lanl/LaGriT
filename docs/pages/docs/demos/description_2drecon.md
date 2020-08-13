@@ -7,8 +7,8 @@
   The output consists of two gmv files. Output1a.gmv is the input
   mesh, and output1b.gmv is the reconnected mesh.
 
-Input: [LaGriT_input_2drecon](../lagrit_input_2drecon) 
+Input: [LaGriT_input_2drecon](input/lagrit_input_2drecon.txt)
 
  Images of GMV output
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">

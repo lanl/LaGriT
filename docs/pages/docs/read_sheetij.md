@@ -89,9 +89,9 @@ Option | Description
 
 TEST **EXAMPLES:**
 
-Test file for sheetij: [LaGriT\_input00](lagrit_input00)
+Test file for sheetij: [LaGriT_input00](demos/input/lagrit_input00.txt)
 
-Test data for sheetij: [test\_data](test_data)
+Test data for sheetij: [test_data](demos/input/test_data.txt)
 
 ![Quad sheet](image/zall_200w.GIF)
     

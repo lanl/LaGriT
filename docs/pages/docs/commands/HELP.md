@@ -1,12 +1,25 @@
- **HELP**
+---
+title: help
+tags: help
+---
 
-  **help**/code\_variable will return the variable definition and the
+
+# HELP
+
+------------
+
+## SYNTAX
+
+<pre>
+<b>help</b>/ variable_name
+</pre>
+
+**`help`**/ `code_variable` will return the variable definition and the
   correct value of the variable.
+ 
 
- **FORMAT:**
+## EXAMPLES
 
-  **help**/variable\_name
-
- **EXAMPLES:**
-
-  **help** **/ipointi**
+```
+help/ipointi
+```

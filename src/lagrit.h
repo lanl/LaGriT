@@ -9,7 +9,7 @@ c----------------------------------------------------------------
 c
       integer        v_major, v_minor
       parameter      (v_major=3)
-      parameter      (v_minor=300)
+      parameter      (v_minor=320)
 c
       character*22   date_compile
       character*8    os_name
@@ -21,7 +21,7 @@ c     make sure it is a version recognized in Makefile
 c     and writinit.f for forming header info
       data os_name      /'Darwin'/
 c
-      data date_compile /'2018/12/03 Static '/
+      data date_compile /'2020/03/17 Release '/
 c
       integer         NCall
       save            NCall

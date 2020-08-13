@@ -6,22 +6,28 @@ Example 1: test using triangulate to create a 2d mesh.
  The output consists of four gmv files, two showing the original point
  distributions, two showing the respective triangulations.
 
- [lagrit\_input\_tri](../lagrit_input_tri)
 
-Images of GMV input and output
+LaGriT Input Command file: [lagrit_input_tri](input/lagrit_input_tri.txt)
 
-Concave point distributiond
+LaGriT Output Log: [lagrit_output_tri](output/lagrit_output_tri.txt)
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang1_tn.gif">
+
+Input Concave point distribution in clockwise order from node 1 to  node 7
+
+<a href="https://lanl.github.io/LaGriT/assets/images/triang1.gif"><img  width="300" src="https://lanl.github.io/LaGriT/assets/images/triang1.gif"></a>
+
  
-Concave triangulation
+Output Triangulation of concave point distribution with 5 triangles
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2_tn.gif"> 
+<a href="https://lanl.github.io/LaGriT/assets/images/triang2.gif"><img  width="300" src="https://lanl.github.io/LaGriT/assets/images/triang2.gif"></a>
 
-Convex point distribution
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang3_tn.gif">
+Input Convex point distribution in clockwise order from node 1 to node 6
 
-Convex triangulationd
+<a href="https://lanl.github.io/LaGriT/assets/images/triang3.gif"><img  width="300" src="https://lanl.github.io/LaGriT/assets/images/triang3.gif"></a>
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4_tn.gif"> 
+Output Triangulation of convex point distribution with 4 triangles
+
+<a href="https://lanl.github.io/LaGriT/assets/images/triang4.gif"><img  width="300" src="https://lanl.github.io/LaGriT/assets/images/triang4.gif"></a>
+
+

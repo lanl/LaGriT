@@ -11,8 +11,8 @@
 
  Input
 
-  [lagrit_input_createxyz](../lagrit_input_createxyz)
+  [lagrit_input_createxyz](input/lagrit_input_createxyz.txt)
 
  Images of GMV output:
  
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/image1_tn.gif">

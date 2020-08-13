@@ -13,7 +13,7 @@ title: Example 5: addmesh / intersect
 
  Input
 
-      [lagrit\_input\_inter](../lagrit_input_inter)
+      [lagrit_input_inter](input/lagrit_input_inter.txt)
 
 
  Images of GMV output

@@ -1,14 +1,19 @@
 ---
 title: CONNECT
-tags: connect tet
+tags: connect, tet, Delaunay
 --- 
 
 # CONNECT #
 
-  Connect the nodes into a Delaunay tetrahedral or triangle grid. The
-  Delaunay criterion requires that the circumsphere (circumcircle)
-  defined by each tetrahedron (triangle) contains no mesh nodes in its
-  interior.  
+-----------------------
+
+
+Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay criterion requires that the circumsphere (circumcircle) defined by each tetrahedron (triangle) contains no mesh nodes in its interior. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2), use **connect** to create the mesh, then **dump/stor** to compute and output geometric coefficients file.
+
+[Click here for a description of Delaunay](https://en.wikipedia.org/wiki/Delaunay_triangulation)
+  
+[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/pages/docs/connect_notes.html)
+
   
 ## SYNTAX ##
 
@@ -19,50 +24,73 @@ tags: connect tet
 
 <b>connect</b> / <b>check_interface</b>
 </pre>
+
+
+## OPTIONS
  
  **`delaunay`** is the default algorithm and requires that a "big tet" be constructed that contains all nodes in
-  its interior.  For mesh points with multi-materials, connect will detect material interfaces and will look for edges that intersect the interfaces.  Nodes will be added to the mesh at these intersections to create a conforming mesh. 
+  its interior.  For mesh points with multi-materials (imt with multi-values), connect will detect material interfaces and will look for edges that intersect the interfaces.  connect will add points at these intersections to create a conforming mesh, note that mesh quality may be impacted.  
+  
   
 *`ifirst,ilast,istride`* The user has the option of selecting a subset of nodes to connect.
+
 
 *`big_tet_coordinates`* The user has the option of providing the coordinates of this "big tet". 
 
 
-
 **`noadd`** This option will turn off material interface detection.
+
 
 **`check_interface`** option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.
 
 
 
-The **connect** command may refuse to add nodes that will result in near
-  zero-volume tetahedra. The volume tests are based on the mesh object
-  epsilons. To ensure that these epsilons are based on the geometry,
-  issue a **setsize** command before **setpts**. 
+
+## USAGE
 
 
-The **connect** command does not like duplicate points. Use the following commands before connect to remove duplicate points.
-
-```
-filter/ 1,0,0
-rmpoint/compress
-```
-
-  
-Expert users may adjust the epsilons with the **cmo/setatt** command.  **Connect** will generate a 2D triangular mesh if current mesh object attributes **ndimensions_geom** and **ndimenions_topo** are 2.  In this case all nodes must lie in a plane. The following instructions are for connecting points on a planar surface.  The mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2.
-  
-```
-cmo / create / cmotri / / / tri
-cmo/setatt/cmotri/ndimensions_geom/1 0 0/2
-```
-or
+For 2D and connecting points on a planar surface, the mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2. This command will create a mesh object with settings appropriate for the connect command.
 ```
 cmo/create/ cmotri / triplane
 ```
 
 
-[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/pages/docs/connect_notes.html)
+
+The connect command does not filter out coincident vertices (sqrt[(xi-xj)<sup>2</sup> + (yi-yj)<sup>2</sup> + (zi-zj)<sup>2</sup>] < epsilon). Use the following commands before connect to remove duplicate points.
+```
+filter/ 1,0,0
+rmpoint/compress
+```
+
+
+For better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.
+```
+trans 1,0,0 /XBIG,YBIG,ZBIG/ 0. 0. 0./
+connect
+trans 1,0,0 / 0. 0. 0./ XBIG,YBIG,ZBIG
+```
+
+The connect algorithm creates a triangulation or tetrahedralization of the convex hull. If the domain to be meshed is not convex, there is no guarantee that all of its faces and edges will be within the specified mesh boundary. Connections will be formed across non-convex boundaries. 
+
+
+A convex geometry is not guaranteed. A point distribution over a large region where spacing varies from very small to very large can result in high aspect ratios with small concavities formed on mesh boundaries. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tets (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.
+
+  
+The connect command may refuse to add nodes that will result in near
+  zero-volume tetahedra. The volume tests are based on the mesh object
+  epsilons. To ensure that these epsilons are based on the geometry,
+  issue a **setsize** command before **setpts**. Expert users may adjust the epsilons with the **cmo/setatt** command. 
+
+
+The connect command will report if it is successful, check to see if there are any problems. For instance, connect may finish but may not be able to include all points due to a non-convex boundary or a poor point distribution. For instance:
+```
+ Dudding      7181 points that have no associated tetrahedra.
+
+ The mesh is complete but could not include all points.                         
+ Number of points that could not be connected:       7181                       
  
+LaGriT FINISH: connect        
+```
 
 ## EXAMPLES ##
 
@@ -73,8 +101,17 @@ connect
 ```
 connect/delaunay/
 ```
+These two commands are the same, they create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add nodes to break multi-material connections.
 
-The two commands are the same, they create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add nodes to break multi-material connections.
+```
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 4 4 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+connect
+cmo / setatt / mo_tri / itetclr / 1 0 0 / 1
+resetpts / itp
+```
+Create a triplane mesh object (ndimensions_topo=2 and ndimensions_geom=2) with 4 x 4 points on plane with Z = 0. Connect into triangles and set node and element materials to 1. The resetpts/itp command will define the boundary nodes for this mesh.
 
 ```
 connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
@@ -83,7 +120,7 @@ connect/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
 connect/delaunay/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
 
-connect/delaunay**/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
+connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
 ```
 
 Create the Delaunay tetrahedral connectivity of all nodes in the mesh and specify explicitly the coordinates of the enclosing tetrahedron. 
@@ -140,3 +177,6 @@ Create the Delaunay tetrahedral connectivity of  all nodes in the
  [Click here for 2D demos](../demos/main_2d_connect.md)
 
  [Click here for 3D demos](../demos/main_connect.md)
+
+The **connect** command replaces the LaGriT V1 command **search/delaunay**.
+

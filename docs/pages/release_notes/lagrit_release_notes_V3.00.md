@@ -1,12 +1,4 @@
----
-title: 'LaGriT Release Notes V3.0'
----
-
-LaGriT Release Notes
-====================
-
-
-##LaGriT V3.001 August 2011
+# LaGriT Release Notes V3.001 August 2011
 
 
 Major changes incoporating work from Andrew Kuprat (64bit work) and
@@ -39,7 +31,7 @@ integer type so that it matches the size of a pointer.
 
 This includes Work from Andrew Kuprat and summer student Adam Cozzette.
 
-###Enhancements:
+### Enhancements:
 
 - **filterkd** - new filter command uses kd-tree for filter. Uses reverseform.f
 
@@ -80,7 +72,7 @@ This includes Work from Andrew Kuprat and summer student Adam Cozzette.
 - *writedump.f* changes to facilitate the *hybrid* option and Rao's new **dump / exo** code.
 
 
-###These issues were fixed:
+## These issues were fixed:
 
 - fix bug in 2D delaunay connect connect2d_lg.f where the code doubled the coordinates of the first Voronoi point.
 

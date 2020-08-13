@@ -1,35 +1,31 @@
-**read/avs**
+# read / avs
 
 read an AVS format file into a mesh object. This command requires either cmo-name to be given in
 the command or for a mesh object to have been created previously. This file format contains no geometry
 information. 
 
-**FORMAT:**
+## SYNTAX
 
 **read**/ filename.[inp or .avs] / cmo_name
 
-**read** **/avs**/filename/[cmo-name]/[node\_flags/element\_flag/attribute\_flag]
-
-*Note that the filename is case-sensitive, though the extension itself is not.*
+**read** **/avs**/ filename /[cmoname]/[ node_flag / element_flag / attribute_flag]
 
 
-
-
-**OPTIONS:**
+## OPTIONS
  
- 
-| Argument | Default | Description |
-| ----------------- |  ------------- | ----------------------- |
-| node_flag  |  (default=1) |  0 skip node data /  1 read node data |
-| element_flag |    (default=1) |  0 skip element data / 1 read element data |
-| attribute_flag |  (default=1) |  0 skip attribute data / 1 read attribute data |
+
+| Argument           | Default | Description |
+| :----------------- | :------ | :----------------------- |
+| node_flag          |  1      |  0=skip node data   1=read node data |
+| element_flag       |  1      |  0=skip element data  1=read element data |
+| attribute_flag     |  1      |  0=skip attribute data 1=read attribute data |
 
 
-**EXAMPLES:**
+## EXAMPLES
 
 ```
 read/ file1.inp /cmo1
-read/ avs/ file1 /cmo1
+read/ avs / file1 /cmo1
 ```
 
 read into existing and current mesh object
@@ -38,7 +34,7 @@ and skip, do not read the attribute data
 read/ avs / file2.avs / /1/1/0
 ```
 
-**AVS UCD ASCII FILE FORMAT**
+## AVS UCD ASCII FILE FORMAT
 
 AVS (avs.com) is a data visualization tool with ASCII mesh file formats used by LaGriT as they are easy to read and easy to convert from and to other mesh file formats. The Unstructured Cell Data (UCD) format is described here.
 
@@ -55,16 +51,18 @@ The general order of the data is as follows.
 2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
  
 3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
-These are the cell types and the associated keywords:
+
+These are the valid AVS cell types with node order relative to LaGriT ordering conventions as shown at **[LaGriT Supported Element Types](supported.md)**
+
 ```
-line (Line)
-tri (Triangle)
-quad (Quadrilateral)
-hex (Hexahedron)
-prism (Prism)
-tet (Tetrahedron)
-pyr (Pyramid)
-pt (Point)
+pt    (Point)          avs order  = lagrit order
+line  (Line)           avs order  = lagrit order
+tri   (Triangle)       avs order  = lagrit order
+quad  (Quadrilateral)  avs order  = lagrit order
+tet   (Tetrahedron)    avs order  = 1 2 4 3 
+pyr   (Pyramid)        avs order  = 5 1 2 3 4 
+prism (Prism)          avs order  = 4 5 6 1 2 3 
+hex   (Hexahedron)     avs order  = 5 6 7 8 1 2 3 4 
 ```
 
 4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.
@@ -103,10 +101,10 @@ cell_id_1  cell_data_1 ...  cell_data_n
 cell_id_n  cell_data_1 ...  cell_data_n
 </pre>
 
-This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Associated with each node is a data value, there are no cell data. The first line indicates 8 nodes, 1 cell, 1 scaler attribute for the nodes, no attributes for cell or model.
+This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes.  The first line header indicates 8 nodes, 1 element, 2 node attributes, 0 element attributes, 0 model attributes. In the section where attributes are defined, the first line indicates there are 2 attributes, both scalar. After the first attribute line is the list of attribute names along with their type.
 
 <pre>
-8 1 1 0 0 
+8 1 2 0 0 
 1 0.000 0.000 1.000 
 2 1.000 0.000 1.000 
 3 1.000 1.000 1.000 
@@ -117,16 +115,16 @@ This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes. Ass
 8 0.000 1.000 0.000 
 1 1 hex 1 2 3 4 5 6 7 8 
 002 1 1
-elev, real
-stress, lb/in**2 
-1  1.00   4999.9999  
-2  1.00   18749.9999 
-3  1.00   37500.0000 
-4  1.00   56250.0000 
-5  0.00   74999.9999 
-6  0.00   93750.0001 
-7  0.00   107500.0003 
-8  0.00   5000.0001 
+layer, integer
+stress, real
+1  1   4999.9999  
+2  1   18749.9999 
+3  1   37500.0000 
+4  1   56250.0000 
+5  0   74999.9999 
+6  0   93750.0001 
+7  0   107500.0003 
+8  0   5000.0001 
 
 </pre>
 

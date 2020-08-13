@@ -78,9 +78,7 @@ cmo printatt mo_tri y_scalar 11,12,1
 cmo printatt mo_tri z_scalar 11,12,1
 
 #---------------------------------------------------
-
-dump gmv output_box_normals.gmv mo_tri
-dump avs2 output_box_normals.inp mo_tri ascii 
+# remove dump/avs as it can not write array of 3x nodes
 
 #################################################
 # test synthetic normal on vertices (nodes)
@@ -116,9 +114,6 @@ cmo / addatt / mo_tri / synth_normal_angle
   cmo/copyatt/mo_tri mo_tri/ xsynth_angle x_n_norm
   cmo/copyatt/mo_tri mo_tri/ ysynth_angle y_n_norm
   cmo/copyatt/mo_tri mo_tri/ zsynth_angle z_n_norm
-
-dump gmv output_box_normals.gmv mo_tri
-dump avs2 output_box_normals.inp mo_tri ascii 
 
 #
 # Try something that uses synthetic normal

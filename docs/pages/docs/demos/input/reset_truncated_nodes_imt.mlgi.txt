@@ -1,0 +1,23 @@
+# macro to fix node material values left over from truncated top
+# must define CMO when calling this macro
+# must define MAX_MAT
+
+# create set of points with good values
+# fix using nearest interpolation from good set
+
+cmo/create/cmotmp
+copypts/cmotmp/CMO
+cmo/select/cmotmp
+pset/pbad/attribute imt/1,0,0/gt MAX_MAT
+rmpoint/pset,get,pbad
+rmpoint/compress
+
+cmo/select/CMO
+pset/pfix/attribute imt/1,0,0/gt MAX_MAT
+interpolate/voronoi/CMO imt/pset,get,pfix/ cmotmp imt
+
+cmo/delete/cmotmp
+cmo/printatt/CMO/itetclr minmax
+cmo/printatt/CMO/imt minmax
+
+finish

@@ -1,9 +1,11 @@
 ---
 title: DUMP_RECOLOR
-tags: ok
+tags: dump_recolor
 ---
 
-**DUMP\_RECOLOR**
+# DUMP_RECOLOR
+
+------------------
 
 This command is similar to the regular [dump](DUMP2.md) command except
 that the mesh object is recolored before being dumped.  There are two
@@ -17,20 +19,25 @@ colormap is used to recolor the mesh object.  Three dump types are
 available:  "**gmv**", "**LaGriT**" and "**avs**". iomode can be
 **ascii** or **binary**; **binary** is the default.
 
-**FORMAT:**
+## SYNTAX
 
- **dump\_recolor/type/file/mo/[**restore
- norestore**]/[createexisting**] /imode
+<pre>
+<b>dump_recolor/</b>type/file/mo/[<b>restore</b> or <b>norestore</b>/<b>create</b> or <b>existing</b> /imode
+</pre>
 
-EXAMPLE:
+## EXAMPLES
 
- **dump\_recolor/gmv**/mesh.gmv**/ascii**
+```
+dump_recolor/gmv/mesh.gmv**/ascii
+```
 
  Writes an ascii gmv dump to the fine mesh.gmv.  The mesh object that
  is dumped is the current mesh object recolored according to its own
  material adjacency.
  
- **dump\_recolor/gmv**/mesh.gmv**/norestore/existing**
+```
+dump_recolor/gmv/mesh.gmv/norestore/existing
+```
 
  Recolors the current mesh object using the existing colormap and then
  writes a binary gmv dump to the fine mesh.gmv.

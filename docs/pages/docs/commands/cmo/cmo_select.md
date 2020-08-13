@@ -1,17 +1,26 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.05C-SGI [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/select"
+Tags: cmo select
 ---
 
- 
+# cmo/select
 
-**select**/ mo\_name/
-mo\_name is type character, required.
+---------------------------
 
-Selects Mesh Object mo\_name to be the Current Mesh Object. If mo\_name
-does not exist a new Mesh Object will be created using the Default Mesh
+Select named mesh object to be the Current Mesh Object.
+
+## SYNTAX
+
+<pre>
+<b>cmo/select</b>/ mo_name /
+</pre>
+
+`mo_name` is the name of the mesh object to make current. If a mesh object does not exist with this name, a new Mesh Object will be created using the Default Mesh
 Object as the template.
 
  
-**EXAMPLES:**
-mo/select**/mo\_tet2
+## EXAMPLES
+
+```
+cmo/select/ mo_tet
+```

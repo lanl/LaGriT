@@ -10,14 +10,14 @@ Example 1: test using trans to modify two point distributions.
  The output consists of two gmv files, one showing the original point
  distributions, one showing the distributions after translation.
 
- [lagrit\_input\_trans](../lagrit_input_trans)
+ [lagrit_input_trans](input/lagrit_input_trans.txt)
 
 Images of GMV input and output
 
 Initial point distribution
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/trans1_tn.gif"> 
+<img width="300" src="https://lanl.github.io/LaGriT/assets/images/trans1_tn.gif"> 
 
 translation along z-axis
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/trans2_tn.gif"> 
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/trans2_tn.gif"> 

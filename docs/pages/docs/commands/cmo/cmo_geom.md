@@ -1,29 +1,33 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/geometry"
+Tags: cmo geometry
 ---
 
- mo/geometry**
+# cmo/geometry
 
-  mo/geometry** /cmo\_name/geometry\_name
-  Associate the geometry named geometry\_name with the mesh object
-  named cmo\_name. The value of the mesh object attribute geom\_name
-  will be set to geometry\_name. All geometry information will be
-  updated to the geometry information of geometry\_name.  This
-  includes number of surfaces, regions, material regions, current
-  geometry name, and definitions of active surfaces, regions and
-  material regions. cmo\_name and geometry\_name must have been
-  previously created.  [See III. E](../../geometries.md) for a
-  discussion of geometry.  The
-  **[cmo/constraint](cmo_constraint.md)ommand might also be
-  required.
+------------
 
- **EXAMPLES:**
+Associate a geometry with a mesh object. The geometry is created with [surface](../SURFACE.md) and [region](..REGION.md) commands.
 
-  **geometry/create**/blobgeom/
+ All geometry information will be updated to the geometry information of the named geometry.  This
+  includes number of surfaces, regions, material regions, current geometry name, and definitions of active surfaces, regions and material regions.  [Geometries](../../geometries.md) for a discussion of geometry.  The [cmo/constraint](cmo_constraint.md) command might also be required.
 
-  mo/create/mo1
+## SYNTAX
 
-  mo/geometry/mo1/blobgeom/
+<pre>
+<b>cmo/geometry</b> /cmo_name / geom_name
+</pre>
 
-  mo/constraints/mo\_sink/cmo\_src
+`cmo_name` is the mesh object whose attribute **geometry_name** will be assigned `geom_name`. The mesh object and geometry must have been previously created. 
+
+  
+
+## EXAMPLES
+
+```
+geometry/create/blobgeom/
+cmo/create/mo1
+
+cmo/geometry/mo1/blobgeom/
+cmo/constraints/mo_sink/cmo_src
+```

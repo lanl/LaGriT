@@ -1,73 +1,77 @@
 ---
 title: MODE
-tags: ok
+tags: mode
 ---
 
-**MODE**
+# MODE
 
-  The MODE Command  sets up several optimization options
+----------------------
 
-  Currently implemented are:
 
-  (1) discrete optimization:
+The MODE Command  sets up several optimization options.
 
-  **mode/discrete**/surface\_cmo/tolldamage
+
+# SYNTAX
+
+<pre>
+<b>mode/discrete</b>/surface_cmo/tolldamage
+
+<b>mode/adaption_field</b>/field_name
+
+<b>mode/recon/geom</b> <b>delaunay adaption</b>
+</pre>
+  
+
+### Discrete optimization
+
+**`discrete`**/surface_cmo/tolldamage
  
-   if this mode is set, **refine,** **smooth**, **merge** will
+If this mode is set, **refine**, **smooth**, **merge** will
    require any operation that involves nodes on the specified surface
    to result in a mesh whose surface nodes are also members of the
-   surface\_cmo.
+   `surface_cmo`.
 
-   A mesh object attribute associated with the 3d mesh named
-   discrete\_optimize will be created and its value will be the name
+A mesh object attribute associated with the 3d mesh named
+   discrete_optimize will be created and its value will be the name
    of the surface mesh object.
  
   
-(2) error\_adaption
+### Error adaption
 
-  **mode** **/adaption\_field**/field\_name
+**`adaption_field`** / field_name
  
-   if this mode is set, optimization operations will be based on
+If this mode is set, optimization operations will be based on
    reducing error.  A mesh object attribute associated with the 3d
-   mesh named 'adaption\_field' will be created and it's value will
+   mesh named 'adaption_field' will be created and it's value will
    be the name of the field.
  
   
-(3) reconnection
+### Reconnection
 
-  **mode/recon** **/geom**
+**`recon/geom`**
 
-  **mode/recon** **/delaunay**
+**`recon/delaunay`**
 
-  **mode/recon** **/adaption**
+**`recon/adaption`**
  
-   Setting this mode will determine the criterion used to
+ Setting this mode will determine the criterion used to
    [reconnect](RECON.md) the mesh.  The default mode is
    **delaunay** and setting mode to **delaunay** will cause recon to
    attempt to create a [delaunay mesh](CONNECT1.md).  Setting mode
    to **geom** will reconnect to increase inscribed radii of
    elements.  Setting mode to adaption will reconnect to reduce
-   solution error.  Field\_name must be set with the
-   **mode** **/adaption\_field** command.
+   solution error.  The parameter `field_name` must be set with the
+   **`mode/adaption_field`** command.
 
- **FORMAT:**
+ 
 
-  **mode/discrete**/surface\_cmo/tolldamage
+## EXAMPLES
 
-  **mode** **/adaption\_field**/field\_name
+```
+mode/adaption_field/solution
 
-  **mode/recon** **/geom** **delaunay** **adaptio**n
-
-   
-
- **EXAMPLES:**
-
-  **mode** **/adaption\_field**/solution
-
-  **mode** **/recon** **/adaption**
+mode/recon/adaption
+```
   
-  All optimization including **[massage](MASSAGE.md)** commands that
-  follow will be performed to reduce error in the user defined field
-  solution.
 
  

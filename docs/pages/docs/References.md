@@ -1,4 +1,15 @@
-References:
+# LaGriT References
+
+To reference LaGriT in a publication use the following citation:
+
+Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
+&lt;http://lagrit.lanl.gov&gt;, *year_of_lagrit_version*.
+
+For example:
+
+Los Alamos Grid Toolbox, LaGriT, Los Alamos National Laboratory,
+&lt;http://lagrit.lanl.gov&gt;, 2013.
+
 
 1.  Kuprat, Andrew, "[Modeling Microstructure Evolution using
 Gradient-Weighted Moving Finite Elements<a href="https://lanl.github.io/LaGriT/assets/images/mfegg.pdf" download> </a>"

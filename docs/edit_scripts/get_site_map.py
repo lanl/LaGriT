@@ -24,10 +24,21 @@ def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linke
         for link in sorted(link_list):
             link_fle = get_file(link, md_file_list)
             link_fle_in = open(link_fle, 'r').read()
+
+# Default title tags do not exist, crossed out
+# if ok then bold
+# if needs review italic
+# if Title but no review or ok, do bold 
+
             tags = '~~'
             if 'tags' and 'ok' in link_fle_in:
+                tags = '' 
+                tags = '***'
+            if 'Title' in link_fle_in:
+                tags = '' 
                 tags = '**'
             elif 'tags' and 'review' in link_fle_in:
+                tags = '' 
                 tags = '*'
             rel_link = link_fle.split('LaGriT/docs/')[-1][:-3]
             out_fle.write(indent + '[' + tags + link[:-3] + tags + ']' + '(' + rel_link + ')' + '\n' + '\n')
@@ -36,7 +47,8 @@ def print_links(root_fle, depth, max_depth, out_fle, md_file_list, already_linke
                 print_links(link_fle, depth+1, max_depth, out_fle, md_file_list, already_linked)
 
 # CHANGE THIS LINE TO LOCATION OF REPO:
-repo_location = '/Users/nknapp/Desktop/LaGriT/docs/'
+# repo_location = '/Users/nknapp/Desktop/LaGriT/docs/'
+repo_location = '/project/eesdev/tam/clone/LaGriT/docs/'
 
 dr = repo_location + 'pages'
 md_file_list = []

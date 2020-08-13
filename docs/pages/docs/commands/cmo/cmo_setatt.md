@@ -1,35 +1,60 @@
 ---
-Author: Jan Wills
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
+Title: "cmo/setatt"
+Tags: cmo setatt
 ---
 
- 
-**setatt**/mo\_name/attribute\_name/ifirst,ilast,istride/value
-mo\_name is type character, required.
+# cmo/setatt
 
-attribute\_name is type character.  If blank, the active mesh object
-will be used.
+-------------
 
-ifirst,ilast,istride
-for attributes with length = 'nnodes', pset can be supplied
+Operation to set mesh object attributes with values.
 
-for attributes with length = 'nelements', eltset can be supplied
+See the description of mesh object and attributes for setting options. [Mesh Object}(../../meshobject.md)
 
-for other attributes ifirst,ilast,istride must be numbers; if blank then
-all members of the attribute will be modified.
-value is type integer or real depending on the type of the attribute.
-Sets the value of the specified attribute in the given range to the
-supplied value.
-Note:  This command requires that the mesh contains one or more nodes.
-**EXAMPLES:**
-mo/setatt/mo/itp1/1,0,0/0
 
-mo/setatt**/ 3dmesh**/itetclr** **/eltset**,**get**,blue/3
+## SYNTAX
 
-Will set all elements in the element set 'blue' to have the value of
-itetclr to 3.
+<pre>
+<b>cmo/setatt</b> / mo_name / attribute_name /ifirst,ilast,istride/ value
 
-mo/setatt**/**/ndimensions\_geom**////2
+<b>cmo/setatt</b> / mo_name / attribute_name / value
+</pre>
 
-Will reset the ndimensions geometry attribute of the active mesh object
-to 2.
+
+`mo_name` is the name of the mesh oject to set values
+
+`attribute_name` is the name in the mesh object to operate on
+
+`ifirst,ilast,istride` is the selection where 1,0,0 will operate on all members of the attribute. The node or element set syntax can be used instead of the integer range. See **pset** and **`eltset`** commands.
+If the range selection is not present, all members are applied.
+
+`value` is type integer or real depending on the type of the attribute.
+The `value` is assigned to the selected range of `attribute_name'.
+
+
+
+## EXAMPLES
+
+```
+cmo/setatt/mo/imt/1,0,0/1
+cmo/setatt/mo/itp/1,0,0/0
+```
+Will set all values of node attribute imt to 1 and itp1 to 0, this is often done to set defaults  before using **connect**.
+
+```
+cmo/setatt/ 3dmesh /itetclr /eltset,get,blue/ 3
+```
+Will set all elements of attribute itetclr and in the element set 'blue' to have the value of 3
+
+```
+cmo/setatt // ndimensions_geom / 2
+```
+Will reset the ndimensions geometry attribute of the active mesh object to 2
+
+
+```
+define ATT_RESET xfield
+cmo/setatt/ -def- / ATT_RESET /pset,get,p_reset/ 0.0d0
+```
+The attribute name is defined in a variable call ATT_RESET. The value zero is assigned to the  **p_reset** node selection. This will operate on the current active mesh object, use **cmo/select** to make a mesh object current. 
+

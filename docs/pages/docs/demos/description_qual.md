@@ -14,18 +14,18 @@ Example 1: Check quality of various meshes
 
 Input
 
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual1_tn.gif">
+<img  width="200" src="https://lanl.github.io/LaGriT/assets/images/qual1_tn.gif">
    
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qua11skew_tn.gif"> 
+<img  width="200" src="https://lanl.github.io/LaGriT/assets/images/qua11skew_tn.gif"> 
    
-<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/qual2_tn.gif"> 
+<img  width="200" src="https://lanl.github.io/LaGriT/assets/images/qual2_tn.gif"> 
 
 Output
 
- [output\_qual1](../output_qual1)
+ [output_qual1](output/output_qual1.txt)
 
- [output\_qual1skew](../output_qual1skew)
+ [output_qual1skew](output/output_qual1skew.txt)
 
- [output\_qual2](../output_qual2)
+ [output_qual2](output/output_qual2.txt)
 
 

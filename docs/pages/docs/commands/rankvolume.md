@@ -1,45 +1,42 @@
 ---
-title: SETSIZE
-tags: ok
+title: RANKVOLUME
+tags: rankvolume 
 ---
 
- **RANKVOLUME**
+# RANKVOLUME
 
-  **rankvolume**  prints out the lowest volume elements from a mesh, ranked
-  in increasing order.  The default is to print out the 100 lowest
-  volume elements, but this number can be changed by specifying it as
-  an optional second argument to the command. Also printed are the
-  number of exterior boundary faces and number of interfaces faces for
+-----------------
+
+**`rankvolume`**  prints out the lowest volume elements from a mesh, ranked
+  in increasing order. The default is to print out the 100 lowest volume elements, but this number can be changed by specifying it as
+  an optional second argument to the command. Also printed are the number of exterior boundary faces and number of interfaces faces for
   each of these elements.
 
-**FORMAT:**
+## SYNTAX
 
-**rankvolume**/[number\_of\_elements\_to\_rank]
+<pre>
+<b>rankvolume</b>/[number_of_elements_to_rank]
+</pre>
 
-EXAMPLE:
+## EXAMPLES
 
-        rankvolume/10
+```
+ rankvolume/10
+```
+write 10 lowest volume elements in increasing order.
 
-		elt. no.       volume     
-		#ext.bound.faces 
-		#int.bound.faces
+The output will look like:
+<pre class="lg-output">
+elt. no.       volume     #ext.bound.faces #int.bound.faces
+         6  0.666667E+03      4          1 
+         5  0.666667E+03      4          0
+         4  0.666667E+03      3          1
+         1  0.666667E+03      4          0
+         2  0.666667E+03      4          0                                      
+         3  0.666667E+03      3          0
+        12  0.100000E+04      5          0
+        11  0.100000E+04      5          0
+         7  0.150000E+04      4          0
+        10  0.150000E+04      4          0
 
-		    343660  0.105844E-05      0          1
-
-		    567342  0.105844E-05      0          0
-
-		    567266  0.105844E-05      0          1
-
-		    283659  0.105844E-05      0          0
-
-		    687334  0.105844E-05      0          0
-
-		    0784  0.105844E-05      0          0
-
-		    730990  0.105844E-05      0          0
-
-		    146725  0.105844E-05      0          0
-
-		    785111  0.105844E-05      0          0
-
-		    0711  0.105844E-05      0          0
+</pre>

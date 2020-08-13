@@ -17,8 +17,8 @@ p.add_option('--plot', help='Show commands and diagnostics but no execution', de
 #
 (opts,args) = p.parse_args()
 
-print opts.dem_filename
-print opts.dry_run
+print(opts.dem_filename)
+print(opts.dry_run)
 
 # Input: DEM data
 dem_file_fullname=opts.dem_filename
@@ -54,7 +54,7 @@ with open(dem_file_fullname) as dem_header:
             no_data_value=int(line.split()[1])
             break
 
-print nx, ny, xll_corner, yll_corner, dx, dy, no_data_value
+print(nx, ny, xll_corner, yll_corner, dx, dy, no_data_value)
 dem_header.close()
 
 d = numpy.flipud(numpy.genfromtxt(dem_file_fullname,skip_header=6))

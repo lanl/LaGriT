@@ -1,28 +1,34 @@
 ---
-GENERATOR: 'Mozilla/4.7 [en] (X11; I; IRIX 6.5 IP32) [Netscape]'
-Generator: Microsoft Word 98
 title: CREATEPTS/BRICK
+tags: createpts/brick
 ---
 
 # CREATEPTS/BRICK
 
-Builds a set nodes (logically rectangular) and create finite element hexahedral connectivity. This command is similar to the **rz** commandformat except here we have symmetry flags to input. A second format specifies that a mesh be created and connected. These commands require a hex or quad cmo to be defined. See also **`createpts`** command without the brick option which will create an unconnected point distribution.
+------------------
+
+Builds a set nodes (logically rectangular) and creates finite element connectivity. This command is similar to the **quadxyz** command except that symmetry flags are included and elements are created. 
+
+
+The **brick** option specifies that a mesh is connected into elements. This command can be used to create finite element connectivity on a logically rectangular set of nodes created by another method. See  [**`quadxyz`**](../QUADXYZ1.md) or [**`createpts`**](CRTPTSRZ.md) command without the **brick** option.
+
+
+These commands require a hex or quad cmo type mesh object, use **cmo/create** to set the mesh element type. For instance,  
+``` cmo/create/mo_name / / / hex``` or ``` cmo/create/mo_name / / / quad```.
 
 
 ## SYNTAX
 
 <pre>
-<b>cmo/create</b>/ cmo_name / / / <b>hex</b>
 <b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat / xrz,yrz,zrz / isym,jsym,ksym ]
-</pre>
-Create points and connect into a finite element hexahedral mesh object.
 
-<pre>
 <b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b>/ ni,nj,nk / 1,0,0 / <b>connect</b> /
 </pre>
-Use this option (for example, with **quadxyz** ) to create finite element hexahedral connectivity on a logically rectangular set of nodes created by another method..
+
+*Note these actions apply to a hex or quad mesh object as defined with the create command or generated from another command.*
 
 
+### Distribution Types:
 
 
 **`xyz`** specifies Cartesian coordinates.
@@ -31,22 +37,27 @@ Use this option (for example, with **quadxyz** ) to create finite element hexahe
 
 **`rtp`** specifies spherical coordinates.
 
-*`ni,nj,nk`* are the number of points to be created in each direction.
 
-*`xmin,ymin,zmin`* are the minimums for coordinates.
+### Distribution Options:
 
-*`xmax,ymax,zmax`* are the maximums for coordinates.
 
-*`iiz,ijz,ikz`*  if = 0 then mins and maxs are used as cell centers if =1 then mins and maxs are used as cell vertices. The default is 1,1,1
+`ni,nj,nk` are the number of points to be created in each direction.
 
-*`iirat,ijrat,ikrat`* are optional and set the ratio zoning switches (0=off,1=on)
+`xmin,ymin,zmin` are the minimums for coordinates.
 
-*`xrz,yrz,zrz`* are optional and are the ratio zoning value - distance is multiplied by the value for each subsequent point.
+`xmax,ymax,zmax` are the maximums for coordinates.
 
-*`isym,jsym,ksym`* symmetry flags - not documented
+`iiz,ijz,ikz`  if = 0 then mins and maxs are used as cell centers if =1 then mins and maxs are used as cell vertices. The default is 1,1,1
 
-*`1,0,0`* is the point set selection indicated by start,stride,stop or pset,get,pset_name where 1,0,0 are all points.
+`iirat,ijrat,ikrat` are optional and set the ratio zoning switches (0=off,1=on)
 
+`xrz,yrz,zrz` are optional and are the ratio zoning value - distance is multiplied by the value for each subsequent point.
+
+`isym,jsym,ksym` symmetry flags - not documented
+
+`1,0,0` is the point set selection indicated by start,stride,stop or pset,get,pset_name where 1,0,0 are all points.
+
+<hr>
 
 ## EXAMPLES:
 
