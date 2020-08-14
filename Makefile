@@ -144,7 +144,7 @@ OSX_STATIC_LIBS :=
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
 	BUILDFLAGS += -Dmacx64
-	OSX_STATIC_LIBS := -dynamiclib -lgfortran
+	OSX_STATIC_LIBS := -lgfortran
 	OSX_STATIC_LIBS += $(shell gfortran -print-file-name=libquadmath.a) 
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
@@ -225,7 +225,7 @@ exodus :
 	fi; \
 	./install-tpl.sh; \
 	cd TPL; \
-	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES && \
+	../cmake-exodus $(EXO_CMAKE_FLAGS) CC=$(CC) CXX=$(CXX) FC=$(FC) -DFORTRAN=YES && \
 	make && make install && \
 	cd $(LG_DIR) && \
 	echo "Exodus successfully built!" && \
