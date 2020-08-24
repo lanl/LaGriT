@@ -124,6 +124,16 @@ region/ r_box / le s_box
 Define a region inside or equal to a box with lower left corner (-1. -1. -1.) and upper right corner at (1. 1. 1.).
 
 ```
+read avs surfmesh_input.inp mosurf
+
+cmo/select/motet
+surface/surf_bndry/intrface/sheet/mosurf
+region/ rout / ge surf_bndry
+eltset/ eout / region / rout
+```
+Read a triangulated surface to truncate a mesh. Use the surface to find elements outside the surface and name the set "eout".
+
+```
 surface / s_cone / reflect / cone / .1 .1 .1 / .5 .5 .5 / .3
 ```
 Define a cone surface with tip at (.1 .1 .1) and center at (.5 .5 .5) with .3 radius.
