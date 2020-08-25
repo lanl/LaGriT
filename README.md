@@ -31,7 +31,7 @@ or by navigating to `docs/index.md`.
 
 A [Docker image](https://hub.docker.com/r/ees16/tinerator) can be pulled and run via:
 
-    docker pull ees16/tinerator
-    docker run --rm -p 8888:8888 ees16/tinerator
+    docker pull ees16/tinerator:latest
+    docker run -v $(pwd):/home/jovyan/work -p 8888:8888 ees16/tinerator:latest
 
 ![](docs/assets/images/examples/attribute_final.png)
