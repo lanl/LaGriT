@@ -4,7 +4,7 @@ import numpy as np
 from pylagrit import PyLaGriT
 from copy import deepcopy
 import logging
-
+import warnings
 import tinerator.config as cfg
 import tinerator.utilities as util
 import tinerator.boundary as boundary
@@ -227,6 +227,39 @@ class DEM():
             cfg.log.info('Filling flats')
             rd.ResolveFlats(self.dem,in_place=True)
 
+    def smooth_between(self, shapefile_path: str, with_radius=25.):
+        '''
+        Given a shapefile containing one or more line objects,
+        this will smooth the DEM across the line(s) at a radius of
+        `with_radius`.
+
+        # Arguments
+        shapefile_path (str): path to shapefile
+        '''
+        lines = util.get_geometry(shapefile_path)
+
+        if all([x['type'].lower().strip() != 'linestring' for x in lines]):
+            raise ValueError(f"Requested LineString geometry. Got: {lines}")
+
+        for c in lines:
+            cc = c['coordinates']
+            cc = np.flip(
+                util.ProjectedVectorToXY(
+                    cc, 
+                    self.xll_corner, 
+                    self.yll_corner, 
+                    self.cell_size, 
+                    self.nrows
+                ),
+                axis = 1,
+            )
+            future.smooth_between(
+                self.dem.data, 
+                with_radius, 
+                cc[0], 
+                cc[1], 
+                inplace=True
+            )
 
     def watershed_delineation(self,
                               threshold:float,
@@ -327,6 +360,35 @@ class DEM():
 
         return self.feature
 
+    def import_refinement_features(
+        self, shp_paths: list
+    ) -> None:
+        """
+        Imports one or more shapefiles for creating a refined surface mesh.
+
+        # Arguments
+        shp_paths (list<str>): list of paths to shapefiles
+        """
+    
+        if isinstance(shp_paths, str):
+            shp_paths = [shp_paths]
+    
+        master_arr = None
+    
+        for shp_path in shp_paths:
+            if not os.path.exists(shp_path):
+                raise FileNotFoundError(
+                    f'Shapefile doesn\'t exist at path "{shp_path}"'
+                )
+    
+            arr = util.rasterize_shapefile_like(shp_path, self.metadata['filename'])
+    
+            if master_arr is None:
+                master_arr = arr
+            else:
+                master_arr[arr == True] = True
+    
+        self.set_river_network_from_raster(master_arr, 0.5)
 
     def import_river_network(self,shp_filepath:str) -> None:
         '''
@@ -347,9 +409,12 @@ class DEM():
         Nothing.
         '''
 
-        raster = util.rasterize_shapefile_like(shp_filepath,self.metadata['filename'])
-
-        self.set_river_network_from_raster(raster,0.5)
+        warnings.warn(
+            'This method is deprecated. Please use `self.import_refinement_features`.', 
+            DeprecationWarning, 
+            stacklevel=1
+        )
+        self.import_refinement_features(shp_filepath)
 
     def __watershed_delin_as_interactive(self,threshold,method):
         '''

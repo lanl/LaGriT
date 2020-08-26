@@ -4,7 +4,7 @@ Set of functions that convert from matrix (row and column) units to
 a DEM projection, and vice versa.
 
 '''
-
+import fiona
 import numpy as np
 import skimage
 import os
@@ -52,6 +52,31 @@ def xyVectorToProjection(v,cellSize,xllCorner,yllCorner,nRows):
 
     return v
 
+
+def ProjectedVectorToXY(vector, xllCorner, yllCorner, cellSize, nRows) -> np.ndarray:
+    """
+    Converts a vector of (x,y) point in a particular raster's CRS back into
+    [row, col] indices relative to that raster.
+    """
+
+    # TODO: verify that `vector == unproject_vector(project_vector(vector))`
+
+    nNodes = vector.shape[0]
+    #xllCorner = raster.xll_corner
+    #yllCorner = raster.yll_corner
+    #cellSize = raster.cell_size
+    #nRows = raster.nrows
+
+    map_x = lambda x: (cellSize + 2.0 * float(x) - 2.0 * xllCorner) / (
+        2.0 * cellSize
+    )
+    map_y = lambda y: ((yllCorner - y) / cellSize + nRows + 1.0 / 2.0)
+
+    x_arr = np.reshape(list(map(map_x, vector[:, 0])), (nNodes, 1))
+    y_arr = np.reshape(list(map(map_y, vector[:, 1])), (nNodes, 1))
+
+    return np.hstack((np.round(x_arr), np.round(y_arr))).astype(int) - 1
+
 def normalizeMatrix(A):
     return (A-np.min(A))/(np.max(A)-np.min(A))
 
@@ -93,6 +118,42 @@ def cleanup(files,silent=True):
 RASTER RELATED UTILITIES
 
 '''
+
+def get_geometry(shapefile_path: str) -> list:
+    """
+    Reads a shapefile and returns a list of dicts of
+    all geometric objects within the shapefile. Each dict
+    contains the type of geometrical object, its CRS, and
+    defining coordinates.
+
+    # Arguments
+    shapefile_path (str): path to shapefile
+
+    # Returns
+    list[dict]
+    """
+
+    elements = []
+    with fiona.open(shapefile_path, "r") as cc:
+        for f in cc:
+            geom = f["geometry"]
+            coords = geom["coordinates"]
+
+            if not isinstance(coords[0], tuple):
+                coords = coords[0]
+
+                if not isinstance(coords[0], tuple):
+                    print("warning: shapefile parsed incorrectly")
+
+            elements.append(
+                {
+                    "type": geom["type"],
+                    "crs": None,
+                    "coordinates": np.array(coords),
+                }
+            )
+
+    return elements
 
 def _smooth_raster_boundary(raster:np.ndarray,width:int,no_data_value:float=np.nan):
     '''
