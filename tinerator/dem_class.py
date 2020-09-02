@@ -40,7 +40,7 @@ class DEM():
         self.nrows = np.shape(self.dem)[0]
         self.cell_size = (self.dem.geotransform[1], self.dem.geotransform[5])
         self.xll_corner = self.dem.geotransform[0]
-        self.yll_corner = self.dem.geotransform[3] - self.nrows * self.cell_size[1]
+        self.yll_corner = self.dem.geotransform[3]
         self.mask = self.dem == self.dem.no_data if self.no_data_value in self.dem else None
 
         self._surface_mesh = None
@@ -241,8 +241,9 @@ class DEM():
         if all([x['type'].lower().strip() != 'linestring' for x in lines]):
             raise ValueError(f"Requested LineString geometry. Got: {lines}")
 
-        for c in lines:
+        for c in [lines[0]]:
             cc = c['coordinates']
+            print('1>>', cc)
             cc = np.flip(
                 util.ProjectedVectorToXY(
                     cc, 
@@ -253,11 +254,12 @@ class DEM():
                 ),
                 axis = 1,
             )
+            print('2>>', cc)
             future.smooth_between(
                 self.dem.data, 
                 with_radius, 
-                cc[0], 
                 cc[1], 
+                cc[0],
                 inplace=True
             )
 

@@ -102,8 +102,12 @@ def smooth_between(A, w, p1, p2, inplace=False):
 
         pts = get_line(p1,p2)
 
-        a_0 = A[p1[0],p1[1]]
-        a_1 = A[p2[0],p2[1]]
+        try:
+            a_0 = A[p1[0],p1[1]]
+            a_1 = A[p2[0],p2[1]]
+        except IndexError:
+            continue
+
         dx = int(abs(p2[0] - p1[0]))
 
         xvec = [a_0 + i*(a_1 - a_0)/(dx) for i in range(dx+1)]

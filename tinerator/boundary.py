@@ -260,11 +260,11 @@ def rectangularBoundary(bbox:list,spacing:float):
 
     x0 = bbox[0]; x1 = bbox[1]; y0 = bbox[2]; y1 = bbox[3]
 
-    N = abs(x1 - x0) / spacing
-    horizontal = np.linspace(x0,x1+spacing,N+1,endpoint=False)
+    N = int(abs(x1 - x0) // spacing)
+    horizontal = np.linspace(x0,x1+spacing,num=N+1,endpoint=False)
 
-    N = abs(y1 - y0) / spacing
-    vertical = np.linspace(y0,y1,N,endpoint=False)
+    N = int(abs(y1 - y0) // spacing)
+    vertical = np.linspace(y0,y1,num=N,endpoint=False)
 
     if np.size(horizontal) == 0 or np.size(vertical) == 0:
         _err = "Invalid spacing for bounding box\n"

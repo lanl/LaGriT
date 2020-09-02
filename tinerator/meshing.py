@@ -11,7 +11,9 @@ def _intrp_elevation_to_surface(lg,
                                 flip:str='y',
                                 fileout=None,
                                 smooth_boundary:bool=False,
-                                outfile:str=None):
+                                outfile:str=None,
+                                raster_pad_width:int=10
+                                ):
     '''
 
     Given a triplane mesh and a tinerator.DEM instance, this function will 
@@ -22,7 +24,7 @@ def _intrp_elevation_to_surface(lg,
     # Generate sheet metadata
     dem_dimensions = [dem_object.ncols,dem_object.nrows]
     lower_left_corner = [dem_object.xll_corner,dem_object.yll_corner,0.]
-    cell_size = [dem_object.cell_size,dem_object.cell_size]
+    cell_size = [dem_object.cell_size[0],dem_object.cell_size[1]]
 
     # Interpolate no data values on the DEM
     # This is to prevent a noise effect on LaGriT interpolation 
@@ -31,6 +33,16 @@ def _intrp_elevation_to_surface(lg,
 
     if smooth_boundary:
         _dem = util._smooth_raster_boundary(_dem,width=4,no_data_value=np.nan)
+
+    if raster_pad_width > 0:
+        _dem = np.pad(_dem, raster_pad_width, mode='edge')
+        dem_dimensions = [_dem.shape[1], _dem.shape[0]]
+        lower_left_corner = [
+            dem_object.xll_corner - cell_size[0]*raster_pad_width,
+            dem_object.yll_corner - cell_size[1]*raster_pad_width,
+            0.
+        ]
+
 
     ind = nd.distance_transform_edt(np.isnan(_dem),return_distances=False,return_indices=True)
     _dem = _dem[tuple(ind)]
@@ -74,10 +86,9 @@ def _intrp_elevation_to_surface(lg,
     try:
         triplane.interpolate('continuous','z_new',tmp_sheet,'z_elev')
     except Exception as e:
-        _err = 'Caught an unknown exception. Most likely, this is related to'+\
+        raise Exception(f'Caught an unknown exception. Most likely, this is related to'+\
         'floating point underflow / overflow.\n\nTry setting `xll_corner` and'+\
-        '`yll_corner` to 0.\n\nORIGINAL EXCEPTION: ' + e.msg
-        raise Exception(_err)
+        '`yll_corner` to 0.\n\nORIGINAL EXCEPTION: {e.args}')
 
     triplane.copyatt('z_new','zic')
     triplane.delatt('z_new')

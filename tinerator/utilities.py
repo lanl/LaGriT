@@ -68,7 +68,7 @@ def ProjectedVectorToXY(vector, xllCorner, yllCorner, cellSize, nRows) -> np.nda
     #nRows = raster.nrows
 
     map_x = lambda x: (cellSize[0] + 2.0 * float(x) - 2.0 * xllCorner) / (
-        2.0 * cellSize
+        2.0 * cellSize[0]
     )
     map_y = lambda y: ((yllCorner - y) / cellSize[1] + nRows + 1.0 / 2.0)
 
