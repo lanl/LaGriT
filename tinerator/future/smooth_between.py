@@ -1,124 +1,57 @@
-from matplotlib import pyplot as plt
+import math
 import numpy as np
-from copy import copy
+from scipy.ndimage import rotate
 
-DEBUG = False
+def vector_angle(p1, p2):
+    y = p2[1] - p1[1]
+    x = p2[0] - p1[0]
+    return math.atan2(y, x)*180/math.pi
 
-def get_line(start, end):
-    """Bresenham's Line Algorithm
-    Produces a list of tuples from start and end
- 
-    >>> points1 = get_line((0, 0), (3, 4))
-    >>> points2 = get_line((3, 4), (0, 0))
-    >>> assert(set(points1) == set(points2))
-    >>> print points1
-    [(0, 0), (1, 1), (1, 2), (2, 3), (3, 4)]
-    >>> print points2
-    [(3, 4), (2, 3), (1, 2), (1, 1), (0, 0)]
-    """
-    # Setup initial conditions
-    x1, y1 = start
-    x2, y2 = end
-    dx = x2 - x1
-    dy = y2 - y1
- 
-    # Determine how steep the line is
-    is_steep = abs(dy) > abs(dx)
- 
-    # Rotate line
-    if is_steep:
-        x1, y1 = y1, x1
-        x2, y2 = y2, x2
- 
-    # Swap start and end points if necessary and store swap state
-    swapped = False
-    if x1 > x2:
-        x1, x2 = x2, x1
-        y1, y2 = y2, y1
-        swapped = True
- 
-    # Recalculate differentials
-    dx = x2 - x1
-    dy = y2 - y1
- 
-    # Calculate error
-    error = int(dx / 2.0)
-    ystep = 1 if y1 < y2 else -1
- 
-    # Iterate over bounding box generating points between start and end
-    y = y1
-    points = []
-    for x in range(x1, x2 + 1):
-        coord = (y, x) if is_steep else (x, y)
-        points.append(coord)
-        error -= abs(dy)
-        if error < 0:
-            y += ystep
-            error += dx
- 
-    # Reverse the list if the coordinates were swapped
-    if swapped:
-        points.reverse()
-    return np.array(points)
+def midpoint(p1, p2):
+    return ((p1[0] + p2[0])/2., (p1[1] + p2[1])/2.)
 
-def get_perpendicular(w,p_i,p1,p2):
-    x1,y1 = p1
-    x2,y2 = p2
-    x_i,y_i = p_i
-    m = (y2 - y1) / (x2 - x1)
-    x = x_i + w
-    y = -1/m*x + (y_i + x_i / m)
+def linear_gradient(v1, v2, width, height):
+    return np.transpose(np.tile(np.linspace(v1, v2, num=int(height)), (width,1)))
 
-    return int(x),int(y)
-
-def smooth_between(A, w, p1, p2, inplace=False):
-
-    if not inplace:
-        A = copy(A)
-
-    a1 = get_perpendicular(w,p1,p1,p2)
-    a2 = get_perpendicular(-w,p1,p1,p2)
-
-    pts_a = get_line(a1,a2)
-
-    b1 = get_perpendicular(w,p2,p1,p2)
-    b2 = get_perpendicular(-w,p2,p1,p2)
-
-    pts_b = get_line(b1,b2)
-    pts_c = copy(pts_b)
-    pts_c[:,0] = pts_c[:,0] - 1
-
-    pts_d = copy(pts_a)
-    pts_d[:,0] = pts_d[:,0] - 1
-
-    pts_a = np.vstack((pts_d,pts_a))
-    pts_b = np.vstack((pts_c,pts_b))
-
-    assert len(pts_a) == len(pts_b)
-
-    for i in range(len(pts_a)):
-        p1 = pts_a[i].astype(int)
-        p2 = pts_b[i].astype(int)
-
-        pts = get_line(p1,p2)
-
-        try:
-            a_0 = A[p1[0],p1[1]]
-            a_1 = A[p2[0],p2[1]]
-        except IndexError:
-            continue
-
-        dx = int(abs(p2[0] - p1[0]))
-
-        xvec = [a_0 + i*(a_1 - a_0)/(dx) for i in range(dx+1)]
-
-        for p in pts:
-            x, y = p
-            A[x,y] = xvec[x-p1[0]]
+def rotate_matrix(A, p1, p2, no_data=-9999.):
+    y = p2[1] - p1[1]
+    x = p2[0] - p1[0]
+    angle = math.atan2(y, x)*180/math.pi
     
-    if DEBUG:
-        for p in (a1,a2,b1,b2):
-            x,y = p
-            A[x,y] = 20
+    if angle < 0.:
+        angle = 180. + angle
+        
+    mat = rotate(A, 45, cval=no_data)
+    mat[mat == no_data] = np.nan
+    return mat
 
-    return A
+def insert_matrix(parent, child, midpoint):
+    parent_rows, parent_cols = parent.shape
+    child_rows, child_cols = child.shape
+    row_begin = int(round(midpoint[0] - child_rows/2.))
+    col_begin = int(round(midpoint[1] - child_cols/2.))
+    
+    for row in range(child_rows):
+        row_i = row + row_begin
+        if row_i < 0 or row_i > parent_rows:
+            continue
+            
+        for col in range(child_cols):
+            col_i = col + col_begin
+            if col_i < 0 or col_i > parent_cols:
+                continue
+            
+            value = child[row][col]
+            if np.isnan(value):
+                continue
+            
+            parent[row_i][col_i] = value
+    
+    return parent
+
+def smooth_between(matrix, width, p1, p2, inplace=True):
+    length = ((p2[0]-p1[0])**2 + (p2[1] - p1[1]) ** 2) ** 0.5
+    c = linear_gradient(matrix[p1[0],p1[1]], matrix[p2[0],p2[1]], int(width), int(length))
+    c = rotate_matrix(c, p1, p2)
+    mp = midpoint(p1, p2)
+    insert_matrix(matrix, c, mp)

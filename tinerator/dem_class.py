@@ -241,9 +241,8 @@ class DEM():
         if all([x['type'].lower().strip() != 'linestring' for x in lines]):
             raise ValueError(f"Requested LineString geometry. Got: {lines}")
 
-        for c in [lines[0]]:
+        for c in lines:
             cc = c['coordinates']
-            print('1>>', cc)
             cc = np.flip(
                 util.ProjectedVectorToXY(
                     cc, 
@@ -254,12 +253,13 @@ class DEM():
                 ),
                 axis = 1,
             )
-            print('2>>', cc)
+            cc[0][0] = self.nrows - cc[0][0]
+            cc[1][0] = self.nrows - cc[1][0]
             future.smooth_between(
-                self.dem.data, 
+                self.dem, 
                 with_radius, 
-                cc[1], 
                 cc[0],
+                cc[1],
                 inplace=True
             )
 
