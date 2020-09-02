@@ -47,8 +47,8 @@ def yProjectionToVector(v,cellSize,yllCorner,nRows):
 def xyVectorToProjection(v,cellSize,xllCorner,yllCorner,nRows):
 
     for row in range(v.shape[0]):
-        v[row][0] = convertXtoProjection(v[row][0],cellSize,xllCorner)
-        v[row][1] = convertYtoProjection(v[row][1],cellSize,yllCorner,nRows)
+        v[row][0] = convertXtoProjection(v[row][0],cellSize[0],xllCorner)
+        v[row][1] = convertYtoProjection(v[row][1],cellSize[1],yllCorner,nRows)
 
     return v
 
@@ -67,10 +67,10 @@ def ProjectedVectorToXY(vector, xllCorner, yllCorner, cellSize, nRows) -> np.nda
     #cellSize = raster.cell_size
     #nRows = raster.nrows
 
-    map_x = lambda x: (cellSize + 2.0 * float(x) - 2.0 * xllCorner) / (
+    map_x = lambda x: (cellSize[0] + 2.0 * float(x) - 2.0 * xllCorner) / (
         2.0 * cellSize
     )
-    map_y = lambda y: ((yllCorner - y) / cellSize + nRows + 1.0 / 2.0)
+    map_y = lambda y: ((yllCorner - y) / cellSize[1] + nRows + 1.0 / 2.0)
 
     x_arr = np.reshape(list(map(map_x, vector[:, 0])), (nNodes, 1))
     y_arr = np.reshape(list(map(map_y, vector[:, 1])), (nNodes, 1))

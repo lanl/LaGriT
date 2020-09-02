@@ -38,9 +38,9 @@ class DEM():
         self.no_data_value = self.dem.no_data
         self.ncols = np.shape(self.dem)[1]
         self.nrows = np.shape(self.dem)[0]
-        self.cell_size = self.dem.geotransform[1]
+        self.cell_size = (self.dem.geotransform[1], self.dem.geotransform[5])
         self.xll_corner = self.dem.geotransform[0]
-        self.yll_corner = self.dem.geotransform[3] - self.nrows * self.cell_size
+        self.yll_corner = self.dem.geotransform[3] - self.nrows * self.cell_size[1]
         self.mask = self.dem == self.dem.no_data if self.no_data_value in self.dem else None
 
         self._surface_mesh = None
@@ -467,7 +467,7 @@ class DEM():
             self.boundary = boundary.rectangularBoundary(self.extent,distance)
             return self.boundary
 
-        distance /= self.cell_size
+        distance /= (0.5*(abs(self.cell_size[0]) + abs(self.cell_size[1])))
         self.boundary = boundary.squareTraceBoundary(self.dem,
                                                      self.no_data_value,
                                                      dist=distance)
@@ -935,14 +935,14 @@ class DEM():
 
         if mpl_style:
             return (self.xll_corner,
-                    self.ncols*self.cell_size+self.xll_corner,
+                    self.ncols*self.cell_size[0]+self.xll_corner,
                     self.yll_corner,
-                    self.nrows*self.cell_size+self.yll_corner)
+                    self.nrows*self.cell_size[1]+self.yll_corner)
         else:
             return (self.xll_corner,
                     self.yll_corner,
-                    self.ncols*self.cell_size+self.xll_corner,
-                    self.nrows*self.cell_size+self.yll_corner)
+                    self.ncols*self.cell_size[0]+self.xll_corner,
+                    self.nrows*self.cell_size[1]+self.yll_corner)
 
 
     def plot_dem(self,hillshade:bool=False,plot_out:str=None):
