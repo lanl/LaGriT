@@ -23,8 +23,6 @@ If you want a connected hex mesh object, use the [**createpts/brick**](CRTPTBRIC
 <b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
 </pre>
 
-*Note these points are added to a tri or tet mesh object as defined with the create command or generated from another command.*
- 
 
 ### Distribution Types:
 
@@ -38,7 +36,7 @@ The minimum and maximum coordinates are the triplets:
 - length along the z-axis
   
 
-**`rtp`** Spherical coordinates with center at (0,0,0), use a **trans** command to move  center to a new coordinate. 
+**`rtp`** Spherical coordinates with center at (0,0,0), use a **trans** command to move center to a new coordinate. 
 The minimum and maximum coordinates are the triplets:   
 - radius from the center of the sphere axis
 - angle in the zy-plane measured from the positive z-axis
@@ -51,21 +49,15 @@ The minimum and maximum coordinates are the triplets:
 ### Distribution Options:
 
   
-`ni,nj,nk` are the number of points to be created in each coordinate direction.
+`ni,nj,nk` are the number of points to be created in each coordinate direction as described above.
 
-`xmin,ymin,zmin` are the minimums for coordinates.
-
-`xmax,ymax,zmax` are the maximums for coordinates.
+`xmin,ymin,zmin` are the minimums and `xmax,ymax,zmax` are the maximums for coordinates as described above.
 
 `iiz,ijz,ikz` 0 or 1 switches 
-  
-* if = 0 then mins and maxs are used as cell centers
-
-* if = 1 then mins and maxs are used as cell vertices
-    
+- 0 = mins and maxs are used as cell centers
+- 1 = mins and maxs are used as cell vertices
 
 `iirat,ijrat,ikrat` ratio zoning switches 0=off (default), 1=on
-
 
 `xrz,yrz,zrz` ratio zoning value - distance is multiplied by this value for each subsequent point.
 
