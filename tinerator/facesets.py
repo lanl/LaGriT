@@ -213,6 +213,13 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
 
     '''
 
+    if isinstance(sides, bool):
+        sides_simple = True
+    elif isinstance(sides, dict):
+        sides_simple = False
+    else:
+        raise ValueError("Unknown value for `sides`")
+
     faceset_fnames = []
 
     mo_surf = surface_mesh.copy()
@@ -221,6 +228,16 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
         mo_surf.delatt(att)
 
     mo_surf.select()
+
+    if not sides_simple:
+        lg.sendline('settets/normal')
+        compass_sets = {
+            'north': mo_surf.eltset_attribute('itetclr',4,boolstr='eq'),
+            'south': mo_surf.eltset_attribute('itetclr',6,boolstr='eq'),
+            'east': mo_surf.eltset_attribute('itetclr',5,boolstr='eq'),
+            'west': mo_surf.eltset_attribute('itetclr',3,boolstr='eq'),
+        }
+
     mo_surf.setatt('itetclr',3)
 
     ptop = mo_surf.pset_attribute('layertyp',-2,comparison='eq',stride=[1,0,0])
@@ -273,28 +290,50 @@ def __driver_naive(lg,surface_mesh,top,bottom,sides):
 
 
     if sides:
-        cfg.log.info('Generating sides faceset')
-        mo_tmp = mo_surf.copy()
-        edel = mo_tmp.eltset_not([esides])
-        mo_tmp.rmpoint_eltset(edel,resetpts_itp=False)
+        if sides_simple:
+            cfg.log.info('Generating sides faceset')
+            mo_tmp = mo_surf.copy()
+            edel = mo_tmp.eltset_not([esides])
+            mo_tmp.rmpoint_eltset(edel,resetpts_itp=False)
 
-        fname = 'fs_naive_sides.avs'
+            fname = 'fs_naive_sides.avs'
         
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
 
-        if cfg.DEBUG_MODE:
-            mo_tmp.dump('DEBUG_naive_sides_fs.inp')
+            if cfg.DEBUG_MODE:
+                mo_tmp.dump('DEBUG_naive_sides_fs.inp')
 
-        faceset_fnames.append(fname)
-        mo_tmp.delete()
+            faceset_fnames.append(fname)
+            mo_tmp.delete()
+
+        else:
+
+            for direction in ['north', 'south', 'west', 'east']:
+                if not sides[direction]:
+                    continue
+
+                cfg.log.info('Generating sides faceset: %s' % direction)
+
+                mo_tmp = mo_surf.copy()
+                edel = mo_tmp.eltset_not([compass_sets[direction]])
+                mo_tmp.rmpoint_eltset(edel,resetpts_itp=False)
+
+                fname = 'fs_sides_%s.avs' % direction
+        
+                with warnings.catch_warnings():
+                    warnings.simplefilter("ignore")
+                    lg.sendline('dump / avs2 / '+fname+'/'+mo_tmp.name+'/ 0 0 0 2')
+
+                if cfg.DEBUG_MODE:
+                    mo_tmp.dump('DEBUG_sides_%s.inp' % direction)
+
+                faceset_fnames.append(fname)
+                mo_tmp.delete()
 
     mo_surf.delete()
     return faceset_fnames
-
-
-
 
 def __driver_sidesets(lg,surface_mesh,has_top,boundary_file,full_sidesets):
     '''
