@@ -26,7 +26,7 @@ def __get_latest_mesh(dem_object,mesh_object):
     raise ValueError('Could not find a valid mesh')
 
 
-def to_exodus(dem_object,outfile:str,facesets:list=None,mesh:str=None):
+def to_exodus(dem_object,outfile:str,facesets:list=None,mesh:str=None, REPLACE=None):
     '''
     Writes a mesh in the Exodus file format.
     Note that to export with facesets, the mesh must
@@ -48,6 +48,16 @@ def to_exodus(dem_object,outfile:str,facesets:list=None,mesh:str=None):
         cmd += '///facesets &\n'
         cmd += ' &\n'.join(fs_list)
 
+        if REPLACE is not None:
+            for yarr in REPLACE:
+                os.remove(yarr[0])
+
+                with open(yarr[1], 'r') as f:
+                    new = f.read()
+
+                with open(yarr[0], 'w') as f:
+                    f.write(new)
+
     if dims == 2:
         mesh.setatt('ndimensions_geom', 3)
         dem_object.lg.sendline(cmd)
@@ -56,8 +66,8 @@ def to_exodus(dem_object,outfile:str,facesets:list=None,mesh:str=None):
         dem_object.lg.sendline(cmd)
 
     if facesets is not None:
-        for file in fs_list:
-            os.remove(file)
+        #for file in fs_list:
+        #    os.remove(file)
 
         faceset_count = len(fs_list)
 

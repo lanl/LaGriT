@@ -227,8 +227,90 @@ class DEM():
             cfg.log.info('Filling flats')
             rd.ResolveFlats(self.dem,in_place=True)
 
-    def smooth_between(self, shapefile_path: str, with_radius=25.):
+    def fill_polygon(self, shapefile_path, method='cubic', polygon_id=0, plot=False):
         '''
+        Reads a polygon from a shapefile and fills it according to
+        one of a number of methods.
+        '''
+        import numpy as np
+        import tinerator.utilities as util
+        import numpy as np
+        from scipy import interpolate
+        from shapely.geometry import Point
+        from shapely.geometry.polygon import Polygon
+        from matplotlib import pyplot as plt
+        
+        lines = util.get_geometry(shapefile_path)
+
+        ppp = np.flip(
+            util.ProjectedVectorToXY(
+                lines[polygon_id]['coordinates'], 
+                self.xll_corner, 
+                self.yll_corner, 
+                self.cell_size, 
+                self.nrows
+            ),
+            axis = 1,
+        )
+        
+        A = deepcopy(self.dem)
+        B = deepcopy(self.dem)
+
+        if plot:
+            f, ax = plt.subplots(1, 3, sharex=True, figsize=(16,8))
+        
+        px = ppp[:,1]
+        py = self.nrows - ppp[:,0]
+        
+        if plot:
+            ax[0].imshow(A)
+            ax[0].scatter(px, py,c='r')
+        
+        xmin = np.min(px)
+        xmax = np.max(px)
+        ymin = np.min(py)
+        ymax = np.max(py)
+        
+        poly = Polygon([(px[i], py[i]) for i in range(len(px))])
+        
+        if method in ['min', 'max']:
+            fnc = np.nanmin if method == 'min' else np.nanmax
+            fill = fnc(A[ymin:ymax, xmin:xmax])
+        
+        for x0 in range(xmin, xmax):
+            for y0 in range(ymin, ymax):
+                if poly.contains(Point(x0, y0)):
+                    A[y0][x0] = np.nan
+        
+        if plot:  
+            ax[1].imshow(A)
+            ax[1].scatter(px, py, c='r')
+        
+        if method in ['min', 'max']:
+            A[np.isnan(A)] = fill
+        elif method in ['gradient']:
+            pass
+        elif method in ['cubic', 'linear', 'nearest']:
+        
+            A = np.ma.masked_invalid(A)
+            xx, yy = np.meshgrid(np.arange(0, A.shape[1]), np.arange(0, A.shape[0]))
+        
+            #get only the valid values
+            x1 = xx[~A.mask]
+            y1 = yy[~A.mask]
+            newarr = A[~A.mask]
+        
+            A = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='cubic')
+        
+        if plot:
+            ax[2].imshow(A); plt.show()
+
+        self.dem.data = A
+
+    def _smooth_between(self, shapefile_path: str, with_radius=25.):
+        '''
+        WARNING: DEPRECATED. Use `fill_polygon` instead.
+
         Given a shapefile containing one or more line objects,
         this will smooth the DEM across the line(s) at a radius of
         `with_radius`.
