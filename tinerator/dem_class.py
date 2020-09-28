@@ -303,7 +303,8 @@ class DEM():
             A = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='cubic')
         
         if plot:
-            ax[2].imshow(A); plt.show()
+            ax[2].imshow(A)
+            plt.show()
 
         self.dem.data = A
 
