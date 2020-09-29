@@ -295,7 +295,10 @@ class DEM():
         )
         
         A = deepcopy(np.array(self.dem))
-        B = deepcopy(np.array(self.dem))
+        mask = np.isnan(A)
+
+        A = future.fill_nans(A)
+        B = deepcopy(A)
 
         if plot:
             f, ax = plt.subplots(1, 3, sharex=True, figsize=(16,8))
@@ -356,10 +359,10 @@ class DEM():
         if method in ['min', 'max', 'mean', 'value']:
             A[np.isnan(A)] = fill
         elif method in ['gradient']:
-            pass
+            A = future.GRADIENT_FILL(self, deepcopy(A), poly, **kwargs)
         elif method in ['custom']:
             custom_fnc = kwargs['custom_fnc']
-            A = custom_fnc(deepcopy(A), my_dem, **kwargs)
+            A = custom_fnc(self, deepcopy(A), poly, **kwargs)
         elif method in ['cubic', 'linear', 'nearest']:
         
             A = np.ma.masked_invalid(A)
@@ -377,6 +380,8 @@ class DEM():
             A[np.isnan(A)] = B[np.isnan(A)]
         else:
             raise ValueError("Unknown method: %s" % method)
+
+        A[mask] = np.nan
 
         if plot:
             ax[2].imshow(A)

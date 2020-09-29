@@ -43,7 +43,7 @@ from tinerator.plot import plot_full_mesh
 
 _MAJOR = 0
 _MINOR = 4
-_PATCH = 2
+_PATCH = 3
 VERSION = 'v{0}.{1}.{2}'.format(_MAJOR,_MINOR,_PATCH)
 
 def test():
