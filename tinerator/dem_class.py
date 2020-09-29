@@ -227,10 +227,47 @@ class DEM():
             cfg.log.info('Filling flats')
             rd.ResolveFlats(self.dem,in_place=True)
 
-    def fill_polygon(self, shapefile_path, method='cubic', polygon_id=0, plot=False):
+    def fill_polygon(
+            self, 
+            shapefile_path:str, 
+            method:str = 'cubic', 
+            polygon_id:int = 0, 
+            plot:bool = False,
+            **kwargs
+        ):
         '''
         Reads a polygon from a shapefile and fills it according to
         one of a number of methods.
+
+        Methods
+        -------
+
+        Single value fills
+        ------------------
+        * min: Fills with the min raster value in the polygon bbox.
+        * max: Fills with the max raster value in the polygon bbox.
+        * mean: Fills with the mean raster value in the polygon bbox.
+        * value: Fills with a custom value.
+          - Specify with `fill_value = INT_OR_FLOAT`
+
+        Interpolated fills
+        (from scipy.interpolate.griddata)
+        ---------------------
+        * cubic: Fills with a cubic interpolation.
+        * nearest: Fills with a nearest-neighbor interpolation.
+        * linear: Fills with a linear interpolation.
+
+        Gradient fills
+        --------------
+        * gradient: Fills with a linear gradient across two values at an angle.
+          - 
+
+        Custom fill function
+        --------------------
+        * custom: Accepts a custom fill function. The callback function must 
+            accept the , and return an np.ndarray of the same shape.
+          - Specify with `custom_fnc = FUNCTION`
+
         '''
         import numpy as np
         import tinerator.utilities as util
@@ -239,7 +276,11 @@ class DEM():
         from shapely.geometry import Point
         from shapely.geometry.polygon import Polygon
         from matplotlib import pyplot as plt
+
+        cfg.log.info("Filling polygon from: %s" % shapefile_path)
         
+        method = method.strip().lower()
+
         lines = util.get_geometry(shapefile_path)
 
         ppp = np.flip(
@@ -253,8 +294,8 @@ class DEM():
             axis = 1,
         )
         
-        A = deepcopy(self.dem)
-        B = deepcopy(self.dem)
+        A = deepcopy(np.array(self.dem))
+        B = deepcopy(np.array(self.dem))
 
         if plot:
             f, ax = plt.subplots(1, 3, sharex=True, figsize=(16,8))
@@ -270,12 +311,38 @@ class DEM():
         xmax = np.max(px)
         ymin = np.min(py)
         ymax = np.max(py)
+
+        # Bounds checking for polygons that
+        # span past the extent of the DEM
+        if xmin < 0:
+            xmin = 0
+
+        if ymin < 0:
+            ymin = 0
+
+        if xmax > self.ncols:
+            xmax = self.ncols
+
+        if ymax > self.nrows:
+            ymax = self.nrows
         
         poly = Polygon([(px[i], py[i]) for i in range(len(px))])
         
-        if method in ['min', 'max']:
-            fnc = np.nanmin if method == 'min' else np.nanmax
+        if method in ['min', 'max', 'mean']:
+            if method == 'min':
+                fnc = np.nanmin
+            elif method == 'max':
+                fnc = np.nanmax
+            elif method == 'mean':
+                fnc = np.nanmean
+
             fill = fnc(A[ymin:ymax, xmin:xmax])
+
+        elif method in ['value']:
+            try:
+                fill = kwargs['fill_value']
+            except KeyError:
+                raise KeyError("Please specify `fill_value = FILL_VALUE`")
         
         for x0 in range(xmin, xmax):
             for y0 in range(ymin, ymax):
@@ -286,10 +353,13 @@ class DEM():
             ax[1].imshow(A)
             ax[1].scatter(px, py, c='r')
         
-        if method in ['min', 'max']:
+        if method in ['min', 'max', 'mean', 'value']:
             A[np.isnan(A)] = fill
         elif method in ['gradient']:
             pass
+        elif method in ['custom']:
+            custom_fnc = kwargs['custom_fnc']
+            A = custom_fnc(deepcopy(A), my_dem, **kwargs)
         elif method in ['cubic', 'linear', 'nearest']:
         
             A = np.ma.masked_invalid(A)
@@ -300,8 +370,14 @@ class DEM():
             y1 = yy[~A.mask]
             newarr = A[~A.mask]
         
-            A = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method='cubic')
-        
+            A = interpolate.griddata((x1, y1), newarr.ravel(), (xx, yy), method=method)
+
+            # There may be NaN values after interpolation: fill them
+            # with the old values.
+            A[np.isnan(A)] = B[np.isnan(A)]
+        else:
+            raise ValueError("Unknown method: %s" % method)
+
         if plot:
             ax[2].imshow(A)
             plt.show()
