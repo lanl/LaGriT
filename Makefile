@@ -139,6 +139,7 @@ BUILDLIBS := src/lagrit_main.o src/lagrit_fdate.o src/$(SRC_LIB) lg_util/src/$(L
 LINKERFLAGS := -fcray-pointer -fdefault-integer-8 -m64
 BUILDFLAGS  := -fcray-pointer -fdefault-integer-8 -m64 -fno-sign-zero -lm -lstdc++
 OSX_STATIC_LIBS := 
+SYS_LNK_FLAGS :=
 
 ifeq ($(OPSYS),Darwin)
 	LINKERFLAGS += -Dmacx64
@@ -147,6 +148,7 @@ ifeq ($(OPSYS),Darwin)
 else ifeq ($(OPSYS),Linux)
 	LINKERFLAGS += -Dlinx64
 	BUILDFLAGS  += -Dlinx64
+	SYS_LNK_FLAGS += -no-pie
 else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
 	LINKERFLAGS += -Dwin64
 	BUILDFLAGS  += -Dwin64
@@ -176,7 +178,7 @@ release: BUILD_TYPE = Release
 release: build
 
 build : header before
-	$(FC) -o $(EXE_NAME) $(BUILDLIBS) $(BUILDFLAGS)
+	$(FC) -o $(EXE_NAME) $(SYS_LNK_FLAGS) $(BUILDLIBS) $(BUILDFLAGS)
 
 header :
 	@echo "$$LAGRIT_H_TEXT" > src/lagrit.h
@@ -212,8 +214,9 @@ exodus :
 	export GNU_PARALLEL=OFF; \
 	export BUILD=YES; \
 	export CC=$(CC); export CXX=$(CXX); export FC=$(FC); export FC90=$(FC90); \
-	git clone --depth 1 https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
+	git clone https://github.com/gsjaardema/seacas.git $(EXO_BUILD_DIR)/seacas || true; \
 	cd $(EXO_BUILD_DIR)/seacas; \
+	git checkout ba60a4d19516c433967581fbb8525c56f03b7c3e; \
 	export ACCESS=`pwd`; \
 	if [[ `uname -s` == *"CYGWIN"* ]]; then \
 		BUILD=NO ./install-tpl.sh; \
@@ -225,16 +228,9 @@ exodus :
 	../cmake-exodus $(EXO_CMAKE_FLAGS) -DFORTRAN=YES; \
 	make && make install; \
 	cd $(LG_DIR); \
-	echo "Exodus successfully built!"; \
 	echo "Build directory:"; \
 	echo "   $(EXO_BUILD_DIR)/seacas/lib"; \
 	echo ""
-	echo "To compile LaGriT with Exodus, append the above"; \
-	echo "path to LD_LIBRARY_PATH (on Linux) or DYLD_LIBRARY_PATH (on Mac)";\
-	echo "and run \"make [options] [target]\"."; \
-	echo ""; \
-	echo "Alternately, run"; \
-	echo "  make EXO_LIB_DIR=$(EXO_BUILD_DIR)/seacas/lib [target]"
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
