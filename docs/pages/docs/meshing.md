@@ -47,7 +47,7 @@ Example [Octree Refinement](https://meshing.lanl.gov/proj/examples/ex_octree_ref
 For a model with horizontal non-intersecting surfaces, you can create a computational mesh with conforming interfaces by using a stacked mesh method. This works well for modeling applications like Amanzi/ATS that can compute on hexahedral or prism elements. This method stacks quad or triangle surfaces and connects layers into a 2 ½ Dimension hex or prism mesh. 
 
 
-Example [stack](https://lanl.github.io/LaGriT/pages/docs/demos/main_connect.html)
+Example [stack](https://lanl.github.io/LaGriT/pages/docs/demos/description2_connect.html)
 
 
 ## Unstructured Methods
