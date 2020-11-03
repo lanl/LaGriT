@@ -25,9 +25,9 @@
 #  TODO:
 #    - Add support for 32 bit machines
 
-CC := gcc
-CXX := g++
-FC := gfortran
+CC := icc
+CXX := icpc
+FC := ifort
 FC90 := $(FC)
 OBJDIR := objects/
 WITH_EXODUS := 1
@@ -136,8 +136,8 @@ export LAGRIT_HELP
 # release, no exo, shared
 BUILDLIBS := src/lagrit_main.o src/lagrit_fdate.o src/$(SRC_LIB) lg_util/src/$(LG_UTIL_LIB)
 
-LINKERFLAGS := -fcray-pointer -fdefault-integer-8 -m64
-BUILDFLAGS  := -fcray-pointer -fdefault-integer-8 -m64 -fno-sign-zero -lm -lstdc++
+LINKERFLAGS := -m64 -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8 -m64
+BUILDFLAGS  := -m64 -safe-cray-ptr -integer-size 64 -lm -lstdc++ #-fno-sign-zero -fcray-pointer -fdefault-integer-8 -m64 -fno-sign-zero -lm -lstdc++
 OSX_STATIC_LIBS := 
 SYS_LNK_FLAGS :=
 
@@ -234,7 +234,7 @@ exodus :
 
 static: BUILD_TYPE = Static
 static: LINKERFLAGS += -static
-static: BUILDFLAGS += -static-libgfortran -static-libgcc
+static: BUILDFLAGS += -static#-static-libgfortran -static-libgcc
 static: build
 
 %.o : %.f

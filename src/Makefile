@@ -17,8 +17,9 @@
 #    - Add support for 32 bit machines
 
 
-CC := gcc
-FC := gfortran
+CC := icc
+CXX := icpc
+FC := ifort
 FC90 := $(FC)
 OBJDIR := objects/
 WITHEXODUS := 1
@@ -32,7 +33,7 @@ EXO_INCLUDE_DIR := $(shell pwd)/../seacas/include
 
 # Generate compiler flags and append OS-specific properties
 CFLAGS := -m64
-FFLAGS := -fcray-pointer -fdefault-integer-8 -m64
+FFLAGS := -m64 -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8 -m64
 
 ifeq ($(OPSYS),Darwin)
 	FFLAGS += -arch x86_64 -Dmacx64

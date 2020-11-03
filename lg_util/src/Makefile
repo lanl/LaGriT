@@ -15,8 +15,8 @@
 #  TODO:
 #    - Add support for 32 bit machines
 
-CC := gcc
-FC := gfortran
+CC := icc
+FC := ifort
 OBJDIR := objects/
 LIB := lg_util.a
 DEBUG := 0
@@ -27,7 +27,9 @@ OPSYS := $(shell uname -s)
 
 # Generate compiler flags and append OS-specific properties
 CFLAGS := -m64
-FFLAGS := -fcray-pointer -fdefault-integer-8
+FFLAGS := -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8
+
+# -safe-cray-ptr -> Qsafe-cray-ptr on Windows
 
 ifeq ($(OPSYS),Darwin)
 	FFLAGS += -Dmacx64 -m64
