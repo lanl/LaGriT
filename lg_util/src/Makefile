@@ -91,8 +91,15 @@ clobber:
 %.obj : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+<<<<<<< HEAD
 mm2000.h : mm2000_header.F 
 	copy mm2000_m$(BIT_SIZE).h mm2000.h
+=======
+mm2000.h : mm2000_header.F
+	cp -p mm2000_m$(BIT_SIZE).h mm2000.h
+
+$(OBJDIR) :; mkdir $(OBJDIR)
+>>>>>>> 05fbe7f5259e39732c405c929fdf5b50148250a1
 
 mm2000.obj : mm2000.h mm2000.F
 	$(FC) $(FFLAGS) -c mm2000.F -o mm2000.obj
