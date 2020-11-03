@@ -15,49 +15,45 @@
 #  TODO:
 #    - Add support for 32 bit machines
 
-CC := icc
-FC := ifort
-OBJDIR := objects/
-LIB := lg_util.a
-DEBUG := 0
+CC = cl.exe
+#icc
+FC = ifort
+LIB = lg_util.dll
+DEBUG = 0
 
 # Detect 64 or 32 bit
-BIT_SIZE := $(shell getconf LONG_BIT)
-OPSYS := $(shell uname -s)
+BIT_SIZE = 64
+OPSYS = CYGWIN_NT
 
 # Generate compiler flags and append OS-specific properties
-CFLAGS := -m64
-FFLAGS := -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8
+CFLAGS = -O -m64 -Dwin64
+FFLAGS = -O -safe-cray-ptr -integer-size 64 -Dwin64 -m64
 
 # -safe-cray-ptr -> Qsafe-cray-ptr on Windows
 
-ifeq ($(OPSYS),Darwin)
-	FFLAGS += -Dmacx64 -m64
-	CFLAGS += -Dmacx64
-else ifeq ($(OPSYS),Linux)
-	FFLAGS += -Dlinx64
-	CFLAGS += -Dlinx64
-else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
-	FFLAGS += -Dwin64 -m64
-	CFLAGS += -Dwin64
-endif
-
-ifeq ($(DEBUG),1)
-	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
-	CFLAGS += -g 
-else
-	FFLAGS += -O
-	CFLAGS += -O
-endif
+#ifeq ($(DEBUG),1)
+#	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
+#	CFLAGS += -g 
+#else
+#	FFLAGS += -O
+#	CFLAGS += -O
+#endif
 
 
 ##########################################################################
 # Source  
 # ------------------------------------------------------------------
 
-F77_OBJS := $(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
-C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
-F77C_OBJS = $(OBJDIR)mm2000.o
+F77_SOURCES = *.f
+C_SOURCES = *.c
+
+F77_OBJS = $(F77_SOURCES:.f=.obj)
+#$(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
+#C_OBJS = $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
+C_OBJS = $(C_SOURCES:.c=.obj)
+
+F77C_OBJS = mm2000.obj
+#$(OBJDIR)mm2000.o
 
 
 ##########################################################################
@@ -66,15 +62,15 @@ F77C_OBJS = $(OBJDIR)mm2000.o
 # Note OBJDIR is a dependency that will be created if needed
 # ------------------------------------------------------------------
 
-lib : $(OBJDIR) mm2000.h ${F77_OBJS} $(C_OBJS) $(F77C_OBJS)
-	ar rcu $(LIB) $(F77_OBJS) $(C_OBJS) $(F77C_OBJS)
+lib : $(OBJDIR) mm2000.h $(F77_OBJS) $(C_OBJS) $(F77C_OBJS)
+	lib /OUT:$(LIB) $(F77_OBJS) $(C_OBJS) $(F77C_OBJS)
 	@echo "Done: target = $@, fileout = $(LIB)"
 
 clean:
-	rm -f $(OBJDIR)*.o $(OBJDIR)*.mod
+	del /F *.obj *.mod
 
 clobber:
-	rm -f *.o *.mod lg_util.a
+	del /F *.obj *.mod $(LIB)
 
 
 ##########################################################################
@@ -89,18 +85,16 @@ clobber:
 #   mv makefile.tmp Makefile.depends
 # ------------------------------------------------------------------
 
-$(OBJDIR)%.o : %.f
+%.obj : %.f
 	$(FC) $(FFLAGS) -c -o $@ $<
 
-$(OBJDIR)%.o : %.c
+%.obj : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 mm2000.h : mm2000_header.F 
-	cp -p mm2000_m$(BIT_SIZE).h mm2000.h
+	copy mm2000_m$(BIT_SIZE).h mm2000.h
 
-$(OBJDIR) :; mkdir $(OBJDIR)
-
-$(OBJDIR)mm2000.o : mm2000.h mm2000.F
-	$(FC) $(FFLAGS) -c mm2000.F -o $(OBJDIR)mm2000.o  
+mm2000.obj : mm2000.h mm2000.F
+	$(FC) $(FFLAGS) -c mm2000.F -o mm2000.obj
 
 include Makefile.depends

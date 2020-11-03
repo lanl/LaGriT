@@ -17,76 +17,46 @@
 #    - Add support for 32 bit machines
 
 
-CC := icc
-CXX := icpc
-FC := ifort
-FC90 := $(FC)
-OBJDIR := objects/
-WITHEXODUS := 1
-DEBUG := 0
-LIB := lg_main_lib.a
+CC = cl.exe
+CXX = cl.exe
+FC = ifort
+FC90 = $(FC)
+OBJDIR = objects/
+WITHEXODUS = 0
+DEBUG = 0
+LIB = lg_main_lib.a
 
 # Detect 64 or 32 bit arch; detect OS name
-BIT_SIZE := $(shell getconf LONG_BIT)
-OPSYS := $(shell uname -s)
-EXO_INCLUDE_DIR := $(shell pwd)/../seacas/include
+BIT_SIZE = 64
+OPSYS = WIN_NT
+EXO_INCLUDE_DIR =
 
 # Generate compiler flags and append OS-specific properties
-CFLAGS := -m64
-FFLAGS := -m64 -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8 -m64
-
-ifeq ($(OPSYS),Darwin)
-	FFLAGS += -arch x86_64 -Dmacx64
-	CFLAGS += -arch x86_64 -Dmacx64
-else ifeq ($(OPSYS),Linux)
-	FFLAGS += -Dlinx64
-	CFLAGS += -Dlinx64
-else ifeq ($(findstring CYGWIN_NT,$(OPSYS)),CYGWIN_NT)
-	LINKERFLAGS += -Dwin64
-	BUILDFLAGS  += -Dwin64
-endif
-
-ifeq ($(DEBUG),1)
-	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
-	CFLAGS += -g 
-else
-	FFLAGS += -O
-	CFLAGS += -O
-endif
+CFLAGS = -O -Dwin64 -m64
+FFLAGS = -O -Dwin64 -m64 -safe-cray-ptr -integer-size 64 #-fcray-pointer -fdefault-integer-8 -m64
 
 FF90FLAGS = $(FFLAGS)
 
 # Configure unique flags for dumpexodusII.f
 # -cpp tells compiler to respect C-style #ifdef blocks
 
-EXOFLAGS := -cpp
-ifneq ($(WITHEXODUS),1)
-	EXOFLAGS += -DNOEXODUS
-endif
+EXOFLAGS = -cpp -DNOEXODUS
 
 
 ##########################################################################
 # All Source files in directory are processed based on extension name. 
 # ------------------------------------------------------------------
+F77_SRC = *.f
+F77C_SRC = *.F
+F90_SRC = *.f90
+C_SRC = *.c
+CXX_SRC = *.cpp
 
-F77_OBJS := $(patsubst %.f,$(OBJDIR)%.o,$(wildcard *.f))
-F77C_OBJS := $(patsubst %.F,$(OBJDIR)%.o,$(wildcard *.F))
-F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
-CXX_OBJS := $(patsubst %.cpp,$(OBJDIR)%.o,$(wildcard *.cpp))
-
-
-# If WITHEXODUS != true, remove C files from compilation that reference 'exodusII.h'
-# This is a replacement to the old technique of: echo "" > exo_init_ext.c
-
-ifneq ($(WITHEXODUS),1)
-	C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(filter-out $(wildcard exo_*.c),$(wildcard *.c)))
-else
-	C_OBJS := $(patsubst %.c,$(OBJDIR)%.o,$(wildcard *.c))
-	CFLAGS += -I$(EXO_INCLUDE_DIR)
-	FFLAGS += -I$(EXO_INCLUDE_DIR)
-	FF90FLAGS += -I$(EXO_INCLUDE_DIR)
-endif
-
+F77_OBJS = $(F77_SRC:.f=.o)
+F77C_OBJS = $(F77C_SRC:.F=.o)
+F90_OBJS = $(F90_SRC:.f90=.o)
+C_OBJS = $(C_SRC:.c=.o)
+CXX_OBJS = $(CXX_SRC:.cpp=.o)
 
 ##########################################################################
 # action targets

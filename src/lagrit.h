@@ -19,9 +19,9 @@ c
 c     os_name is used to find and write OS related files
 c     make sure it is a version recognized in Makefile
 c     and writinit.f for forming header info
-      data os_name      /'Darwin'/
+      data os_name      /'WIN_NT'/
 c
-      data date_compile /'2020/03/17 Release '/
+      data date_compile /'2020/11/02 Release '/
 c
       integer         NCall
       save            NCall
