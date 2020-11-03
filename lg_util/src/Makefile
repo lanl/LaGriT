@@ -95,7 +95,7 @@ $(OBJDIR)%.o : %.f
 $(OBJDIR)%.o : %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-mm2000.h : mm2000_header.F 
+mm2000.h : mm2000_header.F
 	cp -p mm2000_m$(BIT_SIZE).h mm2000.h
 
 $(OBJDIR) :; mkdir $(OBJDIR)
