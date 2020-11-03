@@ -1,0 +1,112 @@
+# EXAMPLE BOX IN CYLINDER
+# Create point distribution for tet connect
+
+# -------------------------------------
+# CREATE INSIDE BOX POINTS
+
+define BOXMAT 1
+
+define XMIN -10.
+define YMIN -10.
+define ZMIN   0.
+define XMAX  10.
+define YMAX  10.
+define ZMAX   2.
+define NX 9
+define NY 9
+define NZ 2
+cmo/create/mobox/ / /tet
+createpts/xyz/NX NY NZ /XMIN YMIN ZMIN /XMAX YMAX ZMAX /1,1,1/
+
+# write as UCD pts so paraview can view easy
+cmo/setatt/mobox/imt/ BOXMAT
+dump/avs/box_points.inp/mobox / 1 3 1 1 0
+
+# -------------------------------------
+# CREATE CYLINDER POINTS	
+# NRAD are number of points along radius
+# NRAY are number of rays/spokes around
+# NRING are number of ring sections in z direction
+# RAD length of radius from the cylinder’s axis
+# CIRDEG angle around measured from the x-axis
+# RTOP   length along the z-axis from 0.
+#
+
+define CYLMAT 2
+
+define NRAD  11
+define NRAY  73 
+define NRING 2
+define RAD    14.25
+define CIRDEG 360.
+define RTOP   2.
+
+cmo/create/mocyl/ / /tet
+cmo/select/mocyl
+createpts/rtz/NRAD,NRAY,NRING/0. 0. 0./ &
+         RAD CIRDEG RTOP /1,1,1
+
+# write as UCD pts so paraview can view easy
+cmo/setatt/mocyl/imt/ CYLMAT
+dump/avs/cyl_points.inp/mocyl / 1 3 1 1 0
+
+# remove points in box domain
+pset/pdel/geom/xyz/1,0,0/XMIN YMIN ZMIN/XMAX YMAX ZMAX
+rmpoint/pset,get,pdel
+rmpoint/compress
+
+# -------------------------------------
+# CONNECT TETS
+# copy points into a new mesh object
+# hex points with equal distances will
+# connect into 5 or 6 tets each 
+
+cmo/create/motet
+copypts/motet/ mocyl/
+copypts/motet/ mobox / 0,0 /1,0,0
+cmo/delete/mobox
+cmo/delete/mocyl
+cmo/select/motet
+
+# remove duplicate or very near points
+cmo/printatt/motet/ imt/ minmax
+pset/pbox/attribute imt/1,0,0/ eq BOXMAT
+pset/pcyl/attribute imt/1,0,0/ eq CYLMAT
+define XDIST .1
+define XDIST 1.0
+
+filter/1,0,0/ XDIST 
+rmpoint compress
+
+# check point disribution and near points
+# make sure box points still in place
+dump/avs/all_points.inp/motet / 1 3 1 1 0
+
+# set mesh attributes to initial values
+cmo/setatt/motet/itetclr/1
+cmo/setatt/motet/imt/1 0 0/1                                                   
+cmo/setatt/motet/itp/1 0 0/0     
+
+connect noadd
+resetpts/itp
+quality
+
+# SET MATERIALS 
+cmo/setatt/motet/itetclr/ 1
+pset/pbox/geom/xyz/1,0,0/XMIN YMIN ZMIN/XMAX YMAX ZMAX
+eltset/ebox/ inclusive pset,get,pbox
+eltset/ebox2/ exclusive pset,get,pbox
+
+# color cell materials
+cmo/setatt/motet/itetclr/eltset,get,ebox2/2
+cmo/printatt/motet/itetclr minmax
+
+# color node materials	
+cmo/setatt/motet/imt/pset,get,pbox/2
+cmo/printatt/motet/imt minmax
+
+dump/avs/tet_mesh.inp/motet
+quality
+
+finish
+

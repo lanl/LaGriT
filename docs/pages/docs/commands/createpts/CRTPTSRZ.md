@@ -101,4 +101,59 @@ createpts/line/ N_POINTS / / /XP1 YP1  0. /  XP2 YP2 0. /1 1 1/
 ```
 Create a line of 100 unconnected points from point 1,1,0 to 100,150,0.
 
+## EXAMPLE CYLINDER IN BOX
+
+Create point distribution with regular spaced grid in a cylinder. Make the mesh 3D and 1 cell wide. Connect into a tet mesh.
+
+Full LaGriT Command file: [lagrit_input_boxincyl.txt](https://lanl.github.io/LaGriT/pages/docs/demos/input/lagrit_input_boxincyl.txt) 
+
+```
+# -------------------------------------
+# CREATE CYLINDER POINTS	
+# NRAD are number of points along radius
+# NRAY are number of rays/spokes around
+# NRING are number of ring sections in z direction
+# RAD length of radius from the cylinder’s axis
+# CIRDEG angle around measured from the x-axis
+# RTOP   length along the z-axis from 0.
+
+define CYLMAT 2
+
+define NRAD  11
+define NRAY  73 
+define NRING 2
+define RAD    14.25
+define CIRDEG 360.
+define RTOP   2.
+
+cmo/create/mocyl/ / /tet
+cmo/select/mocyl
+createpts/rtz/NRAD,NRAY,NRING/0. 0. 0./ &
+         RAD CIRDEG RTOP /1,1,1
+```
+
+```
+# -------------------------------------
+# CREATE INSIDE BOX POINTS
+
+define BOXMAT 1
+
+define XMIN -10.
+define YMIN -10.
+define ZMIN   0.
+define XMAX  10.
+define YMAX  10.
+define ZMAX   2.
+define NX 9
+define NY 9
+define NZ 2
+cmo/create/mobox/ / /tet
+createpts/xyz/NX NY NZ /XMIN YMIN ZMIN /XMAX YMAX ZMAX /1,1,1/
+```
+Image of all points
+<img src="https://lanl.github.io/LaGriT/assets/images/all_points.png" width="100"> 
+
+Image of all points, some points removed, then connected into tets.
+<img src="https://lanl.github.io/LaGriT/assets/images/tet_connect.png" width="100"> 
+
 
