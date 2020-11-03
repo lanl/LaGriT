@@ -151,9 +151,9 @@ cmo/create/mobox/ / /tet
 createpts/xyz/NX NY NZ /XMIN YMIN ZMIN /XMAX YMAX ZMAX /1,1,1/
 ```
 Image of all points
-<img src="https://lanl.github.io/LaGriT/assets/images/all_points.png" width="100"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/all_points.png" width="400"> 
 
 Image of all points, some points removed, then connected into tets.
-<img src="https://lanl.github.io/LaGriT/assets/images/tet_connect.png" width="100"> 
+<img src="https://lanl.github.io/LaGriT/assets/images/tet_connect.png" width="400"> 
 
 
