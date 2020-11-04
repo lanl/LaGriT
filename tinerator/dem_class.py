@@ -740,7 +740,7 @@ class DEM():
                                                         nlevels,
                                                         min_edge,
                                                         self.no_data_value,
-                                                        self.cell_size,
+                                                        self.cell_size[0],
                                                         outfile)
 
         if apply_elevation:
