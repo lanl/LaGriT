@@ -1,6 +1,7 @@
 import numpy as np
 import tinerator.utilities as util
 import tinerator.config as cfg
+import tinerator.wavelet_analysis as dwt
 from tinerator.lg_infiles import Infiles
 from copy import deepcopy
 from scipy import ndimage as nd
@@ -206,6 +207,207 @@ def _uniform_surface_mesh(lg,
 
     return motri
 
+
+def _wavelet_surface_mesh(lg,
+                          boundary:np.ndarray,
+                          feature:np.ndarray,
+                          threshold:float,
+                          nlevels:float,
+                          min_edge:float,
+                          no_data_value:float,
+                          cell_size:float,
+                          outfile:str=None,
+                          connectivity:bool=None):
+    '''
+    Generate a triplane mesh refined using a wavelet-based mesh
+    refinement and LaGriT as a backend.
+
+    # Arguments
+    lg (pylagrit.PyLaGriT)    : instance of PyLaGriT
+    boundary (np.ndarray)     : boundary nodes with, at least, x and y columns
+    feature (np.ndarray)      : input for the multiresolution analysis
+    threshold (float)         : threshold for cut-off during the multiresolution analysis
+    nlevels (float)           : number of refinement levels
+    min_edge (float)          : approximate minimum triangle edge length
+    no_data_value (float)     : value that is interpreted as no data
+    cell_size (float)         : cell size of the feature
+    outfile (str)             : outfile to save triangulation to (set to None to skip)
+    connectivity (np.ndarray) : optional array declaring boundary node connectivity
+
+    # Returns
+    PyLaGriT mesh object
+    '''
+
+    cfg.log.info('[ WAVELET-BASED TRIPLANE GENERATION ]')
+    cfg.log.info('I. Ozgen-Xian, G. Kesserwani, D. Caviedes-Voullieme, S. Molins,\
+    Z. Xu, D. Dwivedi, J.D. Moulton, C.I. Steefel, 2020. Wavelet-based\
+    local mesh refinement for rainfall-runoff simulations, Journal of\
+    Hydroinformatics, 22, 1059-1077.')
+
+    if connectivity is None:
+        connectivity = util._line_connectivity(boundary)
+
+    cfg.log.debug('Writing boundary to poly_1.inp')
+    util._write_line(boundary,"poly_1.inp",connections=connectivity)
+
+    # the multiresolution analysis is dyadic, so we need to extend the
+    # dimensions of the feature (ndarray) such that its dimensions are
+    # power of 2
+
+    ny, nx = np.shape(feature)
+    posx   = math.ceil(math.log(nx, 2))
+    posy   = math.ceil(math.log(ny, 2))
+    nx2    = 2**posx
+    ny2    = 2**posy
+
+    # now extend the dimensions such that the original data is placed
+    # at the lower right corner to be consistent with the DEM
+    # coordinate system
+
+    _a = np.zeros((ny2, nx2)) + no_data_value
+    _a[ny2-ny:ny2, :nx] = feature
+
+    M = dwt.dht(_a, nlevels)
+    T = dwt.decompress(M, nlevels, threshold)
+
+    from matplotlib import pyplot as plt
+    plt.imshow(T, interpolation = 'none', extent = [0.0, np.shape(T)[1] * cell_size, 0.0, np.shape(T)[0] * cell_size])
+    
+    for i in range(0, nlevels):
+        cfg.log.debug('Writing feature to intersections_' + str(i + 1) + '.inp')
+        _extracted_indices = np.where(np.flipud(T) == i)
+        _ny_indices, _nx_indices = np.shape(_extracted_indices)
+        coords = np.zeros((int(_ny_indices * _nx_indices / 2), 2))
+        coords[:,0] = _extracted_indices[1] * cell_size
+        coords[:,1] = _extracted_indices[0] * cell_size
+        coords = coords.astype(int)
+        util._write_line(coords,"intersections_" + str(i + 1) + ".inp")
+        plt.scatter(coords[:,0], coords[:,1])
+
+    plt.show()
+
+    cfg.log.info('Preparing feature and boundary')
+
+    # Read boundary
+    mo_poly_work = lg.read('poly_1.inp',name='mo_poly_work')
+
+    # Triangulate Fracture without point addition
+    mo_pts = mo_poly_work.copypts(elem_type='triplane')
+    mo_pts.select()
+
+    cfg.log.info('First pass triangulation')
+    counterclockwise = False
+
+    if counterclockwise:
+        mo_pts.triangulate(order='counterclockwise')
+    else:
+        mo_pts.triangulate(order='clockwise')
+
+
+    # Set element attributes for later use
+    mo_pts.setatt('imt',1,stride=(1,0,0))
+    mo_pts.setatt('itetclr',1,stride=(1,0,0))
+    mo_pts.resetpts_itp()
+    mo_pts.select()
+
+    for (i, ln) in enumerate([8,16,32,64][::-1]):
+        cfg.log.info('Refining at length %s' % str(ln))
+
+        h_scale = ln * cell_size * 2**(nlevels)
+        perturb = h_scale * 0.05
+
+        mo_pts.massage(h_scale, h_scale * 10**-7 / ln, h_scale * 10**-7 / ln)
+
+        if (i == 0):
+            for _ in range(3):
+                mo_pts.recon(0)
+                mo_pts.smooth()
+            mo_pts.recon(0)
+
+        mo_pts.resetpts_itp()
+
+        for _ in range(6):
+            mo_pts.recon(0)
+            mo_pts.smooth()
+        mo_pts.recon(0)
+
+    mo_pts.dump("_tmp0.inp")
+
+    # Define attributes to be used for massage functions
+    mo_pts.addatt('x_four',vtype='vdouble',rank='scalar',length='nnodes')
+    mo_pts.addatt('fac_n', vtype='vdouble',rank='scalar',length='nnodes')
+    
+    for i in range(nlevels):
+
+        cfg.log.info('Refining areas at refinement level %s' % str(i + 1))
+        
+        # triangulate the domain with following parameters
+        DX = cell_size * 2**(nlevels-1-i)
+        h_eps = DX * 10**-7
+        PARAM_A = 2.0
+        PARAM_B = DX * (1.0 - PARAM_A * 0.05)
+        PARAM_A2 = 0.5 * PARAM_A
+        PARAM_B2 = DX * (1.0 - PARAM_A2 * 0.05)
+
+        with open('user_function.lgi', 'w') as f:
+            f.write(Infiles.distance_field)
+
+        with open('user_function2.lgi','w') as f:
+            f.write(Infiles.distance_field_2)
+        
+        # Read feature
+        cfg.log.debug('Reading intersections_' + str(i + 1) + '.inp')
+        mo_line_work = lg.read('intersections_' + str(i + 1) + '.inp', name='mo_line_work')
+
+        lg.define(mo_pts = mo_pts.name,
+                  PARAM_A = PARAM_A,
+                  PARAM_A2 = PARAM_A2,
+                  PARAM_B = PARAM_B,
+                  PARAM_B2 = PARAM_B2)
+
+        cfg.log.info('Smoothing mesh (1/2)')
+
+        # Run massage2
+        mo_pts.massage2('user_function2.lgi',
+                        0.8 * DX,
+                        'fac_n',
+                        0.00001,
+                        0.00001,
+                        stride=(1,0,0),
+                        strictmergelength=True)
+        
+        lg.sendline('assign///maxiter_sm/1')
+
+        for _ in range(3):
+            mo_pts.smooth()
+            mo_pts.recon(0)
+
+        cfg.log.info('Smoothing mesh (2/2)')
+
+        # Massage once more, cleanup, and return
+        lg.sendline('assign///maxiter_sm/10')
+        mo_pts.massage2('user_function.lgi',
+                        0.8 * DX,
+                        'fac_n',
+                        0.00001,
+                        0.00001,
+                        stride=(1,0,0),
+                        strictmergelength=True)
+
+        mo_pts.delatt('rf_field_name')
+        mo_pts.dump('_tmp' + str(i+1) + '.inp')
+        
+        mo_line_work.delete() # clean up intersection points
+
+    # clean up boundary
+    mo_poly_work.delete()
+    
+    if outfile is not None:
+        mo_pts.dump(outfile)
+
+    util.cleanup(['user_function.lgi', 'user_function2.lgi'])
+    
+    return mo_pts
 
 
 def _refined_surface_mesh(lg,

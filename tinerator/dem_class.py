@@ -645,7 +645,6 @@ class DEM():
                                                   self.nrows)
         return self.boundary
 
-
     def build_uniform_triplane(self,
                                edge_length:float,
                                smooth_boundary:bool=False,
@@ -711,6 +710,51 @@ class DEM():
 
         return self._surface_mesh
 
+
+    def build_wavelet_triplane(self,
+                               feature:np.ndarray,
+                               threshold:float,
+                               nlevels:float,
+                               min_edge:float,
+                               outfile:str=None,
+                               apply_elevation:bool=True,
+                               flip:str='y',
+                               smooth_boundary:bool=False,
+                               rectangular_boundary:bool=False,
+                               boundary_distance:float=None,
+                               interactive:bool=False):
+
+
+        if boundary_distance is None:
+            boundary_distance = min_edge * 2**(nlevels/2)
+            
+        self._generate_boundary(boundary_distance, rectangular = rectangular_boundary)
+        
+        mfeature = deepcopy(feature)
+        mfeature = util.filter_points(mfeature, min_edge * 1.75)
+                
+        self._surface_mesh = mesh._wavelet_surface_mesh(self.lg,
+                                                        self.boundary,
+                                                        mfeature,
+                                                        threshold,
+                                                        nlevels,
+                                                        min_edge,
+                                                        self.no_data_value,
+                                                        self.cell_size,
+                                                        outfile)
+
+        if apply_elevation:
+            mesh._intrp_elevation_to_surface(self.lg,
+                                             self,
+                                             self._surface_mesh,
+                                             outfile=outfile,
+                                             flip=flip,
+                                             smooth_boundary=smooth_boundary)
+
+        if outfile is not None:
+            cfg.log.info('Saved mesh to \"%s\"' % outfile)
+
+        return self._surface_mesh
 
     def build_refined_triplane(self,
                                min_edge_length:float,
