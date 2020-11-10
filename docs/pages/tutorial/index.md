@@ -86,7 +86,20 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
                         </div>
-                        <p>Connect with Conforming Curved Interfaces </p>
+                        <p>Connect with Conforming Curved Interfaces  </p>
+                    </div>
+                </a>
+            </div>
+        </li>
+	
+	<li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/demo_creatept_interp.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
+                        </div>
+                        <p>Create Hex Sphere into Stacked Hex Cylinder</p>
                     </div>
                 </a>
             </div>
