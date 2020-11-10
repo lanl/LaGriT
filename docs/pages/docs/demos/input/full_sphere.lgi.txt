@@ -1,0 +1,105 @@
+# Example createpts/interp
+# Start with inside cube projected to hex sphere
+# merge hex to inside of sphere
+
+# Sample:
+# 12.20 mm tall by 6.1 mm wide by 6.1 mm thick
+# cylinder 6.8mm
+# SHPB system: 9.5mm
+# 350 maraging steel bars and 152mm striker
+# start with all (striker, incident, sample and transmitted bar) 
+# diameter 9.5 mm
+# 
+# proto = 25mm incident bar, 12.2 sample, 25mm transmitter bar
+
+# Inside hex and points to project
+define / xmin / -2.0
+define / xmax /  2.0
+define / ymin / -2.0
+define / ymax /  2.0
+define / zmin / -2.0
+define / zmax /  2.0
+define / xcen /  0.0
+define / ycen /  0.0
+define / zcen /  0.0
+
+define / nx / 9
+define / ny / 9
+define / nz / 9
+define / nrad_in / 6
+
+# radius of outside sphere
+define / rad_sph /  9.25
+
+cmo / create / cmo_box / / / hex
+
+# this is cmo_box
+createpts/brick/xyz/nx ny nz/xmin ymin zmin/xmax ymax zmax/ 1 1 1
+cmo/setatt/cmo_box/imt 1
+cmo/setatt/cmo_box/itetclr 1
+resetpts/itp
+
+# extract surface to create start points
+extract/surfmesh/1 0 0/cmo2d/cmo_box
+rmpoint/compress/
+pset/p1/seq/1,0,0/
+dump/avs/surface_inbox.inp cmo2d
+
+copypts/cmo2d/cmo2d/0,0/1,0,0/
+pset/p2/seq/0,0,0/
+
+# create points on sphere
+# p2 are the duplicate surfmesh nodes added to cmo2d
+cmo/select/cmo2d
+scale/pset,get,p2/radius/rtp/ &
+      rad_sph rad_sph rad_sph/ 0. 0. 0. 
+
+cmo/setatt/cmo2d/imt 3
+cmo/setatt/cmo2d/imt pset,get,p1 1
+cmo/setatt/cmo2d/imt pset,get,p2 2
+dump tmp_psets.inp cmo2d
+
+# remove duplicate points
+# assign start end ray points
+# must have equal number of points in both sets
+filter/1,0,0/
+rmpoint compress
+pset/pstart/attribute imt/1,0,0/ eq 1
+pset/pend/attribute imt/1,0,0/ eq 2
+
+cmo/create/motmp
+  copypts/motmp/cmo2d
+  dump avs tmp_psets_pts.inp motmp 1 3 1 1
+  cmo/delete/motmp
+
+# create hex from cube to sphere
+cmo/select/cmo2d
+createpts/interp/nrad_in/ &
+  pset,get,pstart/pset,get,pend/ cmo_sph
+
+cmo/status/cmo_sph brief
+cmo/setatt/cmo_sph/imt 2
+cmo/setatt/cmo_sph/itetclr 2
+resetpts/itp
+dump sphere01.inp cmo_sph
+
+# merge inside with outside
+# write hex mesh
+
+addmesh/merge/moall/cmo_box/cmo_sph
+
+dump hex_mesh_full.inp moall
+filter/1,0,0
+rmpoint compress
+quality
+
+# The front of the face will be extracted as 2D mesh
+pset/pdel/attribute yic/1,0,0/ lt 0.
+rmpoint pset,get,pdel
+rmpoint compress
+resetpts/itp
+
+dump hex_mesh_half.inp moall
+dump hex_mesh_half.gmv moall
+
+finish
