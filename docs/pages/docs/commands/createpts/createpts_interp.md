@@ -98,7 +98,7 @@ createpts / interp / 20 / 1 2 1 / 49 50 1 / cmo_pts
 
 ## DEMOS 
 
-[Spherical Quad to Hex Sphere to Stacked Hex Cylinder](../demos/demo_creatept_interp.md)
+[Spherical Quad to Hex Sphere to Stacked Hex Cylinder](../../demos/demo_creatept_interp.md)
 
   
 
