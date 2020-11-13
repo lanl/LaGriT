@@ -2346,11 +2346,6 @@ class MO(object):
         '''
         self.upscale('sum',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
 
-    def intersect_elements(self,mo2,attname=''):
-        '''
-        create attribute in mesh object of number of elements in mo2 that intersect element in current mesh object
-        '''
-        self.sendline('/'.join(['intersect_elements',self.name,mo2.name,attname]))
     def gmv(self,exe=None,filename=None):
         if filename is None: filename = self.name+'.gmv'
         if exe is not None: self._parent.gmv_exe = exe
