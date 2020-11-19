@@ -148,9 +148,6 @@ def _uniform_surface_mesh(lg,
         clockwise = helper.is_polygon_clockwise(boundary, connectivity=connectivity)
         counterclockwise = not clockwise
 
-        print('1@', clockwise)
-        print('2@', counterclockwise)
-
     # Compute length scales to break triangles down into
     # See below for a more in-depth explanation
     length_scales = [min_edge*i for i in [1,2,4,8,16,32,64]][::-1]
