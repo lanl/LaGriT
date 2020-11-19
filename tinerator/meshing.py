@@ -2,6 +2,7 @@ import numpy as np
 import tinerator.utilities as util
 import tinerator.config as cfg
 import tinerator.wavelet_analysis as dwt
+from tinerator.future import helper
 from tinerator.lg_infiles import Infiles
 from copy import deepcopy
 from scipy import ndimage as nd
@@ -107,7 +108,7 @@ def _uniform_surface_mesh(lg,
                           boundary:np.ndarray,
                           min_edge:float,
                           outfile:str=None,
-                          counterclockwise:bool=False,
+                          counterclockwise:bool=None,
                           connectivity:bool=None):
     '''
     Generate a uniform triplane mesh from a boundary polygon.
@@ -143,6 +144,13 @@ def _uniform_surface_mesh(lg,
     cfg.log.debug('Writing boundary to poly_1.inp')
     util._write_line(boundary,"poly_1.inp",connections=connectivity)
 
+    if counterclockwise is None:
+        clockwise = helper.is_polygon_clockwise(boundary, connectivity=connectivity)
+        counterclockwise = not clockwise
+
+        print('1@', clockwise)
+        print('2@', counterclockwise)
+
     # Compute length scales to break triangles down into
     # See below for a more in-depth explanation
     length_scales = [min_edge*i for i in [1,2,4,8,16,32,64]][::-1]
@@ -157,14 +165,12 @@ def _uniform_surface_mesh(lg,
     motri.setatt('imt',1)
     mo_tmp.delete()
 
-    cfg.log.info('First pass triangulation')
+    orientation = 'counterclockwise' if counterclockwise else 'clockwise'
+    cfg.log.info('First pass triangulation (%s)' % orientation)
 
     # Triangulate the boundary
     motri.select()
-    if counterclockwise:
-        motri.triangulate(order='counterclockwise')
-    else:
-        motri.triangulate(order='clockwise')
+    motri.triangulate(order=orientation)
 
     # Set material ID to 1        
     motri.setatt('itetclr',1)
@@ -172,6 +178,8 @@ def _uniform_surface_mesh(lg,
     motri.resetpts_itp()
 
     lg.sendline('cmo/copy/mo/%s' % motri.name)
+
+    motri.dump('test_fail_1.inp')
 
     # Move through each length scale, breaking down edges less than the value 'ln'
     # Eventually this converges on triangles with edges in the range [0.5*min_edge,min_edge]
@@ -418,7 +426,8 @@ def _refined_surface_mesh(lg,
                           delta:float=0.75,
                           slope:float=2.,
                           refine_dist:float=0.5,
-                          outfile:str=None):
+                          outfile:str=None,
+                          counterclockwise:bool=False):
     '''
     Constructs a triplane mesh refined around a feature using LaGriT
     as a backend.
@@ -428,7 +437,6 @@ def _refined_surface_mesh(lg,
     '''
 
     # Define initial parameters
-    counterclockwise = False
     h_eps = h*10**-7
     PARAM_A = slope
     PARAM_B = h*(1-slope*refine_dist)

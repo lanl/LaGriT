@@ -653,7 +653,8 @@ class DEM():
                                outfile:str=None,
                                rectangular_boundary:bool=False,
                                boundary_distance:float=None,
-                               interactive:bool=False):
+                               interactive:bool=False,
+                               counterclockwise:bool=None):
         '''
         Generates a triplane with uniformly sized elements.
 
@@ -695,7 +696,9 @@ class DEM():
         self._surface_mesh = mesh._uniform_surface_mesh(self.lg,
                                                         self.boundary,
                                                         outfile=outfile,
-                                                        min_edge=edge_length*1.75)
+                                                        min_edge=edge_length*1.75,
+                                                        counterclockwise=counterclockwise
+                                                        )
 
         if apply_elevation:
             mesh._intrp_elevation_to_surface(self.lg,
@@ -767,7 +770,8 @@ class DEM():
                                smooth_boundary:bool=False,
                                rectangular_boundary:bool=False,
                                boundary_distance:float=None,
-                               interactive:bool=False):
+                               interactive:bool=False,
+                               counterclockwise:bool=False):
         '''
         Generates a refined triangular mesh, with a minimum refinement length 
         defined by h.
@@ -824,7 +828,9 @@ class DEM():
                                                         refine_dist=refine_dist,
                                                         slope=slope,
                                                         delta=0.75,
-                                                        outfile=outfile)
+                                                        outfile=outfile,
+                                                        counterclockwise=counterclockwise
+                                                        )
 
         if apply_elevation:
             mesh._intrp_elevation_to_surface(self.lg,

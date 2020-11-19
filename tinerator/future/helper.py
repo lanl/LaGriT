@@ -2,6 +2,46 @@ import numpy as np
 import sys
 import os
 
+def is_polygon_clockwise(pts: np.ndarray, connectivity: np.ndarray = None) -> bool:
+    '''
+    Given an Nx2 or Nx3 matrix, with points ordered either
+    clockwise or counter-clockwise, returns True if ordered
+    clockwise.
+    '''
+
+    # Find point w/ smallest Y coordinate
+    #y_min = np.argwhere(pts[:,1] == np.min(pts[:,1])).T[0]
+
+    # Choose point w/ largest X if tie
+    #x_max = np.argwhere(pts[y_min][:,0] == np.max(pts[y_min][:,0])).flatten()[0]
+
+    # Update min Y coord
+    #y_min = y_min[x_max]
+    
+    y_min = 0
+
+    if connectivity is None:
+        A = pts[y_min]
+        B = pts[y_min + 1]
+        C = pts[y_min + 2]
+    else:
+        AB = connectivity[y_min]
+        A, B = pts[AB[0]], pts[AB[1]]
+        C = pts[connectivity[connectivity[:,0] == AB[1]].flatten()[1]]
+    
+    O = np.array([
+        [1, A[0], A[1]],
+        [1, B[0], B[1]],
+        [1, C[0], C[1]]
+    ], dtype=float)
+    
+    determinate = np.linalg.det(O)
+    
+    if determinate == 0.:
+        raise ValueError("Array has co-linear points")
+    
+    return determinate < 0.
+
 def write_avs(surface_mesh,nodes,tris,cname='tri',matid=None,node_attributes:dict=None):
     with open(surface_mesh,'w') as f:
         node_atts = 0 if node_attributes is None else len(node_attributes.keys())
