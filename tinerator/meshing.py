@@ -176,8 +176,6 @@ def _uniform_surface_mesh(lg,
 
     lg.sendline('cmo/copy/mo/%s' % motri.name)
 
-    motri.dump('test_fail_1.inp')
-
     # Move through each length scale, breaking down edges less than the value 'ln'
     # Eventually this converges on triangles with edges in the range [0.5*min_edge,min_edge]
     motri.select()
