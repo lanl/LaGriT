@@ -3354,7 +3354,7 @@ class MO(object):
         cmd = [' '.join([filelist[-1],str(matids[-1]),str(nlayers[-1])])]
         if flip_opt is True: cmd.append('flip')
         if buffer_opt is not None: cmd.append('buffer '+buffer_opt)
-        if truncate_opt is not None: cmd.append('trun '+truncate_opt)
+        if truncate_opt is not None: cmd.append('trunc '+truncate_opt)
         if pinchout_opt is not None: cmd.append('pinch '+pinchout_opt)
         if dpinchout_opt[0] is not None: 
             cmd.append('dpinch '+str(dpinchout_opt[0]))
