@@ -1870,14 +1870,14 @@ class MO(object):
         '''
         self.sendline('resetpts/itp')
 
-    def eltset_object(self, mo, name=None):
+    def eltset_object(self, mo, name=None, attr_name=None):
         '''
         Create element set from the intersecting elements with another mesh object
         '''
         if name is None:
             name = make_name('e',self.eltset.keys())
-        attr_name = self.intersect_elements(mo)
-        e_attr = self.eltset_attribute(attr_name,0,boolstr='gt')
+        attr_name = self.intersect_elements(mo, attr_name)
+        _ = self.eltset_attribute(attr_name,0,boolstr='gt')
         self.eltset[name] = EltSet(name,self)
         return self.eltset[name]
     def eltset_bool(self, eset_list, boolstr='union', name=None):
@@ -2346,11 +2346,6 @@ class MO(object):
         '''
         self.upscale('sum',attsink,cmosrc,attsrc,stride,boundary_choice,keepatt,set_id)
 
-    def intersect_elements(self,mo2,attname=''):
-        '''
-        create attribute in mesh object of number of elements in mo2 that intersect element in current mesh object
-        '''
-        self.sendline('/'.join(['intersect_elements',self.name,mo2.name,attname]))
     def gmv(self,exe=None,filename=None):
         if filename is None: filename = self.name+'.gmv'
         if exe is not None: self._parent.gmv_exe = exe
@@ -3289,7 +3284,7 @@ class MO(object):
             p.delete()
 
 
-    def intersect_elements(self, mo, attr_name='attr00'):
+    def intersect_elements(self, mo, attr_name=None):
         '''
         This command takes two meshes and creates an element-based attribute in mesh1
         that contains the number of elements in mesh2 that intersected the respective
@@ -3301,6 +3296,7 @@ class MO(object):
         :type attr_name: str
         :returns: attr_name
         '''
+        attr_name = attr_name if attr_name else 'attr00'
         self.sendline('/'.join(['intersect_elements',self.name,mo.name,attr_name]))
         return attr_name
     def extract_surfmesh(self,name=None,stride=[1,0,0],reorder=False,resetpts_itp=True,external=False):
