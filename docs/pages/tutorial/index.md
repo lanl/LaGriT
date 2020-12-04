@@ -257,6 +257,16 @@ Select All, or by one of the categories:
             </div>
         </li>
 
+<li data-color="utility">
+            <div>
+                <a href="{{ "/pages/tutorial/utility/cmo_addatt_vorvol.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <p>Voronoi node attribute </p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
 
 <!-- command cards alphabetical -->
 

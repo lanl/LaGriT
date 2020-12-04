@@ -160,6 +160,7 @@ tags: command list all options
 [Back to Top](#top)
 <br>
 <br>
+[Tutorials and Examples](tutorial/index.md)
 <br>
 <br>
 <br>
@@ -211,24 +212,3 @@ tags: command list all options
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-
-
-
-
-
-
-
-
-
-
