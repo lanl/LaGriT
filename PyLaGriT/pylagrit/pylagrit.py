@@ -1379,6 +1379,14 @@ class MO(object):
         :type name: str
         '''
         self.addatt(name,keyword='voronoi_volume')
+    def addatt_voronoi_varea(self,attr_names='xvarea yvarea zvarea'):
+        '''
+        Add voronoi area x,y,z component attributes for 2D planar mesh
+
+        :arg attr_names: name of x,y,z attributes in LaGriT
+        :type name: str
+        '''
+        self.addatt(name,attr_names,keyword='voronoi_varea')
     def minmax(self,attname=None,stride=[1,0,0]):
         self.printatt(attname=attname,stride=stride,ptype='minmax')
     def minmax_xyz(self,stride=[1,0,0],verbose=True):
