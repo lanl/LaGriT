@@ -4,7 +4,7 @@ For a tet or tri mesh, an attribute can be added for each node giving the vorono
 This uses the same routine used to calculate voronoi volumes for the FEHM stor file.
 The commands for 3D tet and 2D tri are slightly different.
 
-## 2D Voronoi node attribute
+## 2D Voronoi area node attribute
 
 We do not have a voronoi area option for 2D except as represented each of the x y z components for the Voronoi areas formed by the nodes.  As long your surface is planar, you will get the values you want.
 That is if your surface has normal in z direction, the z component will be your voronoi area.
@@ -73,4 +73,21 @@ zvarea, real
    4   4   266  0.000000000000E+00 -0.100000000000E+05  0.000000000000E+00
 </pre>
  
- 
+## 3D Voronoi volume node attribute
+
+The following will create a node attribute with the voronoi volume for each tet node.
+The mesh object name is *cmotet* and the added attribute name is *vorvol*.
+
+```
+quality
+cmo/addatt/cmotet/vor_volume/vorvol                     
+cmo/printatt/cmotet/vovol/minmax
+
+# select set of points by imt and sum voronoi volume
+cmo setatt cmotet vol_tot 0.
+pset/p1/attribute imt/1,0,0/ eq MATNO 
+math/sum/cmotet/vol_tot/pset,get,p1/cmotet/vorvol
+pset/p1/delete
+
+
+``` 
