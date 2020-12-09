@@ -1386,7 +1386,7 @@ class MO(object):
         :arg attr_names: name of x,y,z attributes in LaGriT
         :type name: str
         '''
-        self.addatt(name,attr_names,keyword='voronoi_varea')
+        self.addatt(attr_names,keyword='voronoi_varea')
     def minmax(self,attname=None,stride=[1,0,0]):
         self.printatt(attname=attname,stride=stride,ptype='minmax')
     def minmax_xyz(self,stride=[1,0,0],verbose=True):
