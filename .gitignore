@@ -27,5 +27,6 @@
 *.a
 *.mod
 src/lagrit
+build/
 
 *.egg-info

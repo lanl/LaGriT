@@ -40,11 +40,28 @@ Download the repo by running:
 
 3. Navigate back into the cloned LaGriT directory: `cd C:\Users\user\repos\LaGriT\`
 
-4. Run CMake: `cmake -G"NMake Makefiles" -B"build" -D CMAKE_C_COMPILER=icx -D CMAKE_CXX_COMPILER=icx`
+4. Run CMake: `cmake -G"NMake Makefiles" -B"build" -D CMAKE_C_COMPILER=icx -D CMAKE_Fortran_COMPILER=ifort`
+
+cl
 
 5. Then, `cd build\` and run `nmake`.
 
 6. The executable binary will be compiled as `lagrit.exe`.
+
+## Testing
+
+A Python-based test suite is available under `test\suite.py`. Run the suite as: 
+
+    python suite.py /f /l 1 /exe=..\build\lagrit.exe /hf=3
+
+## TODO: 
+ 
+ * Test on Windows
+ * Verify test suite
+ * Get PyLaGriT working
+ * Verify all platforms work with CMake
+ * Get TravisCI working without Exodus
+ * Get TravisCI working *with* Exodus
 
 ### Supporting Documentation ###
 ---

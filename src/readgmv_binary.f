@@ -79,6 +79,8 @@ CPVCS    read connectivity for quad and tri GMV cells.
 c
 c ######################################################################
 c
+      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_CHAR
+      use c2f_interface
       implicit none
 C
 C args
@@ -315,7 +317,7 @@ C
 C
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,nnodes4,ibytes,ierror)
+         call cread4_int(iunit4,nnodes4,ibytes,ierror)
          if(ierror.ne.0) go to 9998 
          nnodes = nnodes4
 C
@@ -335,7 +337,7 @@ C
 C
             ibytes=4*nnodes
             nbyte_total = nbyte_total + ibytes
-            call cread(iunit4,xtemp4,ibytes,ierror)
+            call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
             if(ierror.ne.0) go to 9998 
             do i=1,nnodes
                xic(i)=xtemp4(i)
@@ -343,7 +345,7 @@ C
 
             ibytes=4*nnodes
             nbyte_total = nbyte_total + ibytes
-            call cread(iunit4,xtemp4,ibytes,ierror)
+            call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
             if (ierror.ne.0 ) go to 9998
             do i=1,nnodes
                yic(i)=xtemp4(i)
@@ -351,7 +353,7 @@ C
 
             ibytes=4*nnodes
             nbyte_total = nbyte_total + ibytes 
-            call cread(iunit4,xtemp4,ibytes,ierror)
+            call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
             if (ierror.ne.0 ) go to 9998
             do i=1,nnodes
                zic(i)=xtemp4(i)
@@ -366,7 +368,7 @@ C
 C
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,nelements4,ibytes,ierror)
+         call cread4_int(iunit4,nelements4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          nelements=nelements4
 C
@@ -390,7 +392,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmlin))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -408,7 +410,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmtri))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -427,7 +429,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmqud))
                   nbyte_total = nbyte_total + ibytes 
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -447,7 +449,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmtet))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -468,7 +470,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmpyr))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -489,7 +491,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmpri))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -511,7 +513,7 @@ C
 
                   ibytes=4*(1+nelmnen(ifelmhex))
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,liste,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,liste,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
 
                   icount=liste(1)
@@ -955,7 +957,7 @@ C
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,iflag4,ibytes,ierror)
+         call cread4_int(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          iflag=iflag4
 
@@ -982,7 +984,7 @@ C        create and assign vector attribute vels
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nnodes
                   vels(1,i)=xtemp4(i)
@@ -990,7 +992,7 @@ C        create and assign vector attribute vels
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nnodes
                   vels(2,i)=xtemp4(i)
@@ -998,7 +1000,7 @@ C        create and assign vector attribute vels
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nnodes
                   vels(3,i)=xtemp4(i)
@@ -1022,17 +1024,17 @@ C        note that values are read, but are not copied into cmo
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                call mmrelblk('xtemp4',isubname,ipxtemp4,icscode)
@@ -1057,7 +1059,7 @@ C
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,iflag4,ibytes,ierror)
+         call cread4_int(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          iflag=iflag4
 
@@ -1082,7 +1084,7 @@ C        node attributes
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                if(ctype(1:lenc).eq.'VINT') then
@@ -1113,7 +1115,7 @@ C        node attributes
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nnodes
                   xarray(i)=xtemp4(i)
@@ -1143,7 +1145,7 @@ C        element attributes
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                if(ctype(1:lenc).eq.'VINT') then
@@ -1180,7 +1182,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nelements
                   iarray(i)=nint(xtemp4(i))
@@ -1205,7 +1207,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nelements
                   xarray(i)=xtemp4(i)
@@ -1235,7 +1237,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
 
                if(ctype(1:lenc).eq.'VINT') then
@@ -1265,7 +1267,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,xtemp4,ibytes,ierror)
+               call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do i=1,nelements
                   xarray(i)=xtemp4(i)
@@ -1290,13 +1292,13 @@ C
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,maxclrpoint4,ibytes,ierror)
+         call cread4_int(iunit4,maxclrpoint4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          maxclrpoint=maxclrpoint4
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,iflag4,ibytes,ierror)
+         call cread4_int(iunit4,iflag4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          iflag=iflag4
 
@@ -1323,7 +1325,7 @@ C
 
                   ibytes=4*nnodes
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,itemp4,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
                   do it=1,nnodes
                       iarray(it)=itemp4(it)
@@ -1337,7 +1339,7 @@ C
 
                   ibytes=4*nnodes
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,xtemp4,ibytes,ierror)
+                  call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
                   do i=1,nnodes
                      xarray(i)=xtemp4(i)
@@ -1361,7 +1363,7 @@ C
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,itemp4,ibytes,ierror)
+               call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do it=1,nnodes
                   iarray(it)=itemp4(it)
@@ -1383,7 +1385,7 @@ C
 
                   ibytes=4*nelements
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,itemp4,ibytes,ierror)
+                  call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
                   do it=1,nelements
                      iarray(it)=itemp4(it)
@@ -1397,7 +1399,7 @@ C
 
                   ibytes=4*nelements
                   nbyte_total = nbyte_total + ibytes
-                  call cread(iunit4,xtemp4,ibytes,ierror)
+                  call cread4_ptr(iunit4,xtemp4,ibytes,ierror)
                   if (ierror.ne.0 ) go to 9998
                   do i=1,nelements
                      xarray(i)=xtemp4(i)
@@ -1421,7 +1423,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,itemp4,ibytes,ierror)
+               call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do it=1,nelements
                    iarray(it)=itemp4(it)
@@ -1447,13 +1449,13 @@ C
 C
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,maxclrpoint4,ibytes,ierror)
+         call cread4_int(iunit4,maxclrpoint4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          maxclrpoint=maxclrpoint4
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,iflag4,ibytes,ierror)
+         call cread4_int(iunit4,iflag4,ibytes,ierror)
          iflag=iflag4
 
          if (ierror.ne.0 ) go to 9998
@@ -1495,7 +1497,7 @@ C
 
                ibytes=4*nnodes
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,itemp4,ibytes,ierror)
+               call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do it=1,nnodes
                   imt1(it)=itemp4(it)
@@ -1517,7 +1519,7 @@ C
 
                ibytes=4*nelements
                nbyte_total = nbyte_total + ibytes
-               call cread(iunit4,itemp4,ibytes,ierror)
+               call cread4_int_ptr(iunit4,itemp4,ibytes,ierror)
                if (ierror.ne.0 ) go to 9998
                do it=1,nelements
                   itetclr(it)=itemp4(it)
@@ -1552,7 +1554,7 @@ C
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,ihcycle4,ibytes,ierror)
+         call cread4_int(iunit4,ihcycle4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          ihcycle = ihcycle4
  
@@ -1565,7 +1567,7 @@ C
 
          ibytes=4
          nbyte_total = nbyte_total + ibytes
-         call cread(iunit4,xtime4,ibytes,ierror)
+         call cread4(iunit4,xtime4,ibytes,ierror)
          if (ierror.ne.0 ) go to 9998
          time=xtime4
  

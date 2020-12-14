@@ -931,7 +931,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       subroutine read_binaryij(ifile, vartype, xval, flen,
      >                  istart, istop, jstart, jstop, nx, ierr_return)
 
-      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_CHAR
+      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_FLOAT, C_DOUBLE
       use c2f_interface
       implicit none
 c
@@ -983,17 +983,35 @@ C
          goto 9999
       endif
 C
+
+C      goto 1985
+CC=======================================================================
+CC     TODO: remove this!
+CC     Because of the ISO_C_BINDING definitions in `interface.f`,
+CC     polymorphism (where a function accepts args of multiply types)
+CC     is not formally supported.
+CC     The solution is 
+C 1984 continue
+C      write(logmess,'(a)') ' real*8 binary reading not supported. '
+C      call writloga('default',0,logmess,0,ierrw)
+C      ierr_return = -1 * iadr 
+C      go to 9999
+C 1985 continue
+CC=======================================================================
+
       ibytes = 4
-      if (vartype .eq. 1 ) ibytes = 8
+      if (vartype .eq. 1 ) then
+        ibytes = 8
+      endif
       iadr=0
 
 C     loop through file values
       do i = 1,flen
 
          if (ibytes .eq. 4) then
-            call cread(iunit4,fdata4,ibytes,ierror)
+            call cread4(iunit4,fdata4,ibytes,ierror)
          else
-            call cread(iunit4,fdata8,ibytes,ierror)
+            call cread8(iunit4,fdata8,ibytes,ierror)
          endif
          if(ierror.ne.0) then
            write(logmess,'(a,a132)') ' error reading file ',file

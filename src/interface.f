@@ -465,30 +465,100 @@ C                        int_ptrsize *flag)
           end subroutine quad_quality
 
 C=========== END MESH MANIPULATION SUBROUTINE DECLARATIONS =============
+C=========== BEGIN C READ/WRITE SUBROUTINE DECLARATIONS ================
+
+C     Because Fortran does not (officially) support polymorphism with 
+C     these ISO_C_BINDING declarations, and methods like `cread` are
+C     called with different types for the same arg, psuedo-polymorphism 
+C     is implemented via methods like `cread`, `cread4`, `cread8`.
+C ----------------------------------------------------------------------
 
 C     void cassignr_(int *unit, char *fname, int_ptrsize *ierr)
-C          subroutine cassignr
-C     &    (unit, fname, ierr)
-C     &    BIND(C, name="cassignr_")
-C            use ISO_C_BINDING, only : C_INT, C_CHAR
-C            implicit none
-C
-C            integer(C_INT) :: unit, ierr
-C            character(kind=C_CHAR) :: fname(*)
-C          end subroutine cassignr
+          subroutine cassignr
+     &    (unit, fname, ierr)
+     &    BIND(C, name="cassignr_")
+            use ISO_C_BINDING, only : C_INT, C_CHAR
+            implicit none
+
+            integer(C_INT) :: unit, ierr
+            character(kind=C_CHAR) :: fname(*)
+          end subroutine cassignr
 
 C     void cread_(int *unit, char *array, int_ptrsize *ilen, 
 C                 int_ptrsize *ierr)
-C          subroutine cread
-C     &    (unit, array, ilen, ierr)
-C     &    BIND(C, name="cread_")
-C            use ISO_C_BINDING, only : C_INT, C_CHAR, C_PTR
-C            implicit none
-C
-C            integer(4) :: unit
-C            integer(C_INT) :: ilen, ierr
-C            character(kind=C_CHAR) :: array(*)
-C          end subroutine cread
+C         ==> type(array) => character array(*)
+          subroutine cread
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT, C_CHAR
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            character(kind=C_CHAR) :: array(*)
+          end subroutine cread
+
+C         ==> type(array) => real*4 array
+          subroutine cread4
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT, C_FLOAT
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            real(C_FLOAT) :: array
+          end subroutine cread4
+
+C         ==> type(array) => real*4 array(*)
+          subroutine cread4_ptr
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT, C_FLOAT
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            real(C_FLOAT) :: array(*)
+          end subroutine cread4_ptr
+
+C         ==> type(array) => int*4 array
+          subroutine cread4_int
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            integer(C_INT) :: array
+          end subroutine cread4_int
+
+C         ==> type(array) => int*4 array(*)
+          subroutine cread4_int_ptr
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            integer(C_INT) :: array(*)
+          end subroutine cread4_int_ptr
+
+C         ==> type(array) => real*8 array
+          subroutine cread8
+     &    (unit, array, ilen, ierr)
+     &    BIND(C, name="cread_")
+            use ISO_C_BINDING, only : C_INT, C_DOUBLE
+            implicit none
+
+            integer(4) :: unit
+            integer(C_INT) :: ilen, ierr
+            real(C_DOUBLE) :: array
+          end subroutine cread8
+
+C=========== END C READ/WRITE SUBROUTINE DECLARATIONS ==================
 
 C     void line_graph_sort_(int_ptrsize edges[][2], int_ptrsize *cid,
 C        int_ptrsize *ctype, int_ptrsize *lid, int_ptrsize *skey,
