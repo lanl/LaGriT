@@ -5,12 +5,12 @@ MESSAGE (STATUS "==========================================")
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
 
 SET (TARGET "lagrit")
-PROJECT (${TARGET})
+PROJECT (${TARGET} Fortran C)
 
-ENABLE_LANGUAGE (Fortran)
+#ENABLE_LANGUAGE (Fortran)
 
-set (CMAKE_C_FLAGS "-w -m64 -Dlinx64")
-set (CMAKE_Fortran_FLAGS "-w -fcray-pointer -fdefault-integer-8 -m64 -Dlinx64")
+set (CMAKE_C_FLAGS "-w -m64 -Dwin64")
+set (CMAKE_Fortran_FLAGS "-w -O -Qsafe-cray-ptr -integer-size=64 -Dwin64")
 
 SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 

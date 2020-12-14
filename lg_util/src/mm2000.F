@@ -930,9 +930,23 @@ c     print*,'mm2000 --- util_realloc: called with bytes: ',block_bytes
 !!
 !!  3. PUBLIC DIAGNOSTIC PROCEDURES
 !!
- 
+
+C=======================================================================
+C     Small module to bind a C function to a Fortran subroutine.
+C     See LaGriT/src/interface.f for more information on what this is.
+C=======================================================================
+      module gmv_helper_module
+      interface
+C       void gmv_print_sizes(void)
+          subroutine gmv_print_sizes() BIND(C, name="gmv_print_sizes_")
+          end subroutine gmv_print_sizes
+      end interface
+      end module gmv_helper_module
+C=======================================================================
+
       subroutine mmverify ()
- 
+
+      use gmv_helper_module
       implicit none
  
       include 'mm2000.h'
@@ -953,8 +967,6 @@ c     print*,'mm2000 --- util_realloc: called with bytes: ',block_bytes
       external util_check_ptrsize
       integer util_print_sizes
       external util_print_sizes
-      integer gmv_print_sizes
-      external gmv_print_sizes
 
  
       index = first
@@ -966,7 +978,7 @@ c     print*,'mm2000 --- util_realloc: called with bytes: ',block_bytes
        print *, 'MMVERIFY: Compile error: '
        print *, "sizeof ptr and int_ptrsize differ: ",ics
        ics=util_print_sizes()
-       ics=gmv_print_sizes()
+       call gmv_print_sizes()
       endif
  
  

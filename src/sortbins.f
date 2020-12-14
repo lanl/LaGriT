@@ -146,6 +146,8 @@ C
 C
 C#######################################################################
 C
+      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_LONG, C_LONG_LONG
+      use c2f_interface
       implicit none
 
       include 'local_element.h'
@@ -746,7 +748,7 @@ C
 
 
 C    SORT BY ELEMENT
-	if (lg_sort_type .eq. 'elements') then
+      if (lg_sort_type .eq. 'elements') then
 C
 C          Create new temporary attributes.
 C          remove attributes to zero them out.
@@ -788,16 +790,16 @@ C          remove attributes to zero them out.
 C
 C   setup done, now let the C++ code take care of the rest!
 C
-           call line_graph_sort(itet, cid, comptype, loopid, 
-     *		ikey, nelem)
+           call line_graph_sort(itet, cid, comptype, loopid, ikey, 
+     &        nelem)
 
 C   SORT BY NODE
 C   note the last argument is the number of elements
-	elseif (lg_sort_type .eq. 'nodes') then
+        elseif (lg_sort_type .eq. 'nodes') then
 
-	   call line_graph_nsort(itet, ikey, nelem)
+          call line_graph_nsort(itet, ikey, nelem)
 
-	endif
+        endif
       endif
 C
 C

@@ -18,8 +18,16 @@
 #else
 #include <malloc.h>
 #endif
-#include <strings.h>
+
+#ifdef _WIN32
 #include <string.h>
+#include <stdlib.h>
+#define drand48() ((double)rand()/RAND_MAX)
+#define srand48(x) srand((int)(x))
+#else
+#include<strings.h>
+#endif
+
 #include <ctype.h>
 #include <math.h>
 #include <stdarg.h>

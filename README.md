@@ -16,35 +16,35 @@ This allows the meshing capabilities of LaGriT to be combined with the numeric a
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
 
-### Building LaGriT ###
+### Building LaGriT (Windows) ###
 ---
 
 Download the repo by running:
 
-    git clone https://github.com/lanl/LaGriT.git
+    git clone -b windows https://github.com/lanl/LaGriT.git
     cd LaGriT
 
-If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
+## Requirements
 
-    make exodus
+* Microsoft Visual Studio
+* Intel Fortran
 
-To build and test a shared, optimized LaGriT binary, run
+## Steps to Build
 
-    make release
+1. Open Microsoft Visual Studio and launch the developer `cmd.exe` via `Visual Studio -> Tools -> Command Line -> Developer Command Prompt`
 
-To build LaGriT without Exodus,
+2. Run the Intel-provided `psxevars.bat` script to populate the command prompt with necessary developer environment variables. 
 
-    make WITH_EXODUS=0 release
+  * 2.1. First, `cd` into: `C:\Program Files (x86)\IntelSWTools\parallel_studio_xe_2020.4.912\bin\`
+  * 2.2. Run: `psxevars.bat intel64`
 
-or use target `static` to build a static binary.
+3. Navigate back into the cloned LaGriT directory: `cd C:\Users\user\repos\LaGriT\`
 
-Finally, run
+4. Run CMake: `cmake -G"NMake Makefiles" -B"build" -D CMAKE_C_COMPILER=icx -D CMAKE_CXX_COMPILER=icx`
 
-    make test
+5. Then, `cd build\` and run `nmake`.
 
-to test build integrity.
-
-More options are available by running `make help`.
+6. The executable binary will be compiled as `lagrit.exe`.
 
 ### Supporting Documentation ###
 ---

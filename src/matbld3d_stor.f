@@ -429,6 +429,8 @@ C
 C#######################################################################
 C
 c     implicit real*8 (a-h,o-z)
+      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_DOUBLE
+      use c2f_interface
       implicit none
 C
       include "chydro.h"

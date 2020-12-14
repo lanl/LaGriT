@@ -35,9 +35,11 @@ C
       subroutine lineseg_tri(x1,y1,z1,x2,y2,z2,x3,y3,z3,
      *                      xa,ya,za,xb,yb,zb,
      *                      x,y,z,iflag)
+     &    bind (C, name="lineseg_tri")
 C
 C ######################################################################
 C
+      use, intrinsic :: ISO_C_BINDING
       implicit none
       real*8 local_eps,releps,xa,xb,ya,yb,za,zb,dist1,dist2,det,
      *  xsum,area31,ax31,ay31,az31,area23,ax23,ay23,az23,area12,

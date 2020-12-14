@@ -111,7 +111,10 @@ C#######################################################################
 c--------------------------------------------------------------------------
 c Declarations.
 c--------------------------------------------------------------------------
- 
+      use, intrinsic :: ISO_C_BINDING, only: 
+     & C_INT, C_DOUBLE, C_FLOAT, C_CHAR
+      use c2f_interface
+
       implicit none
       include "chydro.h"
       include "consts.h"
@@ -182,7 +185,7 @@ c
       integer num_conn_max
       integer nsize,njerk
       integer ierrw, numnegs, numsuspectnegs, numzerocoefs
-      integer entryprocessed
+C      integer entryprocessed
       integer istatus
 
       integer iunit, nextlun

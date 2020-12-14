@@ -64,7 +64,7 @@ Import to CVS
 
 /* Declare some Fortran functions we're going to use so that the compiler can do
  * type checking. */
-void inside_tet_(
+extern void inside_tet(
         double *x1, double *y1, double *z1,
         double *x2, double *y2, double *z2,
         double *x3, double *y3, double *z3,
@@ -72,7 +72,7 @@ void inside_tet_(
         double *xa, double *ya, double *za,
         int_ptrsize *flag);
 
-void lineseg_tri_(
+void lineseg_tri(
         double *x1, double *y1, double *z1,
         double *x2, double *y2, double *z2,
         double *x3, double *y3, double *z3,
@@ -536,7 +536,7 @@ static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
 {
     int_ptrsize flag;
 
-    lineseg_tri_(
+    lineseg_tri(
             &Mesh->xic[itet[p1] - 1], &Mesh->yic[itet[p1] - 1],
             &Mesh->zic[itet[p1] - 1], &Mesh->xic[itet[p2] - 1],
             &Mesh->yic[itet[p2] - 1], &Mesh->zic[itet[p2] - 1],
@@ -731,7 +731,7 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
     if (Mesh->ifhybrid && tetIsOnBoundary(incidentTets[tetIndex] - 1)) {
         /* This call might not be necessary. getHybridPoint will find out later
          * whether or not the circumcenter is inside the tet. */
-        inside_tet_(&Mesh->xic[v1],&Mesh->yic[v1],&Mesh->zic[v1],
+        inside_tet(&Mesh->xic[v1],&Mesh->yic[v1],&Mesh->zic[v1],
                      &Mesh->xic[v2],&Mesh->yic[v2],&Mesh->zic[v2],
                      &Mesh->xic[k1],&Mesh->yic[k1],&Mesh->zic[k1],
                      &Mesh->xic[k2],&Mesh->yic[k2],&Mesh->zic[k2],

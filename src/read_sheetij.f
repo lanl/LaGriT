@@ -931,6 +931,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       subroutine read_binaryij(ifile, vartype, xval, flen,
      >                  istart, istop, jstart, jstop, nx, ierr_return)
 
+      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_CHAR
+      use c2f_interface
       implicit none
 c
 c args
@@ -970,7 +972,7 @@ C
 
       call hassign(iunit,Fifile,ics)
       if (iunit.lt.0 .or. ierror.lt.0) then
-        call x3d_error(isubname,'hassign bad file unit')
+        call x3d_error(isubname, 'hassign bad file unit')
       endif
       iunit4 = iunit
       call cassignr(iunit4,file,ics)

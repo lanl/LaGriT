@@ -21,10 +21,13 @@ int_ptrsize excre_wrapper_(char *path,
         int_ptrsize *ierr,
         int_ptrsize *pathlen)
 {
+	/*
     return excre_(path,
             (int *)clobmode,
             (int *)cpu_word_size,
             (int *)io_word_size,
             (int *)ierr,
             (int)(*pathlen));
+	*/
+	return 0;
 }
