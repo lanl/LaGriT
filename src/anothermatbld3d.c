@@ -64,6 +64,9 @@ Import to CVS
 
 /* Declare some Fortran functions we're going to use so that the compiler can do
  * type checking. */
+#define inside_tet INSIDE_TET
+#define lineseg_tri LINESEG_TRI
+
 extern void inside_tet(
         double *x1, double *y1, double *z1,
         double *x2, double *y2, double *z2,
@@ -72,7 +75,7 @@ extern void inside_tet(
         double *xa, double *ya, double *za,
         int_ptrsize *flag);
 
-void lineseg_tri(
+extern void lineseg_tri(
         double *x1, double *y1, double *z1,
         double *x2, double *y2, double *z2,
         double *x3, double *y3, double *z3,

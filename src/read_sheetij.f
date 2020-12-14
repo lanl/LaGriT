@@ -983,22 +983,6 @@ C
          goto 9999
       endif
 C
-
-C      goto 1985
-CC=======================================================================
-CC     TODO: remove this!
-CC     Because of the ISO_C_BINDING definitions in `interface.f`,
-CC     polymorphism (where a function accepts args of multiply types)
-CC     is not formally supported.
-CC     The solution is 
-C 1984 continue
-C      write(logmess,'(a)') ' real*8 binary reading not supported. '
-C      call writloga('default',0,logmess,0,ierrw)
-C      ierr_return = -1 * iadr 
-C      go to 9999
-C 1985 continue
-CC=======================================================================
-
       ibytes = 4
       if (vartype .eq. 1 ) then
         ibytes = 8

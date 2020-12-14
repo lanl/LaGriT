@@ -18,6 +18,9 @@
   ######################################################################
 */
 
+//#if defined(_MSC_VER) && (_MSC_VER >= 1900)
+#pragma comment(lib, "legacy_stdio_definitions.lib")
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

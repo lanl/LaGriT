@@ -5,7 +5,7 @@ MESSAGE (STATUS "==========================================")
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
 
 SET (TARGET "lagrit")
-PROJECT (${TARGET} Fortran C)
+PROJECT (${TARGET} Fortran C CXX)
 
 #ENABLE_LANGUAGE (Fortran)
 
@@ -24,6 +24,7 @@ SET (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/"
 # Build lg_util library
 FILE (GLOB_RECURSE LG_UTIL_SRC
     "lg_util/*.c" "lg_util/*.f" "lg_util/*.h" "lg_util/mm2000.F")
+
 ADD_LIBRARY (lg_util STATIC ${LG_UTIL_SRC})
 
 # Build LaGriT executable
@@ -31,4 +32,10 @@ FILE (GLOB_RECURSE TARGET_SRC
     "src/*.c" "src/*.cpp" "src/*.f" "src/*.f90" "src/*.F" "src/*.h")
 
 ADD_EXECUTABLE(${TARGET} ${TARGET_SRC})
+
+if(MSVC AND NOT (MSVC_VERSION LESS 1900))
+    # prevent error LNK2019: unresolved external symbol __imp_fread referenced in function cread
+    # see http://stackoverflow.com/a/32418900/469659
+    TARGET_LINK_LIBRARIES(${TARGET} "legacy_stdio_definitions.lib")
+endif()
 TARGET_LINK_LIBRARIES(${TARGET} ${LIBS} lg_util)
