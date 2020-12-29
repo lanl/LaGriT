@@ -8,10 +8,27 @@
 #  Sample command: ./suite.py -h
 #------------------------------------------------------------------------------
 
-import os, sys, argparse
+import os
+import sys
+import argparse
 
 sys.path.append('.')
 import lg_test_lib as lg_test
+
+try:
+    from pathlib import Path
+    def fix_path(cwd, exe_path):
+        if Path(exe_path).is_absolute():
+            return str(Path(exe_path))
+
+        return str(Path(cwd).joinpath(exe_path))
+
+except ModuleNotFoundError:
+    def fix_path(cwd, exe_path):
+        if os.path.isabs(exe_path):
+            return exe_path
+
+        return os.path.join(cwd, exe_path)
 
 ##############################################################################
 # MAIN begin
@@ -53,7 +70,7 @@ def main(argv=None):
 
     # Pass arguments to module-level variables
     lg_test.testfile = args.testfile
-    lg_test.lagrit_exe = args.executable
+    lg_test.lagrit_exe = fix_path(os.getcwd(), args.executable)
     lg_test.flags = args.flags
     lg_test.checkdir = args.checkdir
 

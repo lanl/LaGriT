@@ -1,5 +1,6 @@
 import os
 import argparse
+import sys
 import lg_test_lib.clean_test as cln
 import lg_test_lib.run_test as run
 import lg_test_lib.check_test as chk

@@ -74,6 +74,9 @@ def RunTest(**args):
   if not os.path.isfile(xlagrit):
     raise IOError("LaGriT binary doesn't exist at path: %s" % xlagrit)
 
+  if " " in xlagrit:
+    xlagrit = '"' + xlagrit + '"'
+
   try:
     fail_threshold = args["hard_fail"]
   except KeyError:
@@ -88,7 +91,8 @@ def RunTest(**args):
         errors[name] = []
 
 # define top directory as current directory
-  fscreen = dtop_path + "/stdout_" + tag + ".txt"
+  fscreen = os.path.join(dtop_path, "stdout_" + tag + ".txt")
+
   outfile = "stdout_" + tag + ".txt"
   date = time.ctime()
   # wfile = open(fscreen, 'w')
@@ -140,7 +144,8 @@ def RunTest(**args):
             os.remove("outx3dgen")
 
         if (os.path.exists("input.lgi")) : 
-          cmd = xlagrit + " " + flags + " < input.lgi >> " + fscreen
+          cmd = xlagrit + " " + flags + " < input.lgi >> " + outfile
+          print(os.getcwd())
           print(cmd)
           fo1 = os.system(cmd)
           if fo1 != 0:
