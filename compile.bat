@@ -45,8 +45,8 @@ echo CONFIGURING LAGRIT FOR BUILDING
 echo ============================================
 echo ""
 
-: rmdir /S /Q build
-: cmake -G"NMake Makefiles" -B"build" || goto END
+rmdir /S /Q build
+cmake -G "NMake Makefiles" -B "build" || goto END
 cd build
 
 echo ============================================
@@ -54,7 +54,7 @@ echo BUILDING LAGRIT
 echo ============================================
 echo ""
 
-: nmake || goto END
+nmake || goto END
 
 echo ============================================
 echo TESTING LAGRIT
@@ -62,8 +62,8 @@ echo ============================================
 echo ""
 
 cd ..\test
-: python || goto END
 python suite.py -f -l=1 -exe=..\build\lagrit.exe -hf=3
+: python suite.py -s=level01/sort -exe=..\build\lagrit.exe
 
 goto END
 

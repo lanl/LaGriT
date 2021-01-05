@@ -28,5 +28,6 @@
 *.mod
 src/lagrit
 build/
+test/
 
 *.egg-info
