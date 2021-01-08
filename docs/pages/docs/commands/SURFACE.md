@@ -76,7 +76,7 @@ separate material regions but are intended to identify other structural features
 
 
 
-**parallel** /  `x1,y1,z1 / x2,y2,z2 / x3,y3,z3 / x4,y4,z4` is a parallel piped where points 1, 2, 3 are the front left, front right and back left points of the base and point 4 is the upper left point of the front face.
+**`parallel`** /  `x1,y1,z1 / x2,y2,z2 / x3,y3,z3 / x4,y4,z4` is a parallel piped where points 1, 2, 3 are the front left, front right and back left points of the base and point 4 is the upper left point of the front face.
 
 
 **`plane`** or **`planexyz`** / `x1,y1,z1 / x2,y2,z2 / x3,y3,z3` is a plane defined by 3 coordinate points. The direction normal to the plane is determined by the order of the points according to the right hand rule.  
