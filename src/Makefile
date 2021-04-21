@@ -47,7 +47,7 @@ endif
 
 ifeq ($(DEBUG),1)
 	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
-	CFLAGS += -g 
+	CFLAGS += -g
 else
 	FFLAGS += -O
 	CFLAGS += -O
@@ -73,6 +73,9 @@ F77C_OBJS := $(patsubst %.F,$(OBJDIR)%.o,$(wildcard *.F))
 F90_OBJS := $(patsubst %.f90,$(OBJDIR)%.o,$(wildcard *.f90))
 CXX_OBJS := $(patsubst %.cpp,$(OBJDIR)%.o,$(wildcard *.cpp))
 
+F_LEGACY_SRC = cmo_readdump_cmo_old.f dumpgmv_hybrid.f dumptecplot_hybrid.f fnd4to4i.f ifacereg.f read_sheetij.f readgmv_ascii.f readgmv_binary.f refine_edge.f reorder.f sgd.f tempgable.f getsfact.F
+
+F_LEGACY_OBJS = $(filter $(OBJDIR)%.o, $(F_LEGACY_SRC:%.f=$(OBJDIR)%.o) $(F_LEGACY_SRC:%.F=$(OBJDIR)%.o))
 
 # If WITHEXODUS != true, remove C files from compilation that reference 'exodusII.h'
 # This is a replacement to the old technique of: echo "" > exo_init_ext.c
@@ -107,7 +110,6 @@ clean:
 clobber:
 	-rm -f $(OBJDIR)*.o $(OBJDIR)*.mod
 	-rm -fr objects_* *.a 
-
 
 ##########################################################################
 # Dependencies
@@ -146,8 +148,7 @@ $(F90_OBJS): $(OBJDIR)%.o: %.f90 ColoredGraphModule.mod GraphModule.mod LowPassF
 $(OBJDIR)dumpexodusII.o : dumpexodusII.f
 	$(FC) $(FFLAGS) $(EXOFLAGS) -c -o $@ $<
 
-$(OBJDIR)tempgable.o : tempgable.f
-	$(FC) $(FFLAGS) -std=legacy -c -o $@ $<
+$(F_LEGACY_OBJS) : FFLAGS += -std=legacy
 
 $(OBJDIR) :; mkdir $(OBJDIR)
 

@@ -27,7 +27,7 @@ OPSYS := $(shell uname -s)
 
 # Generate compiler flags and append OS-specific properties
 CFLAGS := -m64
-FFLAGS := -fcray-pointer -fdefault-integer-8
+FFLAGS := -fcray-pointer -fdefault-integer-8 -fallow-argument-mismatch
 
 ifeq ($(OPSYS),Darwin)
 	FFLAGS += -Dmacx64 -m64
@@ -42,7 +42,7 @@ endif
 
 ifeq ($(DEBUG),1)
 	FFLAGS += -g -fbacktrace -ffpe-trap=invalid,zero,overflow
-	CFLAGS += -g 
+	CFLAGS += -g
 else
 	FFLAGS += -O
 	CFLAGS += -O
