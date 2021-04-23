@@ -27,7 +27,7 @@ OPSYS := $(shell uname -s)
 
 # Generate compiler flags and append OS-specific properties
 CFLAGS := -m64
-FFLAGS := -fcray-pointer -fdefault-integer-8 -fallow-argument-mismatch
+FFLAGS := -fcray-pointer -fdefault-integer-8 -std=legacy
 
 ifeq ($(OPSYS),Darwin)
 	FFLAGS += -Dmacx64 -m64
