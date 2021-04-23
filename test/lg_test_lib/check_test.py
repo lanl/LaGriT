@@ -272,7 +272,7 @@ def diff_chunk(rlines, tlines, rcnt, tcnt, wfile):
 # MAIN begin
 #
 # ------------------------------------------------------------------------------
-def Check(target=None, test_dir: str = None):
+def Check(target=None, test_dir: str = None, fail_threshold: int = 1):
     """
     Checks run and reference outx3dgen files for differences.
     If differences are higher than some threshold, fails.
@@ -588,7 +588,8 @@ def Check(target=None, test_dir: str = None):
         )
         wfile.write(buff + "\n")
         print(buff)
-        sys.exit(1)
+        ERROR_CODE = 1 if nfail >= fail_threshold else 0
+        sys.exit(ERROR_CODE)
     else:
         buff = "All " + repr(ndirs) + " successful!"
         wfile.write(buff + "\n")

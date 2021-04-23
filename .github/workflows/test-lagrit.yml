@@ -21,7 +21,7 @@ jobs:
     - name: Build ExodusII
       run: make exodus
     - name: Build LaGriT
-      run: make release WITH_EXODUS=0
+      run: make release
     - name: Test LaGriT
       run: make test
     - name: Test PyLaGriT

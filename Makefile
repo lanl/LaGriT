@@ -168,7 +168,7 @@ endif
 
 ifeq ($(WITH_EXODUS),1)
 	BUILDFLAGS += -L$(EXO_LIB_DIR) -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
-	FAIL_THRESH := 1
+	FAIL_THRESH := 2
 else
 	FAIL_THRESH := 3
 endif

@@ -70,7 +70,11 @@ def TestSingle(
 
 
 def TestDir(
-    testing_dir: str, clean: bool = True, test: bool = True, check: bool = True
+    testing_dir: str,
+    clean: bool = True,
+    test: bool = True,
+    check: bool = True,
+    fail_threshold: int = 0,
 ):
     """
     Runs a test suite on a given directory.
@@ -93,4 +97,4 @@ def TestDir(
         run.RunTest(tag=testfile, executable=lagrit_exe, flags=flags)
 
     if check:
-        chk.Check(target=checkdir)
+        chk.Check(target=checkdir, fail_threshold=fail_threshold)

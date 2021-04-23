@@ -115,7 +115,7 @@ def main(argv=None):
         action="store",
         type=int,
         nargs=1,
-        default=0,
+        default=1,
     )
     args = parser.parse_args()
 
@@ -131,17 +131,21 @@ def main(argv=None):
     lg_test.lagrit_exe = args.executable
     lg_test.flags = args.flags
     lg_test.checkdir = args.checkdir
+    lg_test.fail_threshold = args.hard_fail[0]
 
     if args.full:
 
         if args.level:
             # Run full on defined level
-            lg_test.TestDir(test_dir_root + str(args.level[0]))
+            lg_test.TestDir(
+                test_dir_root + str(args.level[0]),
+                fail_threshold=lg_test.fail_threshold,
+            )
         else:
             # Run full on all levels
             for level in lg_test.all_levels:
                 print("Running full tests on %s" % level)
-                lg_test.TestDir(level)
+                lg_test.TestDir(level, fail_threshold=lg_test.fail_threshold)
 
     elif args.single:
         # Run a single test directory
@@ -162,7 +166,11 @@ def main(argv=None):
             params = ", ".join([x for x in params if x != ""])
             print("Running %s on %s" % (params, level))
             lg_test.TestDir(
-                level, clean=args.clean, test=args.test, check=args.checkdir
+                level,
+                clean=args.clean,
+                test=args.test,
+                check=args.checkdir,
+                fail_threshold=lg_test.fail_threshold,
             )
 
 
