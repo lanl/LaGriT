@@ -3122,21 +3122,21 @@ class MO(object):
         if filename and format:
             if format in ["fehm", "zone_outside", "zone_outside_minmax"]:
                 filename = filename.split(".")[0]
-            if format is "stor" and len(args) == 0:
+            if format == "stor" and len(args) == 0:
                 filename = filename.split(".")[0]
             cmd = "/".join(["dump", format, filename, self.name])
         elif format:
             if format in ["avs", "avs2"]:
                 filename = self.name + ".inp"
-            elif format is "fehm":
+            elif format == "fehm":
                 filename = self.name
-            elif format is "gmv":
+            elif format == "gmv":
                 filename = self.name + ".gmv"
-            elif format is "tecplot":
+            elif format == "tecplot":
                 filename = self.name + ".plt"
-            elif format is "lagrit":
+            elif format == "lagrit":
                 filename = self.name + ".lg"
-            elif format is "exo":
+            elif format == "exo":
                 filename = self.name + ".exo"
             cmd = "/".join(["dump", format, filename, self.name])
         else:
@@ -4230,7 +4230,7 @@ class MO(object):
         :type stride: tuple(int)
         """
         cmd = ["connect", option1]
-        if stride is not None and option is "delaunay":
+        if stride is not None and option == "delaunay":
             stride = [str(v) for v in stride]
             cmd += [",".join(stride)]
             for b in big_tet_coords:
