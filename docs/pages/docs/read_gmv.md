@@ -12,7 +12,7 @@
   **read** / filename.gmv / cmo_name
 
  
-  *Note that the filename is case-sensitive, though the extension itself is not.*
+  (Note that the filename is case-sensitive, though the extension itself is not.)
 
  LONG **FORMAT:**
 
@@ -27,10 +27,12 @@
   
   For more about GMV and documentation:
   
-  http://www.gmv-barracuda.com/index.html
+  [GMV (General Mesh Viewer)](http://www.gmv-barracuda.com/index.html)
   
   The GMV Application is no longer supported but code is available from Github at:
   
-  https://github.com/CPFDSoftware/gmv
+  [CPFD Software GMV](https://github.com/CPFDSoftware/gmv)
+  
+  
   
   
