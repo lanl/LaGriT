@@ -17,7 +17,7 @@ with LaGriT and may be obtained from their respective sources.
 -   [AVS](https://www.avs.com) (commercial)
 -   [ParaView (free)](https://www.paraview.org)
 -   [GMV (General Mesh
-    Viewer)](https://www.generalmeshviewer.com/GMVHome.md)
+    Viewer)](http://www.gmv-barracuda.com/index.html)
 -   [Tecplot](https://www.tecplot.com) (commercial)
 -   [VISIT](https://computing.llnl.gov/vis/visit.md) (free)
 
