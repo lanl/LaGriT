@@ -16,6 +16,15 @@ This allows the meshing capabilities of LaGriT to be combined with the numeric a
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
 
+## Building LaGriT
+
+```sh
+$ mkdir build/
+$ cd build/
+$ cmake ..
+$ make
+```
+
 ### Building LaGriT (Windows) ###
 ---
 
@@ -33,7 +42,7 @@ Download the repo by running:
 
 1. Open Microsoft Visual Studio and launch the developer `cmd.exe` via `Visual Studio -> Tools -> Command Line -> Developer Command Prompt`
 
-2. Run the Intel-provided `psxevars.bat` script to populate the command prompt with necessary developer environment variables. 
+2. Run the Intel-provided `psxevars.bat` script to populate the command prompt with necessary developer environment variables.
 
   * 2.1. First, `cd` into: `C:\Program Files (x86)\IntelSWTools\parallel_studio_xe_2020.4.912\bin\`
   * 2.2. Run: `psxevars.bat intel64`
@@ -50,12 +59,12 @@ cl
 
 ## Testing
 
-A Python-based test suite is available under `test\suite.py`. Run the suite as: 
+A Python-based test suite is available under `test\suite.py`. Run the suite as:
 
     python suite.py /f /l 1 /exe=..\build\lagrit.exe /hf=3
 
-## TODO: 
- 
+## TODO:
+
  * Test on Windows
  * Verify test suite
  * Get PyLaGriT working
