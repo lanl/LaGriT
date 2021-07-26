@@ -2,7 +2,7 @@ MESSAGE (STATUS "==========================================")
 MESSAGE (STATUS "============Configuring LaGriT============")
 MESSAGE (STATUS "==========================================")
 
-CMAKE_MINIMUM_REQUIRED (VERSION 2.8.8)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.0.0)
 
 SET (TARGET "lagrit")
 PROJECT (${TARGET} Fortran C CXX)
