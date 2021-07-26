@@ -41,4 +41,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build with CMake
-      shell: mkdir build/ && cd build/ && cmake .. && make
+      run: |
+        mkdir build/ && cd build/ && cmake .. && make
