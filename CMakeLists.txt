@@ -28,18 +28,20 @@ if(MSVC)
         $<$<CONFIG:Debug>:/MTd>
         $<$<CONFIG:Release>:/MT>
     )
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+    set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-#list(FILTER LG_MAIN_SRC EXCLUDE REGEX ".*lagrit_main.f$")
-#add_library(liblagrit SHARED ${LG_UTIL_SRC} ${LG_MAIN_SRC})
-#add_executable(lagrit
-#    src/lagrit_main.f
-#)
-#target_link_libraries(
-#    lagrit
-#    ${LIBS}
-#    liblagrit
-#)
+list(FILTER LG_MAIN_SRC EXCLUDE REGEX ".*lagrit_main.f$")
+add_library(liblagrit SHARED ${LG_UTIL_SRC} ${LG_MAIN_SRC})
+add_executable(lagrit
+    src/lagrit_main.f
+)
+target_link_libraries(
+    lagrit
+    ${LIBS}
+    liblagrit
+)
 
 
 
@@ -52,10 +54,10 @@ endif()
 #add_library(lg_util SHARED ${LG_UTIL_SRC})
 #target_link_libraries(lg_util /QRimplicit-import-)
 
-add_executable(lagrit
-    ${LG_MAIN_SRC}
-    ${LG_UTIL_SRC}
-)
+#      add_executable(lagrit
+#          ${LG_MAIN_SRC}
+#          ${LG_UTIL_SRC}
+#      )
 
 #target_link_libraries(
 #    lagrit
