@@ -12,7 +12,6 @@ set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import-")
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
 set(CMAKE_Fortran_FLAGS "/w /O /Qsafe-cray-ptr /integer-size=64 /Dwin64 /QRimplicit-import-")
 set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
-set(CMAKE_)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
@@ -22,6 +21,7 @@ file(GLOB_RECURSE LG_UTIL_SRC
 file(GLOB_RECURSE LG_MAIN_SRC
     "src/*.c" "src/*.cpp" "src/*.f" "src/*.f90" "src/*.F" "src/*.h")
 
+
 if(MSVC)
     add_compile_options(
         $<$<CONFIG:>:/MT>
@@ -29,6 +29,24 @@ if(MSVC)
         $<$<CONFIG:Release>:/MT>
     )
 endif()
+
+#list(FILTER LG_MAIN_SRC EXCLUDE REGEX ".*lagrit_main.f$")
+#add_library(liblagrit SHARED ${LG_UTIL_SRC} ${LG_MAIN_SRC})
+#add_executable(lagrit
+#    src/lagrit_main.f
+#)
+#target_link_libraries(
+#    lagrit
+#    ${LIBS}
+#    liblagrit
+#)
+
+
+
+
+
+
+
 
 #add_library(lg_util STATIC ${LG_UTIL_SRC})
 #add_library(lg_util SHARED ${LG_UTIL_SRC})
