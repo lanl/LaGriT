@@ -1,3 +1,5 @@
+# set(CMAKE_Fortran_COMPILER "C:/Program Files (x86)/IntelSWTools/parallel_studio_xe_2020.4.912/compilers_and_libraries_2020/windows/bin/intel64/ifort.exe")
+
 message(STATUS "==========================================")
 message(STATUS "============Configuring LaGriT============")
 message(STATUS "==========================================")
@@ -8,9 +10,9 @@ project(LaGriT
     DESCRIPTION "LaGriT Meshing Utilities"
     LANGUAGES Fortran C CXX)
 
-set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import-")
+set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import- /g")
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
-set(CMAKE_Fortran_FLAGS "/w /O /Qsafe-cray-ptr /integer-size=64 /Dwin64 /QRimplicit-import-")
+set(CMAKE_Fortran_FLAGS "/w /Qsafe-cray-ptr /integer-size=64 /Dwin64 /QRimplicit-import- /debug")
 set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")

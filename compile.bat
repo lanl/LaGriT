@@ -46,8 +46,9 @@ echo ============================================
 echo ""
 
 rmdir /S /Q build
-: cmake -G "NMake Makefiles" -B "build" -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=TRUE -DBUILD_SHARED_LIBS=TRUE || goto END
 cmake -G "NMake Makefiles" -B "build" || goto END
+: cmake -G "Visual Studio 16 2019" -A x86 -B "build" || goto END
+: cmake -B "build" || goto END
 cd build
 
 echo ============================================
