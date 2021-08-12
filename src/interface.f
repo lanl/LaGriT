@@ -42,15 +42,8 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
             call cmo_get_name(cmo, ierror)
             cmo = trim(cmo)//c_null_char
+
             cmo_get_name_c = ierror
-
-!            if (ierror < 0) then
-!              fortran_str = ""//c_null_char
-!            else
-!              fortran_str = trim(fortran_str)//c_null_char
-!            endif
-
-!            cmo_get_name_c = c_loc(fortran_str)
           end function
 
       module c2f_interface
