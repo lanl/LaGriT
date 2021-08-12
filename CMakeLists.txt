@@ -10,15 +10,23 @@ project(LaGriT
     DESCRIPTION "LaGriT Meshing Utilities"
     LANGUAGES Fortran C CXX)
 
-set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import- /g")
-set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
-set(CMAKE_Fortran_FLAGS "/w /Qsafe-cray-ptr /integer-size=64 /Dwin64 /QRimplicit-import- /debug")
-set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
+if(APPLE)
+    set(CMAKE_C_FLAGS "-w -m64 -Dmacx64")
+    set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
+    set(CMAKE_Fortran_FLAGS "-w -O -fcray-pointer -fdefault-integer-8 -std=legacy")
+elseif(UNIX)
+else()
+    set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import-")
+    set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
+    set(CMAKE_Fortran_FLAGS "/w /O /Qsafe-cray-ptr /integer-size=64 /Dwin64 /QRimplicit-import-")
+    set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 file(GLOB_RECURSE LG_UTIL_SRC
-    "lg_util/*.c" "lg_util/*.f" "lg_util/*.h" "lg_util/mm2000.F")
+    "lg_util/src/*.c" "lg_util/src/*.cpp" "lg_util/src/*.f" "lg_util/src/*.F" "lg_util/src/*.f90" "lg_util/src/*.h")
 
 file(GLOB_RECURSE LG_MAIN_SRC
     "src/*.c" "src/*.cpp" "src/*.f" "src/*.f90" "src/*.F" "src/*.h")
@@ -30,9 +38,9 @@ if(MSVC)
         $<$<CONFIG:Debug>:/MTd>
         $<$<CONFIG:Release>:/MT>
     )
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-    set(BUILD_SHARED_LIBS TRUE)
 endif()
+
+set(BUILD_SHARED_LIBS TRUE)
 
 list(FILTER LG_MAIN_SRC EXCLUDE REGEX ".*lagrit_main.f$")
 add_library(liblagrit SHARED ${LG_UTIL_SRC} ${LG_MAIN_SRC})

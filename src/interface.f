@@ -8,11 +8,11 @@ C
 C      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_DOUBLE
 C      use c2f_interface
 C
-C     where `C_INT, C_DOUBLE` should be changed according to the 
+C     where `C_INT, C_DOUBLE` should be changed according to the
 C     C bindings that you will need to pass variables in/out.
 C
 C     While you can get away without doing this on a *nix OS with GCC
-C     compilers, with other compilers and different OS linkers 
+C     compilers, with other compilers and different OS linkers
 C     (*cough* Windows) you may not be so lucky.
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
@@ -86,14 +86,14 @@ C            integer(c_int), intent(in) :: ierror
 C          end subroutine
 C=========== BEGIN ANOTHERMATBLD3D DECLARATIONS ========================
 
-C     void initialize3ddiffusionmat_(int_ptrsize *pentrysize, 
-C             int_ptrsize *pcompress, int_ptrsize *pnnodes, double *xic, 
-C             double *yic, double *zic, int_ptrsize *pntets, 
-C             int_ptrsize *itet, int_ptrsize *jtet, 
-C             int_ptrsize *pmbndry, int_ptrsize *ifhybrid, 
+C     void initialize3ddiffusionmat_(int_ptrsize *pentrysize,
+C             int_ptrsize *pcompress, int_ptrsize *pnnodes, double *xic,
+C             double *yic, double *zic, int_ptrsize *pntets,
+C             int_ptrsize *itet, int_ptrsize *jtet,
+C             int_ptrsize *pmbndry, int_ptrsize *ifhybrid,
 C             double *hybrid_factor, double *eps)
           subroutine initialize3ddiffusionmat
-     &    (pentrysize, pcompress, pnnodes, xic, yic, zic, pntets, itet, 
+     &    (pentrysize, pcompress, pnnodes, xic, yic, zic, pntets, itet,
      &     jtet, pmbndry, ifhybrid, hybrid_factor, eps)
      &    BIND(C, name="initialize3ddiffusionmat_")
             use ISO_C_BINDING, only : C_INT, C_FLOAT, C_DOUBLE
@@ -114,11 +114,11 @@ C     int entryprocessed_(int_ptrsize *i, int_ptrsize *j)
             integer(C_INT) :: i, j
           end function entryprocessed
 
-C     void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j, 
-C            int_ptrsize *PnumIncidentTets, int_ptrsize *incidentTets, 
+C     void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j,
+C            int_ptrsize *PnumIncidentTets, int_ptrsize *incidentTets,
 C            int_ptrsize *localEdges)
           subroutine computeentry
-     &    (Pindex_i, Pindex_j, PnumIncidentTets, incidentTets, 
+     &    (Pindex_i, Pindex_j, PnumIncidentTets, incidentTets,
      &     localEdges)
      &    BIND(C, name="computeentry_")
             use ISO_C_BINDING, only : C_INT
@@ -137,16 +137,16 @@ C     void finalscalar3ddiffusionmat_()
 
 C     void extractnegativecoefs(int_ptrsize *component, int_ptrsize
 C               *numnegs, int_ptrsize *numsuspectnegs,
-C               int_ptrsize *numzeronegs, int_ptrsize **negrows, 
+C               int_ptrsize *numzeronegs, int_ptrsize **negrows,
 C               int_ptrsize **negcols, double **negs)
           subroutine extractnegativecoefs
-     &    (component, numnegs, numsuspectnegs, numzeronegs, 
+     &    (component, numnegs, numsuspectnegs, numzeronegs,
      &     negrows, negcols, negs)
      &    BIND(C, name="extractnegativecoefs")
             use ISO_C_BINDING, only : C_INT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: component, numnegs, numsuspectnegs 
+            integer(C_INT) :: component, numnegs, numsuspectnegs
             integer(C_INT) :: numzeronegs, negrows, negcols
             !real(C_DOUBLE) :: negs
             integer(C_INT) :: negs
@@ -158,7 +158,7 @@ C     void freenegcoefs_()
      &    BIND(C, name="freenegcoefs_")
           end subroutine freenegcoefs
 
-C     void getmatrixsizes_(int_ptrsize *Pnum_written_coefs, 
+C     void getmatrixsizes_(int_ptrsize *Pnum_written_coefs,
 C               int_ptrsize *ncoefs, int_ptrsize *ncon_max)
           subroutine getmatrixsizes
      &    (Pnum_written_coefs, ncoefs, ncon_max)
@@ -220,7 +220,7 @@ C     void freeoccupiedcolumns_()
      &    BIND(C, name="freeoccupiedcolumns_")
           end subroutine freeoccupiedcolumns
 
-C     void getmatrixpointers_(int_ptrsize **MatPointers, 
+C     void getmatrixpointers_(int_ptrsize **MatPointers,
 C                             int_ptrsize **diagonals)
           subroutine getmatrixpointers
      &    (MatPointers, diagonals)
@@ -237,7 +237,7 @@ C     void freematrixpointers_()
      &    BIND(C, name="freematrixpointers_")
           end subroutine freematrixpointers
 
-C     void getcomponentmatrixvalues_(int_ptrsize *component, 
+C     void getcomponentmatrixvalues_(int_ptrsize *component,
 C                                    double **values)
           subroutine getcomponentmatrixvalues
      &    (component, values)
@@ -262,11 +262,11 @@ C     void killsparsematrix_()
      &    BIND(C, name="killsparsematrix_")
           end subroutine killsparsematrix
 
-C     void compressmatrixvalues_(int_ptrsize *Ncon, int_ptrsize *Neq, 
-C              int_ptrsize *MEntrySize, int_ptrsize **MatPointers, 
-C              double **Xmat, double  **Ymat, double  **Zmat, 
-C              double **Mat, double **CXmat, double **CYmat, 
-C              double **CZmat, double **CMat, 
+C     void compressmatrixvalues_(int_ptrsize *Ncon, int_ptrsize *Neq,
+C              int_ptrsize *MEntrySize, int_ptrsize **MatPointers,
+C              double **Xmat, double  **Ymat, double  **Zmat,
+C              double **Mat, double **CXmat, double **CYmat,
+C              double **CZmat, double **CMat,
 C              int_ptrsize *numwrittenentries, double *Epsilon)
           subroutine compressmatrixvalues
      &    (Ncon, Neq, MEntrySize, MatPointers, Xmat, Ymat, Zmat, Mat,
@@ -453,7 +453,7 @@ C         void fgmvwritepolygonsheader_()
      &    BIND(C, name="fgmvwritepolygonsheader_")
           end subroutine fgmvwritepolygonsheader
 
-C         void fgmvwritepolygonsdata_(int *nverts, int *matnum, 
+C         void fgmvwritepolygonsdata_(int *nverts, int *matnum,
 C           float x[], float y[], float z[])
           subroutine fgmvwritepolygonsdata
      &    (nverts, matnum, x, y, z)
@@ -525,9 +525,9 @@ C                        int_ptrsize *flag)
 C=========== END MESH MANIPULATION SUBROUTINE DECLARATIONS =============
 C=========== BEGIN C READ/WRITE SUBROUTINE DECLARATIONS ================
 
-C     Because Fortran does not (officially) support polymorphism with 
+C     Because Fortran does not (officially) support polymorphism with
 C     these ISO_C_BINDING declarations, and methods like `cread` are
-C     called with different types for the same arg, psuedo-polymorphism 
+C     called with different types for the same arg, psuedo-polymorphism
 C     is implemented via methods like `cread`, `cread4`, `cread8`.
 C ----------------------------------------------------------------------
 
@@ -542,7 +542,7 @@ C     void cassignr_(int *unit, char *fname, int_ptrsize *ierr)
             character(kind=C_CHAR) :: fname(*)
           end subroutine cassignr
 
-C     void cread_(int *unit, char *array, int_ptrsize *ilen, 
+C     void cread_(int *unit, char *array, int_ptrsize *ilen,
 C                 int_ptrsize *ierr)
 C         ==> type(array) => character array(*)
           subroutine cread
@@ -632,7 +632,7 @@ C           Uses LONG LONG here (size=8) because INT is failing
             integer(C_INT) :: cid, ctype, lid, len
           end subroutine line_graph_sort
 
-C     void line_graph_nsort_(int_ptrsize edges[][2], 
+C     void line_graph_nsort_(int_ptrsize edges[][2],
 C         int_ptrsize *nskey, int_ptrsize *len)
           subroutine line_graph_nsort
      &    (edges, nskey, len)
