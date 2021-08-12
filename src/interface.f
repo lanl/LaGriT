@@ -34,6 +34,25 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             dotask_c = ierror
           end function
 
+          integer function cmo_get_name_c(cmo)
+            use, intrinsic :: iso_c_binding
+            implicit none
+            character*(*), intent(out) :: cmo 
+            integer :: ierror
+
+            call cmo_get_name(cmo, ierror)
+            cmo = trim(cmo)//c_null_char
+            cmo_get_name_c = ierror
+
+!            if (ierror < 0) then
+!              fortran_str = ""//c_null_char
+!            else
+!              fortran_str = trim(fortran_str)//c_null_char
+!            endif
+
+!            cmo_get_name_c = c_loc(fortran_str)
+          end function
+
       module c2f_interface
         interface
 
@@ -45,6 +64,15 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             character(kind=c_char), dimension(*), intent(in) :: 
      &      command
           end function 
+
+          integer(kind=c_int) function cmo_get_name_c
+     &    (cmo)
+     &    bind(C, name="cmo_get_name_c")
+            use, intrinsic :: iso_c_binding, only: c_char, 
+     &      c_null_char, c_size_t, c_int
+            character(kind=c_char), dimension(*), intent(in) :: 
+     &      cmo
+          end function
 
           subroutine initlagrit(mode, log_file, batch_file) 
      &    bind(C, name="initlagrit")
