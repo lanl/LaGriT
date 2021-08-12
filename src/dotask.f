@@ -25,8 +25,8 @@ C#######################################################################
 C
       implicit none
       include 'commands_lg.h'
-      character*(*) task_buff
-      integer ierror
+      character*(*), intent(in) :: task_buff
+      integer, intent(out) :: ierror
 c
       ierror=0
       nlevels=nlevels+1

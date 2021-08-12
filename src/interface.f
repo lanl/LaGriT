@@ -22,49 +22,68 @@ C     int *y -> INTEGER(C_INT) :: y
 C       (or) -> TYPE (C_PTR) :: y
 C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
+          integer function dotask_c(command)
+            implicit none
+            character*(*), intent(in) :: command
+            integer :: ierror
+
+            ierror = 0
+            print*,'working'
+            call dotask(command, ierror)
+
+            dotask_c = ierror
+          end function
 
       module c2f_interface
         interface
 
-          subroutine initlagrit(mode, log_file, batch_file)
+          integer(kind=c_int) function dotask_c
+     &    (command)
+     &    bind(C, name="dotask_c")
+            use, intrinsic :: iso_c_binding, only: c_char, 
+     &      c_null_char, c_size_t, c_int
+            character(kind=c_char), dimension(*), intent(in) :: 
+     &      command
+          end function 
+
+          subroutine initlagrit(mode, log_file, batch_file) 
      &    bind(C, name="initlagrit")
-            use, intrinsic :: iso_c_binding, only: c_char,
+            use, intrinsic :: iso_c_binding, only: c_char, 
      &      c_null_char, c_size_t
-            character(kind=c_char), dimension(*), intent(in) ::
+            character(kind=c_char), dimension(*), intent(in) :: 
      &      mode, log_file, batch_file
           end subroutine
 
-!          subroutine dotask(task_buff,ierror)
-!     &    bind(C, name="dotask")
-!            use, intrinsic :: iso_c_binding, only: c_char,
-!     &      c_null_char, c_size_t, c_int
-!            character(kind=c_char), dimension(*), intent(in) ::
-!     &      task_buff
-!            integer(c_int), intent(inout) :: ierror
-!          end subroutine
-!
-!          subroutine cmo_get_info(ioption,cmo_name,ipout,
-!     &    lout,itype,ierror_return)
-!     &    bind(C, name="cmo_get_info")
-!            use, intrinsic :: iso_c_binding, only: c_char,
-!     &      c_null_char, c_size_t, c_int, c_ptr, C_DOUBLE
-!            character(kind=c_char), dimension(*), intent(in) ::
-!     &      ioption, cmo_name
-!
-!C            type(c_ptr), intent(inout) :: ipout
-!            real(C_DOUBLE), pointer :: ipout
-!            integer(c_int), intent(inout) :: lout, itype, ierror_return
-!          end subroutine
-!
-          subroutine cmo_get_name(cmo_name, ierror)
-     &    bind(C, name="cmo_get_name")
-            use, intrinsic :: iso_c_binding, only: c_char,
-     &      c_null_char, c_size_t, c_int
-            character(kind=c_char), dimension(*), intent(out) ::
-     &      cmo_name
-            integer, intent(out) :: ierror
-          end subroutine
+C          subroutine dotask(task_buff, ierror)
+C     &    bind(C, name="dotask_")
+C            use, intrinsic :: iso_c_binding, only: c_char, 
+C     &      c_null_char, c_size_t, c_int
+C            character(kind=c_char), dimension(*), intent(in) :: 
+C     &      task_buff
+C            integer, intent(out) :: ierror
+C          end subroutine
 
+C          subroutine cmo_get_info(ioption,cmo_name,ipout,
+C     &    lout,itype,ierror_return)
+C     &    bind(C, name="cmo_get_info")
+C            use, intrinsic :: iso_c_binding, only: c_char, 
+C     &      c_null_char, c_size_t, c_int, c_ptr, C_DOUBLE
+C            character(kind=c_char), dimension(*), intent(in) :: 
+C     &      ioption, cmo_name
+C
+C           type(c_ptr), intent(out) :: ipout
+C            real(C_DOUBLE), pointer :: ipout
+C           integer(c_int), intent(inout) :: lout, itype, ierror_return
+C         end subroutine
+
+C          subroutine cmo_get_name(cmo_name,ierror)
+C     &    bind(C, name="cmo_get_name")
+C            use, intrinsic :: iso_c_binding, only: c_char, 
+C     &      c_null_char, c_size_t, c_int
+C            character(kind=c_char), dimension(*), intent(inout) :: 
+C     &      cmo_name
+C            integer(c_int), intent(in) :: ierror
+C          end subroutine
 C=========== BEGIN ANOTHERMATBLD3D DECLARATIONS ========================
 
 C     void initialize3ddiffusionmat_(int_ptrsize *pentrysize,
@@ -627,4 +646,5 @@ C           Uses LONG LONG here (size=8) because INT is failing
           end subroutine line_graph_nsort
 
         end interface
+C        contains
       end module c2f_interface

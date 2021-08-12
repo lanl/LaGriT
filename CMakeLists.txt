@@ -1,3 +1,5 @@
+# set(CMAKE_Fortran_COMPILER "C:/Program Files (x86)/IntelSWTools/parallel_studio_xe_2020.4.912/compilers_and_libraries_2020/windows/bin/intel64/ifort.exe")
+
 message(STATUS "==========================================")
 message(STATUS "============Configuring LaGriT============")
 message(STATUS "==========================================")
@@ -7,6 +9,7 @@ project(LaGriT
     VERSION 1.0
     DESCRIPTION "LaGriT Meshing Utilities"
     LANGUAGES Fortran C CXX)
+
 if(APPLE)
     set(CMAKE_C_FLAGS "-w -m64 -Dmacx64")
     set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
