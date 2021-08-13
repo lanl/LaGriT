@@ -25,12 +25,9 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
           integer function dotask_c(command)
             implicit none
             character*(*), intent(in) :: command
-            integer :: ierror
+            integer :: ierror = 0
 
-            ierror = 0
-            print*,'working'
             call dotask(command, ierror)
-
             dotask_c = ierror
           end function
 
@@ -38,7 +35,7 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             use, intrinsic :: iso_c_binding
             implicit none
             character*(*), intent(out) :: cmo 
-            integer :: ierror
+            integer :: ierror = 0
 
             call cmo_get_name(cmo, ierror)
             cmo = trim(cmo)//c_null_char
@@ -46,8 +43,70 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             cmo_get_name_c = ierror
           end function
 
+          integer function cmo_get_info_c
+!     &    (ioption, cmo_name, ipout, lout, itype)
+     &    (ioption, cmo_name, lout, itype)
+            use, intrinsic :: iso_c_binding
+            implicit none
+
+            character*(*), intent(in) :: ioption
+            character*(*), intent(in) :: cmo_name
+            integer, intent(out) :: lout, itype
+            integer :: ierror = 0
+
+            character, allocatable :: ioption_fortran(:)
+            character, allocatable :: cmo_name_fortran(:)
+            integer :: lout_fortran = 0
+            integer :: itype_fortran = 0
+            integer :: len_iopt, len_cmo, i
+
+            pointer(ipout, out)
+            real*8 out(*)
+
+            len_iopt = len(ioption)
+            len_cmo = len(cmo_name)
+
+            allocate(ioption_fortran(len_iopt))
+            allocate(cmo_name_fortran(len_cmo))
+
+            print*, 'Len is: ', len_iopt, '; ', len_cmo
+            print*, 'Strings are: ', ioption, '; ', cmo_name
+
+            do i=1, len_iopt
+              if (ioption(i:i) == c_null_char) exit
+              ioption_fortran(i) = ioption(i:i)
+            enddo
+
+            do i=1, len_cmo
+              if (cmo_name(i:i) == c_null_char) exit
+              cmo_name_fortran(i) = cmo_name(i:i)
+            enddo
+
+            call cmo_get_info(
+     &      ioption_fortran, cmo_name_fortran,
+     &      ipout, lout_fortran,
+     &      itype_fortran, ierror
+     &      )
+
+            itype = itype_fortran
+            lout = lout_fortran
+
+            deallocate(ioption_fortran)
+            deallocate(cmo_name_fortran)
+            
+            cmo_get_info_c = ierror
+          end function
+
       module c2f_interface
         interface
+
+          subroutine initlagrit(mode, log_file, batch_file) 
+     &    bind(C, name="initlagrit")
+            use, intrinsic :: iso_c_binding, only: c_char, 
+     &      c_null_char, c_size_t
+            character(kind=c_char), dimension(*), intent(in) :: 
+     &      mode, log_file, batch_file
+          end subroutine
 
           integer(kind=c_int) function dotask_c
      &    (command)
@@ -56,7 +115,7 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
      &      c_null_char, c_size_t, c_int
             character(kind=c_char), dimension(*), intent(in) :: 
      &      command
-          end function 
+          end function
 
           integer(kind=c_int) function cmo_get_name_c
      &    (cmo)
@@ -67,44 +126,17 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
      &      cmo
           end function
 
-          subroutine initlagrit(mode, log_file, batch_file) 
-     &    bind(C, name="initlagrit")
-            use, intrinsic :: iso_c_binding, only: c_char, 
-     &      c_null_char, c_size_t
-            character(kind=c_char), dimension(*), intent(in) :: 
-     &      mode, log_file, batch_file
-          end subroutine
+          integer function cmo_get_info_c
+!     &    (ioption, cmo_name, ipout, lout, itype)
+     &    (ioption, cmo_name, lout, itype)
+     &    bind(C, name="cmo_get_info_c")
+            use, intrinsic :: iso_c_binding
+            implicit none
+            character(kind=c_char), dimension(*), intent(in) ::
+     &      ioption, cmo_name
+            integer, intent(out) :: lout, itype
+          end function
 
-C          subroutine dotask(task_buff, ierror)
-C     &    bind(C, name="dotask_")
-C            use, intrinsic :: iso_c_binding, only: c_char, 
-C     &      c_null_char, c_size_t, c_int
-C            character(kind=c_char), dimension(*), intent(in) :: 
-C     &      task_buff
-C            integer, intent(out) :: ierror
-C          end subroutine
-
-C          subroutine cmo_get_info(ioption,cmo_name,ipout,
-C     &    lout,itype,ierror_return)
-C     &    bind(C, name="cmo_get_info")
-C            use, intrinsic :: iso_c_binding, only: c_char, 
-C     &      c_null_char, c_size_t, c_int, c_ptr, C_DOUBLE
-C            character(kind=c_char), dimension(*), intent(in) :: 
-C     &      ioption, cmo_name
-C
-C           type(c_ptr), intent(out) :: ipout
-C            real(C_DOUBLE), pointer :: ipout
-C           integer(c_int), intent(inout) :: lout, itype, ierror_return
-C         end subroutine
-
-C          subroutine cmo_get_name(cmo_name,ierror)
-C     &    bind(C, name="cmo_get_name")
-C            use, intrinsic :: iso_c_binding, only: c_char, 
-C     &      c_null_char, c_size_t, c_int
-C            character(kind=c_char), dimension(*), intent(inout) :: 
-C     &      cmo_name
-C            integer(c_int), intent(in) :: ierror
-C          end subroutine
 C=========== BEGIN ANOTHERMATBLD3D DECLARATIONS ========================
 
 C     void initialize3ddiffusionmat_(int_ptrsize *pentrysize,
