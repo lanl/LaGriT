@@ -1,5 +1,5 @@
 @echo off
-TITLE LaGriT automatic installer
+TITLE LaGriT initlagrit test
 
 set INSTALLPATH=
 
@@ -40,33 +40,24 @@ REM Retrieve the working dir and proceed
 popd
 echo Current directory: %CD%
 
+COPY /B "%CD%\..\..\build\liblagrit.*" "%CD%\liblagrit.*" || goto END
+
+: echo ============================================
+: echo DLL EXPORTS
+: echo ============================================
+: dumpbin /exports .\liblagrit.dll
+: echo ============================================
+
 echo ============================================
-echo CONFIGURING LAGRIT FOR BUILDING
+echo CONFIGURING TEST FOR BUILDING
 echo ============================================
 echo ""
 
 rmdir /S /Q build
 cmake -G "NMake Makefiles" -B "build" || goto END
-
-: cmake -G "Visual Studio 16 2019" -A x86 -B "build" || goto END
-: cmake -B "build" || goto END
 cd build
 
-echo ============================================
-echo BUILDING LAGRIT
-echo ============================================
-echo ""
-
 nmake || goto END
-
-echo ============================================
-echo TESTING LAGRIT
-echo ============================================
-echo ""
-
-cd ..\test
-python suite.py -f -l=1 -exe=..\build\lagrit.exe -hf=3
-: python suite.py -s=level01/sort -exe=..\build\lagrit.exe
 
 goto END
 

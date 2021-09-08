@@ -22,6 +22,8 @@ C     int *y -> INTEGER(C_INT) :: y
 C       (or) -> TYPE (C_PTR) :: y
 C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
+! ================================================================ !
+
           integer function dotask_c(command)
             implicit none
             character*(*), intent(in) :: command
@@ -42,6 +44,41 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
             cmo_get_name_c = ierror
           end function
+
+! ================================================================ !
+
+          integer function cmo_get_intinfo_c()
+! (ioption, cmo_name)
+!     &    (ioption, cmo_name, iout, lout, itype, ierror_return)
+!     &    (ioption, cmo_name)
+!            use, intrinsic :: iso_c_binding
+!     &         only: c_char, c_null_char, c_size_t, c_int
+            implicit none
+
+            !character*(*), intent(in) :: ioption
+            !character*(*), intent(in) :: cmo_name
+
+!            character*(*), intent(in) :: ioption
+!            character*(*), intent(in) :: cmo_name
+
+            character(len=20) :: ioption, cmo_name
+
+            integer :: iout = 0
+            integer :: lout = 0
+            integer :: itype = 0
+            integer :: ierror_return = 0
+
+            print*, 'READING: ioption: ', ioption, '; CMO: ', cmo_name
+
+            call cmo_get_intinfo(ioption, cmo_name, iout,
+     &                           lout, itype, ierror_return)
+
+            print*,'doneeeeee with intinfo'
+
+            cmo_get_intinfo_c = 1
+          end function
+
+! ================================================================ !
 
           integer function cmo_get_info_c
 !     &    (ioption, cmo_name, ipout, lout, itype)
@@ -97,6 +134,9 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             cmo_get_info_c = ierror
           end function
 
+! ================================================================ !
+! ================================================================ !
+
       module c2f_interface
         interface
 
@@ -108,6 +148,8 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
      &      mode, log_file, batch_file
           end subroutine
 
+! ================================================================ !
+
           integer(kind=c_int) function dotask_c
      &    (command)
      &    bind(C, name="dotask_c")
@@ -117,6 +159,8 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
      &      command
           end function
 
+! ================================================================ !
+
           integer(kind=c_int) function cmo_get_name_c
      &    (cmo)
      &    bind(C, name="cmo_get_name_c")
@@ -125,6 +169,22 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             character(kind=c_char), dimension(*), intent(in) :: 
      &      cmo
           end function
+
+! ================================================================ !
+
+          integer(kind=c_int) function cmo_get_intinfo_c()
+!     &    (ioption, cmo_name, iout, lout, itype, ierror_return)
+!     &    (ioption, cmo_name)
+     &    bind(C, name="cmo_get_intinfo_c")
+            use, intrinsic :: iso_c_binding
+!     &         only: c_char, c_null_char, c_size_t, c_int
+!            character(kind=c_char), dimension(*), intent(in) ::
+!     &        ioption, cmo_name
+!            integer, intent(out) :: iout, lout, itype
+!            integer, intent(out) :: ierror_return
+          end function
+
+! ================================================================ !
 
           integer function cmo_get_info_c
 !     &    (ioption, cmo_name, ipout, lout, itype)

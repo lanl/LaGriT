@@ -9,7 +9,7 @@ extern "C" void INITLAGRIT(char [], char [], char [], unsigned int, unsigned int
 extern "C" int DOTASK_C(char [], unsigned int);
 extern "C" int CMO_GET_NAME_C(char [], unsigned int);
 //extern "C" void CMO_GET_INFO(char [], char [], double**, int*, int*, int*, unsigned int, unsigned int);
-extern "C" int CMO_GET_INFO_C(char [], char [], int*, int*, unsigned int, unsigned int);
+extern "C" int CMO_GET_INFO_C(char [], char [], unsigned int, unsigned int);
 
 int main() {
     char mode[] = "noisy"; // or "quiet"
