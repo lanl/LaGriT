@@ -21,37 +21,74 @@ namespace Lagrit {
     }
 
     int Mesh::numNodes() {
-        return GetIntInfo(this, (MeshIntOptions::numNodes));
+        return GetIntInfo(this, MeshIntOptions::numNodes);
     }
 
     int Mesh::numCells() {
-        return GetIntInfo(this, (MeshIntOptions::numCells));
+        return GetIntInfo(this, MeshIntOptions::numCells);
     }
 
+    double* Mesh::getX() {
+        double xxx = 1;
+        int xic = GetInfo(this, MeshOptions::xVector);
+        return &xxx;
+    }
+
+    // https://docs.oracle.com/cd/E19205-01/819-5262/6n7bvdr18/
     int GetIntInfo(Mesh* mesh, const std::string ioption) {
-        int iout;
-        int lout;
-        int itype;
         char cmo_c[MAX_STR_LEN];
         char ioption_c[MAX_STR_LEN];
 
-        iout = 0;
-        lout = 0;
-        itype = 0;
+        int iout = -1;
+        int lout = -1;
+        int itype = -1;
 
         strcpy(cmo_c, (mesh->getName()).c_str());
         strcpy(ioption_c, ioption.c_str());
 
-        //int ierr = CMO_GET_INTINFO_C(ioption_c, cmo_c, iout, lout, itype, strlen(ioption_c), strlen(cmo_c));
-        int ierr = CMO_GET_INTINFO_C(ioption_c, cmo_c, 1, 2, 3, strlen(ioption_c), strlen(cmo_c));
+        int ierr = CMO_GET_INTINFO_C(
+            ioption_c, cmo_c,
+            &iout, &lout, &itype,
+            strlen(ioption_c), strlen(cmo_c)
+        );
 
-        return -1;
+        if (ierr != 0) {
+            std::cerr << "ERROR: " << cmo_c << "; " << ioption_c << std::endl;
+        }
+
+        return iout;
     }
 
-    //int GetInfo(Mesh *mesh, MeshOption ioption) {
-    //    mesh->select();
-    //    int ierr = CMO_GET_INFO_C(char [], char [], int*, int*, unsigned int, unsigned int);
-    //}
+    int GetInfo(Mesh *mesh, const std::string ioption) {
+        char cmo_c[MAX_STR_LEN];
+        char ioption_c[MAX_STR_LEN];
+
+        int lout = -1;
+        int itype = -1;
+
+        strcpy(cmo_c, (mesh->getName()).c_str());
+        strcpy(ioption_c, ioption.c_str());
+
+        //double xvec[mesh->numNodes()];
+        double *xvec = (double *) malloc(mesh->numNodes() * sizeof(double));
+
+        int ierr = CMO_GET_INFO_C(
+            ioption_c, cmo_c,
+            xvec, &lout, &itype,
+            strlen(ioption_c), strlen(cmo_c)
+        );
+
+        std::cout << "DONE WITH GET INFO\n";
+        std::cout << "itype = " << itype << "; lout = " << lout << std::endl;
+
+        if (ierr != 0) {
+            std::cerr << "ERROR: " << cmo_c << "; " << ioption_c << std::endl;
+        }
+
+        free(xvec);
+
+        return ierr;
+    }
 
     int initialize(bool noisy) {
         char *mode;
