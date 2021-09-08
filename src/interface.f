@@ -47,35 +47,80 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
 ! ================================================================ !
 
-          integer function cmo_get_intinfo_c()
-! (ioption, cmo_name)
+          subroutine C_to_F_string(c_string, f_string)
+!  Source: http://fortranwiki.org/fortran/show/c_interface_module
+            use, intrinsic :: iso_c_binding
+            implicit none
+            integer :: i
+            character*(*) :: c_string
+            character(len=*), intent(out) :: f_string
+
+            do i=1,len_trim(c_string)
+               f_string(i:i) = c_string(i:i)
+            enddo
+
+            !i = 1
+            !do while(c_string(i)/=c_null_char .and. i<=len(f_string))
+            !  f_string(i:i) = c_string(i)
+            !  i = i + 1
+            !enddo
+            !if (i<len(f_string)) f_string(i:) = ' '
+          end subroutine
+
+          integer function cmo_get_intinfo_c
 !     &    (ioption, cmo_name, iout, lout, itype, ierror_return)
-!     &    (ioption, cmo_name)
-!            use, intrinsic :: iso_c_binding
+     &    (ioption, cmo_name, iout, lout, itype)
+            use, intrinsic :: iso_c_binding
 !     &         only: c_char, c_null_char, c_size_t, c_int
             implicit none
 
-            !character*(*), intent(in) :: ioption
-            !character*(*), intent(in) :: cmo_name
-
-!            character*(*), intent(in) :: ioption
-!            character*(*), intent(in) :: cmo_name
-
-            character(len=20) :: ioption, cmo_name
-
-            integer :: iout = 0
-            integer :: lout = 0
-            integer :: itype = 0
+            character*(*), intent(in) :: ioption, cmo_name
+            !integer, intent(out) :: iout
+            !character, allocatable :: ioption_fortran(:)
+            !character, allocatable :: cmo_name_fortran(:)
+            character(len=200) :: ioption_f, cmo_name_f
+            integer :: iout, lout, itype
             integer :: ierror_return = 0
+            integer :: len_iopt, len_cmo, i
+            integer :: lout_f = 0, itype_f = 0, iout_f = 0
 
             print*, 'READING: ioption: ', ioption, '; CMO: ', cmo_name
+            !call C_to_F_string(ioption, ioption_f)
+            !call C_to_F_string(cmo_name, cmo_name_f)
 
-            call cmo_get_intinfo(ioption, cmo_name, iout,
-     &                           lout, itype, ierror_return)
+            !len_iopt = len_trim(ioption)
+            !len_cmo = len_trim(cmo_name)
 
-            print*,'doneeeeee with intinfo'
+            !allocate(ioption_fortran(len_iopt))
+            !allocate(cmo_name_fortran(len_cmo))
 
-            cmo_get_intinfo_c = 1
+            !print*, 'Len is: ', len_iopt, '; ', len_cmo
+
+            !do i=1, len_iopt
+            !  if (ioption(i:i) == c_null_char) exit
+            !  ioption_fortran(i:i) = ioption(i:i)
+            !enddo
+
+            !do i=1, len_cmo
+            !  if (cmo_name(i:i) == c_null_char) exit
+            !  cmo_name_fortran(i:i) = cmo_name(i:i)
+            !enddo
+
+            ioption_f = trim(ioption)
+            cmo_name_f = trim(cmo_name)
+            
+            print*,'Strings are: >',ioption_f,'<;>',cmo_name_f,'<'
+
+            call cmo_get_intinfo(ioption_f, cmo_name_f,
+     &                      iout_f, lout_f, itype_f, ierror_return)
+
+            print*, 'lout_f = ', lout_f, '; itype_f = ', itype_f
+            print*, 'iout_f = ', iout_f, 'ierr = ', ierror_return
+
+            !deallocate(ioption_fortran)
+            !deallocate(cmo_name_fortran)
+
+            cmo_get_intinfo_c = ierror_return
           end function
 
 ! ================================================================ !
@@ -172,16 +217,14 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
 ! ================================================================ !
 
-          integer(kind=c_int) function cmo_get_intinfo_c()
-!     &    (ioption, cmo_name, iout, lout, itype, ierror_return)
-!     &    (ioption, cmo_name)
+          integer(kind=c_int) function cmo_get_intinfo_c
+     &    (ioption, cmo_name, iout, lout, itype)
      &    bind(C, name="cmo_get_intinfo_c")
             use, intrinsic :: iso_c_binding
 !     &         only: c_char, c_null_char, c_size_t, c_int
-!            character(kind=c_char), dimension(*), intent(in) ::
-!     &        ioption, cmo_name
-!            integer, intent(out) :: iout, lout, itype
-!            integer, intent(out) :: ierror_return
+            character(kind=c_char), dimension(*), intent(in) ::
+     &        ioption, cmo_name
+            integer :: iout, lout, itype
           end function
 
 ! ================================================================ !

@@ -39,8 +39,8 @@ if NOT "" == "%INTELPATH%" (
 REM Retrieve the working dir and proceed
 popd
 echo Current directory: %CD%
-
-COPY /B "%CD%\..\..\build\liblagrit.*" "%CD%\liblagrit.*" || goto END
+COPY /B "C:\Users\livingston\Desktop (WIN)\LaGriT-Windows\build\liblagrit.*" "%CD%\libs\liblagrit.*" || goto END
+: COPY /B "%CD%\..\..\build\liblagrit.*" "%CD%\liblagrit.*" || goto END
 
 : echo ============================================
 : echo DLL EXPORTS
@@ -58,6 +58,8 @@ cmake -G "NMake Makefiles" -B "build" || goto END
 cd build
 
 nmake || goto END
+
+COPY /B "%CD%\..\libs\liblagrit.*" "%CD%\liblagrit.*"
 
 goto END
 

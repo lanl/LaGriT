@@ -29,20 +29,21 @@ namespace Lagrit {
     }
 
     int GetIntInfo(Mesh* mesh, const std::string ioption) {
-        int *iout;
-        int *lout;
-        int *itype;
-        int *ierror;
+        int iout;
+        int lout;
+        int itype;
         char cmo_c[MAX_STR_LEN];
         char ioption_c[MAX_STR_LEN];
+
+        iout = 0;
+        lout = 0;
+        itype = 0;
 
         strcpy(cmo_c, (mesh->getName()).c_str());
         strcpy(ioption_c, ioption.c_str());
 
-        //CMO_GET_INTINFO_C(ioption, cmo_name, iout, lout, itype, ierror)
-        //int ierr = CMO_GET_INTINFO_C(cmo_c, ioption_c, iout, lout, itype, ierror, strlen(cmo_c), strlen(ioption_c));
-        int ierr = CMO_GET_INTINFO_C();//cmo_c, ioption_c, strlen(cmo_c), strlen(ioption_c));
-        //int ierr = CMO_GET_INTINFO_C(cmo_c, 20, ioption_c, 20);
+        //int ierr = CMO_GET_INTINFO_C(ioption_c, cmo_c, iout, lout, itype, strlen(ioption_c), strlen(cmo_c));
+        int ierr = CMO_GET_INTINFO_C(ioption_c, cmo_c, 1, 2, 3, strlen(ioption_c), strlen(cmo_c));
 
         return -1;
     }

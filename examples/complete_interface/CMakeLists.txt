@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(TestInitLG)
+project(LGDemo)
 
 set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import-")
 set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
@@ -16,10 +16,10 @@ if(MSVC)
 endif()
 
 
-add_library(LIBLaGriT SHARED IMPORTED)
-set_property(TARGET LIBLaGriT PROPERTY
-             IMPORTED_LOCATION "C:\\Users\\livingston\\Desktop (WIN)\\LaGriT-Windows\\examples\\liblagrit.dll")
-set_property(TARGET LIBLaGriT PROPERTY
-             IMPORTED_IMPLIB "C:\\Users\\livingston\\Desktop (WIN)\\LaGriT-Windows\\examples\\liblagrit.lib")
-add_executable(TestInitLG src/main.cpp src/Lagrit.cpp)
-target_link_libraries(TestInitLG PRIVATE LIBLaGriT)
+add_library(liblagrit SHARED IMPORTED)
+set_property(TARGET liblagrit PROPERTY
+             IMPORTED_LOCATION "C:\\Users\\livingston\\Desktop (WIN)\\LaGriT-Windows\\examples\\complete_interface\\libs\\liblagrit.dll")
+set_property(TARGET liblagrit PROPERTY
+             IMPORTED_IMPLIB "C:\\Users\\livingston\\Desktop (WIN)\\LaGriT-Windows\\examples\\complete_interface\\libs\\liblagrit.lib")
+add_executable(LGDemo src/main.cpp src/Lagrit.cpp)
+target_link_libraries(LGDemo PRIVATE liblagrit)
