@@ -29,10 +29,10 @@ translates a set of points **from** point `xold,yold,zold` **to** new coordinate
 ### Second form of this command: 
 
 
-**`enter`**  point set is translated so that (0,0,0) is located at the midpoint of min x,y,z and max x,y,z of the mesh. 
+**`zero`**  point set is translated so that (0,0,0) is located at the midpoint of min x,y,z and max x,y,z of the mesh. 
 
 
-**`zero`** point set is translated so that (0,0,0) is located at the min x,y,z of the mesh. 
+**`center`** point set is translated so that (0,0,0) is located at the min x,y,z of the mesh. 
 
 
 **`original`**  point set is translated to the original location before **enter** or **zero** was called. 
