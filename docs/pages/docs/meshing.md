@@ -24,6 +24,8 @@ Some modeling applications can solve problems only on orthogonal regular structu
 The unstructured approach allows the creation of meshes that exactly conform to the geometric model, but requires some expertise in building the mesh such that it will also meet the Delaunay criteria if required.
 The easier method is to use a structured mesh with fine resolution, or a coarser mesh that uses octree refinement to increase resolution in user specified regions of interest. These result in stair-stepped geometries instead of smooth, but can be acceptable for where the geometry spacing is small relative to the full model domain. (Sentis and Gable, 2017). 
 
+For modeling applications with complex stratigraphy, depending on the mesh, you can get a stable but inaccurate solution to the physics (Zyvoloski and Vesselinov, 2006). Choose a mesh design and meshing method that gives the best performance from the modeling application possible, with respect to the difficulty in generating the mesh.
+
 
 ## Structured Mesh Methods
 
