@@ -234,7 +234,8 @@ C       Original lagrit type is IEEE / 0 / same as IEEEI4R4 / 0 /
 
         ibytes=8
         nbyte_total = nbyte_total + ibytes
-        call cread(iunit,iword2,ibytes,ierror)
+        call cread(int(iunit, 4),iword2,ibytes,ierror)
+        !call cread(iunit,iword2,ibytes,ierror)
         if(ierror.ne.0) go to 9998 
 
         ftype = -1

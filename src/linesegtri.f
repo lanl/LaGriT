@@ -35,7 +35,7 @@ C
       subroutine lineseg_tri(x1,y1,z1,x2,y2,z2,x3,y3,z3,
      *                      xa,ya,za,xb,yb,zb,
      *                      x,y,z,iflag)
-     &    bind (C, name="LINESEG_TRI")
+     &    bind (C, name="lineseg_tri_")
 C
 C ######################################################################
 C

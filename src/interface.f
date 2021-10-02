@@ -207,8 +207,8 @@ C             double *hybrid_factor, double *eps)
             use ISO_C_BINDING, only : C_INT, C_FLOAT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: pentrysize, pcompress, pnnodes, pntets
-            integer(C_INT) :: itet, jtet, pmbndry, ifhybrid
+            integer :: pentrysize, pcompress, pnnodes, pntets
+            integer :: itet, jtet, pmbndry, ifhybrid
             real(C_DOUBLE) :: xic, yic, zic, hybrid_factor, eps
           end subroutine initialize3ddiffusionmat
 
@@ -219,7 +219,7 @@ C     int entryprocessed_(int_ptrsize *i, int_ptrsize *j)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: i, j
+            integer :: i, j
           end function entryprocessed
 
 C     void computeentry_(int_ptrsize *Pindex_i, int_ptrsize *Pindex_j,
@@ -232,8 +232,8 @@ C            int_ptrsize *localEdges)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: Pindex_i, Pindex_j, PnumIncidentTets
-            integer(C_INT) :: incidentTets, localEdges
+            integer :: Pindex_i, Pindex_j, PnumIncidentTets
+            integer :: incidentTets, localEdges
           end subroutine computeentry
 
 
@@ -254,10 +254,10 @@ C               int_ptrsize **negcols, double **negs)
             use ISO_C_BINDING, only : C_INT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: component, numnegs, numsuspectnegs
-            integer(C_INT) :: numzeronegs, negrows, negcols
+            integer :: component, numnegs, numsuspectnegs
+            integer :: numzeronegs, negrows, negcols
             !real(C_DOUBLE) :: negs
-            integer(C_INT) :: negs
+            integer :: negs
           end subroutine extractnegativecoefs
 
 C     void freenegcoefs_()
@@ -274,7 +274,8 @@ C               int_ptrsize *ncoefs, int_ptrsize *ncon_max)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: Pnum_written_coefs, ncoefs, ncon_max
+            !integer(C_INT) :: Pnum_written_coefs, ncoefs, ncon_max
+            integer :: Pnum_written_coefs, ncoefs, ncon_max
           end subroutine getmatrixsizes
 
 C     void getvoronoivolumes_(double **volic)
@@ -285,7 +286,7 @@ C     void getvoronoivolumes_(double **volic)
             implicit none
 
             !type(C_PTR) :: volic
-            integer(C_INT) :: volic
+            integer :: volic
           end subroutine getvoronoivolumes
 
 C     void freevoronoivolumes_()
@@ -303,7 +304,7 @@ C      integer epr(*)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: epr
+            integer :: epr
           end subroutine getentriesperrow
 
 C     void getoccupiedcolumns_(int_ptrsize **columns)
@@ -313,7 +314,7 @@ C     void getoccupiedcolumns_(int_ptrsize **columns)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: columns
+            integer :: columns
           end subroutine getoccupiedcolumns
 
 C     void freeentriesperrow_()
@@ -336,7 +337,7 @@ C                             int_ptrsize **diagonals)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(C_INT) :: MatPointers, diagonals
+            integer :: MatPointers, diagonals
           end subroutine getmatrixpointers
 
 C     void freematrixpointers_()
@@ -353,9 +354,9 @@ C                                    double **values)
             use ISO_C_BINDING, only : C_INT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: component
+            integer :: component
             !real(C_DOUBLE) :: values
-            integer(C_INT) :: values
+            integer :: values
           end subroutine getcomponentmatrixvalues
 
 C     void freematrixvalues_()
@@ -383,12 +384,12 @@ C              int_ptrsize *numwrittenentries, double *Epsilon)
             use ISO_C_BINDING, only : C_INT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: Ncon, Neq, MEntrySize, MatPointers
+            integer :: Ncon, Neq, MEntrySize, MatPointers
 C            real(C_DOUBLE) :: Xmat, Ymat, Zmat, Mat, CXmat, CYmat
 C            real(C_DOUBLE) :: CZmat, CMat
-            integer(C_INT) :: Xmat, Ymat, Zmat, Mat, CXmat, CYmat
-            integer(C_INT) :: CZmat, CMat
-            integer(C_INT) :: numwrittenentries
+            integer :: Xmat, Ymat, Zmat, Mat, CXmat, CYmat
+            integer :: CZmat, CMat
+            integer :: numwrittenentries
             real(C_DOUBLE) :: Epsilon
           end subroutine compressmatrixvalues
 
@@ -622,12 +623,12 @@ C                        int_ptrsize *flag)
             use ISO_C_BINDING, only : C_INT, C_DOUBLE
             implicit none
 
-            integer(C_INT) :: quads
-            integer(C_INT) :: nquads
+            integer :: quads
+            integer :: nquads
             real(C_DOUBLE) :: xic, yic, zic
             real(C_DOUBLE) :: quality
             real(C_DOUBLE) :: regularity
-            integer(C_INT) :: flag
+            integer :: flag
           end subroutine quad_quality
 
 C=========== END MESH MANIPULATION SUBROUTINE DECLARATIONS =============
@@ -646,7 +647,8 @@ C     void cassignr_(int *unit, char *fname, int_ptrsize *ierr)
             use ISO_C_BINDING, only : C_INT, C_CHAR
             implicit none
 
-            integer(C_INT) :: unit, ierr
+            integer(kind=4) :: unit
+            integer :: ierr
             character(kind=C_CHAR) :: fname(*)
           end subroutine cassignr
 
@@ -659,8 +661,8 @@ C         ==> type(array) => character array(*)
             use ISO_C_BINDING, only : C_INT, C_CHAR
             implicit none
 
-            integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
+            integer(kind=4) :: unit
+            integer :: ilen, ierr
             character(kind=C_CHAR) :: array(*)
           end subroutine cread
 
@@ -671,8 +673,9 @@ C         ==> type(array) => real*4 array
             use ISO_C_BINDING, only : C_INT, C_FLOAT
             implicit none
 
-            integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
+            integer(kind=4) :: unit
+            !integer(C_INT) :: ilen, ierr
+            integer :: ilen, ierr
             real(C_FLOAT) :: array
           end subroutine cread4
 
@@ -683,8 +686,8 @@ C         ==> type(array) => real*4 array(*)
             use ISO_C_BINDING, only : C_INT, C_FLOAT
             implicit none
 
-            integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
+            integer(kind=4) :: unit
+            integer :: ilen, ierr
             real(C_FLOAT) :: array(*)
           end subroutine cread4_ptr
 
@@ -695,9 +698,9 @@ C         ==> type(array) => int*4 array
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
-            integer(C_INT) :: array
+            integer(kind=4) :: unit
+            integer :: ilen, ierr
+            integer(kind=4) :: array
           end subroutine cread4_int
 
 C         ==> type(array) => int*4 array(*)
@@ -707,9 +710,9 @@ C         ==> type(array) => int*4 array(*)
             use ISO_C_BINDING, only : C_INT
             implicit none
 
-            integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
-            integer(C_INT) :: array(*)
+            integer(kind=4) :: unit
+            integer :: ilen, ierr
+            integer(kind=4) :: array(*)
           end subroutine cread4_int_ptr
 
 C         ==> type(array) => real*8 array
@@ -720,7 +723,8 @@ C         ==> type(array) => real*8 array
             implicit none
 
             integer(4) :: unit
-            integer(C_INT) :: ilen, ierr
+            !integer(C_INT) :: ilen, ierr
+            integer :: ilen, ierr
             real(C_DOUBLE) :: array
           end subroutine cread8
 
@@ -737,7 +741,7 @@ C        int_ptrsize *len)
 
 C           Uses LONG LONG here (size=8) because INT is failing
             integer :: edges(*), skey(*)
-            integer(C_INT) :: cid, ctype, lid, len
+            integer :: cid, ctype, lid, len
           end subroutine line_graph_sort
 
 C     void line_graph_nsort_(int_ptrsize edges[][2],
@@ -750,7 +754,7 @@ C         int_ptrsize *nskey, int_ptrsize *len)
 
 C           Uses LONG LONG here (size=8) because INT is failing
             integer :: edges(*), nskey(*)
-            integer(C_INT) :: len
+            integer :: len
           end subroutine line_graph_nsort
 
         end interface

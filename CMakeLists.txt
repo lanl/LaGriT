@@ -13,7 +13,7 @@ project(LaGriT
 if(APPLE)
     set(CMAKE_C_FLAGS "-w -m64 -Dmacx64")
     set(CMAKE_CXX_FLAGS ${CMAKE_C_FLAGS})
-    set(CMAKE_Fortran_FLAGS "-w -O -fcray-pointer -fdefault-integer-8 -std=legacy")
+    set(CMAKE_Fortran_FLAGS "-Dmacx64 -m64 -w -O -fcray-pointer -fdefault-integer-8 -fallow-argument-mismatch -std=legacy")
 elseif(UNIX)
 else()
     set(CMAKE_C_FLAGS "/w /m64 /Dwin64 /QRimplicit-import-")
@@ -52,30 +52,3 @@ target_link_libraries(
     ${LIBS}
     liblagrit
 )
-
-
-
-
-
-
-
-
-#add_library(lg_util STATIC ${LG_UTIL_SRC})
-#add_library(lg_util SHARED ${LG_UTIL_SRC})
-#target_link_libraries(lg_util /QRimplicit-import-)
-
-#      add_executable(lagrit
-#          ${LG_MAIN_SRC}
-#          ${LG_UTIL_SRC}
-#      )
-
-#target_link_libraries(
-#    lagrit
-#    /QRimplicit-import-
-#)
-#target_link_libraries(
-#    lagrit
-#    ${LIBS}
-#    lg_util
-#    /QRimplicit-import-
-#)
