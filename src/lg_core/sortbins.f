@@ -146,11 +146,7 @@ C
 C
 C#######################################################################
 C
-      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_LONG, C_LONG_LONG
-      
-      use c2f_interface
       implicit none
-
       include 'local_element.h'
 C
 C     Variable/Data Dictionary

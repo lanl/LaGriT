@@ -180,7 +180,7 @@ void cwrite_(unit , array , ilen , ierr)
 
  
 /* ====================== */
-void cread (unit , array , ilen , ierr)
+void cread(unit , array , ilen , ierr)
   int *unit;
   char *array;
   int_ptrsize  *ilen , *ierr;

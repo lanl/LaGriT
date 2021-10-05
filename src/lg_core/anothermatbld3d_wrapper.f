@@ -111,9 +111,7 @@ C#######################################################################
 c--------------------------------------------------------------------------
 c Declarations.
 c--------------------------------------------------------------------------
-      use, intrinsic :: ISO_C_BINDING, only: 
-     & C_INT, C_DOUBLE, C_FLOAT, C_CHAR
-      use c2f_interface
+      use lg_interface, only: entryprocessed
 
       implicit none
       include "chydro.h"
@@ -185,7 +183,6 @@ c
       integer num_conn_max
       integer nsize,njerk
       integer ierrw, numnegs, numsuspectnegs, numzerocoefs
-C      integer entryprocessed
       integer istatus
 
       integer iunit, nextlun
@@ -488,26 +485,23 @@ c     FEHM BINARY header
           endif
           write(iunit)title_string
 
-
 C     FEHM ASCII header
-      elseif(io_type .eq. 2)then
 
+      elseif(io_type .eq. 2)then
            if (ifcompress.ne.0) then
            write(iunit,'(a)')
      *'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
       write(iunit,*)string,'3-D Linear Diffusion Model (matbld3d_astor)'
            endif
-
-      endif 
+      endif
 
 C---------------------------------------------------------------------------
 C     Build and output the sparse matrix.
 C---------------------------------------------------------------------------
- 
+
       neq=nnodes
       neqp1=neq+1
 
- 
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 C     Call C functions to do the real work of building the matrix.
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -566,11 +560,9 @@ C     If not, get all incident tets and compute the entry.
             ip1=iparent(iip1)
             ip2=iparent(iip2)
             if (entryprocessed(ip1,ip2).eq.0) then
- 
                call get_elements_on_edge(i,j,nelts,ipelts,ipedges,
      *              ipitetoff,ipjtetoff,ipitet,ipjtet,ipitettyp,
      *              ipiparent,nef, mbndry)
-
                call computeentry(ip1, ip2, nelts,elts(1),edges(1))
             endif
          enddo

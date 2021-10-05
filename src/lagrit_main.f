@@ -75,8 +75,7 @@ C        Verify that flag value is not empty and is not another flag
 
       ierror_return = 0
       call initlagrit(trim(mode),logfile,outfile)
-C
       call control_command_lg(ierror_return)
-C
+
       stop
       end program lagrit_main

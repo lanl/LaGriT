@@ -79,11 +79,12 @@ CPVCS    read connectivity for quad and tri GMV cells.
 c
 c ######################################################################
 c
-      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_CHAR
-      use c2f_interface
+      use lg_interface, only: 
+     *  cread4, cread4_ptr, 
+     *  cread4_int, cread4_int_ptr,
+     *  cread8
       implicit none
-C
-C args
+
       character*(*) ifile
       integer ierror
 C

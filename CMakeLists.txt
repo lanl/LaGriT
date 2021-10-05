@@ -8,8 +8,13 @@ project(
     LANGUAGES Fortran CXX C
 )
 
+
 include(FortranCInterface)
 FortranCInterface_VERIFY(CXX)
+FortranCInterface_HEADER(FCMangle.h
+                         MACRO_NAMESPACE "FC_"
+                         SYMBOL_NAMESPACE "FC_"
+                         SYMBOLS mysub mymod:my_sub)
 
 #set(CMAKE_CXX_STANDARD 17)
 #set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
@@ -63,8 +68,7 @@ elseif(DEFINED MSVCXX_LIKE)
     set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} /w /m64 /QRimplicit-import-")
 endif()
 
-# ////////// END COMPILER SETTINGS //////////
-
+# ////////// BEGIN LINKER CONFIGURATION //////////
 # Extra linker and compile options for Windows
 if(MSVC)
     set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
@@ -75,6 +79,14 @@ if(MSVC)
         $<$<CONFIG:Release>:/MT>
     )
 endif()
+
+# ////////// BEGIN HEADER FILE CONFIGURATION //////////
+string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
+configure_file(
+    ${SRC_ROOT}/lagrit.h.in
+    ${SRC_CORE}/lagrit.h
+    @ONLY
+)
 
 # ////////// BEGIN TARGET CONFIGURATION //////////
 # Grab `lg_util/` source files
@@ -100,11 +112,16 @@ file(
     "${SRC_CORE}/*.f90"
     "${SRC_CORE}/*.h"
 )
+#generate_export_header(somelib
+#  BASE_NAME other_name
+#)
+
 
 # Compile LaGriT routines as a library
 add_library(
     liblagrit
     SHARED
+    ${SRC_ROOT}/lg_interface/interface.f90
     ${SRC_UTIL_FILES}
     ${SRC_CORE_FILES}
 )
@@ -118,8 +135,9 @@ add_executable(
 set_target_properties(
     ${EXE}
     PROPERTIES
-    Fortran_FORMAT "FREE"
+    #Fortran_FORMAT "FREE"
     LINKER_LANGUAGE Fortran
+    Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/"
 )
 
 target_link_libraries(

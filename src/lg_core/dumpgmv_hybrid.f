@@ -165,8 +165,6 @@ cpvcs    orginal version
 c
 c ######################################################################
 c
-      use, intrinsic :: ISO_C_BINDING, only: C_CHAR
-      use c2f_interface
       implicit none
 c
       real*8 alargenumber

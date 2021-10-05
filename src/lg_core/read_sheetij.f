@@ -931,11 +931,9 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       subroutine read_binaryij(ifile, vartype, xval, flen,
      >                  istart, istop, jstart, jstop, nx, ierr_return)
 
-      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_FLOAT, C_DOUBLE
-      use c2f_interface
+      use lg_interface, only: cread4, cread8
       implicit none
-c
-c args
+
       character*(*) ifile
       integer vartype
       integer istart, istop, jstart, jstop

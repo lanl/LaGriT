@@ -272,8 +272,6 @@ CPVCS     Original Version
 C
 C#######################################################################
 C
-      use, intrinsic :: ISO_C_BINDING, only: C_INT, C_DOUBLE
-      use c2f_interface
       implicit none
 C
       include 'consts.h'

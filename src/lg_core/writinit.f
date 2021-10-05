@@ -137,6 +137,7 @@ C
       character*24 now
       character*22 cstring
       character*32 isubname
+      character*132 tmp
 C
 C#######################################################################
 C
@@ -239,83 +240,19 @@ C-----Banner Program, OS, and Version Number from lagrit.h
 C     Version and date compile taken directly from lagrit.h
 C     OS information is based on os_name and should be the
 C     same tag used in Makefile
-C
-      if (v_major .lt. 10) then 
-        Version = ' .     '
-        write ( Version(1:1), '(i1)' ) v_major
-        write ( Version(3:5), '(i3.3)' ) v_minor 
-      else
-        Version = '  .     '
-        write ( Version(1:2), '(i2)' ) v_major
-        write ( Version(4:6), '(i3.3)' ) v_minor
-      endif
+
+      write (tmp, '(i3,i3,i3)') v_major, v_minor, v_patch
+      Version = trim(adjustl(tmp(1:3))) // '.' //
+     *          trim(adjustl(tmp(4:6))) // '.' //
+     *          trim(adjustl(tmp(7:9)))
 
 C     m32 and m64 are util libs under development
 c     otherwise, old util lib is used
 
-      if (os_name(1:7) .eq. 'Linux32') then
-      write(interfil,8065) Version
- 8065 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux (32-bit) *')
+      tmp = trim(adjustl(os_name))
+      write(interfil,8065) Version, tmp
+ 8065 format('*',15x,'*    Program:  LaGriT V',a6,2x,a15,'*')
 
-      else if (os_name(1:7) .eq. 'Linux64') then
-      write(interfil,8066) Version
- 8066 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux (64-bit) *')
-
-      else if (os_name(1:5) .eq. 'Linux') then
-      write(interfil,8067) Version
- 8067 format('*',15x,'*    Program:  LaGriT V',a6,'  Linux          *')
-
-c     change Darwin to Mac to stay under 8 characters 
-      else if (os_name(1:6) .eq. 'Maci32') then
-      write(interfil,8165) Version
- 8165 format('*',15x,'*    Program:  LaGriT V',a6,'  Macintosh      *')
-
-      else if (os_name(1:6) .eq. 'Maci64') then
-      write(interfil,8166) Version
- 8166 format('*',15x,'*    Program:  LaGriT V',a6,'  Macintosh      *')
-
-      else if (os_name(1:7) .eq. 'MacOS11') then
-      write(interfil,8111) Version
- 8111 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS 11       *')
-
-      else if (os_name(1:7) .eq. 'MacOS12') then
-      write(interfil,8112) Version
- 8112 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS 12       *')
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C older OS no longer supported but kept here just in case someone uses it
-
-      else if (os_name(1:5) .eq. 'Mac64') then
-      write(interfil,8176) Version
- 8176 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
-
-      else if (os_name(1:7) .eq. 'Darwini') then
-      write(interfil,8177) Version 
- 8177 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
-
-      else if (os_name(1:7) .eq. 'Darwin ') then
-      write(interfil,8178) Version
- 8178 format('*',15x,'*    Program:  LaGriT V',a6,'  macOS          *')
-
-      else if (os_name(1:5) .eq. 'Sun32') then
-      write(interfil,8288) Version
- 8288 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS m32      *')
-
-      else if (os_name(1:3) .eq. 'Sun') then
-      write(interfil,8289) Version
- 8289 format('*',15x,'*    Program:  LaGriT V',a6,'  SunOS          *')
-
-      else if (os_name(1:3) .eq. 'IRI') then
-      write(interfil,8388) Version
- 8388 format('*',15x,'*    Program:  LaGriT V',a6,'  IRIX64         *')
-      else 
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C     If nothing found, use default
-
-      write(interfil,8989)  Version
- 8989 format('*',15x,'*    Program:  LaGriT V',a6,'  DEF            *')
-      endif 
       call writloga('default',0,interfil,0,ierrdum)
 
 C-----Banner Compile Time and expiration check 
@@ -330,9 +267,8 @@ c     look for expiration 2 years greater than compile year
          cstring=now(21:24)//'/00/00 at 00:00:00' 
       endif
 
-
       write(interfil,9004) cstring,'    *'
- 9004 format('*',15x,'*    date_compile: ',a22,a6)
+ 9004 format('*',15x,'*    Date Compile: ',a22,a6)
       call writloga('default',0,interfil,0,ierrdum)
 
       nyr = (ichar(now(23:23))-ichar('0'))*10+
@@ -353,7 +289,7 @@ C
 C-----Banner Man pages 
 C
       write(interfil,9007)
- 9007 format('*',15x,'*    Manual:   http://lagrit.lanl.gov         *')
+ 9007 format('*',15x,'*    Manual:   https://lagrit.lanl.gov        *')
       call writloga('default',0,interfil,0,ierrdum)
 
 C

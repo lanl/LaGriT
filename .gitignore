@@ -1,3 +1,6 @@
+# Build artifacts
+lagrit.h
+
 .vscode/
 *pyc
 *DS_Store
