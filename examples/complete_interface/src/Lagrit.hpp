@@ -76,7 +76,7 @@ int sendCommand(std::string cmd);
 Mesh getActiveMesh();
 
 int GetIntInfo(Mesh *mesh, const std::string ioption);
-int GetInfo(Mesh *mesh, const std::string ioption);
+void* GetInfo(Mesh *mesh, const std::string ioption);
 
 }
 

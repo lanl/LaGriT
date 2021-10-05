@@ -103,7 +103,8 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             implicit none
 
             character*(*), intent(in) :: ioption, cmo_name
-            real(kind=8), dimension(*), intent(out) :: data_out
+            !real(kind=8), dimension(*), intent(out) :: data_out
+            type(c_ptr), intent(out) :: data_out
             integer(c_int), intent(out) :: lout, itype
 
             character(len=200) :: ioption_f, cmo_name_f
@@ -112,9 +113,12 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
 
             pointer(ipout, v_out)
             real*8 v_out(*)
+            !real*8, pointer :: ipout
 
             call C_to_F_string(ioption, ioption_f)
             call C_to_F_string(cmo_name, cmo_name_f)
+
+            print*,' Calling get info...'
 
             call cmo_get_info(
      &        ioption_f, cmo_name_f,
@@ -122,10 +126,12 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
      &        itype_f, ierror
      &      )
 
-            print*, 'vector = ', v_out(1:15)
+            print*, 'Done with get info.'
+            print*, 'vector = ', v_out(1:lout_f)
 
             itype = itype_f
             lout = lout_f
+            data_out = c_loc(ipout)
 
             cmo_get_info_c = ierror
           end function
@@ -189,7 +195,8 @@ C     void *sendbuf -> TYPE(C_PTR), VALUE :: sendbuf
             character(kind=c_char), dimension(*), intent(in) ::
      &      ioption, cmo_name
             integer(c_int), intent(out) :: lout, itype
-            real(kind=8), dimension(*), intent(out) :: data_out
+            !real(kind=8), dimension(*), intent(out) :: data_out
+            type(c_ptr), intent(out) :: data_out
           end function
 
 C=========== BEGIN ANOTHERMATBLD3D DECLARATIONS ========================

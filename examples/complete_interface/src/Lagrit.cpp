@@ -29,9 +29,8 @@ namespace Lagrit {
     }
 
     double* Mesh::getX() {
-        double xxx = 1;
-        int xic = GetInfo(this, MeshOptions::xVector);
-        return &xxx;
+        void* xic = GetInfo(this, MeshOptions::xVector);
+        return (double*)xic;
     }
 
     // https://docs.oracle.com/cd/E19205-01/819-5262/6n7bvdr18/
@@ -59,7 +58,7 @@ namespace Lagrit {
         return iout;
     }
 
-    int GetInfo(Mesh *mesh, const std::string ioption) {
+    void* GetInfo(Mesh *mesh, const std::string ioption) {
         char cmo_c[MAX_STR_LEN];
         char ioption_c[MAX_STR_LEN];
 
@@ -70,7 +69,9 @@ namespace Lagrit {
         strcpy(ioption_c, ioption.c_str());
 
         //double xvec[mesh->numNodes()];
-        double *xvec = (double *) malloc(mesh->numNodes() * sizeof(double));
+        double *xvec;// = (double *) malloc(mesh->numNodes() * sizeof(double));
+
+        std::cout << "Calling get info\n";
 
         int ierr = CMO_GET_INFO_C(
             ioption_c, cmo_c,
@@ -85,9 +86,13 @@ namespace Lagrit {
             std::cerr << "ERROR: " << cmo_c << "; " << ioption_c << std::endl;
         }
 
-        free(xvec);
+        for (size_t i = 0; i < mesh->numNodes(); ++i) {
+            std::cout << i << ": " << xvec[i] << std::endl;
+        }
 
-        return ierr;
+        //free(xvec);
+
+        return (void*)xvec;
     }
 
     int initialize(bool noisy) {
