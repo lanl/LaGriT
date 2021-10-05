@@ -225,7 +225,6 @@ C     WRITE CODE VERSION INFORMATION TO LOG FILES.
 C     strings for Version and Compiled are passed in from
 C     lagrit.h and fdate
 
-
 C-----Banner Top
 C
       write(interfil,9001)
@@ -249,6 +248,7 @@ C     same tag used in Makefile
 C     m32 and m64 are util libs under development
 c     otherwise, old util lib is used
 
+C     TODO: add (32-bit / 64-bit) suffix
       tmp = trim(adjustl(os_name))
       write(interfil,8065) Version, tmp
  8065 format('*',15x,'*    Program:  LaGriT V',a6,2x,a15,'*')

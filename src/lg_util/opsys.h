@@ -162,7 +162,24 @@
 #define MAX_UINT 18446744073709551615.00
 #endif
 
-/**** sgi ****/
+/**** Platform-independent method ****/
+#if INTPTR_MAX == INT64_MAX
+// 64-bit
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#define MAX_UINT 18446744073709551615.00 
+
+#elif INTPTR_MAX == INT32_MAX
+// 32-bit
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 4
+#define SIZEOF_VOIDP 4
+#define MAX_UINT 4294967295.00
+
+#endif
 
 /**** default 32 bit ****/
 #ifndef SIZEOF_INT
@@ -190,7 +207,4 @@
 #error "Unknown case for size of pointer."
 #endif
 
-
-
 /* end file opsys.h */
-

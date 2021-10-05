@@ -239,12 +239,12 @@ int util_check_ptrsize(void)
 int util_check_ptrsize_(void)
 {
    void* ipt = NULL;
-   return ( sizeof(ipt) - sizeof(int_ptrsize)) ;          
+   return ( sizeof(ipt) - sizeof(int_ptrsize)) ;
 }
 int UTIL_CHECK_PTRSIZE(void)
 {
    void* ipt = NULL;
-   return ( sizeof(ipt) - sizeof(int_ptrsize)) ;          
+   return ( sizeof(ipt) - sizeof(int_ptrsize)) ;
 }
 
 /* ----------------------------------------------------------------------
