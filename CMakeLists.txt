@@ -21,6 +21,8 @@ set(BUILD_SHARED_LIBS TRUE)
 
 # Set source and target paths
 set(EXE lagrit)
+set(LIB liblagrit)
+set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
 set(SRC_ROOT "${CMAKE_SOURCE_DIR}/src")
 set(SRC_UTIL "${SRC_ROOT}/lg_util")
 set(SRC_CORE "${SRC_ROOT}/lg_core")
@@ -110,7 +112,7 @@ file(
 
 # Compile LaGriT routines as a library
 add_library(
-    liblagrit
+    ${LIB}
     SHARED
     ${SRC_ROOT}/lg_interface/interface.f90
     ${SRC_UTIL_FILES}
@@ -132,7 +134,27 @@ set_target_properties(
 
 target_link_libraries(
     ${EXE}
-    liblagrit
+    ${LIB}
 )
 
 # ////////// END TARGET CONFIGURATION //////////
+install(
+    DIRECTORY
+    DESTINATION ${directory}
+)
+
+install(
+    TARGETS ${EXE}
+    DESTINATION "${INSTALL_DIR}/bin"
+)
+
+install(
+    TARGETS ${LIB}
+    DESTINATION "${INSTALL_DIR}/lib"
+)
+
+install(
+    DIRECTORY inc/
+    DESTINATION "${INSTALL_DIR}/include"
+    FILES_MATCHING PATTERN "*.h"
+)
