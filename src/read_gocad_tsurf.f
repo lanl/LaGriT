@@ -38,6 +38,12 @@ C TETRA 805 806 358 836 2 4 2
 C --------------------------
 C END (optional keyword) 
 C
+C Optional Formats
+C
+C TFACE is a block of nodes and cells and attribute iblock is incremented
+C END is usually end of file but can also indicate a new object
+C 
+C
 C#######################################################################
 C
 C        $Log: read_gocad_tsurf.f,v $
@@ -117,16 +123,18 @@ c local parser variables
       character*32 cmsg(128)
       character*32 n_attnames(128)
       character*32 e_attnames(128)
-      character*128 cmsgbig(512)
+C     character*128 cmsgbig(512)
 
 C
 C     Local variables
       integer if_integer, if_real, if_character, nnodes_set,
      1    i, ii, j, ntets_set, ierror, ilen, ityp, ier, n_vrtx,
-     2    n_tet, n_tri, n_tface, n_object, iunit, istart,
+     2    n_elem, n_tet, n_tri, n_tface, n_object, iunit, istart,
      3    msg_num, i_tri_off, n_offset_vrtx, n_line_parse,
      4    id_vrtx, id_vrtx_max, n_tet_off, i_tet_off, 
-     5    ninc, file_length, len_parse, ics
+     5    ninc, file_length,skipline,nEND, len_parse, ics,
+     6    read_count, skip_count
+     
 
        integer icharlnf, icharlnb
 
@@ -149,17 +157,6 @@ c     same size as used in parse_string2
 C
 C     ******************************************************************
 C
-C
-C  The access to user written subroutines is through the LaGriT subroutine, user_sub. 
-C  It is passed the parsed command input line. The parser breaks up the input line into tokens 
-C  and returns to LaGriT a count of number of tokens, an array containing the token types, and 
-C  the tokens themselves. The parameters returned by the parser are:
-C    nwds ( number of tokens)
-C    msgtyp (integer array of token types : 1 for integer, 2 for real, 3 for character, msgtyp(nwds+1) = -1)
-C    imsgin (array of integer tokens, e.g. if msgtyp(i)=1 then the ith token is type integer and imsgin(i) contains its value)
-C    xmsgin (array of real tokens, e.g. if msgtyp(i)=2 then the ith token is type real and xmsgin(i) contains its value)
-C    cmsgin (array of character tokens, e.g. if msgtyp(i)=3 then the ith token is type character and cmsgin(i) contains its value)
-C
 C    TAM AUG 2019
 C     major changes to code to replace user_sub calls with routine calls
 C     and expand code to read 3D TSolid tets as well as 2D TSurf triangles
@@ -169,9 +166,9 @@ C     Important variables such as isubname  now have default values.
 C     All code with pre-set numbers have been removed, this includes code such as:
 C      nnodes_set = 2000
 C      ntets_set = 2000
-
 C
 C     ******************************************************************
+C begin BEGIN
 CCCC  set defaults
 
 c     for message passing
@@ -186,12 +183,19 @@ c     valid gocad types are TSolid and Tsurf
       left_hand = .false.
       if_nprops = .false.
       if_tprops = .false.
+
+C     read_count and skip_count refer to file lines read
+C     plines are parsed VRTX lines
+C     tetlines and trilines are parsed TRGL and TETRA lines
+C     nEND is a keyword expected once
+      read_count = 0
+      skip_count = 0
       plines = 0
       tetlines = 0
       trilines = 0
       ierror = 0
+      nEND = 0
 
-      
 C     ******************************************************************
 CCCC  parse commands
 
@@ -221,7 +225,7 @@ C     check file extension for mesh type
          mesh_type = "TSolid"
       endif
 
-CCCC  done with command line parse
+CCCC  done with command line options
 
 C     ******************************************************************
 C     OPEN  FILE 
@@ -242,6 +246,11 @@ C        syntax: PROPERTIES prop_name prop_name2 ...
 C
 C        TET PROPERTIES
 C        syntax: TETRA_PROPERTIES prop_name prop_name2 ...
+C
+C        TRI PROPERTIES
+C        syntax: TRGL_PROPERTIES prop_name prop_name2 ...
+C  
+C        Be cautious of PROPERTY_CLASS_HEADER lines that may include a colormap
 C  
 
       iunit=-1
@@ -258,19 +267,26 @@ C
 
 C     READ file twice, first time to get sizes and types
 C     we do not parse lines this first time through
+      skipline = 0
       file_length = 0 
       do 
         input_msg = ' '
         read (iunit,'(a)', END=90) input_msg
         file_length = file_length + 1 
-        if (file_length.eq.1 .and. len(input_msg).gt.12) then
+
+C       protect against extremly long lines and colormaps
+        if (input_msg(1:1) .eq. "*") then 
+            skipline = skipline+1
+        else
+          if (file_length.eq.1 .and. len(input_msg).gt.12) then
             if(input_msg(7:12) .eq. "TSolid") mesh_type = "TSolid"
             if(input_msg(7:11) .eq. "TSurf") mesh_type = "TSurf"
+          endif
+          if (input_msg(1:6) .eq. "PVRTX ") plines = plines +1
+          if (input_msg(1:5) .eq. "VRTX ")  plines = plines +1
+          if (input_msg(1:6) .eq. "TETRA ") tetlines = tetlines +1
+          if (input_msg(1:5) .eq. "TRGL ")  trilines = trilines +1
         endif
-        if (input_msg(1:6) .eq. "PVRTX ") plines = plines +1
-        if (input_msg(1:5) .eq. "VRTX ")  plines = plines +1
-        if (input_msg(1:6) .eq. "TETRA ") tetlines = tetlines +1
-        if (input_msg(1:5) .eq. "TRGL ")  trilines = trilines +1
       end do 
 
 
@@ -287,12 +303,14 @@ C     REWIND FILE to read data
 
 C     Prepare mesh object and memory based on counts 
 
-C debug
+C debug for counts from first read
+C     print*,"From first read:"
 C     print*,"Mesh type = ",mesh_type
 C     print*,"VRTX count = ",plines
 C     print*,"TET  count = ",tetlines
 C     print*,"TRI  count = ",trilines
 C     print*,"Line count = ",file_length
+C     print*,"Skip count = ",skipline
       
       if (trilines.ne.0 .and. tetlines.ne.0) then
           write(logmess,'(a)') 
@@ -361,6 +379,10 @@ C     Get Mesh Object attributes
 C     Added attributes - this is from old version of code
 C     TSurf may need block and id attributes, check examples
 
+C     This is causing problems for general tsurf files
+C     but needed for some types of tsurfs from gocad
+C     iblock is assigned value of n_tface for each instance of TFACE
+
       if (mesh_type.eq."TSurf") then
         call dotask
      *  ('cmo/addatt/-def-/iblock/VINT/scalar/nelements;finish',ierror)
@@ -370,8 +392,9 @@ C     TSurf may need block and id attributes, check examples
       endif
 
       n_vrtx = 0
-      n_tet = 0
+      n_elem = 0
       n_tri = 0
+      n_tet = 0
       n_tface = 0
       n_object = 1
       n_line_parse = 0
@@ -382,9 +405,12 @@ C     ******************************************************************
 C     READ and PARSE All FILE LINES
 C     remove hard-wired loop do i=1, 100000000
 
+C     LOOP all lines 
+C     This is a long set of cases based on first words each line
+C     Switch on each first word to look for keyword 
       do
          
-C        Check count to protect memory 
+C        CHECK COUNTS to protect memory 
          if(n_vrtx .gt. nnodes_set)then
              write(logmess,'(a,i14,a,i14)')
      *       "Error: nodes expected: ",nnodes_set," read: ",n_vrtx
@@ -392,31 +418,44 @@ C        Check count to protect memory
              ierror = ierror + 1
              goto 9999
          endif
-
-         if(n_tet .gt. ntets_set)then
+         if(n_elem .gt. ntets_set)then
              write(logmess,'(a,i14,a,i14)')
-     *       "Error: tets expected: ",ntets_set," read: ",n_tet
+     *       "Error: tets expected: ",ntets_set," read: ",n_elem
              call writloga('default',0,logmess,0,ics)
              ierror = ierror + 1
              goto 9999
          endif
 
-C        READ LINES
+C        READ A LINE
+
          input_msg = ' '
-
          read(iunit,'(a)', end=100) input_msg
-
          lenparse = len(input_msg)
-         
-C        do not use nwds here for local parser work
-         call parse_string2(lenparse, input_msg,
-     .                     imsg,msg,xmsg,cmsg,nmsg)
+         read_count = read_count+1
 
-         n_line_parse = n_line_parse + 1
-Cdebug   print*,"Parse line: ",n_line_parse
+C        SKIP commented or bracket lines which may be very long
+         if (input_msg(1:1).eq. "*" .or. 
+     *       input_msg(1:1).eq. "#" .or.
+     *       input_msg(1:1).eq. "}") then
+
+             skip_count = skip_count+1
+             cmsg(1) = "SKIP"
+             nmsg = 0
+Cdebug
+C            print*,"Skip line: ",read_count
+C            print*,"Skip line with length: ",lenparse
+
+
+C        PARSE THE LINE
+         else 
+             call parse_string2(lenparse, input_msg,
+     .                     imsg,msg,xmsg,cmsg,nmsg)
+             n_line_parse = n_line_parse + 1
+
+         endif
 
 C     ******************************************************************
-C     Parse HEADER lines 
+C     HEADER KEYWORDS 
 
 C        If ZPOSITIVE is Elevation, this is normal z coordinates
 C        If ZPOSITIVE is Depth, elevations are positive below 0, negative above
@@ -426,37 +465,61 @@ C        Z coordinates and node order here are for JewelSuite GOCAD with Depth
 C        Mult by Z and changing tet node order seems to put it into right-hand
 C        node order for tets are also changed, need testing for non Jewelsuite
 
+
+CCCCCCCCCCase Z Axis
          if (cmsg(1)(1:9).eq.'ZPOSITIVE')then
              if (cmsg(2)(1:5) .eq. "Depth") then
                  left_hand = .true.
                  z_type = "Z Depth"
              endif
-         endif
 
-C        Check for node and element attributes, 
-C        Add attributes after we know the type by reading data
+C        KEYWORDS for node and element attributes, 
+C        Add attributes after we know the type by reading data lines
 
-         if (cmsg(1)(1:10).eq.'PROPERTIES')then
-             if_nprops = .true.
-             input_nprops = input_msg
-             input_msg = ' '
-         endif
+CCCCCCCCCCase node properties 
+         elseif (cmsg(1)(1:10).eq.'PROPERTIES')then
+             if (if_nprops .eqv. .true.) then
+                 print*,"PROPERTIES already set for nodes."
+                 print*,cmsg(1)(1:10)," repeat ignored."
+             else
+                 if_nprops = .true.
+                 input_nprops = input_msg
+                 input_msg = ' '
+             endif
 
-         if (cmsg(1)(1:16).eq.'TETRA_PROPERTIES')then
-             if_tprops = .true.
-             input_tprops = input_msg
-             input_msg = ' '
-         endif
+CCCCCCCCCCase cell properties tet 
+         elseif (cmsg(1)(1:16).eq.'TETRA_PROPERTIES')then
+             if (if_tprops .eqv. .true.) then
+                 print*,"TRGL_PROPERTIES already set for cells."
+                 print*,cmsg(1)(1:16)," ignored."
+             else
+                 if_tprops = .true.
+                 input_tprops = input_msg
+                 input_msg = ' '
+             endif
+
+CCCCCCCCCCase cell properties tet 
+         elseif (cmsg(1)(1:15).eq.'TRGL_PROPERTIES')then
+             if (if_tprops .eqv. .true.) then
+                 print*,"TETRA_PROPERTIES already set for cells."
+                 print*,cmsg(1)(1:15)," ignored."
+             else
+                 if_tprops = .true.
+                 input_tprops = input_msg
+                 input_msg = ' '
+             endif
 
 
 C     ******************************************************************
 C  Parse VRTX nodes and optional properties
 C  syntax: VRTX ID X Y Z [PN ...] where PN are properties defined in the header
 
-         if (cmsg(1)(1:5) .eq. 'VRTX '.or.cmsg(1)(1:6).eq.'PVRTX ')then
+CCCCCCCCCCase cell properties 
+        elseif (cmsg(1)(1:5) .eq. 'VRTX '
+     *     .or. cmsg(1)(1:6).eq.'PVRTX ')then
 
 C        -------------------------------------------------------
-C        First line of data in this file 
+C        DO ONCE setup from first VRTX line
          if (n_vrtx .eq. 0) then
 
            istart = 6
@@ -467,25 +530,33 @@ C          and setup attributes with appropriate names
 C          property values start at word 6 if they exist
 C          VRTX ID X Y Z properties...
 
+           write(logmess,'(a)')
+     *     "..................................................." 
+           call writloga('default',0,logmess,0,ier)
+
+           write(logmess,'(a)')
+     *     "SET VRTX properties: " 
+           call writloga('default',0,logmess,0,ier)
+
            if (if_nprops) then
              call gocad_add_attributes(cmoname,
      *          input_nprops,msg,nmsg,n_attnames,num_node_att,ics)
+
+C            if error, skip reading attributes but keep going
+             if (ics .ne. 0) then
+               num_node_att = 0
+                write(logmess,'(a,i14)')
+     * "Can not get node attribute from line: ",read_count 
+               call writloga('default',0,logmess,0,ier)
+               write(logmess,'(a)')
+     *         "Warning: VRTX properties Skipped, can not get info."
+               call writloga('default',0,logmess,0,ier)
+             endif
+
            else
                ics = 0
                write(logmess,'(a)')
-     *         "There are no Node Properties." 
-               call writloga('default',0,logmess,0,ier)
-           endif
-
-C          if error, skip reading attributes but keep going
-           if (ics .ne. 0) then
-               num_node_att = 0 
-               write(logmess,'(a)')
-     *     "Warning: Node Properties Skipped, Can not set attributes." 
-               call writloga('default',0,logmess,0,ier)
-           else
-               write(logmess,'(a,i5)')
-     *         "Attributes set for Node Properties",num_node_att 
+     *         "There are no VRTX properties." 
                call writloga('default',0,logmess,0,ier)
            endif
 
@@ -516,20 +587,20 @@ C          set pointers to the attributes to fill with data
 
            nwds_vrtx = istart+num_node_att-1
 
-           write(logmess,'(a)')
-     *     "..................................................." 
+           write(logmess,'(a,i5)')
+     *     "READ VRTX data with word count: ",nwds_vrtx
            call writloga('default',0,logmess,0,ier)
-
-           write(logmess,'(a,i5,i5)')
-     *     "READ VRTX data and properties: ",nwds_vrtx,num_node_att 
+           write(logmess,'(a,i5)')
+     *     "READ VRTX property with index:  ",num_node_att 
            call writloga('default',0,logmess,0,ier)
          endif
+C        END first vrtx line, setup, and write once message
 C        -------------------------------------------------------
 C          parse data line and fill attributes
 
            if (nmsg .lt. nwds_vrtx) then
               write(logmess,'(a,i10)')
-     *        "Warning: missing VRTX values line: ",n_line_parse
+     * "Warning: missing VRTX values line: ",read_count
               call writloga('default',0,logmess,0,ier)
               write(logmess,'("Line ignored. ")')
               call writloga('default',0,logmess,0,ier)
@@ -573,7 +644,7 @@ C            loop through added property values for this node
 
                  if (ii .gt. num_node_att) then
                  write(logmess,'(a,i10)')
-     *          "Warning: too many values line: ",n_line_parse
+     *  "Warning: too many values line: ",read_count
                  call writloga('default',0,logmess,0,ier)
                  write(logmess,'("Extra values ignored. ")')
                  call writloga('default',0,logmess,0,ier)
@@ -608,7 +679,7 @@ C            loop through added property values for this node
 C DEBUG
 c          if (n_vrtx.lt.5 .or.n_vrtx.gt.500) then
 c             print*,n_vrtx," type ",ityp," word ",ii
-c             crint*,"pointers ",ipxvalues,ipivalues
+c             print*,"pointers ",ipxvalues,ipivalues
 c             print*,"...................................."
 c          endif
 
@@ -628,43 +699,56 @@ C        Parse TRGL for TSurf .ts mesh type
 C        Parse TETRA for TSolid .so mesh type
 C        synatx: TETRA id1 id2 id3 id4 [PN ...] where PN are properties
 C        Node order with normal pointing inward (AVS is outward)
-C
+
+CCCCCCCCCCase cell properties 
          elseif (cmsg(1)(1:5) .eq. 'TRGL ' .or. 
      *           cmsg(1)(1:6) .eq. 'TETRA ') then
 
+C        ---------------------------------------------------------
+C        DO ONCE setup with first cell line
 
-C       -------------------------------------------------------
-C       First line of data in this file 
-        if (n_tet .eq. 0) then
+         if (n_elem .eq. 0) then
 
-          if (cmsg(1)(1:5) .eq. 'TRGL ') istart = 5
-          if (cmsg(1)(1:4) .eq. 'TET') istart = 6
+          if (cmsg(1)(1:5) .eq. 'TRGL ') then
+             istart = 5
+          endif
+          if (cmsg(1)(1:4) .eq. 'TET') then 
+             istart = 6
+          endif
           num_elem_att = 0
 
 C         Use the first line of data to detirmine attribute type
 C         and setup attributes with appropriate names
-C         TETRA or TRGL Nid1 Nid2 Nid3 (Nid4) properties...
+C         TETRA or TRGL Nid1 Nid2 Nid3 (Nid4) properties... 
+
+           write(logmess,'(a)')
+     *     "..................................................."
+           call writloga('default',0,logmess,0,ier)
+
+           write(logmess,'(a)')
+     *     "SET CELL properties: "
+           call writloga('default',0,logmess,0,ier)
 
           if (if_tprops) then
             call gocad_add_attributes(cmoname,
      *         input_tprops,msg,nmsg,e_attnames,num_elem_att,ics)
+
+C            if error, skip reading attributes but keep going
+             if (ics .ne. 0) then
+               num_node_att = 0
+                write(logmess,'(a,i14)')
+     *  "Can not get cell attribute from line: ",read_count 
+               call writloga('default',0,logmess,0,ier)
+               write(logmess,'(a)')
+     *         "Warning: CELL properties Skipped, can not get info."
+               call writloga('default',0,logmess,0,ier)
+             endif
+
           else
                ics = 0
                write(logmess,'(a)')
-     *         "There are no Cell Properties." 
+     *         "There are no Cell properties." 
                call writloga('default',0,logmess,0,ier)
-          endif
-
-C         if error, skip reading attributes but keep going
-          if (ics .ne. 0 ) then
-              num_elem_att = 0 
-              write(logmess,'(a)')
-     *     "Warning: Cell Properties Skipped, Can not set attributes." 
-              call writloga('default',0,logmess,0,ier)
-           else
-              write(logmess,'(a,i5)')
-     *        "Attributes set for Cell Properties",num_elem_att 
-              call writloga('default',0,logmess,0,ier)
           endif
 
 C         set pointers to the attributes to fill with data
@@ -695,21 +779,24 @@ C         set pointers to the attributes to fill with data
 
            nwds_tet = istart+ num_elem_att - 1 
 
-           write(logmess,'(a)')
-     *     "..................................................." 
+           write(logmess,'(a,i5)')
+     *     "READ CELL data with word count: ",nwds_tet
+           call writloga('default',0,logmess,0,ier)
+           write(logmess,'(a,i5)')
+     *     "READ CELL property with index:  ",num_elem_att
            call writloga('default',0,logmess,0,ier)
 
-           write(logmess,'(a,i5,i5)')
-     *     "READ CELL data and properties: ",nwds_tet,num_elem_att 
-           call writloga('default',0,logmess,0,ier)
+
          endif
+         n_elem = n_elem + 1
 C        ---------------------------------------------------------
-C        done with first data line and setup
-C        now parse each line and fill element attributes
+C        END first cell line, setup, and write once message
+
+C          now parse each line and fill element attributes
 
            if (nmsg .lt. nwds_tet) then
               write(logmess,'(a,i10)')
-     *        "Warning: missing VRTX values line: ",n_line_parse
+     * "Warning: missing VRTX values line: ",read_count
               call writloga('default',0,logmess,0,ier)
               write(logmess,'("Line ignored. ")')
               call writloga('default',0,logmess,0,ier)
@@ -720,7 +807,7 @@ C            READ and set TRGL element
              if (elem_typ .eq. ifelmtri) then
                if (nmsg .lt. 4 ) then
                   write(logmess,'(a,i10)')
-     *            "Warning: missing TRGL values line: ",n_line_parse
+     * "Warning: missing TRGL values line: ",read_count
                   call writloga('default',0,logmess,0,ier)
                   write(logmess,'("Line ignored. ")')
                   call writloga('default',0,logmess,0,ier)
@@ -744,7 +831,7 @@ C            READ and set TETRA element
              else if (elem_typ .eq. ifelmtet) then
                if (nmsg .lt. 5 .and. num_elem_att .gt. 0) then
                   write(logmess,'(a,i10)')
-     *           "Warning: missing TETRA values line: ",n_line_parse
+     * "Warning: missing TETRA values line: ",read_count
                   call writloga('default',0,logmess,0,ier)
                   write(logmess,'("Line ignored. ")')
                   call writloga('default',0,logmess,0,ier)
@@ -775,21 +862,34 @@ C            READ and set TETRA element
 C          done reading nodes for the element
 
 C          loop through attribute values for this element
-C DEBUG
+C          istart = index after node list 
+c          TRGL has 4 so istart is 5, TETRA has 5 so istart is 6
+c          current code supports mix tri and tet
+c          but results not guaranteed use n_tet and n_tri
+c          here we write atts for each elem of either type
+c          index n_elem instead of n_tet but protect if not set
 
-           if (nmsg .gt. 5 .and. num_elem_att.gt.0) then
+
+           if (nmsg .ge. istart .and. num_elem_att.gt.0) then
               ii = 1
               do i = istart, nmsg
 
                  if (ii .gt. num_elem_att) then
                    write(logmess,'(a,i10)')
-     *            "Warning: too many values line: ",n_line_parse
+     * "Warning: too many values line: ",read_count
+                   call writloga('default',0,logmess,0,ier)
+                   write(logmess,'("Extra values ignored. ")')
+                   call writloga('default',0,logmess,0,ier)
+
+                 elseif (n_elem .le. 0) then 
+
+                   write(logmess,'(a,i10)')
+     *            "Warning: n_elem not set: ",n_elem
                    call writloga('default',0,logmess,0,ier)
                    write(logmess,'("Extra values ignored. ")')
                    call writloga('default',0,logmess,0,ier)
 
                  else
-
 
                     call mmgettyp(e_datptr(ii),ityp,ics)
 
@@ -800,29 +900,27 @@ C DEBUG
                       call writloga('default',1,logmess,1,ier)
                     endif
 
+C debug
+C           print*,"loop i and ii: ",i,ii
+C           print*,"n_tri: ",n_tri
+C           print*,"n_tet: ",n_tet
+C           print*,"n_elem: ",n_elem
+
                     if (ityp.eq.1) then
                        ipivalues = e_datptr(ii)
                        if(msg(i) .eq. if_real) then
-                         ivalues(n_tet) = int(xmsg(i))
+                         ivalues(n_elem) = int(xmsg(i))
                        elseif(msg(i) .eq. if_integer) then
-                         ivalues(n_tet) = imsg(i)
+                         ivalues(n_elem) = imsg(i)
                        endif
                     elseif (ityp.eq.2) then
                        ipxvalues = e_datptr(ii)
                        if(msg(i) .eq. if_real) then
-                         xvalues(n_tet) = xmsg(i)
+                         xvalues(n_elem) = xmsg(i)
                        elseif(msg(i) .eq. if_integer) then
-                         xvalues(n_tet) = float(imsg(i))
+                         xvalues(n_elem) = float(imsg(i))
                        endif
                     endif
-
-
-c                   ipiatt= e_datptr(ii)
-c                   if(msg(i) .eq. if_real) then
-c                     iatt(n_tet) = xmsg(i)
-c                   elseif(msg(i) .eq. if_integer) then
-c                     iatt(n_tet) = float(imsg(i))
-c                   endif
 
                     ii = ii+1
                  endif
@@ -830,23 +928,26 @@ c                   endif
               enddo
 
            endif
-           
 
            endif
 C          end reading element properties
+C          print*,"END cells ------------"
 
 C
 C  Parse TFACE
 C
+CCCCCCCCCCase tface, count instance 
          elseif (cmsg(1)(1:6) .eq. 'TFACE ')then
            n_tface = n_tface + 1
 C
 C  Parse END
 C
+CCCCCCCCCCase end of file or new object 
          elseif((cmsg(1)(1:3) .eq. 'END').and.
      1          (cmsg(1)(1:4) .ne. 'END_'))then
 
-           if (n_line_parse .lt. file_length) then
+           nEND = nEND + 1
+           if (read_count .lt. file_length) then
                n_object = n_object + 1
                n_offset_vrtx = n_vrtx
            endif
@@ -854,7 +955,8 @@ C
 C
 C  Parse ATOM - note we do not have an example to test this option
 C
-         elseif(cmsg(1)(1:4).eq.'ATOM'.or.cmsg(1)(1:5).eq.'PATOM')then
+CCCCCCCCCCase atom  
+          elseif(cmsg(1)(1:4).eq.'ATOM'.or.cmsg(1)(1:5).eq.'PATOM')then
            n_vrtx = n_vrtx + 1
            id_vrtx = imsg(2)
            xic(n_vrtx) = xic(imsg(3))
@@ -864,17 +966,22 @@ C
 C  Parse other
 C  The pound sign character indicates comment to skip
 C
+CCCCCCCCCCase atom  
          else
 c
-c          keyword not implemented
-c          do nothing with the data
+c          ignore first word not implemented or not needed
+C          print*,"unknown keyword: ",cmsg(1)
 c
          endif
+
+C     END loop lines
       enddo
   100 continue
-  
+
+Cdebug
 
 C     Set mesh info	
+
 
       if (n_vrtx .gt. 0) then
          call cmo_set_info('nnodes',cmoname,n_vrtx,1,1,ierror)
@@ -886,6 +993,8 @@ C     Set mesh info
          call cmo_set_info('nelements',cmoname,n_tri,1,1,ierror)
       endif
 
+
+
       call cmo_newlen(cmoname,ierror)
       call dotask('geniee ; finish',ierror)
       if (ierror .ne. 0) then
@@ -895,11 +1004,14 @@ C     Set mesh info
       endif
 
  9999 continue
+
       call mmrelprt(isubname,ics)      
 
 C     Report results
+C     GOCAD formats vary greatly 
+C     report may help with possible issues
 
-      write(logmess,'("--- READ GOCAD --------        ")')
+      write(logmess,'("--- READ GOCAD FINISHED -------- ")')
       call writloga('default',0,logmess,0,ier)
 
       write(logmess,'(" Mesh Type:    ",a6)') mesh_type
@@ -921,6 +1033,11 @@ C     Report results
       call writloga('default',0,logmess,0,ier)
       endif
 
+      if (n_elem .gt. 0) then
+      write(logmess,'(" Cells:       ",i10)')n_elem
+      call writloga('default',0,logmess,0,ier)
+      endif
+
       if (n_tface .gt. 1) then
       write(logmess,'(" TFACE:       ",i10)')n_tface
       call writloga('default',0,logmess,0,ier)
@@ -932,12 +1049,12 @@ C     Report results
       endif
 
       if (num_node_att .gt. 0) then
-      write(logmess,'(" Node Properties:  ",i3)')num_node_att
+      write(logmess,'(" Node properties:  ",i5)')num_node_att
       call writloga('default',0,logmess,0,ier)
       endif
 
       if (num_elem_att .gt. 0) then
-      write(logmess,'(" Cell Properties:  ",i3)')num_elem_att
+      write(logmess,'(" Cell properties:  ",i5)')num_elem_att
       call writloga('default',0,logmess,0,ier)
       endif
 
@@ -947,7 +1064,7 @@ C     Report results
      *   " Warning: Total nodes expected: ",nnodes_set
          call writloga('default',0,logmess,0,ier)
       endif
-      if (n_tet.gt.0 .and. n_tet .ne. ntets_set ) then
+      if (n_elem.gt.0 .and. n_elem .ne. ntets_set ) then
          write(logmess,'(a,i10)')
      *   " Warning: Total tets expected: ",ntets_set
          call writloga('default',0,logmess,0,ier)
@@ -958,12 +1075,12 @@ C     Report results
          call writloga('default',0,logmess,0,ier)
       endif
 
-      if (file_length .ne. n_line_parse) then
-      write(logmess,'(" LINES expected: ",i10)')file_length
+      if (file_length .ne. read_count) then
+      write(logmess,'(" LINES expected: ",i14)')file_length
       call writloga('default',0,logmess,0,ier)
       endif
 
-      write(logmess,'(" LINES read:      ",i10)')n_line_parse
+      write(logmess,'(" LINES read:     ",i14)')read_count
       call writloga('default',0,logmess,1,ier)
 
       if (ierror .ne. 0) then
@@ -971,8 +1088,8 @@ C     Report results
          call writloga('default',0,logmess,1,ier)
       endif
 
-      write(logmess,'("-----------------------        ")')
-      call writloga('default',0,logmess,0,ier)
+C     Display cmo status
+      call dotask('cmo/status/brief ; finish',ierror)
 
 C     END read_gocad_tsurf
       return
@@ -1044,7 +1161,7 @@ C     get the array length for this line
 
 C debug
 C     print*,"PARSE PROPERTY LINE ========================"
-C     print*,"SHOW PROPERTY LINE(120): ", prop_line(1:120)
+C     print*,"SHOW PROPERTY LINE(1:120): ", prop_line(1:120)
 C     print*,"prop line len: ",lenline
 
 C     Use first word to get attribute length  
@@ -1064,6 +1181,11 @@ C     Use first word to get attribute length
           attlen = "nnodes"
           attword = "_pvrtx"
           istart = 6
+      else
+          print*,"ERROR reading PROPERTY line."
+          print*,"KEYWORD: ",prop_line(1:ilen)
+          ierror = 1
+          goto 9998
       endif
       nprops = nmsg-istart+1 
 
@@ -1112,20 +1234,22 @@ c     print*,"end loop over line //////////"
 
 
 C debug write results of the parsed line
-c     do i = 1, nwds2
-c     print*,"cmsgbig ",i, cmsgbig(i)
-c     enddo
-c     print*,"End prop_line parse with words: ",nwds2
+C     do i = 1, nwds2
+C     print*,"cmsgbig ",i, cmsgbig(i)
+C     enddo
+C     print*,"End prop_line parse with words: ",nwds2
 
 C     number of attributes = number of words minus keyword
       natt = nwds2-1 
       if (natt .ne. nprops) then
           print*,"ERROR: nprops ne natt ",nprops, natt
+          print*,"Check for extra spaces or words at line:"
+          print*, cmsgbig(1:icharlnf(cmsgbig(1)))
+          print*," "
           ierror = 1
           natt = 0
           goto 9998
       endif
-
 
 C     LOOP over each property name and create attributes
       do i = 2, nwds2
@@ -1141,9 +1265,9 @@ c          print*,"cmsbig i :",i, cmsgbig
                print*,"Property name too long: ",cmsgbig(i)(1:length),i
                print*,"generic name will be created."
                if (i .lt. 10) then
-                   write(cmoatt,'(a5,i1,a6)'),"prop_",i-1,attword
+                   write(cmoatt,'(a5,i1,a6)') "prop_",i-1,attword
                else
-                   write(cmoatt,'(a5,i2,a6)'),"prop_",i-1,attword
+                   write(cmoatt,'(a5,i2,a6)') "prop_",i-1,attword
                endif
             else
                cmoatt=cmsgbig(i)(1:length)
@@ -1152,7 +1276,7 @@ c          print*,"cmsbig i :",i, cmsgbig
 C           Now get the attribute type
             if (istart .gt. nmsg .or. istart.le.0 ) then
                 print*,"ERROR reading data line."
-                print*,"Properties will not be read."
+                print*,"properties will not be read."
                 ierror = 1
                 natt = 0
                 goto 9998
@@ -1193,6 +1317,13 @@ c           print*,"subroutine add attribute: ",cmoatt
 
 
  9998 continue
+
+C     clean the buffer after use
+      
+       length=len(cmsgbig)
+       do i = 1, length
+          cmsgbig(i) = " "
+       enddo
 
       return 
       end
