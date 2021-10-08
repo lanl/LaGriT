@@ -1022,21 +1022,37 @@ C          CMO 2D in 2 dimensions
 
 C              some 2D planar distributions are not delaunay
 C              call recon/0 to ensure delaunay
-              
-               ierr2 = 0
-               call dotaskx3d('recon/0 ; finish',ierr2)
 
                if (ierr2.ne.0) then
                    write(logmess,'(a,i5)')
-     *             'LaGriT WARNING: recon 0 for 2d error: ',ierr2
+     *             'LaGriT WARNING: connect for 2d error: ',ierr2
                    call writloga('default',0,logmess,1,ierrw)
                    ierr2 = 0
+               endif
 
-               else
+               call cmo_get_info('nelements',cmo,
+     *              ntets,ntets,itype,ierr2)
+               if (ntets .le. 0) then
                    write(logmess,'(a)')
-     *             'LaGriT FINISH: recon 0 for connect 2d'
+     *             'LaGriT WARNING: connect finished with 0 elements'
                    call writloga('default',0,logmess,1,ierrw)
-              endif
+                   ntets = 0
+               else
+                   ierr2 = 0
+                   call dotaskx3d('recon/0 ; finish',ierr2)
+
+                   if (ierr2.ne.0) then
+                     write(logmess,'(a,i5)')
+     *               'LaGriT WARNING: recon 0 for 2d error: ',ierr2
+                     call writloga('default',0,logmess,1,ierrw)
+                     ierr2 = 0
+
+                   else
+                     write(logmess,'(a)')
+     *               'LaGriT FINISH: recon 0 for connect 2d'
+                     call writloga('default',0,logmess,1,ierrw)
+                   endif
+               endif
 
              endif
 

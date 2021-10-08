@@ -113,6 +113,7 @@ C     useful functions - should be just ahead of any other statement functions
 C
 C#######################################################################
 C BEGIN begin
+C Note tamiller - this routine has minimal error checking
 C
       isubname='recon2d'
       icmoget=1
@@ -126,8 +127,17 @@ C
      *                ivoronoi,length,icmotype,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
 C
+C     check for 0 elements
+      call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
+      if (ntets .le. 0) then
+         write(logmess,'(a)') 
+     *   'WARNING Recon2d Early Exit: 0 elements'
+         call writloga('default',1,logmess,1,ierror)
+         ierror = -1
+         goto 9999
+      endif
+
       if(abs(ivoronoi).eq.2) then
-         call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
          ntetsmax=ntets
          ntetsmax=max(ntetsmax,ntets+10)
          call cmo_set_info('nelements',cmo,ntetsmax,1,1,ierror)

@@ -293,6 +293,17 @@ C
       else
          ijob=0
       endif
+
+C     check for 0 elements
+      call cmo_get_info('nelements',cmo,ntets,length,icmotype,ierror)
+      if (ntets .le. 0) then
+         write(logmess,'(a)')
+     *   'WARNING Recon Early Exit: 0 elements'
+         call writloga('default',1,logmess,1,ierror)
+         ierror = -1
+         goto 9999
+      endif
+
 C
 c.... If provided, get damage tolerance from argument list.
 c.... Otherwise, we get the dimensions of mesh object (using setsize and getsize)
