@@ -541,7 +541,7 @@ c  for default attribute
       cmo_attlist(5+inc)='constant'
       cmo_attlist(6+inc)='permanent'
       cmo_attlist(7+inc)='l'
-      cmo_attparam_cdefault(30)='yes '
+      cmo_attparam_cdefault(30)='no  '
       cmo_attparam_rdefault(30)=0.
       cmo_attparam_idefault(30)=0
       inc=inc+number_of_params_per_att

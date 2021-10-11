@@ -346,7 +346,7 @@ C
      *                 1, 4, 8, 5 /
       data ivoronoi2d / 1 /
       data ivoronoi3d / 0 /
-      data ipolydata / 1 /
+      data ipolydata / 0 /
       data iflag_all / 0 /
       data imt_exist / 1 /
       data itp_exist / 1 /
@@ -385,18 +385,28 @@ C
       if(ierror.ne.0) nmregs=0
       idumptype=1
       if(iotype(1:5).eq.'ascii') idumptype=0
+
+C     default cmo ipolydat changed to no
+C     code should work the same with new default
+C     just make sure cvor is used correctly
+
+C     vor2d
       call cmo_get_attinfo('vor2d',cmo,iout,rout,cvor,ipout,lout,
      *     itype,icscode)
       ivoronoi2d=1
-      if(cvor.eq.'no') ivoronoi2d=0
+      if(cvor(1:2).eq.'no') ivoronoi2d=0
+
+C     vor3d
       call cmo_get_attinfo('vor3d',cmo,iout,rout,cvor,ipout,lout,
      *     itype,icscode)
-      if(cvor.eq.'no') ivoronoi3d=0
+      ivoronoi3d=1
+      if(cvor(1:2).eq.'no') ivoronoi3d=0
+
+C     ipolydat
       call cmo_get_attinfo('ipolydat',cmo,iout,rout,cvor,ipout,lout,
      *     itype,icscode)
- 
-      ipolydata=1
-      if(cvor.eq.'no') ipolydata=0
+      ipolydata = 0
+      if(cvor(1:3).eq.'yes') ipolydata=1
 C
 C     ******************************************************************
 C
