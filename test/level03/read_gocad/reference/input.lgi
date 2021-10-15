@@ -1,0 +1,23 @@
+# test GOCAD
+
+read/gocad /tsolid_2tets_Zelev.so / cmoin
+quality
+cmo/delete/cmoin
+
+read/gocad /tsolid_small_js.so / cmoin
+quality
+cmo/delete/cmoin
+
+read/gocad /tsurf_3tri_all_props.ts / cmoin
+quality
+cmo/delete/cmoin
+
+read/gocad /tsurf_3tri_node_props.ts / cmoin
+quality
+cmo/delete/cmoin
+
+read/gocad /tsurf_small_TFACE.ts / cmoin
+quality
+cmo/delete/cmoin
+
+finish

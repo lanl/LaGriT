@@ -1,0 +1,52 @@
+GOCAD TSolid 1
+HEADER {
+name:3D Mesh Z Elevation not depth 
+*solid*color:0.498039 0.498039 0.498039 0.5
+}
+GOCAD_ORIGINAL_COORDINATE_SYSTEM
+NAME Default
+AXIS_NAME "X" "Y" "Z"
+AXIS_UNIT "m" "m" "m"
+ZPOSITIVE Elevation
+END_ORIGINAL_COORDINATE_SYSTEM
+PROPERTIES NodeId
+PROP_LEGAL_RANGES **none** **none**
+NO_DATA_VALUES -999.25
+PROPERTY_CLASSES NodeId
+PROPERTY_KINDS unknown
+PROPERTY_SUBCLASSES QUANTITY Float
+ESIZES 1
+UNITS unitless
+PROPERTY_CLASS_HEADER NodeId{
+low_clip:1
+high_clip:4
+}
+TETRA_PROPERTIES CompartmentId ElementId ZoneId
+TETRA_PROP_LEGAL_RANGES **none** **none** **none** **none** **none** **none**
+TETRA_NO_DATA_VALUES -999.25 -999.25 -999.25
+TETRA_PROPERTY_CLASSES CompartmentId ElementId ZoneId
+TETRA_PROPERTY_KINDS unknown unknown unknown
+TETRA_PROPERTY_SUBCLASSES QUANTITY Float QUANTITY Float QUANTITY Float
+TETRA_ESIZES 1 1 1
+TETRA_UNITS unitless unitless unitless
+TETRA_PROPERTY_CLASS_HEADER CompartmentId{
+low_clip:1
+high_clip:2
+}
+TETRA_PROPERTY_CLASS_HEADER ElementId{
+low_clip:1
+high_clip:2
+}
+TETRA_PROPERTY_CLASS_HEADER ZoneId{
+low_clip:1
+high_clip:1
+}
+TVOLUME
+PVRTX 1 0 0 0 1
+PVRTX 2 1. 0. 0. 2
+PVRTX 3 0. 1. 0. 3
+PVRTX 4 0  1  1  4
+PVRTX 5 0  1  -1  5
+TETRA 3 2 1 4  1 1 1
+TETRA 1 2 3 5  2 2 1
+END
