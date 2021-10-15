@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Jul 24  15:38:54          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 Release         *                 
+*               *    Run Time: 2021/Oct 15  16:03:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25,8 +25,8 @@
                                -----oOo-----                                    
  
  
-Output log file: outx3dgen                                                      
-Command log file: logx3dgen                                                     
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
  
 # Test the connect command in two dimensions. Currently this test fails when the
 # unit square is positioned at this location (1000, 0, 0) and also at various   
@@ -177,11 +177,7 @@ ERROR END: delaunay2d
  
 LaGriT FINISH: connect                                                          
  
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
+LaGriT WARNING: connect finished with 0 elements                                
  
 quality                                                                         
          0 total elements in mesh.                                              
