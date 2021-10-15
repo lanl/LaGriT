@@ -1,0 +1,435 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2021/10/15 Release         *                 
+*               *    Run Time: 2021/Oct 15  17:05:39          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# test GOCAD                                                                    
+read/gocad/input_2tets_Zelev.so/cmoin                                           
+Reading GOCAD file: input_2tets_Zelev.so                                        
+cmo/create/cmoin///tet                                                          
+finish                                                                          
+...................................................                             
+SET VRTX properties:                                                            
+cmo/addatt/cmoin/NodeId/VINT scalar/nnodes/linear/permanent/gxaf/0.0/           
+finish                                                                          
+READ VRTX data with word count:     6                                           
+READ VRTX property with index:      1                                           
+...................................................                             
+SET CELL properties:                                                            
+cmo/addatt/cmoin/CompartmentId/VINT scalar/nelements/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/ElementId/VINT scalar/nelements/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/        
+finish                                                                          
+READ CELL data with word count:     8                                           
+READ CELL property with index:      3                                           
+geniee                                                                          
+finish                                                                          
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSolid                                                           
+ ZPOSITIVE:    Elev Up                                                          
+ Nodes:                5                                                        
+ Tets:                 2                                                        
+ Cells:                2                                                        
+ Node properties:      1                                                        
+ Cell properties:      3                                                        
+ LINES read:                 52                                                 
+ 
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmoin                                          
+ 
+  1 Mesh Object name: cmoin                                                     
+    number of nodes =             5        number of elements =            2    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   5.4389598E-13  1.6089685E-37                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          2                          
+min aspect ratio =  0.7174E+00  max aspect ratio =  0.7174E+00                  
+ 
+epsilonvol:   4.4408921E-13                                                     
+---------------------------------------                                         
+All elements have volume -1.6666667E-01                                         
+-----------------------------------------------------------                     
+         2 total elements evaluated.                                            
+ 
+cmo/delete/cmoin                                                                
+     Released Mesh Object: cmoin                                                
+read/gocad/input_small_js.so/cmoin                                              
+Reading GOCAD file: input_small_js.so                                           
+cmo/create/cmoin///tet                                                          
+finish                                                                          
+...................................................                             
+SET VRTX properties:                                                            
+cmo/addatt/cmoin/NodeId/VINT scalar/nnodes/linear/permanent/gxaf/0.0/           
+finish                                                                          
+READ VRTX data with word count:     6                                           
+READ VRTX property with index:      1                                           
+...................................................                             
+SET CELL properties:                                                            
+cmo/addatt/cmoin/CompartmentId/VINT scalar/nelements/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/ElementId/VINT scalar/nelements/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/        
+finish                                                                          
+READ CELL data with word count:     8                                           
+READ CELL property with index:      3                                           
+geniee                                                                          
+finish                                                                          
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSolid                                                           
+ ZPOSITIVE:    Z Depth                                                          
+ Nodes:               11                                                        
+ Tets:                 6                                                        
+ Cells:                6                                                        
+ Node properties:      1                                                        
+ Cell properties:      3                                                        
+ LINES read:                 61                                                 
+ 
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmoin                                          
+ 
+  1 Mesh Object name: cmoin                                                     
+    number of nodes =            11        number of elements =            6    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.2444411E-12  1.9271832E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          6                          
+min aspect ratio =  0.7992E+00  max aspect ratio =  0.9210E+00                  
+ 
+epsilonvol:   7.3156026E-12                                                     
+---------------------------------------                                         
+element volumes b/w  0.5189E+00 and  0.5976E+00:         2                      
+element volumes b/w  0.5976E+00 and  0.6883E+00:         2                      
+element volumes b/w  0.6883E+00 and  0.7928E+00:         1                      
+element volumes b/w  0.7928E+00 and  0.9131E+00:         0                      
+element volumes b/w  0.9131E+00 and  0.1052E+01:         1                      
+min volume =   5.1890035E-01  max volume =   1.0516859E+00                      
+-----------------------------------------------------------                     
+         6 total elements evaluated.                                            
+ 
+cmo/delete/cmoin                                                                
+     Released Mesh Object: cmoin                                                
+read/gocad/input_3tri_all_props.ts/cmoin                                        
+Reading GOCAD file: input_3tri_all_props.ts                                     
+cmo/create/cmoin///tri                                                          
+finish                                                                          
+cmo/addatt/-def-/iblock/VINT/scalar/nelements                                   
+finish                                                                          
+...................................................                             
+SET VRTX properties:                                                            
+cmo/addatt/cmoin/GaussianCurvature/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0
+.0/                                                                             
+finish                                                                          
+cmo/addatt/cmoin/MeanCurvature/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/K1/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/            
+finish                                                                          
+cmo/addatt/cmoin/K2/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/            
+finish                                                                          
+cmo/addatt/cmoin/K1_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/K1_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/K2_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/K2_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/FrameX_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/  
+finish                                                                          
+cmo/addatt/cmoin/FrameX_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/FrameZ_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/  
+finish                                                                          
+cmo/addatt/cmoin/FrameZ_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/Dip_Azim/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/Dip_Angle/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/FaultStrike/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/   
+finish                                                                          
+READ VRTX data with word count:    20                                           
+READ VRTX property with index:     15                                           
+...................................................                             
+SET CELL properties:                                                            
+cmo/addatt/cmoin/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/        
+finish                                                                          
+READ CELL data with word count:     5                                           
+READ CELL property with index:      1                                           
+geniee                                                                          
+finish                                                                          
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSurf                                                            
+ ZPOSITIVE:    Elev Up                                                          
+ Nodes:                6                                                        
+ Triangles:            3                                                        
+ Cells:                3                                                        
+ Node properties:     15                                                        
+ Cell properties:      1                                                        
+ LINES read:                 37                                                 
+ 
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmoin                                          
+ 
+  1 Mesh Object name: cmoin                                                     
+    number of nodes =             6        number of elements =            3    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.9692101E-11  7.6361796E-33                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          2                          
+elements with aspect ratio b/w .5  and 1. :          1                          
+min aspect ratio =  0.2334E+00  max aspect ratio =  0.5034E+00                  
+ 
+epsilonvol:   2.1869340E-08                                                     
+---------------------------------------                                         
+element volumes b/w  0.1310E+02 and  0.3111E+02:         1                      
+element volumes b/w  0.3111E+02 and  0.7391E+02:         0                      
+element volumes b/w  0.7391E+02 and  0.1756E+03:         0                      
+element volumes b/w  0.1756E+03 and  0.4172E+03:         1                      
+element volumes b/w  0.4172E+03 and  0.9911E+03:         1                      
+min volume =   1.3095067E+01  max volume =   9.9106654E+02                      
+-----------------------------------------------------------                     
+         3 total elements evaluated.                                            
+ 
+cmo/delete/cmoin                                                                
+     Released Mesh Object: cmoin                                                
+read/gocad/input_3tri_node_props.ts/cmoin                                       
+Reading GOCAD file: input_3tri_node_props.ts                                    
+cmo/create/cmoin///tri                                                          
+finish                                                                          
+cmo/addatt/-def-/iblock/VINT/scalar/nelements                                   
+finish                                                                          
+...................................................                             
+SET VRTX properties:                                                            
+cmo/addatt/cmoin/GaussianCurvature/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0
+.0/                                                                             
+finish                                                                          
+cmo/addatt/cmoin/MeanCurvature/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/K1/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/            
+finish                                                                          
+cmo/addatt/cmoin/K2/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/            
+finish                                                                          
+cmo/addatt/cmoin/K1_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/K1_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/K2_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/K2_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/FrameX_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/  
+finish                                                                          
+cmo/addatt/cmoin/FrameX_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/FrameZ_Trend/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/  
+finish                                                                          
+cmo/addatt/cmoin/FrameZ_Plunge/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+cmo/addatt/cmoin/Dip_Azim/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/      
+finish                                                                          
+cmo/addatt/cmoin/Dip_Angle/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/prop_15_pvrtx/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/ 
+finish                                                                          
+READ VRTX data with word count:    20                                           
+READ VRTX property with index:     15                                           
+...................................................                             
+SET CELL properties:                                                            
+There are no Cell properties.                                                   
+READ CELL data with word count:     4                                           
+READ CELL property with index:      0                                           
+geniee                                                                          
+finish                                                                          
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSurf                                                            
+ ZPOSITIVE:    Elev Up                                                          
+ Nodes:                6                                                        
+ Triangles:            3                                                        
+ Cells:                3                                                        
+ Node properties:     15                                                        
+ LINES read:                 25                                                 
+ 
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmoin                                          
+ 
+  1 Mesh Object name: cmoin                                                     
+    number of nodes =             6        number of elements =            3    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.9692101E-11  7.6361796E-33                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          2                          
+elements with aspect ratio b/w .5  and 1. :          1                          
+min aspect ratio =  0.2334E+00  max aspect ratio =  0.5034E+00                  
+ 
+epsilonvol:   2.1869340E-08                                                     
+---------------------------------------                                         
+element volumes b/w  0.1310E+02 and  0.3111E+02:         1                      
+element volumes b/w  0.3111E+02 and  0.7391E+02:         0                      
+element volumes b/w  0.7391E+02 and  0.1756E+03:         0                      
+element volumes b/w  0.1756E+03 and  0.4172E+03:         1                      
+element volumes b/w  0.4172E+03 and  0.9911E+03:         1                      
+min volume =   1.3095067E+01  max volume =   9.9106654E+02                      
+-----------------------------------------------------------                     
+         3 total elements evaluated.                                            
+ 
+cmo/delete/cmoin                                                                
+     Released Mesh Object: cmoin                                                
+read/gocad/input_small_TFACE.ts/cmoin                                           
+Reading GOCAD file: input_small_TFACE.ts                                        
+cmo/create/cmoin///tri                                                          
+finish                                                                          
+cmo/addatt/-def-/iblock/VINT/scalar/nelements                                   
+finish                                                                          
+...................................................                             
+SET VRTX properties:                                                            
+cmo/addatt/cmoin/U/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/             
+finish                                                                          
+cmo/addatt/cmoin/V/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/             
+finish                                                                          
+cmo/addatt/cmoin/Dip_Angle/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/     
+finish                                                                          
+cmo/addatt/cmoin/FaultStrike/VDOUBLE scalar/nnodes/linear/permanent/gxaf/0.0/   
+finish                                                                          
+READ VRTX data with word count:     9                                           
+READ VRTX property with index:      4                                           
+...................................................                             
+SET CELL properties:                                                            
+cmo/addatt/cmoin/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/        
+finish                                                                          
+READ CELL data with word count:     5                                           
+READ CELL property with index:      1                                           
+geniee                                                                          
+finish                                                                          
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSurf                                                            
+ ZPOSITIVE:    Elev Up                                                          
+ Nodes:               12                                                        
+ Triangles:            9                                                        
+ Cells:                9                                                        
+ TFACE:                2                                                        
+ Node properties:      4                                                        
+ Cell properties:      1                                                        
+ LINES read:                 74                                                 
+ 
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmoin                                          
+ 
+  1 Mesh Object name: cmoin                                                     
+    number of nodes =            12        number of elements =            9    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   5.9057653E-11  2.0598166E-31                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          2                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          6                          
+elements with aspect ratio b/w .5  and 1. :          1                          
+min aspect ratio =  0.7187E-01  max aspect ratio =  0.5034E+00                  
+ 
+epsilonvol:   2.2112185E-07                                                     
+---------------------------------------                                         
+element volumes b/w  0.1310E+02 and  0.3379E+02:         1                      
+element volumes b/w  0.3379E+02 and  0.8718E+02:         0                      
+element volumes b/w  0.8718E+02 and  0.2249E+03:         0                      
+element volumes b/w  0.2249E+03 and  0.5803E+03:         3                      
+element volumes b/w  0.5803E+03 and  0.1497E+04:         5                      
+min volume =   1.3095067E+01  max volume =   1.4973814E+03                      
+-----------------------------------------------------------                     
+         9 total elements evaluated.                                            
+ 
+cmo/delete/cmoin                                                                
+     Released Mesh Object: cmoin                                                
+finish                                                                          
+LaGriT successfully completed                                                   

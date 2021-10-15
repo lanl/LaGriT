@@ -1,0 +1,16 @@
+read/gocad/input_2tets_Zelev.so/cmoin                                           
+quality                                                                         
+cmo/delete/cmoin                                                                
+read/gocad/input_small_js.so/cmoin                                              
+quality                                                                         
+cmo/delete/cmoin                                                                
+read/gocad/input_3tri_all_props.ts/cmoin                                        
+quality                                                                         
+cmo/delete/cmoin                                                                
+read/gocad/input_3tri_node_props.ts/cmoin                                       
+quality                                                                         
+cmo/delete/cmoin                                                                
+read/gocad/input_small_TFACE.ts/cmoin                                           
+quality                                                                         
+cmo/delete/cmoin                                                                
+finish                                                                          
