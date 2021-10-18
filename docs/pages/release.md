@@ -4,7 +4,9 @@ title: LaGriT Release Notes
 
 Release Notes
 --------------
-[LaGriT V3.2 and V3.3 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069
+[LaGriT V3.3.3 2021](release_notes/lagrit_release_notes_V3.330.md) Release Open Source LA-CC-15-069
+
+[LaGriT V3.2 and V3.3.2 2017](release_notes/lagrit_release_notes_V3.200.md) Release Open Source LA-CC-15-069
 
 [LaGriT V3.1 2012](release_notes/lagrit_release_notes_V3.100.md) Release Added ExodusII Libraries
 
