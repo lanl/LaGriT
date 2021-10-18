@@ -13,8 +13,8 @@ Previous release  LaGriT v3.3.2  Apr 16, 2019
 - GMV option ipolydat = no is now the default, files will have smaller size without voronoi polygons included
 - add option to command line to define output file names
 - improvements to PyLaGriT scripts in support of stacked surfaces.
-The manual and command pages were heavily edited to remove old directories and files,
-to update command syntax, and adding examples and demos for commands and workflow.
+- The manual and command pages were heavily edited to remove old directories and files,
+to update command syntax, and to add examples and demos.
 - bug fixes mainly to improve lagrit reporting and error reporting.
 
 
