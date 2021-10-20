@@ -1,7 +1,24 @@
 # read/gocad
 
-Read an ascii GoCad TSURF triangle file (.ts) or a TSolid tet file (.so). Note old versions of LaGriT only read the 2D TSURF files.
-The GOCAD header contains information on the mesh data in the file. This includes VRTX or PVTRX x, y, z [vertex properties] and TRI or TET connectivity list, [cell properties]. Some applications such as JewelSuite use a left-hand coordinate system and the header will include keywords **ZPOSITIVE Depth**. LaGriT will convert this to a right-hand coordinate system with elevations Z positive.
+Read an ascii GOCAD TSurf triangle file (.ts) or a TSolid tet file (.so). 
+
+GoCAD has a number of possible data types contained within files and may contain multiple data sets. LaGrit can read a limited set of these types that are commonly used by our applications. The data types contained in the GOCAD file are described in the HEADER area and KEYWORDS. Many KEWORDS are not needed for the mesh and are ignored. The following are supported:
+
+| KEYWORD           |  Description |
+| :----------------- | :----------------------- |
+| GOCAD          |    followed by mesh type TSolid or Tsurf |
+| ZPOSITIVE       |    indicates Z as Depth or Elevation (default) |
+| PROPERTIES     |    vertex property names for values listed after VRTX x y z, LaGriT will add as mesh node attributes |
+| TETRA_PROPERTIES     |    tet property names for values listed after TETRA id1 id2 id3 id4, LaGriT will add as mesh element attributes |
+| TRGL_PROPERTIES     |    tri property names for values listed after TRGL id1 id2 id3, LaGriT will add as mesh element attributes |
+| VRTX or PVRTX         |  vertex keyword followed by x y z and optional property values, node number is implied by order |
+| TETRA         |  tet element keyword followed by node numbers and optional property values, element number is implied by order |
+| TRGL         |  tri element keyword followed by node numbers and optional property values, element number is implied by order |
+| TFACE          |    triggers a new set of elements, attribute **iblock** will be incremented |
+| END          |    end of mesh set |
+
+
+Some applications such as JewelSuite use a left-hand coordinate system and the header will include keywords **ZPOSITIVE Depth**. LaGriT will convert this to a right-hand coordinate system with elevations Z positive.
 
 See *LaGriT/test/level03/read_gocad* for example GOCAD files.
 
@@ -20,7 +37,7 @@ cmo/printatt/cmotet/ -all- minmax
 quality
 ```
 
-read 3D TETRA into mesh object cmotet, check the min and max values of added attributes (created from GOCAD PROPERTY arrays). Check connectivity was properly read by making sure volumes are positive.
+read 3D TETRA into mesh object cmotet, check the min and max values of added attributes (created from GOCAD PROPERTY arrays). Check that read worked correctly by using **quality** command to report positive volumes.
 
 ```
 read/gocad /input_3tri_all_props.ts / cmotri
