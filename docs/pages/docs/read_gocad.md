@@ -3,6 +3,8 @@
 Read an ascii GoCad TSURF triangle file (.ts) or a TSolid tet file (.so). Note old versions of LaGriT only read the 2D TSURF files.
 The GOCAD header contains information on the mesh data in the file. This includes VRTX or PVTRX x, y, z [vertex properties] and TRI or TET connectivity list, [cell properties]. Some applications such as JewelSuite use a left-hand coordinate system and the header will include keywords **ZPOSITIVE Depth**. LaGriT will convert this to a right-hand coordinate system with elevations Z positive.
 
+See *LaGriT/test/level03/read_gocad* for example GOCAD files.
+
 See http://paulbourke.net/dataformats/gocad/ for further details on GoCad.
   
 ## SYNTAX
@@ -20,8 +22,18 @@ quality
 
 read 3D TETRA into mesh object cmotet, check the min and max values of added attributes (created from GOCAD PROPERTY arrays). Check connectivity was properly read by making sure volumes are positive.
 
+```
+read/gocad /input_3tri_all_props.ts / cmotri
+quality
+```
 
-## EXAMPLE GOCAD 3D TETRA FILE FORMAT
+read 2D triangulated surface (tsurf) file into mesh object cmotri. Check that read worked correctly by using **quality** command to report positive volumes.
+
+
+
+## EXAMPLE GOCAD 3D TETRA FILE ex_2tet.so
+
+This example has 2 tet elements, 0 node properties, and 1 cell property named "ZoneId". This was written by JewelSuite which defines Z as Depth.
 
 ```
 GOCAD TSolid 1
@@ -61,29 +73,35 @@ END
 The screen output for reading this file will look like:
 
 <pre>
-read gocad ex_2tet.so mo1                                                       
-Reading GOCAD file: ex_2tet.so                                                  
-cmo/create/mo1///tet                                                            
-finish                                                                          
-There are no Node Properties.                                                   
-Attributes set for Node Properties    0                                         
+read gocad ex_2tet.so mo1                                                                                                         
+cmo/create/mo1///tet                                                                                                                                     
 ...................................................                             
-READ VRTX data and properties:        5    0                                       
-cmo/addatt/mo1/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/          
-finish                                                                          
-Attributes set for Cell Properties    1                                         
+SET VRTX properties:                                                            
+There are no VRTX properties.                                                   
+READ VRTX data with word count:     5                                           
+READ VRTX property with index:      0                                           
 ...................................................                             
-READ CELL data and properties:        6    1                                       
-geniee                                                                          
-finish                                                                          
---- READ GOCAD --------                                                         
+SET CELL properties:                                                            
+cmo/addatt/mo1/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/                                                                                  
+READ CELL data with word count:     6                                           
+READ CELL property with index:      1                                           
+geniee                                                                                                                                                
+--- READ GOCAD FINISHED --------                                                
  Mesh Type:    TSolid                                                           
  ZPOSITIVE:    Z Depth                                                          
  Nodes:                5                                                        
  Tets:                 2                                                        
- Cell Properties:      1                                                          
- LINES read:           32                                                    
------------------------                   
+ Cells:                2                                                        
+ Cell properties:      1                                                        
+ LINES read:                 32                                                 
+                                                                
+The current-mesh-object(CMO) is: mo1                                            
+ 
+  1 Mesh Object name: mo1                                                       
+    number of nodes =             5        number of elements =            2    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active       
 </pre>
   
 
