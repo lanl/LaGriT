@@ -50,14 +50,14 @@ endif()
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -m64 -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero")
 elseif(CMAKE_Fortran_COMPILER_ID MATCHES Intel)
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Qsafe-cray-ptr -integer-size=64 -QRimplicit-import-")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /w /O /Qm64 /Qsafe-cray-ptr /integer-size=64 /assume:nominus0 /QRimplicit-import-")
 endif()
 
 # Set C compiler flags
 if(DEFINED GCC_LIKE)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
 elseif(DEFINED MSVC_LIKE)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /w /m64 /QRimplicit-import-")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /Qw /Qm64 /QRimplicit-import-")
 endif()
 
 # Set C++ compiler flags
@@ -70,6 +70,8 @@ endif()
 # ////////// BEGIN LINKER CONFIGURATION //////////
 # Extra linker and compile options for Windows
 if(MSVC)
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /Dwin64")
     set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
     add_compile_options(
@@ -114,7 +116,7 @@ file(
 add_library(
     ${LIB}
     SHARED
-    ${SRC_ROOT}/lg_interface/interface.f90
+    ${SRC_ROOT}/lg_interface/interface.F
     ${SRC_UTIL_FILES}
     ${SRC_CORE_FILES}
 )
