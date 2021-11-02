@@ -66,7 +66,7 @@ c
       character*8    os_name
       character*16   my_name
 c
-      data my_name      /'lagritgen'/
+      data my_name      /'lagrit'/
 c     os_name is used to find and write OS related files
 c     make sure it is a version recognized in Makefile
 c     and writinit.f for forming header info
