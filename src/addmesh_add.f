@@ -899,7 +899,6 @@ C
       enddo
       call geniee_cmo (cmod)
       call dotaskx3d("dump/avs/polygon.inp/" //cmod// ";finish", ierror)
-      call dotaskx3d("dump/gmv/polygon.gmv/" //cmod// ";finish", ierror)
 C
       call cmo_select(cmoc,icscode)
       if(icscode.ne.0) call x3d_error(isubname,'cmo_select')
