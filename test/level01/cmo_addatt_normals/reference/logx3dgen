@@ -45,8 +45,6 @@ cmo printatt mo_tri Vanorm 11,12,1
 cmo printatt mo_tri x_scalar 11,12,1                                            
 cmo printatt mo_tri y_scalar 11,12,1                                            
 cmo printatt mo_tri z_scalar 11,12,1                                            
-dump gmv output_box_normals.gmv mo_tri                                          
-dump avs2 output_box_normals.inp mo_tri ascii                                   
 cmo/addatt/mo_quad/synth_normal                                                 
 cmo/addatt/mo_quad/synth_normal_area                                            
 cmo/addatt/mo_quad/synth_normal_angle                                           
@@ -71,8 +69,6 @@ cmo/addatt/mo_tri/synth_normal_angle
 cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
 cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
 cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
-dump gmv output_box_normals.gmv mo_tri                                          
-dump avs2 output_box_normals.inp mo_tri ascii                                   
 cmo copy mo_tri2 mo_tri                                                         
 offsetsurf/mo_tri_off/mo_tri2/0.1                                               
 cmo/printatt/mo_tri/-all- minmax                                                
@@ -116,7 +112,9 @@ cmo/addatt/mo_tri/synth_normal_angle
 cmo/copyatt/mo_tri mo_tri/xsynth_angle x_n_norm                                 
 cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm                                 
 cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
-dump/gmv/output_sphere_normals.gmv/mo_tri/ascii                                 
 cmo status                                                                      
 cmo printatt mo_tri -all- minmax                                                
+cmo/DELATT/mo_tri Vunit_anorm                                                   
+cmo/DELATT/mo_tri Vanorm                                                        
+dump/avs/output_sphere_normals.inp/mo_tri                                       
 finish                                                                          

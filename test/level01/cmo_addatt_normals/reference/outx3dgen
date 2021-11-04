@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.208   Linux (64-bit) *                 
-*               *    date_compile: 2020/07/24                 *                 
-*               *    Run Time: 2020/Jul 30  12:44:47          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  4  15:11:22          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -650,7 +650,7 @@ The current-mesh-object(CMO) is: mo_tri_off
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -735,7 +735,7 @@ The current-mesh-object(CMO) is: mo_tri_off
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -839,7 +839,7 @@ The current-mesh-object(CMO) is: mo_tri_off
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -943,7 +943,7 @@ The current-mesh-object(CMO) is: mo_tri_off
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1179,9 +1179,6 @@ cmo/copyatt/mo_tri mo_tri/ysynth_angle y_n_norm
 cmo/copyatt/mo_tri mo_tri/zsynth_angle z_n_norm                                 
        486 copied from mo_tri z_n_norm to -> mo_tri zsynth_angle                
  
-dump/gmv/output_sphere_normals.gmv/mo_tri/ascii                                 
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 #### write cmo information for all the mesh objects ####                        
 cmo status                                                                      
  
@@ -1224,7 +1221,7 @@ The current-mesh-object(CMO) is: mo_tri
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1309,7 +1306,7 @@ The current-mesh-object(CMO) is: mo_tri
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1413,7 +1410,7 @@ The current-mesh-object(CMO) is: mo_tri
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1487,7 +1484,7 @@ The current-mesh-object(CMO) is: mo_tri
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1532,7 +1529,7 @@ The current-mesh-object(CMO) is: mo_tri
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
-  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
   2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
   3          vector  INT     scalar          scalar const perma   l  3.000E+00  
   4          nnodes  INT     scalar          scalar const perma   l  4.860E+02  
@@ -1561,7 +1558,7 @@ The current-mesh-object(CMO) is: mo_tri
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1711,6 +1708,12 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  y_n_norm          -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
  z_n_norm          -1.000000000E+00  1.000000000E+00 2.000000000E+00       486  
  
+# ERROR dumpavs: vector output not supported.                                   
+cmo/DELATT/mo_tri Vunit_anorm                                                   
+cmo/DELATT/mo_tri Vanorm                                                        
+dump/avs/output_sphere_normals.inp/mo_tri                                       
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
 ## Done.                                                                        
 finish                                                                          
 LaGriT successfully completed                                                   

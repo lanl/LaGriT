@@ -186,11 +186,15 @@ cmo / addatt / mo_tri / synth_normal_angle
   cmo/copyatt/mo_tri mo_tri/ ysynth_angle y_n_norm
   cmo/copyatt/mo_tri mo_tri/ zsynth_angle z_n_norm
 
-dump/gmv/output_sphere_normals.gmv / mo_tri / ascii
 
 #### write cmo information for all the mesh objects ####
 cmo status
 cmo printatt mo_tri -all- minmax
+
+# ERROR dumpavs: vector output not supported.
+cmo/DELATT/mo_tri Vunit_anorm 
+cmo/DELATT/mo_tri Vanorm
+dump/avs/output_sphere_normals.inp / mo_tri 
 
 ## Done.
 finish
