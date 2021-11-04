@@ -5,10 +5,7 @@ read avs input_hex1_med.inp cmo_sink
 cmo addatt cmo_sink xval                                                        
 cmo setatt cmo_sink xval 99.                                                    
 intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval                               
-dump gmv output_con01.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_con01.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_C01_tet3x.inp cmo_sink                                          
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src xval minmax                                                
@@ -21,10 +18,7 @@ read avs input_500_quad.inp cmo_sink
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink numreal 0.                                                  
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal                         
-dump gmv output_con02.gmv                                                       
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_con02.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_C02_500q.inp cmo_sink                                           
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src numreal minmax                                             
@@ -49,10 +43,7 @@ cmo delete cmo_src
 read avs input_2d_hires_trans.inp cmo_sink                                      
 cmo setatt cmo_sink imt1 5                                                      
 intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1/keepatt                        
-dump gmv output_con04.gmv                                                       
-addmesh merge cmov cmotet cmo_sink                                              
-dump gmv output_view_con04.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_C03_3d.inp cmo_sink                                             
 cmo status cmo_sink                                                             
 cmo status cmotet                                                               
 cmo printatt cmotet imt1 minmax                                                 
@@ -60,10 +51,7 @@ cmo printatt cmo_sink imt1 minmax
 cmo printatt cmo_sink el_gtg minmax                                             
 cmo setatt cmo_sink imtreal 5.0                                                 
 intrp/continuous/cmo_sink imtreal/1,0,0/cmotet imtreal/linear                   
-dump gmv output_con05.gmv                                                       
-addmesh merge cmov cmotet cmo_sink                                              
-dump gmv output_view_con05.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_C04_gtg.inp cmo_sink                                            
 cmo status cmo_sink                                                             
 cmo status cmotet                                                               
 cmo printatt cmotet imtreal minmax                                              
@@ -84,10 +72,7 @@ cmo/printatt/cmo_sink/-xyz- minmax
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal                         
 intersectelements/cmo_sink cmo_src isect                                        
 cmo/copyatt/cmo_sink cmo_sink itetclr isect                                     
-dump gmv output_con02a.gmv cmo_sink                                             
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_con02.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_C05_500q.inp cmo_sink                                           
 cmo/select/cmo_sink                                                             
 pset/pout/attribute numreal 1,0,0 12.5 gt                                       
 cmo/copy/cmo1 cmo_sink                                                          
@@ -96,7 +81,7 @@ cmo/setatt/cmo1 numreal 0.
 trans/1 0 0/0. 0. 0./0. .00005 0.                                               
 cmo/printatt/cmo1/-xyz- minmax                                                  
 intrp/continuous/cmo1 numreal/1,0,0/cmo_src numreal                             
-dump gmv output_con02b.gmv cmo1                                                 
+dump avs output_C06_500q.inp cmo_sink                                           
 cmo/select/cmo1                                                                 
 pset/pout/attribute numreal 1,0,0 12.5 gt                                       
 finish                                                                          

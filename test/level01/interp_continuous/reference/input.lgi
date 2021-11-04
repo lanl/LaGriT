@@ -18,7 +18,8 @@
 * Case 05  TRI imt <- TET imt, reuse search attribute el_gtg
 *
 * Terry Miller 9/1/2006 update from 2/01/2001
-*
+* Note: addmesh and dump/gmv removed
+* since paraview can view sink and source in same view
 **********************************************************
 
 
@@ -43,11 +44,7 @@ read avs input_hex1_med.inp cmo_sink
 * sink has xval with 0. on bottom and 150. at top nodes
 
 intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval
-* dump sink grid and gmv file with both grids
-  dump gmv output_con01.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-  dump gmv output_view_con01.gmv cmov
-  cmo delete cmov
+dump avs output_C01_tet3x.inp cmo_sink
 
 * begin compare here
   cmo status cmo_src
@@ -79,10 +76,7 @@ read avs input_500_quad.inp    cmo_sink
 * sink nodes outside source have value 13
 
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
-  dump gmv output_con02.gmv
-  addmesh merge cmov cmo_src cmo_sink
-  dump gmv output_view_con02.gmv cmov
-  cmo delete cmov
+dump avs output_C02_500q.inp cmo_sink
 
 * begin compare here
   cmo status cmo_src
@@ -95,7 +89,7 @@ intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
   cmo delete cmo_sink
 
 **************************************************
-* Case 03  HEX xval <- HEX xval
+* Case 00  HEX xval <- HEX xval
 * hex not currently supported for source grid
 * source hex grid should result in error return
 
@@ -127,7 +121,7 @@ intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval
 
 
 **************************************************
-* Case 04  TRI imt <- TET imt, keep search attribute el_gtg
+* Case 03  TRI imt <- TET imt, keep search attribute el_gtg
 * test attributes created during kdtree searches
 * kdtree search for source elements creates el_gtg
 
@@ -147,10 +141,7 @@ read avs input_2d_hires_trans.inp    cmo_sink
 * sink imt has the el_gtg attribute with source elem id
 
 intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1 / keepatt 
-  dump gmv output_con04.gmv
-  addmesh merge cmov cmotet cmo_sink
-  dump gmv output_view_con04.gmv cmov
-  cmo delete cmov
+dump avs output_C03_3d.inp cmo_sink
 
 
 * begin compare here
@@ -161,7 +152,7 @@ intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1 / keepatt
   cmo printatt cmo_sink el_gtg minmax
 * end compare here
 
-* Case 05  TRI imt <- TET imt, reuse search attribute el_gtg
+* Case 04  TRI imt <- TET imt, reuse search attribute el_gtg
 * reuse and delete attribute el_gtg in second call to intrp
 * set interpolation function for attribute imtreal to linear
 * sink has values from 2. to 4. where 4. is outside source
@@ -169,10 +160,7 @@ intrp/continuous/cmo_sink imt1/1,0,0/cmotet imt1 / keepatt
 cmo setatt cmo_sink imtreal 5.0
 
 intrp/continuous/cmo_sink imtreal/1,0,0/cmotet imtreal/ linear 
-  dump gmv output_con05.gmv
-  addmesh merge cmov cmotet cmo_sink
-  dump gmv output_view_con05.gmv cmov
-  cmo delete cmov
+dump avs output_C04_gtg.inp cmo_sink
 
 * el_gtg attribute should have been removed
 * begin compare here
@@ -187,8 +175,8 @@ intrp/continuous/cmo_sink imtreal/1,0,0/cmotet imtreal/ linear
   cmo delete cmo_sink
 
 **************************************************
-* Case 02a QUAD numreal <- TRI numreal
-* subset Case 02 so sink has 6 elements
+* Case 05 QUAD numreal <- TRI numreal
+* subset so sink has 6 elements
 * Should have 6 nodes outside
 
 * read source grid
@@ -216,10 +204,7 @@ cmo/printatt/cmo_sink/-xyz- minmax
 intrp/continuous/cmo_sink numreal/1,0,0/cmo_src numreal
 intersectelements/cmo_sink cmo_src isect
 cmo/copyatt/ cmo_sink cmo_sink itetclr isect
-  dump gmv output_con02a.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-  dump gmv output_view_con02.gmv cmov
-  cmo delete cmov
+dump avs output_C05_500q.inp cmo_sink
 
 * begin compare here
   cmo/select/cmo_sink
@@ -227,8 +212,8 @@ cmo/copyatt/ cmo_sink cmo_sink itetclr isect
 * end compare here
 
 **************************************************
-* Case 02b QUAD numreal <- TRI numreal
-* subset Case 02 so sink has 6 elements
+* Case 06 QUAD numreal <- TRI numreal
+* subset so sink has 6 elements
 * Move sink cmo to check results
 * Move nearly on edge sink node into src element
 * Should have 5 nodes outside
@@ -238,7 +223,7 @@ cmo/setatt/cmo1 numreal 0.
 trans / 1 0 0 / 0. 0. 0. / 0. .00005 0.
 cmo/printatt/cmo1/-xyz- minmax
 intrp/continuous/cmo1 numreal/1,0,0/cmo_src numreal
-dump gmv output_con02b.gmv cmo1
+dump avs output_C06_500q.inp cmo_sink
 
 * begin compare here
   cmo/select/cmo1

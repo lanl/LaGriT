@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.300   Linux          *                 
-*               *    date_compile: 2019/04/10 Release         *                 
-*               *    Run Time: 2019/Apr 10  09:44:05          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  4  16:24:03          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -48,7 +48,8 @@ Command log file: logx3dgen
 * Case 05  TRI imt <- TET imt, reuse search attribute el_gtg                    
 *                                                                               
 * Terry Miller 9/1/2006 update from 2/01/2001                                   
-*                                                                               
+* Note: addmesh and dump/gmv removed                                            
+* since paraview can view sink and source in same view                          
 **********************************************************                      
 **************************************************                              
 * Case 01 single HEX xval <- TET xval                                           
@@ -156,26 +157,19 @@ finish
 cmo/DELATT/cmo_src/v2                                                           
 finish                                                                          
 finish                                                                          
-* dump sink grid and gmv file with both grids                                   
-dump gmv output_con01.gmv cmo_sink                                              
+dump avs output_C01_tet3x.inp cmo_sink                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_con01.gmv cmov                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-cmo delete cmov                                                                 
-     Released Mesh Object: cmov                                                 
 * begin compare here                                                            
 cmo status cmo_src                                                              
  
-The current-mesh-object(CMO) is: cmo_src                                        
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   1 Mesh Object name: cmo_src                                                   
     number of nodes =            27        number of elements =           48    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                   active    
+    boundary flag =        16000000        status =                 inactive    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -208,7 +202,7 @@ The current-mesh-object(CMO) is: cmo_src
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -247,13 +241,13 @@ The current-mesh-object(CMO) is: cmo_src
  66            xval VDOU     scalar          nnodes linea tempo agl  0.000E+00  
 cmo status cmo_sink                                                             
  
-The current-mesh-object(CMO) is: cmo_src                                        
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   2 Mesh Object name: cmo_sink                                                  
     number of nodes =             8        number of elements =            1    
     dimensions geometry =         3        element type =                hex    
     dimensions topology =         3        8 nodes      6 faces     12 edges    
-    boundary flag =        16000000        status =                 inactive    
+    boundary flag =        16000000        status =                   active    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -286,7 +280,7 @@ The current-mesh-object(CMO) is: cmo_src
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -446,31 +440,19 @@ finish
 cmo/DELATT/cmo_src/v2                                                           
 finish                                                                          
 finish                                                                          
-dump gmv output_con02.gmv                                                       
- 
-Second argument is not a filename. Trying to use default mesh object.           
+dump avs output_C02_500q.inp cmo_sink                                           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-addmesh merge cmov cmo_src cmo_sink                                             
-searching for cmov attributes in cmo_sink                                       
- attribute not found:          66  iign                                         
-ADDMESH:     1 attributes not copied from cmo_sink to cmov                      
- 
-dump gmv output_view_con02.gmv cmov                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-cmo delete cmov                                                                 
-     Released Mesh Object: cmov                                                 
 * begin compare here                                                            
 cmo status cmo_src                                                              
  
-The current-mesh-object(CMO) is: cmo_src                                        
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   1 Mesh Object name: cmo_src                                                   
     number of nodes =            12        number of elements =           12    
     dimensions geometry =         3        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
-    boundary flag =        16000000        status =                   active    
+    boundary flag =        16000000        status =                 inactive    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -503,7 +485,7 @@ The current-mesh-object(CMO) is: cmo_src
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -543,13 +525,13 @@ The current-mesh-object(CMO) is: cmo_src
  67         numreal VDOU     scalar          nnodes linea perma gxa  0.000E+00  
 cmo status cmo_sink                                                             
  
-The current-mesh-object(CMO) is: cmo_src                                        
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   2 Mesh Object name: cmo_sink                                                  
     number of nodes =          2500        number of elements =         2401    
     dimensions geometry =         3        element type =                qua    
     dimensions topology =         2        4 nodes      4 faces      4 edges    
-    boundary flag =        16000000        status =                 inactive    
+    boundary flag =        16000000        status =                   active    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -582,7 +564,7 @@ The current-mesh-object(CMO) is: cmo_src
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -759,7 +741,7 @@ cmo delete cmo_src
 cmo delete cmo_sink                                                             
      Released Mesh Object: cmo_sink                                             
 **************************************************                              
-* Case 04  TRI imt <- TET imt, keep search attribute el_gtg                     
+* Case 03  TRI imt <- TET imt, keep search attribute el_gtg                     
 * test attributes created during kdtree searches                                
 * kdtree search for source elements creates el_gtg                              
 * source grid cannot be hex, convert to tets                                    
@@ -887,31 +869,19 @@ finish
 cmo/DELATT/cmotet/v2                                                            
 finish                                                                          
 finish                                                                          
-dump gmv output_con04.gmv                                                       
- 
-Second argument is not a filename. Trying to use default mesh object.           
+dump avs output_C03_3d.inp cmo_sink                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-addmesh merge cmov cmotet cmo_sink                                              
-searching for cmov attributes in cmo_sink                                       
- attribute not found:          68  iign                                         
-ADDMESH:     1 attributes not copied from cmo_sink to cmov                      
- 
-dump gmv output_view_con04.gmv cmov                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-cmo delete cmov                                                                 
-     Released Mesh Object: cmov                                                 
 * begin compare here                                                            
 cmo status cmo_sink                                                             
  
-The current-mesh-object(CMO) is: cmotet                                         
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   2 Mesh Object name: cmo_sink                                                  
     number of nodes =           400        number of elements =          722    
     dimensions geometry =         3        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
-    boundary flag =        16000000        status =                 inactive    
+    boundary flag =        16000000        status =                   active    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -944,7 +914,7 @@ The current-mesh-object(CMO) is: cmotet
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -985,13 +955,13 @@ The current-mesh-object(CMO) is: cmotet
  68          el_gtg VINT     scalar          nnodes linea perma agf  0.000E+00  
 cmo status cmotet                                                               
  
-The current-mesh-object(CMO) is: cmotet                                         
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   1 Mesh Object name: cmotet                                                    
     number of nodes =           290        number of elements =          864    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                   active    
+    boundary flag =        16000000        status =                 inactive    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -1024,7 +994,7 @@ The current-mesh-object(CMO) is: cmotet
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1076,7 +1046,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  el_gtg                           0              863             863       400  
  
 * end compare here                                                              
-* Case 05  TRI imt <- TET imt, reuse search attribute el_gtg                    
+* Case 04  TRI imt <- TET imt, reuse search attribute el_gtg                    
 * reuse and delete attribute el_gtg in second call to intrp                     
 * set interpolation function for attribute imtreal to linear                    
 * sink has values from 2. to 4. where 4. is outside source                      
@@ -1109,32 +1079,20 @@ cmo select cmo_sink
 finish                                                                          
 cmo kdtree release                                                              
 finish                                                                          
-dump gmv output_con05.gmv                                                       
- 
-Second argument is not a filename. Trying to use default mesh object.           
+dump avs output_C04_gtg.inp cmo_sink                                            
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-addmesh merge cmov cmotet cmo_sink                                              
-searching for cmov attributes in cmo_sink                                       
- attribute not found:          68  iign                                         
-ADDMESH:     1 attributes not copied from cmo_sink to cmov                      
- 
-dump gmv output_view_con05.gmv cmov                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-cmo delete cmov                                                                 
-     Released Mesh Object: cmov                                                 
 * el_gtg attribute should have been removed                                     
 * begin compare here                                                            
 cmo status cmo_sink                                                             
  
-The current-mesh-object(CMO) is: cmotet                                         
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   2 Mesh Object name: cmo_sink                                                  
     number of nodes =           400        number of elements =          722    
     dimensions geometry =         3        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
-    boundary flag =        16000000        status =                 inactive    
+    boundary flag =        16000000        status =                   active    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -1167,7 +1125,7 @@ The current-mesh-object(CMO) is: cmotet
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1207,13 +1165,13 @@ The current-mesh-object(CMO) is: cmotet
  67        itetreal VDOU     scalar       nelements linea perma gxa  0.000E+00  
 cmo status cmotet                                                               
  
-The current-mesh-object(CMO) is: cmotet                                         
+The current-mesh-object(CMO) is: cmo_sink                                       
  
   1 Mesh Object name: cmotet                                                    
     number of nodes =           290        number of elements =          864    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
-    boundary flag =        16000000        status =                   active    
+    boundary flag =        16000000        status =                 inactive    
  
           NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
  
@@ -1246,7 +1204,7 @@ The current-mesh-object(CMO) is: cmotet
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1301,8 +1259,8 @@ cmo delete cmotet
 cmo delete cmo_sink                                                             
      Released Mesh Object: cmo_sink                                             
 **************************************************                              
-* Case 02a QUAD numreal <- TRI numreal                                          
-* subset Case 02 so sink has 6 elements                                         
+* Case 05 QUAD numreal <- TRI numreal                                           
+* subset so sink has 6 elements                                                 
 * Should have 6 nodes outside                                                   
 * read source grid                                                              
 * assign node id to node attribute numreal                                      
@@ -1467,19 +1425,9 @@ finish
 cmo/copyatt/cmo_sink cmo_sink itetclr isect                                     
          6 copied from cmo_sink isect to -> cmo_sink itetclr                    
  
-dump gmv output_con02a.gmv cmo_sink                                             
+dump avs output_C05_500q.inp cmo_sink                                           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-addmesh merge cmov cmo_src cmo_sink                                             
-searching for cmov attributes in cmo_sink                                       
- attribute not found:          66  iign                                         
-ADDMESH:     1 attributes not copied from cmo_sink to cmov                      
- 
-dump gmv output_view_con02.gmv cmov                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-cmo delete cmov                                                                 
-     Released Mesh Object: cmov                                                 
 * begin compare here                                                            
 cmo/select/cmo_sink                                                             
 pset/pout/attribute numreal 1,0,0 12.5 gt                                       
@@ -1487,7 +1435,7 @@ pset/pout/attribute numreal 1,0,0 12.5 gt
  THE PSET  pout  HAS          6 POINTS                                          
 * end compare here                                                              
 **************************************************                              
-* Case 02b QUAD numreal <- TRI numreal                                          
+* Case 06 QUAD numreal <- TRI numreal                                           
 * subset Case 02 so sink has 6 elements                                         
 * Move sink cmo to check results                                                
 * Move nearly on edge sink node into src element                                
@@ -1559,7 +1507,7 @@ finish
 cmo/DELATT/cmo_src/v2                                                           
 finish                                                                          
 finish                                                                          
-dump gmv output_con02b.gmv cmo1                                                 
+dump avs output_C06_500q.inp cmo_sink                                           
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare here                                                            
