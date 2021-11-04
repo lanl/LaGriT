@@ -8,11 +8,9 @@ cmo delete cmo1
 cmo create cmo1                                                                 
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                       
 cmo printatt cmo1 -all- minmax                                                  
-dump gmv output_dylan.gmv cmo1 ascii                                            
 dump avs output_dylan.inp cmo1                                                  
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                       
 cmo printatt cmo1 -all- minmax                                                  
-dump gmv output_dylan_add.gmv cmo1 ascii                                        
 dump avs output_dylan_add.inp cmo1                                              
 cmo delete cmo1                                                                 
 define MINX 498000.                                                             
@@ -28,7 +26,6 @@ cmo/setatt/cmoquad/itetclr 1
 cmo/setatt/cmoquad/ipolydat no                                                  
 cmo/readatt/cmoquad/xic,yic,zic/1,0,0/input_ev.dat                              
 dump avs2 output_ev.inp cmoquad 1 1 0 0                                         
-dump gmv output_ev.gmv cmoquad                                                  
 cmo/printatt/cmoquad/-xyz- minmax                                               
 cmo/delete/cmoquad                                                              
 cmo delete cmo1                                                                 

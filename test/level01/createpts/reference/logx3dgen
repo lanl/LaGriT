@@ -8,7 +8,7 @@ mregion/matbot/le cube and lt cutplane
 creatpts/brick/xyz/21,5,41/0.,0.,0./1.,1.,1./1 1 1                              
 setpts                                                                          
 settets                                                                         
-dump/gmv/output_createbrick.gmv                                                 
+dump/avs/output_createbrick.inp                                                 
 cmo/status/cmohex                                                               
 cmo/printatt/cmohex/-xyz-/minmax                                                
 cmo/printatt/cmohex/imt1/minmax                                                 
@@ -16,7 +16,7 @@ quality
 cmo create cmoquad///quad                                                       
 quadxy 5 5/0. 0. 0./20. 0. 0./20. 20. 0./0. 20. 0.                              
 rzbrick/xyz/5,5,1/1,0,0/connect                                                 
-dump gmv output_quad.gmv cmoquad                                                
+dump avs output_quad.inp cmoquad                                                
 cmo/status/cmoquad                                                              
 cmo/printatt/cmoquad/-xyz-/minmax                                               
 quality                                                                         

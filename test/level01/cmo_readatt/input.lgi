@@ -1,3 +1,4 @@
+# LaGriT test
 # cmo / readatt
 # created Mar 7 2012 tamiller@lanl.gov
 
@@ -16,14 +17,12 @@ cmo delete cmo1
 cmo create cmo1                                                                 
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat                              
 cmo printatt cmo1 -all- minmax 
-dump gmv output_dylan.gmv cmo1 ascii                         
 dump avs output_dylan.inp cmo1  
 
 #---------------------------------------------
 # use add command adding to 10 points 
 cmo/readatt/cmo1/xic,yic,zic,xvalue/add///input_dylan.dat
 cmo printatt cmo1 -all- minmax
-dump gmv output_dylan_add.gmv cmo1 ascii
 dump avs output_dylan_add.inp cmo1
 cmo delete cmo1
 
@@ -44,7 +43,6 @@ quadxy NX NY/MINX MINY 0./MAXX MINY 0./MAXX MAXY 0./MINX MAXY 0.
 
 cmo/readatt/cmoquad/xic,yic,zic/1,0,0/input_ev.dat                                   
   dump avs2 output_ev.inp cmoquad 1 1 0 0                                               
-  dump gmv output_ev.gmv cmoquad                                                        
   cmo/printatt/cmoquad/ -xyz- minmax
 cmo /delete / cmoquad
 

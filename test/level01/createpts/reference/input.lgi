@@ -31,7 +31,7 @@ setpts
 * Color the elements according to the mregions
 settets
 * Output the final grid
-dump/gmv/output_createbrick.gmv
+dump/avs/output_createbrick.inp
 
 * begin compare brick
 cmo/status/cmohex
@@ -47,7 +47,7 @@ quality
 cmo create cmoquad///quad 
   quadxy 5 5/ 0. 0. 0. / 20. 0. 0./20. 20. 0. / 0. 20. 0. 
   rzbrick/xyz/5,5,1/1,0,0/connect 
-  dump gmv output_quad.gmv cmoquad
+  dump avs output_quad.inp cmoquad
 
 * begin compare quad
 cmo/status/cmoquad
