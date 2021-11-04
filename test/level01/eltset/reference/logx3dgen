@@ -11,18 +11,18 @@ cmo/setatt/mo/imt/pset get pset2/3
 cmo/setatt/mo/itetclr/1 0 0/1                                                   
 cmo/setatt/mo/itetclr/eltset get eset1/2                                        
 cmo/setatt/mo/itetclr/eltset get eset2/3                                        
-dump/gmv/test01.gmv/mo                                                          
+dump/avs/output_mesh.inp/mo                                                     
 eltset//list                                                                    
 eltset/0/list                                                                   
 eltset/-def-/list                                                               
-eltset/eset1/write/eset01                                                       
-eltset/eset2/write/eset02.cellset                                               
-eltset/eset1/write/eset03/ascii                                                 
-eltset/eset1/write/eset04/binary                                                
-eltset/eset1/write/eset05/                                                      
-eltset/eset1/write/eset06/-def-                                                 
-eltset/eset1/write/eset07                                                       
-eltset/-def-/write/eset08                                                       
-eltset/-all-/write/eset09                                                       
-eltset//write/eset10                                                            
+eltset/eset1/write/output_eset01                                                
+eltset/eset2/write/output_eset02.cellset                                        
+eltset/eset1/write/output_eset03/ascii                                          
+eltset/eset1/write/output_eset04/binary                                         
+eltset/eset1/write/output_eset05/                                               
+eltset/eset1/write/output_eset06/-def-                                          
+eltset/eset1/write/output_eset07                                                
+eltset/-def-/write/output_eset08                                                
+eltset/-all-/write/output_eset09                                                
+eltset//write/output_eset10                                                     
 finish                                                                          
