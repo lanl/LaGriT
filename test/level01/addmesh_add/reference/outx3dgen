@@ -2,29 +2,31 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:36          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  3  17:25:18          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
-Output log file: outx3dgen                                                      
-Command log file: logx3dgen                                                     
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
  
 *--* Create a rough and fine mesh,                                              
 *--* Insert the fine mesh inside the course mesh,                               
@@ -129,10 +131,7 @@ All elements have volume  2.4000000E-02
 * merge hex meshes                                                              
 *                                                                               
 addmesh/merge/cmo_merge/cmo_hex/cmo_hex2                                        
-dump gmv output_merge_hex2.gmv cmo_merge ascii                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump avs2 output_merge_hex2.inp cmo_merge                                       
+dump avs output_merge_hex2.inp cmo_merge                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/select/cmo_merge                                                            
@@ -252,7 +251,7 @@ All elements have volume  1.3622818E-05
 * Merge the small mesh with the large using addmesh merge                       
 *                                                                               
 addmesh/merge/cmo_merge/cmo_hex/cmo_hex2                                        
-dump gmv output_merge_hex.gmv cmo_merge ascii                                   
+dump avs output_merge_hex.inp cmo_merge                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/select/cmo_merge                                                            
@@ -393,14 +392,10 @@ dump/avs/polygon.inp/cmod
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
-dump/gmv/polygon.gmv/cmod                                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
 cmo/setatt//ipolydat/no                                                         
          1 values reset for attribute ipolydat                                  
  
-dump/gmv/output_addmesh_add.gmv/cmo_add                                         
+dump/avs/output_addmesh_add.inp/cmo_add                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 *                                                                               
@@ -462,7 +457,7 @@ min volume =   2.2704697E-06  max volume =   4.5724737E-04
 cmo/setatt//ipolydat/no                                                         
          1 values reset for attribute ipolydat                                  
  
-dump/gmv/output_addmesh_connect.gmv/cmo_tet3                                    
+dump/avs/output_addmesh_connect.inp/cmo_tet3                                    
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 resetpts/itp                                                                    
