@@ -48,7 +48,7 @@ boundary/dirichlet/icr1/23/bottom/back/left
 boundary/dirichlet/icr1/24/bottom/back/right                                    
 boundary/dirichlet/icr1/25/bottom/front/left                                    
 boundary/dirichlet/icr1/26/bottom/front/right                                   
-dump/gmv/output_doublemesh.gmv                                                  
+dump/avs/output_doublemesh.inp                                                  
 cmo/status                                                                      
 cmo/printatt//-all-/minmax                                                      
 quality                                                                         

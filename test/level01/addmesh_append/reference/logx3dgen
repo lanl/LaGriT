@@ -51,6 +51,5 @@ cmo/addatt/second_cmo/Askip
 cmo/status/first_cmo                                                            
 cmo/status/second_cmo                                                           
 addmesh/append/cmo_merge/first_cmo/second_cmo                                   
-dump gmv output_append_hex2.gmv cmo_merge ascii                                 
-dump avs2 output_append_hex2.inp cmo_merge                                      
+dump avs output_append_hex2.inp cmo_merge                                       
 finish                                                                          

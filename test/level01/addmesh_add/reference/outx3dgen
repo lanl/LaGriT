@@ -25,8 +25,8 @@
                                -----oOo-----                                    
  
  
-Output log file: lagrit.out                                                     
-Command log file: lagrit.log                                                    
+Output log file: outx3dgen                                                     
+Command log file: logx3dgen                                                    
  
 *--* Create a rough and fine mesh,                                              
 *--* Insert the fine mesh inside the course mesh,                               
