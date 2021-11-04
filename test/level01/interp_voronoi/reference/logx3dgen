@@ -2,10 +2,7 @@ read avs input_3d_hex.inp cmo_src
 read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor01.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor01.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor01.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -16,10 +13,7 @@ read avs input_random500_quad.inp cmo_src
 read avs input_500_quad.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor02.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor02.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor02.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -30,10 +24,7 @@ read avs input_sphere3d.inp cmo_src
 read avs input_sphere2d.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor03.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor03.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor03.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -45,10 +36,7 @@ read avs input_2d_hires.inp cmo_sink
 cmo setatt cmo_sink imtreal 5                                                   
 pset/psmall/geom/xyz/1,0,0/3. 2. -1./6. 6. 6.                                   
 intrp/voronoi/cmo_sink imtreal/pset,get,psmall/cmo_src imtreal                  
-dump gmv output_vor04.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor04.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor04.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imtreal minmax                                             
@@ -59,10 +47,7 @@ read avs input_3d_hex.inp cmo_src
 read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/tiemin,min                       
-dump gmv output_vor05.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor05.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor05.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -73,10 +58,7 @@ read avs input_3d_tet.inp cmo_src
 read avs input_2d_hires.inp cmo_sink                                            
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor06.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor06.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor06.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -88,10 +70,7 @@ read avs input_500_tri.inp cmo_sink
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor07.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor07.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor07.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -103,10 +82,7 @@ read avs input_500_tri.inp cmo_sink
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor08.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor08.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor08.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -118,10 +94,7 @@ read avs input_500_quad.inp cmo_sink
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor09.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor09.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor09.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -133,10 +106,7 @@ read avs input_centered_hex.inp cmo_sink
 cmo setatt cmo_sink imt1 5                                                      
 cmo setatt cmo_sink itetclr 5                                                   
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor10.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor10.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor10.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -147,10 +117,7 @@ read avs input_centered_hex.inp cmo_src
 read avs input_centered_tet2.inp cmo_sink                                       
 cmo setatt cmo_sink imt1 5                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src imt1/                                 
-dump gmv output_vor11.gmv cmo_sink                                              
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor11.gmv                                                  
-cmo delete cmov                                                                 
+dump avs output_vor11.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src imt1 minmax                                                
@@ -162,40 +129,28 @@ read avs input_500_quad.inp cmo_sink
 cmo addatt cmo_sink numreal                                                     
 cmo setatt cmo_sink imt1 0                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src ialias                                
-dump gmv output_vor12.gmv                                                       
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor12.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_vor12.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src ialias minmax                                              
 cmo printatt cmo_sink imt1 minmax                                               
 cmo setatt cmo_sink numreal 0.0                                                 
 intrp/voronoi/cmo_sink numreal/1,0,0/cmo_src numreal                            
-dump gmv output_vor13.gmv                                                       
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor13.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_vor13.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src numreal minmax                                             
 cmo printatt cmo_sink numreal minmax                                            
 cmo setatt cmo_sink numreal 0.0                                                 
 intrp/voronoi/cmo_sink numreal/1,0,0/cmo_src ialias                             
-dump gmv output_vor14.gmv                                                       
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor14.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_vor14.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src ialias minmax                                              
 cmo printatt cmo_sink numreal minmax                                            
 cmo setatt cmo_sink imt1 0                                                      
 intrp/voronoi/cmo_sink imt1/1,0,0/cmo_src numreal                               
-dump gmv output_vor15.gmv                                                       
-addmesh merge cmov cmo_src cmo_sink                                             
-dump gmv output_view_vor15.gmv cmov                                             
-cmo delete cmov                                                                 
+dump avs output_vor15.inp cmo_sink                                              
 cmo status cmo_src                                                              
 cmo status cmo_sink                                                             
 cmo printatt cmo_src numreal minmax                                             

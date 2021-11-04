@@ -28,6 +28,7 @@
 *
 * Terry Cherry 2/01/2001
 *
+* Note: gmv removed, use avs and paraview for views
 * Note: *view files can be written to see sink and source
 * grids together for debugging
 *
@@ -52,10 +53,7 @@
 * view merged grids with faces off to see both grids
 
 interpolate/map/cmo_sink imt1/1,0,0/cmo_src itetclr
-  dump gmv output_map01_max.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map01_max.gmv
-  cmo delete cmov
+  dump avs output_map01_max.inp cmo_sink
 
 * begin compare Demo 1
   cmo status cmo_src
@@ -86,10 +84,7 @@ cmo setatt cmo_sink imt1 5
 * view merged grids with faces off to see both grids
 
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/tiemin, min
-  dump gmv output_map01_min.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map01_min.gmv
-  cmo delete cmov
+  dump avs output_map01_min.inp cmo_sink
 
 * begin compare Demo 01_min
   cmo status cmo_src
@@ -117,10 +112,7 @@ read avs input_2d_hires.inp    cmo_sink
 * should assign plus1 value of 4 to points outside grid
 
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/ plus1
-  dump gmv output_map02_plus1.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map02_plus1.gmv
-  cmo delete cmov
+  dump avs output_map02_plus1.inp cmo_sink
 
 * begin compare Demo 02_plus1
   cmo status cmo_src
@@ -151,10 +143,7 @@ read avs input_2d_hires.inp    cmo_sink
 * this grid will have only 2 material colors
 
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/nearest,imt1/mintie
-  dump gmv output_map02_nearest.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map02_nearest.gmv
-  cmo delete cmov
+  dump avs output_map02_nearest.inp cmo_sink
 
 * begin compare 02_nearest
   cmo status cmo_src
@@ -182,10 +171,7 @@ read avs input_2d_hires.inp    cmo_sink
 * should assign user value of 5 to points outside grid
 
 intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/ 5
-  dump gmv output_map02_user.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map02_user.gmv
-  cmo delete cmov
+  dump avs output_map02_user.inp cmo_sink
 
 * begin compare 02_user
   cmo status cmo_src
@@ -214,12 +200,7 @@ read avs input_tet24.inp cmo_sink
 * sink tet grid is aligned on background hex source
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src tet_id/tiemin, min
-  dump gmv output_map03.gmv cmo_sink
-* copy tet_id to itetclr for easier viewing
-  cmo copyatt cmo_src cmo_src itetclr tet_id
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map03.gmv
-  cmo delete cmov
+  dump avs output_map03.inp cmo_sink
 
 * begin compare Demo 3
   cmo status cmo_src
@@ -246,10 +227,7 @@ read avs input_2d_hires.inp    cmo_sink
 * the rest of sink grid should remain value 5
 
 intrp/map/cmo_sink imtreal/pset,get,psmall/cmo_src itetreal
-  dump gmv output_map04.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map04.gmv
-  cmo delete cmov
+  dump avs output_map04.inp cmo_sink
 
 * begin compare 04
   cmo status cmo_src
@@ -277,10 +255,8 @@ read avs input_1row_tri.inp    cmo_sink
 * sink should have materials 1 and 2
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
-  dump gmv output_map05.gmv cmo_sink
+  dump avs output_map05.inp cmo_sink
   addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map05.gmv
-  cmo delete cmov
 
 * begin compare 05
   cmo status cmo_src
@@ -301,10 +277,7 @@ read avs input_1row_quad.inp    cmo_sink
 * sink should have materials 1 and 2
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
-  dump gmv output_map06.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map06.gmv
-  cmo delete cmov
+  dump avs output_map06.inp cmo_sink
 
 * begin compare 06
   cmo status cmo_src
@@ -325,10 +298,7 @@ read avs input_1row_hex.inp    cmo_sink
 * sink should have materials 1 and 2
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
-  dump gmv output_map07.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map07.gmv
-  cmo delete cmov
+  dump avs output_map07.inp cmo_sink
 
 * begin compare 07
   cmo status cmo_src
@@ -349,10 +319,7 @@ read avs input_1row_tet.inp    cmo_sink
 * sink should have materials 1 and 2
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
-  dump gmv output_map08.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map08.gmv
-  cmo delete cmov
+  dump avs output_map08.inp cmo_sink
 
 * begin compare 08
   cmo status cmo_src
@@ -378,10 +345,7 @@ read avs input_tet24.inp cmo_sink
 * sink should have itetreal 99 in corner, 1 elsewhere 
 
 intrp/map/cmo_sink itetreal/eltset,get,e1/cmo_src itetreal
-  dump gmv output_map09.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map09.gmv
-  cmo delete cmov
+  dump avs output_map09.inp cmo_sink
 
 * begin compare 09
   cmo status cmo_src
@@ -406,10 +370,7 @@ cmo select cmo_sink
 * flag 10 is along right edge with centroids outside source 
 
 intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/tiemin, min
-  dump gmv output_map10.gmv cmo_sink
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map10.gmv
-  cmo delete cmov
+  dump avs output_map10.inp cmo_sink
 
 * begin compare 10
   cmo status cmo_src
@@ -440,10 +401,7 @@ read avs input_2d_hires_trans.inp    cmo_sink
 
 intrp/map/cmo_sink imt1/1,0,0/ &
 cmo_src itetclr/nearest imt1/keepatt
-  dump gmv output_map11.gmv
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map11.gmv cmov
-  cmo delete cmov
+  dump avs output_map11.gmv cmo_sink
 
 * begin compare 11
   cmo printatt cmo_src imt1 minmax
@@ -466,10 +424,7 @@ cmo setatt cmo_sink imtreal 5.0
 
 intrp/map/cmo_sink imtreal/1,0,0/cmo_src itetreal/ &
 nearest imtreal/keepatt
-  dump gmv output_map12.gmv
-  addmesh merge cmov cmo_src cmo_sink
-* dump gmv output_view_map12.gmv cmov
-  cmo delete cmov
+  dump avs output_map12.inp cmo_sink
 
 * begin compare 12
   cmo printatt cmo_src imtreal minmax
