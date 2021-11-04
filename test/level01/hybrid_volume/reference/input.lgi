@@ -1,7 +1,7 @@
 # Hybrid control volume tests
-
 # These tests verify the hybrid and nohybrid options of dump / fehm and dump /
 # stor. They also test cmo / addatt / / hybrid_volume, which is closely related.
+# Note: gmv read/write commented out to avoid binary files in testing
 
 # Input files:
 #   input03.inp
@@ -28,7 +28,7 @@
 cmo / create / mo1 / / / tet
 createpts / xyz / 11, 11, 11 / 0, 0, 0 / 10, 10, 10 / 1, 1, 1
 connect
-dump / out_01.gmv / mo1
+# dump / out_01.gmv / mo1
 dump / stor / out_01 / mo1 / hybrid
 cmo / addatt / mo1 / hybrid_volume / hybrid
 cmo / addatt / mo1 / voronoi_volume / voronoi
@@ -41,12 +41,12 @@ math / sum / mo1 / total_element_volume / 1 0 0 / mo1 / element_volume
 # tet mesh.
 cmo / create / mo2 / / / hex
 createpts / brick / xyz / 11, 11, 11 / 0, 0, 0 / 10, 10, 10 / 1, 1, 1
-dump / out_02.gmv / mo2
+# dump / out_02.gmv / mo2
 dump / stor / out_02 / mo2 / hybrid
 
 # Check that it gives an error message if it gets a hybrid tet and hex mesh.
 read / input03.inp / mo3
-dump / out_03.gmv / mo3
+# dump / out_03.gmv / mo3
 dump / stor / out_03 / mo3 / hybrid
 
 # Check that it behaves alright if it gets a 2D (triangular) mesh.  Actually
@@ -55,7 +55,7 @@ dump / stor / out_03 / mo3 / hybrid
 # it should check the arguments and complain about the ones that don't make
 # sense.
 read / input04.inp / mo4
-dump / out_04.gmv / mo4
+# dump / out_04.gmv / mo4
 dump / stor / out_04 / mo4 / hybrid
 dump / stor / out_04 / mo4 / nohybrid
 
@@ -74,7 +74,7 @@ finish
 
 # Same thing with a much more complicated mesh. We also calculate the volume
 # three different ways (as above) and verify that they all match.
-read / input08.gmv / mo8
+# read / input08.gmv / mo8
 dump / stor / out_08 / mo8
 cmo / addatt / mo8 / hybrid_volume / hybrid
 cmo / addatt / mo8 / voronoi_volume / voronoi
@@ -86,7 +86,7 @@ math / sum / mo8 / total_element_volume / 1 0 0 / mo8 / element_volume
 # Pathological case: Voronoi center lies directly on an edge. In this case the
 # hybrid and nohybrid cases should produce the same results.
 read / input09.inp / mo9
-dump / out_09.gmv / mo9
+# dump / out_09.gmv / mo9
 dump / stor / out_09_hybrid / mo9 / hybrid
 dump / stor / out_09_nohybrid / mo9 / nohybrid
 
@@ -96,7 +96,7 @@ cmo / create / mo10 /// hex
 createpts / brick / xyz / 2 2 2 / 0 0 0 / 1 1 10 / 1 1 1
 hextotet / 24 / mo11 / mo10
 cmo / addatt / mo11 / voronoi
-dump / out_11.gmv / mo11
+# dump / out_11.gmv / mo11
 
 dump / stor / out_11 / mo11
 dump / stor / out_11_h / mo11 / hybrid
