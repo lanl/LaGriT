@@ -1,0 +1,123 @@
+cmo/create/mo1                                                                  
+createpts/brick/xyz/5 3 4/0. 0. 0./10. 10. 6./1 1 1                             
+rmpoint compress                                                                
+resetpts itp                                                                    
+cmo setatt mo1 itetclr 1                                                        
+cmo setatt mo1 imt 1                                                            
+cmo/create/mo2                                                                  
+createpts/brick/xyz/5 3 4/0. 0. 4./10. 10. 10./1 1 1                            
+rmpoint compress                                                                
+resetpts itp                                                                    
+cmo setatt mo2 itetclr 2                                                        
+cmo setatt mo2 imt 2                                                            
+addmesh/merge/mohex_all/mo1 mo2                                                 
+cmo/select/mohex_all                                                            
+pset/pz/attribute zic/1,0,0/eq 10.                                              
+cmo/setatt/mohex_all/zic pset,get,pz 8.                                         
+cmo/create/mopts                                                                
+copypts/mopts/mohex_all                                                         
+cmo/copy/mohex_pts/mo1                                                          
+copypts/mohex_pts/mo1/0,0/1,0,0                                                 
+cmo/delete mo1                                                                  
+cmo/delete mo2                                                                  
+cmo/status/brief                                                                
+cmo/copy/mof_pts/mopts                                                          
+cmo/select/mof_pts                                                              
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+cmo/copy/mokd_pts/mopts                                                         
+cmo/select/mokd_pts                                                             
+filterkd/1 0 0                                                                  
+rmpoint/compress                                                                
+cmo/copy/mof_all/mohex_all                                                      
+cmo/select/mof_all                                                              
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+cmo/copy/mokd_all/mohex_all                                                     
+cmo/select/mokd_all                                                             
+filterkd/1 0 0/                                                                 
+rmpoint/compress                                                                
+cmo/copy/mokd_rm0/mohex_all                                                     
+cmo/select/mokd_rm0                                                             
+filterkd/1 0 0//zero_element                                                    
+rmpoint/compress                                                                
+cmo/copy/mof_allp/mohex_pts                                                     
+cmo/select/mof_allp                                                             
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+cmo/copy/mokd_allp/mohex_pts                                                    
+cmo/select/mokd_allp                                                            
+filterkd/1 0 0//nocheck                                                         
+rmpoint/compress                                                                
+cmo/copy/mokd_rm0p/mohex_pts                                                    
+cmo/select/mokd_rm0p                                                            
+filterkd/1 0 0//zero_element                                                    
+rmpoint/compress                                                                
+cmo/status/brief                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1//nocheck                                                   
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1/.0001 nocheck                                              
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1/nocheck                                                    
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1/.0001                                                      
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1                                                            
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+pset/p1/attribute xic/1,0,0/lt 3.                                               
+filterkd/pset,get,p1/.0001 zero_element                                         
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0//nocheck                                                         
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/nocheck                                                          
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/                                                                 
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/zero_element                                                     
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/.0001 zero_element                                               
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/.0001 nocheck                                                    
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/.0001                                                            
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/1,0,0/.0001 min                                                        
+cmo/delete/motmp                                                                
+cmo/copy/motmp/mohex_all                                                        
+cmo/select/motmp                                                                
+filterkd/element                                                                
+cmo/delete/motmp                                                                
+finish                                                                          
