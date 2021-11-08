@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Jul 24  15:38:41          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  8  15:39:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -36,102 +36,22 @@ Command log file: logx3dgen
 # Input files:                                                                  
 #   test02.inp - a sinusoidal surface                                           
 # Output files:                                                                 
-#   output_test01.{gmv,inp} - the intersection of two planes                    
-#   output_test02.gmv - the union of a plane and a sinusoidal surface           
-#   output_test03.gmv - the intersection of a plane and a sinusoidal surface    
-# Lay out a mesh on a plane sheet.                                              
-cmo/create/mo1///triplane                                                       
+#   Test 01 - intersection of two planes                                        
+#   Test 02 - intersect plane and a sinusoidal surface                          
+#   Test 03 - intersect elements                                                
+# Create input meshes                                                           
+cmo/create/mo_s1///triplane                                                     
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 1./1 1 1                                   
   RZ GENERATED POINTS                    1 TO                  121              
+cmo/setatt/mo_s1/imt 1                                                          
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
 connect                                                                         
- No materials associated with       121 noninterface points.                    
  Coordinates of enclosing triangle are:                                         
           -0.17500D+01-0.16000D+01 0.50000D+00                                  
            0.27500D+01-0.17500D+01 0.50000D+00                                  
            0.50500D+00 0.50000D+01 0.50000D+00                                  
- Cannot locate interface between points       110 and       123.                
- Cannot locate interface between points       110 and       121.                
- Cannot locate interface between points       121 and       123.                
- Cannot locate interface between points        33 and       123.                
- Cannot locate interface between points        33 and        44.                
- Cannot locate interface between points        44 and       123.                
- Cannot locate interface between points        55 and       123.                
- Cannot locate interface between points        55 and        66.                
- Cannot locate interface between points        66 and       123.                
- Cannot locate interface between points         6 and       122.                
- Cannot locate interface between points         6 and       123.                
- Cannot locate interface between points        44 and        55.                
- Cannot locate interface between points        99 and       123.                
- Cannot locate interface between points        99 and       110.                
- Cannot locate interface between points       121 and       124.                
- Cannot locate interface between points        23 and       122.                
- Cannot locate interface between points        34 and       122.                
- Cannot locate interface between points        23 and        34.                
- Cannot locate interface between points        67 and       122.                
- Cannot locate interface between points        78 and       122.                
- Cannot locate interface between points        67 and        78.                
- Cannot locate interface between points         8 and       123.                
- Cannot locate interface between points         8 and         9.                
- Cannot locate interface between points         9 and       123.                
- Cannot locate interface between points        77 and       123.                
- Cannot locate interface between points        77 and        88.                
- Cannot locate interface between points        88 and       123.                
- Cannot locate interface between points         4 and       122.                
- Cannot locate interface between points         3 and       122.                
- Cannot locate interface between points         3 and         4.                
- Cannot locate interface between points        12 and       122.                
- Cannot locate interface between points        12 and        23.                
- Cannot locate interface between points        45 and       122.                
- Cannot locate interface between points        56 and       122.                
- Cannot locate interface between points        45 and        56.                
- Cannot locate interface between points        11 and       123.                
- Cannot locate interface between points        11 and        22.                
- Cannot locate interface between points        22 and       123.                
- Cannot locate interface between points       100 and       122.                
- Cannot locate interface between points       111 and       122.                
- Cannot locate interface between points       100 and       111.                
- Cannot locate interface between points        89 and       122.                
- Cannot locate interface between points        78 and        89.                
- Cannot locate interface between points         2 and       122.                
- Cannot locate interface between points         1 and       122.                
- Cannot locate interface between points         1 and         2.                
- Cannot locate interface between points         2 and         3.                
- Cannot locate interface between points       120 and       121.                
- Cannot locate interface between points       120 and       124.                
- Cannot locate interface between points       119 and       120.                
- Cannot locate interface between points       119 and       124.                
- Cannot locate interface between points       118 and       119.                
- Cannot locate interface between points       118 and       124.                
- Cannot locate interface between points       111 and       124.                
- Cannot locate interface between points        89 and       100.                
- Cannot locate interface between points       117 and       118.                
- Cannot locate interface between points       117 and       124.                
- Cannot locate interface between points       116 and       117.                
- Cannot locate interface between points       116 and       124.                
- Cannot locate interface between points       115 and       116.                
- Cannot locate interface between points       115 and       124.                
- Cannot locate interface between points       114 and       115.                
- Cannot locate interface between points       114 and       124.                
- Cannot locate interface between points        22 and        33.                
- Cannot locate interface between points        10 and       123.                
- Cannot locate interface between points        10 and        11.                
- Cannot locate interface between points        56 and        67.                
- Cannot locate interface between points        34 and        45.                
- Cannot locate interface between points       113 and       114.                
- Cannot locate interface between points       113 and       124.                
- Cannot locate interface between points       112 and       113.                
- Cannot locate interface between points       112 and       124.                
- Cannot locate interface between points         9 and        10.                
- Cannot locate interface between points        88 and        99.                
- Cannot locate interface between points        66 and        77.                
- Cannot locate interface between points       111 and       112.                
- Cannot locate interface between points         7 and       123.                
- Cannot locate interface between points         7 and         8.                
- Cannot locate interface between points         6 and         7.                
- Cannot locate interface between points         5 and       122.                
- Cannot locate interface between points         4 and         5.                
- Cannot locate interface between points         5 and         6.                
- Cannot locate interface between points         1 and        12.                
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -145,50 +65,65 @@ RECON: done.
 finish                                                                          
 LaGriT FINISH: recon 0 for connect 2d                                           
  
+cmo/setatt/mo_s1/itetclr 1                                                      
+       200 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
 # Make a copy of the mesh and rotate it about a line.                           
-cmo/copy/mo2/mo1                                                                
+cmo/copy/mo_s2/mo_s1                                                            
+cmo select mo_s2                                                                
 rotateln/1 0 0/nocopy/.5 -1.0 0.0/.6 2.0 0.0/45.0                               
-cmo/printatt/mo2/-xyz-/minmax                                                   
+cmo/printatt/mo_s1/-xyz-/minmax                                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+00 1.000000000E+00       121  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00       121  
+ zic                5.000000000E-01  5.000000000E-01 0.000000000E+00       121  
+ 
+cmo/printatt/mo_s2/-xyz-/minmax                                                 
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  xic                5.093934786E-01  1.226577607E+00 7.171841283E-01       121  
  yic               -1.697978262E-02  9.924474131E-01 1.009427196E+00       121  
  zic                2.375339739E-02  7.540248109E-01 7.302714135E-01       121  
  
-# Intersect the two meshes. Afterward mo_int should have its edges sorted and   
+# Test 01                                                                       
+# Intersect the two meshes. Afterward mo_line should have its edges sorted and  
 # should have attributes cid, ctype, and loop_id set properly.                  
-intersect/mo_int/mo1/mo2                                                        
+# output single line                                                            
+intersect/mo_line/mo_s1/mo_s2                                                   
  Default line_graph option: using "elements"                                    
-cmo/addatt/mo_int/line_sort_key/vint/scalar/nelements///gax/0                   
+cmo/addatt/mo_line/line_sort_key/vint/scalar/nelements///gax/0                  
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_int/cid                                                           
+cmo/DELATT/mo_line/cid                                                          
 DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo_int/cid/VINT/scalar/nelements/linear/temporary                    
+cmo/addatt/mo_line/cid/VINT/scalar/nelements/linear/temporary                   
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_int/ctype                                                         
+cmo/DELATT/mo_line/ctype                                                        
 DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo_int/ctype/VINT/scalar/nelements/linear/temporary                  
+cmo/addatt/mo_line/ctype/VINT/scalar/nelements/linear/temporary                 
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_int/loopid                                                        
+cmo/DELATT/mo_line/loopid                                                       
 DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo_int/loopid/VINT/scalar/nelements/linear/temporary                 
+cmo/addatt/mo_line/loopid/VINT/scalar/nelements/linear/temporary                
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -197,17 +132,17 @@ first element type:    2 lin
 finish                                                                          
  SORT: order key written to attribute: line_sort_key                            
  
-reorder/mo_int/line_sort_key                                                    
+reorder/mo_line/line_sort_key                                                   
 geniee                                                                          
 finish                                                                          
 finish                                                                          
-cmo/delatt/mo_int/line_sort_key                                                 
+cmo/delatt/mo_line/line_sort_key                                                
 finish                                                                          
 cmo/status                                                                      
  
-The current-mesh-object(CMO) is: mo_int                                         
+The current-mesh-object(CMO) is: mo_line                                        
  
-  1 Mesh Object name: mo1                                                       
+  1 Mesh Object name: mo_s1                                                     
     number of nodes =           121        number of elements =          200    
     dimensions geometry =         2        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
@@ -244,7 +179,7 @@ The current-mesh-object(CMO) is: mo_int
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -281,7 +216,7 @@ The current-mesh-object(CMO) is: mo_int
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  
-  2 Mesh Object name: mo2                                                       
+  2 Mesh Object name: mo_s2                                                     
     number of nodes =           121        number of elements =          200    
     dimensions geometry =         2        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
@@ -318,7 +253,7 @@ The current-mesh-object(CMO) is: mo_int
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -360,7 +295,7 @@ cmo mesh_type:        -1 not
 first element type:    2 lin                                                    
  
  
-  3 Mesh Object name: mo_int                                                    
+  3 Mesh Object name: mo_line                                                   
     number of nodes =            40        number of elements =           39    
     dimensions geometry =         3        element type =                not    
     dimensions topology =         1        2 nodes      2 faces      3 edges    
@@ -397,7 +332,7 @@ first element type:    2 lin
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -436,106 +371,20 @@ first element type:    2 lin
  66             cid VINT     scalar       nelements linea tempo agl  0.000E+00  
  67           ctype VINT     scalar       nelements linea tempo agl  0.000E+00  
  68          loopid VINT     scalar       nelements linea tempo agl  0.000E+00  
-dump/gmv/output_test01.gmv/mo_int                                               
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/avs/output_test01.inp/mo_int/1 1 0 0                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-# Perform another intersection, this time of the xy-plane with a sort of        
-# sinusoidal surface.                                                           
-cmo/create/mo3///triplane                                                       
+* dump / avs / output_test01.inp / mo_line / 1 1 0 0                            
+# Create input mesh for Test 02                                                 
+cmo/create/mo_plane///triplane                                                  
 createpts/xyz/11 11 1/0. 0. 0./10. 20. 0./1 1 1                                 
   RZ GENERATED POINTS                    1 TO                  121              
+cmo/setatt/mo_plane imt 1                                                       
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
 connect                                                                         
- No materials associated with       121 noninterface points.                    
  Coordinates of enclosing triangle are:                                         
           -0.17500D+02-0.32000D+02-0.00000D+00                                  
            0.27500D+02-0.35000D+02-0.00000D+00                                  
            0.50500D+01 0.10000D+03-0.00000D+00                                  
- Cannot locate interface between points        44 and       123.                
- Cannot locate interface between points        44 and        55.                
- Cannot locate interface between points        55 and       123.                
- Cannot locate interface between points       111 and       112.                
- Cannot locate interface between points       111 and       124.                
- Cannot locate interface between points       112 and       124.                
- Cannot locate interface between points       115 and       116.                
- Cannot locate interface between points       115 and       124.                
- Cannot locate interface between points       116 and       124.                
- Cannot locate interface between points         7 and       122.                
- Cannot locate interface between points         7 and       123.                
- Cannot locate interface between points       112 and       113.                
- Cannot locate interface between points       113 and       124.                
- Cannot locate interface between points        77 and       123.                
- Cannot locate interface between points        77 and        88.                
- Cannot locate interface between points        88 and       123.                
- Cannot locate interface between points        88 and        99.                
- Cannot locate interface between points        99 and       123.                
- Cannot locate interface between points        89 and       122.                
- Cannot locate interface between points       100 and       122.                
- Cannot locate interface between points        89 and       100.                
- Cannot locate interface between points        33 and       123.                
- Cannot locate interface between points        33 and        44.                
- Cannot locate interface between points        56 and       122.                
- Cannot locate interface between points        67 and       122.                
- Cannot locate interface between points        56 and        67.                
- Cannot locate interface between points        99 and       110.                
- Cannot locate interface between points       110 and       123.                
- Cannot locate interface between points       118 and       119.                
- Cannot locate interface between points       118 and       124.                
- Cannot locate interface between points       119 and       124.                
- Cannot locate interface between points       119 and       120.                
- Cannot locate interface between points       120 and       124.                
- Cannot locate interface between points       111 and       122.                
- Cannot locate interface between points       100 and       111.                
- Cannot locate interface between points         6 and       122.                
- Cannot locate interface between points         6 and         7.                
- Cannot locate interface between points        66 and       123.                
- Cannot locate interface between points        66 and        77.                
- Cannot locate interface between points        55 and        66.                
- Cannot locate interface between points         2 and       122.                
- Cannot locate interface between points         1 and       122.                
- Cannot locate interface between points         1 and         2.                
- Cannot locate interface between points        12 and       122.                
- Cannot locate interface between points        23 and       122.                
- Cannot locate interface between points        12 and        23.                
- Cannot locate interface between points        78 and       122.                
- Cannot locate interface between points        78 and        89.                
- Cannot locate interface between points        67 and        78.                
- Cannot locate interface between points       110 and       121.                
- Cannot locate interface between points       121 and       123.                
- Cannot locate interface between points        45 and       122.                
- Cannot locate interface between points        45 and        56.                
- Cannot locate interface between points       120 and       121.                
- Cannot locate interface between points       121 and       124.                
- Cannot locate interface between points       114 and       115.                
- Cannot locate interface between points       114 and       124.                
- Cannot locate interface between points       113 and       114.                
- Cannot locate interface between points         5 and       122.                
- Cannot locate interface between points         4 and       122.                
- Cannot locate interface between points         4 and         5.                
- Cannot locate interface between points         5 and         6.                
- Cannot locate interface between points        10 and       123.                
- Cannot locate interface between points        10 and        11.                
- Cannot locate interface between points        11 and       123.                
- Cannot locate interface between points         9 and       123.                
- Cannot locate interface between points         9 and        10.                
- Cannot locate interface between points         3 and       122.                
- Cannot locate interface between points         2 and         3.                
- Cannot locate interface between points         3 and         4.                
- Cannot locate interface between points        22 and       123.                
- Cannot locate interface between points        22 and        33.                
- Cannot locate interface between points        11 and        22.                
- Cannot locate interface between points       117 and       118.                
- Cannot locate interface between points       117 and       124.                
- Cannot locate interface between points       116 and       117.                
- Cannot locate interface between points        34 and       122.                
- Cannot locate interface between points        34 and        45.                
- Cannot locate interface between points        23 and        34.                
- Cannot locate interface between points         8 and       123.                
- Cannot locate interface between points         8 and         9.                
- Cannot locate interface between points         7 and         8.                
- Cannot locate interface between points         1 and        12.                
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -549,25 +398,34 @@ RECON: done.
 finish                                                                          
 LaGriT FINISH: recon 0 for connect 2d                                           
  
-read/test02.inp/mo4                                                             
-read/avs/test02.inp/mo4                                                         
-cmo/addatt/mo4/var1/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+cmo/setatt/mo1/itetclr 1                                                        
+Warning: MO DOES NOT EXIST: mo1                                                 
+Warning: NO ACTION: setatt                                                      
+cmo_command: RETURN                                                             
+resetpts/itp                                                                    
+geniee                                                                          
 finish                                                                          
-cmo/addatt/mo4/var2/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0             
+* dump input_sheet2.inp mo_plane                                                
+# read input mesh for Test 02                                                   
+read/input_test02.inp/mo_surf                                                   
+read/avs/input_test02.inp/mo_surf                                               
+cmo/addatt/mo_surf/var1/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
+finish                                                                          
+cmo/addatt/mo_surf/var2/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
 finish                                                                          
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
  
-The current-mesh-object(CMO) is: mo4                                            
+The current-mesh-object(CMO) is: mo_surf                                        
  
-  1 Mesh Object name: mo1                                                       
+  1 Mesh Object name: mo_s1                                                     
     number of nodes =           121        number of elements =          200    
     dimensions geometry =         2        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  2 Mesh Object name: mo2                                                       
+  2 Mesh Object name: mo_s2                                                     
     number of nodes =           121        number of elements =          200    
     dimensions geometry =         2        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
@@ -578,19 +436,19 @@ cmo mesh_type:        -1 not
 first element type:    2 lin                                                    
  
  
-  3 Mesh Object name: mo_int                                                    
+  3 Mesh Object name: mo_line                                                   
     number of nodes =            40        number of elements =           39    
     dimensions geometry =         3        element type =                not    
     dimensions topology =         1        2 nodes      2 faces      3 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  4 Mesh Object name: mo3                                                       
+  4 Mesh Object name: mo_plane                                                  
     number of nodes =           121        number of elements =          200    
     dimensions geometry =         2        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
     boundary flag =        16000000        status =                 inactive    
  
-  5 Mesh Object name: mo4                                                       
+  5 Mesh Object name: mo_surf                                                   
     number of nodes =          1661        number of elements =         3200    
     dimensions geometry =         3        element type =                tri    
     dimensions topology =         2        3 nodes      3 faces      3 edges    
@@ -599,45 +457,55 @@ first element type:    2 lin
  
 finish                                                                          
 finish                                                                          
-addmesh/merge/mo_union/mo3/mo4                                                  
-dump/output_test02.gmv/mo_union                                                 
-dump/gmv/output_test02.gmv/mo_union                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
-intersect/mo_intersect/mo3/mo4                                                  
+cmo/printatt/mo_plane/-xyz-/minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+01 1.000000000E+01       121  
+ yic                0.000000000E+00  2.000000000E+01 2.000000000E+01       121  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00       121  
+ 
+cmo/printatt/mo_surf/-xyz-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+01 1.000000000E+01      1661  
+ yic                0.000000000E+00  2.000000000E+01 2.000000000E+01      1661  
+ zic               -3.997758627E-01  3.989979923E-01 7.987738550E-01      1661  
+ 
+# Test 02                                                                       
+# Intersect with sinusoidal surface                                             
+# Check attributes (see image)                                                  
+# output multiple lines                                                         
+intersect/mo_lines/mo_plane/mo_surf                                             
  Default line_graph option: using "elements"                                    
-cmo/addatt/mo_intersect/line_sort_key/vint/scalar/nelements///gax/0             
+cmo/addatt/mo_lines/line_sort_key/vint/scalar/nelements///gax/0                 
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_intersect/cid                                                     
+cmo/DELATT/mo_lines/cid                                                         
 DELATT no action, attribute does not exist: cid                                 
 finish                                                                          
-cmo/addatt/mo_intersect/cid/VINT/scalar/nelements/linear/temporary              
+cmo/addatt/mo_lines/cid/VINT/scalar/nelements/linear/temporary                  
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_intersect/ctype                                                   
+cmo/DELATT/mo_lines/ctype                                                       
 DELATT no action, attribute does not exist: ctype                               
 finish                                                                          
-cmo/addatt/mo_intersect/ctype/VINT/scalar/nelements/linear/temporary            
+cmo/addatt/mo_lines/ctype/VINT/scalar/nelements/linear/temporary                
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
 first element type:    2 lin                                                    
  
 finish                                                                          
-cmo/DELATT/mo_intersect/loopid                                                  
+cmo/DELATT/mo_lines/loopid                                                      
 DELATT no action, attribute does not exist: loopid                              
 finish                                                                          
-cmo/addatt/mo_intersect/loopid/VINT/scalar/nelements/linear/temporary           
+cmo/addatt/mo_lines/loopid/VINT/scalar/nelements/linear/temporary               
 ERROR: Unrecognized Mesh Type nen,nef,nee:    2   2   3                         
 Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
 cmo mesh_type:        -1 not                                                    
@@ -646,16 +514,68 @@ first element type:    2 lin
 finish                                                                          
  SORT: order key written to attribute: line_sort_key                            
  
-reorder/mo_intersect/line_sort_key                                              
+reorder/mo_lines/line_sort_key                                                  
 geniee                                                                          
 finish                                                                          
 finish                                                                          
-cmo/delatt/mo_intersect/line_sort_key                                           
+cmo/delatt/mo_lines/line_sort_key                                               
 finish                                                                          
-dump/output_test03.gmv/mo_intersect                                             
-dump/gmv/output_test03.gmv/mo_intersect                                         
-cmo/modatt/-def-/-def-/ioflag/x                                                 
+cmo/printatt/mo_lines/cid minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ cid                              1               10               9       587  
+ 
+cmo/printatt/mo_lines/ctype minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ctype                            1                3               2       587  
+ 
+cmo/printatt/mo_lines/loopid minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ loopid                           0                1               1       587  
+ 
+* dump / output_test02.inp / mo_lines                                           
+# Test 03                                                                       
+# find intersected elements                                                     
+intersect_elements/mo_s1/mo_s2/xsect                                            
+cmo/select/mo_s1                                                                
+finish                                                                          
+kdtree/build                                                                    
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
 finish                                                                          
 finish                                                                          
+cmo/addatt/mo_s1/xsect/VINT/scalar/nelements/linear/permanent//0/               
+finish                                                                          
+ 
+         Element    Elems Searched  Elements Found  Percent Done                
+             51               39              9       25 %                      
+            101               77              5       50 %                      
+            151              138              5       75 %                      
+            200              164             20    Total Done                   
+ 
+cmo/select/mo_s1                                                                
+finish                                                                          
+kdtree/release                                                                  
+cmo/DELATT/mo_s1/sbox                                                           
+finish                                                                          
+cmo/DELATT/mo_s1/v12                                                            
+finish                                                                          
+cmo/DELATT/mo_s1/linkt                                                          
+finish                                                                          
+cmo/DELATT/mo_s1/v2                                                             
+finish                                                                          
+finish                                                                          
+cmo/select/mo_s1                                                                
+eltset/e_obj/xsect/gt/0                                                         
+ 
+ THE ELTSET e_obj                            HAS         20 ELEMENTS            
+cmo/setatt/mo_s1/itetclr/eltset,get,e_obj 2                                     
+        20 values reset for attribute itetclr                                   
+ 
+* dump/ output_test03.inp / mo_s1                                               
 finish                                                                          
 LaGriT successfully completed                                                   

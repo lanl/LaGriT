@@ -1,19 +1,31 @@
-cmo/create/mo1///triplane                                                       
+cmo/create/mo_s1///triplane                                                     
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 1./1 1 1                                   
+cmo/setatt/mo_s1/imt 1                                                          
 connect                                                                         
-cmo/copy/mo2/mo1                                                                
+cmo/setatt/mo_s1/itetclr 1                                                      
+resetpts/itp                                                                    
+cmo/copy/mo_s2/mo_s1                                                            
+cmo select mo_s2                                                                
 rotateln/1 0 0/nocopy/.5 -1.0 0.0/.6 2.0 0.0/45.0                               
-cmo/printatt/mo2/-xyz-/minmax                                                   
-intersect/mo_int/mo1/mo2                                                        
+cmo/printatt/mo_s1/-xyz-/minmax                                                 
+cmo/printatt/mo_s2/-xyz-/minmax                                                 
+intersect/mo_line/mo_s1/mo_s2                                                   
 cmo/status                                                                      
-dump/gmv/test01.gmv/mo_int                                                      
-dump/avs/test01.inp/mo_int/1 1 0 0                                              
-cmo/create/mo3///triplane                                                       
+cmo/create/mo_plane///triplane                                                  
 createpts/xyz/11 11 1/0. 0. 0./10. 20. 0./1 1 1                                 
+cmo/setatt/mo_plane imt 1                                                       
 connect                                                                         
-read/test02.inp/mo4                                                             
-addmesh/merge/mo_union/mo3/mo4                                                  
-dump/test02.gmv/mo_union                                                        
-intersect/mo_intersect/mo3/mo4                                                  
-dump/test03.gmv/mo_intersect                                                    
+cmo/setatt/mo1/itetclr 1                                                        
+resetpts/itp                                                                    
+read/input_test02.inp/mo_surf                                                   
+cmo/printatt/mo_plane/-xyz-/minmax                                              
+cmo/printatt/mo_surf/-xyz-/minmax                                               
+intersect/mo_lines/mo_plane/mo_surf                                             
+cmo/printatt/mo_lines/cid minmax                                                
+cmo/printatt/mo_lines/ctype minmax                                              
+cmo/printatt/mo_lines/loopid minmax                                             
+intersect_elements/mo_s1/mo_s2/xsect                                            
+cmo/select/mo_s1                                                                
+eltset/e_obj/xsect/gt/0                                                         
+cmo/setatt/mo_s1/itetclr/eltset,get,e_obj 2                                     
 finish                                                                          

@@ -9,39 +9,66 @@
 #   test02.inp - a sinusoidal surface
 
 # Output files:
-#   output_test01.{gmv,inp} - the intersection of two planes
-#   output_test02.gmv - the union of a plane and a sinusoidal surface
-#   output_test03.gmv - the intersection of a plane and a sinusoidal surface
+#   Test 01 - intersection of two planes
+#   Test 02 - intersect plane and a sinusoidal surface
+#   Test 03 - intersect elements 
 
-# Lay out a mesh on a plane sheet.
-cmo / create / mo1 / / / triplane
+# Create input meshes 
+cmo / create / mo_s1 / / / triplane
 createpts / xyz / 11 11 1 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo/setatt/mo_s1/imt 1
 connect
+cmo/setatt/mo_s1/itetclr 1
+resetpts/itp
 
 # Make a copy of the mesh and rotate it about a line.
-cmo / copy / mo2 / mo1
+cmo / copy / mo_s2 / mo_s1
+cmo select mo_s2
 rotateln / 1 0 0 / nocopy / .5 -1.0 0.0 / .6 2.0 0.0 / 45.0
-cmo / printatt / mo2 / -xyz- / minmax
 
-# Intersect the two meshes. Afterward mo_int should have its edges sorted and
+cmo / printatt / mo_s1 / -xyz- / minmax
+cmo / printatt / mo_s2 / -xyz- / minmax
+
+# Test 01
+# Intersect the two meshes. Afterward mo_line should have its edges sorted and
 # should have attributes cid, ctype, and loop_id set properly.
-intersect / mo_int / mo1 / mo2
+# output single line
+intersect / mo_line / mo_s1 / mo_s2
 cmo / status
+* dump / avs / output_test01.inp / mo_line / 1 1 0 0
 
-dump / gmv / output_test01.gmv / mo_int
-dump / avs / output_test01.inp / mo_int / 1 1 0 0
-
-# Perform another intersection, this time of the xy-plane with a sort of
-# sinusoidal surface.
-cmo / create / mo3 / / / triplane
+# Create input mesh for Test 02
+cmo / create / mo_plane / / / triplane
 createpts / xyz / 11 11 1 / 0. 0. 0. / 10. 20. 0. / 1 1 1
+cmo/setatt/mo_plane imt 1
 connect
+cmo/setatt/mo1/itetclr 1
+resetpts/itp
+* dump input_sheet2.inp mo_plane
 
-read / test02.inp / mo4
-addmesh / merge / mo_union / mo3 / mo4
-dump / output_test02.gmv / mo_union
+# read input mesh for Test 02
+read / input_test02.inp / mo_surf
 
-intersect / mo_intersect / mo3 / mo4
-dump / output_test03.gmv / mo_intersect
+cmo / printatt / mo_plane / -xyz- / minmax
+cmo / printatt / mo_surf / -xyz- / minmax
+
+# Test 02
+# Intersect with sinusoidal surface
+# Check attributes (see image)
+# output multiple lines
+intersect / mo_lines / mo_plane / mo_surf
+cmo/printatt/mo_lines/ cid minmax
+cmo/printatt/mo_lines/ ctype minmax
+cmo/printatt/mo_lines/ loopid minmax
+* dump / output_test02.inp / mo_lines
+
+# Test 03
+# find intersected elements
+intersect_elements/  mo_s1 / mo_s2 / xsect 
+cmo / select / mo_s1
+eltset / e_obj / xsect / gt / 0
+cmo/setatt/mo_s1/itetclr/ eltset,get,e_obj 2
+* dump/ output_test03.inp / mo_s1
+
 
 finish
