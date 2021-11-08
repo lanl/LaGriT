@@ -8,13 +8,13 @@ quality/quad
 read/test03.inp/mo03                                                            
 cmo/addatt/mo03/quad_quality/quality regularity qflag                           
 quality/quad                                                                    
-dump/output_test03.gmv/mo03                                                     
+dump/output_test03.inp/mo03                                                     
 read/test04.inp/mo04                                                            
 cmo/addatt/mo04/quad_quality/quality regularity qflag                           
 quality/quad                                                                    
-dump/output_test04.gmv/mo04                                                     
+dump/output_test04.inp/mo04                                                     
 read/test05.inp/mo05                                                            
 cmo/addatt/mo05/quad_quality/quality regularity qflag                           
 quality/quad                                                                    
-dump/output_test05.gmv/mo05                                                     
+dump/output_test05.inp/mo05                                                     
 finish                                                                          

@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:52          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  8  16:55:30          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -28,14 +30,14 @@ Command log file: logx3dgen
  
 # Test cmo / addatt / / quad_quality and the associated quality / quad command. 
 # Input files:                                                                  
-#   test03.inp                                                                  
-#   test04.inp                                                                  
-#   test05.inp                                                                  
+#   input_test03.inp                                                            
+#   input_test04.inp                                                            
+#   input_test05.inp                                                            
 #                                                                               
 # Output files:                                                                 
-#   output_test03.gmv                                                           
-#   output_test04.gmv                                                           
-#   output_test05.gmv                                                           
+#   output_test03.inp                                                           
+#   output_test04.inp                                                           
+#   output_test05.inp                                                           
 # Make sure we can handle an empty mesh.                                        
 cmo/create/mo01///quad                                                          
 cmo/addatt/mo01/quad_quality/quality regularity qflag                           
@@ -122,8 +124,8 @@ finish
 -----------------------------------------------------------                     
        100 total elements evaluated.                                            
  
-dump/output_test03.gmv/mo03                                                     
-dump/gmv/output_test03.gmv/mo03                                                 
+dump/output_test03.inp/mo03                                                     
+dump/avs/output_test03.inp/mo03                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
@@ -196,8 +198,8 @@ finish
 -----------------------------------------------------------                     
        100 total elements evaluated.                                            
  
-dump/output_test04.gmv/mo04                                                     
-dump/gmv/output_test04.gmv/mo04                                                 
+dump/output_test04.inp/mo04                                                     
+dump/avs/output_test04.inp/mo04                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
@@ -276,8 +278,8 @@ finish
 -----------------------------------------------------------                     
        100 total elements evaluated.                                            
  
-dump/output_test05.gmv/mo05                                                     
-dump/gmv/output_test05.gmv/mo05                                                 
+dump/output_test05.inp/mo05                                                     
+dump/avs/output_test05.inp/mo05                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
