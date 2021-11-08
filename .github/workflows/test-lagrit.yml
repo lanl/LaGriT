@@ -1,30 +1,46 @@
 name: LaGriT Build Status
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6]
+        os: [ubuntu-latest, macOS-latest]
+        #, windows-latest]
     steps:
-    - uses: actions/checkout@v2
-    - name: Install LaGriT build dependencies
-      run: |
-        sudo apt-get update -y && sudo apt-get upgrade -y 
-        sudo apt-get install -y build-essential openssl vim gfortran cmake git \
-        wget libz-dev m4 bison python3 python3-pip python3-setuptools
-    - name: Build/test LaGriT
-      run: |
-        make exodus
-        make release
-        make test
-    - name: Test PyLaGriT
-      run: |
-        echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
-        cat ~/.pylagritrc
-        cd PyLaGriT/
-        python3 setup.py install
-        python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade coverage
+      - name: (Ubuntu) Install build dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y 
+          sudo apt-get install -y build-essential openssl gfortran cmake git \
+          wget libz-dev m4 bison
+        if: matrix.os == 'ubuntu-latest'
+      - name: (macOS) Install build dependencies
+        run: |
+          brew install \
+            openssl gfortran git gcc cmake wget zlib m4 bison
+        if: matrix.os == 'macOS-latest'
+      - name: Build/test LaGriT
+        run: |
+          make exodus
+          make release
+          make test
+      - name: Test PyLaGriT
+        run: |
+          echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
+          cat ~/.pylagritrc
+          cd PyLaGriT/
+          python3 setup.py install
+          python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
