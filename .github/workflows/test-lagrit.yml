@@ -32,6 +32,22 @@ jobs:
           brew install \
             openssl gfortran git gcc cmake wget zlib m4 bison
         if: matrix.os == 'macOS-latest'
+      - name: Display build vars
+        run: |
+          echo "---------------"
+          pwd
+          echo "$(which python3)"
+          python3 --version
+          echo "---------------"
+          echo "$(which gfortran)"
+          gfortran --version
+          echo "---------------"
+          echo "$(which gcc)"
+          gcc --version
+          echo "---------------"
+          echo "$(which g++)"
+          g++ --version
+          echo "---------------"
       - name: Build/test LaGriT
         run: |
           make exodus
