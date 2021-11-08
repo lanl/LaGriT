@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Jul 24  15:38:47          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  8  11:13:34          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,6 +28,10 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
+* Test interpolate 2D                                                           
+* examines precision with small numbers                                         
+* includes fix to V2 issues with interpolate                                    
+* output files written for important cases                                      
 *                                                                               
 define/SIZE_SRCX/21                                                             
 define/SIZE_SRCY/101                                                            
@@ -66,7 +70,7 @@ LaGriT FINISH: recon 0 for connect 2d
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-* Build a sink second simple 2d triangular mesh                                 
+* Build a sink simple 2d triangular mesh                                        
 cmo/create/cmosink///triplane                                                   
 createpts/xyz/SIZE_SNKX,SIZE_SNKY,1/0.,0.,0./1.,1.,0./1,1,1                     
   RZ GENERATED POINTS                    1 TO                 2000              
@@ -112,14 +116,15 @@ cmo/setatt/cmosink/field3 0.0
 cmo/setatt/cmosink/field2 0.0                                                   
       2000 values reset for attribute field2                                    
  
+* turn off debug for the test suite                                             
 cmo/setatt/cmosink/idebug 0                                                     
          1 values reset for attribute idebug                                    
  
 cmo/setatt/cmosource/idebug 0                                                   
          1 values reset for attribute idebug                                    
  
-*  smallest numbers                                                             
-* test 1 new                                                                    
+* each case decreases the values to test precision                              
+* Case 01                                                                       
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e10 1.e10 1.0                                        
 cmo/select/cmosink                                                              
@@ -252,7 +257,7 @@ Attribute: field3
       1801  0.00000E+00                                                         
       1901  0.00000E+00                                                         
  
-* test 2 new                                                                    
+* Case 02                                                                       
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -385,10 +390,9 @@ Attribute: field3
       1801  0.00000E+00                                                         
       1901  0.00000E+00                                                         
  
-dump/gmv/out_1.ep02.gmv/cmosink ascii                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-* test 3 new                                                                    
+* dump / avs / out_C02_field3.inp / cmosink                                     
+* dump / avs / out_C02_field3_src.inp / cmosource                               
+* Case 03                                                                       
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -521,10 +525,7 @@ Attribute: field3
       1801  0.00000E+00                                                         
       1901  0.00000E+00                                                         
  
-dump/gmv/out_1.ep04.gmv/cmosink ascii                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-* test 4 new                                                                    
+* Case 04                                                                       
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -657,9 +658,8 @@ Attribute: field3
       1801  0.00000E+00                                                         
       1901  0.00000E+00                                                         
  
-dump/gmv/out_1.ep06_new.gmv/cmosink ascii                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+* dump / avs / out_C04_field3.inp / cmosink                                     
+* dump / avs / out_C04_field3_src.inp / cmosource                               
 cmo printatt cmosource -xyz- minmax                                             
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  xic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2121  
@@ -720,7 +720,7 @@ Attribute: field3
       1901  0.00000E+00                                                         
       1951  5.26316E-01                                                         
  
-* test 5 new                                                                    
+* Case 05                                                                       
 cmo/set_id/cmosource node/id_node                                               
 cmo/addatt/cmosource id_node/VINT/scalar/nnodes/linear/permanent//0             
 finish                                                                          
@@ -805,6 +805,8 @@ finish
 cmo/DELATT/cmosource/v2                                                         
 finish                                                                          
 finish                                                                          
+* dump / avs / out_C05a_field2.inp / cmosink                                    
+* dump / avs / out_C05a_id_elem_src.inp / cmosource                             
 cmo printatt cmosource id_elem minmax                                           
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  id_elem                          1             4000            3999      4000  
@@ -883,8 +885,7 @@ Attribute: el_gtg
       2000        727                                                           
  
 * result should be same using attributes again                                  
-* note that pre V2.2 code has different result                                  
-* as seen at last point 2000                                                    
+* pre V2.2 code has wrong result at point 2000                                  
 cmo/setatt/cmosink/idebug 0                                                     
          1 values reset for attribute idebug                                    
  
@@ -1002,34 +1003,7 @@ Attribute: el_gtg
       1900       3728                                                           
       2000        727                                                           
  
-dump/gmv/2d_sink_new.gmv/cmosink ascii                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/avs/2d_sink_new.inp/cmosink                                                
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/2d_source.gmv/cmosource ascii                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-* view result with field2 nodes against source id_elem                          
-cmo/addatt/cmosource/field2/vdouble/scalar/nnodes                               
-cmo addatt cmosink id_elem vint scalar nelements                                
-cmo setatt cmosource itetclr 1                                                  
-      4000 values reset for attribute itetclr                                   
- 
-cmo setatt cmosink itetclr 2                                                    
-      3762 values reset for attribute itetclr                                   
- 
-addmesh merge cmoa cmosource cmosink                                            
-searching for cmoa attributes in cmosink                                        
- attribute not found:          67  id_node                                      
-ADDMESH:     1 attributes not copied from cmosink to cmoa                       
- 
-dump gmv view_field2_id_elem.gmv cmoa ascii                                     
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump avs view_field2_id_elem.inp cmoa                                           
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+* dump / avs / out_C05b_field2.inp / cmosink                                    
+* dump / avs / out_C05b_id_elem_src.inp / cmosource                             
 finish                                                                          
 LaGriT successfully completed                                                   

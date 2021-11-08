@@ -62,7 +62,6 @@ cmo/printatt/cmosink/epsilonv/minmax
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
 cmo printatt cmosink field3 1,2000,100                                          
-dump/gmv/out_1.ep02.gmv/cmosink ascii                                           
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -83,7 +82,6 @@ cmo/printatt/cmosink/epsilonv/minmax
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
 cmo printatt cmosink field3 1,2000,100                                          
-dump/gmv/out_1.ep04.gmv/cmosink ascii                                           
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -104,7 +102,6 @@ cmo/printatt/cmosink/epsilonv/minmax
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
 cmo printatt cmosink field3 1,2000,100                                          
-dump/gmv/out_1.ep06_new.gmv/cmosink ascii                                       
 cmo printatt cmosource -xyz- minmax                                             
 cmo printatt cmosource field3 minmax                                            
 cmo printatt cmosink -xyz- minmac                                               
@@ -127,14 +124,4 @@ cmo printatt cmosink field2 minmax
 cmo printatt cmosink field2 100,2000,100                                        
 cmo printatt cmosink pt_gtg 100,2000,100                                        
 cmo printatt cmosink el_gtg 100,2000,100                                        
-dump/gmv/2d_sink_new.gmv/cmosink ascii                                          
-dump/avs/2d_sink_new.inp/cmosink                                                
-dump/gmv/2d_source.gmv/cmosource ascii                                          
-cmo/addatt/cmosource/field2/vdouble/scalar/nnodes                               
-cmo addatt cmosink id_elem vint scalar nelements                                
-cmo setatt cmosource itetclr 1                                                  
-cmo setatt cmosink itetclr 2                                                    
-addmesh merge cmoa cmosource cmosink                                            
-dump gmv view_field2_id_elem.gmv cmoa ascii                                     
-dump avs view_field2_id_elem.inp cmoa                                           
 finish                                                                          
