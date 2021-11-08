@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Install LaGriT build dependencies
@@ -18,14 +16,15 @@ jobs:
         sudo apt-get update -y && sudo apt-get upgrade -y 
         sudo apt-get install -y build-essential openssl vim gfortran cmake git \
         wget libz-dev m4 bison python3 python3-pip python3-setuptools
-    - name: Build ExodusII
-      run: make exodus
-    - name: Build LaGriT
-      run: make release
-    - name: Test LaGriT
-      run: make test
+    - name: Build/test LaGriT
+      run: |
+        make exodus
+        make release
+        make test
     - name: Test PyLaGriT
       run: |
+        echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
+        cat ~/.pylagritrc
         cd PyLaGriT/
         python3 setup.py install
-        python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT()"
+        python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
