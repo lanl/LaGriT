@@ -4,7 +4,7 @@
 *               *                                             *                 
 *               *    Program:  LaGriT V3.330   Linux          *                 
 *               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  8  11:13:34          *                 
+*               *    Run Time: 2021/Nov  8  11:38:02          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -234,28 +234,32 @@ finish
 cmo/DELATT/cmosource/v2                                                         
 finish                                                                          
 finish                                                                          
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosource field3 minmax                                            
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ field3             0.000000000E+00  1.000000000E+00 1.000000000E+00      2121  
+ 
+cmo printatt cmosink field3 minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ field3             0.000000000E+00  1.000000000E+00 1.000000000E+00      2000  
+ 
+cmo printatt cmosink field3 1,2000,125                                          
 Attribute: field3                                                               
          1  0.00000E+00                                                         
-       101  0.00000E+00                                                         
-       201  0.00000E+00                                                         
-       301  0.00000E+00                                                         
-       401  0.00000E+00                                                         
+       126  2.63158E-01                                                         
+       251  5.26316E-01                                                         
+       376  7.89474E-01                                                         
        501  0.00000E+00                                                         
-       601  0.00000E+00                                                         
-       701  0.00000E+00                                                         
-       801  0.00000E+00                                                         
-       901  0.00000E+00                                                         
+       626  2.63158E-01                                                         
+       751  5.26316E-01                                                         
+       876  7.89474E-01                                                         
       1001  0.00000E+00                                                         
-      1101  0.00000E+00                                                         
-      1201  0.00000E+00                                                         
-      1301  0.00000E+00                                                         
-      1401  0.00000E+00                                                         
+      1126  2.63158E-01                                                         
+      1251  5.26316E-01                                                         
+      1376  7.89474E-01                                                         
       1501  0.00000E+00                                                         
-      1601  0.00000E+00                                                         
-      1701  0.00000E+00                                                         
-      1801  0.00000E+00                                                         
-      1901  0.00000E+00                                                         
+      1626  2.63158E-01                                                         
+      1751  5.26316E-01                                                         
+      1876  7.89474E-01                                                         
  
 * Case 02                                                                       
 cmo/select/cmosource                                                            
@@ -502,28 +506,24 @@ finish
 cmo/DELATT/cmosource/v2                                                         
 finish                                                                          
 finish                                                                          
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosink field3 1,2000,125                                          
 Attribute: field3                                                               
          1  0.00000E+00                                                         
-       101  0.00000E+00                                                         
-       201  0.00000E+00                                                         
-       301  0.00000E+00                                                         
-       401  0.00000E+00                                                         
+       126  2.63158E-01                                                         
+       251  5.26316E-01                                                         
+       376  7.89474E-01                                                         
        501  0.00000E+00                                                         
-       601  0.00000E+00                                                         
-       701  0.00000E+00                                                         
-       801  0.00000E+00                                                         
-       901  0.00000E+00                                                         
+       626  2.63158E-01                                                         
+       751  5.26316E-01                                                         
+       876  7.89474E-01                                                         
       1001  0.00000E+00                                                         
-      1101  0.00000E+00                                                         
-      1201  0.00000E+00                                                         
-      1301  0.00000E+00                                                         
-      1401  0.00000E+00                                                         
+      1126  2.63158E-01                                                         
+      1251  5.26316E-01                                                         
+      1376  7.89474E-01                                                         
       1501  0.00000E+00                                                         
-      1601  0.00000E+00                                                         
-      1701  0.00000E+00                                                         
-      1801  0.00000E+00                                                         
-      1901  0.00000E+00                                                         
+      1626  2.63158E-01                                                         
+      1751  5.26316E-01                                                         
+      1876  7.89474E-01                                                         
  
 * Case 04                                                                       
 cmo/select/cmosource                                                            
@@ -635,28 +635,24 @@ finish
 cmo/DELATT/cmosource/v2                                                         
 finish                                                                          
 finish                                                                          
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosink field3 1,2000,125                                          
 Attribute: field3                                                               
          1  0.00000E+00                                                         
-       101  0.00000E+00                                                         
-       201  0.00000E+00                                                         
-       301  0.00000E+00                                                         
-       401  0.00000E+00                                                         
+       126  2.63158E-01                                                         
+       251  5.26316E-01                                                         
+       376  7.89474E-01                                                         
        501  0.00000E+00                                                         
-       601  0.00000E+00                                                         
-       701  0.00000E+00                                                         
-       801  0.00000E+00                                                         
-       901  0.00000E+00                                                         
+       626  2.63158E-01                                                         
+       751  5.26316E-01                                                         
+       876  7.89474E-01                                                         
       1001  0.00000E+00                                                         
-      1101  0.00000E+00                                                         
-      1201  0.00000E+00                                                         
-      1301  0.00000E+00                                                         
-      1401  0.00000E+00                                                         
+      1126  2.63158E-01                                                         
+      1251  5.26316E-01                                                         
+      1376  7.89474E-01                                                         
       1501  0.00000E+00                                                         
-      1601  0.00000E+00                                                         
-      1701  0.00000E+00                                                         
-      1801  0.00000E+00                                                         
-      1901  0.00000E+00                                                         
+      1626  2.63158E-01                                                         
+      1751  5.26316E-01                                                         
+      1876  7.89474E-01                                                         
  
 * dump / avs / out_C04_field3.inp / cmosink                                     
 * dump / avs / out_C04_field3_src.inp / cmosource                               
@@ -670,55 +666,34 @@ cmo printatt cmosource field3 minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  field3             0.000000000E+00  1.000000000E+00 1.000000000E+00      2121  
  
-cmo printatt cmosink -xyz- minmac                                               
-illegal pset designation minmac                           returns empty pset    
-No values acquired for indexed set of xic                                       
+cmo printatt cmosink -xyz- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2000  
+ yic                0.000000000E+00  1.000000000E+16 1.000000000E+16      2000  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00      2000  
+ 
 cmo printatt cmosink field3 minmax                                              
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  field3             0.000000000E+00  1.000000000E+00 1.000000000E+00      2000  
  
-cmo printatt cmosink field3 1,2000,50                                           
+cmo printatt cmosink field3 1,2000,125                                          
 Attribute: field3                                                               
          1  0.00000E+00                                                         
-        51  5.26316E-01                                                         
-       101  0.00000E+00                                                         
-       151  5.26316E-01                                                         
-       201  0.00000E+00                                                         
+       126  2.63158E-01                                                         
        251  5.26316E-01                                                         
-       301  0.00000E+00                                                         
-       351  5.26316E-01                                                         
-       401  0.00000E+00                                                         
-       451  5.26316E-01                                                         
+       376  7.89474E-01                                                         
        501  0.00000E+00                                                         
-       551  5.26316E-01                                                         
-       601  0.00000E+00                                                         
-       651  5.26316E-01                                                         
-       701  0.00000E+00                                                         
+       626  2.63158E-01                                                         
        751  5.26316E-01                                                         
-       801  0.00000E+00                                                         
-       851  5.26316E-01                                                         
-       901  0.00000E+00                                                         
-       951  5.26316E-01                                                         
+       876  7.89474E-01                                                         
       1001  0.00000E+00                                                         
-      1051  5.26316E-01                                                         
-      1101  0.00000E+00                                                         
-      1151  5.26316E-01                                                         
-      1201  0.00000E+00                                                         
+      1126  2.63158E-01                                                         
       1251  5.26316E-01                                                         
-      1301  0.00000E+00                                                         
-      1351  5.26316E-01                                                         
-      1401  0.00000E+00                                                         
-      1451  5.26316E-01                                                         
+      1376  7.89474E-01                                                         
       1501  0.00000E+00                                                         
-      1551  5.26316E-01                                                         
-      1601  0.00000E+00                                                         
-      1651  5.26316E-01                                                         
-      1701  0.00000E+00                                                         
+      1626  2.63158E-01                                                         
       1751  5.26316E-01                                                         
-      1801  0.00000E+00                                                         
-      1851  5.26316E-01                                                         
-      1901  0.00000E+00                                                         
-      1951  5.26316E-01                                                         
+      1876  7.89474E-01                                                         
  
 * Case 05                                                                       
 cmo/set_id/cmosource node/id_node                                               

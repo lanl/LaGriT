@@ -41,7 +41,9 @@ cmo/printatt/cmosink/epsilona/minmax
 cmo/printatt/cmosink/epsilonv/minmax                                            
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosource field3 minmax                                            
+cmo printatt cmosink field3 minmax                                              
+cmo printatt cmosink field3 1,2000,125                                          
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -81,7 +83,7 @@ cmo/printatt/cmosink/epsilona/minmax
 cmo/printatt/cmosink/epsilonv/minmax                                            
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosink field3 1,2000,125                                          
 cmo/select/cmosource                                                            
 scale/1 0 0/relative/xyz/1.e2 1.e2 1.0                                          
 cmo/select/cmosink                                                              
@@ -101,12 +103,12 @@ cmo/printatt/cmosink/epsilona/minmax
 cmo/printatt/cmosink/epsilonv/minmax                                            
 finish                                                                          
 interpolate/continuous/cmosink field3/1,0,0/cmosource field3                    
-cmo printatt cmosink field3 1,2000,100                                          
+cmo printatt cmosink field3 1,2000,125                                          
 cmo printatt cmosource -xyz- minmax                                             
 cmo printatt cmosource field3 minmax                                            
-cmo printatt cmosink -xyz- minmac                                               
+cmo printatt cmosink -xyz- minmax                                               
 cmo printatt cmosink field3 minmax                                              
-cmo printatt cmosink field3 1,2000,50                                           
+cmo printatt cmosink field3 1,2000,125                                          
 cmo/set_id/cmosource node/id_node                                               
 cmo copyatt cmosource cmosource/imt id_node                                     
 cmo/set_id/cmosource element/id_elem                                            
