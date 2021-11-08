@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:21:28          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  8  16:12:09          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -29,7 +31,9 @@ Command log file: logx3dgen
 * TEST dump/* (lagrit_input_dump)                                               
 * dump and read AVS and GMV files                                               
 * dump FEHM files                                                               
-*                                                                               
+* Note: gmv files commented out for multi-platform testing                      
+* For multi-platform you can read write in this test                            
+* but your binary files may not compare with reference files                    
 read/avs/input_unit_tet.inp/cmo                                                 
 geniee                                                                          
 finish                                                                          
@@ -105,92 +109,7 @@ finish
 cmo/DELATT//front_s                                                             
 finish                                                                          
 * dump FEHM files                                                               
-dump/fehm/outbin/cmo/binary//scalar                                             
-*** Write FEHMN GEOM AND ZONE FILES ***                                         
-*********dump_material_lists********                                            
-Minimum material ID value =      1                                              
-Maximum material ID value =      1                                              
-Total possible materials  =      1                                              
-Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000     
-*********dump_interface_list********                                            
-*********dump_multi_material_list********                                       
-log/tty/off                                                                     
-finish                                                                          
-*********dump_outside_list********                                              
-Voronoi Areas used for outside faces.                                           
- 
-assign_quadrant_id epsilon for zero:   1.0000000E-15                            
-cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
-finish                                                                          
-Face top           1 has         4 nodes.                                       
-top        Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face bottom        2 has         4 nodes.                                       
-bottom     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face left_w        3 has         4 nodes.                                       
-left_w     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
-finish                                                                          
-Face right_e       5 has         4 nodes.                                       
-right_e    Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
-finish                                                                          
-Face back_n        6 has         4 nodes.                                       
-back_n     Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/addatt/cmo/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/           
-finish                                                                          
-Face front_s       4 has         4 nodes.                                       
-front_s    Sum Voronoi      Area_x          Area_y          Area_z              
-                       0.1000000E+01   0.1000000E+01   0.1000000E+01            
-cmo/DELATT//top                                                                 
-finish                                                                          
-cmo/DELATT//bottom                                                              
-finish                                                                          
-cmo/DELATT//left_w                                                              
-finish                                                                          
-cmo/DELATT//right_e                                                             
-finish                                                                          
-cmo/DELATT//back_n                                                              
-finish                                                                          
-cmo/DELATT//front_s                                                             
-finish                                                                          
-log/tty/on                                                                      
-finish                                                                          
-*********dump_parent_list********                                               
- 
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
- 
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =        8  ncoefs =         32                         
-AMatbld3d_stor: Number of unique coefs =         2                              
-AMatbld3d_stor: Maximum num. connections to a node =          4                 
-AMatbld3d_stor: Volume min =   1.2500000E-01                                    
-AMatbld3d_stor: Volume max =   1.2500000E-01                                    
-AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
-AMatbld3d_stor Matrix compression used for graph and coefficient values         
-unformatted STOR file written with name outbin.stor                             
- 
-*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
- 
-3D Matrix Coefficient file written with name outbin.stor                        
- 
+* dump / fehm / outbin / cmo / binary / / scalar                                
 dump/fehm/outascii/cmo/ascii//scalar                                            
 *** Write FEHMN GEOM AND ZONE FILES ***                                         
 *********dump_material_lists********                                            
@@ -398,7 +317,7 @@ The current-mesh-object(CMO) is: cmo
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -437,12 +356,8 @@ The current-mesh-object(CMO) is: cmo
 * end compare fehm                                                              
 * begin compare write AVS and GMV                                               
 * dump AVS and GMV files                                                        
-dump/gmv/output.gmv/cmo/                                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/output_ascii.gmv/cmo/ascii                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+* dump / gmv / output.gmv / cmo /                                               
+* dump / gmv / output_ascii.gmv / cmo / ascii                                   
 dump/avs/output.inp/cmo/                                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -454,7 +369,7 @@ cmo delete cmo
 infile test_io.lgi                                                              
 * TEST dump/* read/* binary and ascii                                           
 *****                                                                           
-* dump and read AVS, GMV, lagrit files                                          
+* dump and read AVS and lagrit files                                            
 *                                                                               
 cmo/create/cmo///hex                                                            
 createpts/brick/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                               
@@ -473,12 +388,6 @@ cmo/copyatt/cmo/cmo/itetclr/idelem
 cmo/copyatt/cmo/cmo/imt/idnode                                                  
         27 copied from cmo idnode to -> cmo imt1                                
  
-dump gmv output_hex8_ascii.gmv cmo ascii                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump gmv output_hex8_binary.gmv cmo                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 dump avs output_hex8_ascii.inp cmo ascii                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -562,137 +471,6 @@ The current-mesh-object(CMO) is: cmo
  
  
 finish                                                                          
-**********************                                                          
-* read gmv ascii twice                                                          
-cmo delete cmo                                                                  
-     Released Mesh Object: cmo                                                  
-read/gmv/output_hex8_ascii.gmv/cmo                                              
-cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0           
-finish                                                                          
-cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0        
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:         27 Elements:          8                                          
-Done reading GMV ascii file: output_hex8_ascii.gmv                              
- 
-cmo delete cmo                                                                  
-     Released Mesh Object: cmo                                                  
-read/gmv/output_hex8_ascii.gmv/cmo                                              
-cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0           
-finish                                                                          
-cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0        
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:         27 Elements:          8                                          
-Done reading GMV ascii file: output_hex8_ascii.gmv                              
- 
-**********************                                                          
-* read gmv binary twice                                                         
-cmo delete cmo                                                                  
-     Released Mesh Object: cmo                                                  
-read/gmv/output_hex8_binary.gmv/cmo                                             
-Reading GMV binary file gmvinputieee                                            
-cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0            
-finish                                                                          
-cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0         
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:         27 Elements:          8                                          
-Done reading GMV binary total bytes:       4612 file:  output_hex8_binary.gmv   
- 
-cmo delete cmo                                                                  
-     Released Mesh Object: cmo                                                  
-read/gmv/output_hex8_binary.gmv/cmo                                             
-Reading GMV binary file gmvinputieee                                            
-cmo/addatt/cmo/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0            
-finish                                                                          
-cmo/addatt/cmo/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0         
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:         27 Elements:          8                                          
-Done reading GMV binary total bytes:       4612 file:  output_hex8_binary.gmv   
- 
-**********************                                                          
-* read small gmv binary                                                         
-* this has been a problem for a long time                                       
-cmo/create/cmohex///hex                                                         
-createpts/brick/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1                               
-          Number of nodes:           8                                          
-          Number of elements:           1                                       
-          Number of negative volume elements:           0                       
-          Total volume:     0.100000000000E+01                                  
-hextotet/6/cmo1/cmohex                                                          
- iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
-Input Mesh type hex using option    6                                           
-Element Material ID, min/max/range:          1         1         0              
-Epsilon-dist, distmax, distmin:  -1.0000000E-06  1.0000000E+00  1.0000000E+00   
-Epsilon-volume, volmax:   1.0000000E-06  1.0000000E+00                          
-cmo/addatt/cmo1/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                    
-finish                                                                          
-  WARNING: Volumes le zero not removed, nelements=          6                   
-No duplicate points                                                             
-  WARNING: Duplicate points not removed, nnodes =          8                    
-resetpts itp                                                                    
-geniee                                                                          
-finish                                                                          
-cmo/set_id/cmo1/both/idnode idelem                                              
-cmo/addatt/cmo1 idnode/VINT/scalar/nnodes/linear/permanent//0                   
-finish                                                                          
-cmo/addatt/cmo1 idelem/VINT/scalar/nelements/linear/permanent//0                
-finish                                                                          
-cmo/copyatt/cmo1/cmo1/itetclr/idelem                                            
-         6 copied from cmo1 idelem to -> cmo1 itetclr                           
- 
-cmo/copyatt/cmo1/cmo1/imt/idnode                                                
-         8 copied from cmo1 idnode to -> cmo1 imt1                              
- 
-cmo printatt cmo1 itetclr minmax                                                
-ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- itetclr                          1                6               5         6  
- 
-dump gmv output_tet1_ascii.gmv cmo1 ascii                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump gmv output_tet1_binary.gmv cmo1                                            
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-read gmv output_tet1_ascii.gmv cmo2                                             
-cmo/addatt/cmo2/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0            
-finish                                                                          
-cmo/addatt/cmo2/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0          
-finish                                                                          
-cmo/addatt/cmo2/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxaf/0.0       
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:          8 Elements:          6                                          
-Done reading GMV ascii file: output_tet1_ascii.gmv                              
- 
-cmo printatt cmo2 itetclr minmax                                                
-ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- itetclr                          1                6               5         6  
- 
-read gmv output_tet1_binary.gmv cmo3                                            
-Reading GMV binary file gmvinputieee                                            
-cmo/addatt/cmo3/iign/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0             
-finish                                                                          
-cmo/addatt/cmo3/idnode/VDOUBLE/scalar/nnodes/linear/permanent/gxa/0.0           
-finish                                                                          
-cmo/addatt/cmo3/idelem/VDOUBLE/scalar/nelements/linear/permanent/gxa/0.0        
-finish                                                                          
-geniee                                                                          
-finish                                                                          
-Nodes:          8 Elements:          6                                          
-Done reading GMV binary total bytes:       1956 file:  output_tet1_binary.gmv   
- 
-cmo printatt cmo3 itetclr minmax                                                
-ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- itetclr                          1                6               5         6  
- 
 finish                                                                          
 * end compare here                                                              
 finish                                                                          

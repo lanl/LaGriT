@@ -1,12 +1,33 @@
 read/avs/input_unit_tet.inp/cmo                                                 
-dump/fehm/outbin/cmo/binary//scalar                                             
+dump/coord/output_coord/cmo                                                     
+dump/zone_imt/output_imt/cmo                                                    
+dump/zone_outside/output_out/cmo                                                
 dump/fehm/outascii/cmo/ascii//scalar                                            
 cmo/printatt//-all-/minmax                                                      
 quality                                                                         
 cmo/status/cmo                                                                  
-dump/gmv/output.gmv/cmo/                                                        
-dump/gmv/output_ascii.gmv/cmo/ascii                                             
 dump/avs/output.inp/cmo/                                                        
 cmo delete cmo                                                                  
 infile test_io.lgi                                                              
+cmo/create/cmo///hex                                                            
+createpts/brick/xyz/3 3 3/0. 0. 0./1. 1. 1./1 1 1                               
+cmo/set_id/cmo/both/idnode idelem                                               
+cmo/copyatt/cmo/cmo/itetclr/idelem                                              
+cmo/copyatt/cmo/cmo/imt/idnode                                                  
+dump avs output_hex8_ascii.inp cmo ascii                                        
+dump lagrit output_hex8_ascii.lagrit cmo ascii                                  
+dump lagrit output_hex8_binary.lagrit cmo binary                                
+cmo delete cmo                                                                  
+read lagrit output_hex8_ascii.lagrit cmo                                        
+cmo delete cmo                                                                  
+read lagrit output_hex8_ascii.lagrit cmo                                        
+cmo delete cmo                                                                  
+read lagrit output_hex8_binary.lagrit cmo                                       
+cmo delete cmo                                                                  
+read lagrit output_hex8_binary.lagrit cmo                                       
+cmo delete cmo                                                                  
+read/avs/output_hex8_ascii.inp/cmo                                              
+cmo delete cmo                                                                  
+read/avs/output_hex8_ascii.inp/cmo                                              
+finish                                                                          
 finish                                                                          

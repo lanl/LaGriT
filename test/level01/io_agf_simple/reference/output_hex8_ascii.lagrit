@@ -256,7 +256,7 @@ ipolydat
 CHARACTER                       scalar                          scalar                          
 constant                        permanent                       l                               
          1         1
-         0 0.0000000000000E+00yes                                      1         3
+         0 0.0000000000000E+00no                                       1         3
 vor2d                           
 CHARACTER                       scalar                          scalar                          
 constant                        permanent                       l                               
