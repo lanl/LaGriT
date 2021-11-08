@@ -1,5 +1,6 @@
 # LaGriT V3.2+ 
-# Test pflotran option for writing geometric coef matrix
+# Test pflotran and stor options
+# for writing geometric coef matrix
 #
 ******* 2D ****************************************
 * 1 meter width
