@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Aug  1  09:44:57          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  11:48:57          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -31,6 +31,7 @@ Command log file: logx3dgen
 # LaGriT Test 2D smooth and massage                                             
 # read the line polygon and triangulate                                         
 # mesh object must be planar                                                    
+# uncomment dump/avs for further evaluations                                    
 read avs input_polygon.inp moin                                                 
 geniee                                                                          
 finish                                                                          
@@ -126,9 +127,7 @@ min max edge length =  0.1000E+03  max max edge length =  0.2062E+05
 -----------------------------------------------------------                     
          5 total elements evaluated.                                            
  
-dump gmv out_tri00.gmv cmotri                                                   
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri00.inp cmotri                                                 
 # RUN 01 refine edge 1000                                                       
 # break into triangles of nicer sizes                                           
 define EDGELEN 1000.                                                            
@@ -207,9 +206,7 @@ cmo printatt cmotri edgemax minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  edgemax            3.493856215E+02  9.882117688E+02 6.388261473E+02       830  
  
-dump gmv out_tri01a.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri01a.inp cmotri                                                
 # RUN 01b smooth                                                                
 # smooth to make nice distribution                                              
 cmo select cmotri                                                               
@@ -335,9 +332,7 @@ RMPOINT: new element count is        830
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-dump gmv out_tri01b.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri01b.inp cmotri                                                
 # CHECK 01b smooth esug                                                         
 quality                                                                         
  
@@ -495,9 +490,7 @@ cmo printatt cmotri edgemax minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  edgemax            1.508860489E+02  3.065087170E+02 1.556226682E+02      8764  
  
-dump gmv out_tri02a.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri02a.inp cmotri                                                
 # RUN 02b smooth 200                                                            
 smooth/position/esug/1 0 0                                                      
 SMOOTH: position option                                                         
@@ -658,9 +651,7 @@ cmo printatt cmotri edgemax minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  edgemax            1.452597882E+02  3.034671813E+02 1.582073931E+02      8764  
  
-dump gmv out_tri02b.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri02b.inp cmotri                                                
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
 RMPOINT: new point count is         4543                                        
@@ -1031,9 +1022,7 @@ cmo printatt cmotri edgemax minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  edgemax            1.511033628E+02  1.181202998E+03 1.030099635E+03      3238  
  
-dump gmv out_tri03a.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri03a.inp cmotri                                                
 # RUN 03b smooth after de-refine                                                
 cmo select cmotri                                                               
 smooth/position/esug/1 0 0                                                      
@@ -1192,9 +1181,7 @@ cmo printatt cmotri ang_mind minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  ang_mind           1.852724051E+01  5.962343086E+01 4.109619035E+01      3238  
  
-dump gmv out_tri03b.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri03b.inp cmotri                                                
 # RUN 04 massage merge small edges                                              
 define MAXEDGE 1.e+20                                                           
 define MINEDGE .1                                                               
@@ -1319,9 +1306,7 @@ cmo printatt cmotri ang_mind minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  ang_mind           1.852724051E+01  5.946247654E+01 4.093523603E+01      3238  
  
-dump gmv out_tri04a.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri04a.inp cmotri                                                
 # RUN 04b smooth after massage merge                                            
 cmo select cmotri                                                               
 smooth/position/esug/1 0 0                                                      
@@ -1490,9 +1475,7 @@ cmo printatt cmotri edgemax minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  edgemax            2.207399709E+02  5.192331048E+02 2.984931339E+02      3238  
  
-dump gmv out_tri04b.gmv cmotri                                                  
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump avs out_tri04b.inp cmotri                                                
 # RUN FINAL reconnect delaunay                                                  
 recon/1/                                                                        
 RECON2D reconnection loop2d:     1                                              
@@ -1575,9 +1558,6 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  ang_mind           2.057960050E+01  5.984399222E+01 3.926439172E+01      3238  
  
 dump avs out_final.inp cmotri                                                   
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump gmv out_final.gmv cmotri                                                   
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo printatt cmotri -all- minmax                                                

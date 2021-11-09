@@ -2,6 +2,7 @@
 
 # read the line polygon and triangulate
 # mesh object must be planar
+# uncomment dump/avs for further evaluations 
 
 read avs input_polygon.inp moin                                                         
 cmo / printatt/ moin / -xyz- / minmax
@@ -20,7 +21,7 @@ triangulate/clockwise
 # CHECK 00 coarse triangulation 
 quality
 quality edge_max y
-dump gmv out_tri00.gmv cmotri
+# dump avs out_tri00.inp cmotri
 
 # RUN 01 refine edge 1000
 # break into triangles of nicer sizes
@@ -31,7 +32,7 @@ refine rivara///edge/1,0,0/EDGELEN///inclusive
 quality
 quality edge_max y
 cmo printatt cmotri edgemax minmax
-dump gmv out_tri01a.gmv cmotri
+# dump avs out_tri01a.inp cmotri
 
 # RUN 01b smooth
 # smooth to make nice distribution
@@ -45,7 +46,7 @@ recon 0
 filter/1,0,0
 rmpoint compress
 resetpts / itp
-dump gmv out_tri01b.gmv cmotri
+# dump avs out_tri01b.inp cmotri
 
 # CHECK 01b smooth esug
 quality
@@ -63,7 +64,7 @@ rmpoint compress
 quality                                                                         
 quality edge_max y
 cmo printatt cmotri edgemax minmax
-dump gmv out_tri02a.gmv cmotri                                                        
+# dump avs out_tri02a.inp cmotri                                                        
 
 # RUN 02b smooth 200
 smooth/position/esug/1 0 0                                                      
@@ -77,7 +78,7 @@ recon 0
 quality
 quality edge_max y
 cmo printatt cmotri edgemax minmax
-dump gmv out_tri02b.gmv cmotri
+# dump avs out_tri02b.inp cmotri
 
 rmpoint compress
 resetpts itp
@@ -100,7 +101,7 @@ rmpoint compress
 quality
 quality edge_max y
 cmo printatt cmotri edgemax minmax
-dump gmv out_tri03a.gmv cmotri
+# dump avs out_tri03a.inp cmotri
 
 # RUN 03b smooth after de-refine
 cmo select cmotri
@@ -117,7 +118,7 @@ cmo/addatt/ cmotri / ang_mind / ang_mind
 cmo printatt cmotri edgemax minmax
 cmo printatt cmotri aratio minmax
 cmo printatt cmotri ang_mind minmax
-dump gmv out_tri03b.gmv cmotri
+# dump avs out_tri03b.inp cmotri
 
 # RUN 04 massage merge small edges
 define MAXEDGE 1.e+20 
@@ -135,7 +136,7 @@ cmo/addatt/ cmotri / ang_mind / ang_mind
 cmo printatt cmotri edgemax minmax
 cmo printatt cmotri aratio minmax
 cmo printatt cmotri ang_mind minmax
-dump gmv out_tri04a.gmv cmotri
+# dump avs out_tri04a.inp cmotri
 
 # RUN 04b smooth after massage merge
 cmo select cmotri
@@ -157,7 +158,7 @@ cmo printatt cmotri aratio minmax
 cmo printatt cmotri ang_mind minmax
 
 cmo printatt cmotri edgemax minmax
-dump gmv out_tri04b.gmv cmotri
+# dump avs out_tri04b.inp cmotri
 
 # RUN FINAL reconnect delaunay
 recon/ 1 /
@@ -172,8 +173,6 @@ cmo printatt cmotri aratio minmax
 cmo printatt cmotri ang_mind minmax
 
 dump avs out_final.inp cmotri 
-dump gmv out_final.gmv cmotri
-
 cmo printatt cmotri -all- minmax
 
 finish                                       
