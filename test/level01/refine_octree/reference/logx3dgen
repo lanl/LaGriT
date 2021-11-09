@@ -23,7 +23,7 @@ eltset/esphere1/inclusive/pset,get,psphere1
 cmo/setatt/cmo_hex/itetclr/eltset,get,esphere1/2                                
 eltset/esphere/inclusive/pset,get,psphere                                       
 cmo/setatt/cmo_hex/itetclr/eltset,get,esphere/3                                 
-dump/gmv/output_refine_amr.gmv                                                  
+dump/avs/output_refine_amr.inp                                                  
 cmo/status/cmo_hex                                                              
 cmo/printatt/cmo_hex/-xyz-/minmax                                               
 quality                                                                         
