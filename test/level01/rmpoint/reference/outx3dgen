@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Aug  1  09:44:51          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  10:22:57          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,7 +28,7 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-* TEST rmmat (lagrit_input_rmmat)                                               
+* Test rmmat and rmpoint                                                        
 *                                                                               
 define/nx/4                                                                     
 define/ny/5                                                                     
@@ -109,7 +109,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
  
-dump/gmv/output_rmmat1.gmv/mesh_object                                          
+dump/avs/output_rmmat1.inp/mesh_object                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * create and remove double defined nodes                                        
@@ -503,7 +503,7 @@ The current-mesh-object(CMO) is: mo2
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -687,7 +687,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
  
-dump/gmv/output_rmmat1.gmv/mesh_object                                          
+dump/avs/output_rmmat1.inp/mesh_object                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 *                                                                               
@@ -789,7 +789,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
  
-dump/gmv/output_rmmat2.gmv/mesh_object                                          
+dump/avs/output_rmmat2.inp/mesh_object                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 *                                                                               
@@ -804,7 +804,7 @@ rmpoint/compress
         74 points removed and        297 elements removed.                      
 RMPOINT: new point count is          376                                        
 RMPOINT: new element count is        879                                        
-dump/gmv/output_rmmat3.gmv/mo3                                                  
+dump/avs/output_rmmat3.inp/mo3                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare                                                                 
@@ -846,7 +846,7 @@ rmpoint/compress
         50 points removed and        221 elements removed.                      
 RMPOINT: new point count is          400                                        
 RMPOINT: new element count is        955                                        
-dump/gmv/output_rmmat4.gmv/mo4                                                  
+dump/avs/output_rmmat4.inp/mo4                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare                                                                 
@@ -888,7 +888,7 @@ rmpoint/compress
         74 points removed and        297 elements removed.                      
 RMPOINT: new point count is          376                                        
 RMPOINT: new element count is        879                                        
-dump/gmv/output_rmmat5.gmv/mo5                                                  
+dump/avs/output_rmmat5.inp/mo5                                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare                                                                 
@@ -964,7 +964,7 @@ The current-mesh-object(CMO) is: mo5
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1038,7 +1038,7 @@ The current-mesh-object(CMO) is: mo5
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1112,7 +1112,7 @@ The current-mesh-object(CMO) is: mo5
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1186,7 +1186,7 @@ The current-mesh-object(CMO) is: mo5
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1307,7 +1307,7 @@ The current-mesh-object(CMO) is: abc
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1381,7 +1381,7 @@ The current-mesh-object(CMO) is: abc
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  

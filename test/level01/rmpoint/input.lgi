@@ -1,4 +1,4 @@
-* TEST rmmat (lagrit_input_rmmat)
+* Test rmmat and rmpoint 
 *
 define/nx/4
 define/ny/5
@@ -9,7 +9,7 @@ createpts / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 0.2 / 1 1 1
 cmo / setatt / mesh_object / imt / 1 0 0 / 1
 connect 
 cmo/printatt//-all-/minmax
-dump/ gmv /output_rmmat1.gmv/mesh_object
+dump/ avs /output_rmmat1.inp/mesh_object
 
 * create and remove double defined nodes
 cmo   copy   mo2   mesh_object
@@ -60,7 +60,7 @@ createpts / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 0.2 / 1 1 1
 cmo / setatt / mesh_object / imt / 1 0 0 / 1
 connect
 cmo/printatt//-all-/minmax
-dump/ gmv /output_rmmat1.gmv/mesh_object
+dump/ avs /output_rmmat1.inp/mesh_object
 *
 surface / cyl_surf / intrface / cylinder/0.5, 0.5, -1 /0.5, 0.5, 1.0/0.25
 region/mr1/ gt cyl_surf 
@@ -70,7 +70,7 @@ mregion/mr2/ lt cyl_surf
 setpts
 settets/geometry
 cmo/printatt//-all-/minmax
-dump / gmv / output_rmmat2.gmv/mesh_object
+dump / avs / output_rmmat2.inp/mesh_object
 *
 cmo   copy   mo3   mesh_object
 cmo   copy   mo4   mesh_object
@@ -79,7 +79,7 @@ cmo   copy   mo5   mesh_object
 cmo select mo3
 rmmat 2 /node
 rmpoint/compress
-dump / gmv / output_rmmat3.gmv/mo3
+dump / avs / output_rmmat3.inp/mo3
 
 * begin compare
 * remove material 2 from mo3 - node
@@ -91,7 +91,7 @@ quality
 cmo select mo4
 rmmat 2 /element
 rmpoint/compress
-dump / gmv / output_rmmat4.gmv/mo4
+dump / avs / output_rmmat4.inp/mo4
 
 * begin compare
 * remove material 2 from mo4 - element
@@ -103,7 +103,7 @@ quality
 cmo select mo5
 rmmat 2 /all
 rmpoint/compress
-dump / gmv / output_rmmat5.gmv/mo5
+dump / avs / output_rmmat5.inp/mo5
 
 * begin compare
 * remove material 2 from mo5 - all
