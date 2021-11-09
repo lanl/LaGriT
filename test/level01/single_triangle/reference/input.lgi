@@ -1,14 +1,18 @@
+# Test triangulate
 # Verify that a 4-node mesh can be triangulated
+
 cmo/create/mo1///triplane
-read/avs/mesh_4.inp/mo1
+read/avs/input_mesh_4.inp/mo1
 triangulate/clockwise
-dump/test_4.inp/mo1
+dump/output_mesh_4.inp/mo1
+quality
 
 # Test that a 3-node mesh can be triangulated
 cmo/create/mo2///triplane
-read/avs/mesh_3.inp/mo2
+read/avs/input_mesh_3.inp/mo2
 triangulate/clockwise
-dump/test_3.inp/mo2
+dump/output_mesh_3.inp/mo2
+quality
 
 cmo/status/mo1
 cmo/status/mo2
