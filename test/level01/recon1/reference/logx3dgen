@@ -16,17 +16,16 @@ cmo printatt mo itetclr
 cmo printatt mo imt1                                                            
 resetpts/itp                                                                    
 settets color_points                                                            
-dump gmv tmp2.gmv mo                                                            
 resetpts/itp                                                                    
 cmo printatt mo itetclr                                                         
 cmo printatt mo imt1                                                            
-dump/gmv/output_fan_connect.gmv/mo                                              
+dump/avs/output_fan_connect.inp/mo                                              
 quality                                                                         
 cmo setatt mo idebug 1                                                          
 recon 1                                                                         
 cmo status mo                                                                   
-dump/gmv/output_fan_recon1.gmv/mo                                               
 quality                                                                         
+dump/avs/output_fan_recon1.inp/mo                                               
 cmo/delete/mo                                                                   
 cmo/create/mo///triplane                                                        
 read/avs/input_tri1a.inp/mo                                                     
@@ -34,12 +33,12 @@ cmo/setatt/mo/imt/1 0 0/1
 cmo/setatt/mo/itp/1 0 0/0                                                       
 connect                                                                         
 resetpts/itp                                                                    
-dump/gmv/output_tri1a_connect.gmv/mo                                            
 quality                                                                         
+dump/avs/output_tri1a_connect.inp/mo                                            
 cmo setatt mo idebug 1                                                          
 recon 1                                                                         
 cmo status mo                                                                   
-dump/gmv/output_tri1a_recon1.gmv/mo                                             
+dump/avs/output_tri1a_recon1.inp/mo                                             
 cmo select mo                                                                   
 quality                                                                         
 cmo/delete/mo                                                                   
@@ -49,24 +48,23 @@ cmo/setatt/mo/imt/1 0 0/1
 cmo/setatt/mo/itp/1 0 0/0                                                       
 connect                                                                         
 resetpts/itp                                                                    
-dump/gmv/output_tri1b_connect.gmv/mo                                            
+dump/avs/output_tri1b_connect.inp/mo                                            
 quality                                                                         
 cmo setatt mo idebug 1                                                          
 recon 1                                                                         
 cmo status mo                                                                   
-dump/gmv/output_tri1b_recon1.gmv/mo                                             
+dump/avs/output_tri1b_recon1.inp/mo                                             
 cmo select mo                                                                   
 quality                                                                         
 cmo/delete/mo                                                                   
 read/avs/input_tri_dfn.inp/mo                                                   
 resetpts/itp                                                                    
 quality/aspect/y                                                                
-dump stor tmp mo                                                                
-dump/gmv/input_tri_dfn.gmv/mo                                                   
+dump stor output_dfn mo                                                         
 quality                                                                         
 recon 1                                                                         
-dump stor tmp mo                                                                
-dump/gmv/output_dfn_recon1.gmv/mo                                               
+dump stor output_dfn_recon1 mo                                                  
+dump/avs/output_dfn_recon1.inp/mo                                               
 cmo DELATT mo aratio                                                            
 quality/aspect/y                                                                
 quality                                                                         

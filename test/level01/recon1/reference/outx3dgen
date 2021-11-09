@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Aug  1  09:44:45          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  8  17:29:15          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,6 +28,7 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
+# Test recon                                                                    
 ##############################################                                  
 # seven triangles with materials set                                            
 cmo/create/mo///triplane                                                        
@@ -125,9 +126,6 @@ geniee
 finish                                                                          
 settets color_points                                                            
  Adding        13 interface-coupled points.                                     
-dump gmv tmp2.gmv mo                                                            
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
@@ -162,7 +160,7 @@ Attribute: imt1
         19          4                                                           
         20          5                                                           
  
-dump/gmv/output_fan_connect.gmv/mo                                              
+dump/avs/output_fan_connect.inp/mo                                              
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 quality                                                                         
@@ -1073,7 +1071,7 @@ The current-mesh-object(CMO) is: mo
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1109,9 +1107,6 @@ The current-mesh-object(CMO) is: mo
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
-dump/gmv/output_fan_recon1.gmv/mo                                               
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 quality                                                                         
  
 epsilonl, epsilonaspect:   3.5108335E-13  4.3274364E-38                         
@@ -1136,6 +1131,9 @@ min volume =   4.5287178E-04  max volume =   5.6590524E-03
 -----------------------------------------------------------                     
        138 total elements evaluated.                                            
  
+dump/avs/output_fan_recon1.inp/mo                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
 cmo/delete/mo                                                                   
      Released Mesh Object: mo                                                   
 ##############################################                                  
@@ -1184,9 +1182,6 @@ LaGriT FINISH: recon 0 for connect 2d
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-dump/gmv/output_tri1a_connect.gmv/mo                                            
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 quality                                                                         
  
 epsilonl, epsilonaspect:   3.4542034E-13  4.1213901E-38                         
@@ -1206,6 +1201,9 @@ All elements have volume  4.9500000E-01
 -----------------------------------------------------------                     
          1 total elements evaluated.                                            
  
+dump/avs/output_tri1a_connect.inp/mo                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
 cmo setatt mo idebug 1                                                          
          1 values reset for attribute idebug                                    
  
@@ -1271,7 +1269,7 @@ The current-mesh-object(CMO) is: mo
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1307,7 +1305,7 @@ The current-mesh-object(CMO) is: mo
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
-dump/gmv/output_tri1a_recon1.gmv/mo                                             
+dump/avs/output_tri1a_recon1.inp/mo                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo select mo                                                                   
@@ -1378,7 +1376,7 @@ LaGriT FINISH: recon 0 for connect 2d
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-dump/gmv/output_tri1b_connect.gmv/mo                                            
+dump/avs/output_tri1b_connect.inp/mo                                            
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 quality                                                                         
@@ -1473,7 +1471,7 @@ The current-mesh-object(CMO) is: mo
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -1509,7 +1507,7 @@ The current-mesh-object(CMO) is: mo
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
-dump/gmv/output_tri1b_recon1.gmv/mo                                             
+dump/avs/output_tri1b_recon1.inp/mo                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo select mo                                                                   
@@ -1583,7 +1581,7 @@ min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01
 -----------------------------------------------------------                     
       5773 total elements evaluated.                                            
  
-dump stor tmp mo                                                                
+dump stor output_dfn mo                                                         
 ***Construct Regular Sparse Matrix:2D***                                        
 Matbldtri: total neg       20 mincoef=  -1.5584216E-01 maxcoef=   2.0243665E+00 
 Negative coeff2d:        sort   edge     vor_coeff        row_node  col_node    
@@ -1623,11 +1621,8 @@ Matbldtri  writing FEHM stor format.
  
 *** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
  
-2D Matrix Coefficient file written with name tmp.stor                           
+2D Matrix Coefficient file written with name output_dfn.stor                    
  
-dump/gmv/input_tri_dfn.gmv/mo                                                   
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 quality                                                                         
  
 epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
@@ -1681,7 +1676,7 @@ Edge iteration refine_edge_2d:          1        10
 Edge-refined tris: before=      5773 after=      5783                           
 RECON2D reconnection loop2d:     2                                              
 RECON: done.                                                                    
-dump stor tmp mo                                                                
+dump stor output_dfn_recon1 mo                                                  
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
 Matbldtri                                                                       
@@ -1699,9 +1694,9 @@ Matbldtri  writing FEHM stor format.
  
 *** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
  
-2D Matrix Coefficient file written with name tmp.stor                           
+2D Matrix Coefficient file written with name output_dfn_recon1.stor             
  
-dump/gmv/output_dfn_recon1.gmv/mo                                               
+dump/avs/output_dfn_recon1.inp/mo                                               
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo DELATT mo aratio                                                            
