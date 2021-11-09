@@ -4,6 +4,8 @@ read avs input_chunk.inp cmo1
 resetpts itp                                                                    
 cmo/setatt/cmo1/idebug 9
 dump/zone_outside/output/cmo1 keepatt
-dump gmv output_zone_outside.gmv cmo1
 boundary_components
+# dump avs output_zone_outside.inp cmo1
+
+cmo printatt cmo1 -all- minmax
 finish                                                                          
