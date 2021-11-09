@@ -1,4 +1,4 @@
-* test smooth
+* Test smooth
 * run both smooth and recon on a 3d mesh
 
 cmo/create/3dmesh/
@@ -46,7 +46,7 @@ setpts
 cmo/setatt//itp1/pset,get,rays/21
 search
 settets
-dump/gmv/output_smooth1.gmv
+dump/avs/output_smooth1.inp 3dmesh
 
 * begin compare here
 quality
@@ -65,7 +65,7 @@ cmo/status
 cmo/printatt//-all-/minmax
 * end compare here 
 
-dump/gmv/output_smooth2.gmv
+dump/avs/output_smooth2.inp 3dmesh
 
 * END 
 finish

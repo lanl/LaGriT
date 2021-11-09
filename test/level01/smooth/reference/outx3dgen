@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Aug  1  09:44:52          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  11:25:38          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,7 +28,7 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-* test smooth                                                                   
+* Test smooth                                                                   
 * run both smooth and recon on a 3d mesh                                        
 cmo/create/3dmesh/                                                              
 cmo/addatt/-def-/bor/                                                           
@@ -314,9 +314,7 @@ Interface node converted to interior       2605
 Interface node converted to interior       2606                                 
 Interface node converted to interior       2607                                 
  Adding       664 interface-coupled points.                                     
-dump/gmv/output_smooth1.gmv                                                     
- 
-Second argument is not a filename. Trying to use default mesh object.           
+dump/avs/output_smooth1.inp 3dmesh                                              
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * begin compare here                                                            
@@ -471,7 +469,7 @@ The current-mesh-object(CMO) is: 3dmesh
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -572,9 +570,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  icontab                          0                2               2      2500  
  
 * end compare here                                                              
-dump/gmv/output_smooth2.gmv                                                     
- 
-Second argument is not a filename. Trying to use default mesh object.           
+dump/avs/output_smooth2.inp 3dmesh                                              
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 * END                                                                           

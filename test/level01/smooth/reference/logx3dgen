@@ -41,7 +41,7 @@ setpts
 cmo/setatt//itp1/pset,get,rays/21                                               
 search                                                                          
 settets                                                                         
-dump/gmv/output_smooth1.gmv                                                     
+dump/avs/output_smooth1.inp 3dmesh                                              
 quality                                                                         
 smooth                                                                          
 smooth                                                                          
@@ -52,5 +52,5 @@ recon
 quality                                                                         
 cmo/status                                                                      
 cmo/printatt//-all-/minmax                                                      
-dump/gmv/output_smooth2.gmv                                                     
+dump/avs/output_smooth2.inp 3dmesh                                              
 finish                                                                          
