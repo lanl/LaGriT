@@ -1,0 +1,162 @@
+define MO_NAME mo_equal                                                         
+read input_tet_equilateral.inp MO_NAME                                          
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+define MO_NAME mo_sliver                                                        
+read input_tet_sliver.inp MO_NAME                                               
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+define MO_NAME mo_cap                                                           
+read input_tet_cap.inp mo_cap                                                   
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+define MO_NAME mo_needle                                                        
+read input_tet_needle.inp MO_NAME                                               
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+define MO_NAME mo_wedge                                                         
+read input_tet_wedge.inp MO_NAME                                                
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+define MO_NAME mo_right                                                         
+read input_tet_right.inp MO_NAME                                                
+infile input_quality.mlgi                                                       
+quality/aspect/y                                                                
+cmo/addatt/MO_NAME/ang_mind/a_mind                                              
+cmo/addatt/MO_NAME/ang_maxd/a_maxd                                              
+cmo/addatt/MO_NAME/ang_maxd_solid/s_maxd                                        
+cmo/addatt/MO_NAME/ang_mind_solid/s_mind                                        
+quality/edge_ratio/y                                                            
+cmo/addatt/MO_NAME/ang_minr/a_minr                                              
+cmo/addatt/MO_NAME/ang_maxr/a_maxr                                              
+cmo/addatt/MO_NAME/ang_minr_solid/s_minr                                        
+cmo/addatt/MO_NAME/ang_maxr_solid/s_maxr                                        
+quality/edge_min/y                                                              
+quality/edge_max/y                                                              
+quality/volume                                                                  
+quality                                                                         
+quality/angle/lt 20.                                                            
+quality/angle/gt 90.                                                            
+finish                                                                          
+cmo printatt MO_NAME -all- minmax                                               
+cmo/create/mo                                                                   
+createpts/brick/xyz/2 2 2/0. 0. 0./1. 1. 1./1 1 1                               
+createpts/brick/xyz/2 2 2/0. 0. 1./1. 1. 2.2/1 1 1                              
+cmo/select/mo                                                                   
+filter 1,0,0                                                                    
+rmpoint compress                                                                
+resetpts itp                                                                    
+cmo/create/cmotet///tet                                                         
+copypts/cmotet/mo                                                               
+cmo/delete/mo                                                                   
+cmo/select/cmotet                                                               
+connect                                                                         
+cmo/setatt/cmotet/itetclr/1                                                     
+resetpts/itp                                                                    
+pset/p2/attribute zic/1,0,0/ge 1.                                               
+eltset/e2/exclusive pset,get,p2                                                 
+cmo setatt cmotet itetclr eltset,get,e2 2                                       
+cmo setatt cmotet imt pset,get,p2 2                                             
+resetpts itp                                                                    
+cmo/addatt/cmotet/volume/voltet                                                 
+cmo/printatt/cmotet/voltet                                                      
+quality                                                                         
+quality/volume/itetclr                                                          
+quality/volume/3                                                                
+eltset/e1/itetclr/eq 1                                                          
+quality/volume/eltset,get,e1                                                    
+quality                                                                         
+quality/pcc                                                                     
+cmo/printatt/cmotet/-all- minmax                                                
+cmo/printatt/cmotet/neg_coup_coeff                                              
+cmo/setatt/cmotet/xic 12,12,1 .5                                                
+cmo/DELATT/cmotet/neg_coup_coeff                                                
+quality                                                                         
+quality/pcc                                                                     
+cmo/printatt/cmotet/neg_coup_coeff                                              
+finish                                                                          
