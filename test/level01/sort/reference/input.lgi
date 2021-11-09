@@ -1,14 +1,15 @@
+# Test sort
+#
 # Input files:
-#   test01.inp      Original line graph with various kinds of components
-#   test02.inp      Shuffled version of original file
-#   test03.inp      Hybrid mesh containing line segments and a triangle
-#   test04.inp      Trivial mesh with 2 points and no elements
+#   input_test01.inp      Original line graph with various kinds of components
+#   input_test02.inp      Shuffled version of original file
+#   input_test03.inp      Hybrid mesh containing line segments and a triangle
+#   input_test04.inp      Trivial mesh with 2 points and no elements
 #
 # Output files:
 #
-#   output*.gmv       GMV version of corresponding AVS file
-#   output*s.inp      ------------- Sorted ----------------
-#   output*s.gmv      -------------- Files ----------------
+#   output*nosort.inp pre-sorted output files 
+#   output*sort.inp   sorted output files 
 #
 # See reference for visual reference
 #
@@ -21,7 +22,7 @@ createpts / xyz / 3 3 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
 # SHOW INPUT node x and y
 cmo / printatt / moquad / xic
 cmo / printatt / moquad / yic
-dump gmv input_points.gmv moquad
+dump avs output_points_nosort.inp moquad
 
 sort / moquad / index / ascending / ikey / xic yic
 reorder / moquad / ikey
@@ -29,7 +30,7 @@ reorder / moquad / ikey
 # SHOW SORTED node x and y
 cmo / printatt / moquad / xic
 cmo / printatt / moquad / yic
-dump gmv output_points.gmv moquad
+dump avs output_points_sort.inp moquad
 
 cmo delete moquad
 cmo / create / moquad / / / quad
@@ -39,7 +40,7 @@ cmo/set_id/ moquad/element cell_id
 
 # SHOW INPUT cell numbers 
 cmo / printatt / moquad / cell_id
-dump gmv input_quad.gmv moquad
+dump avs output_quad_nosort.inp moquad
 
 # SORT CELLS using INDEX 
 sort/moquad/index/ descending / ikey / cell_id 
@@ -47,7 +48,7 @@ reorder / moquad / ikey
 
 # SHOW SORTED cell numbers reversed 
 cmo / printatt / moquad / cell_id
-dump gmv output_cells.gmv moquad
+dump avs output_quad_sort.inp  moquad
 cmo / delete / moquad
 
 ###### POLY SORT with LINE_GRAPH #############
@@ -61,14 +62,14 @@ cmo select mol_poly
 sort/mol_poly/line_graph/ascending/ekey/element
 cmo printatt mol_poly ekey
 reorder mol_poly ekey
-dump gmv output_poly_elem.gmv mol_poly ascii
+dump avs output_poly_e_sort.inp mol_poly
 
 # SORT NODE with LINE_GRAPH ################
 cmo select mol_poly2
 sort/mol_poly2/line_graph/ascending/nkey/node
 cmo printatt mol_poly2 nkey
 reorder mol_poly2 nkey
-dump gmv output_poly_node.gmv mol_poly2 ascii
+dump avs output_poly_n_sort.inp mol_poly
 
 cmo delete mol_poly
 cmo delete mol_poly2
@@ -81,7 +82,7 @@ sort / / line_graph / ascending / key
 
 ###########
 
-read / test01.inp / mo01
+read / input_test01.inp / mo01
 
 ########### ERROR CAPTURE ARG 4 #################
 # Error (must be "ascending" or "descending")
@@ -95,84 +96,5 @@ sort / mo01 / line_graph / ascending / key / extra_arg
 # Should generate a key since one is not provided.
 # but not recommended since reorder will need att name
 sort / mo01 / line_graph / ascending
-
-finish
-#---------------------------------------------------#
-# STOP HERE
-
-# These tests not included as result differs based on 
-# platform and tie-breaker results.
-# Use these for further testing and human evaluation.
-
-###### EXTRACT and LINE SORT #############
-cmo delete cmo
-read avs test_surf.inp cmo
-extract/surfmesh/1,0,0/cmol/cmo/external
-cmo status cmol
-
-# make nelem and nnode unequal
-# 8 elements and 9 nodes
-cmo select cmol
-rmpoint 1,1,0 inclusive
-rmpoint compress
-resetpts itp
-
-### sort 8 elements, check sort key
-sort/cmol/line_graph/ascending/el_key
-cmo printatt cmol nelements
-cmo printatt cmol el_key
-
-### sort 9 nodes, check sort key
-sort/cmol/line_graph/ascending/n_key/nodes
-cmo printatt cmol nnodes
-cmo printatt cmol n_key
-
-dump gmv output_extract_sort.gmv cmol
-cmo delete cmo
-cmo delete cmol
-
-
-########### SORT EXAMPLES USING ELEMENTS #####
-# create key attribute and reorder
-# should delete previous created attributes and addatt again
-cmo addatt mo01 key_save VINT scalar nelements
-sort / mo01 / line_graph / ascending / key
-cmo printatt mo01 key
-dump / output_test01.gmv / mo01
-dump / output_test01.inp / mo01
-
-# Now reorder based on sort key attribute
-reorder / mo01 / key
-dump / output_test01s.inp / mo01
-dump / output_test01s.gmv / mo01
-cmo status mo01
-
-
-
-########### SORT EXAMPLES USING ELEMENTS #####
-# ----------------------------------------
-# We perform this on both test01.inp and test02.inp. Then we can verify in GMV
-# that both were sorted correctly.
-
-read / test02.inp / mo02
-dump / output_test02.gmv / mo02
-sort / mo02 / line_graph / ascending / key
-cmo printatt mo02 key
-reorder / mo02 / key
-dump / output_test02s.inp / mo02
-dump / output_test02s.gmv / mo02
-
-########### ERROR CAPTURE INVALID ELEMENT TYPE #####
-# Make sure the line_graph sort gives an error when it receives a mesh object
-# that has more than just line segments.
-read / test03.inp / mo03
-sort / mo03 / line_graph / ascending / key
-
-########### ERROR CAPTURE 0 ELEMENTS  #####
-# Make sure the line_graph sort can deal with meshes with no elements.
-read / test04.inp / mo04
-sort / mo04 / line_graph / ascending / key
-reorder / mo04 / key
-dump / output_test04.inp / mo04
 
 finish

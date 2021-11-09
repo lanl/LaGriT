@@ -2,41 +2,44 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:58          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  15:30:20          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
+# Test sort                                                                     
+#                                                                               
 # Input files:                                                                  
-#   test01.inp      Original line graph with various kinds of components        
-#   test02.inp      Shuffled version of original file                           
-#   test03.inp      Hybrid mesh containing line segments and a triangle         
-#   test04.inp      Trivial mesh with 2 points and no elements                  
+#   input_test01.inp      Original line graph with various kinds of components  
+#   input_test02.inp      Shuffled version of original file                     
+#   input_test03.inp      Hybrid mesh containing line segments and a triangle   
+#   input_test04.inp      Trivial mesh with 2 points and no elements            
 #                                                                               
 # Output files:                                                                 
 #                                                                               
-#   output*.gmv       GMV version of corresponding AVS file                     
-#   output*s.inp      ------------- Sorted ----------------                     
-#   output*s.gmv      -------------- Files ----------------                     
+#   output*nosort.inp pre-sorted output files                                   
+#   output*sort.inp   sorted output files                                       
 #                                                                               
 # See reference for visual reference                                            
 #                                                                               
@@ -72,7 +75,7 @@ Attribute: yic
          8  1.00000E+00                                                         
          9  1.00000E+00                                                         
  
-dump gmv input_points.gmv moquad                                                
+dump avs output_points_nosort.inp moquad                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 sort/moquad/index/ascending/ikey/xic yic                                        
@@ -108,7 +111,7 @@ Attribute: yic
          8  5.00000E-01                                                         
          9  1.00000E+00                                                         
  
-dump gmv output_points.gmv moquad                                               
+dump avs output_points_sort.inp moquad                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo delete moquad                                                               
@@ -137,7 +140,7 @@ Attribute: cell_id
          8          8                                                           
          9          9                                                           
  
-dump gmv input_quad.gmv moquad                                                  
+dump avs output_quad_nosort.inp moquad                                          
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 # SORT CELLS using INDEX                                                        
@@ -162,7 +165,7 @@ Attribute: cell_id
          8          2                                                           
          9          1                                                           
  
-dump gmv output_cells.gmv moquad                                                
+dump avs output_quad_sort.inp moquad                                            
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/moquad                                                               
@@ -231,7 +234,7 @@ The current-mesh-object(CMO) is: mol_poly
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
@@ -309,7 +312,7 @@ Attribute: ekey
 reorder mol_poly ekey                                                           
 geniee                                                                          
 finish                                                                          
-dump gmv output_poly_elem.gmv mol_poly ascii                                    
+dump avs output_poly_e_sort.inp mol_poly                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 # SORT NODE with LINE_GRAPH ################                                    
@@ -333,7 +336,7 @@ Attribute: nkey
         10          3                                                           
  
 reorder mol_poly2 nkey                                                          
-dump gmv output_poly_node.gmv mol_poly2 ascii                                   
+dump avs output_poly_n_sort.inp mol_poly                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo delete mol_poly                                                             
@@ -346,8 +349,8 @@ cmo delete mol_poly2
 sort//line_graph/ascending/key                                                  
  ERROR SORT: found bad mesh object: -def-                                       
 ###########                                                                     
-read/test01.inp/mo01                                                            
-read/avs/test01.inp/mo01                                                        
+read/input_test01.inp/mo01                                                      
+read/avs/input_test01.inp/mo01                                                  
 geniee                                                                          
  geniee: mesh has                     6  jtet loops, max cycle length=          
                                                                                4
