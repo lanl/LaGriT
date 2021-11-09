@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:33:55          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  10:36:32          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -36,11 +38,7 @@ cmo/create/mo01///hex
 createpts/xyz/2,2,10/0,0,0/SIZE,SIZE,SIZE/1 1 1                                 
   RZ GENERATED POINTS                    1 TO                   40              
 rotateln/1 0 0/nocopy/0 0 0/0 0 5/90/0,0,0                                      
-dump/output_test01.gmv/mo01                                                     
-dump/gmv/output_test01.gmv/mo01                                                 
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-finish                                                                          
+# dump / output_test01.gmv / mo01                                               
 dump/output_test01.inp/mo01                                                     
 dump/avs/output_test01.inp/mo01                                                 
 cmo/modatt/-def-/-def-/ioflag/x                                                 
