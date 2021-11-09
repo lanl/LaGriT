@@ -2,24 +2,26 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.201   Linux m64      *                 
-*               *    date_compile: 2017/03/27  Ubu 14         *                 
-*               *    Run Time: 2017/Mar 28  10:34:00          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  16:15:04          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
@@ -124,9 +126,6 @@ Total outside nodes:           1278 Total minmax:            830
 Face front_s       4 has       830 nodes.                                       
 front_s    Sum Voronoi      Area_x          Area_y          Area_z              
                        0.6981250E+06   0.4724375E+07   0.5171875E+07            
-dump gmv output_zone_outside_vor.gmv cmo1                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 boundary_components                                                             
 log/tty/off                                                                     
 finish                                                                          
@@ -155,6 +154,78 @@ cmo/DELATT/cmo1/ikey_tmp
 finish                                                                          
 log/tty/on                                                                      
 finish                                                                          
+cmo printatt cmo1 -all- minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00     19495  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                       19495            19495               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                    99144            99144               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0     19495  
+ ialias                           0                0               0     19495  
+ imt1                             5               23              18     19495  
+ itp1                             0               12              12     19495  
+ icr1                             0                0               0     19495  
+ isn1                             0                0               0     19495  
+ xic                5.580000000E+05  5.630000000E+05 5.000000000E+03     19495  
+ yic                4.080250000E+06  4.091500000E+06 1.125000000E+04     19495  
+ zic                5.800000000E+02  1.950000000E+03 1.370000000E+03     19495  
+ xtetwd                           0                0               0     99144  
+ itetclr                          6               20              14     99144  
+ itettyp                          5                5               0     99144  
+ itetoff                          0           396572          396572     99144  
+ jtetoff                          0           396572          396572     99144  
+ itet                             1            19495           19494     99144x4
+ jtet                             1         16394919        16394918     99144x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           2.750481140E-09  2.750481140E-09 0.000000000E+00         1  
+ epsilona           3.407039095E-05  3.407039095E-05 0.000000000E+00         1  
+ epsilonv           1.711131237E-02  1.711131237E-02 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                      19495            19495               0         1  
+ idebug                           9                9               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               5.580000000E+05  5.580000000E+05 0.000000000E+00         1  
+ ymin               4.080250000E+06  4.080250000E+06 0.000000000E+00         1  
+ zmin               5.800000000E+02  5.800000000E+02 0.000000000E+00         1  
+ xmax               5.630000000E+05  5.630000000E+05 0.000000000E+00         1  
+ ymax               4.091500000E+06  4.091500000E+06 0.000000000E+00         1  
+ zmax               1.950000000E+03  1.950000000E+03 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ id_node            4.556780000E+05  9.563450000E+05 5.006670000E+05     19495  
+ matclr             0.000000000E+00  2.550800000E+05 2.550800000E+05     99144  
+ xn_varea          -1.250000000E+04  1.250000000E+04 2.500000000E+04     19495  
+ yn_varea          -1.250000000E+04  1.250000000E+04 2.500000000E+04     19495  
+ zn_varea          -6.250000000E+04  6.250000000E+04 1.250000000E+05     19495  
+ i_index                          1               21              20     19495  
+ j_index                          1               46              45     19495  
+ k_index                          1               43              42     19495  
+ top                             -5                1               6     19495  
+ bottom                          -5                2               7     19495  
+ left_w                          -5                3               8     19495  
+ right_e                         -5                5              10     19495  
+ back_n                          -5                6              11     19495  
+ front_s                         -5                4               9     19495  
+ numbnd                           0              181             181     19495  
+ id_numb                          0                1               1     19495  
+ 
 cmo delete cmo1                                                                 
      Released Mesh Object: cmo1                                                 
 * test median version                                                           
@@ -252,9 +323,6 @@ Total outside nodes:           1278 Total minmax:            830
 Face front_s       4 has       830 nodes.                                       
 front_s    Sum Median       Area_x          Area_y          Area_z              
                        0.6220833E+06   0.4716250E+07   0.5322917E+07            
-dump gmv output_zone_outside_med.gmv cmo1                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 boundary_components                                                             
 log/tty/off                                                                     
 finish                                                                          
@@ -283,6 +351,78 @@ cmo/DELATT/cmo1/ikey_tmp
 finish                                                                          
 log/tty/on                                                                      
 finish                                                                          
+cmo printatt cmo1 -all- minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00     19495  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                       19495            19495               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                    99144            99144               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0     19495  
+ ialias                           0                0               0     19495  
+ imt1                             5               23              18     19495  
+ itp1                             0               12              12     19495  
+ icr1                             0                0               0     19495  
+ isn1                             0                0               0     19495  
+ xic                5.580000000E+05  5.630000000E+05 5.000000000E+03     19495  
+ yic                4.080250000E+06  4.091500000E+06 1.125000000E+04     19495  
+ zic                5.800000000E+02  1.950000000E+03 1.370000000E+03     19495  
+ xtetwd                           0                0               0     99144  
+ itetclr                          6               20              14     99144  
+ itettyp                          5                5               0     99144  
+ itetoff                          0           396572          396572     99144  
+ jtetoff                          0           396572          396572     99144  
+ itet                             1            19495           19494     99144x4
+ jtet                             1         16394919        16394918     99144x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           2.750481140E-09  2.750481140E-09 0.000000000E+00         1  
+ epsilona           3.407039095E-05  3.407039095E-05 0.000000000E+00         1  
+ epsilonv           1.711131237E-02  1.711131237E-02 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                      19495            19495               0         1  
+ idebug                           9                9               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               5.580000000E+05  5.580000000E+05 0.000000000E+00         1  
+ ymin               4.080250000E+06  4.080250000E+06 0.000000000E+00         1  
+ zmin               5.800000000E+02  5.800000000E+02 0.000000000E+00         1  
+ xmax               5.630000000E+05  5.630000000E+05 0.000000000E+00         1  
+ ymax               4.091500000E+06  4.091500000E+06 0.000000000E+00         1  
+ zmax               1.950000000E+03  1.950000000E+03 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ id_node            4.556780000E+05  9.563450000E+05 5.006670000E+05     19495  
+ matclr             0.000000000E+00  2.550800000E+05 2.550800000E+05     99144  
+ xn_marea          -1.250000000E+04  1.250000000E+04 2.500000000E+04     19495  
+ yn_marea          -1.250000000E+04  1.250000000E+04 2.500000000E+04     19495  
+ zn_marea          -6.250000000E+04  6.250000000E+04 1.250000000E+05     19495  
+ i_index                          1               21              20     19495  
+ j_index                          1               46              45     19495  
+ k_index                          1               43              42     19495  
+ top                             -5                1               6     19495  
+ bottom                          -5                2               7     19495  
+ left_w                          -5                3               8     19495  
+ right_e                         -5                5              10     19495  
+ back_n                          -5                6              11     19495  
+ front_s                         -5                4               9     19495  
+ numbnd                           0              181             181     19495  
+ id_numb                          0                1               1     19495  
+ 
 cmo delete cmo1                                                                 
      Released Mesh Object: cmo1                                                 
 finish                                                                          

@@ -2,14 +2,14 @@ read avs input_chunk.inp cmo1
 resetpts itp                                                                    
 cmo/setatt/cmo1/idebug 9                                                        
 dump/zone_outside_minmax/output/cmo1 keepatt keepatt_voronoi                    
-dump gmv output_zone_outside_vor.gmv cmo1                                       
 boundary_components                                                             
+cmo printatt cmo1 -all- minmax                                                  
 cmo delete cmo1                                                                 
 read avs input_chunk.inp cmo1                                                   
 resetpts itp                                                                    
 cmo/setatt/cmo1/idebug 9                                                        
 dump/zone_outside_minmax/output/cmo1 keepatt keepatt_median                     
-dump gmv output_zone_outside_med.gmv cmo1                                       
 boundary_components                                                             
+cmo printatt cmo1 -all- minmax                                                  
 cmo delete cmo1                                                                 
 finish                                                                          
