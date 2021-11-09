@@ -1,5 +1,6 @@
-* this test case tests setpts and settets 
+* Test setpts and settets and geometry 
 * it makes a geometry with 10 regions
+
 cmo/create/abc
 * geometry made up of 6 bounding planes and one
 * interface planes to divide into 10 regions
@@ -66,7 +67,8 @@ createpts/xyz/6,6,41/0,0,0/1,1,1/1,1,1
 setpts
 connect
 settets
-dump/gmv/output.gmv
+dump/avs/output.inp/ abc
+
 * begin compare here
 cmo/status/abc
 pset/p1/attribute/imt1/1,0,0/ 1 eq

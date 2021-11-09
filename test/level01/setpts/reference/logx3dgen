@@ -38,7 +38,7 @@ createpts/xyz/6,6,41/0,0,0/1,1,1/1,1,1
 setpts                                                                          
 connect                                                                         
 settets                                                                         
-dump/gmv/output.gmv                                                             
+dump/avs/output.inp/abc                                                         
 cmo/status/abc                                                                  
 pset/p1/attribute/imt1/1,0,0/1 eq                                               
 pset/p2/attribute/imt1/1,0,0/2 eq                                               
