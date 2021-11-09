@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Aug  1  09:44:50          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov  9  10:11:58          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -448,7 +448,7 @@ The current-mesh-object(CMO) is: 3dmesh
  27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
  28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
  29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
- 30        ipolydat CHAR     scalar          scalar const perma   l yes         
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
  31           vor2d CHAR     scalar          scalar const perma   l yes         
  32           vor3d CHAR     scalar          scalar const perma   l no          
  33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
