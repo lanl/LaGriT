@@ -1,8 +1,5 @@
 netcdf out_prism_two_layer {
 dimensions:
-	len_string = 33 ;
-	len_line = 81 ;
-	four = 4 ;
 	len_name = 256 ;
 	time_step = UNLIMITED ; // (0 currently)
 	num_dim = 3 ;
@@ -10,6 +7,8 @@ dimensions:
 	num_elem = 400 ;
 	num_el_blk = 2 ;
 	num_qa_rec = 1 ;
+	four = 4 ;
+	len_string = 33 ;
 	num_el_in_blk1 = 200 ;
 	num_nod_per_el1 = 6 ;
 	num_el_in_blk2 = 200 ;
@@ -23,7 +22,9 @@ variables:
 	double coordy(num_nodes) ;
 	double coordz(num_nodes) ;
 	char eb_names(num_el_blk, len_name) ;
+		eb_names:_FillValue = "" ;
 	char coor_names(num_dim, len_name) ;
+		coor_names:_FillValue = "" ;
 	char qa_records(num_qa_rec, four, len_string) ;
 	int connect1(num_el_in_blk1, num_nod_per_el1) ;
 		connect1:elem_type = "WEDGE" ;
@@ -31,8 +32,8 @@ variables:
 		connect2:elem_type = "WEDGE" ;
 
 // global attributes:
-		:api_version = 7.03f ;
-		:version = 7.03f ;
+		:api_version = 7.21f ;
+		:version = 7.21f ;
 		:floating_point_word_size = 8 ;
 		:file_size = 1 ;
 		:maximum_name_length = 32 ;

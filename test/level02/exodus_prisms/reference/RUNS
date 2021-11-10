@@ -1,0 +1,2 @@
+for f in *.exo ; do echo $f; ncdump $f > $f.ascii; done
+

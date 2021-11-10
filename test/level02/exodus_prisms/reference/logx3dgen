@@ -2,15 +2,14 @@ define/Z1/0.1
 define/Z2/0.2                                                                   
 read/avs/input_one_tri.inp/mo1                                                  
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 quality                                                                         
-dump/gmv/out_prism_one.gmv/moprism                                              
 dump/avs/out_prism_one.inp/moprism                                              
 dump/exo/out_prism_one.exo/moprism                                              
 cmo/delete/mo1                                                                  
@@ -18,17 +17,22 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+cmo/setatt/mo1/itetclr 1                                                        
+cmo/setatt/mo1/imt 1                                                            
+resetpts/itp                                                                    
+cmo/setatt/mo1/imt 1                                                            
 connect                                                                         
+cmo/setatt/mo1/itetclr 1                                                        
+resetpts/itp                                                                    
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
 quality                                                                         
-dump/gmv/out_prism_one_layer.gmv/moprism                                        
 dump/avs/out_prism_one_layer.inp/moprism                                        
 dump/exo/out_prism_one_layer.exo/moprism                                        
 cmo/delete/mo1                                                                  
@@ -36,21 +40,23 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+cmo/setatt/mo1/imt 1                                                            
 connect                                                                         
+cmo/setatt/mo1/itetclr 1                                                        
+resetpts/itp                                                                    
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
-dump/gmv/out_prism_two_layer.gmv/moprism                                        
 dump/avs/out_prism_two_layer.inp/moprism                                        
 dump/exo/out_prism_two_layer.exo/moprism                                        
 cmo/delete/mo1                                                                  
@@ -58,35 +64,40 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
+cmo/setatt/mo1/imt 1                                                            
 connect                                                                         
+cmo/setatt/mo1/itetclr 1                                                        
+resetpts/itp                                                                    
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
 perturb/1 0 0/0. 0. 0.03                                                        
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
 stack/fill/moprism/mostack                                                      
 resetpts/itp                                                                    
-dump/gmv/out_prism_two_layer_pb_z.gmv/moprism                                   
 dump/avs/out_prism_two_layer_pb_z.inp/moprism                                   
 dump/exo/out_prism_two_layer_pb_z.exo/moprism                                   
 cmo/delete/mo1                                                                  
 cmo/delete/mostack                                                              
 cmo/select/moprism                                                              
 cmo/printatt/moprism/-all- minmax                                               
+createpts/median                                                                
+sort/moprism/index/ascending/ikey/itetclr xmed ymed zmed                        
+reorder/moprism/ikey                                                            
+cmo/DELATT/moprism/ikey                                                         
 extract/surfmesh/1 0 0/mo_surf/moprism/external                                 
 cmo/addatt/mo_surf/id_side/vint/scalar/nelements                                
 cmo/select mo_surf                                                              
 settets/normal                                                                  
 cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
-dump gmv out_prism_outside_faces.gmv mo_surf                                    
-dump avs2 out_prism_outside_faces.inp mo_surf                                   
+dump avs out_prism_outside_faces.inp mo_surf                                    
 cmo/printatt/mo_surf/-all-/minmax                                               
 cmo/DELATT/mo_surf/itetclr0                                                     
 cmo/DELATT/mo_surf/itetclr1                                                     
@@ -97,22 +108,16 @@ cmo/DELATT/mo_surf/idface0
 cmo/DELATT/mo_surf/layertyp                                                     
 define NUM_BOT 1                                                                
 define FILE_FS_1 out_fs_1_bottom.faceset                                        
-define FILE_GMV_1 out_fs_1_bottom.gmv                                           
 define NUM_TOP 2                                                                
 define FILE_FS_2 out_fs_2_top.faceset                                           
-define FILE_GMV_2 out_fs_2_top.gmv                                              
 define NUM_RIGHT 3                                                              
 define FILE_FS_3 out_fs_3_right.faceset                                         
-define FILE_GMV_3 out_fs_3_right.gmv                                            
 define NUM_BACK 4                                                               
 define FILE_FS_4 out_fs_4_back.faceset                                          
-define FILE_GMV_4 out_fs_4_back.gmv                                             
 define NUM_LEFT 5                                                               
 define FILE_FS_5 out_fs_5_left.faceset                                          
-define FILE_GMV_5 out_fs_5_left.gmv                                             
 define NUM_FRONT 6                                                              
 define FILE_FS_6 out_fs_6_front.faceset                                         
-define FILE_GMV_6 out_fs_6_front.gmv                                            
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
 eltset/e_bottom/id_side/eq/NUM_BOT                                              
@@ -120,8 +125,7 @@ eltset/e_delete/not/e_bottom
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_1/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_1/mo_tmp                                                      
+dump/avs/FILE_FS_1/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
@@ -130,8 +134,7 @@ eltset/e_delete/not/e_top
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_2/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_2/mo_tmp                                                      
+dump/avs/FILE_FS_2/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
@@ -140,8 +143,7 @@ eltset/e_delete/not/e_right
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_3/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_3/mo_tmp                                                      
+dump/avs/FILE_FS_3/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
@@ -150,8 +152,7 @@ eltset/e_delete/not/e_back
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_4/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_4/mo_tmp                                                      
+dump/avs/FILE_FS_4/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
@@ -160,8 +161,7 @@ eltset/e_delete/not/e_left
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_5/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_5/mo_tmp                                                      
+dump/avs/FILE_FS_5/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
@@ -170,18 +170,15 @@ eltset/e_delete/not/e_front
 rmpoint/element/eltset get e_delete                                             
 rmpoint/compress                                                                
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_6/mo_tmp/0 0 0 2                                              
-dump/gmv/FILE_GMV_6/mo_tmp                                                      
+dump/avs/FILE_FS_6/mo_tmp/0 0 0 2                                               
 cmo/delete/mo_tmp                                                               
 dump/exo/out_mesh_fsets.exo/moprism///facesets FILE_FS_1 FILE_FS_2 FILE_FS_3 FIL
 E_FS_4 FILE_FS_5 FILE_FS_6                                                      
-dump/avs2/out_mesh_fsets.inp/moprism                                            
-dump/gmv/out_mesh_fsets.gmv/moprism                                             
+dump/avs/out_mesh_fsets.inp/moprism                                             
 cmo setatt moprism itetclr 1                                                    
 cmo setatt moprism imt 1                                                        
 resetpts itp                                                                    
 dump/exo/out_mesh_fsets_single_mat.exo/moprism///facesets FILE_FS_1 FILE_FS_2 FI
 LE_FS_3 FILE_FS_4 FILE_FS_5 FILE_FS_6                                           
-dump/avs2/out_mesh_fsets_single_mat.inp/moprism                                 
-dump/gmv/out_mesh_fsets_single_mat.gmv/moprism                                  
+dump/avs/out_mesh_fsets_single_mat.inp/moprism                                  
 finish                                                                          

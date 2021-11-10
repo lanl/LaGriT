@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.400   Linux          *                 
-*               *    date_compile: 2019/07/04 dev             *                 
-*               *    Run Time: 2019/Jul 25  08:45:03          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov 10  15:24:56          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,12 +28,25 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-# test stack into prism and write exodus files                                  
-# include method to create facesets for multi material                          
+# Test stack and  exodus                                                        
+# include method notes in this command file                                     
+# Convert binary mesh_fsets.exo with ncdump executable:                         
+# ncdump mesh_fsets.exo > mesh_fsets.exo.ascii.txt                              
+# Note: exodus sorts elements by material ID                                    
+# So multi-material meshes may have an element order                            
+# different than the non-exodus non-sorted mesh                                 
+# See Test 05                                                                   
+# define Z variables                                                            
 define/Z1/0.1                                                                   
 define/Z2/0.2                                                                   
 ###################################                                             
-# One Prism                                                                     
+# Test 01                                                                       
+# stack single triangle into a prism element                                    
+# Stack triangle surfaces into prism mesh                                       
+#  The mesh should have itetclr set for exodus cell blocks                      
+#  The node properties are ignored as exodus is cell based                      
+#  Different from FEHM which has properties on nodes                            
+# write files to stack                                                          
 read/avs/input_one_tri.inp/mo1                                                  
 geniee                                                                          
 finish                                                                          
@@ -52,17 +65,18 @@ finish
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
          3 values reset for attribute zic                                       
  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
          3 values reset for attribute zic                                       
  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
+# stack                                                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
  
 Layers to create:          2                                                    
 Max material number:          2                                                 
@@ -70,8 +84,8 @@ Max material number:          2
 Reading     2 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: tmp_one_tri_z0.inp                                          
-read/avs/tmp_one_tri_z0.inp/def1                                                
+Read first surface: out_one_tri_z0.inp                                          
+read/avs/out_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -99,8 +113,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: tmp_one_tri_z1.inp                                                
-read/avs/tmp_one_tri_z1.inp/def2                                                
+Read surface: out_one_tri_z1.inp                                                
+read/avs/out_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -143,7 +157,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -159,8 +173,8 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   tmp_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
+   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   out_one_tri_z1.inp     2    2   -2         4)   1.000000E-01                 
  
 Elements per layer:          1  stacked total:              2                   
 Nodes    per layer:          3  stacked total:              6                   
@@ -218,9 +232,6 @@ All elements have volume  5.0000000E-02
 -----------------------------------------------------------                     
          1 total elements evaluated.                                            
  
-dump/gmv/out_prism_one.gmv/moprism                                              
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 dump/avs/out_prism_one.inp/moprism                                              
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -269,101 +280,33 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
      Released Mesh Object: moprism                                              
 ###################################                                             
-# One Prism Layer                                                               
-#   xy min/max 0:1, z min/max 0:0.1                                             
-#   200 prisms                                                                  
+# Test 02                                                                       
+# stack triangle surface into 200 prisms                                        
+# single layer of prism elements mesh                                           
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
   RZ GENERATED POINTS                    1 TO                  121              
+cmo/setatt/mo1/itetclr 1                                                        
+Warning: nelements = 0                                                          
+ 0 length attribute: itetclr                                                    
+ 
+cmo/setatt/mo1/imt 1                                                            
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+geniee_cmo warning: no elements with faces so no jtet                           
+finish                                                                          
+cmo/setatt/mo1/imt 1                                                            
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
 connect                                                                         
- No materials associated with       121 noninterface points.                    
  Coordinates of enclosing triangle are:                                         
           -0.17500D+01-0.16000D+01-0.00000D+00                                  
            0.27500D+01-0.17500D+01-0.00000D+00                                  
            0.50500D+00 0.50000D+01-0.00000D+00                                  
- Cannot locate interface between points       110 and       123.                
- Cannot locate interface between points       110 and       121.                
- Cannot locate interface between points       121 and       123.                
- Cannot locate interface between points        33 and       123.                
- Cannot locate interface between points        33 and        44.                
- Cannot locate interface between points        44 and       123.                
- Cannot locate interface between points        55 and       123.                
- Cannot locate interface between points        55 and        66.                
- Cannot locate interface between points        66 and       123.                
- Cannot locate interface between points         6 and       122.                
- Cannot locate interface between points         6 and       123.                
- Cannot locate interface between points        44 and        55.                
- Cannot locate interface between points        99 and       123.                
- Cannot locate interface between points        99 and       110.                
- Cannot locate interface between points       121 and       124.                
- Cannot locate interface between points        23 and       122.                
- Cannot locate interface between points        34 and       122.                
- Cannot locate interface between points        23 and        34.                
- Cannot locate interface between points        67 and       122.                
- Cannot locate interface between points        78 and       122.                
- Cannot locate interface between points        67 and        78.                
- Cannot locate interface between points         8 and       123.                
- Cannot locate interface between points         8 and         9.                
- Cannot locate interface between points         9 and       123.                
- Cannot locate interface between points        77 and       123.                
- Cannot locate interface between points        77 and        88.                
- Cannot locate interface between points        88 and       123.                
- Cannot locate interface between points         4 and       122.                
- Cannot locate interface between points         3 and       122.                
- Cannot locate interface between points         3 and         4.                
- Cannot locate interface between points        12 and       122.                
- Cannot locate interface between points        12 and        23.                
- Cannot locate interface between points        45 and       122.                
- Cannot locate interface between points        56 and       122.                
- Cannot locate interface between points        45 and        56.                
- Cannot locate interface between points        11 and       123.                
- Cannot locate interface between points        11 and        22.                
- Cannot locate interface between points        22 and       123.                
- Cannot locate interface between points       100 and       122.                
- Cannot locate interface between points       111 and       122.                
- Cannot locate interface between points       100 and       111.                
- Cannot locate interface between points        89 and       122.                
- Cannot locate interface between points        78 and        89.                
- Cannot locate interface between points         2 and       122.                
- Cannot locate interface between points         1 and       122.                
- Cannot locate interface between points         1 and         2.                
- Cannot locate interface between points         2 and         3.                
- Cannot locate interface between points       120 and       121.                
- Cannot locate interface between points       120 and       124.                
- Cannot locate interface between points       119 and       120.                
- Cannot locate interface between points       119 and       124.                
- Cannot locate interface between points       118 and       119.                
- Cannot locate interface between points       118 and       124.                
- Cannot locate interface between points       111 and       124.                
- Cannot locate interface between points        89 and       100.                
- Cannot locate interface between points       117 and       118.                
- Cannot locate interface between points       117 and       124.                
- Cannot locate interface between points       116 and       117.                
- Cannot locate interface between points       116 and       124.                
- Cannot locate interface between points       115 and       116.                
- Cannot locate interface between points       115 and       124.                
- Cannot locate interface between points       114 and       115.                
- Cannot locate interface between points       114 and       124.                
- Cannot locate interface between points        22 and        33.                
- Cannot locate interface between points        10 and       123.                
- Cannot locate interface between points        10 and        11.                
- Cannot locate interface between points        56 and        67.                
- Cannot locate interface between points        34 and        45.                
- Cannot locate interface between points       113 and       114.                
- Cannot locate interface between points       113 and       124.                
- Cannot locate interface between points       112 and       113.                
- Cannot locate interface between points       112 and       124.                
- Cannot locate interface between points         9 and        10.                
- Cannot locate interface between points        88 and        99.                
- Cannot locate interface between points        66 and        77.                
- Cannot locate interface between points       111 and       112.                
- Cannot locate interface between points         7 and       123.                
- Cannot locate interface between points         7 and         8.                
- Cannot locate interface between points         6 and         7.                
- Cannot locate interface between points         5 and       122.                
- Cannot locate interface between points         4 and         5.                
- Cannot locate interface between points         5 and         6.                
- Cannot locate interface between points         1 and        12.                
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -377,20 +320,28 @@ RECON: done.
 finish                                                                          
 LaGriT FINISH: recon 0 for connect 2d                                           
  
+cmo/setatt/mo1/itetclr 1                                                        
+       200 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# write files to stack                                                          
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
        121 values reset for attribute zic                                       
  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
        121 values reset for attribute zic                                       
  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
+# stack                                                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp                        
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp                        
  
 Layers to create:          2                                                    
 Max material number:          2                                                 
@@ -398,8 +349,8 @@ Max material number:          2
 Reading     2 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: tmp_one_tri_z0.inp                                          
-read/avs/tmp_one_tri_z0.inp/def1                                                
+Read first surface: out_one_tri_z0.inp                                          
+read/avs/out_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -427,8 +378,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: tmp_one_tri_z1.inp                                                
-read/avs/tmp_one_tri_z1.inp/def2                                                
+Read surface: out_one_tri_z1.inp                                                
+read/avs/out_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -471,7 +422,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -487,8 +438,8 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   tmp_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
+   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   out_one_tri_z1.inp     2    2   -2       122)   1.000000E-01                 
  
 Elements per layer:        200  stacked total:            400                   
 Nodes    per layer:        121  stacked total:            242                   
@@ -546,9 +497,6 @@ All elements have volume  5.0000000E-04
 -----------------------------------------------------------                     
        200 total elements evaluated.                                            
  
-dump/gmv/out_prism_one_layer.gmv/moprism                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
 dump/avs/out_prism_one_layer.inp/moprism                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
@@ -598,102 +546,22 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
      Released Mesh Object: moprism                                              
 ###################################                                             
-# Two Prism Layers                                                              
-#   same as above but 2 layers thick, z min/max 0:0.2                           
+# Test 03                                                                       
+#   stack triangle surface into 2 layers of prisms                              
+#   top layer 200 prisms materal 2                                              
 #   bottom layer 200 prisms material 1                                          
-#   top layer 200 prisms mater 2                                                
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
   RZ GENERATED POINTS                    1 TO                  121              
+cmo/setatt/mo1/imt 1                                                            
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
 connect                                                                         
- No materials associated with       121 noninterface points.                    
  Coordinates of enclosing triangle are:                                         
           -0.17500D+01-0.16000D+01-0.00000D+00                                  
            0.27500D+01-0.17500D+01-0.00000D+00                                  
            0.50500D+00 0.50000D+01-0.00000D+00                                  
- Cannot locate interface between points        11 and       123.                
- Cannot locate interface between points        11 and        22.                
- Cannot locate interface between points        22 and       123.                
- Cannot locate interface between points        89 and       122.                
- Cannot locate interface between points       100 and       122.                
- Cannot locate interface between points        89 and       100.                
- Cannot locate interface between points         6 and       122.                
- Cannot locate interface between points         6 and       123.                
- Cannot locate interface between points       111 and       112.                
- Cannot locate interface between points       111 and       124.                
- Cannot locate interface between points       112 and       124.                
- Cannot locate interface between points       112 and       113.                
- Cannot locate interface between points       113 and       124.                
- Cannot locate interface between points         7 and       123.                
- Cannot locate interface between points         7 and         8.                
- Cannot locate interface between points         8 and       123.                
- Cannot locate interface between points         5 and       122.                
- Cannot locate interface between points         5 and         6.                
- Cannot locate interface between points       118 and       119.                
- Cannot locate interface between points       118 and       124.                
- Cannot locate interface between points       119 and       124.                
- Cannot locate interface between points        22 and        33.                
- Cannot locate interface between points        33 and       123.                
- Cannot locate interface between points        77 and       123.                
- Cannot locate interface between points        77 and        88.                
- Cannot locate interface between points        88 and       123.                
- Cannot locate interface between points        88 and        99.                
- Cannot locate interface between points        99 and       123.                
- Cannot locate interface between points         4 and       122.                
- Cannot locate interface between points         4 and         5.                
- Cannot locate interface between points        99 and       110.                
- Cannot locate interface between points       110 and       123.                
- Cannot locate interface between points       119 and       120.                
- Cannot locate interface between points       120 and       124.                
- Cannot locate interface between points        44 and       123.                
- Cannot locate interface between points        44 and        55.                
- Cannot locate interface between points        55 and       123.                
- Cannot locate interface between points       111 and       122.                
- Cannot locate interface between points       100 and       111.                
- Cannot locate interface between points        66 and       123.                
- Cannot locate interface between points        66 and        77.                
- Cannot locate interface between points        55 and        66.                
- Cannot locate interface between points       115 and       116.                
- Cannot locate interface between points       115 and       124.                
- Cannot locate interface between points       116 and       124.                
- Cannot locate interface between points         2 and       122.                
- Cannot locate interface between points         1 and       122.                
- Cannot locate interface between points         1 and         2.                
- Cannot locate interface between points        12 and       122.                
- Cannot locate interface between points        23 and       122.                
- Cannot locate interface between points        12 and        23.                
- Cannot locate interface between points        78 and       122.                
- Cannot locate interface between points        78 and        89.                
- Cannot locate interface between points       116 and       117.                
- Cannot locate interface between points       117 and       124.                
- Cannot locate interface between points       117 and       118.                
- Cannot locate interface between points        33 and        44.                
- Cannot locate interface between points       120 and       121.                
- Cannot locate interface between points       121 and       124.                
- Cannot locate interface between points         8 and         9.                
- Cannot locate interface between points         9 and       123.                
- Cannot locate interface between points         6 and         7.                
- Cannot locate interface between points        45 and       122.                
- Cannot locate interface between points        56 and       122.                
- Cannot locate interface between points        45 and        56.                
- Cannot locate interface between points       121 and       123.                
- Cannot locate interface between points       110 and       121.                
- Cannot locate interface between points       114 and       115.                
- Cannot locate interface between points       114 and       124.                
- Cannot locate interface between points       113 and       114.                
- Cannot locate interface between points        10 and       123.                
- Cannot locate interface between points        10 and        11.                
- Cannot locate interface between points         9 and        10.                
- Cannot locate interface between points        67 and       122.                
- Cannot locate interface between points        67 and        78.                
- Cannot locate interface between points        56 and        67.                
- Cannot locate interface between points         3 and       122.                
- Cannot locate interface between points         2 and         3.                
- Cannot locate interface between points         3 and         4.                
- Cannot locate interface between points        34 and       122.                
- Cannot locate interface between points        34 and        45.                
- Cannot locate interface between points        23 and        34.                
- Cannot locate interface between points         1 and        12.                
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -707,13 +575,20 @@ RECON: done.
 finish                                                                          
 LaGriT FINISH: recon 0 for connect 2d                                           
  
+cmo/setatt/mo1/itetclr 1                                                        
+       200 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# write files to stack                                                          
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
        121 values reset for attribute zic                                       
  
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
@@ -722,7 +597,7 @@ cmo/setatt/mo1/zic/1 0 0/Z1
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
@@ -731,11 +606,12 @@ cmo/setatt/mo1/zic/1 0 0/0.0
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
+# stack                                                                         
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
  
 Layers to create:          3                                                    
 Max material number:          3                                                 
@@ -743,8 +619,8 @@ Max material number:          3
 Reading     3 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: tmp_one_tri_z0.inp                                          
-read/avs/tmp_one_tri_z0.inp/def1                                                
+Read first surface: out_one_tri_z0.inp                                          
+read/avs/out_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -772,8 +648,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: tmp_one_tri_z1.inp                                                
-read/avs/tmp_one_tri_z1.inp/def2                                                
+Read surface: out_one_tri_z1.inp                                                
+read/avs/out_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -816,7 +692,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -832,8 +708,8 @@ finish
 cmo/delete/cmonxt/                                                              
      Released Mesh Object: cmonxt                                               
 finish                                                                          
-Read surface: tmp_one_tri_z2.inp                                                
-read/avs/tmp_one_tri_z2.inp/def2                                                
+Read surface: out_one_tri_z2.inp                                                
+read/avs/out_one_tri_z2.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -876,7 +752,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
+Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -897,9 +773,9 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   tmp_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
-   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   out_one_tri_z1.inp     2    2    0       122)   1.000000E-01                 
+   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
  
 Elements per layer:        200  stacked total:            600                   
 Nodes    per layer:        121  stacked total:            363                   
@@ -939,10 +815,6 @@ geniee
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
-finish                                                                          
-# quality                                                                       
-dump/gmv/out_prism_two_layer.gmv/moprism                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 dump/avs/out_prism_two_layer.inp/moprism                                        
 cmo/modatt/-def-/-def-/ioflag/x                                                 
@@ -993,100 +865,21 @@ cmo/delete/mostack
 cmo/delete/moprism                                                              
      Released Mesh Object: moprism                                              
 ###################################                                             
-# One and Two Prism Layers with Perturb Elevations                              
-#   random perturbation of z coordinate so one layer is not flat                
+# Test 04                                                                       
+# Prism Layers with perturbed elevations                                        
+# other layers are flat elevation                                               
 cmo/create/mo1///triplane                                                       
 createpts/xyz/11 11 1/0. 0. 0./1. 1. 0./1 1 1                                   
   RZ GENERATED POINTS                    1 TO                  121              
+cmo/setatt/mo1/imt 1                                                            
+Warning: nelements = 0                                                          
+       121 values reset for attribute imt1                                      
+ 
 connect                                                                         
- No materials associated with       121 noninterface points.                    
  Coordinates of enclosing triangle are:                                         
           -0.17500D+01-0.16000D+01-0.00000D+00                                  
            0.27500D+01-0.17500D+01-0.00000D+00                                  
            0.50500D+00 0.50000D+01-0.00000D+00                                  
- Cannot locate interface between points         6 and       122.                
- Cannot locate interface between points         5 and       122.                
- Cannot locate interface between points         5 and         6.                
- Cannot locate interface between points         6 and       123.                
- Cannot locate interface between points        23 and       122.                
- Cannot locate interface between points        34 and       122.                
- Cannot locate interface between points        23 and        34.                
- Cannot locate interface between points        10 and       123.                
- Cannot locate interface between points        10 and        11.                
- Cannot locate interface between points        11 and       123.                
- Cannot locate interface between points        45 and       122.                
- Cannot locate interface between points        34 and        45.                
- Cannot locate interface between points        11 and        22.                
- Cannot locate interface between points        22 and       123.                
- Cannot locate interface between points        12 and       122.                
- Cannot locate interface between points        12 and        23.                
- Cannot locate interface between points        77 and       123.                
- Cannot locate interface between points        77 and        88.                
- Cannot locate interface between points        88 and       123.                
- Cannot locate interface between points       110 and       123.                
- Cannot locate interface between points       110 and       121.                
- Cannot locate interface between points       121 and       123.                
- Cannot locate interface between points       121 and       124.                
- Cannot locate interface between points        56 and       122.                
- Cannot locate interface between points        67 and       122.                
- Cannot locate interface between points        56 and        67.                
- Cannot locate interface between points       115 and       116.                
- Cannot locate interface between points       115 and       124.                
- Cannot locate interface between points       116 and       124.                
- Cannot locate interface between points       120 and       121.                
- Cannot locate interface between points       120 and       124.                
- Cannot locate interface between points         9 and       123.                
- Cannot locate interface between points         9 and        10.                
- Cannot locate interface between points        22 and        33.                
- Cannot locate interface between points        33 and       123.                
- Cannot locate interface between points        44 and       123.                
- Cannot locate interface between points        44 and        55.                
- Cannot locate interface between points        55 and       123.                
- Cannot locate interface between points       114 and       115.                
- Cannot locate interface between points       114 and       124.                
- Cannot locate interface between points        45 and        56.                
- Cannot locate interface between points        89 and       122.                
- Cannot locate interface between points       100 and       122.                
- Cannot locate interface between points        89 and       100.                
- Cannot locate interface between points         4 and       122.                
- Cannot locate interface between points         4 and         5.                
- Cannot locate interface between points       116 and       117.                
- Cannot locate interface between points       117 and       124.                
- Cannot locate interface between points       119 and       120.                
- Cannot locate interface between points       119 and       124.                
- Cannot locate interface between points        55 and        66.                
- Cannot locate interface between points        66 and       123.                
- Cannot locate interface between points        33 and        44.                
- Cannot locate interface between points       113 and       114.                
- Cannot locate interface between points       113 and       124.                
- Cannot locate interface between points         3 and       122.                
- Cannot locate interface between points         3 and         4.                
- Cannot locate interface between points        78 and       122.                
- Cannot locate interface between points        67 and        78.                
- Cannot locate interface between points        78 and        89.                
- Cannot locate interface between points       118 and       119.                
- Cannot locate interface between points       118 and       124.                
- Cannot locate interface between points       117 and       118.                
- Cannot locate interface between points        66 and        77.                
- Cannot locate interface between points       111 and       112.                
- Cannot locate interface between points       111 and       124.                
- Cannot locate interface between points       112 and       124.                
- Cannot locate interface between points       112 and       113.                
- Cannot locate interface between points         8 and       123.                
- Cannot locate interface between points         8 and         9.                
- Cannot locate interface between points         2 and       122.                
- Cannot locate interface between points         1 and       122.                
- Cannot locate interface between points         1 and         2.                
- Cannot locate interface between points         2 and         3.                
- Cannot locate interface between points       111 and       122.                
- Cannot locate interface between points       100 and       111.                
- Cannot locate interface between points         7 and       123.                
- Cannot locate interface between points         7 and         8.                
- Cannot locate interface between points         6 and         7.                
- Cannot locate interface between points        99 and       123.                
- Cannot locate interface between points        99 and       110.                
- Cannot locate interface between points        88 and        99.                
- Cannot locate interface between points         1 and        12.                
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -1100,13 +893,19 @@ RECON: done.
 finish                                                                          
 LaGriT FINISH: recon 0 for connect 2d                                           
  
+cmo/setatt/mo1/itetclr 1                                                        
+       200 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/Z2                                                     
        121 values reset for attribute zic                                       
  
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z2.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z2.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/Z1                                                     
@@ -1119,7 +918,7 @@ nodes in indexed point set  =        121
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z1.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z1.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/setatt/mo1/zic/1 0 0/0.0                                                    
@@ -1128,11 +927,11 @@ cmo/setatt/mo1/zic/1 0 0/0.0
 cmo/setatt/mo1/itetclr/1 0 0/1                                                  
        200 values reset for attribute itetclr                                   
  
-dump/avs/tmp_one_tri_z0.inp/mo1/1 1 0 0                                         
+dump/avs/out_one_tri_z0.inp/mo1/1 1 0 0                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/create/mostack///tri                                                        
-stack/layers/avs/tmp_one_tri_z0.inp 1 tmp_one_tri_z1.inp 2 tmp_one_tri_z2.inp   
+stack/layers/avs/out_one_tri_z0.inp 1 out_one_tri_z1.inp 2 out_one_tri_z2.inp   
  
 Layers to create:          3                                                    
 Max material number:          3                                                 
@@ -1140,8 +939,8 @@ Max material number:          3
 Reading     3 surface files...                                                  
 cmo/addatt/mostack/layertyp/VINT/scalar/nnodes//permanent/agfx                  
 finish                                                                          
-Read first surface: tmp_one_tri_z0.inp                                          
-read/avs/tmp_one_tri_z0.inp/def1                                                
+Read first surface: out_one_tri_z0.inp                                          
+read/avs/out_one_tri_z0.inp/def1                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1169,8 +968,8 @@ The current-mesh-object(CMO) is: def1
  
 finish                                                                          
 finish                                                                          
-Read surface: tmp_one_tri_z1.inp                                                
-read/avs/tmp_one_tri_z1.inp/def2                                                
+Read surface: out_one_tri_z1.inp                                                
+read/avs/out_one_tri_z1.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1213,7 +1012,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z0.inp and tmp_one_tri_z1.inp                      
+Layers compared: out_one_tri_z0.inp and out_one_tri_z1.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1229,8 +1028,8 @@ finish
 cmo/delete/cmonxt/                                                              
      Released Mesh Object: cmonxt                                               
 finish                                                                          
-Read surface: tmp_one_tri_z2.inp                                                
-read/avs/tmp_one_tri_z2.inp/def2                                                
+Read surface: out_one_tri_z2.inp                                                
+read/avs/out_one_tri_z2.inp/def2                                                
 geniee                                                                          
 finish                                                                          
 cmo/status/brief                                                                
@@ -1273,7 +1072,7 @@ finish
 cmo/delete/def2/                                                                
      Released Mesh Object: def2                                                 
 finish                                                                          
-Layers compared: tmp_one_tri_z1.inp and tmp_one_tri_z2.inp                      
+Layers compared: out_one_tri_z1.inp and out_one_tri_z2.inp                      
 cmo/delete/cmoprev/                                                             
      Released Mesh Object: cmoprev                                              
 finish                                                                          
@@ -1294,9 +1093,9 @@ finish
 ................................................................                
  
          surface name  layer color type llcorner  zic                           
-   tmp_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
-   tmp_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
-   tmp_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
+   out_one_tri_z0.inp     1    1   -1         1)   0.000000E+00                 
+   out_one_tri_z1.inp     2    2    0       122)   7.319133E-02                 
+   out_one_tri_z2.inp     3    3   -2       243)   2.000000E-01                 
  
 Elements per layer:        200  stacked total:            600                   
 Nodes    per layer:        121  stacked total:            363                   
@@ -1336,9 +1135,6 @@ geniee
 finish                                                                          
 resetpts/itp                                                                    
 geniee                                                                          
-finish                                                                          
-dump/gmv/out_prism_two_layer_pb_z.gmv/moprism                                   
-cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 dump/avs/out_prism_two_layer_pb_z.inp/moprism                                   
 cmo/modatt/-def-/-def-/ioflag/x                                                 
@@ -1382,20 +1178,19 @@ number of element maps:            0
 ExodusII: Done writing to ExodusII file: out_prism_two_layer_pb_z.exo using cmo:
                                                                          moprism
  
-#                                                                               
-# Create a one layer versino of stacked mesh                                    
-# rmmat 2 element                                                               
-# rmpoint / compress                                                            
-# resetpts / itp                                                                
-# dump / gmv / prism_one_layer_perturb_z.gmv / moprism                          
-# dump / avs / prism_one_layer_perturb_z.inp / moprism                          
-# dump / exo / prism_one_layer_perturb_z.exo / moprism                          
 cmo/delete/mo1                                                                  
      Released Mesh Object: mo1                                                  
 cmo/delete/mostack                                                              
      Released Mesh Object: mostack                                              
 ###################################                                             
+# Test 05                                                                       
 # Create facesets for each of 6 mesh directions                                 
+## IMPORTANT ###################                                                
+# For multi-material meshes, the elements need to be                            
+# be pre-sorted by itetclr material values.                                     
+# Exodus will reorder elements internally, we do not want the                   
+# cells to be re-ordered. If they are, faceset correlation to                   
+# the cell numbers will no longer be correct.                                   
 cmo/select/moprism                                                              
 cmo/printatt/moprism/-all- minmax                                               
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -1458,10 +1253,29 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  neperlayer                     200              200               0         1  
  ikey_utr                         1              400             399       400  
  
-# Extract outside faces of mesh, these will have tri on the                     
-# top and bottom and quads on the sides                                         
-# Attributes are created during extract including                               
-# idelem1 and idface1 which are written to faceset files                        
+# pre-sort the mesh by material value.                                          
+# sort based on itetclr values and the element median point                     
+createpts/median                                                                
+cmo/addatt//xmed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+cmo/addatt//ymed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+cmo/addatt//zmed/VDOUBLE/scalar/nelements///gal/0.                              
+finish                                                                          
+sort/moprism/index/ascending/ikey/itetclr xmed ymed zmed                        
+cmo/addatt/moprism/ikey/vint/scalar/nelements///gax/0                           
+finish                                                                          
+ SORT: order key written to attribute: ikey                                     
+ 
+reorder/moprism/ikey                                                            
+geniee                                                                          
+finish                                                                          
+cmo/DELATT/moprism/ikey                                                         
+# Extract outside faces of mesh, these will have tri faces                      
+# on the top and bottom with quad faces on the sides                            
+# Attributes are created during extract used in exodus.                         
+# idelem1 and idface1 (elem-face) are written to faceset files                  
+# these faceset files are read by exodus to set side sets                       
 extract/surfmesh/1 0 0/mo_surf/moprism/external                                 
 cmo/addatt/mo_surf/itetclr0/vint/scalar/nelements////0                          
 finish                                                                          
@@ -1501,10 +1315,7 @@ assign_color_normal epsilon for zero:   1.0000000E-15
 cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
        480 copied from mo_surf itetclr to -> mo_surf id_side                    
  
-dump gmv out_prism_outside_faces.gmv mo_surf                                    
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump avs2 out_prism_outside_faces.inp mo_surf                                   
+dump avs out_prism_outside_faces.inp mo_surf                                    
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 # Remove all attributes except idelem1 and idface1                              
@@ -1535,10 +1346,10 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  xtetwd                           0                0               0       480  
  itetclr                          1                6               5       480  
  itettyp                          3                4               1       480  
- itetoff                          0             1517            1517       480  
- jtetoff                          0             1517            1517       480  
+ itetoff                          0             1516            1516       480  
+ jtetoff                          0             1516            1516       480  
  itet                             0              282             282       480x*
- jtet                             0             4793            4793       480x*
+ jtet                             0             4794            4794       480x*
  epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
  epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
@@ -1584,30 +1395,27 @@ cmo/DELATT/mo_surf/idelem0
 cmo/DELATT/mo_surf/facecol                                                      
 cmo/DELATT/mo_surf/idface0                                                      
 cmo/DELATT/mo_surf/layertyp                                                     
-# foreach direction create cell set and write file                              
-# use defines in case directions are permuted for user                          
+#  Set surface faces based on normal directions                                 
+#  1 = bottom                                                                   
+#  2 = top                                                                      
+#  3 = east right                                                               
+#  4 = north back                                                               
+#  5 = west left                                                                
+#  6 = south front                                                              
+# set some variables                                                            
 define NUM_BOT 1                                                                
 define FILE_FS_1 out_fs_1_bottom.faceset                                        
-define FILE_GMV_1 out_fs_1_bottom.gmv                                           
 define NUM_TOP 2                                                                
 define FILE_FS_2 out_fs_2_top.faceset                                           
-define FILE_GMV_2 out_fs_2_top.gmv                                              
 define NUM_RIGHT 3                                                              
 define FILE_FS_3 out_fs_3_right.faceset                                         
-define FILE_GMV_3 out_fs_3_right.gmv                                            
 define NUM_BACK 4                                                               
 define FILE_FS_4 out_fs_4_back.faceset                                          
-define FILE_GMV_4 out_fs_4_back.gmv                                             
 define NUM_LEFT 5                                                               
 define FILE_FS_5 out_fs_5_left.faceset                                          
-define FILE_GMV_5 out_fs_5_left.gmv                                             
 define NUM_FRONT 6                                                              
 define FILE_FS_6 out_fs_6_front.faceset                                         
-define FILE_GMV_6 out_fs_6_front.gmv                                            
-# give relevant eltset names so sets are reported                               
-# with recognizable set names for checking                                      
-# Note with stacked layers,                                                     
-# top and bottom have equal number of elements                                  
+# write the faceset files for each boundary                                     
 cmo/copy/mo_tmp/mo_surf                                                         
 cmo/select/mo_tmp                                                               
 eltset/e_bottom/id_side/eq/NUM_BOT                                              
@@ -1623,16 +1431,13 @@ rmpoint/compress
 RMPOINT: new point count is          121                                        
 RMPOINT: new element count is        200                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_1/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_1/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_1/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1652,16 +1457,13 @@ rmpoint/compress
 RMPOINT: new point count is          121                                        
 RMPOINT: new element count is        200                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_2/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_2/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_2/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1681,16 +1483,13 @@ rmpoint/compress
 RMPOINT: new point count is           33                                        
 RMPOINT: new element count is         20                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_3/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_3/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_3/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1710,16 +1509,13 @@ rmpoint/compress
 RMPOINT: new point count is           33                                        
 RMPOINT: new element count is         20                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_4/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_4/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_4/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1739,16 +1535,13 @@ rmpoint/compress
 RMPOINT: new point count is           33                                        
 RMPOINT: new element count is         20                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_5/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_5/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_5/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1768,16 +1561,13 @@ rmpoint/compress
 RMPOINT: new point count is           33                                        
 RMPOINT: new element count is         20                                        
 cmo/DELATT/mo_tmp/id_side                                                       
-dump/avs2/FILE_FS_6/mo_tmp/0 0 0 2                                              
+dump/avs/FILE_FS_6/mo_tmp/0 0 0 2                                               
 WARNING: dump/avs  iopt_points=    0                                            
 WARNING: dump/avs  iopt_elements=    0                                          
 WARNING: dump/avs  iopt_values_node=    0                                       
 WARNING: dump/avs  iopt_values_elem=    2                                       
 WARNING: dump/avs  will produce non-standard AVS output that                    
 WARNING: read/avs may not be able to read.                                      
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/FILE_GMV_6/mo_tmp                                                      
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/delete/mo_tmp                                                               
@@ -1844,15 +1634,10 @@ Done ExodusII Side Sets Total:       6
  
 ExodusII: Done writing to ExodusII file: out_mesh_fsets.exo using cmo: moprism  
  
-dump/avs2/out_mesh_fsets.inp/moprism                                            
+dump/avs/out_mesh_fsets.inp/moprism                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
-dump/gmv/out_mesh_fsets.gmv/moprism                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-# Convert binary mesh_fsets.exo with ncdump executable:                         
-# ncdump mesh_fsets.exo > mesh_fsets_ascii.exo                                  
-# Creat single material mesh                                                    
+# Create single material mesh                                                   
 cmo setatt moprism itetclr 1                                                    
        400 values reset for attribute itetclr                                   
  
@@ -1923,10 +1708,7 @@ Done ExodusII Side Sets Total:       6
 ExodusII: Done writing to ExodusII file: out_mesh_fsets_single_mat.exo using cmo
                                                                        : moprism
  
-dump/avs2/out_mesh_fsets_single_mat.inp/moprism                                 
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/out_mesh_fsets_single_mat.gmv/moprism                                  
+dump/avs/out_mesh_fsets_single_mat.inp/moprism                                  
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 finish                                                                          
