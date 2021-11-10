@@ -1,9 +1,14 @@
+# Test exodus workflow
+# start with hex mesh
 # test method and commands for exo mesh and facesets
 
 # create simple cube of hex elements with 2 materials.
-# exo mesh and facesets can be viewed using GMV
-# This test reorders the materials based on exo block conventions
-# Then creates a top and bottom faceset for exo boundaries
+# exo mesh and facesets can be viewed using paraview
+
+# Reorder itetclr materials based on exo block conventions
+# Exodus routine will do this sort, we pre-sort so the
+# input and output meshes will be the same
+# create a top and bottom faceset for exodus file 
 
 cmo / create / mohex /// hex
 createpts / brick / xyz / 3 3 3 / 0 0 0 / 1 1 1 / 1 1 1
@@ -11,25 +16,24 @@ cmo setatt mohex itetclr 1
 cmo setatt mohex imt 1
 cmo setatt mohex itetclr 1,2,1 2
 resetpts / itp
-dump gmv output_hex_start.gmv mohex
+dump avs output_hex_start.inp mohex
 
 # use sort to order element blocks as exodus will order
 # if this is not done, lagrit faceset numbers will not
 # correlate to exodus faceset numbers
 # itetclr must be ordered correctly
-# additional sort keys can be based on user preference
 
 # sort based on element itetclr number and median location
 createpts / median
 sort / mohex / index / ascending / ikey / itetclr xmed ymed zmed
 reorder / mohex / ikey
-  dump / gmv / out_tmp_sort1.gmv / mohex
+  dump / avs / out_tmp_sort1.inp / mohex
   cmo / DELATT / mohex / ikey
 
 # sort nodes based on mesh convention z, y, then x
 sort / mohex / index / ascending / ikey / zic yic xic
 reorder / mohex / ikey
-  dump / gmv / out_tmp_sort2.gmv / mohex
+  dump / avs / out_tmp_sort2.inp / mohex
   cmo / DELATT / mohex / xmed
   cmo / DELATT / mohex / ymed
   cmo / DELATT / mohex / zmed
@@ -42,20 +46,21 @@ eltset/e_mat1/write / output_mat_1.cellset / ascii
 eltset/e_mat2/write / output_mat_1.cellset / ascii
 
 # extract the outside surface of the full mesh
-# to get outside face to element relationships
+# to find and list the boundary face ID to its element ID
 extract / surfmesh / 1 0 0 / mo_surf / mohex / external
 cmo / printatt / mo_surf / -all- / minmax
 
-# ## Set surface elements to direction they face based on normals
+#  Locate the top and bottom boundary faces
+#  Set surface elements to direction they face based on normals
 #  These values will be written to itetclr, copy to id_side attribute
-#  1 = bottom   2 = top
+#  Values 1 = bottom   2 = top
 
 cmo / addatt / mo_surf / id_side / vint / scalar / nelements
 cmo / select mo_surf
 settets / normal
 cmo / copyatt / mo_surf mo_surf / id_side itetclr
 cmo / printatt / mo_surf / id_side / minmax
-dump gmv output_hex_surface.gmv mo_surf
+dump avs output_hex_surface.inp mo_surf
 
 # make sure to remove all attributes except idelem1 and idface1
 cmo / DELATT / mo_surf / itetclr0

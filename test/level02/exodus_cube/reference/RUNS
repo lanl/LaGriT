@@ -1,0 +1,4 @@
+
+lagrit < input.lgi
+ncdump  output_hex_final.exo > output_hex_final.exo.ascii.txt
+

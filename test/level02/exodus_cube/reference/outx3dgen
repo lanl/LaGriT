@@ -2,35 +2,41 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.203   Linux          *                 
-*               *    date_compile: 2017/09/26 Static DB       *                 
-*               *    Run Time: 2017/Oct  4  15:17:28          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov 10  11:16:44          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
-Copyright 2015. Los Alamos National Security, LLC.  This software was produced  
-under U.S. Government contract DE-AC52-06NA25396 for Los Alamos National        
-Laboratory (LANL), which is operated by Los Alamos National Security, LLC       
-for the U.S. Department of Energy. The U.S. Government has rights to use,       
-reproduce, and distribute this software. Neither the  government nor Los Alamos 
-National Security, LLC makes any warranty, express or  implied, or assumes any  
-liability for the use of this software. If software is modified to produce      
-derivative works, such modified software should be  clearly marked, so as not   
-to confuse it with the version available from LANL.                             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
                                -----oOo-----                                    
  
  
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
+# Test exodus workflow                                                          
+# start with hex mesh                                                           
 # test method and commands for exo mesh and facesets                            
 # create simple cube of hex elements with 2 materials.                          
-# exo mesh and facesets can be viewed using GMV                                 
-# This test reorders the materials based on exo block conventions               
-# Then creates a top and bottom faceset for exo boundaries                      
+# exo mesh and facesets can be viewed using paraview                            
+# Reorder itetclr materials based on exo block conventions                      
+# Exodus routine will do this sort, we pre-sort so the                          
+# input and output meshes will be the same                                      
+# create a top and bottom faceset for exodus file                               
 cmo/create/mohex///hex                                                          
 createpts/brick/xyz/3 3 3/0 0 0/1 1 1/1 1 1                                     
           Number of nodes:          27                                          
@@ -49,14 +55,13 @@ cmo setatt mohex itetclr 1,2,1 2
 resetpts/itp                                                                    
 geniee                                                                          
 finish                                                                          
-dump gmv output_hex_start.gmv mohex                                             
+dump avs output_hex_start.inp mohex                                             
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 # use sort to order element blocks as exodus will order                         
 # if this is not done, lagrit faceset numbers will not                          
 # correlate to exodus faceset numbers                                           
 # itetclr must be ordered correctly                                             
-# additional sort keys can be based on user preference                          
 # sort based on element itetclr number and median location                      
 createpts/median                                                                
 cmo/addatt//xmed/VDOUBLE/scalar/nelements///gal/0.                              
@@ -73,7 +78,7 @@ finish
 reorder/mohex/ikey                                                              
 geniee                                                                          
 finish                                                                          
-dump/gmv/out_tmp_sort1.gmv/mohex                                                
+dump/avs/out_tmp_sort1.inp/mohex                                                
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/DELATT/mohex/ikey                                                           
@@ -84,7 +89,7 @@ finish
  SORT: order key written to attribute: ikey                                     
  
 reorder/mohex/ikey                                                              
-dump/gmv/out_tmp_sort2.gmv/mohex                                                
+dump/avs/out_tmp_sort2.inp/mohex                                                
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 cmo/DELATT/mohex/xmed                                                           
@@ -109,7 +114,7 @@ eltset/e_mat2/write/output_mat_1.cellset/ascii
   e_mat1                            e_mat2                                      
 ELTSET: OUTPUT e_mat2    1 ELTSETS TO FILE                                      
 # extract the outside surface of the full mesh                                  
-# to get outside face to element relationships                                  
+# to find and list the boundary face ID to its element ID                       
 extract/surfmesh/1 0 0/mo_surf/mohex/external                                   
 cmo/addatt/mo_surf/itetclr0/vint/scalar/nelements////0                          
 finish                                                                          
@@ -204,9 +209,10 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  nconbnd                          0                0               0         1  
  0 length attribute: icontab                                                    
  
-# ## Set surface elements to direction they face based on normals               
+#  Locate the top and bottom boundary faces                                     
+#  Set surface elements to direction they face based on normals                 
 #  These values will be written to itetclr, copy to id_side attribute           
-#  1 = bottom   2 = top                                                         
+#  Values 1 = bottom   2 = top                                                  
 cmo/addatt/mo_surf/id_side/vint/scalar/nelements                                
 cmo/select mo_surf                                                              
 settets/normal                                                                  
@@ -220,7 +226,7 @@ cmo/printatt/mo_surf/id_side/minmax
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  id_side                          1                6               5        24  
  
-dump gmv output_hex_surface.gmv mo_surf                                         
+dump avs output_hex_surface.inp mo_surf                                         
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          
 # make sure to remove all attributes except idelem1 and idface1                 

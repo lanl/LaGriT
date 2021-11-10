@@ -4,15 +4,15 @@ cmo setatt mohex itetclr 1
 cmo setatt mohex imt 1                                                          
 cmo setatt mohex itetclr 1,2,1 2                                                
 resetpts/itp                                                                    
-dump gmv output_hex_start.gmv mohex                                             
+dump avs output_hex_start.inp mohex                                             
 createpts/median                                                                
 sort/mohex/index/ascending/ikey/itetclr xmed ymed zmed                          
 reorder/mohex/ikey                                                              
-dump/gmv/out_tmp_sort1.gmv/mohex                                                
+dump/avs/out_tmp_sort1.inp/mohex                                                
 cmo/DELATT/mohex/ikey                                                           
 sort/mohex/index/ascending/ikey/zic yic xic                                     
 reorder/mohex/ikey                                                              
-dump/gmv/out_tmp_sort2.gmv/mohex                                                
+dump/avs/out_tmp_sort2.inp/mohex                                                
 cmo/DELATT/mohex/xmed                                                           
 cmo/DELATT/mohex/ymed                                                           
 cmo/DELATT/mohex/zmed                                                           
@@ -28,7 +28,7 @@ cmo/select mo_surf
 settets/normal                                                                  
 cmo/copyatt/mo_surf mo_surf/id_side itetclr                                     
 cmo/printatt/mo_surf/id_side/minmax                                             
-dump gmv output_hex_surface.gmv mo_surf                                         
+dump avs output_hex_surface.inp mo_surf                                         
 cmo/DELATT/mo_surf/itetclr0                                                     
 cmo/DELATT/mo_surf/idnode0                                                      
 cmo/DELATT/mo_surf/idelem0                                                      
