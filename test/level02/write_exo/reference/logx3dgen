@@ -1,0 +1,140 @@
+cmo/create/mohex///hex                                                          
+createpts/brick/xyz/4 4 4/0. 0. 0./1. 1. 1./1 1 1                               
+cmo/setatt/mohex/imt/1 0 0/1                                                    
+resetpts/itp                                                                    
+cmo/setatt/mohex/itetclr/1 0 0/1                                                
+cmo/setatt/mohex/itetclr/1 3 1/2                                                
+cmo/setatt/mohex/itetclr/10 15 1/3                                              
+eltset/e1/itetclr/eq/1                                                          
+eltset/e2/itetclr/eq/2                                                          
+eltset/e3/itetclr/eq/3                                                          
+pset/p1/eltset/e1                                                               
+pset/p2/eltset/e2                                                               
+pset/p3/eltset/e3                                                               
+eltset//list                                                                    
+pset//list                                                                      
+dump/exo/out_3D_hex_pset_eltset.exo/mohex/psets/eltsets/                        
+dump/exo/out_3D_hex_pset.exo/mohex/psets//                                      
+dump/exo/out_3D_hex_eltset.exo/mohex//eltsets/                                  
+dump/exo/out_3D_hex_all_auto.exo/mohex/psets/eltsets/facesets                   
+cmo/copy/motmp/mohex                                                            
+cmo/setatt/motmp itetclr 1                                                      
+resetpts itp                                                                    
+extract/surfmesh/1 0 0/mofs/motmp/external                                      
+cmo/modatt/mofs/itetclr0/ioflag/l                                               
+cmo/modatt/mofs/itetclr1/ioflag/l                                               
+cmo/modatt/mofs/idelem0/ioflag/l                                                
+cmo/modatt/mofs/facecol/ioflag/l                                                
+cmo/modatt/mofs/idface0/ioflag/l                                                
+dump/avs/out_3d_hex_extract.faceset/mofs/0 0 0 2                                
+cmo/delete/mofs                                                                 
+cmo/delete/motmp                                                                
+dump/exo/out_3D_hex_all_extract.exo/mohex/psets/eltsets/facesets out_3d_hex_extr
+act.faceset                                                                     
+grid2grid/hextotet5/motet/mohex                                                 
+cmo/delete/mohex                                                                
+cmo/setatt/motet/imt/1 0 0/1                                                    
+resetpts/itp                                                                    
+cmo/setatt/motet/itetclr/1 0 0/1                                                
+cmo/setatt/motet/itetclr/1 3 1/2                                                
+cmo/setatt/motet/itetclr/10 15 1/3                                              
+eltset/e1/itetclr/eq/1                                                          
+eltset/e2/itetclr/eq/2                                                          
+eltset/e3/itetclr/eq/3                                                          
+pset/p1/eltset/e1                                                               
+pset/p2/eltset/e2                                                               
+pset/p3/eltset/e3                                                               
+eltset//list                                                                    
+pset//list                                                                      
+dump/exo/out_3D_tet_pset_eltset.exo/motet/psets/eltsets/                        
+dump/exo/out_3D_tet_pset.exo/motet/psets//                                      
+dump/exo/out_3D_tet_eltset.exo/motet//eltsets/                                  
+dump/exo/out_3D_tet_all_auto.exo/motet/psets/eltsets/facesets                   
+cmo/copy/motmp/motet                                                            
+cmo/setatt/motmp itetclr 1                                                      
+resetpts itp                                                                    
+extract/surfmesh/1 0 0/mofs/motmp/external                                      
+cmo/modatt/mofs/itetclr0/ioflag/l                                               
+cmo/modatt/mofs/itetclr1/ioflag/l                                               
+cmo/modatt/mofs/idelem0/ioflag/l                                                
+cmo/modatt/mofs/facecol/ioflag/l                                                
+cmo/modatt/mofs/idface0/ioflag/l                                                
+dump/avs/out_3d_tet_extract.faceset/mofs/0 0 0 2                                
+cmo/delete/mofs                                                                 
+cmo/delete/motmp                                                                
+dump/exo/out_3D_tet_all_extract.exo/motet/psets/eltsets/facesets out_3d_hex_extr
+act.faceset                                                                     
+cmo/delete/motet                                                                
+cmo/create/motri///triplane                                                     
+createpts/xyz/4 4 1/0. 0. 0./1. 1. 0./1 1 1                                     
+cmo/setatt/motri/imt/1 0 0/1                                                    
+connect                                                                         
+cmo/setatt/motri/itetclr 1                                                      
+resetpts/itp                                                                    
+cmo/setatt/motri/itetclr/1 0 0/1                                                
+cmo/setatt/motri/itetclr/1 3 1/2                                                
+cmo/setatt/motri/itetclr/10 15 1/3                                              
+eltset/e1/itetclr/eq/1                                                          
+eltset/e2/itetclr/eq/2                                                          
+eltset/e3/itetclr/eq/3                                                          
+pset/p1/eltset/e1                                                               
+pset/p2/eltset/e2                                                               
+pset/p3/eltset/e3                                                               
+eltset//list                                                                    
+pset//list                                                                      
+dump/exo/out_2D_tri_pset_eltset.exo/motri/psets/eltsets/                        
+dump/exo/out_2D_tri_pset.exo/motri/psets//                                      
+dump/exo/out_2D_tri_eltset.exo/motri//eltsets/                                  
+dump/exo/out_2D_tri_all_auto.exo/motri/psets/eltsets/facesets                   
+cmo/copy/motmp/motri                                                            
+cmo/setatt/motmp/itetclr 1                                                      
+resetpts itp                                                                    
+extract/surfmesh/1 0 0/mofs/motmp/external                                      
+cmo/modatt/mofs/itetclr0/ioflag/l                                               
+cmo/modatt/mofs/itetclr1/ioflag/l                                               
+cmo/modatt/mofs/idelem0/ioflag/l                                                
+cmo/modatt/mofs/facecol/ioflag/l                                                
+cmo/modatt/mofs/idface0/ioflag/l                                                
+dump/avs/out_2D_tri_extract.faceset/mofs/0 0 0 2                                
+cmo/delete/mofs                                                                 
+cmo/delete/motmp                                                                
+dump/exo/out_2D_tri_all_extract.exo/motri///facesets out_2D_tri_extract.faceset 
+cmo/delete/motri                                                                
+read input_tri_single.inp motmp                                                 
+resetpts itp                                                                    
+cmo/status/motri/brief                                                          
+cmo/create/motri0///triplane                                                    
+copypts/motri0/motmp                                                            
+cmo delete motmp                                                                
+cmo/select/motri0                                                               
+cmo/setatt/motri0/imt/1                                                         
+connect                                                                         
+cmo/setatt/motri0/itetclr/1                                                     
+recon 0                                                                         
+resetpts itp                                                                    
+cmo/status/motri0 brief                                                         
+dump/exo/out_2Dim_auto.exo/motri0///facesets                                    
+extract/surfmesh/1 0 0/mofs/motri0/external                                     
+cmo/modatt/mofs/itetclr0/ioflag/l                                               
+cmo/modatt/mofs/itetclr1/ioflag/l                                               
+cmo/modatt/mofs/idelem0/ioflag/l                                                
+cmo/modatt/mofs/facecol/ioflag/l                                                
+cmo/modatt/mofs/idface0/ioflag/l                                                
+dump/avs/out_sngl0_extract.faceset/mofs/0 0 0 2                                 
+cmo/delete/mofs                                                                 
+dump/exo/out_2Dim_extract.exo/motri0///facesets out_sngl0_extract.faceset       
+cmo copy motri motri0                                                           
+cmo/setatt/motri/ndimensions_geom/3                                             
+cmo/setatt/motri/zic/2,2,1 5.                                                   
+cmo/setatt/motri/zic/3,3,1 1.                                                   
+dump/exo/out_3Dim_auto.exo/motri///facesets                                     
+extract/surfmesh/1 0 0/mofs/motri/external                                      
+cmo/modatt/mofs/itetclr0/ioflag/l                                               
+cmo/modatt/mofs/itetclr1/ioflag/l                                               
+cmo/modatt/mofs/idelem0/ioflag/l                                                
+cmo/modatt/mofs/facecol/ioflag/l                                                
+cmo/modatt/mofs/idface0/ioflag/l                                                
+dump/avs/out_sngl_extract.faceset/mofs/0 0 0 2                                  
+cmo/delete/mofs                                                                 
+dump/exo/out_3Dim_extract.exo/motri///facesets out_sngl_extract.faceset         
+finish                                                                          
