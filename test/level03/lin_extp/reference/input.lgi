@@ -1,8 +1,12 @@
-infile buildsurf.lgi
+# new compute / linear_extrapolate
+# by Aaron Gable committed on Jun 17, 2010 
+# modified to comment out dump commands
 
-infile pathos.lgi
+infile test_buildsurf.mlgi
 
-infile square.lgi
+infile test_pathos.mlgi
+
+infile test_square.mlgi
 
 finish
 

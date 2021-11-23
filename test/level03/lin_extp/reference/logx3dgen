@@ -1,4 +1,4 @@
-infile buildsurf.lgi                                                            
+infile test_buildsurf.mlgi                                                      
 define/NX/25                                                                    
 define/NY/25                                                                    
 define/NZ/25                                                                    
@@ -7,6 +7,9 @@ define/MAX/10.0
 cmo/create/ztemp///quad                                                         
 quadxy NX NY/MIN MIN MIN/MAX MIN MIN/MAX MAX MIN/MIN MAX MIN                    
 rzbrick/xyz/NX,NY,1/1,0,0/connect                                               
+cmo/setatt/ztemp/imt/1                                                          
+cmo/setatt/ztemp/itetclr/1                                                      
+resetpts/itp                                                                    
 hextotet/2/zlow/ztemp                                                           
 cmo/create/ytemp///quad                                                         
 quadxy NX NZ/MIN MIN MIN/MAX MIN MIN/MAX MIN MAX/MIN MIN MAX                    
@@ -55,12 +58,6 @@ cmo/setatt/yhigh/itetclr/1 0 0/3
 cmo/setatt/ylow/itetclr/1 0 0/4                                                 
 cmo/setatt/xhigh/itetclr/1 0 0/5                                                
 cmo/setatt/xlow/itetclr/1 0 0/6                                                 
-dump/gmv/xhigh.gmv/xhigh                                                        
-dump/gmv/yhigh.gmv/yhigh                                                        
-dump/gmv/zhigh.gmv/zhigh                                                        
-dump/gmv/xlow.gmv/xlow                                                          
-dump/gmv/ylow.gmv/ylow                                                          
-dump/gmv/zlow.gmv/zlow                                                          
 cmo/create/cube///tet                                                           
 createpts/xyz/15.0 15.0 15.0/3.0 3.0 3.0/7.0 7.0 7.0/1 1 1                      
 connect                                                                         
@@ -68,26 +65,23 @@ math/multiply/cube/zic/1,0,0/cube/zic/10000
 math/multiply/cube/yic/1,0,0/cube/yic/10000                                     
 math/multiply/cube/xic/1,0,0/cube/xic/10000                                     
 cmo/setatt/cube/itetclr/1 0 0/7                                                 
-dump/gmv/tetmesh.gmv/cube                                                       
 addmesh/merge/z_all/zhigh/zlow                                                  
 addmesh/merge/y_all/yhigh/ylow                                                  
 addmesh/merge/x_all/xhigh/xlow                                                  
 addmesh/merge/xy_all/y_all/x_all                                                
 addmesh/merge/zc_all/z_all/cube                                                 
 addmesh/merge/mo_all/zc_all/xy_all                                              
-dump/gmv/allmesh.gmv/mo_all                                                     
+cmo/status/mo_all/brief                                                         
 finish                                                                          
-infile pathos.lgi                                                               
+infile test_pathos.mlgi                                                         
 compute/linear_extrapolate/cube/zhigh/zpos/zic                                  
-dump/gmv/cube1.gmv/cube                                                         
 compute/linear_extrapolate/cube/zlow/zneg/zic                                   
-dump/gmv/cube2.gmv/cube                                                         
 compute/linear_extrapolate/cube/yhigh/ypos/yic                                  
-dump/gmv/cube3.gmv/cube                                                         
 compute/linear_extrapolate/cube/ylow/yneg/yic                                   
-dump/gmv/cube4.gmv/cube                                                         
+cmo/status/cube/brief                                                           
+cmo/delete/cube                                                                 
 finish                                                                          
-infile square.lgi                                                               
+infile test_square.mlgi                                                         
 define/NX/100                                                                   
 define/NY/100                                                                   
 define/NZ/50                                                                    
@@ -99,16 +93,19 @@ define/NZ/20
 cmo/create/zsurf_quad///quad                                                    
 quadxy NX NY/MIN MIN MIN/MAX MIN MIN/MAX MAX MIN/MIN MAX MIN                    
 rzbrick/xyz/NX,NY,1/1,0,0/connect                                               
+cmo/setatt/zsurf_quad/imt 1                                                     
+cmo/setatt/zsurf_quad/itetclr 1                                                 
+resetpts/itp                                                                    
 math/sin/zsurf_quad/zic/1,0,0/zsurf_quad/xic                                    
 math/multiply/zsurf_quad/zic/1,0,0/zsurf_quad/zic/5.0                           
 perturb/1 0 0/0. 0. 1.0                                                         
 math/add/zsurf_quad/zic/1 0 0/zsurf_quad/zic/60.                                
-dump/gmv/tmp_surface.gmv/zsurf_quad                                             
 cmo/create/mo_hex///hex                                                         
 createpts/brick/xyz/NX NY NZ/0. 0. 0./300. 300. 50./1 1 1                       
 cmo/select/mo_hex                                                               
 resetpts/itp                                                                    
 compute/linear_extrapolate/mo_hex/zsurf_quad/zpos/zic                           
-dump/gmv/cube_w_topo.gmv/mo_hex                                                 
+cmo/status/mo_hex/brief                                                         
+cmo/delete/mo_hex                                                               
 finish                                                                          
 finish                                                                          

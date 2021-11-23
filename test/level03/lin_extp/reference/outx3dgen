@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.320   macOS          *                 
-*               *    date_compile: 2019/04/15 Static          *                 
-*               *    Run Time: 2019/Apr 15  13:29:39          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov 23  16:40:51          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -28,7 +28,10 @@
 Output log file: outx3dgen                                                      
 Command log file: logx3dgen                                                     
  
-infile buildsurf.lgi                                                            
+# new compute / linear_extrapolate                                              
+# by Aaron Gable committed on Jun 17, 2010                                      
+# modified to comment out dump commands                                         
+infile test_buildsurf.mlgi                                                      
 define/NX/25                                                                    
 define/NY/25                                                                    
 define/NZ/25                                                                    
@@ -42,6 +45,15 @@ rzbrick/xyz/NX,NY,1/1,0,0/connect
           Number of elements:         576                                       
           Number of negative volume elements:           0                       
           Total volume:     0.100000000000E+03                                  
+cmo/setatt/ztemp/imt/1                                                          
+       625 values reset for attribute imt1                                      
+ 
+cmo/setatt/ztemp/itetclr/1                                                      
+       576 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
 hextotet/2/zlow/ztemp                                                           
  iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
 Input Mesh type qua using option    2                                           
@@ -53,7 +65,7 @@ finish
   WARNING: Volumes le zero not removed, nelements=       1152                   
 No duplicate points                                                             
   WARNING: Duplicate points not removed, nnodes =        625                    
-* cmo / setatt / zlow / idebug / / 10                                           
+# cmo / setatt / zlow / idebug / / 10                                           
 cmo/create/ytemp///quad                                                         
 quadxy NX NZ/MIN MIN MIN/MAX MIN MIN/MAX MIN MAX/MIN MIN MAX                    
   QUADXY GENERATED POINTS         1 TO       625                                
@@ -73,7 +85,7 @@ finish
   WARNING: Volumes le zero not removed, nelements=       1152                   
 No duplicate points                                                             
   WARNING: Duplicate points not removed, nnodes =        625                    
-* cmo / setatt / ylow / idebug / / 10                                           
+# cmo / setatt / ylow / idebug / / 10                                           
 cmo/create/xtemp///quad                                                         
 quadxy NY NZ/MIN MIN MIN/MIN MIN MAX/MIN MAX MAX/MIN MAX MIN                    
   QUADXY GENERATED POINTS         1 TO       625                                
@@ -93,7 +105,7 @@ finish
   WARNING: Volumes le zero not removed, nelements=       1152                   
 No duplicate points                                                             
   WARNING: Duplicate points not removed, nnodes =        625                    
-* cmo / setatt / xlow / idebug / / 10                                           
+# cmo / setatt / xlow / idebug / / 10                                           
 math/sin/zlow/zic/1,0,0/zlow/xic                                                
 math/sin/ylow/yic/1,0,0/ylow/zic                                                
 math/sin/xlow/xic/1,0,0/xlow/yic                                                
@@ -151,24 +163,12 @@ cmo/setatt/xhigh/itetclr/1 0 0/5
 cmo/setatt/xlow/itetclr/1 0 0/6                                                 
       1152 values reset for attribute itetclr                                   
  
-dump/gmv/xhigh.gmv/xhigh                                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/yhigh.gmv/yhigh                                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/zhigh.gmv/zhigh                                                        
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/xlow.gmv/xlow                                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/ylow.gmv/ylow                                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-dump/gmv/zlow.gmv/zlow                                                          
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_xhigh.inp / xhigh                                            
+# dump / avs / out_yhigh.inp / yhigh                                            
+# dump / avs / out_zhigh.inp / zhigh                                            
+# dump / avs / out_xlow.inp / xlow                                              
+# dump / avs / out_ylow.inp / ylow                                              
+# dump / avs / out_zlow.inp / zlow                                              
 cmo/create/cube///tet                                                           
 createpts/xyz/15.0 15.0 15.0/3.0 3.0 3.0/7.0 7.0 7.0/1 1 1                      
   RZ GENERATED POINTS                    1 TO                 3375              
@@ -193,10 +193,8 @@ math/multiply/cube/xic/1,0,0/cube/xic/10000
 cmo/setatt/cube/itetclr/1 0 0/7                                                 
      16464 values reset for attribute itetclr                                   
  
-dump/gmv/tetmesh.gmv/cube                                                       
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
-* cmo / setatt / cube / idebug / 3247,3247,1 / 1                                
+# dump / avs / tetmesh.inp / cube                                               
+# cmo / setatt / cube / idebug / 3247,3247,1 / 1                                
 addmesh/merge/z_all/zhigh/zlow                                                  
 addmesh/merge/y_all/yhigh/ylow                                                  
 addmesh/merge/x_all/xhigh/xlow                                                  
@@ -207,11 +205,25 @@ searching for zc_all attributes in cube
 ADDMESH:     1 attributes not copied from cube to zc_all                        
  
 addmesh/merge/mo_all/zc_all/xy_all                                              
-dump/gmv/allmesh.gmv/mo_all                                                     
-cmo/modatt/-def-/-def-/ioflag/x                                                 
+# dump / avs / out_allmesh.inp / mo_all                                         
+cmo/status/mo_all/brief                                                         
+ 
+The current-mesh-object(CMO) is: mo_all                                         
+ERROR: Unrecognized Mesh Type nen,nef,nee:   10  10   3                         
+Warning cmo_get_mesh_type: mesh_type differs from elem type.                    
+cmo mesh_type:        -1 not                                                    
+first element type:    3 tri                                                    
+ 
+ 
+ 16 Mesh Object name: mo_all                                                    
+    number of nodes =          7125        number of elements =        23376    
+    dimensions geometry =         3        element type =                not    
+    dimensions topology =         3       10 nodes     10 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
 finish                                                                          
-finish                                                                          
-infile pathos.lgi                                                               
+infile test_pathos.mlgi                                                         
 compute/linear_extrapolate/cube/zhigh/zpos/zic                                  
 cmo/copy/main_mo_lin_ext_tmp/cube                                               
 finish                                                                          
@@ -563,9 +575,7 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 COMPUTE linear_transform: Done.                                                 
 error in command : finish                                                       
-dump/gmv/cube1.gmv/cube                                                         
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_cube1.inp / cube                                             
 compute/linear_extrapolate/cube/zlow/zneg/zic                                   
 cmo/copy/main_mo_lin_ext_tmp/cube                                               
 finish                                                                          
@@ -910,9 +920,7 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 COMPUTE linear_transform: Done.                                                 
 error in command : finish                                                       
-dump/gmv/cube2.gmv/cube                                                         
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_cube2.inp / cube                                             
 compute/linear_extrapolate/cube/yhigh/ypos/yic                                  
 cmo/copy/main_mo_lin_ext_tmp/cube                                               
 finish                                                                          
@@ -1264,9 +1272,7 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 COMPUTE linear_transform: Done.                                                 
 error in command : finish                                                       
-dump/gmv/cube3.gmv/cube                                                         
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_cube3.inp / cube                                             
 compute/linear_extrapolate/cube/ylow/yneg/yic                                   
 cmo/copy/main_mo_lin_ext_tmp/cube                                               
 finish                                                                          
@@ -1611,15 +1617,26 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 COMPUTE linear_transform: Done.                                                 
 error in command : finish                                                       
-dump/gmv/cube4.gmv/cube                                                         
-cmo/modatt/-def-/-def-/ioflag/x                                                 
+# dump / avs / out_cube4.inp / cube                                             
+# compute / linear_extrapolate / cube / xhigh / xpos / xic                      
+# dump / avs / out_cube5.inp / cube                                             
+# compute / linear_extrapolate / cube / xlow / xneg / xic                       
+# dump / avs / out_cube6.inp / cube                                             
+cmo/status/cube/brief                                                           
+ 
+The current-mesh-object(CMO) is: ztemp                                          
+ 
+ 10 Mesh Object name: cube                                                      
+    number of nodes =          3375        number of elements =        16464    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+ 
+cmo/delete/cube                                                                 
+     Released Mesh Object: cube                                                 
 finish                                                                          
-* compute / linear_extrapolate / cube / xhigh / xpos / xic                      
-* dump / gmv / cube5.gmv / cube                                                 
-* compute / linear_extrapolate / cube / xlow / xneg / xic                       
-* dump / gmv / cube6.gmv / cube                                                 
-finish                                                                          
-infile square.lgi                                                               
+infile test_square.mlgi                                                         
 define/NX/100                                                                   
 define/NY/100                                                                   
 define/NZ/50                                                                    
@@ -1636,6 +1653,15 @@ rzbrick/xyz/NX,NY,1/1,0,0/connect
           Number of elements:         841                                       
           Number of negative volume elements:           0                       
           Total volume:     0.912040000000E+05                                  
+cmo/setatt/zsurf_quad/imt 1                                                     
+       900 values reset for attribute imt1                                      
+ 
+cmo/setatt/zsurf_quad/itetclr 1                                                 
+       841 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
 math/sin/zsurf_quad/zic/1,0,0/zsurf_quad/xic                                    
 math/multiply/zsurf_quad/zic/1,0,0/zsurf_quad/zic/5.0                           
 perturb/1 0 0/0. 0. 1.0                                                         
@@ -1643,9 +1669,7 @@ perturb zsurf_quad
 nodes in indexed point set  =        900                                        
  
 math/add/zsurf_quad/zic/1 0 0/zsurf_quad/zic/60.                                
-dump/gmv/tmp_surface.gmv/zsurf_quad                                             
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_surface.inp / zsurf_quad                                     
 cmo/create/mo_hex///hex                                                         
 createpts/brick/xyz/NX NY NZ/0. 0. 0./300. 300. 50./1 1 1                       
           Number of nodes:       18000                                          
@@ -2078,9 +2102,20 @@ cmo/release/bot_mo_lin_ext_tmp
 finish                                                                          
 COMPUTE linear_transform: Done.                                                 
 error in command : finish                                                       
-dump/gmv/cube_w_topo.gmv/mo_hex                                                 
-cmo/modatt/-def-/-def-/ioflag/x                                                 
-finish                                                                          
+# dump / avs / out_cube_w_topo.inp / mo_hex                                     
+cmo/status/mo_hex/brief                                                         
+ 
+The current-mesh-object(CMO) is: ztemp                                          
+ 
+ 17 Mesh Object name: mo_hex                                                    
+    number of nodes =         18000        number of elements =        15979    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+ 
+cmo/delete/mo_hex                                                               
+     Released Mesh Object: mo_hex                                               
 finish                                                                          
 finish                                                                          
 LaGriT successfully completed                                                   

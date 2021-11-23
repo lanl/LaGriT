@@ -1,0 +1,23 @@
+compute / linear_extrapolate / cube / zhigh / zpos / zic
+# dump / avs / out_cube1.inp / cube
+
+compute / linear_extrapolate / cube / zlow / zneg / zic
+# dump / avs / out_cube2.inp / cube
+
+compute / linear_extrapolate / cube / yhigh / ypos / yic
+# dump / avs / out_cube3.inp / cube
+
+compute / linear_extrapolate / cube / ylow / yneg / yic
+# dump / avs / out_cube4.inp / cube
+
+# compute / linear_extrapolate / cube / xhigh / xpos / xic
+# dump / avs / out_cube5.inp / cube
+
+# compute / linear_extrapolate / cube / xlow / xneg / xic
+# dump / avs / out_cube6.inp / cube
+
+cmo/status/cube/ brief
+cmo/delete/cube
+
+finish
+
