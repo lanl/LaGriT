@@ -1,0 +1,106 @@
+* Test grid2grid/tree_to_fe
+* This file tests the command on 
+* 3D octree simple cube
+* 2D quadtree  simple plane 
+
+* ------------------------------
+* Test the octree cube
+
+* Create a unit cube centered at the origin
+cmo/create/octcube///hex
+createpts/brick/xyz/3,3,3/-1.0 -1.0 -1.0/1.0 1.0 1.0/1 1 1
+cmo/setatt/octcube/ itetclr / 1
+cmo/setatt/octcube/ imt / 1
+resetpts/itp
+
+* Use element median point to select refine elements
+* Refine multiple times for this test
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos1/xcen/gt/0.0
+eltset/ypos1/ycen/gt/0.0
+eltset/zpos1/zcen/gt/0.0
+eltset/temp1/inter/xpos1/ypos1
+eltset/corner1/inter/temp1/zpos1
+refine/eltset/eltset,get,corner1
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos2/xcen/gt/0.5
+eltset/ypos2/ycen/gt/0.5
+eltset/zpos2/zcen/gt/0.5
+eltset/temp2/inter/xpos2/ypos2
+eltset/corner2/inter/temp2/zpos2
+refine/eltset/eltset,get,corner2
+
+cmo/addatt/octcube/median/xcen ycen zcen
+eltset/xpos3/xcen/gt/0.75
+eltset/ypos3/ycen/gt/0.75
+eltset/zpos3/zcen/gt/0.75
+eltset/temp3/inter/xpos3/ypos3
+eltset/corner3/inter/temp3/zpos3
+refine/eltset/eltset,get,corner3
+
+grid2grid / tree_to_fe / newcmo / octcube
+
+* Begin compare octree to new cmo
+cmo/status/octcube / brief
+cmo/status/ newcmo / brief
+cmo/select/octcube ; quality
+cmo/select/ newcmo ; quality
+cmo / printatt / octcube / itetkid minmax
+cmo / printatt / octcube / itetpar minmax
+cmo / printatt / octcube / itetlev minmax
+cmo / printatt / newcmo / itetkid minmax
+cmo / printatt / newcmo / itetpar minmax
+cmo / printatt / newcmo / itetlev minmax
+* Done compare octree to new cmo
+
+cmo/delete/octcube
+cmo/delete/newcmo
+
+* ------------------------------
+* Test the quadtree 
+
+* Create a unit plane centered at the origin
+cmo/create/quadplane///quad
+quadxy 3 3/-1.0 -1.0 0.0/1.0 -1.0 0.0/1.0 1.0 0.0/-1.0 1.0 0.0
+rzbrick/xyz/3,3,1/1,0,0/connect
+cmo/setatt/quadplane/ itetclr / 1
+cmo/setatt/quadplane/ imt / 1
+resetpts/itp
+
+cmo/addatt/quadplane/median/xcen ycen zcen
+eltset/xpos1/xcen/gt/0.0
+eltset/ypos1/ycen/gt/0.0
+eltset/corner1/inter/xpos1/ypos1
+refine/eltset/eltset,get,corner1
+
+cmo/addatt/quadplane/median/xcen ycen zcen
+eltset/xpos2/xcen/gt/0.5
+eltset/ypos2/ycen/gt/0.5
+eltset/corner2/inter/xpos2/ypos2
+refine/eltset/eltset,get,corner2
+
+cmo/addatt/quadplane/median/xcen ycen zcen
+eltset/xpos3/xcen/gt/0.75
+eltset/ypos3/ycen/gt/0.75
+eltset/corner3/inter/xpos3/ypos3
+refine/eltset/eltset,get,corner3
+
+grid2grid / tree_to_fe / newcmo / quadplane
+
+* Begin compare quadtree to new cmo
+cmo/status/quadplane / brief
+cmo/status/ newcmo / brief
+cmo/select/quadplane ; quality
+cmo/select/ newcmo ; quality
+cmo / printatt / quadplane / itetkid minmax
+cmo / printatt / quadplane / itetpar minmax
+cmo / printatt / quadplane / itetlev minmax
+cmo / printatt / newcmo / itetkid minmax
+cmo / printatt / newcmo / itetpar minmax
+cmo / printatt / newcmo / itetlev minmax
+* Done compare quadtree to new cmo
+
+finish
+* End test
+
