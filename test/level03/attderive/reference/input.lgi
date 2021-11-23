@@ -1,3 +1,9 @@
+# new wrapper - attribute_union 
+# cmo/attribute_union / sink_mo_name /  src_mo_name
+# calls cmo_derive twice
+# sometimes used when merging meshes
+# cmo/attribute_union / sink_mo_name /  src_mo_name
+
 cmo / create / mesh1
 createpts/brick/xyz/3,2,3/0.,0.,0./1.,1.,1./1,1,1
 cmo / addatt / mesh1 / testatt1
