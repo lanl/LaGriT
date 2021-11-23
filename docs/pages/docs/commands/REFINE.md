@@ -168,12 +168,14 @@ Quad meshes will have 4 children for each refined element. Hex meshes will have 
 
 For example in the picture below, element e1 is refined to create 8 children, c1, c2, c3, c4, c5, c6, c7, c8.
 
+The table gives the octree attribute values for each of the elements.
+
 
 <img width="400" src="https://lanl.github.io/LaGriT/assets/images/dsquare.gif">
  
 
 | Element # | itetlev | itetkid | itetpar |
-| :---: | :--- | :--- | :--- |
+| :-------: | :------ | :------ | :------ |
 | c1|1|0|2|0 |
 | c1|2|1|0|1 |
 | c2|3|1|0|1 |

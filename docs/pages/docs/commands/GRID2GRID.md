@@ -65,7 +65,11 @@ No source mesh is given, so the current mesh object (which is a quad
 ```
 grid2grid / tree_to_fe / new_mesh /  octree_mesh
 ```
-Every element in octree_mesh will be scanned to see if it is a parent
- element. If it is, it will be removed, so only the leaf elements
- remain. The result will be stored in new_mesh.
+Parent elements in octree_mesh will be removed, so only the leaf elements remain. The result will be stored in new_mesh.
+This is often used to ensure a single valid mesh for other commands or for use outside of LaGriT. 
+The octree attributes itetpar, itetkid, and itetlev will be updated in the new_mesh.
+A description of the octree mesh and attributes are described in the command 
+<a href="https://lanl.github.io/LaGriT/pages/docs/commands/REFINE.html">**`refine`**</a>
+
+
 
