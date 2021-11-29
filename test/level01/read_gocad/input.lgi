@@ -1,0 +1,34 @@
+# test GOCAD
+
+# 3D TETRA from JewelSuite
+read/gocad /input_small_js.so / cmoin
+quality
+cmo/printatt/cmoin/ -all- minmax
+cmo/delete/cmoin
+
+# 2D TRGL with cell and vertex properties
+read/gocad /input_3tri_all_props.ts / cmoin
+quality
+cmo/printatt/cmoin/ -all- minmax
+cmo/delete/cmoin
+
+# 2D TRGL with vertex properties
+read/gocad /input_3tri_node_props.ts / cmoin
+quality
+cmo/printatt/cmoin/ -all- minmax
+cmo/delete/cmoin
+
+# 2D TRGL with 2 TFACE setting iblock 1-2
+read/gocad /input_small_TFACE.ts / cmoin
+quality
+cmo/printatt/cmoin/ -all- minmax
+cmo/delete/cmoin
+
+finish
+# END 
+
+# example or code has 0 volumes
+# see test/level03 for work
+read/gocad /input_2tets_Zelev.so / cmoin
+quality
+cmo/delete/cmoin
