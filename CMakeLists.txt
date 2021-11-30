@@ -1,5 +1,5 @@
-# set(CMAKE_Fortran_COMPILER "C:/Program Files (x86)/IntelSWTools/parallel_studio_xe_2020.4.912/compilers_and_libraries_2020/windows/bin/intel64/ifort.exe")
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 project(
     LaGriT
@@ -7,6 +7,32 @@ project(
     DESCRIPTION "LaGriT Meshing Utilities"
     LANGUAGES Fortran CXX C
 )
+
+IF(UNIX AND NOT APPLE)
+	set(LINUX TRUE)
+ENDIF()
+
+IF(WIN32)
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVK_USE_PLATFORM_WIN32_KHR")
+ELSEIF(LINUX)
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVK_USE_PLATFORM_WIN32_KHR")
+ELSEIF(APPLE)
+	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DVK_USE_PLATFORM_MACOS_MVK -DVK_EXAMPLE_XCODE_GENERATED")
+ENDIF(WIN32)
+
+# Set preprocessor defines
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DNOMINMAX -D_USE_MATH_DEFINES")
+
+# Clang specific stuff
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-switch-enum")
+endif()
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+
+
 
 include(FortranCInterface)
 FortranCInterface_VERIFY(CXX)
