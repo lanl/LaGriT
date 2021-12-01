@@ -10,8 +10,12 @@ project(
     LaGriT
     VERSION 3.3.0
     DESCRIPTION "LaGriT Meshing Utilities"
+
+
     LANGUAGES Fortran CXX C
 )
+
+add_definitions(-DNOEXODUS)
 
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Write-Platform-Checks#platform-variables
 if(UNIX)
@@ -167,17 +171,20 @@ file(
     "${SRC_CORE}/*.f90"
 )
 
-list(
-    REMOVE_ITEM
-    SRC_CORE_FILES
-    ${SRC_CORE}/lagrit_main.f
-)
+list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
+list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
 
-list(
-    REMOVE_ITEM
-    SRC_UTIL_FILES
-    ${SRC_CORE}/mm2000_header.F
-)
+#list(
+#    REMOVE_ITEM
+#    SRC_CORE_FILES
+#    ${SRC_CORE}/lagrit_main.f
+#)
+#
+#list(
+#    REMOVE_ITEM
+#    SRC_UTIL_FILES
+#    ${SRC_CORE}/mm2000_header.F
+#)
 
 # Compile LaGriT routines as a library
 add_library(
