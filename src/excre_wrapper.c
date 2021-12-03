@@ -4,8 +4,9 @@
  * Fortran, since Fortran always passes pointers.
  */
 
-#include "type_sizes.h"
+#ifdef LAGRIT_INCLUDE_EXODUSII
 
+#include "type_sizes.h"
 
 int excre_(char *path,
         int *clobmode,
@@ -28,3 +29,5 @@ int_ptrsize excre_wrapper_(char *path,
             (int *)ierr,
             (int)(*pathlen));
 }
+
+#endif // LAGRIT_INCLUDE_EXODUSII

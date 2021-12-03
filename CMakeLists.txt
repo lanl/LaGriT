@@ -15,7 +15,7 @@ project(
     LANGUAGES Fortran CXX C
 )
 
-add_definitions(-DNOEXODUS)
+#add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
 
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Write-Platform-Checks#platform-variables
 if(UNIX)
@@ -173,6 +173,13 @@ file(
 
 list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
 list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
+
+# This file has the `#ifdef EXODUS` preprocessor directive
+# Ensure the compiler can process those directives
+set_source_files_properties(
+    "${SRC_CORE}/dumpexodusII.f"
+    PROPERTIES Fortran_PREPROCESS ON
+)
 
 #list(
 #    REMOVE_ITEM

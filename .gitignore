@@ -1,6 +1,18 @@
 *pyc
 *DS_Store
 
+# CMake generated files
+build/
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
 # Mesh files
 *.gmv
 *.inp

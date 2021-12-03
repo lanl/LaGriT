@@ -7,6 +7,8 @@
  *
  */
 
+#ifdef LAGRIT_INCLUDE_EXODUSII
+
 #include "exodusII.h"
 #include "type_sizes.h"
 #include <string.h>
@@ -92,3 +94,5 @@ void exo_put_sets_(const int_ptrsize *idexo, const int_ptrsize *type,
 #ifdef __cplusplus
 }
 #endif
+
+#endif // LAGRIT_INCLUDE_EXODUSII

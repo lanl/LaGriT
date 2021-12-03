@@ -20,10 +20,10 @@ c     For more information, see:
 c        https://stackoverflow.com/a/41234703/5150303
 c     **************************************************************
 
-#ifdef NOEXODUS
+#ifndef LAGRIT_INCLUDE_EXODUSII
 
 c     **************************************************************
-c     code substitution when not using ExodusII libraries
+c     code substitution when NOT using ExodusII libraries
 
       subroutine dumpexodusII(
      >               imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
@@ -40,9 +40,9 @@ c     code substitution when not using ExodusII libraries
 
       character*132 logmess
 
-      write(logmess,'(a)')'ExodusII exiting: '
+      write(logmess,'(a)')'ERROR: `dumpexodusII` failed. '
       call writloga('default',1,logmess,0,ierr)
-      write(logmess,'(a)')'Not available in this version.'
+      write(logmess,'(a)')'LaGriT was not compiled with Exodus libs.'
       call writloga('default',0,logmess,2,ierr)
       
       return
