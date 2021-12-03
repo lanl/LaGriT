@@ -4,7 +4,7 @@ message(STATUS "==========================================")
 message(STATUS "============Configuring LaGriT============")
 message(STATUS "==========================================")
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(
     LaGriT
@@ -12,6 +12,8 @@ project(
     DESCRIPTION "LaGriT Meshing Utilities"
     LANGUAGES Fortran CXX C
 )
+
+option(LaGriT_BUILD_STATIC "Compile as a static (fat) executable." ON)
 
 # ==== Is SEACAS/ExodusII available? =========== #
 #find_package(ExodusII)
@@ -49,7 +51,12 @@ FortranCInterface_HEADER(
     SYMBOLS mysub mymod:my_sub
 )
 
-set(BUILD_SHARED_LIBS TRUE)
+if (LaGriT_BUILD_STATIC)
+  set(LIBLAGRIT_BUILD_TYPE "STATIC")
+else()
+  set(LIBLAGRIT_BUILD_TYPE "SHARED")
+  set(BUILD_SHARED_LIBS TRUE)
+endif()
 
 # Set source and target paths
 set(EXE lagrit)
@@ -68,6 +75,8 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
   configure_file("${SRC_UTIL}/mm2000_m32.h" "${SRC_UTIL}/mm2000.h" COPYONLY)
 endif()
 # ////////// BEGIN COMPILER SETTINGS //////////
+
+
 
 # COMPILERS:
 #   - GNU GCC
@@ -142,22 +151,10 @@ set_source_files_properties(
     PROPERTIES COMPILE_OPTIONS "-cpp"
 )
 
-#list(
-#    REMOVE_ITEM
-#    SRC_CORE_FILES
-#    ${SRC_CORE}/lagrit_main.f
-#)
-#
-#list(
-#    REMOVE_ITEM
-#    SRC_UTIL_FILES
-#    ${SRC_CORE}/mm2000_header.F
-#)
-
 # Compile LaGriT routines as a library
 add_library(
     ${LIB}
-    SHARED
+    ${LIBLAGRIT_BUILD_TYPE} # STATIC or SHARED
     #${SRC_ROOT}/lg_interface/interface2.F
     ${SRC_UTIL_FILES}
     ${SRC_CORE_FILES}
@@ -176,29 +173,34 @@ set_target_properties(
     Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/"
 )
 
+set_target_properties(${EXE} PROPERTIES LINK_SEARCH_START_STATIC 1)
+set_target_properties(${EXE} PROPERTIES LINK_SEARCH_END_STATIC 1)
+set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+
 target_link_libraries(
     ${EXE}
     ${LIB}
 )
 
 # ////////// END TARGET CONFIGURATION //////////
-install(
-    DIRECTORY
-    DESTINATION ${directory}
-)
-
-install(
-    TARGETS ${EXE}
-    DESTINATION "${INSTALL_DIR}/bin"
-)
-
-install(
-    TARGETS ${LIB}
-    DESTINATION "${INSTALL_DIR}/lib"
-)
-
-install(
-    DIRECTORY inc/
-    DESTINATION "${INSTALL_DIR}/include"
-    FILES_MATCHING PATTERN "*.h"
-)
+#install(
+#    DIRECTORY
+#    DESTINATION ${directory}
+#)
+#
+#install(
+#    TARGETS ${EXE}
+#    DESTINATION "${INSTALL_DIR}/bin"
+#)
+#
+#install(
+#    TARGETS ${LIB}
+#    DESTINATION "${INSTALL_DIR}/lib"
+#)
+#
+#install(
+#    DIRECTORY inc/
+#    DESTINATION "${INSTALL_DIR}/include"
+#    FILES_MATCHING PATTERN "*.h"
+#)
