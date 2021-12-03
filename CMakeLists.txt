@@ -139,7 +139,7 @@ list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
 # Ensure the compiler can process those directives
 set_source_files_properties(
     "${SRC_CORE}/dumpexodusII.f"
-    PROPERTIES Fortran_PREPROCESS ON
+    PROPERTIES COMPILE_OPTIONS "-cpp"
 )
 
 #list(
