@@ -14,78 +14,28 @@ project(
 )
 
 # ==== Is SEACAS/ExodusII available? =========== #
-find_package(ExodusII)
-if (ExodusII_FOUND)
-    message(STATUS "ExodusII support enabled: ${ExodusII_LIBRARIES}")
-    add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
-    include_directories(LaGriT
-        PRIVATE ${ExodusII_INCLUDE_DIRS}
-    )
-    target_link_libraries(LaGriT
-        PRIVATE ${ExodusII_LIBRARIES}
-    )
-else()
-    message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
-endif(ExodusII_FOUND)
+#find_package(ExodusII)
+#if (ExodusII_FOUND)
+#    message(STATUS "ExodusII support enabled: ${ExodusII_LIBRARIES}")
+#    add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+#    include_directories(LaGriT
+#        PRIVATE ${ExodusII_INCLUDE_DIRS}
+#    )
+#    target_link_libraries(LaGriT
+#        PRIVATE ${ExodusII_LIBRARIES}
+#    )
+#else()
+#    message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
+#endif(ExodusII_FOUND)
 
-# https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Write-Platform-Checks#platform-variables
-if(UNIX)
-    if(APPLE)
-        message(STATUS "Operating System: macOS")
-        add_definitions(-Dmacx64)
-    else()
-        message(STATUS "Operating System: Linux")
-        add_definitions(-Dlinx64)
-    endif()
-elseif(WIN32)
-    message(STATUS "Operating System: Windows")
-    add_definitions(-Dwin64)
-elseif(MINGW)
-    message(STATUS "Operating System: Windows (MinGW)")
-    add_definitions(-Dwin64)
-elseif(CYGWIN)
-    message(STATUS "Operating System: Windows (Cygwin)")
-    add_definitions(-Dwin64)
-else()
-    message("OPERATING SYSTEM COULD NOT BE DETECTED")
-endif()
-
-
+include("${CMAKE_SOURCE_DIR}/cmake/PlatformSettings.cmake")
 
 # === FORTAN COMPILER FLAGS ======================== #
-if("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "GNU")
-  message(STATUS "Fortran compiler: GNU GFORTRAN")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -m64 -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero")
-elseif("${CMAKE_Fortran_COMPILER_ID}" STREQUAL "Intel")
-  message(STATUS "Fortran compiler: Intel Fortran")
-  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -w -O -Qm64 -Qsafe-cray-ptr -integer-size=64 -assume:nominus0 -QRimplicit-import-")
-endif()
-
+include("${CMAKE_SOURCE_DIR}/cmake/compiler/FortranSettings.cmake")
 # === C COMPILER FLAGS ======================== #
-if("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
-  MESSAGE(STATUS "C compiler: Clang")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
-elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
-  MESSAGE(STATUS "C compiler: GNU GCC")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
-elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
-  MESSAGE(STATUS "C compiler: Intel C")
-elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
-  MESSAGE(STATUS "C compiler: Microsoft Visual C")
-endif()
-
+include("${CMAKE_SOURCE_DIR}/cmake/compiler/CSettings.cmake")
 # === C++ COMPILER FLAGS ======================== #
-if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
-  message(STATUS "C++ compiler: Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -m64")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  message(STATUS "C++ compiler: GNU G++")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -m64")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
-  message(STATUS "C++ compiler: Intel C++")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-  message(STATUS "C++ compiler: Microsoft Visual C++")
-endif()
+include("${CMAKE_SOURCE_DIR}/cmake/compiler/CXXSettings.cmake")
 
 
 

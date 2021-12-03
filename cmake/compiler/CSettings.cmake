@@ -1,0 +1,12 @@
+
+if("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
+  MESSAGE(STATUS "C compiler: Clang")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
+elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
+  MESSAGE(STATUS "C compiler: GNU GCC")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
+elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
+  MESSAGE(STATUS "C compiler: Intel C")
+elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
+  MESSAGE(STATUS "C compiler: Microsoft Visual C")
+endif()
