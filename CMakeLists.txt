@@ -10,12 +10,23 @@ project(
     LaGriT
     VERSION 3.3.0
     DESCRIPTION "LaGriT Meshing Utilities"
-
-
     LANGUAGES Fortran CXX C
 )
 
-#add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+# ==== Is SEACAS/ExodusII available? =========== #
+find_package(ExodusII)
+if (ExodusII_FOUND)
+    message(STATUS "ExodusII support enabled: ${ExodusII_LIBRARIES}")
+    add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+    include_directories(LaGriT
+        PRIVATE ${ExodusII_INCLUDE_DIRS}
+    )
+    target_link_libraries(LaGriT
+        PRIVATE ${ExodusII_LIBRARIES}
+    )
+else()
+    message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
+endif(ExodusII_FOUND)
 
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Write-Platform-Checks#platform-variables
 if(UNIX)
