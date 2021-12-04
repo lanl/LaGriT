@@ -1,34 +1,32 @@
-# https://github.com/fortran-lang/stdlib-cmake-example/blob/main/CMakeLists.txt
-
-message(STATUS "==========================================")
-message(STATUS "============Configuring LaGriT============")
-message(STATUS "==========================================")
+# 1. Get tests running
+# 2. Get Exodus working
+# 3. Get CI set up to build/test on all platforms
+# 4. Message Shaoping about being able to compile
 
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
-project(
-    LaGriT
-    VERSION 3.3.0
-    DESCRIPTION "LaGriT Meshing Utilities"
-    LANGUAGES Fortran CXX C
-)
+project(LaGriT VERSION 3.3.0
+               DESCRIPTION "LaGriT Meshing Utilities"
+               LANGUAGES Fortran CXX C)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 option(LaGriT_BUILD_STATIC "Compile as a static (fat) executable." ON)
 
+message(STATUS "==========================================")
+message(STATUS "============Configuring LaGriT============")
+message(STATUS "===================v${PROJECT_VERSION}=================")
+
+message(STATUS "Compile LaGriT as a static binary = ${LaGriT_BUILD_STATIC}")
+
 # ==== Is SEACAS/ExodusII available? =========== #
-#find_package(ExodusII)
-#if (ExodusII_FOUND)
-#    message(STATUS "ExodusII support enabled: ${ExodusII_LIBRARIES}")
-#    add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
-#    include_directories(LaGriT
-#        PRIVATE ${ExodusII_INCLUDE_DIRS}
-#    )
-#    target_link_libraries(LaGriT
-#        PRIVATE ${ExodusII_LIBRARIES}
-#    )
-#else()
-#    message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
-#endif(ExodusII_FOUND)
+find_package(Exodus)
+if (Exodus_FOUND)
+  message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
+  add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+else()
+  message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
+endif()
 
 include("${CMAKE_SOURCE_DIR}/cmake/PlatformSettings.cmake")
 
@@ -38,9 +36,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/compiler/FortranSettings.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/compiler/CSettings.cmake")
 # === C++ COMPILER FLAGS ======================== #
 include("${CMAKE_SOURCE_DIR}/cmake/compiler/CXXSettings.cmake")
-
-
-
 
 include(FortranCInterface)
 FortranCInterface_VERIFY(CXX)
@@ -58,10 +53,6 @@ else()
   set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-# Set source and target paths
-set(EXE lagrit)
-set(LIB liblagrit)
-
 set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
 set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
 set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
@@ -75,26 +66,6 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
   configure_file("${SRC_UTIL}/mm2000_m32.h" "${SRC_UTIL}/mm2000.h" COPYONLY)
 endif()
 # ////////// BEGIN COMPILER SETTINGS //////////
-
-
-
-# COMPILERS:
-#   - GNU GCC
-#   - Clang GCC
-#   - GNU G++
-#   - Clang G++
-#   - GNU GFORTRAN
-#   - Intel Fortran
-
-#CMAKE_Fortran_FLAGS
-#CMAKE_C_FLAGS
-#CMAKE_CXX_FLAGS
-
-
-
-
-
-
 
 ## ////////// BEGIN LINKER CONFIGURATION //////////
 ## Extra linker and compile options for Windows
@@ -141,11 +112,12 @@ file(
     "${SRC_CORE}/*.f90"
 )
 
+# Files we don't want compiled
 list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
 list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
 
 # This file has the `#ifdef EXODUS` preprocessor directive
-# Ensure the compiler can process those directives
+# The -cpp flag ensures the compiler can process those directives
 set_source_files_properties(
     "${SRC_CORE}/dumpexodusII.f"
     PROPERTIES COMPILE_OPTIONS "-cpp"
@@ -153,54 +125,71 @@ set_source_files_properties(
 
 # Compile LaGriT routines as a library
 add_library(
-    ${LIB}
+    liblagrit
     ${LIBLAGRIT_BUILD_TYPE} # STATIC or SHARED
     #${SRC_ROOT}/lg_interface/interface2.F
     ${SRC_UTIL_FILES}
     ${SRC_CORE_FILES}
 )
 
+# Set the shared library version
+set_target_properties(
+  liblagrit
+  PROPERTIES
+  OUTPUT_NAME "lagrit"
+  VERSION "${PROJECT_VERSION}"
+  SOVERSION "${PROJECT_VERSION_MAJOR}"
+)
+
 # Compile the main LaGriT binary
 add_executable(
-    ${EXE}
-    ${SRC_CORE}/lagrit_main.f
+  lagrit.exe
+  ${SRC_CORE}/lagrit_main.f
 )
 
 set_target_properties(
-    ${EXE}
-    PROPERTIES
-    LINKER_LANGUAGE Fortran
-    Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/"
+  lagrit.exe
+  PROPERTIES
+  OUTPUT_NAME "lagrit"
+  LINKER_LANGUAGE Fortran
+  Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/"
 )
 
-set_target_properties(${EXE} PROPERTIES LINK_SEARCH_START_STATIC 1)
-set_target_properties(${EXE} PROPERTIES LINK_SEARCH_END_STATIC 1)
-set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
-set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+# Change from 'lagrit' (OUTPUT_NAME) to 'lagrit.exe' on Windows
+if (WIN32)
+  set_target_properties(lagrit.exe PROPERTIES SUFFIX ".exe")
+endif()
 
-target_link_libraries(
-    ${EXE}
-    ${LIB}
+if (LaGriT_BUILD_STATIC)
+  set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_START_STATIC 1)
+  set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_END_STATIC 1)
+
+  if(WIN32)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+  else()
+    set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+    set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+  endif()
+endif()
+
+target_include_directories(
+  lagrit.exe
+  PUBLIC ${Exodus_INCLUDE_DIRS} # includes 'exodusII.h'
 )
 
-# ////////// END TARGET CONFIGURATION //////////
-#install(
-#    DIRECTORY
-#    DESTINATION ${directory}
-#)
-#
-#install(
-#    TARGETS ${EXE}
-#    DESTINATION "${INSTALL_DIR}/bin"
-#)
-#
-#install(
-#    TARGETS ${LIB}
-#    DESTINATION "${INSTALL_DIR}/lib"
-#)
-#
-#install(
-#    DIRECTORY inc/
-#    DESTINATION "${INSTALL_DIR}/include"
-#    FILES_MATCHING PATTERN "*.h"
-#)
+target_link_libraries(lagrit.exe
+  PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
+  PUBLIC ${Exodus_LIBRARIES}  # Exodus/Exodus_Fortran libs
+)
+
+# Install lagrit to ${CMAKE_INSTALL_PATH}/bin/
+install(
+    TARGETS lagrit.exe
+    DESTINATION "bin"
+)
+
+# Install liblagrit to ${CMAKE_INSTALL_PATH}/lib/
+install(
+    TARGETS liblagrit
+    DESTINATION "lib"
+)

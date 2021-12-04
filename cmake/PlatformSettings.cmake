@@ -11,6 +11,8 @@ if(UNIX)
         message(STATUS "Operating System: Linux")
         add_definitions(-Dlinx64)
     endif()
+
+    set(LaGriT_STATIC_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 elseif(WIN32)
     message(STATUS "Operating System: Windows")
     add_definitions(-Dwin64)

@@ -7,6 +7,17 @@ $ mkdir build/ && cd build/
 $ cmake .. && make
 ```
 
+```sh
+cmake .. -D LaGriT_BUILD_STATIC=ON
+```
+
+-DCMAKE_BUILD_TYPE=Debug
+-DCMAKE_BUILD_TYPE=Release
+
+```sh
+$ ctest
+```
+
 # Compiling Exodus
 
 ```sh
