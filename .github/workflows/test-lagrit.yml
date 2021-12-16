@@ -50,9 +50,8 @@ jobs:
           echo "---------------"
       - name: Build/test LaGriT
         run: |
-          make exodus
-          make release
-          make test
+          mkdir build/ && cd build/
+          cmake ..
       - name: Test PyLaGriT
         run: |
           echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
