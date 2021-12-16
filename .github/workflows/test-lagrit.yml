@@ -24,24 +24,32 @@ jobs:
           python -m pip install --upgrade coverage
       - name: (Ubuntu) Install build dependencies
         run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
-          sudo apt-get install -y build-essential openssl gfortran cmake git \
-          wget libz-dev m4 bison
+          sudo apt-get update -y
+          sudo apt-get upgrade -y
+          sudo apt-get install -y \
+            build-essential openssl gfortran cmake git \
+            wget libz-dev m4 bison
         if: matrix.os == 'ubuntu-latest'
       - name: (macOS) Install build dependencies
         run: |
           brew reinstall cmake
           brew reinstall gcc
-          #brew install --force \
-          #  openssl gfortran git gcc cmake wget zlib m4 bison
         if: matrix.os == 'macOS-latest'
+      - name: Compile Exodus
+        run: |
+          mkdir -p ~/TPLs/build/
+          mkdir -p ~/TPLs/install/
+          EXO_BUILD_DIR=$HOME/TPLs/build/ \
+          EXO_INSTALL_DIR=$HOME/TPLs/install/ \
+          ./install-exodus.sh
       - name: Build/test LaGriT
         run: |
           mkdir build/ && mkdir install/ && cd build/
           cmake .. \
-            -DLaGriT_BUILD_STATIC=ON \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DCMAKE_INSTALL_PREFIX=$(pwd)/../install/
+            -D LaGriT_BUILD_STATIC=ON \
+            -D CMAKE_BUILD_TYPE=Debug \
+            -D Exodus_ROOT=${EXO_INSTALL_DIR} \
+            -D CMAKE_INSTALL_PREFIX=$(pwd)/../install/
           make && make install
       - name: Test PyLaGriT
         run: |
@@ -53,7 +61,7 @@ jobs:
       - name: Upload compiled LaGriT
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: lagrit
+          name: lagrit-${{ matrix.os }}
           path: ./install/bin/lagrit
           if-no-files-found: error
           retention-days: 30
