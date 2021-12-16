@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+    #name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -24,7 +24,7 @@ jobs:
           python -m pip install --upgrade coverage
       - name: (Ubuntu) Install build dependencies
         run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y 
+          sudo apt-get update -y && sudo apt-get upgrade -y
           sudo apt-get install -y build-essential openssl gfortran cmake git \
           wget libz-dev m4 bison
         if: matrix.os == 'ubuntu-latest'

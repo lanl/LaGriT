@@ -70,7 +70,6 @@ endif()
 ## ////////// BEGIN LINKER CONFIGURATION //////////
 ## Extra linker and compile options for Windows
 #if(MSVC)
-#    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 #    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /Dwin64")
 #    set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
 #    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
@@ -80,14 +79,13 @@ endif()
 #        $<$<CONFIG:Release>:/MT>
 #    )
 #endif()
-#
-## ////////// BEGIN HEADER FILE CONFIGURATION //////////
-#string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
-#configure_file(
-#    ${SRC_ROOT}/lagrit.h.in
-#    ${SRC_CORE}/lagrit.h
-#    @ONLY
-#)
+
+string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
+configure_file(
+    ${SRC_CORE}/lagrit.h.in
+    ${SRC_CORE}/lagrit.h
+    @ONLY
+)
 
 # ////////// BEGIN TARGET CONFIGURATION //////////
 # Grab `lg_util/` source files
