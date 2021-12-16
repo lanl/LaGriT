@@ -37,14 +37,14 @@ include("${CMAKE_SOURCE_DIR}/cmake/compiler/CSettings.cmake")
 # === C++ COMPILER FLAGS ======================== #
 include("${CMAKE_SOURCE_DIR}/cmake/compiler/CXXSettings.cmake")
 
-include(FortranCInterface)
-FortranCInterface_VERIFY(CXX)
-FortranCInterface_HEADER(
-    FCMangle.h
-    MACRO_NAMESPACE "FC_"
-    SYMBOL_NAMESPACE "FC_"
-    SYMBOLS mysub mymod:my_sub
-)
+#include(FortranCInterface)
+#FortranCInterface_VERIFY(CXX)
+#FortranCInterface_HEADER(
+#    LaGriT.h
+#    MACRO_NAMESPACE "LG_"
+#    SYMBOL_NAMESPACE "LG_"
+#    SYMBOLS mysub mymod:my_sub
+#)
 
 if (LaGriT_BUILD_STATIC)
   set(LIBLAGRIT_BUILD_TYPE "STATIC")
@@ -193,3 +193,8 @@ install(
     TARGETS liblagrit
     DESTINATION "lib"
 )
+
+#install(
+#  TARGETS ???
+#  DESTINTION "include"
+#)
