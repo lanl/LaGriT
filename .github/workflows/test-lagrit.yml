@@ -4,7 +4,8 @@ on: [push, pull_request]
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
     strategy:
       fail-fast: false
       matrix:
@@ -63,10 +64,10 @@ jobs:
           cd PyLaGriT/
           python3 setup.py install
           python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
-    - name: Upload compiled LaGriT
-      uses: actions/upload-artifact@v2.2.4
-      with:
-        name: lagrit
-        path: ./install/bin/lagrit
-        if-no-files-found: error
-        retention-days: 30
+      - name: Upload compiled LaGriT
+        uses: actions/upload-artifact@v2.2.4
+        with:
+          name: lagrit
+          path: ./install/bin/lagrit
+          if-no-files-found: error
+          retention-days: 30
