@@ -10,15 +10,18 @@
 #FIND_PACKAGE(NetCDF REQUIRED)
 # Original lagrit build line: -L$(EXO_LIB_DIR) -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl
 
-FIND_PATH(EXODUS_INCLUDE_DIR NAMES exodusII.h)
+FIND_PATH(Exodus_INCLUDE_DIR NAMES exodusII.h)
 
-FIND_LIBRARY(EXODUS_LIBRARIES NAMES exodusii exodusIIv2c exodus_for exodus)
+#FIND_LIBRARY(EXODUS_LIBRARIES NAMES exodusii exodusIIv2c exodus_for exodus)
+FIND_LIBRARY(Exodus_LIBRARIES
+    NAMES exodus_for exodus
+)
 
 INCLUDE(FindPackageHandleStandardArgs)
 
-# handle the QUIETLY and REQUIRED arguments and set EXODUS_FOUND to TRUE if 
+# handle the QUIETLY and REQUIRED arguments and set EXODUS_FOUND to TRUE if
 # all listed variables are TRUE
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(Exodus DEFAULT_MSG EXODUS_LIBRARIES EXODUS_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(Exodus DEFAULT_MSG Exodus_LIBRARIES Exodus_INCLUDE_DIR)
 
-MARK_AS_ADVANCED(EXODUS_INCLUDE_DIR EXODUS_LIBRARIES)
+MARK_AS_ADVANCED(Exodus_INCLUDE_DIR Exodus_LIBRARIES)
 

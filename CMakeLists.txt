@@ -21,6 +21,8 @@ message(STATUS "Compile LaGriT as a static binary = ${LaGriT_BUILD_STATIC}")
 
 # ==== Is SEACAS/ExodusII available? =========== #
 find_package(Exodus)
+find_package(NetCDF)
+
 if (Exodus_FOUND)
   message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
   add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
