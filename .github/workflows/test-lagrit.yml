@@ -37,7 +37,7 @@ jobs:
         run: |
           mkdir build/ && mkdir install/ && cd build/
           cmake .. \
-            -DLaGriT_BUILD_STATIC=OFF \
+            -DLaGriT_BUILD_STATIC=ON \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_INSTALL_PREFIX=$(pwd)/../install/
           make && make install
