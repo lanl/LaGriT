@@ -1,8 +1,3 @@
-# 1. Get tests running
-# 2. Get Exodus working
-# 3. Get CI set up to build/test on all platforms
-# 4. Message Shaoping about being able to compile
-
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(LaGriT VERSION 3.3.0
@@ -19,6 +14,10 @@ message(STATUS "===================v${PROJECT_VERSION}=================")
 
 message(STATUS "Compile LaGriT as a static binary = ${LaGriT_BUILD_STATIC}")
 
+set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
+set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
+set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
+
 # ==== Is SEACAS/ExodusII available? =========== #
 find_package(Exodus)
 find_package(NetCDF)
@@ -28,23 +27,26 @@ find_package(ZLIB)
 set(TPL_LIBRARIES "")
 set(TPL_INCLUDE_DIRS "")
 
-if (Exodus_FOUND)
+if (Exodus_FOUND) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
   message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
   add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
   set(TPL_LIBRARIES "${Exodus_LIBRARIES} ${HDF5_LIBRARIES} ${NetCDF_LIBRARIES} ${ZLIB_LIBRARIES}")
   set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR} ${HDF5_INCLUDE_DIR} ${NetCDF_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}")
 else()
-  message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
+  message("WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.")
+  message(STATUS "Exodus Dependency Status:")
+  message(STATUS "  Found Exodus: ${Exodus_FOUND}")
+  message(STATUS "  Found NetCDF: ${NetCDF_FOUND}")
+  message(STATUS "  Found HDF5:   ${HDF5_FOUND}")
+  message(STATUS "  Found ZLIB:   ${ZLIB_FOUND}")
 endif()
 
+# ===== Detect platform, bit-size, and compilers ==================== #
+message(STATUS "Detected System:")
 include("${CMAKE_SOURCE_DIR}/cmake/PlatformSettings.cmake")
-
-# === FORTAN COMPILER FLAGS ======================== #
-include("${CMAKE_SOURCE_DIR}/cmake/compiler/FortranSettings.cmake")
-# === C COMPILER FLAGS ======================== #
-include("${CMAKE_SOURCE_DIR}/cmake/compiler/CSettings.cmake")
-# === C++ COMPILER FLAGS ======================== #
-include("${CMAKE_SOURCE_DIR}/cmake/compiler/CXXSettings.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/DetectBitSize.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
+include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
 #include(FortranCInterface)
 #FortranCInterface_VERIFY(CXX)
@@ -62,18 +64,7 @@ else()
   set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
-set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
-set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
 
-# === DETECT BIT SIZE ======================== #
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-  message(STATUS "Architecture: 64-bit")
-  configure_file("${SRC_UTIL}/mm2000_m64.h" "${SRC_UTIL}/mm2000.h" COPYONLY)
-elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
-  message(STATUS "Architecture: 32-bit")
-  configure_file("${SRC_UTIL}/mm2000_m32.h" "${SRC_UTIL}/mm2000.h" COPYONLY)
-endif()
 # ////////// BEGIN COMPILER SETTINGS //////////
 
 ## ////////// BEGIN LINKER CONFIGURATION //////////
@@ -122,6 +113,11 @@ file(
 # Files we don't want compiled
 list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
 list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
+
+message(STATUS "Compilers:")
+message(STATUS "  FORTRAN [compiler = \"${CMAKE_Fortran_COMPILER}\"; flags = \"${CMAKE_Fortran_FLAGS}\"]")
+message(STATUS "  C [compiler = \"${CMAKE_C_COMPILER}\"; flags = \"${CMAKE_C_FLAGS}\"]")
+message(STATUS "  C++ [compiler = \"${CMAKE_CXX_COMPILER}\"; flags = \"${CMAKE_CXX_FLAGS}\"]")
 
 # This file has the `#ifdef EXODUS` preprocessor directive
 # The -cpp flag ensures the compiler can process those directives

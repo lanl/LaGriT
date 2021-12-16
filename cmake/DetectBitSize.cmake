@@ -1,0 +1,24 @@
+# === DETECT BIT SIZE ======================== #
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+  message(STATUS "  Architecture: 64-bit")
+  set(LAGRIT_RMAX_ALLOCATE 18446744073709551615.00)
+  set(LAGRIT_BYTES_PER_INT 8)
+  set(LAGRIT_BYTES_PER_REAL 8)
+  set(LAGRIT_BYTES_PER_CHAR 32)
+  set(LAGRIT_BYTES_PER_PTR 8)
+  set(LAGRIT_AD_SIZE 6)
+elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
+  message(STATUS "  Architecture: 32-bit")
+  set(LAGRIT_RMAX_ALLOCATE 4294967295.00)
+  set(LAGRIT_BYTES_PER_INT 4)
+  set(LAGRIT_BYTES_PER_REAL 8)
+  set(LAGRIT_BYTES_PER_CHAR 32)
+  set(LAGRIT_BYTES_PER_PTR 4)
+  set(LAGRIT_AD_SIZE 6)
+endif()
+
+configure_file(
+    "${SRC_UTIL}/mm2000.h.in"
+    "${SRC_UTIL}/mm2000.h"
+    @ONLY
+)

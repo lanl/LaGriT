@@ -26,7 +26,7 @@
 !!  Revision 2.00  2007/11/03 00:49:12  spchu
 !!  Import to CVS
 !!
-CPVCS    
+CPVCS
 CPVCS       Rev 1.0   Thu Apr 06 10:50:48 2000   nnc
 CPVCS    Initial revision.
 !!
@@ -41,19 +41,19 @@ CPVCS    Initial revision.
 # 32 "mm2000_header.F" 2
 
       real*8 RMAX_ALLOCATE
-      parameter (RMAX_ALLOCATE = 18446744073709551615.00)
+      parameter (RMAX_ALLOCATE = @LAGRIT_RMAX_ALLOCATE@)
 
       integer BYTES_PER_INT, BYTES_PER_REAL
-      parameter (BYTES_PER_INT = 8, BYTES_PER_REAL = 8)
+      parameter (BYTES_PER_INT = @LAGRIT_BYTES_PER_INT@, BYTES_PER_REAL = @LAGRIT_BYTES_PER_REAL@)
 
       integer BYTES_PER_CHAR
-      parameter (BYTES_PER_CHAR = 32)
+      parameter (BYTES_PER_CHAR = @LAGRIT_BYTES_PER_CHAR@)
 
       integer BYTES_PER_PTR
-      parameter (BYTES_PER_PTR = 8) ! pointer-sized integer
+      parameter (BYTES_PER_PTR = @LAGRIT_BYTES_PER_PTR@) ! pointer-sized integer
 
       integer AD_SIZE
-      parameter (AD_SIZE = 6)
+      parameter (AD_SIZE = @LAGRIT_AD_SIZE@)
 
       integer PROLOG_BYTES, EPILOG_BYTES
       parameter (PROLOG_BYTES = AD_SIZE*BYTES_PER_PTR)
