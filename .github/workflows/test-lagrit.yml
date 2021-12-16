@@ -58,8 +58,15 @@ jobs:
           make && make install
       - name: Test PyLaGriT
         run: |
-          echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
+          echo "lagrit_exe : '$(pwd)/install/bin/lagrit'" >> ~/.pylagritrc
           cat ~/.pylagritrc
           cd PyLaGriT/
           python3 setup.py install
           python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
+    - name: Upload compiled LaGriT
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: lagrit
+        path: ./install/bin/lagrit
+        if-no-files-found: error
+        retention-days: 30
