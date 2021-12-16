@@ -30,8 +30,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
       - name: (macOS) Install build dependencies
         run: |
-          brew install --force \
-            openssl gfortran git gcc cmake wget zlib m4 bison
+          brew reinstall cmake
+          brew reinstall gcc
+          #brew install --force \
+          #  openssl gfortran git gcc cmake wget zlib m4 bison
         if: matrix.os == 'macOS-latest'
       - name: Build/test LaGriT
         run: |
