@@ -50,8 +50,12 @@ jobs:
           echo "---------------"
       - name: Build/test LaGriT
         run: |
-          mkdir build/ && cd build/
-          cmake ..
+          mkdir build/ && mkdir install/ && cd build/
+          cmake .. \
+            -DLaGriT_BUILD_STATIC=OFF \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -D CMAKE_INSTALL_PREFIX=$(pwd)/../install/
+          make && make install
       - name: Test PyLaGriT
         run: |
           echo "lagrit_exe : '$(pwd)/src/lagrit'" >> ~/.pylagritrc
