@@ -22,10 +22,17 @@ message(STATUS "Compile LaGriT as a static binary = ${LaGriT_BUILD_STATIC}")
 # ==== Is SEACAS/ExodusII available? =========== #
 find_package(Exodus)
 find_package(NetCDF)
+find_package(HDF5)
+find_package(ZLIB)
+
+set(TPL_LIBRARIES "")
+set(TPL_INCLUDE_DIRS "")
 
 if (Exodus_FOUND)
   message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
   add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+  set(TPL_LIBRARIES "${Exodus_LIBRARIES} ${HDF5_LIBRARIES} ${NetCDF_LIBRARIES} ${ZLIB_LIBRARIES}")
+  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR} ${HDF5_INCLUDE_DIR} ${NetCDF_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}")
 else()
   message("WARNING: SEACAS/ExodusII could not be found. Compiling without ExodusII support.")
 endif()
@@ -174,12 +181,12 @@ endif()
 
 target_include_directories(
   lagrit.exe
-  PUBLIC ${Exodus_INCLUDE_DIRS} # includes 'exodusII.h'
+  PUBLIC ${TPL_INCLUDE_DIRS} # includes 'exodusII.h'
 )
 
 target_link_libraries(lagrit.exe
   PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
-  PUBLIC ${Exodus_LIBRARIES}  # Exodus/Exodus_Fortran libs
+  PUBLIC ${TPL_LIBRARIES}     # Exodus / NetCDF / HDF5 / ZLIB
 )
 
 # Install lagrit to ${CMAKE_INSTALL_PATH}/bin/
