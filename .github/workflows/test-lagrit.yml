@@ -10,12 +10,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macOS-latest]
-        cc: gcc
-        cxx: g++
-        fc: gfortran
-        python: 3.9
+        gcc_v: [9] # Version of GFortran we want to use.
+    env:
+      FC: gfortran-${{ matrix.gcc_v }}
+      GCC_V: ${{ matrix.gcc_v }}
     steps:
       - uses: actions/checkout@v2
+      - uses: lukka/get-cmake@latest
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
@@ -24,19 +25,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --upgrade coverage
-      - name: (Ubuntu) Install build dependencies
+          python -m pip install --upgrade cmake
+      - name: Install GFortran Linux
+        if: contains(matrix.os, 'ubuntu')
         run: |
-          sudo apt-get update -y
-          sudo apt-get upgrade -y
-          sudo apt-get install -y \
-            build-essential openssl gfortran cmake git \
-            wget libz-dev m4 bison
-        if: matrix.os == 'ubuntu-latest'
-      - name: (macOS) Install build dependencies
-        run: |
-          brew reinstall cmake
-          brew reinstall gcc
-        if: matrix.os == 'macOS-latest'
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt-get update
+          sudo apt-get install -y gcc-${GCC_V} gfortran-${GCC_V}
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
+          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
+          --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
+      - name: Install GFortran macOS
+        if: contains(matrix.os, 'macos')
+        run: brew install gcc@${GCC_V} || brew upgrade gcc@${GCC_V} || true
       - name: Compile Exodus
         run: |
           mkdir -p ~/TPLs/build/
