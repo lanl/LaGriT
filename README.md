@@ -77,6 +77,22 @@ $ make && make install
 - `-D CMAKE_INSTALL_PREFIX`
   - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
 
+### Testing LaGriT
+
+To test LaGriT, simply run:
+
+```bash
+$ python test/runtests.py
+```
+
+Test output can be found in the `test/lagrit-tests.log` file.
+
+Additional options are available by running:
+
+```bash
+$ python test/runtests.py --help
+```
+
 ### Supporting Documentation ###
 ---
 * [Installation](documentation/INSTALL.md)
