@@ -40,9 +40,9 @@ c     code substitution when not using ExodusII libraries
 
       character*132 logmess
 
-      write(logmess,'(a)')'ExodusII exiting: '
+      write(logmess,'(a)')'WARNING: ExodusII file not written.'
       call writloga('default',1,logmess,0,ierr)
-      write(logmess,'(a)')'Not available in this version.'
+      write(logmess,'(a)')'This version compiled without ExodusII library.'
       call writloga('default',0,logmess,2,ierr)
       
       return
