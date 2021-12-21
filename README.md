@@ -16,35 +16,97 @@ This allows the meshing capabilities of LaGriT to be combined with the numeric a
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
 
+### Getting Started
+
+The simplest way to begin is:
+
+```bash
+$ git clone https://github.com/lanl/LaGriT.git
+$ cd LaGriT/                  # Navigate to LaGriT repo
+$ ./install-exodus.sh         # Install Exodus
+$ mkdir build/ && cd build/   # Create build directory
+$ cmake .. && make            # Compile
+$ python ../test/runtests.py  # Run tests
+```
+
+More advanced build configurations can be found below.
+
 ### Building LaGriT ###
 ---
 
 Download the repo by running:
 
-    git clone https://github.com/lanl/LaGriT.git
-    cd LaGriT
+```bash
+$ git clone https://github.com/lanl/LaGriT.git
+$ cd LaGriT/
+```
 
-If you don't already have [Exodus](http://gsjaardema.github.io/seacas/exodusII-new.pdf) built on your system, run
+#### (Optional) Building Exodus ####
 
-    make exodus
+To download and build Exodus, run:
 
-To build and test a shared, optimized LaGriT binary, run
+```bash
+$ ./install-exodus.sh
+```
 
-    make release
+You may change the location Exodus installs to:
 
-To build LaGriT without Exodus,
+```bash
+$ export EXO_INSTALL_DIR=`pwd`/TPLs/install
+$ ./install-exodus.sh
+```
 
-    make WITH_EXODUS=0 release
+#### Building LaGriT - Simple
 
-or use target `static` to build a static binary.
+The simplest way to build LaGriT is:
 
-Finally, run
+```bash
+mkdir build/ && cd build/
+cmake .. && make
+```
 
-    make test
+You will find `lagrit` in the `build/` directory.
 
-to test build integrity.
+#### Building LaGriT - Configurable
 
-More options are available by running `make help`.
+You may also specify more advanced build directions:
+
+```bash
+$ mkdir build/ && cd build/
+$ cmake .. \
+    -D LaGriT_BUILD_STATIC=ON \
+    -D CMAKE_BUILD_TYPE=Debug \
+    -D Exodus_ROOT=${EXO_INSTALL_DIR} \
+    -D CMAKE_INSTALL_PREFIX=`pwd`/../install/
+$ make && make install
+```
+
+##### CMake Build Options
+
+- `-D LaGriT_BUILD_STATIC`
+  - Builds LaGriT as a static binary (default; `ON`) or as a shared library (`.so`, `.dylib`, `.dll`)
+- `-D CMAKE_BUILD_TYPE`
+  - Sets the build type. Choose between `Debug` and `Release`.
+- `-D Exodus_ROOT`
+  - Sets the root directory of Exodus. **Must be specified** if you wish to use Exodus.
+- `-D CMAKE_INSTALL_PREFIX`
+  - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
+
+### Testing LaGriT
+
+To test LaGriT, simply run:
+
+```bash
+$ python test/runtests.py
+```
+
+Test output can be found in the `test/lagrit-tests.log` file.
+
+Additional options are available by running:
+
+```bash
+$ python test/runtests.py --help
+```
 
 ### Supporting Documentation ###
 ---

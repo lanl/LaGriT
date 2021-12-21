@@ -7,6 +7,8 @@
  *
  */
 
+#ifdef LAGRIT_INCLUDE_EXODUSII
+
 #include "exodusII.h"
 #include <string.h>
 #include <stdio.h>
@@ -75,3 +77,5 @@ void exo_lg_ini_(int *idexo, void_int *ndim,
 #ifdef __cplusplus
 }
 #endif
+
+#endif // LAGRIT_INCLUDE_EXODUSII
