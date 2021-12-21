@@ -16,6 +16,21 @@ This allows the meshing capabilities of LaGriT to be combined with the numeric a
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
 
+### Getting Started
+
+The simplest way to begin is:
+
+```bash
+$ git clone https://github.com/lanl/LaGriT.git
+$ cd LaGriT/                  # Navigate to LaGriT repo
+$ ./install-exodus.sh         # Install Exodus
+$ mkdir build/ && cd build/   # Create build directory
+$ cmake .. && make            # Compile
+$ python ../test/runtests.py  # Run tests
+```
+
+More advanced build configurations can be found below.
+
 ### Building LaGriT ###
 ---
 
