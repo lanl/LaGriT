@@ -4,13 +4,17 @@ import unittest
 
 TEST_ROOT = os.path.abspath(__file__)
 
+
 class DynamicClassBase(unittest.TestCase):
     longMessage = True
+
 
 def make_test_function(description, a, b):
     def test(self):
         self.assertEqual(a, b, description)
+
     return test
+
 
 def collect_tests(test_levels):
     """
@@ -30,27 +34,20 @@ def collect_tests(test_levels):
     return test_dirs
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     levels = ["level01", "level02"]
     test_dirs = collect_tests(levels)
 
     for test in test_dirs:
         run_test(test)
 
-
-
-
-
-    testsmap = {
-        'foo': [1, 1],
-        'bar': [1, 2],
-        'baz': [5, 5]}
+    testsmap = {"foo": [1, 1], "bar": [1, 2], "baz": [5, 5]}
 
     for (name, params) in testsmap.items():
         test_func = make_test_function(name, params[0], params[1])
-        klassname = 'Test_{0}'.format(name)
-        globals()[klassname] = type(klassname,
-                                   (DynamicClassBase,),
-                                   {'test_gen_{0}'.format(name): test_func})
+        klassname = "Test_{0}".format(name)
+        globals()[klassname] = type(
+            klassname, (DynamicClassBase,), {"test_gen_{0}".format(name): test_func}
+        )
 
     unittest.main()
