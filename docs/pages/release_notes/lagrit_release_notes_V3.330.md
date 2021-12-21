@@ -8,7 +8,7 @@ Previous release  LaGriT v3.3.2  Apr 16, 2019
 
 ### Enhancements:
 
-- read/gocad for 3D .so and 2D .ts files. See level03/read_gocad for file examples.
+- read/gocad for 3D .so and 2D .ts files. See test/level01/read_gocad for file examples.
 - AVS UCD pnt format added to make it easy for Paraview to read and view points.
 - GMV option ipolydat = no is now the default, files will have smaller size without voronoi polygons included
 - add option to command line to define output file names
@@ -16,6 +16,7 @@ Previous release  LaGriT v3.3.2  Apr 16, 2019
 - The manual and command pages were heavily edited to remove old directories and files,
 to update command syntax, and to add examples and demos.
 - bug fixes mainly to improve lagrit reporting and error reporting.
+- test directories cleaned, extra files removed, binary replaced with ascii files
 
 
 ### Known Issues:
