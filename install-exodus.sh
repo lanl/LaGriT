@@ -1,4 +1,5 @@
 set -e
+set -x
 
 # ==== USER SETTINGS ==============================
 EXO_BUILD_DIR=${EXO_BUILD_DIR:-"$(pwd)/TPLs/build/"}
