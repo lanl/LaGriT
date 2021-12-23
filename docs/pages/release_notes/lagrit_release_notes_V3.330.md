@@ -6,6 +6,10 @@ fixes, error reporting, and improvements to the LaGriT test suite.
 
 Previous release  LaGriT v3.3.2  Apr 16, 2019 
 
+### Major Change in Build 
+
+This release includes a merge from Daniel Livingston's branch for Windows development. This includes new build scripts and associated files that use cmake to compile, build, and test LaGriT based on the OS platform. The new instructions are included in the README.md.
+
 ### Enhancements:
 
 - read/gocad for 3D .so and 2D .ts files. See test/level01/read_gocad for file examples.
@@ -27,6 +31,127 @@ Avoid this by using the flag -ffpe-trap=invalid,zero,overflow,underflow,denormal
 - Builds with compiler gfortran v5 or greater can generate run-time signal exceptions such as IEEE_DNORMAL. Most exceptions have been tracked down and fixed according to picky compiler suggestions. These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.
 
 - During testing it was found that the filter command may find and remove fewer nodes than the command filterkd. The command filterkd is recommended where precision might be an issue. Documentation will be changed to reflect this. It is expected that the filter command and algorithm will be deprecated and replaced by filterkd. See *test/level01/createpts_filter*
+
+
+### Commit log for Daniel's branch merge
+
+```
+You can view, comment on, or merge this pull request online at:
+
+  https://github.com/lanl/LaGriT/pull/237
+
+Commit Summary
+
+5943e3e Removed filename conflicts
+d3938f1 Changing build to CMake
+d034233 Compilation working with CMakeLists
+8bd255d Working build - Clang C/GNU Fortran
+47290b6 Updates to build
+c8bd8bc Modularizing CMake
+2db46e7 Changed Fortran preproc settings for CMake 3.11
+35bdf6c Working static and dynamic linkage
+01dd9c2 Much improved CMake installation and some automatic Exodus lib handling
+93e52c4 Updated LaGriT CMake
+ab55fc9 Updated build
+51c9420 Updated CI
+08405da Added auto-push compiled to CI
+cefb5d9 Exous scripts
+900cdc4 Update test-lagrit.yml
+11fbc6d Update GitHub CI
+fe3b42e Update Python version for CI
+cd71aeb Some bug fixes
+6b7d86f Improvements to Exodus build
+234235c Fixed CI Python issue
+0d46198 Fixed missing gfortran in macOS
+44db221 Testing LaGriT
+b869bbc CMake now writes mm2000.h
+bb3964c Beginning CMake writeup
+4f112c7 Updated CMake significantly
+dccc97e Update GitHub CI with compilers
+8d51b78 Attempt to update GitHub Actions again
+164b7bf Added unittest testing
+7a9e341 More modernized test suite
+a720479 Clean up test cases
+7dc091d Merge branch 'master' of github.com:lanl/LaGriT into RC-v3.3.3
+6ab71b8 Added test info to readme
+3413da7 Update README:
+b437872 Release cleanup
+1d80002 Remove extra file
+3d39f90 Update test readme
+869ff33 Fixed test suite for quadquality test
+File Changes  (66 files)
+M .github/workflows/test-lagrit.yml (70)
+M .gitignore (15)
+A CMakeLists.txt (203)
+M README.md (88)
+A cmake/CompilerFlags-C.cmake (25)
+A cmake/CompilerFlags-Fortran.cmake (8)
+A cmake/DetectBitSize.cmake (24)
+A cmake/PlatformSettings.cmake (24)
+A cmake/README.md (35)
+A cmake/modules/FindExodus.cmake (27)
+A cmake/modules/FindNetCDF.cmake (30)
+A examples/liblagrit/Makefile (5)
+A examples/liblagrit/lagrit.h (14)
+A examples/liblagrit/main.cxx (20)
+A install-exodus.sh (44)
+R lg_util/src/mm2000.h.in (12)
+D lg_util/src/mm2000_m32.h (76)
+D lg_util/src/mm2000_m64.h (75)
+M lg_util/src/opsys.h (63)
+M src/dumpexodusII.f (8)
+M src/excre_wrapper.c (5)
+M src/exo_init_ext.c (4)
+M src/exo_put_sets.c (4)
+D src/lagrit.h (32)
+R src/lagrit.h.in (25)
+D src/lagrit.template.h (31)
+D src/lagrit_mac.h (35)
+M src/lagrit_main.f (46)
+D src/lagrit_win.h (33)
+A src/user_sub.f (45)
+M src/writinit.f (125)
+M test/README (19)
+A test/level01/quad_quality/test03.inp (348)
+A test/level01/quad_quality/test04.inp (348)
+A test/level01/quad_quality/test05.inp (348)
+D test/level03/read_3token/input.lgi (16)
+D test/level03/read_3token/reference/input.lgi (16)
+D test/level03/read_3token/reference/logx3dgen (12)
+D test/level03/read_3token/reference/outx3dgen (132)
+D test/level03/read_3token/reference/test.AvS (28)
+D test/level03/read_3token/reference/test.InP (28)
+D test/level03/read_3token/reference/test.LaGriT (0)
+D test/level03/read_3token/reference/test.avs (28)
+D test/level03/read_3token/reference/test.gmv (76)
+D test/level03/read_3token/reference/test.inp (28)
+D test/level03/read_3token/reference/test.lg (0)
+D test/level03/read_3token/test.AvS (28)
+D test/level03/read_3token/test.InP (28)
+D test/level03/read_3token/test.LaGriT (0)
+D test/level03/read_3token/test.avs (28)
+D test/level03/read_3token/test.gmv (76)
+D test/level03/read_3token/test.inp (28)
+D test/level03/read_3token/test.lg (0)
+D test/lg_test_lib/__init__.py (100)
+D test/lg_test_lib/clean_test.py (52)
+D test/lg_test_lib/run_test.py (245)
+A test/runtests.py (58)
+D test/suite.py (181)
+A test/testlagrit/__init__.py (5)
+R test/testlagrit/check_test.py (0)
+A test/testlagrit/diff.py (459)
+A test/testlagrit/find_lagrit.py (41)
+A test/testlagrit/helper_functions.py (40)
+A test/testlagrit/logger.py (5)
+A test/testlagrit/run_lagrit.py (58)
+A test/testlagrit/run_test.py (14)
+Patch Links:
+
+https://github.com/lanl/LaGriT/pull/237.patch
+https://github.com/lanl/LaGriT/pull/237.diff
+```
+
 
 
 ### commit log:
