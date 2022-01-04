@@ -25,8 +25,8 @@ $ git clone https://github.com/lanl/LaGriT.git
 $ cd LaGriT/                  # Navigate to LaGriT repo
 $ ./install-exodus.sh         # Install Exodus
 $ mkdir build/ && cd build/   # Create build directory
-$ cmake .. && make            # Compile
-$ python ../test/runtests.py  # Run tests
+$ cmake .. && make            # Compile and write build/lagrit
+$ python ../test/runtests.py  # Run test suite, write lagrit-tests.logs
 ```
 
 More advanced build configurations can be found below.
