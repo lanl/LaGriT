@@ -1,0 +1,11 @@
+Most gocad examples have been moved to level01
+
+This example file is not included in level01 tests.
+It is a 3D tet file with Z elevation normal (not depth).
+The routine reports neg volumes for this mesh file.
+
+The mesh file may be at fault, it was derived from a JewelSuite export with depth.
+This example should be replaced and tested with a known good mesh file.
+input_2tets_Zelev.so
+
+

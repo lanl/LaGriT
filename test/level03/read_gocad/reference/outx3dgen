@@ -2,9 +2,9 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.320   Linux          *                 
-*               *    date_compile: 2021/10/15 Release         *                 
-*               *    Run Time: 2021/Oct 15  17:05:39          *                 
+*               *    Program:  LaGriT V3.330   Linux          *                 
+*               *    date_compile: 2021/10/15 test            *                 
+*               *    Run Time: 2021/Nov 29  11:22:44          *                 
 *               *    Manual:   http://lagrit.lanl.gov         *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25,8 +25,8 @@
                                -----oOo-----                                    
  
  
-Output log file: lagrit.out                                                     
-Command log file: lagrit.log                                                    
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
  
 # test GOCAD                                                                    
 read/gocad/input_2tets_Zelev.so/cmoin                                           

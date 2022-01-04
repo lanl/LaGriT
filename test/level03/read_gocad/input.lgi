@@ -1,8 +1,15 @@
 # test GOCAD
 
+# this gives neg volumes
+# need good example AND/OR fix code bug
 read/gocad /input_2tets_Zelev.so / cmoin
 quality
 cmo/delete/cmoin
+
+finish
+
+# these are good examples and results
+# and are part of level01/read_gocad
 
 read/gocad /input_small_js.so / cmoin
 quality
