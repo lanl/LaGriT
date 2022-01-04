@@ -1,5 +1,7 @@
-# Building LaGriT
+# Building LaGriT V3.32 and older
 ----------------------------------------------
+
+**New build instructions apply to V3.33 and newer, see https://github.com/lanl/LaGriT/README.md**
 
 LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the [Issues page](https://github.com/lanl/LaGriT/issues).
 
@@ -239,6 +241,6 @@ Windows support is under active development. Read this [issue](#null) for curren
 
 For documentation, tutorials, and commands, visit the [LaGriT homepage](http://lagrit.lanl.gov).
 
-**If you run into errors building LaGriT or have suggestions on how to improve this documentation, please email Terry Miller (tamiller@lanl.gov), Dylan Harp (dharp@lanl.gov), or Daniel Livingston (livingston@lanl.gov).**
+**If you run into errors building LaGriT or have suggestions on how to improve this documentation, please email Terry Miller (tamiller@lanl.gov)**
 
 
