@@ -1,3 +1,5 @@
-level03 directory tests are created by students and guests developing capabilities
-They are not include in the automated test and compare scripts
+level03 directories are new capabilities or issues under development. 
+If a test case becomes relevant to LaGriT commands it is moved to level01.
+These directories are not included in the automated test and compare scripts.
+
 
