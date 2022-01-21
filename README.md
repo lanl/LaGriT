@@ -18,22 +18,6 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 
 ### Getting Started
 
-The simplest way to begin is:
-
-```bash
-$ git clone https://github.com/lanl/LaGriT.git
-$ cd LaGriT/                  # Navigate to LaGriT repo
-$ ./install-exodus.sh         # Install Exodus
-$ mkdir build/ && cd build/   # Create build directory
-$ cmake .. && make            # Compile and write build/lagrit
-$ python ../test/runtests.py  # Run test suite, write lagrit-tests.logs
-```
-
-More advanced build configurations can be found below.
-
-### Building LaGriT ###
----
-
 Download the repo by running:
 
 ```bash
@@ -41,18 +25,22 @@ $ git clone https://github.com/lanl/LaGriT.git
 $ cd LaGriT/
 ```
 
+### Building LaGriT ###
+---
+
+
 #### (Optional) Building Exodus ####
 
-To download and build Exodus, run:
-
-```bash
-$ ./install-exodus.sh
-```
-
-You may change the location Exodus installs to:
+You can set the location Exodus installs to:
 
 ```bash
 $ export EXO_INSTALL_DIR=`pwd`/TPLs/install
+$ ./install-exodus.sh
+```
+
+or install to default directories:
+
+```bash
 $ ./install-exodus.sh
 ```
 
@@ -65,7 +53,7 @@ mkdir build/ && cd build/
 cmake .. && make
 ```
 
-You will find `lagrit` in the `build/` directory.
+You will find `lagrit` executable in the `build/` directory.
 
 #### Building LaGriT - Configurable
 
