@@ -1,8 +1,13 @@
 TPLs/
 src/lagrit.h
 lg_util/src/mm2000.h
+
 *pyc
-*DS_Store
+.DS_Store
+
+lagrit.log
+lagrit.out
+lagrit-tests.log
 
 # CMake generated files
 build/

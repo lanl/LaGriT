@@ -28,6 +28,7 @@ $ cd LaGriT/
 ### Building LaGriT ###
 ---
 
+For more in-depth build instructions, [visit the Building LaGriT page here](docs/pages/building_lagrit.md).
 
 #### (Optional) Building Exodus ####
 
