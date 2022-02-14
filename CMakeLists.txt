@@ -19,27 +19,36 @@ set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
 set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
 
 # ==== Is SEACAS/ExodusII available? =========== #
-find_package(Exodus)
-find_package(NetCDF)
-find_package(HDF5)
-find_package(ZLIB)
+set(SEACASProj_ENABLE_SEACASExodus          YES)
+set(SEACASProj_ENABLE_SEACASExodus_for      YES)
+set(SEACASProj_ENABLE_SEACASExoIIv2for32    YES)
+set(SEACASProj_ENABLE_TESTS                 YES)
+set(SEACASExodus_ENABLE_STATIC              ${STATIC})
+set(SEACASProj_ENABLE_Fortran               YES)
+set(SEACASProj_SKIP_FORTRANCINTERFACE_VERIFY_TEST   YES)
+set(SEACASProj_HIDE_DEPRECATED_CODE         NO)
+set(SEACASExodus_ENABLE_THREADSAFE          NO)
+set(HDF5_NO_SYSTEM_PATHS                    YES)
+add_subdirectory("${CMAKE_SOURCE_DIR}/seacas/" seacas.out)
 
-set(TPL_LIBRARIES "")
-set(TPL_INCLUDE_DIRS "")
+execute_process(
+  COMMAND
+    "FORTRAN=YES CGNS=OFF MATIO=OFF NEEDS_ZLIB=YES GNU_PARALLEL=OFF BUILD=YES ./install-tpl.sh"
+  WORKING_DIRECTORY
+    "${CMAKE_SOURCE_DIR}/seacas/"
+)
 
-if (Exodus_FOUND) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
-  message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
-  add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
-  set(TPL_LIBRARIES "${Exodus_LIBRARIES} ${HDF5_LIBRARIES} ${NetCDF_LIBRARIES} ${ZLIB_LIBRARIES}")
-  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR} ${HDF5_INCLUDE_DIR} ${NetCDF_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}")
-else()
-  message("WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.")
-  message(STATUS "Exodus Dependency Status:")
-  message(STATUS "  Found Exodus: ${Exodus_FOUND}")
-  message(STATUS "  Found NetCDF: ${NetCDF_FOUND}")
-  message(STATUS "  Found HDF5:   ${HDF5_FOUND}")
-  message(STATUS "  Found ZLIB:   ${ZLIB_FOUND}")
-endif()
+#ExternalProject_Get_Property(project_a install_dir)
+#include_directories(${install_dir}/include)
+
+#if (Exodus_FOUND) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
+#  message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
+#  add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+#  set(TPL_LIBRARIES "${Exodus_LIBRARIES}")# ${HDF5_LIBRARIES} ${NetCDF_LIBRARIES} ${ZLIB_LIBRARIES}")
+#  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR}")# ${HDF5_INCLUDE_DIR} ${NetCDF_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}")
+#else()
+#  message("WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.")
+#endif()
 
 # ===== Detect platform, bit-size, and compilers ==================== #
 message(STATUS "Detected System:")
@@ -47,15 +56,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/PlatformSettings.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/DetectBitSize.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
-
-#include(FortranCInterface)
-#FortranCInterface_VERIFY(CXX)
-#FortranCInterface_HEADER(
-#    LaGriT.h
-#    MACRO_NAMESPACE "LG_"
-#    SYMBOL_NAMESPACE "LG_"
-#    SYMBOLS mysub mymod:my_sub
-#)
 
 if (LaGriT_BUILD_STATIC)
   set(LIBLAGRIT_BUILD_TYPE "STATIC")
@@ -158,6 +158,11 @@ set_target_properties(
   Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/"
 )
 
+target_include_directories(lagrit.exe
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
 # Change from 'lagrit' (OUTPUT_NAME) to 'lagrit.exe' on Windows
 if (WIN32)
   set_target_properties(lagrit.exe PROPERTIES SUFFIX ".exe")
@@ -184,20 +189,3 @@ target_link_libraries(lagrit.exe
   PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
   PUBLIC ${TPL_LIBRARIES}     # Exodus / NetCDF / HDF5 / ZLIB
 )
-
-# Install lagrit to ${CMAKE_INSTALL_PATH}/bin/
-install(
-    TARGETS lagrit.exe
-    DESTINATION "bin"
-)
-
-# Install liblagrit to ${CMAKE_INSTALL_PATH}/lib/
-install(
-    TARGETS liblagrit
-    DESTINATION "lib"
-)
-
-#install(
-#  TARGETS ???
-#  DESTINTION "include"
-#)

@@ -21,9 +21,21 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 Download the repo by running:
 
 ```bash
-$ git clone https://github.com/lanl/LaGriT.git
+$ git clone --recurse-submodules https://github.com/lanl/LaGriT.git
 $ cd LaGriT/
 ```
+
+*NOTE: `--recurse-submodules` is used to clone ExodusII as a dependency. For existing LaGriT repository clones, run `git submodule update --init --recursive` within the repo.*
+
+### Set Up Exodus Dependencies
+
+```bash
+$ cd seacas/
+$ ACCESS=`pwd` ./install-tpl.sh
+```
+
+
+Instructions: https://github.com/gsjaardema/seacas/tree/v2022-01-27#automatically-download-and-build-dependencies-third-party-libraries
 
 ### Building LaGriT ###
 ---
