@@ -16,9 +16,3 @@ elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)
   set(LAGRIT_BYTES_PER_PTR 4)
   set(LAGRIT_AD_SIZE 6)
 endif()
-
-configure_file(
-    "${SRC_UTIL}/mm2000.h.in"
-    "${SRC_UTIL}/mm2000.h"
-    @ONLY
-)

@@ -1,0 +1,84 @@
+cmake_minimum_required(VERSION 3.13)
+
+# Configure the mm2000.h header file with bit sizes
+configure_file(mm2000.h.in mm2000.h @ONLY)
+
+# Set all source files explicitly
+target_sources(lagrit_lib
+    PRIVATE
+        bit.f
+        chklun.f
+        close.f
+        commands_lg.h
+        compl.f
+        cvmgm.f
+        cvmgmr.f
+        cvmgn.f
+        cvmgnr.f
+        cvmgp.f
+        cvmgpr.f
+        cvmgt.f
+        cvmgtr.f
+        cvmgz.f
+        cvmgzr.f
+        fexist.f
+        getcmds.f
+        gmvwrite.c
+        gmvwritef.c
+        guass_elim_lg.f
+        hassign.f
+        heapexit.f
+        hpsort1.f
+        hpsorti.f
+        hpsortim.f
+        hpsortimp.f
+        hpsortip.f
+        hpsortrmp.f
+        icharln.f
+        icharlnb.f
+        icharlnf.f
+        icvmgm.f
+        icvmgn.f
+        icvmgp.f
+        icvmgt.f
+        icvmgtr.f
+        icvmgz.f
+        iimax.f
+        iimin.f
+        inv2x2.f
+        inv3x3.f
+        inv_schmidt_hilbert_lg.f
+        io.c
+        isamax.f
+        isamin.f
+        ismax.f
+        ismin.f
+        isort.f
+        kmprsm.f
+        kmprsmr.f
+        kmprsn.f
+        kmprsnirr.f
+        kmprsnr.f
+        kmprsnrrr.f
+        kmprsp.f
+        kmprspr.f
+        kmprsz.f
+        kmprszr.f
+        lenchar.f
+        lunget.f
+        mm2000.F
+        mm2000.h
+        # mm2000_header.F <-- excluded
+        mmsc.c
+        nextlun.f
+        nulltoblank_lg.f
+        nxtilt.f
+        opsys.h
+        parse_string.f
+        rdbms.h
+        scopyii.f
+        setbit.f
+        shiftl.f
+        shiftr.f
+        ssort.f
+        ssum.f)

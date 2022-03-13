@@ -1,3 +1,0 @@
-[submodule "seacas"]
-	path = seacas
-	url = https://github.com/gsjaardema/seacas.git

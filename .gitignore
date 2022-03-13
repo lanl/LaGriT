@@ -1,10 +1,14 @@
 TPLs/
-src/lagrit.h
-lg_util/src/mm2000.h
 
-*pyc
+# CMake autogen headers
+lagrit.h
+mm2000.h
+
+# OS artifacts
 .DS_Store
+Thumbs.db
 
+# LaGriT runtime artifacts
 lagrit.log
 lagrit.out
 lagrit-tests.log
@@ -48,4 +52,6 @@ _deps
 *.mod
 src/lagrit
 
+# Python artifacts
 *.egg-info
+*.pyc
