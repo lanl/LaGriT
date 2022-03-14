@@ -69,8 +69,9 @@ All metis routines are concatenated below.
 #include "metis.h"
 
 #ifdef _WIN32
+#include <stdlib.h>
 void srand48(long x) { srand((int)(x)); }
-double drand48() { ((double)rand()/RAND_MAX); }
+double drand48() { return ((double)rand()/RAND_MAX); }
 #endif
 
 /*************************************************************************
