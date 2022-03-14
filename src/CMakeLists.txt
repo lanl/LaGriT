@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.12..3.19)
+
 # Validate compiler & symbol interop
 include(FortranCInterface)
 FortranCInterface_VERIFY()
@@ -13,13 +15,17 @@ if(MSVC)
         $<$<CONFIG:Release>:/MT>)
 endif()
 
+# Old policy - required for empty targets below
+cmake_policy(SET CMP0115 OLD)
+
 # Empty targets that will be populated in subdirectories
-add_executable(lagrit_exe "")
-add_library(lagrit_lib "")
+add_executable(lagrit_exe)
+add_library(lagrit_lib)
+add_dependencies(lagrit_exe lagrit_lib)
 
 add_subdirectory(lg_util)
 add_subdirectory(lg_core)
-add_subdirectory(lg_public)
+add_subdirectory(lg_interface)
 
 # Enable Fortran processor directives
 # This should be in lg_core/CMakeLists.txt, but

@@ -18,7 +18,11 @@
 #else
 #include <malloc.h>
 #endif
+
+#ifndef _WIN32
 #include <strings.h>
+#endif
+
 #include <string.h>
 #include <ctype.h>
 #include <math.h>

@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.18)
 
 # Configure the lagrit.h header file with CMake variables
 string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
-configure_file(lagrit.h.in lagrit.h @ONLY)
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/lagrit.h.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/lagrit.h"
+    @ONLY)
 
 if(LG_ENABLE_EXODUS)
     target_compile_definitions(lagrit_lib

@@ -14,11 +14,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules/")
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-    message(
-        STATUS "Setting up LaGriT build system"
-        )
 
     # Testing only available if this is the main app
     # Note this needs to be done in the main CMakeLists
@@ -37,4 +33,4 @@ include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
 add_subdirectory(src)
-add_subdirectory(examples)
+#add_subdirectory(examples)
