@@ -37,3 +37,4 @@ include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
 add_subdirectory(src)
+add_subdirectory(examples)

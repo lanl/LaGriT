@@ -1,3 +1,8 @@
+# Validate compiler & symbol interop
+include(FortranCInterface)
+FortranCInterface_VERIFY()
+FortranCInterface_VERIFY(CXX)
+
 if(MSVC)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /Dwin64")
     set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
@@ -14,6 +19,7 @@ add_library(lagrit_lib "")
 
 add_subdirectory(lg_util)
 add_subdirectory(lg_core)
+add_subdirectory(lg_public)
 
 # Enable Fortran processor directives
 # This should be in lg_core/CMakeLists.txt, but
@@ -39,3 +45,8 @@ set_target_properties(lagrit_exe
     Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/")
 
 target_link_libraries(lagrit_exe lagrit_lib)
+
+if(NOT ${BUILD_SHARED_LIBS})
+    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_START_STATIC 1)
+    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_END_STATIC 1)
+endif()
