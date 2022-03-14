@@ -11,6 +11,7 @@ option(LG_ENABLE_EXODUS
     OFF)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules/")
+include(cmake/LaGriT.cmake)
 
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

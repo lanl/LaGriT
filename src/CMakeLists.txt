@@ -50,9 +50,14 @@ set_target_properties(lagrit_exe
     LINKER_LANGUAGE Fortran
     Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/")
 
+if(WIN32)
+    lagrit_config_windows(lagrit_exe)
+    lagrit_config_windows(lagrit_lib)
+endif()
+
 target_link_libraries(lagrit_exe lagrit_lib)
 
-if(NOT ${BUILD_SHARED_LIBS})
-    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_START_STATIC 1)
-    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_END_STATIC 1)
-endif()
+#if(NOT ${BUILD_SHARED_LIBS})
+#    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_START_STATIC 1)
+#    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_END_STATIC 1)
+#endif()
