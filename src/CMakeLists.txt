@@ -15,12 +15,6 @@ add_library(lagrit_lib "")
 add_subdirectory(lg_util)
 add_subdirectory(lg_core)
 
-#target_include_directories(lagrit_lib
-#    PUBLIC
-#        ${CMAKE_CURRENT_LIST_DIR})
-
-# include_directories(${CMAKE_CURRENT_BINARY_DIR})
-
 # Enable Fortran processor directives
 # This should be in lg_core/CMakeLists.txt, but
 # must be here for scope reasons

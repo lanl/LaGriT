@@ -17,7 +17,7 @@ def find_lagrit(start_dir: str) -> str:
     exe_candidates = []
 
     if start_dir.lower().replace('/','').replace('\\','').endswith('test'):
-        for p in ["..", "../src", "../build", "../install"]:
+        for p in ["..", "../src", "../build", "../install", "../build/src"]:
             search_dirs.append(os.path.join(start_dir, p))
     
     for p in search_dirs:

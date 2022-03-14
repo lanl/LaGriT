@@ -5,12 +5,11 @@ find_package(Python3 COMPONENTS Interpreter)
 
 set(LG_TEST_ARGS
     "-exe $<TARGET_FILE:lagrit_exe>"
-    "--levels 1")
+    "--levels 1 2")
 
 add_test(
     NAME lagrit_tests
     COMMAND
         ${Python3_EXECUTABLE} runtests.py ${LG_TEST_ARGS}
     WORKING_DIRECTORY
-        ${CMAKE_CURRENT_SOURCE_DIR}
-)
+        ${CMAKE_CURRENT_SOURCE_DIR})

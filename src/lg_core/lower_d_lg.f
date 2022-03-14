@@ -137,7 +137,7 @@ C
 C   COMMAND FORMAT -
 C     (* marks defaults; cmo0 is the current "bare" or "top" mesh object name)
 C
-C      lower_d/*create[/cmo0|*-def-][/recreate|refilter|*new]
+C      lower_d/create[/cmo0|*-def-][/recreate|refilter|*new]
 C            creates lower d structures in cmo0
 C            (to modify how selected, use filter after create; see filter)
 C            "recreate" indicates that exisiting color table if any should be used
@@ -156,7 +156,7 @@ C            cmo1,cmo2,cmo3 are the names of the mesh objects to extract
 C              the corresponding d1,d2,d3 structures to.
 C            Unlike other extracts, node attibutes are copied to the extracted mesh.
 C
-C       lower_d/print[/cmo0|*-def-][/*clrtab]
+C       lower_d/print[/cmo0|*-def-][/clrtab]
 C            print the color table
 C
 C       lower_d/filter[/cmo0|*-def-]/[icr|itp|imt|clr]/#[/and|*or|new]
@@ -448,7 +448,7 @@ c .....................................................
       if (action(1:lenaction).eq.'create') then
  
 c -----------------------------------------------------
-c lower_d/*create[/cmo0|*-def-][/recreate|refilter|*new]
+c lower_d/create[/cmo0|*-def-][/recreate|refilter|*new]
 c (* marks default)
 c creates lower d structures in cmo0
 c (to modify how selected, use filter after create; see filter)
@@ -481,7 +481,7 @@ c .....................................................
       elseif (action(1:lenaction).eq.'print') then
  
 c -----------------------------------------------------
-c lower_d/print[/cmo0|*-def-][/*clrtab][filename|*-def-]
+c lower_d/print[/cmo0|*-def-][/clrtab][filename|*-def-]
 c (* marks default)
 c + print the color table
 c + "filename" option not yet implemented
@@ -621,7 +621,7 @@ c lower_d/filter[/cmo0|*-def-]/refilter[/#]
 c lower_d/filter[/cmo0|*-def-]/recreate
  
 C$$ vs (old idea):
-C$$   [/*all|interior|exterior|(imt #)][/*color_icr|nocolor_icr]
+C$$   [/all|interior|exterior|(imt #)][/color_icr|nocolor_icr]
 C$$ + if color_icr, then the "color" of the interface
 C$$      is a unique number for each constraint + material colors combination
 C$$      itetclr{surface} = serially packed {icr,imt 1-n}
