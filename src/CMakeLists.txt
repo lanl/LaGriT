@@ -6,13 +6,6 @@ FortranCInterface_VERIFY()
 FortranCInterface_VERIFY(CXX)
 
 if(MSVC)
-    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /Dwin64")
-    set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
-    add_compile_options(
-        $<$<CONFIG:>:/MT>
-        $<$<CONFIG:Debug>:/MTd>
-        $<$<CONFIG:Release>:/MT>)
 endif()
 
 # Old policy - required for empty targets below
