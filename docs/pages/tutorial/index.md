@@ -27,31 +27,6 @@
     </div>
 </div>
 
-<h1 class="uk-heading-line"><span>Tutorials</span></h1>
-
-<!-- Tutorial card -->
-<div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-        <div class="uk-card-media-left uk-cover-container">
-		
-		<img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
-
-		
-        </div>
-    <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
-        <div>
-            <div class="uk-card-body">
-                <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-                <p>Complex stratigraphic mesh creation with faults, wells, and subsurface layering</p>
-                <span class="uk-badge">Advanced</span>
-            </div>
-        </div>
-    </a>
-</div>
-<!-- End tutorial card -->
-
-<br/><br/>
-
-
 
 <h1 class="uk-heading-line"><span>Examples</span></h1>
 <!-- Types are tutorial, demo, utility, commands in order from most complex to simple -->
@@ -80,6 +55,19 @@ Select All, or by one of the categories:
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
 
 <!-- demo cards -->
+	    
+	<li data-color="tutorial">
+            <div>
+                <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/tutorial/stratigraphy/images/21_tet_wide.png" alt="">
+                        </div>
+                        <p>Tutorial Tet Mesh with faults, wells, and subsurface layers  </p>
+                    </div>
+                </a>
+            </div>
+        </li>
 
        <li data-color="demo">
             <div>
