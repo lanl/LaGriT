@@ -98,12 +98,13 @@ $ python test/runtests.py --help
 
 ### Supporting Documentation ###
 ---
-* [Installation](documentation/INSTALL.md)
-* [GitHub pages](https://lanl.github.io/LaGriT/)
-* [lagrit.lanl.gov: Description and Manual](http://lagrit.lanl.gov)
+* [LaGriT Documentation](https://lanl.github.io/LaGriT/)
 * [PyLaGriT documentation](https://lanl.github.io/LaGriT/pylagrit/original/index.html)
+* [lagrit.lanl.gov: Web Page](http://lagrit.lanl.gov)
 * [Contribution Agreement for External Collaborators](CONTRIBUTING.md)
 * [Copyright License](LICENSE.md)
+* [Code Development with cmake](cmake/README.md)
+* [Installation for old LaGriT V2](documentation/INSTALL.md)
 
 ![Refine Samples](screenshots/refine_samples_TN1000.png)
 
