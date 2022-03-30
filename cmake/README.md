@@ -18,12 +18,16 @@ The build type can only be set in the configure stage. One way to handle buildin
 ### For workflow:
 
 Setup a work directory for dev and debug work (example using name "debug")
-
-```mkdir debug/ && cd debug/ && cmake .. -D CMAKE_BUILD_TYPE=Debug```
+```
+mkdir debug/ && cd debug/ && cmake .. -D CMAKE_BUILD_TYPE=Debug
+make
+```
 
 Before changing code you might first add a directory and build a release (no debug) version:
-
-```mkdir release/ && cd release/ && cmake .. -D CMAKE_BUILD_TYPE=Release```
+```
+mkdir release/ && cd release/ && cmake .. -D CMAKE_BUILD_TYPE=Release
+make
+```
       
 Modify files in src/ 
 
