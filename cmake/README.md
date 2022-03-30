@@ -29,7 +29,8 @@ mkdir release/ && cd release/ && cmake .. -D CMAKE_BUILD_TYPE=Release
 make
 ```
       
-Modify files in src/ 
+Modify files in src/
+If you add new files you will need to run cmake again. This will detect all files in src/ and add to Makefile.
 
 Compile new executable using ```make``` in the debug/ directory.
       
