@@ -159,7 +159,7 @@ will output a file with Geometry, Element, Region, Location, and Dataset in DATE
 
 Write adjacency information to an ascii file. Write list of all elements adjacent to each node. 
 
-File format: `node_number number_of_adjacent_elem e1 e2 ... en`
+File format: `node_number number_of_adjacent_elem e1 e2 ... en` (-99 is a boundary)
 
 <br>
 
