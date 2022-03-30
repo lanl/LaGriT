@@ -157,9 +157,9 @@ will output a file with Geometry, Element, Region, Location, and Dataset in DATE
 <b>dump / elem_adj_node</b> / file_name / mo_name 
 </pre>
 
-Write adjacency information to an ascii file. Write list of all elements adjacent to each node. 
+Write adjacency information to an ascii file. Write list of all elements adjacent to each node. (-99 is a boundary)
 
-File format: `node_number number_of_adjacent_elem e1 e2 ... en` (-99 is a boundary)
+File format: `node_number number_of_adjacent_elem e1 e2 ... en` 
 
 <br>
 
@@ -183,7 +183,7 @@ Click here for [more details on options and files that are written for ExodusII]
 ### **`FEHM`** <a name="fehm"></a>
 
 <pre>
-<b>dump/ fehm</b> / rootname / cmo\_name / [ optional keywords ]
+<b>dump/ fehm</b> / rootname / cmo_name / [ optional keywords ]
 </pre>
 
 Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional. 
