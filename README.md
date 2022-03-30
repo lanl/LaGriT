@@ -28,22 +28,6 @@ $ cd LaGriT/
 ### Building LaGriT ###
 ---
 
-
-#### (Optional) Building Exodus ####
-
-You can set the location Exodus installs to:
-
-```bash
-$ export EXO_INSTALL_DIR=`pwd`/TPLs/install
-$ ./install-exodus.sh
-```
-
-or install to default directories:
-
-```bash
-$ ./install-exodus.sh
-```
-
 #### Building LaGriT - Simple
 
 The simplest way to build LaGriT is:
@@ -54,6 +38,66 @@ cmake .. && make
 ```
 
 You will find `lagrit` executable in the `build/` directory.
+
+Note, LaGriT will continue to build if ExodusII is not found. The Exodus and Netcdf libs are needed to write ExodusII libraries and are not otherwise needed.
+
+```
+-- ==========================================
+-- ============Configuring LaGriT============
+-- ===================v3.3.3=================
+-- Compile LaGriT as a static binary = ON
+-- Could NOT find Exodus (missing: Exodus_LIBRARIES Exodus_INCLUDE_DIR)
+WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.
+
+[100%] Built target lagrit.exe
+
+$ ./lagrit
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *
+*               *                                             *
+*               *    Program:  LaGriT V3.3.3   Darwin         *
+*               *    Date Compile: 2022/03/30                 *
+*               *    Run Time: 2022/Mar 30  15:59:25          *
+*               *    Manual:   https://lagrit.lanl.gov        *
+*               *                                             *
+*               * * * * * * * * * * * * * * * * * * * * * * * *
+
+                               -----oOo-----
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This
+  program was produced under U.S. Government contract 89233218CNA000001
+  for Los Alamos National Laboratory (LANL), which is operated by Triad
+  National Security, LLC for the U.S. Department of Energy/National Nuclear
+  Security Administration.  All rights in the program are reserved by Triad
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear
+  Security Administration. The Government is granted for itself and others
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license
+  in this material to reproduce, prepare derivative works, distribute copies
+  to the public, perform publicly and display publicly, and to permit others to
+  do so. This software is open source and available under the BSD-3 License.
+                               -----oOo-----
+
+Output log file: lagrit.out
+Command log file: lagrit.log
+
+ Enter a command
+finish
+LaGriT successfully completed
+```
+
+
+#### (Optional) Building Exodus ####
+
+Install to default directories:
+(This is not working for some platforms, you can still build without Exodus)
+
+```bash
+$ ./install-exodus.sh
+```
+
+Exodus Installation instructions:
+[Seacas ExodusII](https://github.com/gsjaardema/seacas)
+
 
 #### Building LaGriT - Configurable
 
