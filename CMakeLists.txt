@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(
-    LaGriT
+project(LaGriT
     VERSION         3.3.3
     DESCRIPTION     "LaGriT Meshing Utilities"
     LANGUAGES       Fortran CXX C)

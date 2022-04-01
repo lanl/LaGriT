@@ -45,7 +45,7 @@ Import to CVS
 *PVCS    Initial revision.
 */
 
-#include <lg.h>
+#include <lg_interface.h>
 
 #include <assert.h>
 #include <stdlib.h>

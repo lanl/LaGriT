@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.12..3.19)
 
-# Old policy - required for empty targets below
+# Force old policy - required for empty targets below
 cmake_policy(SET CMP0115 OLD)
 
 # Empty targets that will be populated in subdirectories
 add_executable(lagrit_exe)
 add_library(lagrit_lib)
-add_dependencies(lagrit_exe lagrit_lib)
+add_dependencies(lagrit_exe lagrit_lib) # ??
 
 add_subdirectory(lg_interface)
 add_subdirectory(lg_util)
@@ -24,16 +24,16 @@ set_property(
 # Properties for LaGriT library
 set_target_properties(lagrit_lib
   PROPERTIES
-    OUTPUT_NAME "lagrit"
-    VERSION "${PROJECT_VERSION}"
-    SOVERSION "${PROJECT_VERSION_MAJOR}")
+    OUTPUT_NAME     lagrit
+    VERSION         ${PROJECT_VERSION}
+    SOVERSION       ${PROJECT_VERSION_MAJOR})
 
 # Properties for LaGriT executable
 set_target_properties(lagrit_exe
   PROPERTIES
-    OUTPUT_NAME "lagrit"
-    LINKER_LANGUAGE Fortran
-    Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules/")
+    OUTPUT_NAME                 lagrit
+    LINKER_LANGUAGE             Fortran
+    Fortran_MODULE_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}/modules/")
 
 if(WIN32)
     lagrit_config_windows(lagrit_exe)
