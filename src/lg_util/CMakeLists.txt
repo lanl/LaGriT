@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.16)
 
 # Configure the mm2000.h header file with bit sizes
 configure_file(mm2000.h.in mm2000.h @ONLY)
 
 # Set all source files explicitly
-target_sources(lagrit_lib
+target_sources(lagrit
     PRIVATE
         bit.f
         chklun.f

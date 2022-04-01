@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.16)
 
 # Configure the lagrit.h header file with CMake variables
 string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
@@ -8,18 +8,20 @@ configure_file(
     @ONLY)
 
 if(LG_ENABLE_EXODUS)
-    target_compile_definitions(lagrit_lib
+    target_compile_definitions(lagrit
         PRIVATE
             LAGRIT_INCLUDE_EXODUSII)
 endif()
 
 # Set source files *exclusive* to executable
-target_sources(lagrit_exe
-    PRIVATE
-        lagrit_main.f)
+if(NOT LG_BUILD_AS_LIBRARY)
+    target_sources(lagrit
+        PRIVATE
+            lagrit_main.f)
+endif()
 
 # Set all library source files
-target_sources(lagrit_lib
+target_sources(lagrit
     PRIVATE
         ColoredGraphModule.f90
         GraphModule.f90

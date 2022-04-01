@@ -4,7 +4,7 @@ project(LagritTests)
 find_package(Python3 COMPONENTS Interpreter)
 
 set(LG_TEST_ARGS
-    "-exe $<TARGET_FILE:lagrit_exe>"
+    "-exe $<TARGET_FILE:lagrit>"
     "--levels 1 2")
 
 add_test(

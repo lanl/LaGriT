@@ -4,9 +4,40 @@ cmake_minimum_required(VERSION 3.12..3.19)
 cmake_policy(SET CMP0115 OLD)
 
 # Empty targets that will be populated in subdirectories
-add_executable(lagrit_exe)
-add_library(lagrit_lib)
-add_dependencies(lagrit_exe lagrit_lib) # ??
+if(LG_BUILD_AS_LIBRARY)
+    add_library(lagrit)
+
+    # Properties for LaGriT library
+    set_target_properties(lagrit
+      PROPERTIES
+        OUTPUT_NAME     lagrit
+        VERSION         ${PROJECT_VERSION}
+        SOVERSION       ${PROJECT_VERSION_MAJOR})
+
+    #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+else()
+    add_executable(lagrit)
+
+    # Properties for LaGriT executable
+    set_target_properties(lagrit
+      PROPERTIES
+        OUTPUT_NAME                 lagrit
+        #LINKER_LANGUAGE             Fortran
+        Fortran_MODULE_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}/modules/")
+endif()
+#add_dependencies(lagrit_exe lagrit_lib)
+
+if(NOT ${BUILD_SHARED_LIBS})
+    set_target_properties(lagrit
+        PROPERTIES
+            LINK_SEARCH_START_STATIC    1
+            LINK_SEARCH_END_STATIC      1)
+endif()
+
+if(WIN32)
+    lagrit_config_windows(lagrit)
+    #lagrit_config_windows(lagrit_lib)
+endif()
 
 add_subdirectory(lg_interface)
 add_subdirectory(lg_util)
@@ -21,36 +52,12 @@ set_property(
     PROPERTY
         Fortran_PREPROCESS ON)
 
-# Properties for LaGriT library
-set_target_properties(lagrit_lib
-  PROPERTIES
-    OUTPUT_NAME     lagrit
-    VERSION         ${PROJECT_VERSION}
-    SOVERSION       ${PROJECT_VERSION_MAJOR})
-
-# Properties for LaGriT executable
-set_target_properties(lagrit_exe
-  PROPERTIES
-    OUTPUT_NAME                 lagrit
-    LINKER_LANGUAGE             Fortran
-    Fortran_MODULE_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}/modules/")
-
-if(WIN32)
-    lagrit_config_windows(lagrit_exe)
-    lagrit_config_windows(lagrit_lib)
-endif()
-
-target_link_libraries(lagrit_exe lagrit_lib)
-
-#if(NOT ${BUILD_SHARED_LIBS})
-#    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_START_STATIC 1)
-#    set_target_properties(lagrit_exe PROPERTIES LINK_SEARCH_END_STATIC 1)
-#endif()
+#target_link_libraries(lagrit_exe lagrit_lib)
 
 install(
     TARGETS
-        lagrit_lib
-        lagrit_exe
+        lagrit
+        #lagrit_exe
     LIBRARY
         DESTINATION lib
     PUBLIC_HEADER
