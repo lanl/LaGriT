@@ -9,7 +9,6 @@ target_sources(lagrit
 # Validate compiler & symbol interop
 include(FortranCInterface)
 FortranCInterface_VERIFY()
-#FortranCInterface_VERIFY(CXX)
 
 # Generate a header file for handling compiler symbol mangling
 # More information: https://www.netlib.org/lapack/lawnspdf/lawn270.pdf
