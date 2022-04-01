@@ -5,9 +5,17 @@ project(LaGriT
     DESCRIPTION     "LaGriT Meshing Utilities"
     LANGUAGES       Fortran CXX C)
 
+option(LG_BUILD_AS_LIBRARY
+    "Build LaGriT as a library (ON) or as a static executable (OFF)"
+    OFF)
+
 option(LG_ENABLE_EXODUS
     "Set to ON to enable ExodusII mesh output"
     OFF)
+
+set(LG_BUILD_EXAMPLES
+    "Build the demos in the `examples/` folder. Requires `LG_BUILD_AS_LIBRARY=ON`."
+    ON)
 
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules/")
 include(cmake/LaGriT.cmake)
@@ -31,4 +39,7 @@ include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
 add_subdirectory(src)
-#add_subdirectory(examples)
+
+if(true)# LG_BUILD_EXAMPLES AND LG_BUILD_AS_LIBRARY)
+    add_subdirectory(examples)
+endif()

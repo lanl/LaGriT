@@ -53,9 +53,6 @@ install(
         lagrit_exe
     LIBRARY
         DESTINATION lib
-    ARCHIVE
-        DESTINATION lib
-    RUNTIME
-        DESTINATION bin
-    INCLUDES
-        DESTINATION include)
+    PUBLIC_HEADER
+        DESTINATION include
+)
