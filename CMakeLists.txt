@@ -26,10 +26,6 @@ include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
 add_subdirectory(src)
 
-#if(LG_BUILD_EXAMPLES AND LG_BUILD_AS_LIBRARY)
-#    add_subdirectory(examples)
-#endif()
-
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(NOT LG_BUILD_AS_LIBRARY AND (CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME))
     # Testing only available if this is the main app

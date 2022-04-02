@@ -1,6 +1,6 @@
 add_executable(lagrit_cxx_example example.c)
 target_link_libraries(lagrit_cxx_example
-    PRIVATE lagrit_lib)
+    PRIVATE lagrit)
 target_include_directories(lagrit_cxx_example
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include)
 

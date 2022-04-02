@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 
-# Set all library source files
-target_sources(lagrit
-    PUBLIC
-        src/lg_interface.h
-        src/interface.f90)
-
 # Validate compiler & symbol interop
 include(FortranCInterface)
 FortranCInterface_VERIFY()
@@ -15,9 +9,9 @@ FortranCInterface_VERIFY()
 FortranCInterface_HEADER(
     fc_mangle.h
     SYMBOLS
+        INITLAGRIT
         INSIDE_TET
-        MYTEST
-        lineseg_tri)
+        LINESEG_TRI)
 
 target_include_directories(lagrit
     PUBLIC
@@ -33,3 +27,11 @@ target_include_directories(lagrit
 set_target_properties(lagrit
     PROPERTIES
         PUBLIC_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/lagrit.h")
+
+# Set all library source files
+target_sources(lagrit
+    PRIVATE
+        src/public_interface.cpp
+    PUBLIC
+        src/lg_interface.h
+        src/interface.f90)

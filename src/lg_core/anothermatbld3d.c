@@ -519,8 +519,6 @@ static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
 {
     int_ptrsize flag;
 
-    MYTEST();
-
     LINESEG_TRI(
             &Mesh->xic[itet[p1] - 1], &Mesh->yic[itet[p1] - 1],
             &Mesh->zic[itet[p1] - 1], &Mesh->xic[itet[p2] - 1],

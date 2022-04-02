@@ -1,15 +1,16 @@
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-BUILD_DIR:="${ROOT_DIR}/_build/"
+BUILD_DIR:="${ROOT_DIR}/build/"
 INSTALL_DIR="${ROOT_DIR}/install/"
 
-CMAKE_ARGS_CONFIGURE:=-S ${ROOT_DIR} -B ${BUILD_DIR}
+CMAKE_ARGS_CONFIGURE:=-S ${ROOT_DIR} -B ${BUILD_DIR} -G "Ninja" -D LG_BUILD_AS_LIBRARY:BOOL=ON -D BUILD_SHARED_LIBS=ON
 CMAKE_ARGS_BUILD:=--build ${BUILD_DIR} --parallel
+CMAKE_ARGS_INSTALL=--install ${BUILD_DIR} --prefix ${INSTALL_DIR}
 CMAKE_ARGS_TEST:=--test-dir ${BUILD_DIR} --extra-verbose
 
 .PHONY: all configure build test install
 
-all : configure build test install
+all : configure build install
 
 configure :
 	@mkdir -p ${BUILD_DIR}
@@ -22,5 +23,7 @@ test :
 	@ctest ${CMAKE_ARGS_TEST}
 
 install :
-	@cmake --install ${ROOT_DIR}/install/
+	@cmake ${CMAKE_ARGS_INSTALL}
 
+example1 :
+	@DYLD_LIBRARY_PATH="${INSTALL_DIR}/lib:${DYLD_LIBRARY_PATH}" ${INSTALL_DIR}/examples/lagrit_cxx_example

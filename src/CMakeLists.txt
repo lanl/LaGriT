@@ -25,7 +25,6 @@ else()
         #LINKER_LANGUAGE             Fortran
         Fortran_MODULE_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}/modules/")
 endif()
-#add_dependencies(lagrit_exe lagrit_lib)
 
 if(NOT ${BUILD_SHARED_LIBS})
     set_target_properties(lagrit
@@ -36,12 +35,15 @@ endif()
 
 if(WIN32)
     lagrit_config_windows(lagrit)
-    #lagrit_config_windows(lagrit_lib)
 endif()
 
 add_subdirectory(lg_interface)
 add_subdirectory(lg_util)
 add_subdirectory(lg_core)
+
+if(LG_BUILD_EXAMPLES AND LG_BUILD_AS_LIBRARY)
+    add_subdirectory(examples)
+endif()
 
 # Enable Fortran processor directives
 # This should be in lg_core/CMakeLists.txt, but
@@ -52,12 +54,9 @@ set_property(
     PROPERTY
         Fortran_PREPROCESS ON)
 
-#target_link_libraries(lagrit_exe lagrit_lib)
-
 install(
     TARGETS
         lagrit
-        #lagrit_exe
     LIBRARY
         DESTINATION lib
     PUBLIC_HEADER
