@@ -16,7 +16,13 @@ __version__ = "%d.%d.%d" % (
 class LG(object):
     def __init__(self):
         self._load_lib()
+    
+    def init(self):
         self._lib.lg_initlagrit()
+    
+    @property
+    def version(self):
+        return __version__
 
     def _load_lib(self):
         from platform import uname
@@ -35,3 +41,5 @@ class LG(object):
         self._lib = ctypes.cdll.LoadLibrary(full_name)
 
 lg = LG()
+print("Lagrit version: %s" % lg.version)
+lg.init()
