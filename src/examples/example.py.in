@@ -13,30 +13,25 @@ __version__ = "%d.%d.%d" % (
     @PROJECT_VERSION_PATCH@
 )
 
-def load_lagrit():
-    from platform import uname
+class LG(object):
+    def __init__(self):
+        self._load_lib()
+        self._lib.lg_initlagrit()
 
-    os_name = uname()[0].lower()
-    prefix = "liblagrit"
-    extension = {
-        "windows": "dll",
-        "linux": "so",
-        "darwin": "dylib"
-    }[os_name]
+    def _load_lib(self):
+        from platform import uname
 
-    name = "%s.%s" % (prefix, extension)
-    full_name = os.path.join(LIBRARY_ROOT, name)
+        os_name = uname()[0].lower()
+        prefix = "liblagrit"
+        extension = {
+            "windows": "dll",
+            "linux": "so",
+            "darwin": "dylib"
+        }[os_name]
 
-    return ctypes.cdll.LoadLibrary(full_name)
+        name = "%s.%s" % (prefix, extension)
+        full_name = os.path.join(LIBRARY_ROOT, name)
 
-load_lagrit()
+        self._lib = ctypes.cdll.LoadLibrary(full_name)
 
-#prototype = c.CFUNCTYPE(
-#    c.c_double,
-#    c.c_double,
-#    c.c_double
-#)
-#addTwoNumber = prototype(('addTwoNumber', libUTILS))
-#
-#res = addTwoNumber(c.c_double(2.3), c.c_double(3.5) )
-#print(res)
+lg = LG()

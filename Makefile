@@ -27,3 +27,6 @@ install :
 
 example1 :
 	@DYLD_LIBRARY_PATH="${INSTALL_DIR}/lib:${DYLD_LIBRARY_PATH}" ${INSTALL_DIR}/examples/lagrit_cxx_example
+
+example2 :
+	@DYLD_LIBRARY_PATH="${INSTALL_DIR}/lib:${DYLD_LIBRARY_PATH}" python ${INSTALL_DIR}/examples/example.py
