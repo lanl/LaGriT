@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.12..3.19)
 # Force old policy - required for empty targets below
 cmake_policy(SET CMP0115 OLD)
 
+set(CMAKE_CXX_STANDARD 11)
+
 # Empty targets that will be populated in subdirectories
 if(LG_BUILD_AS_LIBRARY)
     add_library(lagrit)

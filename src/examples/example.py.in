@@ -39,7 +39,32 @@ class LG(object):
         full_name = os.path.join(LIBRARY_ROOT, name)
 
         self._lib = ctypes.cdll.LoadLibrary(full_name)
+    
+    @classmethod
+    def _chkerr(cls, err, msg):
+        if err != 0:
+            raise RuntimeError(msg)
+
+    def sendline(self, cmd):
+        # Convert from Python string to C string
+        err = self._lib.lg_dotask(cmd.encode('ascii'))
+        LG._chkerr(err, "Command execution failed for: '%s'" % cmd)
+    
+    def get_cmo(self):
+        p = ctypes.create_string_buffer(1024)
+        err = self._lib.lg_cmo_get_name(p, 1024)
+        return "%s" % p.value.decode('ascii')
+    
+    def get_nnodes(self, cmo_name):
+        return self._lib.lg_cmo_get_intinfo(
+            "nnodes".encode('ascii'),
+            cmo_name.encode('ascii'))
 
 lg = LG()
 print("Lagrit version: %s" % lg.version)
 lg.init()
+
+lg.sendline("cmo/create/mo1///tri")
+cmo = lg.get_cmo()
+print("CMO name: %s" % cmo)
+print("Number of nodes: %d" % lg.get_nnodes(cmo))

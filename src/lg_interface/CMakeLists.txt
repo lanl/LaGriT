@@ -10,6 +10,10 @@ FortranCInterface_HEADER(
     fc_mangle.h
     SYMBOLS
         INITLAGRIT
+        DOTASK
+        CMO_GET_NAME
+        CMO_GET_INFO
+        CMO_GET_INTINFO
         INSIDE_TET
         LINESEG_TRI)
 
