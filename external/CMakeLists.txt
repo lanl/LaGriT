@@ -28,10 +28,7 @@ FetchContent_Declare(
     GIT_TAG             "db30c2da68ece4a155e9e50c28ec16d6057509b2" # tag v1.10.7
 )
 
-FetchContent_MakeAvailable(
-    HDF5
-    CMAKE_INSTALL_PREFIX "${_SUBPROJECT_INSTALL_PREFIX}/"
-)
+FetchContent_MakeAvailable(HDF5)
 
 #message(STATUS "Configuring NetCDF")
 #FetchContent_Declare(
@@ -45,7 +42,7 @@ FetchContent_MakeAvailable(
 #    CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_BINARY_DIR}/"
 #)
 
-install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/bin
-        ARCHIVE DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib/static
-        LIBRARY DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib)
+#install(TARGETS ${PROJECT_NAME}
+#        RUNTIME DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/bin
+#        ARCHIVE DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib/static
+#        LIBRARY DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib)
