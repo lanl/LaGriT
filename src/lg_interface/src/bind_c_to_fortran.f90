@@ -1,33 +1,27 @@
 module lg_interface
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "initialize3ddiffusionmat" :: initialize3ddiffusionmat
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "finalscalar3ddiffusionmat" :: finalscalar3ddiffusionmat
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "extractnegativecoefs" :: extractnegativecoefs
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "freenegcoefs" :: freenegcoefs
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "getmatrixsizes" :: getmatrixsizes
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "getvoronoivolumes" :: getvoronoivolumes
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "freevoronoivolumes" :: freevoronoivolumes
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "getentriesperrow" :: getentriesperrow
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "freeoccupiedcolumns" :: freeoccupiedcolumns
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "getoccupiedcolumns" :: getoccupiedcolumns
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "freeentriesperrow" :: freeentriesperrow
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "getmatrixpointers" :: getmatrixpointers
+    
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwriteopenfile" :: fgmvwriteopenfile
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwritenodedata" :: fgmvwritenodedata
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwritecellheader" :: fgmvwritecellheader
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwritecelldata" :: fgmvwritecelldata
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwritevelocitydata" :: fgmvwritevelocitydata
+    !DEC$ ATTRIBUTES STDCALL, REFERENCE, ALIAS: "fgmvwritevariableheader" :: fgmvwritevariableheader
+
     use iso_c_binding
     implicit none
 
     interface
-        subroutine computeentry(i, j, num_tets, tets, edges) bind(C)
-            integer :: i, j, num_tets, tets, edges
-        end subroutine
-
-        !function entryprocessed(i, j) bind(C) result(r)
-        !    integer :: i, j, r
-        !end function
-
-        subroutine initialize3ddiffusionmat(i1,i2,i3,d1,d2,d3,i4,i5,i6,i7,i8,d4,d5) bind(C)
-            integer :: i1, i2, i3, i4, i5, i6, i7, i8
-            real*8 :: d1, d2, d3, d4, d5
-        end subroutine
-
-        !subroutine getcomponentmatrixvalues(component, values) bind(C)
-        !    integer :: component
-        !    real*8 pointer(c_ptr), intent(out) :: values
-        !end subroutine
-
-        subroutine freematrixvalues() bind(C)
-        end subroutine
-
-        subroutine killsparsematrix() bind(C)
-        end subroutine
-
-        subroutine freematrixpointers() bind(C)
-        end subroutine
     end interface
 end module

@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <lg_interface.h>
 #include "skiplist.ch"
 #include "type_sizes.h"
  

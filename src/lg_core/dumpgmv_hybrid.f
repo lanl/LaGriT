@@ -165,6 +165,7 @@ cpvcs    orginal version
 c
 c ######################################################################
 c
+      use lg_interface
       implicit none
 c
       real*8 alargenumber
