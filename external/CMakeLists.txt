@@ -3,15 +3,19 @@ project(fetchContent_example CXX)
 
 include(FetchContent)
 
-set(LG_BUILD_HDF5 ON)
-set(LG_BUILD_NETCDF ON)
-set(LG_BUILD_EXODUS ON)
+set(LG_BUILD_HDF5       ON)
+set(LG_BUILD_NETCDF     ON)
+set(LG_BUILD_EXODUS     ON)
 
 if (SUBPROJECT_INSTALL_PREFIX)
   set(_SUBPROJECT_INSTALL_PREFIX ${SUBPROJECT_INSTALL_PREFIX}/ )
 else()
   set(_SUBPROJECT_INSTALL_PREFIX ${CMAKE_CURRENT_LIST_DIR})
 endif()
+
+# All build flags are based on the SEACAS TPL manual install:
+#  https://github.com/gsjaardema/seacas/blob/master/TPL-Manual-Install.md
+# Also, from $SEACAS/cmake-exodus, $SEACAS/TPL/[netcdf|hdf5]/runcmake.sh
 
 # ===== HDF5 ===================================== #
 
