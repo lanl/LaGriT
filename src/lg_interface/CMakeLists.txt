@@ -30,12 +30,13 @@ target_include_directories(lagrit
 # Install this header file for end-users to use
 set_target_properties(lagrit
     PROPERTIES
-    	PUBLIC_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/lg.h")
+        PUBLIC_HEADER "${CMAKE_CURRENT_LIST_DIR}/include/lg.h")
 
 # Set all library source files
 target_sources(lagrit
     PUBLIC
-    	include/lg.h
+        include/lg.h
     PRIVATE
         src/public_interface.cpp
+        src/bind_c_to_fortran.f90
         src/lg_interface.h)
