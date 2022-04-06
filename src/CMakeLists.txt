@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12..3.19)
 
 # Force old policy - required for empty targets below
-cmake_policy(SET CMP0115 OLD)
+#cmake_policy(SET CMP0115 OLD)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -24,7 +24,6 @@ else()
     set_target_properties(lagrit
       PROPERTIES
         OUTPUT_NAME                 lagrit
-        #LINKER_LANGUAGE             Fortran
         Fortran_MODULE_DIRECTORY    "${CMAKE_CURRENT_BINARY_DIR}/modules/")
 endif()
 
@@ -46,15 +45,6 @@ add_subdirectory(lg_core)
 if(LG_BUILD_EXAMPLES AND LG_BUILD_AS_LIBRARY)
     add_subdirectory(examples)
 endif()
-
-# Enable Fortran processor directives
-# This should be in lg_core/CMakeLists.txt, but
-# must be here for scope reasons
-set_property(
-    SOURCE
-        ${CMAKE_CURRENT_LIST_DIR}/lg_core/dumpexodusII.f
-    PROPERTY
-        Fortran_PREPROCESS ON)
 
 install(
     TARGETS

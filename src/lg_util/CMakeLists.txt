@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
 # Configure the mm2000.h header file with bit sizes
-configure_file(mm2000.h.in mm2000.h @ONLY)
+configure_file(
+	"${CMAKE_CURRENT_SOURCE_DIR}/mm2000.h.in"
+	"${CMAKE_CURRENT_BINARY_DIR}/mm2000.h"
+	@ONLY)
+
+# Include directory so `mm2000.h` is in path
+target_include_directories(lagrit
+    PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR})
 
 # Set all source files explicitly
 target_sources(lagrit

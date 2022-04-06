@@ -1,4 +1,4 @@
-#include <lagrit.h>
+#include <lg.h>
 #include <lg_interface.h>
 
 #include <stdio.h>

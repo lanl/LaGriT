@@ -1,4 +1,4 @@
-#include <lagrit.h>
+#include <lg.h>
 
 int main() {
     LG_ERR err = 0;

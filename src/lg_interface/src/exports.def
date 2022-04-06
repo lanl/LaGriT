@@ -1,6 +1,0 @@
-EXPORTS
-    inside_tet @1 NONAME
-    INSIDE_TET @1 NONAME
-    inside_tet_ @1 NONAME
-    INSIDE_TET_ @1 NONAME
-    lineseg_tri @1 NONAME

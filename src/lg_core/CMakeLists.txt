@@ -7,11 +7,22 @@ configure_file(
     "${CMAKE_CURRENT_BINARY_DIR}/lagrit.h"
     @ONLY)
 
+# Update include path with `lagrit.h`
+target_include_directories(lagrit
+    PRIVATE
+        ${CMAKE_CURRENT_BINARY_DIR})
+
+# Add preprocessor flag
 if(LG_ENABLE_EXODUS)
     target_compile_definitions(lagrit
         PRIVATE
             LAGRIT_INCLUDE_EXODUSII)
 endif()
+
+# Enable Fortran preprocessor
+set_target_properties(lagrit
+    PROPERTIES
+        Fortran_PREPROCESS ON)
 
 # Set source files *exclusive* to executable
 if(NOT LG_BUILD_AS_LIBRARY)
