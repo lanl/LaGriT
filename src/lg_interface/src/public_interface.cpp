@@ -73,15 +73,14 @@ LG_ERR lg_cmo_get_name(char* name_buffer, int name_buffer_size) {
 
 extern "C"
 int lg_cmo_get_intinfo(const char* ioption, const char* cmo_name) {
-    int_ptrsize err, size, type;
-    int_ptrsize data[1];
+    int_ptrsize err, data, size, type;
 
     CMO_GET_INTINFO(
         ioption,
         cmo_name,
-        data,
-        &size,
-        &type,
+        &data,
+        &size, // unused
+        &type, // unused
         &err,
         strlen(ioption),
         strlen(cmo_name));
@@ -90,5 +89,5 @@ int lg_cmo_get_intinfo(const char* ioption, const char* cmo_name) {
         printf("Error: %d\n", err);
     }
 
-    return data[0];
+    return data;
 }

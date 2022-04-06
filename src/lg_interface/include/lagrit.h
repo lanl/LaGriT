@@ -17,7 +17,7 @@ typedef int LG_ERR; /// Error code returned by Lagrit functions
 
 /// LaGriT error codes
 /// (TODO: used as example; replace with your own error codes)
-typedef enum LG_ERR_CODES : LG_ERR {
+typedef enum LG_ERR_CODES {
     /// Subroutine was successful
     LG_ERR_SUCCESS = 0,
     /// Unknown error occurred
@@ -27,7 +27,7 @@ typedef enum LG_ERR_CODES : LG_ERR {
 } LG_ERR_CODES;
 
 /// Type of returned data
-typedef enum LGiType : int {
+typedef enum LGiType {
     LG_ITYPE_INT = 0,
     LG_ITYPE_REAL,
     LG_ITYPE_CHAR,
