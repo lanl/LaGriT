@@ -39,7 +39,6 @@ if(LG_BUILD_HDF5)
         GIT_TAG             "db30c2da68ece4a155e9e50c28ec16d6057509b2" # tag v1.10.7
     )
 
-    FetchContent_MakeAvailable(HDF5)
 endif()
 
 # ===== NetCDF ===================================== #
@@ -69,7 +68,6 @@ if(LG_BUILD_NETCDF)
         GIT_TAG             "2c68546b230fb50b61426acf2a3e4c389ad4dfb0" # tag v4.6.2
     )
 
-    FetchContent_MakeAvailable(NetCDF)
 endif()
 
 # ===== ExodusII ===================================== #
@@ -80,31 +78,31 @@ if(LG_BUILD_EXODUS)
     #set(CMAKE_CXX_FLAGS="${CXXFLAGS} ${CXX_WARNING_FLAGS} ${SANITIZE}" CACHE INTERNAL "")
     #set(CMAKE_C_FLAGS="${CFLAGS} ${C_WARNING_FLAGS} ${SANITIZE}" CACHE INTERNAL "")
     #set(CMAKE_Fortran_FLAGS="${FFLAGS} ${F77_WARNING_FLAGS} ${SANITIZE}" CACHE INTERNAL "")
-    set(CMAKE_INSTALL_RPATH                     "${_SUBPROJECT_INSTALL_PREFIX}/lib" CACHE INTERNAL "")
-    set(SEACASProj_ENABLE_SEACASExodus          YES CACHE INTERNAL "")
-    set(SEACASProj_ENABLE_SEACASExodus_for      YES CACHE INTERNAL "")
-    set(SEACASProj_ENABLE_SEACASExoIIv2for32    YES CACHE INTERNAL "")
-    set(SEACASProj_ENABLE_TESTS                 YES CACHE INTERNAL "")
-    set(CMAKE_INSTALL_PREFIX                    "${_SUBPROJECT_INSTALL_PREFIX}" CACHE INTERNAL "")
-    set(SEACASProj_SKIP_FORTRANCINTERFACE_VERIFY_TEST YES CACHE INTERNAL "")
-    set(SEACASProj_HIDE_DEPRECATED_CODE         NO CACHE INTERNAL "")
-    set(SEACASProj_ENABLE_Fortran               YES CACHE INTERNAL "")
-    set(TPL_ENABLE_Netcdf                       YES CACHE INTERNAL "")
-    set(TPL_ENABLE_MPI                          NO CACHE INTERNAL "")
-    set(TPL_ENABLE_Pthread                      NO CACHE INTERNAL "")
-    set(SEACASExodus_ENABLE_THREADSAFE          NO CACHE INTERNAL "")
+    set(CMAKE_INSTALL_RPATH                             "${_SUBPROJECT_INSTALL_PREFIX}/lib" CACHE INTERNAL "")
+    set(SEACASProj_ENABLE_SEACASExodus                  YES CACHE INTERNAL "")
+    set(SEACASProj_ENABLE_SEACASExodus_for              YES CACHE INTERNAL "")
+    set(SEACASProj_ENABLE_SEACASExoIIv2for32            YES CACHE INTERNAL "")
+    set(SEACASProj_ENABLE_TESTS                         YES CACHE INTERNAL "")
+    set(CMAKE_INSTALL_PREFIX                            "${_SUBPROJECT_INSTALL_PREFIX}" CACHE INTERNAL "")
+    set(SEACASProj_SKIP_FORTRANCINTERFACE_VERIFY_TEST   YES CACHE INTERNAL "")
+    set(SEACASProj_HIDE_DEPRECATED_CODE                 NO  CACHE INTERNAL "")
+    set(SEACASProj_ENABLE_Fortran                       YES CACHE INTERNAL "")
+    set(TPL_ENABLE_Netcdf                               YES CACHE INTERNAL "")
+    set(TPL_ENABLE_MPI                                  NO  CACHE INTERNAL "")
+    set(TPL_ENABLE_Pthread                              NO  CACHE INTERNAL "")
+    set(SEACASExodus_ENABLE_THREADSAFE                  NO  CACHE INTERNAL "")
     #set(NetCDF_ROOT:PATH=${NETCDF_PATH} CACHE INTERNAL "")
     #set(HDF5_ROOT:PATH=${HDF5_PATH} CACHE INTERNAL "")
-    set(HDF5_NO_SYSTEM_PATHS                    YES CACHE INTERNAL "")
+    set(HDF5_NO_SYSTEM_PATHS                            YES CACHE INTERNAL "")
 
     if(BUILD_SHARED_LIBS)
-        set(SEACASExodus_ENABLE_STATIC          NO CACHE INTERNAL "")
+        set(SEACASExodus_ENABLE_STATIC                  NO  CACHE INTERNAL "")
     else()
-        set(SEACASExodus_ENABLE_STATIC          YES CACHE INTERNAL "")
+        set(SEACASExodus_ENABLE_STATIC                  YES CACHE INTERNAL "")
     endif()
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-        set(CMAKE_MACOSX_RPATH                  ON CACHE INTERNAL "")
+        set(CMAKE_MACOSX_RPATH                          ON  CACHE INTERNAL "")
     endif()
 
     message(STATUS "Fetching ExodusII...")
@@ -114,14 +112,8 @@ if(LG_BUILD_EXODUS)
         GIT_TAG          "3eba1c8f0ec86f8359064c7f8ed5f5ac07a1ce68" # tag v2021-10-11
     )
 
-    FetchContent_MakeAvailable(Exodus)
 endif()
 
-
-
-#${ACCESS}
-
-#install(TARGETS ${PROJECT_NAME}
-#        RUNTIME DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/bin
-#        ARCHIVE DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib/static
-#        LIBRARY DESTINATION ${_SUBPROJECT_INSTALL_PREFIX}/lib)
+# Ordered based on dependencies
+#FetchContent_MakeAvailable(Exodus NetCDF HDF5)
+FetchContent_MakeAvailable(NetCDF HDF5)
