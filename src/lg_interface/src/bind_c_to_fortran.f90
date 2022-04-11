@@ -128,7 +128,7 @@ contains
 
         tmp = f_ipimt1
 
-        ipimt1 = c_loc(imt1)!transfer(tmp, ipimt1)
+        !ipimt1 = c_loc(imt1)!transfer(tmp, ipimt1)
 
 
         !ipimt1 = c_loc(imt1)
