@@ -119,25 +119,26 @@ LG_ERR lg_cmo_get_stdptrs(const char* cmo_name, LGMeshStdPtrs* mesh_ptrs) {
 
     CMO_GET_STDPTRS(
         cmo_name,
-        mesh_ptrs->ipimt1,
-        mesh_ptrs->ipitp1,
-        mesh_ptrs->ipicr1,
-        mesh_ptrs->ipisn1,
-        mesh_ptrs->ipxic,
-        mesh_ptrs->ipyic,
-        mesh_ptrs->ipzic,
-        mesh_ptrs->ipitetclr,
-        mesh_ptrs->ipitettyp,
-        mesh_ptrs->ipitetoff,
-        mesh_ptrs->ipjtetoff,
-        mesh_ptrs->ipitet,
-        mesh_ptrs->ipjtet,
+        &(mesh_ptrs->ipimt1),
+        &(mesh_ptrs->ipitp1),
+        &(mesh_ptrs->ipicr1),
+        &(mesh_ptrs->ipisn1),
+        &(mesh_ptrs->ipxic),
+        &(mesh_ptrs->ipyic),
+        &(mesh_ptrs->ipzic),
+        &(mesh_ptrs->ipitetclr),
+        &(mesh_ptrs->ipitettyp),
+        &(mesh_ptrs->ipitetoff),
+        &(mesh_ptrs->ipjtetoff),
+        &(mesh_ptrs->ipitet),
+        &(mesh_ptrs->ipjtet),
         &ierr,
         strlen(cmo_name)
     );
 
     printf("back from cmd\n");
-    printf("imt1 -----> %d\n", mesh_ptrs->ipimt1[0]);
+    printf("imt1(p) -----> %p|%d\n", mesh_ptrs->ipimt1, mesh_ptrs->ipimt1);
+    printf("imt1(v) -----> %d\n", *mesh_ptrs->ipimt1);
 
     printf("ierr = %d\n", ierr);
 

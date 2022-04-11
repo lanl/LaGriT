@@ -60,7 +60,7 @@ contains
         ! C input args
         character*(*), intent(in) :: cmo
         integer(c_int), intent(out) :: ierror
-        type(c_ptr), intent(inout) :: ipimt1, ipitp1, ipicr1, ipisn1
+        integer, intent(out) :: ipimt1, ipitp1, ipicr1, ipisn1
         type(c_ptr), intent(inout) :: ipxic, ipyic, ipzic, ipitetclr, ipitettyp, ipitetoff
         type(c_ptr), intent(inout) :: ipjtetoff, ipitet, ipjtet
 
@@ -124,17 +124,19 @@ contains
         print*,'f_ierr = ', f_ierror
 
         print*,'f_imt1 = ',( imt1(j), j=1,10 )
-        print*,'f_ipimt1 = ',f_ipimt1
+        print*,'fortran locations = '
+        print*,'   ==> ',int(loc(imt1(1))), ' ==? ',%loc(imt1(1))
+        print*,'   ==> ',int(loc(imt1(1)))
+        print*,'   ==> ',int(loc(imt1(2)))
+        print*,'   ==> ',int(loc(imt1(3)))
+        print*,'   ==> ',int(loc(imt1))
+        print*,'   ==> ',int(loc(f_ipimt1))
+        print*,'   ==> ',int(loc(f_ipimt1))
 
         tmp = f_ipimt1
 
-        !ipimt1 = c_loc(imt1)!transfer(tmp, ipimt1)
-
-
-        !ipimt1 = c_loc(imt1)
-        !ipxic = c_loc(xic)
-        !ipyic = c_loc(yic(1))
-        !ipzic = c_loc(zic(1))
+        !ipimt1 = int(c_loc(imt1(1)))!transfer(tmp, ipimt1)
+        ipimt1 = loc(imt1(1))
 
         print*,'returning...'
 
