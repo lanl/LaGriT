@@ -96,7 +96,7 @@
 #elif SIZEOF_LONG == SIZEOF_VOIDP
 #define int_ptrsize long
 #else
-#error "Unknown case for size of pointer."
+ "Unknown case for size of pointer."
 #endif
 
 

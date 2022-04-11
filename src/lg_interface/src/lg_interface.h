@@ -37,33 +37,72 @@ typedef double real8;
 extern "C" {
 #endif
 
+//////////////////////////////////////////////////////////////////////
+/// Fortran interface defined in bind_c_to_fortran.f90
+//////////////////////////////////////////////////////////////////////
+extern void LG_INTERFACE_CMO_GET_INTINFO_C(
+    const char* ioption,   /// [in]
+    const char* cmo_name,  /// [in]
+    int_ptrsize* iout,     /// [out]
+    int_ptrsize* ierr,     /// [out]
+    size_t ioption_len,    /// [in]
+    size_t cmo_name_len);  /// [in]
+
+// Macro to simplify the above function call
+#define CMO_GET_INTINFO LG_INTERFACE_CMO_GET_INTINFO_C
+
+extern void LG_INTERFACE_CMO_GET_STDPTRS_C(
+    const char* cmo,
+    int* ipimt1,
+    int* ipitp1,
+    int* ipicr1,
+    int* ipisn1,
+    double* ipxic,
+    double* ipyic,
+    double* ipzic,
+    int* ipitetclr,
+    int* ipitettyp,
+    int* ipitetoff,
+    int* ipjtetoff,
+    int* ipitet,
+    int* ipjtet,
+    int* ierr,
+    size_t cmo_len);
+
+// Macro to simplify the above function call
+#define CMO_GET_STDPTRS LG_INTERFACE_CMO_GET_STDPTRS_C
+
+//////////////////////////////////////////////////////////////////////
+/// Native LaGriT subroutines
+//////////////////////////////////////////////////////////////////////
 extern void INITLAGRIT(
-    const char* mode,
-    const char* log_file,
-    const char* batch_file,
-    size_t mode_len,
-    size_t log_file_len,
-    size_t batch_file_len);
+    const char* mode,       /// [in]
+    const char* log_file,   /// [in]
+    const char* batch_file, /// [in]
+    size_t mode_len,        /// [in]
+    size_t log_file_len,    /// [in]
+    size_t batch_file_len); /// [in]
 
 extern void DOTASK(
-    const char* cmd,
-    int_ptrsize* ierr,
-    size_t cmd_len);
+    const char* cmd,       /// [in]
+    int_ptrsize* ierr,     /// [out]
+    size_t cmd_len);       /// [in]
 
 extern void CMO_GET_NAME(
-    const char* name,
-    int_ptrsize* ierr,
-    size_t name_len);
+    char* name,            /// [out]
+    int_ptrsize* ierr,     /// [out]
+    size_t name_len);      /// [in]
 
-extern void CMO_GET_INTINFO(
-    const char* ioption,
-    const char* cmo_name,
-    int_ptrsize* iout,
-    int_ptrsize* iout_len,
-    int_ptrsize* itype,
-    int_ptrsize* ierr,
-    size_t ioption_len,
-    size_t cmo_name_len);
+
+//extern void CMO_GET_INTINFO_C(
+//    const char* ioption,   /// [in]
+//    const char* cmo_name,  /// [in]
+//    int_ptrsize* iout,     /// [out]
+//    int_ptrsize* lout,     /// [out]
+//    int_ptrsize* itype,    /// [out]
+//    int_ptrsize* ierr,     /// [out]
+//    size_t ioption_len,    /// [in]
+//    size_t cmo_name_len);  /// [in]
 
 extern void CMO_GET_INFO(
     const char* ioption,
@@ -74,6 +113,19 @@ extern void CMO_GET_INFO(
     int_ptrsize* ierr,
     size_t ioption_len,
     size_t cmo_name_len);
+
+extern void CMO_GET_ATTINFO(
+    const char*     ioption,       // [in]
+    const char*     cmo_name,      // [in]
+    int_ptrsize*    iout,          // [out]
+    double*         rout,          // [out]
+    char*           cout,          // [out]
+    double**        ipout,         // [out]
+    int_ptrsize*    lout,          // [out]
+    int_ptrsize*    itype,         // [out]
+    int_ptrsize*    ierr,          // [out]
+    size_t          ioption_len,   // [in]
+    size_t          cmo_name_len); // [in]
 
 extern void INSIDE_TET(
     real8 *x1, real8 *y1, real8 *z1,

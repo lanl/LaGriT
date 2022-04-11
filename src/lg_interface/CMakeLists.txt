@@ -9,11 +9,16 @@ FortranCInterface_VERIFY()
 FortranCInterface_HEADER(
     fc_mangle.h
     SYMBOLS
-        INITLAGRIT
+        # Export from `lg_interface` mod
+        LG_INTERFACE:CMO_GET_INTINFO_C # syntax: <module>:<subroutine>
+        LG_INTERFACE:CMO_GET_STDPTRS_C
+        # Export non-module subroutines
+        INITLAGRIT # syntax: <subroutine>
         DOTASK
         CMO_GET_NAME
         CMO_GET_INFO
-        CMO_GET_INTINFO
+        CMO_GET_STDPTRS
+        CMO_GET_ATTINFO
         INSIDE_TET
         LINESEG_TRI)
 
