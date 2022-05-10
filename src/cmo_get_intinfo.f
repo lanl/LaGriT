@@ -105,6 +105,12 @@ c
             call mmfindbk('cmo_natts',partname,ipcmo_natts,
      *        len,icscode)
             call cmo_get_index(cmo_name,i,icscode)
+            if (icscode .ne.0) then
+                write(logmess,'(a,a)')
+     *          'ERROR CMO_GET_INTINFO: ioption fail: ',ioption
+                call writloga('default',0,logmess,0,ierr)
+                go to 9999
+            endif
             iout=cmo_natts(i)
             ierror_return=0
             go to 9999
@@ -120,7 +126,7 @@ C
             call mmfindbk('cmo_attlist',cmo_name,ipcmo_attlist,
      *                   len,icscode)
             call cmo_get_index(cmo_name,icmo_index,ierror_return)
-            if(ierror_return.ne.0) go to 9998
+            if (ierror_return .ne.0) go to 9998 
             natts=cmo_natts(icmo_index)
             do i=1,natts
                if(cmo_attlist(number_of_params_per_att*(i-1)+1)

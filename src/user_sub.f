@@ -1,4 +1,4 @@
-      subroutine user_sub(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
+      subroutine user_sub(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
 C
 C
 C #####################################################################
@@ -6,6 +6,11 @@ C
 C     PURPOSE -
 C
 C        Process user supplied commands
+C        user_sub will be passed as a command through msgtty
+C        to this routine along with user options
+C        parse arguments for your command
+C
+C        you can copy lagrit_test.f to user_sub.f to help get started
 C
 C     INPUT ARGUMENTS -
 C
@@ -16,30 +21,48 @@ C        msgtyp - integer array of token types returned by parser
 C
 C     OUTPUT ARGUMENTS -
 C
-C        ierr1 - 0 for successful completion - -1 otherwise
+C        ierror - 0 for successful completion - -1 otherwise
 C
 C
 C #####################################################################
-C$Log: lagrit_main.f,v $
-CRevision 2.00  2007/11/05 19:48:30  spchu
-CImport to CVS and change file name from adrivgen.f to lagrit_main.f
+      implicit none
 C
+C Define arguments 
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
-      integer nwds,ierr1,lenc
-      real*8 xmsgin(nwds)
-C  get command length
-      lenc=icharlnf(cmsgin(1))
-C  Insert code here to handle user coded subroutines
-C  For example
-C   if(cmsgin(1)(1:lenc).eq.'my_cmnd') call my_rtn(imsgin,xmsgin
-C          cmsgin,msgtyp,nwds,ierr1)
-C
-      if(cmsgin(1)(1:lenc).eq.'fiximts') then
-c        call fiximts()
-         ierr1=0
-      else
-         ierr1=-1
+      real*8  xmsgin(nwds)
+      integer nwds,ierror
+
+C character buffers and variables
+      integer ierr, ierrw
+
+      character*32  cmoname
+      character*32  isubname 
+      character*132 logmess
+      character*8092 cbuf
+      integer icharlnf
+       
+C START CODE ------------------------------------------------
+
+      isubname="user_sub_example"
+      ierr= 0
+
+      if (nwds.ne.1) then
+          write(logmess,'(a)')
+     *   'Syntax: user_sub [empty command]' 
+         call writloga('default',1,logmess,0,ierrw)
+         go to 9999
+      endif 
+
+
+ 9999 continue 
+
+      write(logmess,"(a)")'user_sub exit.'
+      if (ierr .ne. 0) then
+          write(logmess,"(a,i4)")'user_sub exit early with error: ',ierr 
       endif
+      call writloga('default',1,logmess,1,ierrw)
+
       return
       end
+

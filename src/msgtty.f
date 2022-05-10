@@ -2464,18 +2464,28 @@ C
             call usersub2()
             ierr2 = 0
 C
-         else
+         elseif(idsb(1:lenidsb).eq.'user_sub') then
 C
 C           ************************************************************
-C           usersub : EXECUTE USERSUB.
+C           user_sub : EXECUTE USER_SUB.
 C
             call user_sub(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
-            if(ierr2.ne.0) then
+
+         elseif(idsb(1:lenidsb).eq.'test') then
+C
+C           ************************************************************
+C           test : EXECUTE example that can be copied to user_sub.f 
+C
+            call lagrit_test(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
+
+
+          else
+
               ierror=-1
               write(logmess,9000) idsb(1:lenidsb)
               call writloga('default',1,logmess,1,ierrw)
  9000         format("WARNING: Invalid LaGriT generator command: ",a)
-            endif
 C
          endif
 C

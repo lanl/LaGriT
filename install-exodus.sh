@@ -41,4 +41,7 @@ cd TPL/
 
 # Build Exodus
 ../cmake-exodus -DFORTRAN=YES
+
+# need some kind of progress check 
+# this fails without warning or error information
 make && make install

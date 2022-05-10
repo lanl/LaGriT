@@ -222,14 +222,17 @@ C
      *                length,icscode)
                      ipout=cmo_attparam_idefault(i)
                      go to 9999
+
                   elseif(cmo_attlist(number_of_params_per_att*
      *               (i-1)+2).eq.'REAL') then
-                     itype=1
+
+C TAM                corrected to return real instead of int
+                     itype=2
                      lout=1
                      call mmfindbk('cmo_attparam_rdefault'
      *                ,cmo_name,ipcmo_attparam_rdefault,
      *                length,icscode)
-                     ipout=nint(cmo_attparam_rdefault(i))
+                     ipout=cmo_attparam_rdefault(i)
                      go to 9999
                   else
                      ierror_return=-1

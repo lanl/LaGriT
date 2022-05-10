@@ -87,6 +87,24 @@ configure_file(
     @ONLY
 )
 
+# Validate compiler & symbol interop
+include(FortranCInterface)
+FortranCInterface_VERIFY()
+
+# Generate a header file for handling compiler symbol mangling
+# More information: https://www.netlib.org/lapack/lawnspdf/lawn270.pdf
+FortranCInterface_HEADER(
+    ${SRC_CORE}/fc_mangle.h
+    SYMBOLS
+        INITLAGRIT
+        DOTASK
+        CMO_GET_NAME
+        CMO_GET_INFO
+        CMO_GET_INTINFO
+        CMO_GET_ATTINFO
+        INSIDE_TET
+        LINESEG_TRI)
+
 # ////////// BEGIN TARGET CONFIGURATION //////////
 # Grab `lg_util/` source files
 file(
