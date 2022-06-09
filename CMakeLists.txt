@@ -96,12 +96,16 @@ FortranCInterface_VERIFY()
 FortranCInterface_HEADER(
     ${SRC_CORE}/fc_mangle.h
     SYMBOLS
-        INITLAGRIT
+        INITLAGRIT # syntax: <subroutine>
         DOTASK
         CMO_GET_NAME
         CMO_GET_INFO
         CMO_GET_INTINFO
-        CMO_GET_ATTINFO
+        FC_CMO_GET_INT
+        FC_CMO_GET_VINT
+        FC_CMO_GET_DOUBLE
+        FC_CMO_GET_VDOUBLE
+        FPASS_TYPES
         INSIDE_TET
         LINESEG_TRI)
 
