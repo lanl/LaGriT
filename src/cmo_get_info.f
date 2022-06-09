@@ -128,16 +128,17 @@ C
 C#######################################################################
 C     PARAMETERS
 
-      character*(*) ioption, cmo_name
+      integer  lout, itype, ierror_return
       pointer(ipout, out)
       real*8 out(*)
-      integer  lout, itype, ierror_return
+      character*(*) ioption, cmo_name
 C
 C#######################################################################
 C
 C     LOCAL VARIABLE DEFINITION
 C
       integer i, len, ierr, icscode,length,icmo_index, natts
+      integer iindex
 C
       character*32 partname,ioptfind
       character*132 logmess
@@ -145,6 +146,21 @@ C
 C
 C#######################################################################
 C
+      len = 0
+      lout = 0
+      itype = 0
+      ierror_return = 0
+
+C Check parameter sizes
+      if (sizeof(ipout) .ne.8) then
+      print*,"  |cmo_get_info ipout size not 8:"
+      print*,"  |pointer ipout size: ",sizeof(ipout)
+      endif
+      if (sizeof(lout).ne.8 .or. sizeof(itype).ne.8) then
+      print*,"  |cmo_get_info integer sizes not 8:"
+      print*,"  |lout,itype: ",sizeof(lout),sizeof(itype)
+      endif
+
       if((cmo_name.eq.'-cmo-') .or.
      *   (cmo_name.eq.'-default-') .or.
      *   (cmo_name.eq.'-def-')) then
@@ -211,10 +227,10 @@ C
             if(ierror_return.ne.0) go to 9998
             natts=cmo_natts(icmo_index)
             do i=1,natts
-               if(cmo_attlist(number_of_params_per_att*(i-1)+1)
-     *             .eq.ioption) then
-                  if(cmo_attlist(number_of_params_per_att*(i-1)+2)
-     *               .eq.'INT') then
+               iindex=number_of_params_per_att*(i-1)
+               if(cmo_attlist(iindex+1) .eq. ioption) then
+                  if(cmo_attlist(iindex+2) .eq.'INT') then
+
                      itype=1
                      lout=1
                      call mmfindbk('cmo_attparam_idefault'
@@ -223,16 +239,28 @@ C
                      ipout=cmo_attparam_idefault(i)
                      go to 9999
 
-                  elseif(cmo_attlist(number_of_params_per_att*
-     *               (i-1)+2).eq.'REAL') then
+                  elseif(cmo_attlist(iindex+2) .eq.'REAL') then
 
-C TAM                corrected to return real instead of int
                      itype=2
                      lout=1
                      call mmfindbk('cmo_attparam_rdefault'
      *                ,cmo_name,ipcmo_attparam_rdefault,
      *                length,icscode)
-                     ipout=cmo_attparam_rdefault(i)
+
+C                    ipout=nint(cmo_attparam_rdefault(i))
+                     ipout= cmo_attparam_rdefault(i)
+
+                     itype = 2
+                     lout = 1
+
+C DEBUG issues getting real values 
+C note cmo_get_attinfo is usually used for real values
+C            print*,"  |cmo_get_info REAL: ",ioption
+C            print*,"  |mmfindbk icscode : ",icscode
+C            print*,"  |attparam: ",cmo_attparam_rdefault(i)
+C            print*,"  |ipout value : ",ipout
+C            print*,"  |lout,itype: ",lout,itype
+
                      go to 9999
                   else
                      ierror_return=-1
