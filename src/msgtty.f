@@ -1148,6 +1148,15 @@ C           ************************************************************
 C           rank: rank the smallest volume elements in mesh.
 C
             call rankvolume(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
+C
+         elseif(idsb(1:lenidsb).eq.'poisson') then
+C
+C           ************************************************************
+C           poisson  : poisson point distribution 
+C
+            call poisson(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+
 C
          elseif(idsb(1:lenidsb).eq.'smooth'.or.
      *          idsb(1:lenidsb).eq.'smooth3d') then
