@@ -90,19 +90,20 @@ Additional options are available by running:
 
 ```bash
 $ python test/runtests.py --help
+```
 
 
 #### (Optional) Building Exodus ####
 
-Install to default directories:
-(This is not working for some platforms, you can still build without Exodus)
+This install script included here with LaGriT may not work for all platforms.
+See Exodus Installation instructions:
+[Seacas ExodusII](https://github.com/gsjaardema/seacas)
 
 ```bash
 $ ./install-exodus.sh
 ```
 
-Exodus Installation instructions:
-[Seacas ExodusII](https://github.com/gsjaardema/seacas)
+
 
 
 #### Building LaGriT - Configurable
