@@ -30,17 +30,15 @@ $ cd LaGriT/
 
 #### Building LaGriT - Simple
 
-The simplest way to build LaGriT is:
+The simplest way to build LaGriT is with auto dectection and no options.
+Type the following (you can name the build directory anything you want).
 
 ```bash
 mkdir build/ && cd build/
 cmake .. && make
 ```
 
-You will find `lagrit` executable in the `build/` directory.
-
-Note, LaGriT will continue to build if ExodusII is not found. The Exodus and Netcdf libs are needed to write ExodusII libraries and are not otherwise needed.
-
+If you do not have ExodusII libs installed, the build will look similar to:
 ```
 -- ==========================================
 -- ============Configuring LaGriT============
@@ -49,41 +47,49 @@ Note, LaGriT will continue to build if ExodusII is not found. The Exodus and Net
 -- Could NOT find Exodus (missing: Exodus_LIBRARIES Exodus_INCLUDE_DIR)
 WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.
 
-[100%] Built target lagrit.exe
-
-$ ./lagrit
-
-*               * * * * * * * * * * * * * * * * * * * * * * * *
-*               *                                             *
-*               *    Program:  LaGriT V3.3.3   Darwin         *
-*               *    Date Compile: 2022/03/30                 *
-*               *    Run Time: 2022/Mar 30  15:59:25          *
-*               *    Manual:   https://lagrit.lanl.gov        *
-*               *                                             *
-*               * * * * * * * * * * * * * * * * * * * * * * * *
-
-                               -----oOo-----
-             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT
-  Copyright 2016. Triad National Security, LLC.  All rights reserved. This
-  program was produced under U.S. Government contract 89233218CNA000001
-  for Los Alamos National Laboratory (LANL), which is operated by Triad
-  National Security, LLC for the U.S. Department of Energy/National Nuclear
-  Security Administration.  All rights in the program are reserved by Triad
-  National Security, LLC, and the U.S. Department of Energy/National Nuclear
-  Security Administration. The Government is granted for itself and others
-  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license
-  in this material to reproduce, prepare derivative works, distribute copies
-  to the public, perform publicly and display publicly, and to permit others to
-  do so. This software is open source and available under the BSD-3 License.
-                               -----oOo-----
-
-Output log file: lagrit.out
-Command log file: lagrit.log
-
- Enter a command
-finish
-LaGriT successfully completed
+[100%] Built target lagrit
 ```
+
+LaGriT will auto-detect ExodusII libs and will continue to build if ExodusII is not found. 
+The only command ExodusII is needed for is dump/exodus.
+You will need to build ExodusII before cmake and build for it to be included.
+See below for build options.
+
+The `lagrit` executable in the `build/` directory.
+Type ./lagrit to make sure the executable is working.
+
+On the LaGriT command line type `test` which will execute a set of commands.
+Type `finish` to exit.
+
+The result will look like:
+```
+nnodes:              27                                                         
+nelements:            8                                                         
+xic(1:3):  1.00 1.25 1.50                                                       
+imt(1:3):     1    1    1                                                       
+epsilonl:   1.9229627E-13                                                       
+     Released Mesh Object: test_hex                                             
+lagrit test done.                                                               
+ 
+ Enter a command
+finish                                                                          
+LaGriT successfully completed             
+```
+
+### Testing LaGriT
+
+To test LaGriT, start from top and simply run:
+
+```bash
+$ python test/runtests.py
+```
+
+Test output can be found in the `test/lagrit-tests.log` file.
+
+Additional options are available by running:
+
+```bash
+$ python test/runtests.py --help
 
 
 #### (Optional) Building Exodus ####
@@ -123,22 +129,6 @@ $ make && make install
   - Sets the root directory of Exodus. **Must be specified** if you wish to use Exodus.
 - `-D CMAKE_INSTALL_PREFIX`
   - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
-
-### Testing LaGriT
-
-To test LaGriT, simply run:
-
-```bash
-$ python test/runtests.py
-```
-
-Test output can be found in the `test/lagrit-tests.log` file.
-
-Additional options are available by running:
-
-```bash
-$ python test/runtests.py --help
-```
 
 ### Supporting Documentation ###
 ---
