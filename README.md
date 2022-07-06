@@ -30,7 +30,7 @@ $ cd LaGriT/
 
 #### Building LaGriT - Simple
 
-The simplest way to build LaGriT is with auto dectection and no options.
+The simplest way to build LaGriT uses cmake with auto dectection and no options.
 Type the following (you can name the build directory anything you want).
 
 ```bash
@@ -50,15 +50,15 @@ WARNING: ExodusII and/or other dependencies could not be found. Compiling withou
 [100%] Built target lagrit
 ```
 
-LaGriT will auto-detect ExodusII libs and will continue to build if ExodusII is not found. 
-The only command ExodusII is needed for is dump/exodus.
-You will need to build ExodusII before cmake and build for it to be included.
+LaGriT will auto-detect ExodusII libs and will continue to build even if ExodusII is not found. 
+The only command used with ExodusII libs is `dump/exodus`. If needed, 
+You will need to build ExodusII before LaGriT cmake and build.
 See below for build options.
 
-The `lagrit` executable in the `build/` directory.
+The `lagrit` executable is installed in the `build/` directory.
 Type ./lagrit to make sure the executable is working.
 
-On the LaGriT command line type `test` which will execute a set of commands.
+On the LaGriT command line prompt, type `test` which will execute a set of commands.
 Type `finish` to exit.
 
 The result will look like:
