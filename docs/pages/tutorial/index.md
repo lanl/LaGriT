@@ -124,7 +124,7 @@ Select All, or by one of the categories:
                 <a href="https://github.com/lanl/GeologicMeshing/tree/master/GDSA/">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                            <img src="/LaGriT/pages/docs/demos/output/GDSA_4Tests_images.png" alt="">
                         </div>
                         <p>Octree Cube 4 Examples</p>
                     </div>
