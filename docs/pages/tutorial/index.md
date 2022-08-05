@@ -124,9 +124,9 @@ Select All, or by one of the categories:
                 <a href="https://github.com/lanl/GeologicMeshing/tree/master/GDSA/">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/GDSA_4Tests_images.png" alt="">
+                            <img src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
                         </div>
-                        <p>Octree Cube 4 Examples</p>
+                        <p>Octree 4 Cube Examples</p>
                     </div>
                 </a>
             </div>
