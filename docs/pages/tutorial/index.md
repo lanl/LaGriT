@@ -79,18 +79,7 @@ Select All, or by one of the categories:
 
 <!-- demo cards -->
 
-       <li data-color="demo">
-            <div>
-                <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
-                        </div>
-                        <p>Connect with Conforming Curved Interfaces  </p>
-                    </div>
-                </a>
-            </div>
-        </li>
+       
 	
 	<li data-color="demo">
             <div>
@@ -144,7 +133,20 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
+	    
+<li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
+                        </div>
+                        <p>Stacked mesh with Conforming Surfaces  </p>
+                    </div>
+                </a>
+            </div>
+        </li>
+	    
 	<li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
@@ -152,7 +154,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
-                        <p>Stacked mesh hex to 5 tets instead of connect</p>
+                        <p>Stacked mesh hex-to-tet instead of connect</p>
                     </div>
                 </a>
             </div>
