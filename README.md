@@ -28,6 +28,11 @@ $ cd LaGriT/
 ### Building LaGriT ###
 ---
 
+#### Building LaGriT - for developers
+
+[Code Development with cmake](cmake/README.md)
+
+
 #### Building LaGriT - Simple
 
 The simplest way to build LaGriT uses cmake with auto dectection and no options.
