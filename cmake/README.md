@@ -18,7 +18,7 @@ The build type can only be set in the configure stage. One way to handle buildin
 For LANL developers, you may need to generate a token to use as password. See instructions at https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 
-### For workflow:
+## Create your build directory:
 
 Setup a work directory for dev and debug work (example using name "debug")
 Compile new executable using ```make``` in the debug/ directory.
@@ -35,9 +35,20 @@ make
 
 A quick check for successful compile, run ./lagrit and type command **test** which creates hex mesh and reports values.
       
-Modify code by working with files files in LaGriT/src
+## Modify code
 
-*If you add new files you will need to run cmake again. This will detect all files in src/ and add to Makefile.*
+Modify code by working with files files in LaGriT/src
+Do not add any non-code develpment files in the /src directory, they may be detected and attempted to use during compile time.
+When you want to compile, do not run cmake again, it already created your makefiles, .o, and other dependencies.
+
+Go to LaGriT/*your_build_name* directory and type
+```
+make
+```
+
+**lagrit** will be built in LaGriT/*your_build_name* directory.
+
+*If you add new files you will need to run cmake again. This will detect all files in src/ and create a new set of Makefils.*
 
 
       
