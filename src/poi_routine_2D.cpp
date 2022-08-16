@@ -149,6 +149,7 @@ void poisson_2d_ () {
     // load polygon vertices (polygon.cpp)
     polygon.loadVerticesCMO();
 
+    polygon.outputFilename = 'points.xyz';
 
 
     return;
