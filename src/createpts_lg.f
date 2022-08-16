@@ -96,6 +96,9 @@ c
       elseif(cmsgin(2)(1:lenopt).eq.'interp') then
          call rzinterp(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
      *   nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt).eq.'poisson_disk') then
+         call poisson_disk(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
+     *   nwds-1,ierr)
       else
          write(logmess,"('Illegal createpts option ',a10)") cmsgin(2)
          call writloga('default',0,logmess,0,ierror)
