@@ -150,7 +150,7 @@ void poisson_2d_ () {
     polygon.loadVerticesCMO();
 
     polygon.outputFilename = 'points.xyz';
-
+    polygon.dumpNodes();
 
     return;
 }
