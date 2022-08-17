@@ -21,57 +21,6 @@ using std::vector;
 using std::ifstream;
 
 
-/*  Modified for LAGRIT 
-    Parse command line and add variable to the polygon object.
-    Expected values:
-      1 inputFilename - polygon file or cmo name
-      2 outputFilename - output filename or cmo name
-      3 h - mininum mesh resolution
-      4 distanceFieldFilename - distance field filename
-      5 numSamples (default 10) - number of samples initialized
-      6 resampleSweeps (default 1) - num resample sweeps
-
- original: bool Polygon::parseCommandLine(int nargs, char **argv) {
-*/
-
-/* 
-bool Polygon::parseCommandLine(int nargs, char **argstr) {
-
-   if (nargs < 5) {
-        std::cout << "Error: Incorrect Number of command line arguments provided" << endl;
-        std::cout << nargs << " values provided. 4 expected." << endl;
-        std::cout << "Expected values: polygon filename (avs format), output filename, mininum mesh resolution, distance field filename" << endl;
-        return false;
-    }
-
-    std::cout << nargs << " Number values provided." << endl; 
-    // arg 1: input filename
-    inputFilename = argstr[1];
-    cout << "Reading polygon from " << inputFilename << endl;
-    // arg 2: output filename
-    outputFilename = argstr[2];
-    cout << "Writting points to " << outputFilename << endl;
-    // arg 3: h (minimum mesh resolution)
-    h = std::stod(argstr[3]);
-    cout << "Minium mesh resolution " << h << endl;
-    // arg 4: distance field filename
-    distanceFieldFilename  = argstr[4];
-    cout << "Distance Field Filename " << distanceFieldFilename << endl;
-    // Advanced user command line arguments.
-    // arg 5: number of samples initialized by accepted point
-    // low values are fast but make a point distribution with holes
-    // high values are slow due to larger numbers of rejections, but a better distribution
-    numSamples = 10;
-    cout << "Number of samples " << numSamples << endl;
-    // arg 6: number of re-sampling sweeps. 1 is typically sufficent
-    // always do 1, subsequent sweeps might help?  depends on numSamples
-    resampleSweeps = 1;
-    cout << "Number of resample sweeps " << resampleSweeps << endl;
-    return true;
-}
-/*
-
-
 /*! Computes the 2D bounding box of the polygon */
 void Polygon::findBoundingBox() {
     xMax = nodes[0].x;
@@ -106,9 +55,7 @@ void Polygon::initializeVariables() {
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
 void Polygon::loadVerticesCMO() {
-
-    cout << "Added vertices from cmo " << endl;
-
+    cout << "Adding vertices to polygon objection from cmo " << endl;
     double *xptr;
     double *yptr;
     // cout << "Load vertices from cmo: " << inputFilename << endl;
@@ -120,7 +67,7 @@ void Polygon::loadVerticesCMO() {
     int err = lg_cmo_get_name(cmo_name, 32);
     unsigned int numVertices = lg_cmo_get_intinfo("nnodes", cmo_name);
     if (numVertices <= 0) {
-        cout << "ERROR: No nodes in cmo:  " <<  cmo_name << endl;
+        cout << "Error: There are no nodes in cmo:  " <<  cmo_name << endl;
         return;
     }
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
@@ -154,37 +101,6 @@ void Polygon::loadVerticesCMO() {
     cout << "Added vertices from cmo: " << cmo_name << " complete" << endl;
 }
 
-/*! Load vertices from the avs file
-*/
-void Polygon::loadVertices() {
-
-    cout << "Reading vertices from " << inputFilename << endl;
-    cout << "Early exit debug version. " << inputFilename << endl;
-
-    string line;
-    ifstream inpFile;
-    vector<string> parsedLine;
-    inpFile.open(inputFilename, ifstream::in);
-    // checkIfOpen(inpFile, filename);
-    // read header
-    getline(inpFile, line);
-    parsedLine = splitOnWhiteSpace(line);
-    numVertices = std::stoi(parsedLine[0]);
-    cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
-    
-/* compiler error: poi_polygon.cpp:105:25: error: expected expression
-    // read in the node coordinates
-    for (unsigned int i = 0; i < numVertices; i++) {
-        getline(inpFile, line);
-        parsedLine = splitOnWhiteSpace(line);
-        // Format Node Number, x-coord, y-coord,
-        nodes.push_back({std::stod(parsedLine[1]), std::stod(parsedLine[2]), 0});
-    }
-*/
-    
-    inpFile.close();
-    cout << "Reading vertices from " << inputFilename << " complete" << endl;
-}
 
 /*! Print node information to screen*/
 void Polygon::printNodes() {
@@ -200,7 +116,6 @@ void Polygon::dumpNodes() {
     cout << "Writing points to file: " << outputFilename << endl;
     cout << "There are " << numNodes << " point in the final distribution" << endl;
     fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
-    
     for (unsigned int i = 0; i < numNodes; i++) {
         fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << 0 << endl;
     }

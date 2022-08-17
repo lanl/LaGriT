@@ -20,20 +20,12 @@
 using std::cout;
 using std::endl;
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-void poisson_2d_();
-#ifdef __cplusplus
-}
-#endif
+extern "C" void poisson_2d_(double h);
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void poisson_2d_ () {
+void poisson_2d_(double h) {
  
+    cout << "h: " << h << endl;
+
     LG_ERR err = 0;
     double *xptr;
     double *yptr;
@@ -114,20 +106,27 @@ void poisson_2d_ () {
 
     cout << "===== Begin poisson 2d  =========\n\n" << endl;
     Polygon polygon;
+    // This needs to be passed in somehow
+    polygon.h = h;
+    cout << "h for sampling: " << polygon.h << endl;
+    // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
+    polygon.numSamples = 10;
+    polygon.resampleSweeps = 1;
+
     // load polygon vertices (polygon.cpp)
     polygon.loadVerticesCMO();
-    
+
     // Load distance field from file (distanceField.cpp)
     //polygon.loadDistanceField();
-
+    err = lg_dotask("cmo / status / brief");
 
     polygon.outputFilename = "points.xyz";
     polygon.dumpNodes();
 
     return;
 }
-#ifdef __cplusplus
-}
-#endif
+// #ifdef __cplusplus
+// }
+// #endif
 
 

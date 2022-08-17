@@ -26,10 +26,10 @@ class Polygon {
     // miminum mesh resolution provided by user
     double h;
     // number of sample attempts around an accepted point (cheap)
-    unsigned int numSamples;
+    unsigned int numSamples = 10;
     
     // number of resample sweeps used to fill in holes (expensive)
-    unsigned int resampleSweeps;
+    unsigned int resampleSweeps = 1;
     // Number of vertices on the input polygon.
     unsigned int numVertices;
     // Numder of nodes in the point distribution
@@ -44,7 +44,7 @@ class Polygon {
     double yMax;
     
     // Basic polygon functions -> polygon.cpp
-    bool parseCommandLine(int argc, char **argv);
+    // bool parseCommandLine(int argc, char **argv);
     void loadVertices();
     void findBoundingBox();
     void initializeVariables();

@@ -1,4 +1,5 @@
       subroutine poisson_disk(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
+
 C
 C     ??? Proposed syntax, could change as development continues
 C     createpts / poisson_disk / 2d_polygon / mo_out / mo_polygon / [h_spacing_scalar|mo_h_spacing_field] / [connect|no_connect]
@@ -91,6 +92,7 @@ C     temporary cray pointer with assigned variable
       character*8092 cbuf
 
       integer icharlnf
+
 C
 C Begin
 C     Do some work for the poisson routines 
@@ -369,7 +371,8 @@ C     mo_poi_poly, NP, xic, yic, zic in counter-clockwise order
 C
       call cmo_select(mo_poi_poly,ierr)
 C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts,mo_poisson_pts_out)
-      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts)
+C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts)
+      call poisson_2d()
 C
 C     ??? Clean up, remove temporary mesh objects.
 C
@@ -475,4 +478,3 @@ C ----------------------------------------------------------
 
       return
       end
-
