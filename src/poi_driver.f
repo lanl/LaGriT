@@ -368,7 +368,8 @@ C     mo_h_field_pts, NXP, NYP, xic, yic, zic, h_field_att
 C     mo_poi_poly, NP, xic, yic, zic in counter-clockwise order
 C
       call cmo_select(mo_poi_poly,ierr)
-      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts,mo_poisson_pts)
+C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts,mo_poisson_pts_out)
+      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts)
 C
 C     ??? Clean up, remove temporary mesh objects.
 C

@@ -34,17 +34,17 @@ using std::ifstream;
  original: bool Polygon::parseCommandLine(int nargs, char **argv) {
 */
 
+/* 
 bool Polygon::parseCommandLine(int nargs, char **argstr) {
 
-/*    if (nargs < 5) {
+   if (nargs < 5) {
         std::cout << "Error: Incorrect Number of command line arguments provided" << endl;
         std::cout << nargs << " values provided. 4 expected." << endl;
         std::cout << "Expected values: polygon filename (avs format), output filename, mininum mesh resolution, distance field filename" << endl;
         return false;
     }
-*/
-    std::cout << nargs << " Number values provided." << endl;
-    
+
+    std::cout << nargs << " Number values provided." << endl; 
     // arg 1: input filename
     inputFilename = argstr[1];
     cout << "Reading polygon from " << inputFilename << endl;
@@ -69,6 +69,8 @@ bool Polygon::parseCommandLine(int nargs, char **argstr) {
     cout << "Number of resample sweeps " << resampleSweeps << endl;
     return true;
 }
+/*
+
 
 /*! Computes the 2D bounding box of the polygon */
 void Polygon::findBoundingBox() {
@@ -105,45 +107,49 @@ void Polygon::initializeVariables() {
 */
 void Polygon::loadVerticesCMO() {
 
-    cout << "Load vertices from cmo: " << inputFilename << endl;
+    cout << "Added vertices from cmo " << endl;
 
+    double *xptr;
+    double *yptr;
+    // cout << "Load vertices from cmo: " << inputFilename << endl;
     // error: cannot convert ‘std::__cxx11::string to ‘const char*’ 
     // for argument ‘2’ to ‘int lg_cmo_get_intinfo(const char*, const char*)’
     // int nnodes = lg_cmo_get_intinfo("nnodes", inputFilename);
     // for now just get current cmo
-
     char cmo_name[32];
     int err = lg_cmo_get_name(cmo_name, 32);
-
-    int nnodes = lg_cmo_get_intinfo("nnodes", cmo_name);
-    if (nnodes <= 0) {
-        printf("ERROR: No nodes in cmo: '%s'\n", cmo_name);
+    unsigned int numVertices = lg_cmo_get_intinfo("nnodes", cmo_name);
+    if (numVertices <= 0) {
+        cout << "ERROR: No nodes in cmo:  " <<  cmo_name << endl;
         return;
     }
-    numVertices = nnodes;
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
+    // What are these?
+    long icmolen;
+    long iattlen;
+    int ierror = 0;
 
-    cout << "Added vertices from cmo: " << cmo_name <<  endl;
-
-    // get polygon xy minmax from cmo
-
+    long nlen = 0;
     long ierr = 0;
-    double xval = 0;
-    long icmolen = 32; 
-    long iattlen = 4;
 
-    fc_cmo_get_double_(cmo_name,"xmin",&xval,&ierr,icmolen,iattlen);
-    xMin = xval;
-    fc_cmo_get_double_(cmo_name,"xmax",&xval,&ierr,icmolen,iattlen);
-    xMax = xval;
-    fc_cmo_get_double_(cmo_name,"ymin",&xval,&ierr,icmolen,iattlen);
-    yMin = xval;
-    fc_cmo_get_double_(cmo_name,"ymax",&xval,&ierr,icmolen,iattlen);
-    yMax = xval;
+    // get mesh object xic and yic data 
+    iattlen = 3;
+    fc_cmo_get_vdouble_(cmo_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
+    if (ierr != 0 || nlen != numVertices){
+        cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
+        return;
+    }
+    fc_cmo_get_vdouble_(cmo_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
+    if (ierr != 0 || nlen != numVertices){
+        cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
+        return;
+    }
 
-    cout << "Added minmax from cmo: " << cmo_name <<  endl;
-    printf("xmin xmax: %f  %f\n", xMin, xMax);
-    printf("ymin ymax: %f  %f\n", yMin, yMax);
+    // read in the node coordinates
+    for (unsigned int i = 0; i < numVertices; i++) {
+        // Format x-coord, y-coord
+        nodes.push_back({*(xptr+i), *(yptr+i), 0});
+    }
 
     cout << "Added vertices from cmo: " << cmo_name << " complete" << endl;
 }
@@ -211,8 +217,7 @@ Polygon::~Polygon() {
     cout << "---------------------------------" << endl;
     cout << "Cleaning up polygon " << endl;
     cout << "Destructor not active at this time. " << endl;
-
-/************** comment out, need to add checks for existance ********    
+/*
     try {
         // delete dynamic memory of neighbor grid
         for (unsigned int i = 0; i < numCellsX + 1; i++) {
@@ -241,7 +246,5 @@ Polygon::~Polygon() {
     emptyCells.erase(emptyCells.begin(), emptyCells.end());
     emptyCells.shrink_to_fit();
     cout << "Cleaning up polygon complete" << endl;
-
-************** comment out, need to add checks for existance ********/
-
+*/
 }
