@@ -3,8 +3,7 @@
 #include <fstream>
 #include <random>
 #include <vector>
-
-// include <bits/stdc++.h>
+// #include <bits/stdc++.h>
 #include <algorithm>    // std::sort
 
 #include "poi_polygon.h"
@@ -153,8 +152,7 @@ void Polygon::tagNeighborCells(Point point) {
             if (grid[i][j] == 0) {
                 tmpPoint.x =  i * cellSize + xMin;
                 tmpPoint.y =  j * cellSize + yMin;
-                dist = distance2D(point, tmpPoint);
-                
+                dist = distance2D(point, tmpPoint); 
                 // if the distance is less than the radius, then tag the grid cell as occupied.
                 if (dist < point.radius) {
                     grid[i][j] = point.nodeNum;

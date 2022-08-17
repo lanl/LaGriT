@@ -167,6 +167,7 @@ C        Use h as variable name
 C
          h_spacing = xmsgin(5)
          h = xmsgin(5)
+            
       elseif(msgtyp(5) .eq. 3) then
          if_h_field_provided = 1
          lenopt=icharlnf(cmsgin(5))
@@ -370,9 +371,10 @@ C     mo_h_field_pts, NXP, NYP, xic, yic, zic, h_field_att
 C     mo_poi_poly, NP, xic, yic, zic in counter-clockwise order
 C
       call cmo_select(mo_poi_poly,ierr)
-C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts,mo_poisson_pts_out)
+C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts, mo_poisson_pts_out)
 C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts)
-      call poisson_2d()
+
+      call poisson_2d(mo_poi_poly, h_spacing, np_x, np_y)
 C
 C     ??? Clean up, remove temporary mesh objects.
 C

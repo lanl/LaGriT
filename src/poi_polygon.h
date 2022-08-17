@@ -19,15 +19,15 @@ struct Point {
 /* Polygon Class */
 class Polygon {
   public:
-    // input polygon filename
-    std::string inputFilename;
-    // input polygon filename
-    std::string outputFilename;
+    // mesh object name for polygon
+    const char * mo_poly_name;
+
+    // outputfilename
+    std::string outputFilename = "points.xyz";
     // miminum mesh resolution provided by user
     double h;
     // number of sample attempts around an accepted point (cheap)
     unsigned int numSamples = 10;
-    
     // number of resample sweeps used to fill in holes (expensive)
     unsigned int resampleSweeps = 1;
     // Number of vertices on the input polygon.
@@ -42,6 +42,10 @@ class Polygon {
     double xMin;
     double yMin;
     double yMax;
+  
+    // Random number generator
+    unsigned int seed = 0;
+    std::mt19937_64 generator;
     
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
@@ -79,9 +83,9 @@ class Polygon {
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
     
-    // Distance Field Parameters
-    // distance field filename
-    std::string distanceFieldFilename;
+
+    // Name of distance field mesh object
+    const char * mo_dfield_name;
     // distance field cell size (uniform in x and y)
     double dfCellSize;
     // inverse of distance field size
@@ -98,11 +102,12 @@ class Polygon {
     
     // Distance field -> distancefield.cpp
     void loadDistanceField();
+    void loadDistanceFieldCMO();
     void dumpDistanceField();
     unsigned int getDFCellID(double x, double xMin);
     void getExclusionRadius(Point &point);
     
-    // Sampling functions -> sampling.cpp
+    // Sampling functions -> poi_sampling.cpp
     void mainSampling(unsigned int startIndex, bool restartFlag);
     void resample();
     bool testCandidate(Point &newPoint);
@@ -112,6 +117,9 @@ class Polygon {
     std::vector<Point> sampleAlongLine(Point x0, Point x1);
     bool inBoundingBox(Point point);
     bool inDomain(Point point);
+    double uniformDistribution();
+    void initializeRandomGenerator(unsigned int seed);
+    Point newCandidate(Point currentPoint);
     
     // Destructor
     ~Polygon();

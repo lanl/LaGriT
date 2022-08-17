@@ -7,6 +7,13 @@
 #include "poi_polygon.h"
 #include "poi_helperFunctions.h"
 
+/* from lagrit lg_ codes */
+#include "lg_c_interface.h"
+#include "lg_f_interface.h"
+#include <stdio.h>
+#include <cstring>
+
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -23,6 +30,86 @@ value_2
 ...
 value_(nx*ny)
 */
+void Polygon::loadDistanceFieldCMO() {
+    
+    cout << "\n\nLoading Distance field from LaGriT Mesh object : " << mo_dfield_name << endl;
+
+    LG_ERR err = 0;
+
+    double *xptr;
+    double *yptr;
+
+    long icmolen;
+    long iattlen;
+    int ierror = 0;
+
+    long nlen = 0;
+    long ierr = 0;
+
+    unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);
+    cout << "number of nodes in the distance field: " << dfieldNumNodes << endl;
+
+    if (dfieldNumNodes <= 0) {
+        cout << "Error: There are no nodes in cmo:  " <<  mo_dfield_name << endl;
+        return;
+    }
+
+    // fc_cmo_get_vdouble_(mo_dfield_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
+    // if (ierr != 0 || nlen != dfieldNumNodes){
+    //     cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
+    //     return;
+    // }
+    // fc_cmo_get_vdouble_(mo_dfield_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
+    // if (ierr != 0 || nlen != dfieldNumNodes){
+    //     cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
+    //     return;
+    // }
+
+    icmolen = strlen(mo_poly_name);
+    iattlen = 4;
+    
+    double xmin, xmax = 0;
+    double ymin, ymax = 0;
+
+    fc_cmo_get_double_(mo_dfield_name,"xmin",&xmin,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_dfield_name,"ymin",&ymin,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_dfield_name,"xmax",&xmax,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_dfield_name,"ymax",&ymax,&ierr,icmolen,iattlen);
+
+    dfXMin = xmin;
+    dfYMin = ymin;
+
+    cout << "Distance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << " " << endl;
+    cout << "Distance Field Lowe Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin << " " << endl;
+
+    double deltaX = xmax - xmin;
+    dfCellSize = deltaX / dfNumCellsX;
+    // compute inversece cell size
+    idfCellSize = 1.0 / dfCellSize;
+    cout << "Distance Field Cell Size " << dfCellSize << endl;
+    cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
+
+    // allocate memory for distance field
+    try {
+        distanceField = new double*[dfNumCellsX]; 
+        for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
+            // Initialize all values as 0
+            distanceField[i] = new double[dfNumCellsY + 1]();
+        }
+    } catch (std::bad_alloc& ba) {
+        std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
+    }
+    cout << "populatin dfield" << endl;
+    for (unsigned int j = 0; j < dfNumCellsY + 1; j++) {
+        for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
+            double value = h;
+            distanceField[i][j] = value;
+        }
+    }
+    cout << "Loading Distance Field Complete\n" << endl;
+}
+
+/* 
 void Polygon::loadDistanceField() {
     cout << "Reading distance field from " << distanceFieldFilename << endl;
     string line;
@@ -73,6 +160,8 @@ void Polygon::loadDistanceField() {
     
     cout << "Loading Distance Field Complete\n" << endl;
 }
+*/
+
 
 /*! Write distance field to file. Used for debugging.
 Format
@@ -93,7 +182,6 @@ void Polygon::dumpDistanceField() {
             fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i][j] << endl;
         }
     }
-    
     fp.close();
     cout << "Complete " << endl;
 }

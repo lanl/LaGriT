@@ -2,10 +2,11 @@
 #include <string>
 #include <math.h>
 #include <vector>
+#include <random>
+#include <chrono>
 
 #include "poi_helperFunctions.h"
 #include "poi_sampling.h"
-
 
 using std::cout;
 using std::endl;
@@ -13,13 +14,27 @@ using std::string;
 using std::vector;
 
 std::uniform_real_distribution<> uniform01(0, 1);
-std::mt19937_64 generator(0);
+
+// Initialize random generator with seed ( see c++ <random> )
+// Mersene Twister 19937 generator (64 bit)
+/*******************************************************************/
+/*******************************************************************/
+void Polygon::initializeRandomGenerator(unsigned int seed) {
+    // if seed if 0, then seed off clock
+    if (seed == 0) {
+        seed = std::chrono::system_clock::now().time_since_epoch().count();
+        cout << "\nGenerating seed from clock" << endl;
+        cout << "Seed: " << seed << "\n" << endl;
+    }
+    generator.seed(seed);
+}
 
 /*! Returns a number sampled from a uniform distribution on the intervale [0,1]
 */
-double uniformDistribution() {
+double Polygon::uniformDistribution() {
     return uniform01(generator);
 }
+
 
 /*! Sample polygon boundaries
 * Discretize the boundaries of the polygon
@@ -59,20 +74,38 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
     unsigned int numPoints;
     numPoints = int(floor(distance / h));
     
-    for (unsigned int i = 0; i < numPoints; i++) {
-        // sample new point frm Uniform distribution on [0.9*local_radius,1.1*local_radius]
-        increment = uniformDistribution() * 0.2 * prevSample.radius + 0.9 * prevSample.radius;
+    // check if the distance if large enough for at least one-sampling..
+    if (distance > std::min(x1.radius, x0.radius)) {
+        for (unsigned int i = 0; i < numPoints; i++) {
+            // sample new point frm Uniform distribution on [0.9*local_radius,1.1*local_radius]
+            increment = uniformDistribution() * 0.2 * prevSample.radius + 0.9 * prevSample.radius;
+            prevSample.x = prevSample.x + direction[0] * increment;
+            prevSample.y = prevSample.y + direction[1] * increment;
+            
+            // make sure the point is in the domain and not too close the end point
+            if (inBoundingBox(prevSample) && (distance2D(prevSample, x1) > 0.6 * prevSample.radius)) {
+                getExclusionRadius(prevSample);
+                prevSample.ix = getNeighborGridCellID(prevSample.x, xMin);
+                prevSample.iy = getNeighborGridCellID(prevSample.y, yMin);
+                lineNodes.push_back(prevSample);
+            } else {
+                break;
+            }
+        }
+    }
+    // If there' no space, then pick a random points between the endpoints
+    else {
+        //  sample between (0.25 distance, 0.75 distance)
+        increment = distance * (uniformDistribution() * 0.5 + 0.25);
         prevSample.x = prevSample.x + direction[0] * increment;
         prevSample.y = prevSample.y + direction[1] * increment;
         
         // make sure the point is in the domain and not too close the end point
-        if (inBoundingBox(prevSample) && (distance2D(prevSample, x1) > 0.6 * prevSample.radius)) {
+        if (inBoundingBox(prevSample)) {
             getExclusionRadius(prevSample);
             prevSample.ix = getNeighborGridCellID(prevSample.x, xMin);
             prevSample.iy = getNeighborGridCellID(prevSample.y, yMin);
             lineNodes.push_back(prevSample);
-        } else {
-            break;
         }
     }
     
@@ -98,7 +131,6 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
         for (unsigned int k = 0; k < numSamples; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
-            
             // test new point
             if (testCandidate(newPoint)) {
                 acceptCandidate(newPoint);
@@ -129,7 +161,7 @@ void Polygon::resample() {
 
 /*! Generate a new candidate point.
 */
-Point newCandidate(Point currentPoint) {
+Point Polygon::newCandidate(Point currentPoint) {
     Point newPoint;
     double radius, angle;
     // sample from an annulus with inner radius h and outter 1.5h;
@@ -152,7 +184,7 @@ void Polygon::acceptCandidate(Point &point) {
     tagNeighborCells(point);
     // add point to the node vector
     nodes.push_back(point);
-    //printPoint(newPoint);
+    printPoint(point);
 }
 
 

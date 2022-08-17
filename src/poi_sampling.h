@@ -9,6 +9,7 @@
 
 double uniformDistribution();
 Point newCandidate(Point newPoint);
+unsigned int getTimeBasedSeed();
 
 #endif
 

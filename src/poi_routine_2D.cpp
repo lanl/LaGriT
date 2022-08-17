@@ -14,19 +14,28 @@
 /* from lagrit lg_ codes */
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
+
 #include <stdio.h>
 #include <cstring>
 
 using std::cout;
 using std::endl;
 
-extern "C" void poisson_2d_(double h);
+const int LG_NAME_SIZE = 32;
 
-void poisson_2d_(double h) {
- 
-    cout << "h: " << h << endl;
+extern "C" void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
+
+void poisson_2d_(char mo_poly_name[LG_NAME_SIZE],  double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+
+    cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
+    cout << "PD inputs:" << endl;
+    cout << "h :" << *h << endl;
+    cout << "mo_poly name : " << mo_poly_name << endl;
+    cout << "dfNumCellsX: " << *dfNumCellsX << endl;
+    cout << "dfNumCellsY: " << *dfNumCellsY << endl;
 
     LG_ERR err = 0;
+    /*
     double *xptr;
     double *yptr;
     long *iptr;
@@ -49,37 +58,37 @@ void poisson_2d_(double h) {
     cout << "-----------------------------------\n" << endl;
     cout << "Report LaGriT CMO for Polygon:\n\n" << endl;
     // get data from current polygon mesh object
-    char cmo_name[32];
-    err = lg_cmo_get_name(cmo_name, 32);
-    if (err != LG_ERR_SUCCESS) {
-        cout << "Failed to get cmo name" << endl;
-        return;
-    } 
-    unsigned int nnodes = lg_cmo_get_intinfo("nnodes", cmo_name);
+    // char mo_poly_name[32];
+    // err = lg_cmo_get_name(mo_poly_name, 32);
+    // if (err != LG_ERR_SUCCESS) {
+    //     cout << "Failed to get cmo name" << endl;
+    //     return;
+    // } 
+    unsigned int nnodes = lg_cmo_get_intinfo("nnodes", mo_poly_name);
     if (nnodes <= 0) {
-        cout << "ERROR: No nodes in cmo: '" << cmo_name << "'" << endl;
+        cout << "ERROR: No nodes in cmo: '" << mo_poly_name << "'" << endl;
         return;
     }
 
-    int nelements = lg_cmo_get_intinfo("nelements", cmo_name);
-    int ndim = lg_cmo_get_intinfo("ndimensions_topo", cmo_name);
-    int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", cmo_name);
+    int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
+    int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
+    int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
     if (err == LG_ERR_SUCCESS) {
-        cout << "Mesh Data for cmo: '" << cmo_name << "'"<< endl;
+        cout << "Mesh Data for cmo: '" << mo_poly_name << "'"<< endl;
         cout << "nnodes: " << nnodes << endl;
         cout << "nelements: " <<  nelements << endl;
         cout << "ndimensions_topo: " <<  ndim << endl;
         cout << "ndimensions_geom: " <<  ndim_geom << endl;
     }
     // get polygon xy minmax
-    icmolen = strlen(cmo_name);
+    icmolen = strlen(mo_poly_name);
     iattlen = 4;
-    fc_cmo_get_double_(cmo_name,"xmin",&xmin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(cmo_name,"xmax",&xmax,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(cmo_name,"ymin",&ymin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(cmo_name,"ymax",&ymax,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(cmo_name,"zmin",&zmin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(cmo_name,"zmax",&zmax,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"xmin",&xmin,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"xmax",&xmax,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"ymin",&ymin,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"ymax",&ymax,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"zmin",&zmin,&ierr,icmolen,iattlen);
+    fc_cmo_get_double_(mo_poly_name,"zmax",&zmax,&ierr,icmolen,iattlen);
 
     cout << "xmin: " << xmin << ", xmax: " << xmax << endl;
     cout << "ymin: " << xmin << ", ymax: " << xmax << endl;
@@ -87,12 +96,12 @@ void poisson_2d_(double h) {
 
     // get mesh object xic and yic data 
     iattlen = 3;
-    fc_cmo_get_vdouble_(cmo_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
+    fc_cmo_get_vdouble_(mo_poly_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
     if (ierr != 0 || nlen != nnodes){
         cout << "ERROR: get xic returns length " << nlen << " error: " << ierr << endl;
         return;
     }
-    fc_cmo_get_vdouble_(cmo_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
+    fc_cmo_get_vdouble_(mo_poly_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
     if (ierr != 0 || nlen != nnodes){
         cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
         return;
@@ -104,24 +113,55 @@ void poisson_2d_(double h) {
         cout << i+1 << " " << *(xptr+i) << " " << *(yptr+i) << endl;
     }
 
-    cout << "===== Begin poisson 2d  =========\n\n" << endl;
+    */
+
+
     Polygon polygon;
     // This needs to be passed in somehow
-    polygon.h = h;
+    polygon.h = *h;
     cout << "h for sampling: " << polygon.h << endl;
+    polygon.mo_poly_name = mo_poly_name;
+    cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
+    polygon.mo_dfield_name = "mo_h_field_pts";
+    cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
+    polygon.dfNumCellsX = *dfNumCellsX;
+    polygon.dfNumCellsY = *dfNumCellsY;
+
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
     polygon.numSamples = 10;
     polygon.resampleSweeps = 1;
+    polygon.seed = 0;
+
+    // initialize random number generator
+    polygon.initializeRandomGenerator(polygon.seed);
 
     // load polygon vertices (polygon.cpp)
-    polygon.loadVerticesCMO();
+    polygon.loadVertices();
 
     // Load distance field from file (distanceField.cpp)
-    //polygon.loadDistanceField();
-    err = lg_dotask("cmo / status / brief");
+    polygon.loadDistanceFieldCMO();
 
-    polygon.outputFilename = "points.xyz";
+    // run initial analysis of polygon, obtain bounding box, etc. (polygon.cpp)
+    polygon.initializeVariables();
+    
+    // Distribute points around the boundary of the polygon (sampling.cpp)
+    polygon.sampleBoundaries();
+
+    // Initialize the background look up grid (neighborGrid.cpp)
+    polygon.initializeNeighborGrid();
+    
+    polygon.printNodes();
+
+    // Initial sampling sweep (sampling.cpp)
+    polygon.mainSampling(0, false);
+    
+    // Find empty cells, resample therein, and restart the main sampling algorithm (sampling.capp)
+    polygon.resample();
+    
+    // Write points to file
     polygon.dumpNodes();
+    
+    cout << "Done with Poisson 2D" << endl; 
 
     return;
 }
