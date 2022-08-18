@@ -26,6 +26,7 @@ void Polygon::initializeRandomGenerator(unsigned int seed) {
         cout << "\nGenerating seed from clock" << endl;
         cout << "Seed: " << seed << "\n" << endl;
     }
+    
     generator.seed(seed);
 }
 
@@ -131,6 +132,7 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
         for (unsigned int k = 0; k < numSamples; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
+            
             // test new point
             if (testCandidate(newPoint)) {
                 acceptCandidate(newPoint);
@@ -184,7 +186,7 @@ void Polygon::acceptCandidate(Point &point) {
     tagNeighborCells(point);
     // add point to the node vector
     nodes.push_back(point);
-    printPoint(point);
+    // printPoint(point);
 }
 
 

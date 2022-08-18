@@ -31,29 +31,23 @@ value_2
 value_(nx*ny)
 */
 void Polygon::loadDistanceFieldCMO() {
-    
     cout << "\n\nLoading Distance field from LaGriT Mesh object : " << mo_dfield_name << endl;
-
     LG_ERR err = 0;
-
     double *xptr;
     double *yptr;
-
     long icmolen;
     long iattlen;
     int ierror = 0;
-
     long nlen = 0;
     long ierr = 0;
-
     unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);
     cout << "number of nodes in the distance field: " << dfieldNumNodes << endl;
-
+    
     if (dfieldNumNodes <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_dfield_name << endl;
         return;
     }
-
+    
     // fc_cmo_get_vdouble_(mo_dfield_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
     // if (ierr != 0 || nlen != dfieldNumNodes){
     //     cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
@@ -64,52 +58,73 @@ void Polygon::loadDistanceFieldCMO() {
     //     cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
     //     return;
     // }
-
     icmolen = strlen(mo_poly_name);
     iattlen = 4;
-    
     double xmin, xmax = 0;
     double ymin, ymax = 0;
-
-    fc_cmo_get_double_(mo_dfield_name,"xmin",&xmin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_dfield_name,"ymin",&ymin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_dfield_name,"xmax",&xmax,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_dfield_name,"ymax",&ymax,&ierr,icmolen,iattlen);
-
+    fc_cmo_get_double_(mo_dfield_name, "xmin", &xmin, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymin", &ymin, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "xmax", &xmax, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymax", &ymax, &ierr, icmolen, iattlen);
     dfXMin = xmin;
     dfYMin = ymin;
-
     cout << "Distance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << " " << endl;
     cout << "Distance Field Lowe Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin << " " << endl;
-
     double deltaX = xmax - xmin;
     dfCellSize = deltaX / dfNumCellsX;
     // compute inversece cell size
     idfCellSize = 1.0 / dfCellSize;
     cout << "Distance Field Cell Size " << dfCellSize << endl;
     cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
-
+    
     // allocate memory for distance field
     try {
-        distanceField = new double*[dfNumCellsX]; 
+        distanceField = new double*[dfNumCellsX];
+        
         for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
             // Initialize all values as 0
-            distanceField[i] = new double[dfNumCellsY + 1]();
+            distanceField[i] = new double[dfNumCellsY]();
         }
     } catch (std::bad_alloc& ba) {
         std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
     }
-    cout << "populatin dfield" << endl;
-    for (unsigned int j = 0; j < dfNumCellsY + 1; j++) {
-        for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
-            double value = h;
-            distanceField[i][j] = value;
+    
+    /* Get the resolution field from the mesh object.
+    // Name of attribute on mesh object is 'h_field_att'
+    */
+    char att[ ] = "h_field_att";
+    double *hptr;
+    iattlen = strlen(att);
+    fc_cmo_get_vdouble_(mo_dfield_name, att, &hptr, &nlen, &ierr, icmolen, iattlen);
+    // cout << "h_field_att nlength: " <<  nlen << endl;
+    // for(unsigned int i = 0; i < dfieldNumNodes; i++) {
+    //     cout << "i: " << i << " h-att: " << *(hptr + i) << endl;
+    // }
+    // Stuff the resolution field into the dfield array
+    // Need to check index order here, (i,j) vs (j,i)
+    // cout << "--> populating resolution field" << endl;
+    unsigned int ptIndex = 0;
+    
+    for (unsigned int j = 0; j < dfNumCellsY; j++) {
+        for (unsigned int i = 0; i < dfNumCellsX; i++) {
+            distanceField[i][j] = *(hptr + ptIndex);
+            ptIndex++;
+            
+            // cout << "distanceField[i][j] " << distanceField[i][j] << endl;
+            if (distanceField[i][j] <= 0 ) {
+                cout << "Error. Resolution of 0 or negative number provided. Setting to h" << endl;
+                cout << "i,j,ptIndex " << i << " " << j << " " << ptIndex << endl;
+                distanceField[i][j] = h;
+            }
         }
     }
+    
+    // Use this to take a look at the dfield
+    dumpDistanceField();
     cout << "Loading Distance Field Complete\n" << endl;
 }
 
-/* 
+/*
 void Polygon::loadDistanceField() {
     cout << "Reading distance field from " << distanceFieldFilename << endl;
     string line;
@@ -136,11 +151,11 @@ void Polygon::loadDistanceField() {
     // inversece cell size
     idfCellSize = 1.0 / dfCellSize;
     cout << "Distance Field Cell Size " << dfCellSize << endl;
-    
+
     // allocate memory for distance field
     try {
         distanceField = new double*[dfNumCellsX];
-        
+
         for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
             // Initialize all values as 0
             distanceField[i] = new double[dfNumCellsY + 1]();
@@ -148,7 +163,7 @@ void Polygon::loadDistanceField() {
     } catch (std::bad_alloc& ba) {
         std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
     }
-    
+
     // read file into the distance field array.
     // Note indexing is set to fortran ()
     for (unsigned int j = 0; j < dfNumCellsY; j++) {
@@ -157,7 +172,7 @@ void Polygon::loadDistanceField() {
             distanceField[i][j] = std::stod(line);
         }
     }
-    
+
     cout << "Loading Distance Field Complete\n" << endl;
 }
 */
@@ -182,6 +197,7 @@ void Polygon::dumpDistanceField() {
             fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i][j] << endl;
         }
     }
+    
     fp.close();
     cout << "Complete " << endl;
 }
@@ -191,8 +207,7 @@ Used for both x and y. Cell id is defined using the lower left corner
 of a quad/hex cell.
 */
 unsigned int Polygon::getDFCellID(double x, double xMin) {
-    unsigned int i;
-    i = int(floorf((x - xMin) * idfCellSize));
+    unsigned int i = int(floorf((x - xMin) * idfCellSize));
     return i;
 }
 /*! Returns the local exclution radius by a look up table in the

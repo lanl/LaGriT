@@ -23,14 +23,13 @@ using std::ifstream;
 
 /*! Computes the 2D bounding box of the polygon */
 void Polygon::findBoundingBox() {
-
     cout << "finding bounding box : Starting " << endl;
     xMax = nodes[0].x;
     xMin = nodes[0].x;
     yMax = nodes[0].y;
     yMin = nodes[0].y;
-
-    cout << "numNodes: " << numNodes << endl; 
+    cout << "numNodes: " << numNodes << endl;
+    
     for (unsigned int i = 1; i < numNodes; i++) {
         xMax = std::max(xMax, nodes[i].x);
         xMin = std::min(xMin, nodes[i].x);
@@ -54,54 +53,58 @@ void Polygon::initializeVariables() {
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
     }
+    
     cout << "Initializing variables : Done" << endl;
 }
 
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
 void Polygon::loadVertices() {
-
     cout << "Adding vertices to polygon objection from " << mo_poly_name << endl;
     double *xptr;
     double *yptr;
-
     long icmolen;
     long iattlen;
     int ierror = 0;
-
     long nlen = 0;
     long ierr = 0;
-    
     numVertices = lg_cmo_get_intinfo("nnodes", mo_poly_name);
+    
     if (numVertices <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_poly_name << endl;
         return;
     }
+    
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
     // What are these?
-
-    // get mesh object xic and yic data 
+    // get mesh object xic and yic data
     iattlen = 3;
-    fc_cmo_get_vdouble_(mo_poly_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
-    if (ierr != 0 || nlen != numVertices){
+    fc_cmo_get_vdouble_(mo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    
+    if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
         return;
     }
-    fc_cmo_get_vdouble_(mo_poly_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
-    if (ierr != 0 || nlen != numVertices){
+    
+    fc_cmo_get_vdouble_(mo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    
+    if (ierr != 0 || nlen != numVertices) {
         cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
         return;
     }
-
+    
     // read in the node coordinates
     for (unsigned int i = 0; i < numVertices; i++) {
         // Format x-coord, y-coord
-        nodes.push_back({*(xptr+i), *(yptr+i), 0});
+        nodes.push_back({ * (xptr + i), *(yptr + i), 0});
     }
+    
     cout << "Coordinates loaded from mesh object: " << endl;
+    
     for (unsigned int i = 0; i < numVertices; i++) {
         printPoint(nodes[i]);
-    } 
+    }
+    
     cout << "Added vertices from cmo: " << mo_poly_name << " complete" << endl;
 }
 
@@ -120,9 +123,11 @@ void Polygon::dumpNodes() {
     cout << "Writing points to file: " << outputFilename << endl;
     cout << "There are " << numNodes << " point in the final distribution" << endl;
     fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
+    
     for (unsigned int i = 0; i < numNodes; i++) {
         fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << 0 << endl;
-    } 
+    }
+    
     fp.close();
 }
 
@@ -134,8 +139,7 @@ void Polygon::dumpNodes() {
 Polygon::~Polygon() {
     cout << "---------------------------------" << endl;
     cout << "Cleaning up polygon " << endl;
-    cout << "Destructor not active at this time. " << endl;
-/*
+    
     try {
         // delete dynamic memory of neighbor grid
         for (unsigned int i = 0; i < numCellsX + 1; i++) {
@@ -164,5 +168,4 @@ Polygon::~Polygon() {
     emptyCells.erase(emptyCells.begin(), emptyCells.end());
     emptyCells.shrink_to_fit();
     cout << "Cleaning up polygon complete" << endl;
-*/
 }

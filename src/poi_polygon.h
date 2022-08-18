@@ -21,7 +21,7 @@ class Polygon {
   public:
     // mesh object name for polygon
     const char * mo_poly_name;
-
+    
     // outputfilename
     std::string outputFilename = "points.xyz";
     // miminum mesh resolution provided by user
@@ -42,7 +42,7 @@ class Polygon {
     double xMin;
     double yMin;
     double yMax;
-  
+    
     // Random number generator
     unsigned int seed = 0;
     std::mt19937_64 generator;
@@ -54,7 +54,7 @@ class Polygon {
     void initializeVariables();
     void printNodes();
     void dumpNodes();
-
+    
     // LAGRIT added functions
     void loadVerticesCMO();
     
@@ -83,7 +83,7 @@ class Polygon {
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
     
-
+    
     // Name of distance field mesh object
     const char * mo_dfield_name;
     // distance field cell size (uniform in x and y)
