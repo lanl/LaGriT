@@ -129,7 +129,7 @@ make
 
 You can make changes in the CMakeLists.txt file, but your build directory must be empty for globals to take effect. These options are available on the command line and will update cmake global variables.
 
-In a clean directory, this example will buld Exodus and LaGriT with appropriate debugging flags:
+To use cmake options, use -D as shown in this example:
 
 ```bash
 mkdir dir_name/ && cd dir_name/
@@ -143,7 +143,7 @@ make
   - Builds LaGriT with ExodusII if installed.
 - `-D CMAKE_INSTALL_PREFIX`
   - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
-  - `-D LaGriT_BUILD_STATIC`
+- `-D LaGriT_BUILD_STATIC`
   - Builds LaGriT as a static binary (default; `ON`) or as a shared library (`.so`, `.dylib`, `.dll`)
 
 ### Supporting Documentation ###
