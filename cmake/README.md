@@ -15,6 +15,12 @@ There's two stages in CMake; the 'configure' stage (where you run 'cmake ..') an
       
 The build type can only be set in the configure stage. One way to handle building both Debug and release is to make two build directories. Here's a short guide: https://riptutorial.com/cmake/example/7357/switching-between-build-types--e-g--debug-and-release
 
+You can set cmake and make to show verbose screen reporting. These are run from your buld directory with the following options:
+```
+cmake -D CMAKE_FIND_DEBUG_MODE=ON ..
+make VERBOSE=1
+``
+
 For LANL developers, you may need to generate a token to use as password. See instructions at https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 
