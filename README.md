@@ -43,23 +43,20 @@ mkdir build/ && cd build/
 cmake .. && make
 ```
 
-If you do not have ExodusII libs installed, the build will look similar to:
+The cmake command creates the configuration and build files for lagrit and will look similar to this:
 ```
 -- ==========================================
 -- ============Configuring LaGriT============
 -- ===================v3.3.3=================
 -- Compile LaGriT as a static binary = ON
--- Could NOT find Exodus (missing: Exodus_LIBRARIES Exodus_INCLUDE_DIR)
-WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.
+-- Compile LaGriT with ExodusII = OFF
+LaGriT Compiling without ExodusII support.
 
-[100%] Built target lagrit
+-- Configuring done
+-- Generating done
 ```
 
-LaGriT will auto-detect ExodusII libs and will continue to build even if ExodusII is not found. 
-The only command used with ExodusII libs is `dump/exodus`. If needed, 
-You will need to build ExodusII before LaGriT cmake and build.
-See below for build options.
-
+The make command will compile the libraries and build lagrit. Use `make VERBOSE=1` to view compile progress.
 The `lagrit` executable is installed in the `build/` directory.
 Type ./lagrit to make sure the executable is working.
 
@@ -100,41 +97,55 @@ $ python test/runtests.py --help
 
 #### (Optional) Building Exodus ####
 
-This install script included here with LaGriT may not work for all platforms.
-See Exodus Installation instructions:
-[Seacas ExodusII](https://github.com/gsjaardema/seacas)
+
+The only LaGriT command used with ExodusII libs is `dump/exodus` and associated face set and node set commands.
+To include these commands you will need to install Seacas-Exodus.
+
+Use the Exodus Install script to Install Exodus and associated libraries. You can run the file as a script or use it as a guide to copy and paste commands for installation. The script provides the flags needed by LaGriT and will install seacas in the directory TPLs.
 
 ```bash
 $ ./install-exodus.sh
 ```
 
+Check that the following libriaries have been installed in seacas/lib:
 
+```
+# exodus and associated libs:
+  libexodus.a      libexoIIv2for32.a  libhdf5_hl.a     libnetcdf.a
+  libexodus_for.a  libhdf5.a          libhdf5_tools.a  libz.a
+```
 
+For full and current Exodus Installation instructions, go to:
+[Seacas ExodusII](https://github.com/sandialabs/seacas)
 
-#### Building LaGriT - Configurable
-
-You may also specify more advanced build directions:
+Once Exodus is installed, use the following commands to build LaGriT:
 
 ```bash
-$ mkdir build/ && cd build/
-$ cmake .. \
-    -D LaGriT_BUILD_STATIC=ON \
-    -D CMAKE_BUILD_TYPE=Debug \
-    -D Exodus_ROOT=${EXO_INSTALL_DIR} \
-    -D CMAKE_INSTALL_PREFIX=`pwd`/../install/
-$ make && make install
+mkdir build/ && cd build/
+cmake .. -DLAGRIT_BUILD_EXODUS=ON
+make
 ```
 
 ##### CMake Build Options
 
-- `-D LaGriT_BUILD_STATIC`
-  - Builds LaGriT as a static binary (default; `ON`) or as a shared library (`.so`, `.dylib`, `.dll`)
+You can make changes in the CMakeLists.txt file, but your build directory must be empty for globals to take effect. These options are available on the command line and will update cmake global variables.
+
+In a clean directory, this example will buld Exodus and LaGriT with appropriate debugging flags:
+
+```bash
+mkdir dir_name/ && cd dir_name/
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DLAGRIT_BUILD_EXODUS=ON
+make
+```
+
 - `-D CMAKE_BUILD_TYPE`
   - Sets the build type. Choose between `Debug` and `Release`.
-- `-D Exodus_ROOT`
-  - Sets the root directory of Exodus. **Must be specified** if you wish to use Exodus.
+- `-D LAGRIT_BUILD_EXODUS=ON`
+  - Builds LaGriT with ExodusII if installed.
 - `-D CMAKE_INSTALL_PREFIX`
   - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
+  - `-D LaGriT_BUILD_STATIC`
+  - Builds LaGriT as a static binary (default; `ON`) or as a shared library (`.so`, `.dylib`, `.dll`)
 
 ### Supporting Documentation ###
 ---
