@@ -95,13 +95,13 @@ $ python test/runtests.py --help
 ```
 
 
-#### (Optional) Building Exodus ####
+### (Optional) Building Exodus ###
 
 
 The only LaGriT command used with ExodusII libs is `dump/exodus` and associated face set and node set commands.
 To include these commands you will need to install Seacas-Exodus.
 
-Use the Exodus Install script to Install Exodus and associated libraries. You can run the file as a script or use it as a guide to copy and paste commands for installation. The script provides the flags needed by LaGriT and will install seacas in the directory TPLs.
+Use the Exodus Install script to Install Exodus and associated libraries. You can run the file or use the file as a guide to copy and paste commands for installation. The script provides the flags needed by LaGriT and will install seacas in the directory TPLs.
 
 ```bash
 $ ./install-exodus.sh
@@ -110,7 +110,6 @@ $ ./install-exodus.sh
 Check that the following libriaries have been installed in seacas/lib:
 
 ```
-# exodus and associated libs:
   libexodus.a      libexoIIv2for32.a  libhdf5_hl.a     libnetcdf.a
   libexodus_for.a  libhdf5.a          libhdf5_tools.a  libz.a
 ```
@@ -126,7 +125,7 @@ cmake .. -DLAGRIT_BUILD_EXODUS=ON
 make
 ```
 
-##### CMake Build Options
+#### CMake Build Options
 
 You can make changes in the CMakeLists.txt file, but your build directory must be empty for globals to take effect. These options are available on the command line and will update cmake global variables.
 
