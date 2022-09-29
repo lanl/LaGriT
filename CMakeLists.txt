@@ -1,45 +1,130 @@
+# Default build with Exodus OFF
+# Edit option below or use cmake .. -DLAGRIT_BUILD_EXODUS=ON
+#
+# Long version with explicit paths to build lagrit with Exodus 
+# This file is useful for debugging cmake with Exodus
+# Note Windows is not working and is commented out
+# Sep 28 2022 tamiller@lanl.gov lagrit.lanl.gov
+# SEACAS Exodus Gregory Sjaardema gsjaardema@gmail.com
+
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 project(LaGriT VERSION 3.3.3
                DESCRIPTION "LaGriT Meshing Utilities"
                LANGUAGES Fortran CXX C)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+# module not being used because this is not working
+# set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
+# message(STATUS "Using cmake module = ${CMAKE_MODULE_PATH}")
 
-option(LaGriT_BUILD_STATIC "Compile as a static (fat) executable." ON)
+option(LAGRIT_BUILD_STATIC "Compile as a static (fat) executable." ON)
+option(LAGRIT_BUILD_EXODUS "Build with Exodus." OFF)
+
+# Set Directories for lagrit compile and build 
+set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
+set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
+set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
+
+set(TPL_LIBRARIES "")
+set(TPL_INCLUDE_DIRS "")
 
 message(STATUS "==========================================")
 message(STATUS "============Configuring LaGriT============")
 message(STATUS "===================v${PROJECT_VERSION}=================")
 
-message(STATUS "Compile LaGriT as a static binary = ${LaGriT_BUILD_STATIC}")
+message(STATUS "Compile LaGriT as a static binary = ${LAGRIT_BUILD_STATIC}")
+message(STATUS "Compile LaGriT with ExodusII = ${LAGRIT_BUILD_EXODUS}")
 
-set(INSTALL_DIR "${CMAKE_SOURCE_DIR}/install")
-set(SRC_UTIL "${CMAKE_SOURCE_DIR}/lg_util/src")
-set(SRC_CORE "${CMAKE_SOURCE_DIR}/src")
+# Add Third Party Libraries here and add all to TPL_LIBRARIES
+# These include Exodus and PETSc (planned for Voronoi codes)
 
-# ==== Is SEACAS/ExodusII available? =========== #
-find_package(Exodus)
-find_package(NetCDF)
-find_package(HDF5)
-find_package(ZLIB)
+if (LAGRIT_BUILD_EXODUS) 
 
-set(TPL_LIBRARIES "")
-set(TPL_INCLUDE_DIRS "")
+message(STATUS "-----Configuring Exodus-----")
 
-if (Exodus_FOUND) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
-  message(STATUS "ExodusII support enabled: ${Exodus_LIBRARIES}")
-  add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
-  set(TPL_LIBRARIES "${Exodus_LIBRARIES} ${HDF5_LIBRARIES} ${NetCDF_LIBRARIES} ${ZLIB_LIBRARIES}")
-  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR} ${HDF5_INCLUDE_DIR} ${NetCDF_INCLUDE_DIR} ${ZLIB_INCLUDE_DIR}")
+# this is the long version to build LAGRIT with Exodus
+# it is useful if Exodus cmake files or libs are not found
+# new versions of exodus should set definitions with find_package()
+# Look for SEACAS/ExodusII libraries
+# then set the "TPL_LIBRARIES" variable to full paths of found libs
+# NAMES exodus libexodus exoIIv2for netcdf hdf5_hl hdf5 libz
+
+set(EXODUS_ROOT "${CMAKE_SOURCE_DIR}/TPLs/seacas")
+set(Exodus_INCLUDE_DIR "${EXODUS_ROOT}/include")
+set(Exodus_LIBRARIES "${EXODUS_ROOT}/lib")
+
+if(EXISTS "${Exodus_INCLUDE_DIR}")
+  message(STATUS "  Found exodus include dir: ${Exodus_INCLUDE_DIR}")
 else()
-  message("WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.")
-  message(STATUS "Exodus Dependency Status:")
-  message(STATUS "  Found Exodus: ${Exodus_FOUND}")
-  message(STATUS "  Found NetCDF: ${NetCDF_FOUND}")
-  message(STATUS "  Found HDF5:   ${HDF5_FOUND}")
-  message(STATUS "  Found ZLIB:   ${ZLIB_FOUND}")
+  message("FATAL_ERROR: exodus include dir not found in ${EXODUS_ROOT}")
 endif()
+
+if(EXISTS "${Exodus_INCLUDE_DIR}/exodusII.inc")
+  set(EXO_INC "${Exodus_INCLUDE_DIR}/exodusII.inc")
+  message(STATUS "  Found exodusII.inc : ${EXO_INC}")
+else()
+  message("FATAL_ERROR: exodusII.inc not found in ${EXO_INC}")
+endif()
+
+# set libraries with individual calls to each lib name
+if(EXISTS "${Exodus_LIBRARIES}")
+find_library(EXO_FOUND libexodus.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+find_library(EXO_FORT_FOUND libexodus_for.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+find_library(EXO_FORT32_FOUND libexoIIv2for32.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+find_library(HDF5_FOUND libhdf5.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+find_library(NETCDF_FOUND libnetcdf.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+find_library(ZLIB_FOUND libz.a 
+    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
+  message(STATUS "  Found Exodus      lib: ${EXO_FOUND}")
+  message(STATUS "  Found Exodus_fort lib: ${EXO_FORT_FOUND}")
+  message(STATUS "  Found HDF5        lib: ${HDF5_FOUND}")
+  message(STATUS "  Found NetCDF      lib: ${NETCDF_FOUND}")
+  message(STATUS "  Found ZLIB        lib: ${ZLIB_FOUND}")
+else()
+  message("FATAL_ERROR: Exodus libs not found in ${Exodus_LIBRARIES}")
+endif()
+
+# IF NOT FOUND hard-wire root and paths here
+# set(EXODUS_ROOT "/project/eesdev/tam/LaGriT-build/TPLs/seacas")
+# set(Exodus_LIBRARIES "${EXODUS_ROOT}/lib")
+# set(Exodus_INCLUDE_DIR "${EXODUS_ROOT}/include")
+# message(STATUS "Set Explicit Exodus ROOT: ${SEACASExodus_ROOT}")
+
+# trick cmake to add exodus libs correctly for linking
+set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
+
+message(STATUS "-----Done Exodus-----")
+
+# SET TPLS with exodus and petsc includes and libs
+if (Exodus_INCLUDE_DIR AND Exodus_LIBRARIES) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
+  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR}")
+#  set(TPL_LIBRARIES ${HDF5_FOUND} ${NETCDF_FOUND} ${ZLIB_FOUND} ${EXO_FOUND} ${EXO_FORT32_FOUND} ${EXO_FORT_FOUND} )
+  set(TPL_LIBRARIES "${Exodus_LIBRARIES}" )
+
+else()
+  message("ERROR: ExodusII and/or other dependencies could not be found.")
+  message( FATAL_ERROR "Build ExodusII or use -DLaGriT_BUILD_EXODUS=OFF" )
+endif()
+
+endif()
+# END TPLs
+
+if (LAGRIT_BUILD_EXODUS)
+  add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
+  message(STATUS "ExodusII support enabled: ${LAGRIT_BUILD_EXODUS}")
+  message(STATUS "ExodusII libraries      : ${Exodus_LIBRARIES}")
+  message(STATUS "ExodusII include        : ${Exodus_INCLUDE_DIR}")
+else()
+  message("LaGriT Compiling without ExodusII support.")
+  message("To include Exodus, use -DLAGRIT_BUILD_EXODUS=ON")
+endif()
+
+# message( FATAL_ERROR "Debug exit at STOP." )
 
 # ===== Detect platform, bit-size, and compilers ==================== #
 message(STATUS "Detected System:")
@@ -48,27 +133,29 @@ include("${CMAKE_SOURCE_DIR}/cmake/DetectBitSize.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-C.cmake")
 
-#include(FortranCInterface)
-#FortranCInterface_VERIFY(CXX)
-#FortranCInterface_HEADER(
-#    LaGriT.h
-#    MACRO_NAMESPACE "LG_"
-#    SYMBOL_NAMESPACE "LG_"
-#    SYMBOLS mysub mymod:my_sub
-#)
-
-if (LaGriT_BUILD_STATIC)
+if (LAGRIT_BUILD_STATIC)
   set(LIBLAGRIT_BUILD_TYPE "STATIC")
 else()
   set(LIBLAGRIT_BUILD_TYPE "SHARED")
   set(BUILD_SHARED_LIBS TRUE)
 endif()
 
+# if not set will ignore sytem release or debug flags
+if (CMAKE_BUILD_TYPE)
+  message("LaGriT compile type set to: ${CMAKE_BUILD_TYPE}")
+endif()
 
 # ////////// BEGIN COMPILER SETTINGS //////////
 
+if (TPL_LIBRARIES)
+message(STATUS "Using Third Party Libraries.")
+message(STATUS "TPL libs: ${TPL_LIBRARIES}")
+message(STATUS "TPL include: ${TPL_INCLUDE_DIRS}")
+include_directories(${TPL_INCLUDE_DIRS})
+endif()
+
 ## ////////// BEGIN LINKER CONFIGURATION //////////
-## Extra linker and compile options for Windows
+## Windows Extra linker and compile options
 #if(MSVC)
 #    set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} /Dwin64")
 #    set(CMAKE_EXE_LINKER_FLAGS "/NODEFAULTLIB:msvcrtd.lib")
@@ -80,6 +167,7 @@ endif()
 #    )
 #endif()
 
+# create lagrit.h from template lagrit.h.in
 string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
 configure_file(
     ${SRC_CORE}/lagrit.h.in
@@ -91,7 +179,8 @@ configure_file(
 include(FortranCInterface)
 FortranCInterface_VERIFY()
 
-# Generate a header file for handling compiler symbol mangling
+# Create fc_mangle.h for cpp-fortran routines to handle symbol mangling
+# Names here should be same as found in src/lg_f_interface.h
 # More information: https://www.netlib.org/lapack/lawnspdf/lawn270.pdf
 FortranCInterface_HEADER(
     ${SRC_CORE}/fc_mangle.h
@@ -121,7 +210,7 @@ file(
     "${SRC_UTIL}/*.f90"
 )
 
-# Grab `lg_core/` source files
+# Grab `src/` source files
 file(
     GLOB_RECURSE
     SRC_CORE_FILES
@@ -152,7 +241,6 @@ set_source_files_properties(
 add_library(
     liblagrit
     ${LIBLAGRIT_BUILD_TYPE} # STATIC or SHARED
-    #${SRC_ROOT}/lg_interface/interface2.F
     ${SRC_UTIL_FILES}
     ${SRC_CORE_FILES}
 )
@@ -181,11 +269,12 @@ set_target_properties(
 )
 
 # Change from 'lagrit' (OUTPUT_NAME) to 'lagrit.exe' on Windows
+# Note cmake should do this automatically so not needed?
 if (WIN32)
   set_target_properties(lagrit.exe PROPERTIES SUFFIX ".exe")
 endif()
 
-if (LaGriT_BUILD_STATIC)
+if (LAGRIT_BUILD_STATIC)
   set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_START_STATIC 1)
   set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_END_STATIC 1)
 
@@ -195,17 +284,31 @@ if (LaGriT_BUILD_STATIC)
     set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
     set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
   endif()
+
 endif()
+# end static build options
 
 target_include_directories(
   lagrit.exe
-  PUBLIC ${TPL_INCLUDE_DIRS} # includes 'exodusII.h'
+  PUBLIC ${TPL_INCLUDE_DIRS} # includes 'exodusII.h' 'exodusII.inc'
 )
 
 target_link_libraries(lagrit.exe
-  PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
-  PUBLIC ${TPL_LIBRARIES}     # Exodus / NetCDF / HDF5 / ZLIB
+   PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
+   PUBLIC ${TPL_LINK_LIBS}     # Exodus / NetCDF / HDF5 / ZLIB
 )
+
+# this produces errors 
+#make[2]: *** No rule to make target '../TPLs/seacas/lib/libexoIIv2for.a', needed by 'lagrit'.  Stop.
+# target_link_libraries(lagrit.exe
+#     PRIVATE
+#         liblagrit
+#         "${Exodus_LIBRARIES}/libexodus.a"
+#         "${Exodus_LIBRARIES}/libexoIIv2for.a"
+#         "${Exodus_LIBRARIES}/libnetcdf.a"
+#         "${Exodus_LIBRARIES}/libhdf5.a"
+#         "${Exodus_LIBRARIES}/libhdf5_hl.a"
+# )
 
 # Install lagrit to ${CMAKE_INSTALL_PATH}/bin/
 install(
@@ -219,7 +322,3 @@ install(
     DESTINATION "lib"
 )
 
-#install(
-#  TARGETS ???
-#  DESTINTION "include"
-#)

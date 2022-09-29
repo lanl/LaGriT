@@ -1,32 +1,26 @@
+# script to install seacas-exodus for build with LaGriT
+# See full instructions at https://github.com/sandialabs/seacas
+# Seacas Contact Gregory Sjaardema gsjaardema@gmail.com
+#
+# LaGriT does not need full full seacas but does require
+# exodus and associated libs:
+# libexodus.a      libexoIIv2for32.a  libhdf5_hl.a     libnetcdf.a
+# libexodus_for.a  libhdf5.a          libhdf5_tools.a  libz.a
+# Preferable to use versions newer than July 2022
 set -e
 set -x
 
 # ==== USER SETTINGS ==============================
-EXO_BUILD_DIR=${EXO_BUILD_DIR:-"$(pwd)/TPLs/build/"}
-EXO_INSTALL_DIR=${EXO_INSTALL_DIR:-"$(pwd)/TPLs/install/"}
-EXO_COMMIT_HASH=${EXO_COMMIT_HASH:-v2021-10-11}
+# Suggest Installing seacas in LaGriT/TPLs
+SEACAS_INSTALL_DIR=${SEACAS_INSTALL_DIR:-"$(pwd)/TPLs/"}
+# EXO_COMMIT_HASH=${EXO_COMMIT_HASH:-v2021-10-11}
 # =================================================
 
-mkdir -p ${EXO_BUILD_DIR}
-mkdir -p ${EXO_INSTALL_DIR}
+mkdir -p ${SEACAS_INSTALL_DIR}
+cd ${SEACAS_INSTALL_DIR}
 
-SEACAS_DIR=${EXO_BUILD_DIR}/seacas
-
-git clone https://github.com/gsjaardema/seacas.git ${SEACAS_DIR} || echo "Already cloned"
-
-cd ${SEACAS_DIR} && git checkout ${EXO_COMMIT_HASH} && export ACCESS=`pwd`
-
-# User-changable variables
-export INSTALL_PATH=${EXO_INSTALL_DIR}
-export SHARED=NO # Build shared libraries?
-
-# These should not need to be changed
-export FORTRAN=YES
-export CGNS=OFF
-export MATIO=OFF
-export NEEDS_ZLIB=YES
-export GNU_PARALLEL=OFF
-export BUILD=YES
+git clone https://github.com/sandialabs/seacas.git 
+cd seacas && export ACCESS=`pwd`
 
 # Special handling for Cygwin
 if [[ `uname -s` == *"CYGWIN"* ]]; then
@@ -35,13 +29,38 @@ if [[ `uname -s` == *"CYGWIN"* ]]; then
 	export DOWNLOAD=NO;
 fi;
 
-# Build Exodus TPLs - HDF5, NetCDF, ZLIB
-./install-tpl.sh
-cd TPL/
+# Install needed third party libraries (TPLs)  
+# These flags are recommended for LaGriT
+CGNS=NO MATIO=NO GNU_PARALLEL=NO FMT=NO SHARED=NO NEEDS_ZLIB=YES ./install-tpl.sh 
+
+# if netcdf fails, try turning off new features
+# modify seacas/TPL/netcdf/runcmake.sh to look like this
+#
+#          -DCMAKE_INSTALL_LIBDIR:PATH=lib \
+#          -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+#          -DENABLE_NETCDF_4:BOOL=ON \
+#      -DENABLE_PLUGINS:BOOL=OFF \
+#      -DENABLE_MULTIFILTERS:BOOL=NO \
+#      -DENABLE_NCZARR_FILTERS:BOOL=OFF \
+#      -DENABLE_TESTS:BOOL=OFF \
+#          -DENABLE_PNETCDF:BOOL=${MPI} \
+#          -DENABLE_CDF5=ON \
+#          -DENABLE_MMAP:BOOL=ON \
+#
+# start again outside the script
+# copy and paste remaining calls
+# cd TPLs/seacas && export ACCESS=`pwd`
+# CGNS=NO MATIO=NO GNU_PARALLEL=NO FMT=NO SHARED=NO NEEDS_ZLIB=YES ./install-tpl.sh
+
+# Create cmake files for Exodus
+# You can edit the cmake-exodus file to adjust compilers and settings
+# FORTRAN must be set to YES
+
+cd $ACCESS
+mkdir build && cd build
+FORTRAN=YES SHARED=NO ../cmake-exodus
 
 # Build Exodus
-../cmake-exodus -DFORTRAN=YES
-
-# need some kind of progress check 
-# this fails without warning or error information
+# LaGriT will use files in lib and include
 make && make install
+
