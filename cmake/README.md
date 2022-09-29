@@ -20,25 +20,22 @@ For LANL developers, you may need to generate a token to use as password. See in
 
 ## Create your build directory:
 
-Setup a work directory for dev and debug work (example using name "debug")
-Compile new executable using ```make``` in the debug/ directory.
+Setup a work directory for dev and debug work (example using name "debug").
+Use cmake to create Makefiles and build files. You will do this only once.
+Compile the lagrit executable using 'make' or 'make VERBOSE=1'
 ```
-mkdir debug/ && cd debug/ && cmake .. -D CMAKE_BUILD_TYPE=Debug
+mkdir debug && cd debug
+cmake .. -D CMAKE_BUILD_TYPE=Debug
 make
 ```
 
-Before changing code you might first add a directory and build a release (no debug) version:
-```
-mkdir release/ && cd release/ && cmake .. -D CMAKE_BUILD_TYPE=Release
-make
-```
-
-A quick check for successful compile, run ./lagrit and type command **test** which creates hex mesh and reports values.
+Run ./lagrit and type command **test** which creates hex mesh and reports expected values.
       
 ## Modify code
 
-Modify code by working with files files in LaGriT/src
+Modify code by working with lagrit source files in LaGriT/src
 Do not add any non-code develpment files in the /src directory, they may be detected and attempted to use during compile time.
+
 When you want to compile, do not run cmake again, it already created your makefiles, .o, and other dependencies.
 
 Go to LaGriT/*your_build_name* directory and type
@@ -48,66 +45,48 @@ make
 
 **lagrit** will be built in LaGriT/*your_build_name* directory.
 
-*If you add new files you will need to run cmake again. This will detect all files in src/ and create a new set of Makefils.*
+*If you add new files to /src you will need to run cmake again. This will detect all files in src/ and create a new set of Makefiles.*
 
 
       
-### Example Directory structure:
+### Example Directory structure for development:
       
 ```
 LaGriT/
-├── CMakeLists.txt
-└── debug/
-    └── lagrit executable, Makefile built by cmake, cmake files    
+|
+└── build/
+    └── lagrit executable, Makefiles built by cmake, cmake files    
 └── src/
-    └── file.cpp, file.f, file.c, etc
+    └── file.cpp, file.f, file.c, lagrit.h, etc
+|
+├── CMakeLists.txt
+└── cmake/
+    └── CompilerFlags-C.cmake, CompilerFlags-Fortran.cmake, DetectBitSize.cmake, PlatformSettings.cmake
 ```
 
-### Example Screen Output for cmake and make
+### Example Screen Output for cmake .. -DLAGRIT_BUILD_EXODUS=ON
 
 ```
-% mkdir build/ && cd build/
-es22:build:bsh% cmake ..
 -- The Fortran compiler identification is GNU 7.5.0
 -- The CXX compiler identification is GNU 7.5.0
 -- The C compiler identification is GNU 7.5.0
--- Detecting Fortran compiler ABI info
--- Detecting Fortran compiler ABI info - done
--- Check for working Fortran compiler: /usr/bin/f95 - skipped
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
 -- ==========================================
 -- ============Configuring LaGriT============
 -- ===================v3.3.3=================
 -- Compile LaGriT as a static binary = ON
--- Could NOT find Exodus (missing: Exodus_LIBRARIES)
--- Found NetCDF: /usr/include
--- HDF5 C compiler wrapper is unable to compile a minimal HDF5 program.
--- Found HDF5: /usr/lib/x86_64-linux-gnu/hdf5/serial/libhdf5.so (found version "1.10.0.1")
--- Found ZLIB: /usr/lib/x86_64-linux-gnu/libz.so (found version "1.2.11")
-WARNING: ExodusII and/or other dependencies could not be found. Compiling without ExodusII support.
--- Exodus Dependency Status:
---   Found Exodus: FALSE
---   Found NetCDF: TRUE
---   Found HDF5:   TRUE
---   Found ZLIB:   TRUE
+-- Compile LaGriT with ExodusII = ON
+-- ExodusII libraries      : /project/eesdev/tam/LaGriT/TPLs/seacas/lib
+-- ExodusII include        : /project/eesdev/tam/LaGriT/TPLs/seacas/include
 -- Detected System:
 --   Operating System: Linux
 --   Architecture: 64-bit
 --   Fortran compiler: GNU GFORTRAN
 --   C compiler: GNU GCC
 --   C++ compiler: GNU G++
--- Detecting Fortran/C Interface
+-- Using Third Party Libraries.
+-- TPL libs: /project/eesdev/tam/LaGriT/TPLs/seacas/lib
+-- TPL include: /project/eesdev/tam/LaGriT/TPLs/seacas/include
 -- Detecting Fortran/C Interface - Found GLOBAL and MODULE mangling
--- Verifying Fortran/C Compiler Compatibility
 -- Verifying Fortran/C Compiler Compatibility - Success
 -- Compilers:
 --   FORTRAN [compiler = "/usr/bin/f95"; flags = " -m64 -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check"]
@@ -115,23 +94,38 @@ WARNING: ExodusII and/or other dependencies could not be found. Compiling withou
 --   C++ [compiler = "/usr/bin/c++"; flags = " -w -m64"]
 -- Configuring done
 -- Generating done
--- Build files have been written to: /project/eesdev/tam/clone/LaGriT-master/build
-
-% make
-Scanning dependencies of target liblagrit
-[  0%] Building Fortran object CMakeFiles/liblagrit.dir/src/ColoredGraphModule.f90.o
-[  0%] Building Fortran object CMakeFiles/liblagrit.dir/src/GraphModule.f90.o
-[ 99%] Building Fortran object CMakeFiles/liblagrit.dir/src/zq.f.o
-...
-[100%] Linking CXX static library liblagrit.a
-[100%] Built target liblagrit
-Scanning dependencies of target lagrit.exe
-[100%] Building Fortran object CMakeFiles/lagrit.exe.dir/src/lagrit_main.f.o
-[100%] Linking Fortran executable lagrit
-[100%] Built target lagrit
-
-es22:build:bsh% ./lagrit
+-- Build files have been written to: /project/eesdev/tam/LaGriT/build
 ```
+
+### Example Screen Output for make VERBOSE=1
+
+```
+[  2%] Building C object CMakeFiles/liblagrit.dir/lg_util/src/gmvwrite.c.o
+/usr/bin/cc -DLAGRIT_INCLUDE_EXODUSII -Dlinx64 -I/project/eesdev/tam/LaGriT/TPLs/seacas/include -w -m64 -MD -MT CMakeFiles/liblagrit.dir/lg_util/src/gmvwrite.c.o -MF CMakeFiles/liblagrit.dir/lg_util/src/gmvwrite.c.o.d -o CMakeFiles/liblagrit.dir/lg_util/src/gmvwrite.c.o -c /project/eesdev/tam/LaGriT/lg_util/src/gmvwrite.c
+
+[ 36%] Building Fortran object CMakeFiles/liblagrit.dir/src/dumpexodusII.f.o
+/usr/bin/f95 -DLAGRIT_INCLUDE_EXODUSII -Dlinx64 -I/project/eesdev/tam/LaGriT/TPLs/seacas/include -m64 -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check -cpp -c /project/eesdev/tam/LaGriT/src/dumpexodusII.f -o CMakeFiles/liblagrit.dir/src/dumpexodusII.f.o
+
+[ 70%] Building CXX object CMakeFiles/liblagrit.dir/src/poi_helperFunctions.cpp.o
+/usr/bin/c++ -DLAGRIT_INCLUDE_EXODUSII -Dlinx64 -I/project/eesdev/tam/LaGriT/TPLs/seacas/include -w -m64 -MD -MT CMakeFiles/liblagrit.dir/src/poi_helperFunctions.cpp.o -MF CMakeFiles/liblagrit.dir/src/poi_helperFunctions.cpp.o.d -o CMakeFiles/liblagrit.dir/src/poi_helperFunctions.cpp.o -c /project/eesdev/tam/LaGriT/src/poi_helperFunctions.cpp
+
+[100%] Linking CXX static library liblagrit.a
+/n/swdev/packages/Ubuntu-18.04-x86_64/cmake/cmake-3.22.1/bin/cmake -P CMakeFiles/liblagrit.dir/cmake_clean_target.cmake
+
+/n/swdev/packages/Ubuntu-18.04-x86_64/cmake/cmake-3.22.1/bin/cmake -E cmake_link_script CMakeFiles/liblagrit.dir/link.txt
+
+/usr/bin/ranlib liblagrit.a
+make[2]: Leaving directory '/project/eesdev/tam/LaGriT/build'
+[100%] Built target liblagrit
+
+[100%] Linking Fortran executable lagrit
+/n/swdev/packages/Ubuntu-18.04-x86_64/cmake/cmake-3.22.1/bin/cmake -E cmake_link_script CMakeFiles/lagrit.exe.dir/link.txt
+
+/usr/bin/f95 -static-libgcc -static-libstdc++  -m64 -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check CMakeFiles/lagrit.exe.dir/src/lagrit_main.f.o -o lagrit  liblagrit.a -L/project/eesdev/tam/LaGriT/TPLs/seacas/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc -lstdc++ 
+
+[100%] Built target lagrit
+```
+
 
 ## Header File configuration
 
