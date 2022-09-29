@@ -19,7 +19,7 @@ You can set cmake and make to show verbose screen reporting. These are run from 
 ```
 cmake -D CMAKE_FIND_DEBUG_MODE=ON ..
 make VERBOSE=1
-``
+```
 
 For LANL developers, you may need to generate a token to use as password. See instructions at https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
