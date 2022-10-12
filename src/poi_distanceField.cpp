@@ -80,7 +80,6 @@ void Polygon::loadDistanceFieldCMO() {
     // allocate memory for distance field
     try {
         distanceField = new double*[dfNumCellsX];
-        
         for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
             // Initialize all values as 0
             distanceField[i] = new double[dfNumCellsY]();
@@ -110,7 +109,7 @@ void Polygon::loadDistanceFieldCMO() {
             distanceField[i][j] = *(hptr + ptIndex);
             ptIndex++;
             
-            // cout << "distanceField[i][j] " << distanceField[i][j] << endl;
+//            cout << "i,j,distanceField[i][j] " << i << " " << j << " " << distanceField[i][j] << endl;
             if (distanceField[i][j] <= 0 ) {
                 cout << "Error. Resolution of 0 or negative number provided. Setting to h" << endl;
                 cout << "i,j,ptIndex " << i << " " << j << " " << ptIndex << endl;
@@ -216,5 +215,16 @@ distance field array.
 void Polygon::getExclusionRadius(Point &point) {
     unsigned int i = getDFCellID(point.x, dfXMin);
     unsigned int j = getDFCellID(point.y, dfYMin);
+    if (i > dfNumCellsX){
+        i = dfNumCellsX - 1;
+    }
+    if (j > dfNumCellsY){
+        j = dfNumCellsY - 1;
+    }
     point.radius = distanceField[i][j];
+    point.radius = h;
+
+//    cout << i << " " << j << endl;
+//    cout << distanceField[i][j] << endl;
+//    cout << point.radius << endl;
 }
