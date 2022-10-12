@@ -130,9 +130,11 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
     
     for (unsigned int i = startIndex; i < numNodes; i++) {
         for (unsigned int k = 0; k < numSamples; k++) {
+    //for (unsigned int i = startIndex; i < 10; i++) {
+    //    for (unsigned int k = 0; k < 1; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
-            
+            // printPoint(newPoint);
             // test new point
             if (testCandidate(newPoint)) {
                 acceptCandidate(newPoint);

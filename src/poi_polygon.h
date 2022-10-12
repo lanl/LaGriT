@@ -49,14 +49,14 @@ class Polygon {
     
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
-    void loadVertices();
+    bool loadVertices();
     void findBoundingBox();
     void initializeVariables();
     void printNodes();
     void dumpNodes();
     
     // LAGRIT added functions
-    void loadVerticesCMO();
+    bool loadVerticesCMO();
     
     
     // Neighborhood Grid Parameters and functions

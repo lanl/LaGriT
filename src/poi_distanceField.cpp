@@ -60,17 +60,21 @@ void Polygon::loadDistanceFieldCMO() {
     // }
     icmolen = strlen(mo_poly_name);
     iattlen = 4;
-    double xmin, xmax = 0;
-    double ymin, ymax = 0;
-    fc_cmo_get_double_(mo_dfield_name, "xmin", &xmin, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "ymin", &ymin, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "xmax", &xmax, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "ymax", &ymax, &ierr, icmolen, iattlen);
-    dfXMin = xmin;
-    dfYMin = ymin;
-    cout << "Distance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << " " << endl;
-    cout << "Distance Field Lowe Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin << " " << endl;
-    double deltaX = xmax - xmin;
+    double dfXMax, dfYMax;
+    double xMin, xMax = 0;
+    double yMin, yMax = 0;
+    fc_cmo_get_double_(mo_dfield_name, "xmin", &xMin, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymin", &yMin, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "xmax", &xMax, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymax", &yMax, &ierr, icmolen, iattlen);
+    dfXMin = xMin;
+    dfYMin = yMin;
+    dfXMax = xMax; 
+    dfYMax = yMax; 
+    cout << "Distance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << endl;
+    cout << "Distance Field Lower Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin  << endl;
+    cout << "Distance Field upper Bounds. xMax " << dfYMax << " " << "yMax " << dfYMax  << endl;
+    double deltaX = xMax - xMin;
     dfCellSize = deltaX / dfNumCellsX;
     // compute inversece cell size
     idfCellSize = 1.0 / dfCellSize;
@@ -215,16 +219,11 @@ distance field array.
 void Polygon::getExclusionRadius(Point &point) {
     unsigned int i = getDFCellID(point.x, dfXMin);
     unsigned int j = getDFCellID(point.y, dfYMin);
-    if (i > dfNumCellsX){
-        i = dfNumCellsX - 1;
-    }
-    if (j > dfNumCellsY){
-        j = dfNumCellsY - 1;
-    }
     point.radius = distanceField[i][j];
-    point.radius = h;
 
-//    cout << i << " " << j << endl;
-//    cout << distanceField[i][j] << endl;
-//    cout << point.radius << endl;
+//    if (i > dfNumCellsX || j > dfNumCellsY){
+//        cout << i << " " << j << endl;
+//        printPoint(point);
+//    }
+
 }

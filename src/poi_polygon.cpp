@@ -23,7 +23,7 @@ using std::ifstream;
 
 /*! Computes the 2D bounding box of the polygon */
 void Polygon::findBoundingBox() {
-    cout << "finding bounding box : Starting " << endl;
+    cout << "Finding bounding box : Starting " << endl;
     xMax = nodes[0].x;
     xMin = nodes[0].x;
     yMax = nodes[0].y;
@@ -59,7 +59,7 @@ void Polygon::initializeVariables() {
 
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
-void Polygon::loadVertices() {
+bool Polygon::loadVertices() {
     cout << "Adding vertices to polygon objection from " << mo_poly_name << endl;
     double *xptr;
     double *yptr;
@@ -72,9 +72,9 @@ void Polygon::loadVertices() {
     
     if (numVertices <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_poly_name << endl;
-        return;
+        return false;
     }
-    
+   
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
     // What are these?
     // get mesh object xic and yic data
@@ -83,14 +83,14 @@ void Polygon::loadVertices() {
     
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
-        return;
+        return false;
     }
     
     fc_cmo_get_vdouble_(mo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
-        cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
-        return;
+        cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
+        return false;
     }
     
     // read in the node coordinates
@@ -106,6 +106,7 @@ void Polygon::loadVertices() {
     }
     
     cout << "Added vertices from cmo: " << mo_poly_name << " complete" << endl;
+    return true;
 }
 
 
@@ -139,7 +140,7 @@ void Polygon::dumpNodes() {
 Polygon::~Polygon() {
     cout << "---------------------------------" << endl;
     cout << "Cleaning up polygon " << endl;
-    
+/*    
     try {
         // delete dynamic memory of neighbor grid
         for (unsigned int i = 0; i < numCellsX + 1; i++) {
@@ -167,5 +168,7 @@ Polygon::~Polygon() {
     nodes.shrink_to_fit();
     emptyCells.erase(emptyCells.begin(), emptyCells.end());
     emptyCells.shrink_to_fit();
+*/
+
     cout << "Cleaning up polygon complete" << endl;
 }

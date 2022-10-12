@@ -33,6 +33,7 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE],  double *h, unsigned int *dfNu
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     LG_ERR err = 0;
+
     /*
     double *xptr;
     double *yptr;
@@ -125,17 +126,23 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE],  double *h, unsigned int *dfNu
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
     polygon.numSamples = 10;
     polygon.resampleSweeps = 1;
-    polygon.seed = 0;
+    polygon.seed = 1;
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
-    polygon.loadVertices();
+    bool inputCheck = polygon.loadVertices();
+    if (!inputCheck){
+        cout << "Error loading vertices from polygon.\nExitting Poisson Disc" << endl;
+        return;
+    }
     // Load distance field from file (distanceField.cpp)
     polygon.loadDistanceFieldCMO();
     // run initial analysis of polygon, obtain bounding box, etc. (polygon.cpp)
     polygon.initializeVariables();
     // Distribute points around the boundary of the polygon (sampling.cpp)
     polygon.sampleBoundaries();
+//    polygon.printNodes();
+
     // Initialize the background look up grid (neighborGrid.cpp)
     polygon.initializeNeighborGrid();
     // Initial sampling sweep (sampling.cpp)
