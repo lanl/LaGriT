@@ -79,18 +79,18 @@ bool Polygon::loadVertices() {
     }
 
     cout << "cmo name: " << cmo_poly_name << endl; 
-    int nnodes = lg_cmo_get_intinfo("nnodes", cmo_poly_name);
+    numVertices = lg_cmo_get_intinfo("nnodes", cmo_poly_name);
     
-    if (nnodes <= 0) {
+    if (numVertices <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  cmo_poly_name << endl;
         return false;
     }
-    numVertices = nnodes;
 
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
     // What are these?
     // get mesh object xic and yic data
     iattlen = 3;
+    cout << "reading in x coords" << endl;
     fc_cmo_get_vdouble_(cmo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
@@ -98,6 +98,7 @@ bool Polygon::loadVertices() {
         return false;
     }
     
+    cout << "reading in y coords" << endl;
     fc_cmo_get_vdouble_(cmo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
@@ -112,7 +113,9 @@ bool Polygon::loadVertices() {
         tmpPoint.x = *(xptr + i);
         tmpPoint.y = *(yptr + i);
         tmpPoint.radius = 0; 
-        tmpPoint.nodeNum = 1; 
+        tmpPoint.ix = 0; 
+        tmpPoint.iy = 0; 
+        tmpPoint.nodeNum = i; 
         nodes.push_back(tmpPoint);
     }
     
