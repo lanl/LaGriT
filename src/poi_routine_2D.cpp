@@ -22,6 +22,7 @@ using std::cout;
 using std::endl;
 
 const int LG_NAME_SIZE = 32;
+
 extern "C" void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
 
 void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
@@ -123,6 +124,8 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], dou
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
     polygon.mo_dfield_name = "mo_h_field_pts";
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
+    cout << endl;
+
     polygon.dfNumCellsX = *dfNumCellsX;
     polygon.dfNumCellsY = *dfNumCellsY;
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
