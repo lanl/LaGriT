@@ -15,17 +15,17 @@
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
 
+#include "poi_routine_2D.h"
+
 #include <stdio.h>
 #include <cstring>
 
 using std::cout;
 using std::endl;
 
-const int LG_NAME_SIZE = 32;
+//const int LG_NAME_SIZE = 32;
 
-extern "C" void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
-
-void poisson_2d_(char mo_poly_name[LG_NAME_SIZE],  double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+void poisson_2d_(const char *mo_poly_name, const char *mo_pts,   double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
     cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
     cout << "PD inputs:" << endl;
     cout << "h :" << *h << endl;

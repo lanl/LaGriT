@@ -213,6 +213,7 @@ unsigned int Polygon::getDFCellID(double x, double xMin) {
     unsigned int i = int(floorf((x - xMin) * idfCellSize));
     return i;
 }
+
 /*! Returns the local exclution radius by a look up table in the
 distance field array.
 */
