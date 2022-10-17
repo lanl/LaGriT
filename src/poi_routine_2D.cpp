@@ -9,6 +9,9 @@
 #include <string>
 #include <random>
 #include <sstream>
+
+
+// poisson disk sampling header files
 #include "poi_polygon.h"
 
 /* from lagrit lg_ codes */
@@ -34,6 +37,7 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], dou
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     cout << endl;
+
 
     LG_ERR err = 0;
 
@@ -114,16 +118,38 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], dou
     for(int i = 0; i < nnodes; i++ ){
         cout << i+1 << " " << *(xptr+i) << " " << *(yptr+i) << endl;
     }
-    
+
+
+
+
+    // use this to clean up white space
+    // fortran will pad strings with spaces, so copy until we hit a space
+    size_t len = 0;
+    char cmo_poly[LG_NAME_SIZE];
+    while ((len < LG_NAME_SIZE - 1) && (cmo_pname[len] != ' ')) { ++len; }
+    snprintf(cmo_poly, len + 1, "%s", cmo_pname);
+
+    char cmo_obj[LG_NAME_SIZE];
+    len = 0;
+    while ((len < LG_NAME_SIZE - 1) && (cmo_oname[len] != ' ')) { ++len; }
+    snprintf(cmo_obj, len + 1, "%s", cmo_oname);
+
+    printf("C++ ARGS cmo_poly: %s \n",cmo_poly);
+    printf("C++ ARGS cmo_obj:  %s \n",cmo_obj);
+    printf("C++ ARGS h size: %7.2f \n", h_size);
+
     */
     Polygon polygon;
     // This needs to be passed in somehow
     polygon.h = *h;
     cout << "h for sampling: " << polygon.h << endl;
-    polygon.mo_poly_name = mo_poly_name;
+    polygon.mo_poly_name = "mo_polygon";
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
     polygon.mo_dfield_name = "mo_h_field_pts";
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
+    polygon.mo_pts = "mo_poisson_pts";
+    cout << "Writting points to mesh object " << polygon.mo_pts << endl;
+
     cout << endl;
 
     polygon.dfNumCellsX = *dfNumCellsX;
@@ -156,6 +182,8 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], dou
     polygon.resample();
     // Write points to file
     polygon.dumpNodes();
+    polygon.addNodesToMeshObject();
+
     cout << "Done with Poisson 2D" << endl;
     return;
 }

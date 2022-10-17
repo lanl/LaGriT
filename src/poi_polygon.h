@@ -19,9 +19,11 @@ struct Point {
 /* Polygon Class */
 class Polygon {
   public:
-    // mesh object name for polygon
+    // mesh object name for input polygon
     const char * mo_poly_name;
-    
+    // mesh object name for output points
+    const char * mo_pts; 
+
     // outputfilename
     std::string outputFilename = "points.xyz";
     // miminum mesh resolution provided by user
@@ -50,8 +52,11 @@ class Polygon {
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
     bool loadVertices();
+    void addNodesToMeshObject();
+
     void findBoundingBox();
     void initializeVariables();
+
     void printNodes();
     void dumpNodes();
     
@@ -82,7 +87,6 @@ class Polygon {
     void findEmptyCells();
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
-    
     
     // Name of distance field mesh object
     const char * mo_dfield_name;

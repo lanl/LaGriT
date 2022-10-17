@@ -5,6 +5,8 @@
 #include <iomanip>
 #include <cmath>
 #include <limits>
+#include <stdio.h>
+#include <cstring>
 
 #include "poi_polygon.h"
 #include "poi_sampling.h"
@@ -71,27 +73,36 @@ bool Polygon::loadVertices() {
 
     LG_ERR err = 0;
 
-    char cmo_poly_name[32];
-    err = lg_cmo_get_name(cmo_poly_name, 32);
-    if (err != LG_ERR_SUCCESS) {
-         cout << "Failed to get cmo name" << endl;
-        return false;
-    }
-
-    cout << "cmo name: " << cmo_poly_name << endl; 
-    numVertices = lg_cmo_get_intinfo("nnodes", cmo_poly_name);
+    cout << strlen(mo_poly_name) << endl;
     
+    cout << "cmo name: " << mo_poly_name << endl; 
+    numVertices = lg_cmo_get_intinfo("nnodes", mo_poly_name);
+     
     if (numVertices <= 0) {
-        cout << "Error: There are no nodes in cmo:  " <<  cmo_poly_name << endl;
+        cout << "Error: There are no nodes in cmo:  " <<  mo_poly_name << endl;
         return false;
     }
 
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
+
+    int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
+    int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
+    int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
+    if (err == LG_ERR_SUCCESS) {
+        cout << "Mesh Data for cmo: '" << mo_poly_name << "'"<< endl;
+        cout << "nnodes: " << numVertices << endl;
+        cout << "nelements: " <<  nelements << endl;
+        cout << "ndimensions_topo: " <<  ndim << endl;
+        cout << "ndimensions_geom: " <<  ndim_geom << endl;
+    }
+
+    // get length of 
+    icmolen = strlen(mo_poly_name);
     // What are these?
     // get mesh object xic and yic data
     iattlen = 3;
     cout << "reading in x coords" << endl;
-    fc_cmo_get_vdouble_(cmo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    fc_cmo_get_vdouble_(mo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
@@ -99,7 +110,7 @@ bool Polygon::loadVertices() {
     }
     
     cout << "reading in y coords" << endl;
-    fc_cmo_get_vdouble_(cmo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    fc_cmo_get_vdouble_(mo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
@@ -125,8 +136,17 @@ bool Polygon::loadVertices() {
         printPoint(nodes[i]);
     }
     
-    cout << "Added vertices from cmo: " << cmo_poly_name << " complete" << endl;
+    cout << "Added vertices from cmo: " << mo_poly_name << " complete" << endl;
     return true;
+}
+
+/* adds nodes from sampling to mo_pts mesh object*/
+void Polygon::addNodesToMeshObject(){
+    cout << "adding nodes to " << mo_pts << " mesh object" << endl;
+    // set the cmo to be the empty point mesh object
+    LG_ERR err = lg_dotask("cmo/select/mo_poisson_pts");
+
+
 }
 
 

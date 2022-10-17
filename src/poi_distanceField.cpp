@@ -58,7 +58,7 @@ void Polygon::loadDistanceFieldCMO() {
     //     cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
     //     return;
     // }
-    icmolen = strlen(mo_poly_name);
+    icmolen = strlen(mo_dfield_name);
     iattlen = 4;
     double dfXMax, dfYMax;
     double xMin, xMax = 0;

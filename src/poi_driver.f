@@ -50,7 +50,7 @@ C  Define user_sub arguments
       integer nwds,ierror
 
 C Define variables 
-      integer i,ilen,lenopt,ityp,ierr,ierrw
+      integer i,ilen,ilen2,lenopt,ityp,ierr,ierrw
       integer h_fac, npx, npy, npz, nverts
       integer ndimension, if_connect
       integer if_h_provided, if_h_field_provided
@@ -364,6 +364,16 @@ C ----------------------------------------------------------
 C
 C     Debug/diagnostic output
 C
+C ----------------------------------------------------------
+C     Create new mesh object into which the points are dumped
+C     Carl, please check that this is okay.
+C ----------------------------------------------------------
+      ilen = icharlnf(mo_poisson_pts_out)
+      cbuf = 'cmo / create / '
+     &      // mo_poisson_pts_out(1:ilen) // 
+     &      ' / / / triplane ; finish'
+      call dotaskx3d(cbuf,ierr)
+
       cbuf = 'cmo / status / brief ; finish'
       call dotaskx3d(cbuf,ierr)
 C
@@ -372,10 +382,7 @@ C     mo_h_field_pts, NXP, NYP, xic, yic, zic, h_field_att
 C     mo_poi_poly, NP, xic, yic, zic in counter-clockwise order
 C
       call cmo_select(mo_poi_poly,ierr)
-
-      print *, 'mo_poi_poly: ', mo_poi_poly
-      print *, 'mo_poisson_pts_out: ', mo_poisson_pts_out 
-
+      
       call poisson_2d(mo_poi_poly, mo_poisson_pts_out, 
      & h_spacing, np_x, np_y)
 C      call poisson_2d(h_spacing, mo_poi_poly, mo_h_field_pts)
