@@ -94,9 +94,14 @@ bool Polygon::loadVertices() {
     }
     
     // read in the node coordinates
+    Point tmpPoint;
     for (unsigned int i = 0; i < numVertices; i++) {
-        // Format x-coord, y-coord
-        nodes.push_back({ * (xptr + i), *(yptr + i), 0});
+        // Format x-coord, y-coord, radius
+        tmpPoint.x = *(xptr + i);
+        tmpPoint.y = *(yptr + i);
+        tmpPoint.radius = 0; 
+        tmpPoint.nodeNum = 1; 
+        nodes.push_back(tmpPoint);
     }
     
     cout << "Coordinates loaded from mesh object: " << endl;
