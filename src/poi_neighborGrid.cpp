@@ -47,10 +47,16 @@ void Polygon::initializeNeighborGrid() {
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    grid = new int*[numCellsX];
-    for (unsigned int i = 0; i < numCellsX + 1; i++) {
+    //grid = new unsigned int*[numCellsX];
+    int *newgrid = new int[numCellsX * numCellsY]();
+    
+    for (unsigned int i = 0; i < numCellsX; i++) {
         // the () at the end will initialize all values to 0
-        grid[i] = new int[numCellsY + 1]();
+        cout << "i: " << i << " of numCellsX: " << numCellsX << endl;
+        // newgrid[i] = new int[numCellsY]();
+        for (unsigned int j = 0; j < numCellsY; j++){
+            cout << "j: " << newgrid[i*numCellsX + j]<< endl;
+        }
     }
     cout << "Initializing memory for neighbor grid: Complete" << endl;
 
