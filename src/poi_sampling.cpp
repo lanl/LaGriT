@@ -222,7 +222,8 @@ bool Polygon::testCandidate(Point &newPoint) {
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
 
-    if (grid[newPoint.ix][newPoint.iy] > 0) {
+    // if (grid[newPoint.ix][newPoint.iy] > 0) {
+    if (grid[newPoint.ix*numCellsY + newPoint.iy] > 0) {
         // cout << "grid space filled" << endl;
         return false;
     }

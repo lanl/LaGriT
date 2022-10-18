@@ -95,16 +95,18 @@ void Polygon::loadDistanceFieldCMO() {
     cout << "Distance Field Cell Size " << dfCellSize << endl;
     cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
 
-    // allocate memory for distance field
-    try {
-        distanceField = new double*[dfNumCellsX];
-        for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
-            // Initialize all values as 0
-            distanceField[i] = new double[dfNumCellsY]();
-        }
-    } catch (std::bad_alloc& ba) {
-        std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
-    }
+    distanceField = new double[dfNumCellsX*dfNumCellsY]();
+
+    // // allocate memory for distance field
+    // try {
+    //     distanceField = new double*[dfNumCellsX];
+    //     for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
+    //         // Initialize all values as 0
+    //         distanceField[i] = new double[dfNumCellsY]();
+    //     }
+    // } catch (std::bad_alloc& ba) {
+    //     std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
+    // }
 
     /* Get the resolution field from the mesh object.
     // Name of attribute on mesh object is 'h_field_att'
@@ -121,17 +123,17 @@ void Polygon::loadDistanceFieldCMO() {
     // Need to check index order here, (i,j) vs (j,i)
     // cout << "--> populating resolution field" << endl;
     unsigned int ptIndex = 0;
-
     for (unsigned int j = 0; j < dfNumCellsY; j++) {
         for (unsigned int i = 0; i < dfNumCellsX; i++) {
-            distanceField[i][j] = *(hptr + ptIndex);
+            unsigned int index = i*dfNumCellsY + j;
+            // distanceField[i][j] = *(hptr + ptIndex);
+            distanceField[i*dfNumCellsY + j] = *(hptr + ptIndex);
             ptIndex++;
-
 //            cout << "i,j,distanceField[i][j] " << i << " " << j << " " << distanceField[i][j] << endl;
-            if (distanceField[i][j] <= 0 ) {
+            if (distanceField[i*dfNumCellsY + j] <= 0 ) {
                 cout << "Error. Resolution of 0 or negative number provided. Setting to h" << endl;
                 cout << "i,j,ptIndex " << i << " " << j << " " << ptIndex << endl;
-                distanceField[i][j] = h;
+                distanceField[i*dfNumCellsY + j] = h;
             }
         }
     }
@@ -211,7 +213,7 @@ void Polygon::dumpDistanceField() {
     // x y value
     for (unsigned int i = 0; i < dfNumCellsX; i++) {
         for (unsigned int j = 0; j < dfNumCellsX; j++) {
-            fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i][j] << endl;
+            fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i*dfNumCellsY + j] << endl;
         }
     }
 
@@ -234,8 +236,8 @@ distance field array.
 void Polygon::getExclusionRadius(Point &point) {
     unsigned int i = getDFCellID(point.x, dfXMin);
     unsigned int j = getDFCellID(point.y, dfYMin);
-    point.radius = distanceField[i][j];
-
+    // point.radius = distanceField[i][j];
+    point.radius = distanceField[i*dfNumCellsY + j];
 //    if (i > dfNumCellsX || j > dfNumCellsY){
 //        cout << i << " " << j << endl;
 //        printPoint(point);

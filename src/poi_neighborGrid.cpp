@@ -47,17 +47,23 @@ void Polygon::initializeNeighborGrid() {
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    //grid = new unsigned int*[numCellsX];
-    int *newgrid = new int[numCellsX * numCellsY]();
-    
-    for (unsigned int i = 0; i < numCellsX; i++) {
-        // the () at the end will initialize all values to 0
-        cout << "i: " << i << " of numCellsX: " << numCellsX << endl;
-        // newgrid[i] = new int[numCellsY]();
-        for (unsigned int j = 0; j < numCellsY; j++){
-            cout << "j: " << newgrid[i*numCellsX + j]<< endl;
-        }
+    // changeg this to linear indexing, because Linux was being a pita. 
+    grid = new unsigned int[numCellsX * numCellsY]();
+    int ** grid2D;
+    grid2D = new int * [numCellsX];
+ 
+    for (unsigned int i = 0; i < numCellsX; i++){
+        grid2D[i] = new int[numCellsY];
     }
+    
+    // for (unsigned int i = 0; i < numCellsX; i++) {
+    //     // the () at the end will initialize all values to 0
+    //     cout << "i: " << i << " of numCellsX: " << numCellsX << endl;
+    //     // newgrid[i] = new int[numCellsY]();
+    //     for (unsigned int j = 0; j < numCellsY; j++){
+    //         cout << "j: " << newgrid[i*numCellsY + j]<< endl;
+    //     }
+    // }
     cout << "Initializing memory for neighbor grid: Complete" << endl;
 
     // every occupied cells is labelled with the node-number (start at 1) of the node occupying it. empty cells are 0.
@@ -86,7 +92,8 @@ void Polygon::dumpNBGrid() {
     // Write Header
     for (unsigned int i = 0; i < numCellsX + 1; i++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << grid[i][j] << endl;
+            // fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << grid[i][j] << endl;
+            fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << grid[i*numCellsY + j] << endl;
         }
     }
 
@@ -123,8 +130,10 @@ std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
     // walk through the box, and gather all non-zero entries
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
-            if (grid[i][j] > 0) {
-                nodeIDs.push_back(grid[i][j]);
+            //if (grid[i][j] > 0) {
+            if (grid[i * numCellsY + j] > 0) {
+                // nodeIDs.push_back(grid[i][j]);
+                nodeIDs.push_back(grid[i*numCellsY + j]);
             }
         }
     }
@@ -158,14 +167,15 @@ void Polygon::tagNeighborCells(Point point) {
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
             // check is cell is already tagged, if not, then check the distance.
-            if (grid[i][j] == 0) {
+            //if (grid[i][j] == 0) {
+            if (grid[i*numCellsY + j] == 0) {
                 tmpPoint.x =  i * cellSize + xMin;
                 tmpPoint.y =  j * cellSize + yMin;
                 dist = distance2D(point, tmpPoint);
-
                 // if the distance is less than the radius, then tag the grid cell as occupied.
                 if (dist < point.radius) {
-                    grid[i][j] = point.nodeNum;
+                    //grid[i][j] = point.nodeNum;
+                    grid[i*numCellsY + j] = point.nodeNum;
                 }
             }
         }
@@ -183,7 +193,8 @@ void Polygon::findEmptyCells() {
     for (unsigned int i = 0; i < numCellsX + 1; i++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
             // check if cell is occupied.
-            if (grid[i][j] == 0) {
+            //if (grid[i][j] == 0) {
+            if (grid[i*numCellsY + j] == 0) {
                 tmpPoint.x = i * cellSize + xMin;
                 tmpPoint.y = j * cellSize + yMin;
 
@@ -223,7 +234,8 @@ unsigned int Polygon::fillEmptyCells() {
         // check if the neighbor cell is still empty.
         // Entries get filled in as these points are accetped.
         // Faster to do this check, than update/remove elements from  emptyCells on the fly.
-        if (grid[i][j] == 0) {
+        // if (grid[i][j] == 0) {
+        if (grid[i*numCellsY + j] == 0) {
             for (unsigned int count = 0; count < numSamples; count++) {
                 newPoint.x = uniformDistribution() * cellSize + xCellMin;
                 newPoint.y = uniformDistribution() * cellSize + yCellMin;
