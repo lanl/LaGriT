@@ -143,35 +143,69 @@ bool Polygon::loadVertices() {
 /* adds nodes from sampling to mo_pts mesh object*/
 void Polygon::addNodesToMeshObject() {
     cout << "Adding nodes to " << mo_pts << " mesh object" << endl;
-    // set the cmo to be the empty point mesh object
-    string cmd_string = "cmo/select/" + string(mo_pts);
+    LG_ERR err;
+    // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
+    // Create new mesh object for points
+    string cmd_string = "cmo/create/" + string(mo_pts) + "/"  + std::to_string(numNodes) +"/0/triplane";
+    cout << cmd_string << endl;
+    // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
-    // declaring character array
-    char cmd_char[n + 1];
-    // copying the contents of the
-    // string to char array
-    strcpy(cmd_char, cmd_string.c_str());
-    LG_ERR err = lg_dotask(cmd_char);
-
-    err = lg_dotask("cmo/status/brief");
-    // Need to do this in memory not writting to file
-    dumpNodes();
-    err = lg_dotask("define / INPUT_PTS / points.xyz");
-
-    cmd_string = "cmo/readatt/"+string(mo_pts)+"/ xic,yic,zic / 1,0,0 / INPUT_PTS";
-    n = cmd_string.length();
-    // declaring character array
-    cmd_char[n + 1];
-    // copying the contents of the
-    // string to char array
+    // // declaring character array
+    char *cmd_char;
+    cmd_char = new char[n+1];
+    // // copying the contents of the
+    // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
 
-    // This part is probably okay
-    err = lg_dotask("cmo / setatt / mo_poisson_pts / zic / 1 0 0 / 0");
-    err = lg_dotask("cmo / setatt / mo_poisson_pts / imt / 1 0 0 / 1");
-    err = lg_dotask("cmo / setatt / mo_poisson_pts / imt / 1 0 0 / 1");
-    err = lg_dotask("cmo / setatt / mo_poisson_pts / itp / 1 0 0 / 0");
+    cmd_string = "cmo/select/" + string(mo_pts);
+    cout << cmd_string << endl;
+    // // set the cmo to be the empty point mesh object
+    n = cmd_string.length();
+    // // declaring character array
+    cmd_char = new char[n+1];
+    // // copying the contents of the
+    // // string to char array
+    strcpy(cmd_char, cmd_string.c_str());
+    err = lg_dotask(cmd_char);
+
+    err = lg_dotask("cmo/status/brief");
+
+    double *xptr;
+    double *yptr;
+    double *zptr;
+    long icmolen;
+    long iattlen;
+    int ierror = 0;
+    long nlen = 0;
+    long ierr = 0;
+
+    // get length of
+    icmolen = strlen(mo_pts);
+    // What are these?
+    // get mesh object xic and yic data
+    iattlen = 3;
+    fc_cmo_get_vdouble_(mo_pts, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
+    }
+    fc_cmo_get_vdouble_(mo_pts, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
+    }
+    fc_cmo_get_vdouble_(mo_pts, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
+    }
+
+    // // Copy coordinates from polygon object into the mesh object
+    for (unsigned int i = 0; i < numNodes; i++) {
+        *(xptr+i) = nodes[i].x;
+        *(yptr+i) = nodes[i].y;
+        *(zptr+i) = 0;
+    }
+    err = lg_dotask("cmo/status/brief");
+    err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
 }
 
 
