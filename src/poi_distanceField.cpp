@@ -95,11 +95,7 @@ void Polygon::loadDistanceFieldCMO() {
     cout << "Distance Field Cell Size " << dfCellSize << endl;
     cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
 
-    // distanceField = new double[dfNumCellsX*dfNumCellsY]();
-    distanceField.reserve(dfNumCellsX * dfNumCellsY);
-    for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY; i++){
-        distanceField.push_back(0);
-    }
+    distanceField = new double[dfNumCellsX*dfNumCellsY]();
 
     // // allocate memory for distance field
     // try {
@@ -129,6 +125,7 @@ void Polygon::loadDistanceFieldCMO() {
     unsigned int ptIndex = 0;
     for (unsigned int j = 0; j < dfNumCellsY; j++) {
         for (unsigned int i = 0; i < dfNumCellsX; i++) {
+            unsigned int index = i*dfNumCellsY + j;
             // distanceField[i][j] = *(hptr + ptIndex);
             distanceField[i*dfNumCellsY + j] = *(hptr + ptIndex);
             ptIndex++;

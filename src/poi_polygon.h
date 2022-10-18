@@ -73,8 +73,8 @@ public:
     unsigned int numCellsX;
     // Numner of cells in Y
     unsigned int numCellsY;
-    // Neighbor grid with linear indexing for 2D field 
-    std::vector<unsigned int> grid;
+    // 2D grid
+    unsigned int *grid;
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
 
@@ -102,7 +102,7 @@ public:
     unsigned int dfNumCellsX;
     // number of cells in y direction of distance field
     unsigned int dfNumCellsY;
-    std::vector<double> distanceField;
+    double *distanceField;
 
     // Distance field -> distancefield.cpp
     void loadDistanceField();
