@@ -31,17 +31,14 @@ void Polygon::findBoundingBox() {
     xMin = nodes[0].x;
     yMax = nodes[0].y;
     yMin = nodes[0].y;
-    cout << "numNodes: " << numNodes << endl;
-
     for (unsigned int i = 1; i < numNodes; i++) {
         xMax = std::max(xMax, nodes[i].x);
         xMin = std::min(xMin, nodes[i].x);
         yMax = std::max(yMax, nodes[i].y);
         yMin = std::min(yMin, nodes[i].y);
     }
-
-    cout << "Polygon Bounding Box\nx-min: " << xMin << ", x-max: " << xMax << "\ny-min: " << yMin << ", y-max: " << yMax << "\n" << endl;
-    cout << "finding bounding box : done " << endl;
+    cout << "Polygon Bounding Box\nx-min: " << xMin << ", x-max: " << xMax << "\ny-min: " << yMin << ", y-max: " << yMax << endl;
+    cout << "Finding bounding box : Complete\n" << endl;
 }
 
 /*! Initializes variables of the polygon */
@@ -56,7 +53,6 @@ void Polygon::initializeVariables() {
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
     }
-
     cout << "Initializing variables : Done" << endl;
 }
 
