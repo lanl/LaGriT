@@ -41,18 +41,7 @@ void Polygon::loadDistanceFieldCMO() {
     long nlen = 0;
     long ierr = 0;
 
-    // Select the dfield mesh object as the cmo
-    string cmd_string = "cmo/select/" + string(mo_dfield_name);
-    cout << cmd_string << endl;
-    // // set the cmo to be the empty point mesh object
-    int n = cmd_string.length();
-    // // declaring character array
-    char *cmd_char;
-    cmd_char = new char[n+1];
-    // // copying the contents of the
-    // // string to char array
-    strcpy(cmd_char, cmd_string.c_str());
-    err = lg_dotask(cmd_char);
+    err = lg_dotask("cmo/select/mo_h_field_pts");
     err = lg_dotask("cmo/status/brief");
 
     unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);
@@ -95,7 +84,6 @@ void Polygon::loadDistanceFieldCMO() {
     cout << "Distance Field Cell Size " << dfCellSize << endl;
     cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
 
-    // distanceField = new double[dfNumCellsX*dfNumCellsY]();
     distanceField.reserve(dfNumCellsX * dfNumCellsY);
     for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY; i++){
         distanceField.push_back(0);
