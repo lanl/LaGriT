@@ -13,6 +13,7 @@
 
 // poisson disk sampling header files
 #include "poi_polygon.h"
+#include "poi_helperFunctions.h"
 
 /* from lagrit lg_ codes */
 #include "lg_c_interface.h"
@@ -24,22 +25,9 @@
 using std::cout;
 using std::endl;
 
-const int LG_NAME_SIZE = 32;
+// const int LG_NAME_SIZE = 32;
 
 extern "C" void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
-
-
-void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
-    // removes white space from LaGriT string. LaGriT passes it in with white space
-    // fortran will pads the strings with spaces/
-    // This copies each character until we hit a space
-    for (size_t len = 0; len < LG_NAME_SIZE -1; len++) {
-        snprintf(mo_name_trim, len + 1, "%s", mo_name);
-        if (mo_name[len] == ' ') {
-            break;
-        }
-    }
-}
 
 /*
    double *xptr;
@@ -163,9 +151,8 @@ void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
     polygon.mo_dfield_name = "mo_h_field_pts";
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
-    polygon.mo_pts = mo_pts_name;
-    cout << "Writting points to mesh object " << polygon.mo_pts << endl;
-
+    polygon.mo_pts_name = mo_pts_name;
+    cout << "Writting points to mesh object " << polygon.mo_pts_name << endl;
     cout << endl;
 
     polygon.h = *h;
@@ -200,7 +187,8 @@ void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME
     // Find empty cells, resample therein, and restart the main sampling algorithm (sampling.capp)
     polygon.resample();
     // Write points to file
-    polygon.dumpNodes();
+    //polygon.dumpNodes();
+    // copy points to mesh object
     polygon.addNodesToMeshObject();
 
     cout << "Done with Poisson 2D" << endl;

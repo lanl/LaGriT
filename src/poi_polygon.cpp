@@ -142,11 +142,11 @@ bool Polygon::loadVertices() {
 
 /* adds nodes from sampling to mo_pts mesh object*/
 void Polygon::addNodesToMeshObject() {
-    cout << "Adding nodes to " << mo_pts << " mesh object" << endl;
+    cout << "Adding nodes to " << mo_pts_name << " mesh object" << endl;
     LG_ERR err;
     // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
     // Create new mesh object for points
-    string cmd_string = "cmo/create/" + string(mo_pts) + "/"  + std::to_string(numNodes) +"/0/triplane";
+    string cmd_string = "cmo/create/" + string(mo_pts_name) + "/"  + std::to_string(numNodes) +"/0/triplane";
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
@@ -158,7 +158,7 @@ void Polygon::addNodesToMeshObject() {
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
 
-    cmd_string = "cmo/select/" + string(mo_pts);
+    cmd_string = "cmo/select/" + string(mo_pts_name);
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     n = cmd_string.length();
@@ -180,20 +180,20 @@ void Polygon::addNodesToMeshObject() {
     long nlen = 0;
     long ierr = 0;
 
-    // get length of
-    icmolen = strlen(mo_pts);
+    // get length of mesh object name
+    icmolen = strlen(mo_pts_name);
     // What are these?
     // get mesh object xic and yic data
     iattlen = 3;
-    fc_cmo_get_vdouble_(mo_pts, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    fc_cmo_get_vdouble_(mo_pts_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
     }
-    fc_cmo_get_vdouble_(mo_pts, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    fc_cmo_get_vdouble_(mo_pts_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
     }
-    fc_cmo_get_vdouble_(mo_pts, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
+    fc_cmo_get_vdouble_(mo_pts_name, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
     }

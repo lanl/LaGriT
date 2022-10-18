@@ -22,7 +22,7 @@ public:
     // mesh object name for input polygon
     const char * mo_poly_name;
     // mesh object name for output points
-    const char * mo_pts;
+    const char * mo_pts_name;
 
     // outputfilename
     std::string outputFilename = "points.xyz";

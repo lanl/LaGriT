@@ -4,11 +4,13 @@
 #include <sstream>
 
 #include "poi_polygon.h"
+const int LG_NAME_SIZE = 32;
 
 double distance2D(Point x0, Point x1);
 double distance2DSq(Point x0, Point x1);
 std::vector<std::string> splitOnWhiteSpace(std::string line);
 void printPoint(Point point);
+void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]);
 
 #endif
 
