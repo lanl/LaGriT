@@ -47,7 +47,7 @@ void Polygon::initializeNeighborGrid() {
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    grid = new int*[numCellsX + 1];
+    grid = new int*[numCellsX];
     for (unsigned int i = 0; i < numCellsX + 1; i++) {
         // the () at the end will initialize all values to 0
         grid[i] = new int[numCellsY + 1]();
@@ -63,7 +63,7 @@ void Polygon::initializeNeighborGrid() {
         getExclusionRadius(nodes[i]);
         tagNeighborCells(nodes[i]);
     }
-    cout << "Populating neighbor grid: Complete" << endl;
+    cout << "Populating neighbor grid: complete" << endl;
 
     cout << "Initializing Grid Complete\n" << endl;
 }
