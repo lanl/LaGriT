@@ -47,9 +47,15 @@ void Polygon::initializeNeighborGrid() {
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    // changeg this to linear indexing, because Linux was being a pita.
+    // changeg this to linear indexing, because Linux was being a pita. 
     grid = new unsigned int[numCellsX * numCellsY]();
-
+    int ** grid2D;
+    grid2D = new int * [numCellsX];
+ 
+    for (unsigned int i = 0; i < numCellsX; i++){
+        grid2D[i] = new int[numCellsY];
+    }
+    
     // for (unsigned int i = 0; i < numCellsX; i++) {
     //     // the () at the end will initialize all values to 0
     //     cout << "i: " << i << " of numCellsX: " << numCellsX << endl;

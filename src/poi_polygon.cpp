@@ -165,7 +165,7 @@ void Polygon::addNodesToMeshObject() {
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
 
-    // err = lg_dotask("cmo/status/brief");
+    err = lg_dotask("cmo/status/brief");
 
     double *xptr;
     double *yptr;
@@ -200,8 +200,8 @@ void Polygon::addNodesToMeshObject() {
         *(yptr+i) = nodes[i].y;
         *(zptr+i) = 0;
     }
-    // err = lg_dotask("cmo/status/brief");
-    // err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
+    err = lg_dotask("cmo/status/brief");
+    err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
 }
 
 
@@ -235,13 +235,35 @@ void Polygon::dumpNodes() {
 Polygon::~Polygon() {
     cout << "---------------------------------" << endl;
     cout << "Cleaning up polygon " << endl;
-    // free grid memory
-    delete [] grid;
-    delete [] distanceField;
-    // Clear vectors
-    nodes.erase(nodes.begin(), nodes.end());
-    nodes.shrink_to_fit();
-    emptyCells.erase(emptyCells.begin(), emptyCells.end());
-    emptyCells.shrink_to_fit();
+    /*
+        try {
+            // delete dynamic memory of neighbor grid
+            for (unsigned int i = 0; i < numCellsX + 1; i++) {
+                delete [] grid[i];
+            }
+
+            delete [] grid;
+        } catch (std::exception &e) {
+            cout << e.what() << endl;
+        }
+
+        try {
+            // delete dynamic memory of distance Field
+            for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
+                delete [] distanceField[i];
+            }
+
+            delete [] distanceField;
+        } catch (std::exception &e) {
+            cout << e.what() << endl;
+        }
+
+        // Clear vectors
+        nodes.erase(nodes.begin(), nodes.end());
+        nodes.shrink_to_fit();
+        emptyCells.erase(emptyCells.begin(), emptyCells.end());
+        emptyCells.shrink_to_fit();
+    */
+
     cout << "Cleaning up polygon complete" << endl;
 }
