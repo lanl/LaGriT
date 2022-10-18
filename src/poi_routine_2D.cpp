@@ -26,131 +26,150 @@ using std::endl;
 
 const int LG_NAME_SIZE = 32;
 
-extern "C" void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
+extern "C" void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
 
-void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+
+void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
+    // removes white space from LaGriT string. LaGriT passes it in with white space
+    // fortran will pads the strings with spaces/
+    // This copies each character until we hit a space
+    for (size_t len = 0; len < LG_NAME_SIZE -1; len++) {
+        snprintf(mo_name_trim, len + 1, "%s", mo_name);
+        if (mo_name[len] == ' ') {
+            break;
+        }
+    }
+}
+
+/*
+   double *xptr;
+   double *yptr;
+   long *iptr;
+   double xmin = 0;
+   double xmax = 0;
+   double ymin = 0;
+   double ymax = 0;
+   double zmin = 0;
+   double zmax = 0;
+
+   long nlen = 0;
+   long nelem = 0;
+   long ierr = 0;
+
+   long icmolen;
+   long iattlen;
+   int ierror = 0;
+
+   cout << "\n===== Enter Driver for poisson_2d  =========\n\n" << endl;
+   cout << "-----------------------------------\n" << endl;
+   cout << "Report LaGriT CMO for Polygon:\n\n" << endl;
+   // get data from current polygon mesh object
+   // char mo_poly_name[32];
+   // err = lg_cmo_get_name(mo_poly_name, 32);
+   // if (err != LG_ERR_SUCCESS) {
+   //     cout << "Failed to get cmo name" << endl;
+   //     return;
+   // }
+   unsigned int nnodes = lg_cmo_get_intinfo("nnodes", mo_poly_name);
+   if (nnodes <= 0) {
+       cout << "ERROR: No nodes in cmo: '" << mo_poly_name << "'" << endl;
+       return;
+   }
+
+   int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
+   int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
+   int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
+   if (err == LG_ERR_SUCCESS) {
+       cout << "Mesh Data for cmo: '" << mo_poly_name << "'"<< endl;
+       cout << "nnodes: " << nnodes << endl;
+       cout << "nelements: " <<  nelements << endl;
+       cout << "ndimensions_topo: " <<  ndim << endl;
+       cout << "ndimensions_geom: " <<  ndim_geom << endl;
+   }
+   // get polygon xy minmax
+   icmolen = strlen(mo_poly_name);
+   iattlen = 4;
+   fc_cmo_get_double_(mo_poly_name,"xmin",&xmin,&ierr,icmolen,iattlen);
+   fc_cmo_get_double_(mo_poly_name,"xmax",&xmax,&ierr,icmolen,iattlen);
+   fc_cmo_get_double_(mo_poly_name,"ymin",&ymin,&ierr,icmolen,iattlen);
+   fc_cmo_get_double_(mo_poly_name,"ymax",&ymax,&ierr,icmolen,iattlen);
+   fc_cmo_get_double_(mo_poly_name,"zmin",&zmin,&ierr,icmolen,iattlen);
+   fc_cmo_get_double_(mo_poly_name,"zmax",&zmax,&ierr,icmolen,iattlen);
+
+   cout << "xmin: " << xmin << ", xmax: " << xmax << endl;
+   cout << "ymin: " << xmin << ", ymax: " << xmax << endl;
+   cout << "zmin: " << xmin << ", zmax: " << xmax << endl;
+
+   // get mesh object xic and yic data
+   iattlen = 3;
+   fc_cmo_get_vdouble_(mo_poly_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
+   if (ierr != 0 || nlen != nnodes){
+       cout << "ERROR: get xic returns length " << nlen << " error: " << ierr << endl;
+       return;
+   }
+   fc_cmo_get_vdouble_(mo_poly_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
+   if (ierr != 0 || nlen != nnodes){
+       cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
+       return;
+   }
+
+   // report x,y coordinate data
+   cout << "nodes:" << endl;
+   for(int i = 0; i < nnodes; i++ ){
+       cout << i+1 << " " << *(xptr+i) << " " << *(yptr+i) << endl;
+   }
+
+
+
+
+   // use this to clean up white space
+   // fortran will pad strings with spaces, so copy until we hit a space
+   size_t len = 0;
+   char cmo_poly[LG_NAME_SIZE];
+   while ((len < LG_NAME_SIZE - 1) && (cmo_pname[len] != ' ')) { ++len; }
+   snprintf(cmo_poly, len + 1, "%s", cmo_pname);
+
+   char cmo_obj[LG_NAME_SIZE];
+   len = 0;
+   while ((len < LG_NAME_SIZE - 1) && (cmo_oname[len] != ' ')) { ++len; }
+   snprintf(cmo_obj, len + 1, "%s", cmo_oname);
+
+   printf("C++ ARGS cmo_poly: %s \n",cmo_poly);
+   printf("C++ ARGS cmo_obj:  %s \n",cmo_obj);
+   printf("C++ ARGS h size: %7.2f \n", h_size);
+
+   */
+
+void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
     cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
     cout << "PD inputs:" << endl;
     cout << "h: " << *h << endl;
-    cout << "mo_poly name: " << mo_poly_name << endl;
-    cout << "mo_pts: " << mo_pts << endl;
+    cout << "mo_poly name: " << mo_poly_name_in << endl;
+    cout << "mo_pts: " << mo_pts_name_in << endl;
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     cout << endl;
 
+    // remove white space passed in by LaGriT
+    char mo_poly_name[LG_NAME_SIZE];
+    process_lagrit_string(mo_poly_name_in, mo_poly_name);
+    char mo_pts_name[LG_NAME_SIZE];
+    process_lagrit_string(mo_pts_name_in, mo_pts_name);
 
-    LG_ERR err = 0;
-
-    /*
-    double *xptr;
-    double *yptr;
-    long *iptr;
-    double xmin = 0;
-    double xmax = 0;
-    double ymin = 0;
-    double ymax = 0;
-    double zmin = 0;
-    double zmax = 0;
-    
-    long nlen = 0;
-    long nelem = 0;
-    long ierr = 0;
-    
-    long icmolen;
-    long iattlen;
-    int ierror = 0;
-    
-    cout << "\n===== Enter Driver for poisson_2d  =========\n\n" << endl;
-    cout << "-----------------------------------\n" << endl;
-    cout << "Report LaGriT CMO for Polygon:\n\n" << endl;
-    // get data from current polygon mesh object
-    // char mo_poly_name[32];
-    // err = lg_cmo_get_name(mo_poly_name, 32);
-    // if (err != LG_ERR_SUCCESS) {
-    //     cout << "Failed to get cmo name" << endl;
-    //     return;
-    // }
-    unsigned int nnodes = lg_cmo_get_intinfo("nnodes", mo_poly_name);
-    if (nnodes <= 0) {
-        cout << "ERROR: No nodes in cmo: '" << mo_poly_name << "'" << endl;
-        return;
-    }
-    
-    int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
-    int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
-    int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
-    if (err == LG_ERR_SUCCESS) {
-        cout << "Mesh Data for cmo: '" << mo_poly_name << "'"<< endl;
-        cout << "nnodes: " << nnodes << endl;
-        cout << "nelements: " <<  nelements << endl;
-        cout << "ndimensions_topo: " <<  ndim << endl;
-        cout << "ndimensions_geom: " <<  ndim_geom << endl;
-    }
-    // get polygon xy minmax
-    icmolen = strlen(mo_poly_name);
-    iattlen = 4;
-    fc_cmo_get_double_(mo_poly_name,"xmin",&xmin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_poly_name,"xmax",&xmax,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_poly_name,"ymin",&ymin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_poly_name,"ymax",&ymax,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_poly_name,"zmin",&zmin,&ierr,icmolen,iattlen);
-    fc_cmo_get_double_(mo_poly_name,"zmax",&zmax,&ierr,icmolen,iattlen);
-    
-    cout << "xmin: " << xmin << ", xmax: " << xmax << endl;
-    cout << "ymin: " << xmin << ", ymax: " << xmax << endl;
-    cout << "zmin: " << xmin << ", zmax: " << xmax << endl;
-    
-    // get mesh object xic and yic data
-    iattlen = 3;
-    fc_cmo_get_vdouble_(mo_poly_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
-    if (ierr != 0 || nlen != nnodes){
-        cout << "ERROR: get xic returns length " << nlen << " error: " << ierr << endl;
-        return;
-    }
-    fc_cmo_get_vdouble_(mo_poly_name,"yic",&yptr,&nlen,&ierr,icmolen,iattlen);
-    if (ierr != 0 || nlen != nnodes){
-        cout << "ERROR: get yic returns length " << nlen << " error: " << ierr << endl;
-        return;
-    }
-    
-    // report x,y coordinate data
-    cout << "nodes:" << endl;
-    for(int i = 0; i < nnodes; i++ ){
-        cout << i+1 << " " << *(xptr+i) << " " << *(yptr+i) << endl;
-    }
-
-
-
-
-    // use this to clean up white space
-    // fortran will pad strings with spaces, so copy until we hit a space
-    size_t len = 0;
-    char cmo_poly[LG_NAME_SIZE];
-    while ((len < LG_NAME_SIZE - 1) && (cmo_pname[len] != ' ')) { ++len; }
-    snprintf(cmo_poly, len + 1, "%s", cmo_pname);
-
-    char cmo_obj[LG_NAME_SIZE];
-    len = 0;
-    while ((len < LG_NAME_SIZE - 1) && (cmo_oname[len] != ' ')) { ++len; }
-    snprintf(cmo_obj, len + 1, "%s", cmo_oname);
-
-    printf("C++ ARGS cmo_poly: %s \n",cmo_poly);
-    printf("C++ ARGS cmo_obj:  %s \n",cmo_obj);
-    printf("C++ ARGS h size: %7.2f \n", h_size);
-
-    */
+    // Make the polygon object!
     Polygon polygon;
-    // This needs to be passed in somehow
-    polygon.h = *h;
-    cout << "h for sampling: " << polygon.h << endl;
-    polygon.mo_poly_name = "mo_polygon";
+
+    polygon.mo_poly_name = mo_poly_name;
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
     polygon.mo_dfield_name = "mo_h_field_pts";
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
-    polygon.mo_pts = "mo_poisson_pts";
+    polygon.mo_pts = mo_pts_name;
     cout << "Writting points to mesh object " << polygon.mo_pts << endl;
 
     cout << endl;
+
+    polygon.h = *h;
+    cout << "h for sampling: " << polygon.h << endl;
 
     polygon.dfNumCellsX = *dfNumCellsX;
     polygon.dfNumCellsY = *dfNumCellsY;
@@ -162,7 +181,7 @@ void poisson_2d_(char mo_poly_name[LG_NAME_SIZE], char mo_pts[LG_NAME_SIZE], dou
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
     bool inputCheck = polygon.loadVertices();
-    if (!inputCheck){
+    if (!inputCheck) {
         cout << "Error loading vertices from polygon.\nExitting Poisson Disc" << endl;
         return;
     }

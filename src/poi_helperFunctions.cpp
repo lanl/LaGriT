@@ -28,11 +28,11 @@ double distance2DSq(Point x0, Point x1) {
 vector<std::string> splitOnWhiteSpace(std::string line) {
     vector<std::string> result;
     std::istringstream line_stream(line);
-    
+
     for (std::string s; line_stream >> s;) {
         result.push_back(s);
     }
-    
+
     return result;
 }
 

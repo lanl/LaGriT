@@ -18,11 +18,11 @@ struct Point {
 
 /* Polygon Class */
 class Polygon {
-  public:
+public:
     // mesh object name for input polygon
     const char * mo_poly_name;
     // mesh object name for output points
-    const char * mo_pts; 
+    const char * mo_pts;
 
     // outputfilename
     std::string outputFilename = "points.xyz";
@@ -38,17 +38,17 @@ class Polygon {
     unsigned int numNodes;
     // Points in the point distribution
     std::vector<Point> nodes;
-    
+
     // Bounding box of the polygon
     double xMax;
     double xMin;
     double yMin;
     double yMax;
-    
+
     // Random number generator
     unsigned int seed = 0;
     std::mt19937_64 generator;
-    
+
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
     bool loadVertices();
@@ -59,11 +59,11 @@ class Polygon {
 
     void printNodes();
     void dumpNodes();
-    
+
     // LAGRIT added functions
     bool loadVerticesCMO();
-    
-    
+
+
     // Neighborhood Grid Parameters and functions
     // Neighborhood grid cell size (h/sqrt(2))
     double cellSize;
@@ -77,7 +77,7 @@ class Polygon {
     int **grid;
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
-    
+
     // Neighborbood grid function -> neighborhoodGrid.cpp
     unsigned int getNeighborGridCellID(double x, double xMin);
     void initializeNeighborGrid();
@@ -87,7 +87,7 @@ class Polygon {
     void findEmptyCells();
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
-    
+
     // Name of distance field mesh object
     const char * mo_dfield_name;
     // distance field cell size (uniform in x and y)
@@ -103,14 +103,14 @@ class Polygon {
     // number of cells in y direction of distance field
     unsigned int dfNumCellsY;
     double **distanceField;
-    
+
     // Distance field -> distancefield.cpp
     void loadDistanceField();
     void loadDistanceFieldCMO();
     void dumpDistanceField();
     unsigned int getDFCellID(double x, double xMin);
     void getExclusionRadius(Point &point);
-    
+
     // Sampling functions -> poi_sampling.cpp
     void mainSampling(unsigned int startIndex, bool restartFlag);
     void resample();
@@ -124,7 +124,7 @@ class Polygon {
     double uniformDistribution();
     void initializeRandomGenerator(unsigned int seed);
     Point newCandidate(Point currentPoint);
-    
+
     // Destructor
     ~Polygon();
 };
