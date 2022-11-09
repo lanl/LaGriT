@@ -34,7 +34,7 @@ See Examples below for more on writing ExodusII files with LaGriT.
 `file_name` and `cmo_name` are the names of the ExodusII file and mesh object to write.
 
 **`psets`** Dump ExodusII file with vertex sets.
-The keyword pests as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. 
+The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file. 
 
 **`eltsets`** Dump ExodusII file with element sets.
 The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file. 
