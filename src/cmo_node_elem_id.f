@@ -16,7 +16,7 @@ c  cmo / set_id / [cmoname] / [node|element|both] / [attribute_name_node] / [att
 c
 c  Default cmoname             = current active cmo
 c  Default action              = both node and element
-c  Default attribute_name_node = ialias
+c  Default attribute_name_node = id_node
 c  Default attribute_name_elem = id_elem
 c
 c  USAGE:
@@ -80,10 +80,10 @@ c
       character*132 logmess
       character*256 cmdmess
  
-      character*30  def_node_id
-      character*30  def_elem_id
-      data def_node_id / 'ialias' /
-      data def_elem_id / 'id_elem' /
+      character*30  def_id_node
+      character*30  def_id_elem
+      data def_id_node / 'id_node' /
+      data def_id_elem / 'id_elem' /
 c
 c
 c#######################################################################
@@ -183,15 +183,15 @@ c
  
 c     5 - get attribute names or set attribute names
       if (nwds .le. 4)then
-          attnam_node    = def_node_id
-          attnam_elem    = def_elem_id
+          attnam_node    = def_id_node
+          attnam_elem    = def_id_elem
       endif
       if (nwds .gt. 4)then
 c
       if((ijob .eq. 1) .or. (ijob .eq. 3))then
        if (msgtype(5).eq.3) then
          if(cmsgin(5)(1:5) .eq. '-def-')then
-            attnam_node    = def_node_id
+            attnam_node    = def_id_node
          else
             attnam_node    = cmsgin(5)
          endif
@@ -201,12 +201,12 @@ c
          call writloga('default',0,logmess,0,ierrw)
          write(logmess,'(a)') 'Warning: Using default '
          call writloga('default',0,logmess,0,ierrw)
-         attnam_node    = def_node_id
+         attnam_node    = def_id_node
        endif
       elseif(ijob .eq. 2)then
        if (msgtype(5).eq.3) then
          if(cmsgin(5)(1:5) .eq. '-def-')then
-            attnam_elem    = def_elem_id
+            attnam_elem    = def_id_elem
          else
             attnam_elem    = cmsgin(5)
          endif
@@ -216,7 +216,7 @@ c
          call writloga('default',0,logmess,0,ierrw)
          write(logmess,'(a)') 'Warning: Using default '
          call writloga('default',0,logmess,0,ierrw)
-         attnam_node    = def_elem_id
+         attnam_node    = def_id_elem
        endif
       endif
       endif
@@ -224,7 +224,7 @@ c
       if (nwds .gt. 5)then
         if (msgtype(6).eq.3) then
            if(cmsgin(6)(1:5) .eq. '-def-')then
-              attnam_elem    = def_elem_id
+              attnam_elem    = def_id_elem
            else
               attnam_elem    = cmsgin(6)
            endif
@@ -234,7 +234,7 @@ c
          call writloga('default',0,logmess,0,ierrw)
          write(logmess,'(a)') 'Warning: Using defaults, id_elem '
          call writloga('default',0,logmess,0,ierrw)
-         attnam_elem    = def_elem_id
+         attnam_elem    = def_id_elem
         endif
       endif
 c
