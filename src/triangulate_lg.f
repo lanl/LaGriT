@@ -95,8 +95,10 @@ C  Check that user has specified a valid mesh object.
 c 
       call cmo_get_name(cmo,ierror)
       if(ierror.ne.0) then
+         write(logmess,'(a)')'ERROR: '
+         call writloga('default',0,logmess,0,icscode)
          write(logmess,'(a,a,a)')
-     *      'TRIANGULATE: ',cmo,' not a valid mesh object'
+     *      'TRIANGULATE: ',cmo,' does not exist'
          call writloga('default',0,logmess,0,icscode)
          goto 9999
       endif
@@ -113,7 +115,10 @@ c
          write(logmess,'(a,a,a)')
      *      'TRIANGULATE: ',cmo,' not a valid 2d mesh object'
          call writloga('default',0,logmess,0,icscode)
-         ierror=1
+          write(logmess,'(a,i4,a)')
+     *      'TRIANGULATE: ',nsd_topo,' nsd_topo dimension topology'
+         call writloga('default',0,logmess,0,icscode)
+        ierror=1
          goto 9999
       endif
 c
@@ -132,7 +137,15 @@ c
       ifirstpt=1
       nlast=nnodes
       if(xic(ifirstpt).eq.xic(nlast).and.
-     *   yic(ifirstpt).eq.yic(nlast)) nlast=nlast-1
+     *   yic(ifirstpt).eq.yic(nlast)) then
+         nlast=nlast-1
+          write(logmess,
+     *     "('WARNING: first point is the same as last point')")
+          call writloga('default',0,logmess,0,icscode)
+          write(logmess,
+     *     "('WARNING: eliminate last point')")
+          call writloga('default',0,logmess,0,icscode)
+      endif
 c
 c  make space for new triangles
 c 
@@ -145,25 +158,43 @@ c
       call cmo_get_info('itet',cmo,
      *   ipitet,length,icmotype,icscode)
       if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
-c
-c  triangulate
-c 
+c----------------------------------------------------------------------
+c  TRIANGULATE
+c----------------------------------------------------------------------
       call maketriangles_lg (ifirstpt,nlast,xic,yic,nelts,
-     *  itet,isccw,ierror)
-       if(ierror.ne.0) then
-          write(logmess,"('Error in nodes orientation:')")
-          call writloga('default',0,logmess,0,icscode)
-          if(isccw) then
-             write(logmess,"('You specify counter clockwise but')")
-             call writloga('default',0,logmess,0,icscode)
-             write(logmess,"('the nodes may not be in such order.')")
-             call writloga('default',0,logmess,0,icscode)
+     *                       itet,isccw,ierror)
+c----------------------------------------------------------------------
+      if(ierror.ne.0) then
+         nelts=0
+         ierror=0
+         if(isccw)then
+            write(logmess,"('WARNING: triangulate')")
+            call writloga('default',0,logmess,0,icscode)
+            write(logmess,"('WARNING: Counterclockwise did not work')")
+            call writloga('default',0,logmess,0,icscode)
+            write(logmess,"('WARNING: Trying clockwise')")
+            call writloga('default',0,logmess,0,icscode)
+            isccw = .false.
+            call maketriangles_lg (ifirstpt,nlast,xic,yic,nelts,
+     *                             itet,isccw,ierror)
           else
-             write(logmess,"('You specify clockwise but')")
-             call writloga('default',0,logmess,0,icscode)
-             write(logmess,"('the nodes may not be in such order.')")
-             call writloga('default',0,logmess,0,icscode)
+            write(logmess,"('WARNING: triangulate')")
+            call writloga('default',0,logmess,0,icscode)
+            write(logmess,"('WARNING: Clockwise did not work')")
+            call writloga('default',0,logmess,0,icscode)
+            write(logmess,"('WARNING: Trying counterclockwise')")
+            call writloga('default',0,logmess,0,icscode)
+            isccw = .true.
+            call maketriangles_lg (ifirstpt,nlast,xic,yic,nelts,
+     *                             itet,isccw,ierror)
           endif
+       endif
+
+       if(ierror.ne.0) then
+          write(logmess,"('ERROR: triangulate')")
+          call writloga('default',0,logmess,0,icscode)
+          write(logmess,"('ERROR: Unable to triangulate input')")
+          call writloga('default',0,logmess,0,icscode)
           nelements=0
           call cmo_set_info('nelements',cmo,nelements,1,1,icscode)
           if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
@@ -186,6 +217,11 @@ c
          itetoff(it)=(it-1)*3
          jtetoff(it)=(it-1)*3
       enddo
+
+      write(logmess,'(a,i4)')
+     *   'TRIANGULATE: Number of triangle cells = ',nelements
+      call writloga('default',0,logmess,0,icscode)
+
       cmd = 'filter / 1,0,0;finish'
       call dotaskx3d(cmd,ierror)
       cmd = 'rmpoint / compress;finish'
@@ -236,9 +272,9 @@ c variables
 c ------------------------------------------------------- 
 c begin
 
-c     print*,"maketriangles_lg ------------------------"
-c     print*,"ifirstpt,lastpt: ",ifirstpt,ilastpt
-c     print*,"nelts,isccw,ierror: ",nelts,isccw,ierror
+c      print*,"maketriangles_lg ------------------------"
+c      print*,"ifirstpt,lastpt: ",ifirstpt,ilastpt
+c      print*,"nelts,isccw,ierror: ",nelts,isccw,ierror
 
       ierror=0
       isubname='maketriangles'
