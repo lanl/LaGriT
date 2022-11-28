@@ -48,7 +48,8 @@ C Define variables
       logical if_convex
 C
       integer np_x, np_y
-      real*8 h, h2, h10, h_extrude, h_radius, h_trans, h_prime,
+      real*8 h, h2, h02, h05, h08, h10, h_half,
+     &       h_extrude, h_radius, h_trans, h_prime,
      &       h_spacing, delta, delta_x, delta_y, delta_z
       real*8 poi_poly_h_min, poi_poly_ang_min, poi_poly_ang_max
 
@@ -57,6 +58,7 @@ C
      &   epsilona_poly,epsilonv_poly,
      &   xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff,
      &   z_constant,buffer_factor
+      real*8 angle_minimum
       integer ijob_buffer
 
 C     pointers for x,y,z coordinates
@@ -67,7 +69,7 @@ C     pointer for h_field_att
       real*8 h_field(*)
       real*8 h_field_min, h_field_max
 C
-      character*32  mo_poi_poly, mo_h_field_pts, mo_poi_pts_out
+      character*32  mo_poi_poly, mo_poi_h_field, mo_poi_pts_out
       character*32  file_avs_poly
       character*32  file_poisson_vertices, mo_h_field_user
       character*32  file_user_h_field_att
@@ -84,7 +86,7 @@ C     once everything is setup, call poisson_2d to create points
 C
       isubname="poisson_disk"
       ierror = 0
-      mo_h_field_pts = 'mo_h_field_pts'
+      mo_poi_h_field = 'mo_poi_h_field'
 C
       write(logmess,'(a)') 
      &   'Begin driver for Poisson disk vertex distribution.'
@@ -250,9 +252,6 @@ C
       delta = 0.7d0
       h_extrude = 0.8d0*h2
 C
-C ??? Only keep one of these
-C
-      h_radius = sqrt((0.5*h_extrude)**2 + (0.5*h_extrude)**2)
       h_radius = ((0.5*h_extrude)**2 + (0.5*h_extrude)**2)**0.5
       h_trans = -0.5*h_extrude + h_radius*cos(asin(delta))
       h_prime = 0.4*h2
@@ -267,6 +266,8 @@ C
       delta_y = ymax_buff - ymin_buff
       np_x = ceiling(delta_x/h)
       np_y = ceiling(delta_y/h)
+      np_x = 1.5*np_x
+      np_y = 1.5*np_y
 C
       call cmo_get_info('nnodes',mo_poi_poly,nnodes_poly,ilen,ityp,ierr)
       call cmo_get_info('xic',   mo_poi_poly,ipxic,      ilen,ityp,ierr)
@@ -292,10 +293,10 @@ C
 C ---------------------------------------------------------------------
 C
 C     Check if the polygon edge lengths are compatible with user defined h value
-C     minimum polygon edge must be greater than h otherwise ERROR
+C     minimum polygon edge must be greater than h/2 otherwise ERROR
 C
       call get_minimum_edge_length(nnodes_poly,xic,yic,poi_poly_h_min)
-      if (poi_poly_h_min .lt. h)then
+      if (poi_poly_h_min .lt. h/2.0)then
          call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
          write(cbuf,'(a)')
      &     'ERROR: Polygon edge smaller than target edge length'
@@ -305,22 +306,35 @@ C
          call writloga('default',0,cbuf,0,ierrw)
          ierror = -1
          goto 9999
+      else
+         write(cbuf,'(a)')
+     &     'Poisson disk driver:Polygon minimum edge length is'
+         call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a)')
+     &     'Poisson disk driver:compatible with user defined h'
+         call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a,1pe13.6,a,1pe13.6)')
+     &     'Poisson disk driver: h = ',h,
+     &     ' poi_poly_h_min = ',poi_poly_h_min
+         call writloga('default',0,cbuf,0,ierrw)
       endif
 C
 C ---------------------------------------------------------------------
 C
 C     Compute the min/max (degrees) interior angle of the input polygon
-C     Hardwired to kick out if minimum angle is less than 9 degrees
+C     Hardwired to kick out if minimum angle is less than 9.9 degrees
 C
       if_rad_deg = 2
+      angle_minimum = 9.9
+
       call get_min_max_angle
      &       (nnodes_poly,xic,yic,if_rad_deg,
      &        poi_poly_ang_min,poi_poly_ang_max)
 
-      if (poi_poly_ang_min .lt. 5.0)then
+      if (poi_poly_ang_min .lt. angle_minimum)then
          call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
          write(cbuf,'(a)')
-     &     'ERROR: Polygon minimum angle less than 9 degrees'
+     &     'ERROR: Polygon minimum angle less than 9.9 degrees'
          call writloga('default',0,cbuf,0,ierrw)
          write(cbuf,'(a,1pe13.6,a,1pe13.6)')
      &     'ERROR: poi_poly_ang_min = ',poi_poly_ang_min,
@@ -378,13 +392,30 @@ C
 C ---------------------------------------------------------------------
 C     Set some LaGriT string variables to values 
 C ---------------------------------------------------------------------
+      h_half = h*0.5d0
+      h02 = h*2.0d0
+      h05 = h*5.0d0
+      h08 = h*8.0d0
       h10 = h*10.0d0
       write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_H_FACTOR / ',h,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX0.5 / ',h_half,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX2 / ',h02,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX5 / ',h05,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX8 / ',h08,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_H_FACTORX10 / ',h10,' ; finish '
       call dotaskx3d(cbuf,ierr)
+
       write(cbuf,'(a,i10,a)')
      &     'define / POI_NPX / ',np_x,' ; finish '
       call dotaskx3d(cbuf,ierr)
@@ -411,34 +442,34 @@ C ---------------------------------------------------------------------
       call dotaskx3d(cbuf,ierr)
 
 C ---------------------------------------------------------------------
-C     Create a quad mesh mo_h_field_pts
+C     Create a quad mesh mo_poi_h_field
 C ---------------------------------------------------------------------
       if (if_h_provided .eq. 1) then
 C ---------------------------------------------------------------------
 C     Create lookup table quad mesh points for poi routines 
-C     mesh object name:      mo_h_field_pts
+C     mesh object name:      mo_poi_h_field
 C     mesh object attribute: h_field_att
 C ---------------------------------------------------------------------
-      cbuf = 'cmo/create/mo_h_field_pts/ / /triplane ; finish'
+      cbuf = 'cmo/create/mo_poi_h_field/ / /triplane ; finish'
       call dotaskx3d(cbuf,ierr)
       cbuf = 'createpts / xyz / POI_NPX POI_NPY 1 / 
      &         POI_XMIN POI_YMIN POI_ZMIN / POI_XMAX POI_YMAX POI_ZMAX /
      &         1 1 1 ; finish'
       call dotaskx3d(cbuf,ierr)
-      cbuf = 'cmo/printatt/mo_h_field_pts /-xyz-/minmax ; finish'
+      cbuf = 'cmo/printatt/mo_poi_h_field /-xyz-/minmax ; finish'
       call dotaskx3d(cbuf,ierr)
-      cbuf = 'cmo / addatt / mo_h_field_pts / h_field_att / 
+      cbuf = 'cmo / addatt / mo_poi_h_field / h_field_att / 
      &        vdouble / scalar / nnodes ; finish'
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &      'cmo/setatt/mo_h_field_pts/h_field_att/ 1 0 0 / ', 
+     &      'cmo/setatt/mo_poi_h_field/h_field_att/ 1 0 0 / ', 
      &       h_spacing, ' ; finish'
       call dotaskx3d(cbuf,ierr)
       endif
 
       if (if_h_field_variable .eq. 1) then
 C ---------------------------------------------------------------------
-C     Assign mo_h_field_pts attribute h_field_att by calling user
+C     Assign mo_poi_h_field attribute h_field_att by calling user
 C     supplied function user_h_field_att.mlgi
 C     infile / user_h_field_att.mlgi
 C     h_field_att(x,y) = ???
@@ -454,12 +485,10 @@ C     Test h_field_att after user sets values to be sure h_field_att
 C     is greater than or equal to h_spacing_scalar.
 C
 
-      print *, mo_h_field_pts
+      print *, mo_poi_h_field
       
       call cmo_get_info
-     &     ('h_field_att',mo_h_field_pts,iph_field,ilen,ityp,ierr)
-C      h_field_min = minval(h_field)
-C      h_field_max = maxval(h_field)
+     &     ('h_field_att',mo_poi_h_field,iph_field,ilen,ityp,ierr)
       h_field_min =  1.e20
       h_field_max = -1.e20
       do i = 1, np_x*np_y
@@ -467,9 +496,9 @@ C      h_field_max = maxval(h_field)
          h_field_max = max(h_field_max,h_field(i))
       enddo
 C
-C     Error and quit if minimum in user supplied field is .lt. h*0.98
+C     Error and quit if minimum in user supplied field is .lt. h*0.5
 C
-      if(h_field_min .lt. h*0.98)then
+      if(h_field_min .lt. h*0.49)then
          call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
          write(cbuf,'(a)')
      &     'ERROR: h_field_att value is smaller than target edge length'
@@ -477,8 +506,11 @@ C
          write(cbuf,'(a,1pe13.6,a,1pe13.6)')
      &     'ERROR: h = ',h,' h_field_min = ',h_field_min
          call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a)')
+     &     'ERROR: User supplied function can be 0.5*h, but not smaller'
+         call writloga('default',0,cbuf,0,ierrw)
          cbuf = 
-     &     'cmo/printatt/mo_h_field_pts /h_field_att/minmax ; finish'
+     &     'cmo/printatt/mo_poi_h_field /h_field_att/minmax ; finish'
          call dotaskx3d(cbuf,ierr)
          ierror = -1
          goto 9999
@@ -496,7 +528,7 @@ C
      &   'WARNING: h = ',h,' h_field_max = ',h_field_min
          call writloga('default',0,cbuf,0,ierrw)
          cbuf = 
-     &     'cmo/printatt/mo_h_field_pts /h_field_att/minmax ; finish'
+     &     'cmo/printatt/mo_poi_h_field /h_field_att/minmax ; finish'
          call dotaskx3d(cbuf,ierr)
       endif
 C
@@ -505,7 +537,7 @@ C
 C ---------------------------------------------------------------------
 C
 C     Need to pass information to poisson_2d:
-C     mo_h_field_pts, NXP, NYP, xic, yic, zic, h_field_att
+C     mo_poi_h_field, NXP, NYP, xic, yic, zic, h_field_att
 C     mo_poi_poly, NP, xic, yic, zic in counter-clockwise order
 C
       call cmo_select(mo_poi_poly,ierr)
@@ -514,7 +546,7 @@ C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call
 C ---------------------------------------------------------------------
       call poisson_2d
-     &     (mo_poi_poly, mo_poi_pts_out, h_spacing, np_x, np_y)
+     & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,np_x,np_y)
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call
 C ---------------------------------------------------------------------
@@ -648,7 +680,7 @@ C
 C
 C     Release the distance field lookup mesh object
 C
-      cbuf = 'cmo/release/mo_h_field_pts ; finish'
+      cbuf = 'cmo/release/mo_poi_h_field ; finish'
       call dotaskx3d(cbuf,ierr)      
 C
 C     Make the Poisson points/mesh the current mesh object.
