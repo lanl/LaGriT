@@ -31,12 +31,14 @@ void Polygon::findBoundingBox() {
     xMin = nodes[0].x;
     yMax = nodes[0].y;
     yMin = nodes[0].y;
+    
     for (unsigned int i = 1; i < numNodes; i++) {
         xMax = std::max(xMax, nodes[i].x);
         xMin = std::min(xMin, nodes[i].x);
         yMax = std::max(yMax, nodes[i].y);
         yMin = std::min(yMin, nodes[i].y);
     }
+    
     cout << "Polygon Bounding Box\nx-min: " << xMin << ", x-max: " << xMax << "\ny-min: " << yMin << ", y-max: " << yMax << endl;
     cout << "Finding bounding box : Complete\n" << endl;
 }
@@ -48,11 +50,12 @@ void Polygon::initializeVariables() {
     numNodes = numVertices;
     // determine the bounding box of the domain
     findBoundingBox();
-
+    
     // get initial exclusion radius
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
     }
+    
     cout << "Initializing variables : Done" << endl;
 }
 
@@ -67,31 +70,29 @@ bool Polygon::loadVertices() {
     int ierror = 0;
     long nlen = 0;
     long ierr = 0;
-
     LG_ERR err = 0;
-
     cout << strlen(mo_poly_name) << endl;
     cout << "cmo name: " << mo_poly_name << endl;
     numVertices = lg_cmo_get_intinfo("nnodes", mo_poly_name);
-
+    
     if (numVertices <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_poly_name << endl;
         return false;
     }
-
+    
     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
-
     int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
     int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
     int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
+    
     if (err == LG_ERR_SUCCESS) {
-        cout << "Mesh Data for cmo: '" << mo_poly_name << "'"<< endl;
+        cout << "Mesh Data for cmo: '" << mo_poly_name << "'" << endl;
         cout << "nnodes: " << numVertices << endl;
         cout << "nelements: " <<  nelements << endl;
         cout << "ndimensions_topo: " <<  ndim << endl;
         cout << "ndimensions_geom: " <<  ndim_geom << endl;
     }
-
+    
     // get length of
     icmolen = strlen(mo_poly_name);
     // What are these?
@@ -99,22 +100,23 @@ bool Polygon::loadVertices() {
     iattlen = 3;
     cout << "reading in x coords" << endl;
     fc_cmo_get_vdouble_(mo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
-
+    
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
         return false;
     }
-
+    
     cout << "reading in y coords" << endl;
     fc_cmo_get_vdouble_(mo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
-
+    
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
         return false;
     }
-
+    
     // read in the node coordinates
     Point tmpPoint;
+    
     for (unsigned int i = 0; i < numVertices; i++) {
         // Format x-coord, y-coord, radius
         tmpPoint.x = *(xptr + i);
@@ -125,12 +127,13 @@ bool Polygon::loadVertices() {
         tmpPoint.nodeNum = i;
         nodes.push_back(tmpPoint);
     }
-
+    
     cout << "Coordinates loaded from mesh object: " << endl;
-
+    
     for (unsigned int i = 0; i < numVertices; i++) {
         printPoint(nodes[i]);
     }
+    
     cout << "Added vertices from cmo: " << mo_poly_name << " complete" << endl;
     return true;
 }
@@ -142,31 +145,28 @@ void Polygon::addNodesToMeshObject() {
     LG_ERR err;
     // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
     // Create new mesh object for points
-    string cmd_string = "cmo/create/" + string(mo_pts_name) + "/"  + std::to_string(numNodes) +"/0/triplane";
+    string cmd_string = "cmo/create/" + string(mo_pts_name) + "/"  + std::to_string(numNodes) + "/0/triplane";
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
     // // declaring character array
     char *cmd_char;
-    cmd_char = new char[n+1];
+    cmd_char = new char[n + 1];
     // // copying the contents of the
     // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
-
     cmd_string = "cmo/select/" + string(mo_pts_name);
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     n = cmd_string.length();
     // // declaring character array
-    cmd_char = new char[n+1];
+    cmd_char = new char[n + 1];
     // // copying the contents of the
     // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
-
     err = lg_dotask("cmo/status/brief");
-
     double *xptr;
     double *yptr;
     double *zptr;
@@ -175,31 +175,36 @@ void Polygon::addNodesToMeshObject() {
     int ierror = 0;
     long nlen = 0;
     long ierr = 0;
-
     // get length of mesh object name
     icmolen = strlen(mo_pts_name);
     // What are these?
     // get mesh object xic and yic data
     iattlen = 3;
     fc_cmo_get_vdouble_(mo_pts_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
     }
+    
     fc_cmo_get_vdouble_(mo_pts_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
     }
+    
     fc_cmo_get_vdouble_(mo_pts_name, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
+    
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
     }
-
+    
     // // Copy coordinates from polygon object into the mesh object
     for (unsigned int i = 0; i < numNodes; i++) {
-        *(xptr+i) = nodes[i].x;
-        *(yptr+i) = nodes[i].y;
-        *(zptr+i) = 0;
+        *(xptr + i) = nodes[i].x;
+        *(yptr + i) = nodes[i].y;
+        *(zptr + i) = 0;
     }
+    
     err = lg_dotask("cmo/status/brief");
     err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
 }
@@ -219,11 +224,11 @@ void Polygon::dumpNodes() {
     cout << "Writing points to file: " << outputFilename << endl;
     cout << "There are " << numNodes << " point in the final distribution" << endl;
     fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
-
+    
     for (unsigned int i = 0; i < numNodes; i++) {
         fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << 0 << endl;
     }
-
+    
     fp.close();
 }
 
@@ -241,29 +246,28 @@ Polygon::~Polygon() {
             for (unsigned int i = 0; i < numCellsX + 1; i++) {
                 delete [] grid[i];
             }
-
+    
             delete [] grid;
         } catch (std::exception &e) {
             cout << e.what() << endl;
         }
-
+    
         try {
             // delete dynamic memory of distance Field
             for (unsigned int i = 0; i < dfNumCellsX + 1; i++) {
                 delete [] distanceField[i];
             }
-
+    
             delete [] distanceField;
         } catch (std::exception &e) {
             cout << e.what() << endl;
         }
-
+    
         // Clear vectors
         nodes.erase(nodes.begin(), nodes.end());
         nodes.shrink_to_fit();
         emptyCells.erase(emptyCells.begin(), emptyCells.end());
         emptyCells.shrink_to_fit();
     */
-
     cout << "Cleaning up polygon complete" << endl;
 }

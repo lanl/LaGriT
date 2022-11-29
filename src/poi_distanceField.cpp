@@ -40,32 +40,29 @@ void Polygon::loadDistanceFieldCMO() {
     int ierror = 0;
     long nlen = 0;
     long ierr = 0;
-
-
     // select the mo dfield mesh object
     string cmd_string = "cmo/select/" + string(mo_dfield_name);
-    // cmd_string = "cmo/select/mo_poi_h_field"; 
-
+    // cmd_string = "cmo/select/mo_poi_h_field";
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
     // // declaring character array
     char *cmd_char;
-    cmd_char = new char[n+1];
+    cmd_char = new char[n + 1];
     // // copying the contents of the
     // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
     // err = lg_dotask("cmo/select/mo_h_field_pts");
     err = lg_dotask("cmo/status/brief");
-
     unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);
     cout << "number of nodes in the distance field: " << dfieldNumNodes << endl;
+    
     if (dfieldNumNodes <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_dfield_name << endl;
         return;
     }
-
+    
     // fc_cmo_get_vdouble_(mo_dfield_name,"xic",&xptr,&nlen,&ierr,icmolen,iattlen);
     // if (ierr != 0 || nlen != dfieldNumNodes){
     //     cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
@@ -98,12 +95,12 @@ void Polygon::loadDistanceFieldCMO() {
     idfCellSize = 1.0 / dfCellSize;
     cout << "Distance Field Cell Size " << dfCellSize << endl;
     cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
-
     distanceField.reserve(dfNumCellsX * dfNumCellsY);
-    for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY; i++){
+    
+    for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY; i++) {
         distanceField.push_back(0);
     }
-
+    
     // // allocate memory for distance field
     // try {
     //     distanceField = new double*[dfNumCellsX];
@@ -114,7 +111,6 @@ void Polygon::loadDistanceFieldCMO() {
     // } catch (std::bad_alloc& ba) {
     //     std::cerr << "Bad Allocation for distance Field " << ba.what() << endl;
     // }
-
     /* Get the resolution field from the mesh object.
     // Name of attribute on mesh object is 'h_field_att'
     */
@@ -130,20 +126,22 @@ void Polygon::loadDistanceFieldCMO() {
     // Need to check index order here, (i,j) vs (j,i)
     // cout << "--> populating resolution field" << endl;
     unsigned int ptIndex = 0;
+    
     for (unsigned int j = 0; j < dfNumCellsY; j++) {
         for (unsigned int i = 0; i < dfNumCellsX; i++) {
             // distanceField[i][j] = *(hptr + ptIndex);
-            distanceField[i*dfNumCellsY + j] = *(hptr + ptIndex);
+            distanceField[i * dfNumCellsY + j] = *(hptr + ptIndex);
             ptIndex++;
+            
 //            cout << "i,j,distanceField[i][j] " << i << " " << j << " " << distanceField[i][j] << endl;
-            if (distanceField[i*dfNumCellsY + j] <= 0 ) {
+            if (distanceField[i * dfNumCellsY + j] <= 0 ) {
                 cout << "Error. Resolution of 0 or negative number provided. Setting to h" << endl;
                 cout << "i,j,ptIndex " << i << " " << j << " " << ptIndex << endl;
-                distanceField[i*dfNumCellsY + j] = h;
+                distanceField[i * dfNumCellsY + j] = h;
             }
         }
     }
-
+    
     // Use this to take a look at the dfield
     // dumpDistanceField();
     cout << "Loading Distance Field Complete\n" << endl;
@@ -214,15 +212,15 @@ void Polygon::dumpDistanceField() {
     std::ofstream fp;
     cout << "--> Writing points to file: " << filename << endl;
     fp.open(filename.c_str(), std::ofstream::out | std::ofstream::trunc);
-
+    
     // format
     // x y value
     for (unsigned int i = 0; i < dfNumCellsX; i++) {
         for (unsigned int j = 0; j < dfNumCellsX; j++) {
-            fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i*dfNumCellsY + j] << endl;
+            fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin << "," << distanceField[i * dfNumCellsY + j] << endl;
         }
     }
-
+    
     fp.close();
     cout << "Complete " << endl;
 }
@@ -243,10 +241,9 @@ void Polygon::getExclusionRadius(Point &point) {
     unsigned int i = getDFCellID(point.x, dfXMin);
     unsigned int j = getDFCellID(point.y, dfYMin);
     // point.radius = distanceField[i][j];
-    point.radius = distanceField[i*dfNumCellsY + j];
+    point.radius = distanceField[i * dfNumCellsY + j];
 //    if (i > dfNumCellsX || j > dfNumCellsY){
 //        cout << i << " " << j << endl;
 //        printPoint(point);
 //    }
-
 }

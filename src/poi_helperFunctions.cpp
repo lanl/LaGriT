@@ -28,11 +28,11 @@ double distance2DSq(Point x0, Point x1) {
 vector<std::string> splitOnWhiteSpace(std::string line) {
     vector<std::string> result;
     std::istringstream line_stream(line);
-
+    
     for (std::string s; line_stream >> s;) {
         result.push_back(s);
     }
-
+    
     return result;
 }
 
@@ -40,8 +40,9 @@ void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME
     // removes white space from LaGriT string. LaGriT passes it in with white space
     // fortran will pads the strings with spaces/
     // This copies each character until we hit a space
-    for (size_t len = 0; len < LG_NAME_SIZE -1; len++) {
+    for (size_t len = 0; len < LG_NAME_SIZE - 1; len++) {
         snprintf(mo_name_trim, len + 1, "%s", mo_name);
+        
         if (mo_name[len] == ' ') {
             break;
         }

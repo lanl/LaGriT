@@ -26,7 +26,7 @@ void Polygon::initializeRandomGenerator(unsigned int seed) {
         cout << "\nGenerating seed from clock" << endl;
         cout << "Seed: " << seed << "\n" << endl;
     }
-
+    
     generator.seed(seed);
 }
 
@@ -43,13 +43,13 @@ double Polygon::uniformDistribution() {
 void Polygon::sampleBoundaries() {
     cout << "Sampling boundaries" << endl;
     vector<Point> boundaryNodes;
-
+    
     for (unsigned int i = 0; i < numVertices; i++) {
         vector<Point> lineNodes;
         lineNodes = sampleAlongLine(nodes[i], nodes[(i + 1) % numVertices]);
         boundaryNodes.insert(boundaryNodes.end(), lineNodes.begin(), lineNodes.end());
     }
-
+    
     nodes.insert(nodes.end(), boundaryNodes.begin(), boundaryNodes.end());
     numNodes = nodes.size();
     cout << "Sampling boundaries complete\n" << endl;
@@ -74,7 +74,7 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
     // maximum number of points between vertices
     unsigned int numPoints;
     numPoints = int(floor(distance / h));
-
+    
     // check if the distance if large enough for at least one-sampling..
     if (distance > std::min(x1.radius, x0.radius)) {
         for (unsigned int i = 0; i < numPoints; i++) {
@@ -82,7 +82,7 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
             increment = uniformDistribution() * 0.2 * prevSample.radius + 0.9 * prevSample.radius;
             prevSample.x = prevSample.x + direction[0] * increment;
             prevSample.y = prevSample.y + direction[1] * increment;
-
+            
             // make sure the point is in the domain and not too close the end point
             if (inBoundingBox(prevSample) && (distance2D(prevSample, x1) > 0.6 * prevSample.radius)) {
                 getExclusionRadius(prevSample);
@@ -100,7 +100,7 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
         increment = distance * (uniformDistribution() * 0.5 + 0.25);
         prevSample.x = prevSample.x + direction[0] * increment;
         prevSample.y = prevSample.y + direction[1] * increment;
-
+        
         // make sure the point is in the domain and not too close the end point
         if (inBoundingBox(prevSample)) {
             getExclusionRadius(prevSample);
@@ -109,7 +109,7 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
             lineNodes.push_back(prevSample);
         }
     }
-
+    
     return lineNodes;
 }
 
@@ -121,19 +121,20 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
 void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
     Point newPoint;
     unsigned int newPointCount = 0;
-
+    
     if (!restartFlag) {
         cout << "Starting Main sampling" << endl;
     } else {
         cout << "Restarting sampling at " << startIndex << endl;
     }
-
+    
     for (unsigned int i = startIndex; i < numNodes; i++) {
         for (unsigned int k = 0; k < numSamples; k++) {
             //for (unsigned int i = startIndex; i < 10; i++) {
             //    for (unsigned int k = 0; k < 1; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
+            
             // printPoint(newPoint);
             // test new point
             if (testCandidate(newPoint)) {
@@ -142,7 +143,7 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
             }
         }
     }
-
+    
     if (!restartFlag) {
         cout << newPointCount << " points added during sampling\n" << endl;
     } else {
@@ -208,30 +209,30 @@ bool Polygon::testCandidate(Point &newPoint) {
         // cout << "bounding box fail" << endl;
         return false;
     };
-
+    
     // Check 2
     // Check if point is in the domain. Also cheap.
     if (!inDomain(newPoint)) {
         // cout << "in domain fail" << endl;
         return false;
     }
-
+    
     // Check 3
     // Check if the neighbor grid location is occupied.
     // Another cheap check
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
-
+    
     // if (grid[newPoint.ix][newPoint.iy] > 0) {
-    if (grid[newPoint.ix*numCellsY + newPoint.iy] > 0) {
+    if (grid[newPoint.ix * numCellsY + newPoint.iy] > 0) {
         // cout << "grid space filled" << endl;
         return false;
     }
-
+    
     // Now that we know the point is inside the domain and in an empty-cell
     // we grab the exclusion radius from the distance field.
     getExclusionRadius(newPoint);
-
+    
     // Check 4
     // Check to ensure new point is not within the exclusion radius
     // of accepted points
@@ -239,7 +240,7 @@ bool Polygon::testCandidate(Point &newPoint) {
         // cout << "empty disk failed" << endl;
         return false;
     }
-
+    
     return true;
 }
 
@@ -290,11 +291,11 @@ bool Polygon::inDomain(Point newPoint) {
         // this is the whole equation, but for our setup, a horizonal ray, it simplifies.
         t = (mx * (newPoint.y - point1.y) + my * (point1.x - newPoint.x)) / (1.0 * my - 1.0 * mx);
         //t = (mx * (newPoint.y - point1.y) + my * (point1.x - newPoint.x)) / my;
-
+    
         if (t > 0) {
             x = newPoint.x + t;
             y = newPoint.y + t;
-
+    
             // Check if intersection point is on the edge
             if (std::min(point1.x, point2.x) <= x && x <= std::max(point1.x, point2.x) && std::min(point1.y, point2.y) <= y && y <= std::max(point1.y, point2.y) ) {
                 // if the intersection point is on the line segment, then we count it is as a crossing.
@@ -305,25 +306,25 @@ bool Polygon::inDomain(Point newPoint) {
     */
     /*
     Ray Casting adapted from
-
+    
     https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html#The%20Inequality%20Tests%20are%20Tricky
-
+    
      License to Use
-
+    
     Copyright (c) 1970-2003, Wm. Randolph Franklin
-
+    
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+    
     Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimers.
     Redistributions in binary form must reproduce the above copyright notice in the documentation and/or other materials provided with the distribution.
     The name of W. Randolph Franklin may not be used to endorse or promote products derived from this Software without specific prior written permission.
-
+    
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+    
     */
     unsigned i, j;
     int c = 0;
-
+    
     for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
         if ( ((nodes[i].y > newPoint.y) != (nodes[j].y > newPoint.y)) && (newPoint.x < (nodes[j].x - nodes[i].x) * (newPoint.y - nodes[i].y) / (nodes[j].y - nodes[i].y) + nodes[i].x) ) {
             // flips back and forth between 0 and 1
@@ -332,7 +333,7 @@ bool Polygon::inDomain(Point newPoint) {
             c = !c;
         }
     }
-
+    
     // If the number crossing is odd, then the point is inside of the domain;
     if (c == 1) {
         return true;
@@ -351,19 +352,19 @@ bool Polygon::emptyDiskProperty(Point newPoint) {
     // Get exclusion radius for new pointw
     std::vector<int> nodeIDs;
     nodeIDs = getNeighborCellsRadius(newPoint);
-
+    
     // Walk through those nodes to check if the new point is too close to those
     for (int i : nodeIDs) {
         // check if the distance between points is less than either point's exclusion radius
         dist = distance2D(newPoint, nodes[i - 1]);
-
+        
         // Ensure distance between points is larger than the maximum of the
         // points' exclusion radii
         if (dist < std::max(newPoint.radius, nodes[i - 1].radius)) {
             return false;
         }
     }
-
+    
     return true;
 }
 

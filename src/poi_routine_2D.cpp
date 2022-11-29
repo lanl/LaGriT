@@ -132,38 +132,30 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     // remove white space passed in by LaGriT
     char mo_poi_poly[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
-
     char mo_poi_pts_out[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_pts_out_in, mo_poi_pts_out);
-
     char mo_poi_h_field[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_h_field_in, mo_poi_h_field);
-
     cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
     cout << "PD inputs:" << endl;
     cout << "h: " << *h << endl;
     cout << "mo_poly name: " << mo_poi_poly << endl;
     cout << "mo_pts: " << mo_poi_pts_out << endl;
-    cout << "mo_dfield_name" << mo_poi_h_field << endl; 
+    cout << "mo_dfield_name" << mo_poi_h_field << endl;
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     cout << endl;
-
-
     // Make the polygon object!
     Polygon polygon;
-
     polygon.mo_poly_name = mo_poi_poly;
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
-    polygon.mo_dfield_name = mo_poi_h_field;  
+    polygon.mo_dfield_name = mo_poi_h_field;
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
     polygon.mo_pts_name = mo_poi_pts_out;
     cout << "Writting points to mesh object " << polygon.mo_pts_name << endl;
     cout << endl;
-
     polygon.h = *h;
     cout << "h for sampling: " << polygon.h << endl;
-
     polygon.dfNumCellsX = *dfNumCellsX;
     polygon.dfNumCellsY = *dfNumCellsY;
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
@@ -174,10 +166,12 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
     bool inputCheck = polygon.loadVertices();
+    
     if (!inputCheck) {
         cout << "Error loading vertices from polygon.\nExitting Poisson Disc" << endl;
         return;
     }
+    
     // Load distance field from file (distanceField.cpp)
     polygon.loadDistanceFieldCMO();
     // run initial analysis of polygon, obtain bounding box, etc. (polygon.cpp)
@@ -185,7 +179,6 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     // Distribute points around the boundary of the polygon (sampling.cpp)
     polygon.sampleBoundaries();
 //    polygon.printNodes();
-
     // Initialize the background look up grid (neighborGrid.cpp)
     polygon.initializeNeighborGrid();
     // Initial sampling sweep (sampling.cpp)
@@ -196,7 +189,6 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     //polygon.dumpNodes();
     // copy points to mesh object
     polygon.addNodesToMeshObject();
-
     cout << "Done with Poisson 2D" << endl;
     return;
 }
