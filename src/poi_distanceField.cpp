@@ -41,7 +41,22 @@ void Polygon::loadDistanceFieldCMO() {
     long nlen = 0;
     long ierr = 0;
 
-    err = lg_dotask("cmo/select/mo_h_field_pts");
+
+    // select the mo dfield mesh object
+    string cmd_string = "cmo/select/" + string(mo_dfield_name);
+    // cmd_string = "cmo/select/mo_poi_h_field"; 
+
+    cout << cmd_string << endl;
+    // // set the cmo to be the empty point mesh object
+    int n = cmd_string.length();
+    // // declaring character array
+    char *cmd_char;
+    cmd_char = new char[n+1];
+    // // copying the contents of the
+    // // string to char array
+    strcpy(cmd_char, cmd_string.c_str());
+    err = lg_dotask(cmd_char);
+    // err = lg_dotask("cmo/select/mo_h_field_pts");
     err = lg_dotask("cmo/status/brief");
 
     unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);

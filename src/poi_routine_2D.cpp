@@ -27,7 +27,7 @@ using std::endl;
 
 // const int LG_NAME_SIZE = 32;
 
-extern "C" void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
+extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
 
 /*
    double *xptr;
@@ -128,30 +128,36 @@ extern "C" void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name
 
    */
 
-void poisson_2d_(char mo_poly_name_in[LG_NAME_SIZE], char mo_pts_name_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+    // remove white space passed in by LaGriT
+    char mo_poi_poly[LG_NAME_SIZE];
+    process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
+
+    char mo_poi_pts_out[LG_NAME_SIZE];
+    process_lagrit_string(mo_poi_pts_out_in, mo_poi_pts_out);
+
+    char mo_poi_h_field[LG_NAME_SIZE];
+    process_lagrit_string(mo_poi_h_field_in, mo_poi_h_field);
+
     cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
     cout << "PD inputs:" << endl;
     cout << "h: " << *h << endl;
-    cout << "mo_poly name: " << mo_poly_name_in << endl;
-    cout << "mo_pts: " << mo_pts_name_in << endl;
+    cout << "mo_poly name: " << mo_poi_poly << endl;
+    cout << "mo_pts: " << mo_poi_pts_out << endl;
+    cout << "mo_dfield_name" << mo_poi_h_field << endl; 
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     cout << endl;
 
-    // remove white space passed in by LaGriT
-    char mo_poly_name[LG_NAME_SIZE];
-    process_lagrit_string(mo_poly_name_in, mo_poly_name);
-    char mo_pts_name[LG_NAME_SIZE];
-    process_lagrit_string(mo_pts_name_in, mo_pts_name);
 
     // Make the polygon object!
     Polygon polygon;
 
-    polygon.mo_poly_name = mo_poly_name;
+    polygon.mo_poly_name = mo_poi_poly;
     cout << "Loading polygon information from " << polygon.mo_poly_name << endl;
-    polygon.mo_dfield_name = "mo_h_field_pts";
+    polygon.mo_dfield_name = mo_poi_h_field;  
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
-    polygon.mo_pts_name = mo_pts_name;
+    polygon.mo_pts_name = mo_poi_pts_out;
     cout << "Writting points to mesh object " << polygon.mo_pts_name << endl;
     cout << endl;
 
