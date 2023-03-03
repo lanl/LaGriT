@@ -26,7 +26,7 @@ using std::string;
 
 /*! Computes the 2D bounding box of the polygon */
 void Polygon::findBoundingBox() {
-    cout << "Finding bounding box : Starting " << endl;
+    cout << "Finding bounding Box of polygon: Starting " << endl;
     xMax = nodes[0].x;
     xMin = nodes[0].x;
     yMax = nodes[0].y;
@@ -39,7 +39,7 @@ void Polygon::findBoundingBox() {
         yMin = std::min(yMin, nodes[i].y);
     }
     
-    cout << "Polygon Bounding Box\nx-min: " << xMin << ", x-max: " << xMax << "\ny-min: " << yMin << ", y-max: " << yMax << endl;
+    cout << "Polygon Bounding Box is\n\tx-min: " << xMin << ", x-max: " << xMax << "\n\ty-min: " << yMin << ", y-max: " << yMax << endl;
     cout << "Finding bounding box : Complete\n" << endl;
 }
 
@@ -62,7 +62,7 @@ void Polygon::initializeVariables() {
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
 bool Polygon::loadVertices() {
-    cout << "Adding vertices to polygon objection from " << mo_poly_name << endl;
+    cout << "Importing vertices to polygon objection from " << mo_poly_name << endl;
     double *xptr;
     double *yptr;
     long icmolen;
@@ -80,7 +80,7 @@ bool Polygon::loadVertices() {
         return false;
     }
     
-    cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
+    //cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
     int nelements = lg_cmo_get_intinfo("nelements", mo_poly_name);
     int ndim = lg_cmo_get_intinfo("ndimensions_topo", mo_poly_name);
     int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
@@ -98,7 +98,7 @@ bool Polygon::loadVertices() {
     // What are these?
     // get mesh object xic and yic data
     iattlen = 3;
-    cout << "reading in x coords" << endl;
+    //cout << "Reading in x coords" << endl;
     fc_cmo_get_vdouble_(mo_poly_name, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
@@ -106,7 +106,7 @@ bool Polygon::loadVertices() {
         return false;
     }
     
-    cout << "reading in y coords" << endl;
+    //cout << "Reading in y coords" << endl;
     fc_cmo_get_vdouble_(mo_poly_name, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numVertices) {
@@ -128,13 +128,13 @@ bool Polygon::loadVertices() {
         nodes.push_back(tmpPoint);
     }
     
-    cout << "Coordinates loaded from mesh object: " << endl;
-    
+    // cout << "Coordinates loaded from mesh object: " << endl;
+    /*
     for (unsigned int i = 0; i < numVertices; i++) {
         printPoint(nodes[i]);
     }
-    
-    cout << "Added vertices from cmo: " << mo_poly_name << " complete" << endl;
+    */
+    cout << "Importing vertices from cmo: " << mo_poly_name << " to polygon obejct complete" << endl;
     return true;
 }
 
@@ -146,7 +146,7 @@ void Polygon::addNodesToMeshObject() {
     // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
     // Create new mesh object for points
     string cmd_string = "cmo/create/" + string(mo_pts_name) + "/"  + std::to_string(numNodes) + "/0/triplane";
-    cout << cmd_string << endl;
+    // cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
     // // declaring character array
@@ -157,7 +157,7 @@ void Polygon::addNodesToMeshObject() {
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
     cmd_string = "cmo/select/" + string(mo_pts_name);
-    cout << cmd_string << endl;
+    // cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     n = cmd_string.length();
     // // declaring character array
@@ -166,7 +166,7 @@ void Polygon::addNodesToMeshObject() {
     // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
     err = lg_dotask(cmd_char);
-    err = lg_dotask("cmo/status/brief");
+    //err = lg_dotask("cmo/status/brief");
     double *xptr;
     double *yptr;
     double *zptr;

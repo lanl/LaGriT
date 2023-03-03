@@ -43,7 +43,7 @@ void Polygon::loadDistanceFieldCMO() {
     // select the mo dfield mesh object
     string cmd_string = "cmo/select/" + string(mo_dfield_name);
     // cmd_string = "cmo/select/mo_poi_h_field";
-    cout << cmd_string << endl;
+    // cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
     // // declaring character array
@@ -56,7 +56,7 @@ void Polygon::loadDistanceFieldCMO() {
     // err = lg_dotask("cmo/select/mo_h_field_pts");
     err = lg_dotask("cmo/status/brief");
     unsigned int dfieldNumNodes = lg_cmo_get_intinfo("nnodes", mo_dfield_name);
-    cout << "number of nodes in the distance field: " << dfieldNumNodes << endl;
+    cout << "\nNumber of nodes in the distance field: " << dfieldNumNodes << endl;
     
     if (dfieldNumNodes <= 0) {
         cout << "Error: There are no nodes in cmo:  " <<  mo_dfield_name << endl;
@@ -86,15 +86,15 @@ void Polygon::loadDistanceFieldCMO() {
     dfYMin = yMin;
     dfXMax = xMax;
     dfYMax = yMax;
-    cout << "Distance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << endl;
-    cout << "Distance Field Lower Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin  << endl;
+    cout << "\nDistance Field number of cells. nx " << dfNumCellsX << " " << "ny " << dfNumCellsY << endl;
+    cout << "Distance Field lower Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin  << endl;
     cout << "Distance Field upper Bounds. xMax " << dfYMax << " " << "yMax " << dfYMax  << endl;
     double deltaX = xMax - xMin;
     dfCellSize = deltaX / dfNumCellsX;
     // compute inversece cell size
     idfCellSize = 1.0 / dfCellSize;
-    cout << "Distance Field Cell Size " << dfCellSize << endl;
-    cout << "Inverse Distance Field Cell Size " << idfCellSize << endl;
+    cout << "Distance Field Cell Size: " << dfCellSize << endl;
+    cout << "Inverse Distance Field Cell Size: " << idfCellSize << endl;
     distanceField.reserve(dfNumCellsX * dfNumCellsY);
     
     for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY; i++) {
