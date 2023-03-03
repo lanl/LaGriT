@@ -38,7 +38,7 @@ C  Define user_sub arguments
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
-      integer nwds,ierror,seed
+      integer nwds,ierror,seed,number_of_samples,resample_sweeps
 C Define variables 
       integer i,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
       integer h_fac, npx, npy, npz, nverts, nnodes_poly, if_rad_deg
@@ -546,9 +546,11 @@ C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call
 C ---------------------------------------------------------------------
       seed = 1
+      number_of_samples = 10
+      resample_sweeps = 1
       call poisson_2d
      & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
-     & np_x,np_y,seed)
+     & np_x,np_y,seed,number_of_samples,resample_sweeps)
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call
 C ---------------------------------------------------------------------

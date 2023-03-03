@@ -27,7 +27,7 @@ using std::endl;
 
 // const int LG_NAME_SIZE = 32;
 
-extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed);
+extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps);
 
 /*
    double *xptr;
@@ -128,7 +128,7 @@ extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_o
 
    */
 
-void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed) {
+void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps) {
     // remove white space passed in by LaGriT
     char mo_poi_poly[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
@@ -137,6 +137,7 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     char mo_poi_h_field[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_h_field_in, mo_poi_h_field);
     cout << "===== Begin Poisson 2D Sampling =========\n\n" << endl;
+    /*
     cout << "PD inputs:" << endl;
     cout << "h: " << *h << endl;
     cout << "mo_poly name: " << mo_poi_poly << endl;
@@ -146,6 +147,7 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
     cout << "seed: " << *seed << endl;
     cout << endl;
+    */
     // Make the polygon object!
     Polygon polygon;
     polygon.mo_poly_name = mo_poi_poly;
@@ -160,8 +162,8 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     polygon.dfNumCellsX = *dfNumCellsX;
     polygon.dfNumCellsY = *dfNumCellsY;
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
-    polygon.numSamples = 10;
-    polygon.resampleSweeps = 1;
+    polygon.numSamples = *numSamples;
+    polygon.resampleSweeps = *resampleSweeps;
     polygon.seed = *seed;
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
@@ -190,7 +192,8 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     //polygon.dumpNodes();
     // copy points to mesh object
     polygon.addNodesToMeshObject();
-    cout << "Done with Poisson 2D" << endl;
+    cout << "===== Poisson 2D Sampling Complete =========\n\n" << endl;
+
     return;
 }
 // #ifdef __cplusplus
