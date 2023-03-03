@@ -27,7 +27,7 @@ using std::endl;
 
 // const int LG_NAME_SIZE = 32;
 
-extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY);
+extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed);
 
 /*
    double *xptr;
@@ -128,7 +128,7 @@ extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_o
 
    */
 
-void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY) {
+void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed) {
     // remove white space passed in by LaGriT
     char mo_poi_poly[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
@@ -144,6 +144,7 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     cout << "mo_dfield_name" << mo_poi_h_field << endl;
     cout << "dfNumCellsX: " << *dfNumCellsX << endl;
     cout << "dfNumCellsY: " << *dfNumCellsY << endl;
+    cout << "seed: " << *seed << endl;
     cout << endl;
     // Make the polygon object!
     Polygon polygon;
@@ -161,7 +162,7 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
     polygon.numSamples = 10;
     polygon.resampleSweeps = 1;
-    polygon.seed = 1;
+    polygon.seed = *seed;
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
