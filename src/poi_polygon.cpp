@@ -40,11 +40,12 @@ void Polygon::findBoundingBox() {
     }
     
     cout << "Polygon Bounding Box is\n\tx-min: " << xMin << ", x-max: " << xMax << "\n\ty-min: " << yMin << ", y-max: " << yMax << endl;
-    cout << "Finding bounding box : Complete\n" << endl;
+    cout << "Finding bounding box : Complete" << endl;
 }
 
 /*! Initializes variables of the polygon */
 void Polygon::initializeVariables() {
+    cout << "---------------------------------------" << endl;
     cout << "Initializing variables : Starting " << endl;
     // initialize the number of nodes in the point distribution to be the inital number of vertices
     numNodes = numVertices;
@@ -56,13 +57,14 @@ void Polygon::initializeVariables() {
         getExclusionRadius(nodes[i]);
     }
     
-    cout << "Initializing variables : Done" << endl;
+    cout << "Initializing variables : Done\n" << endl;
+    cout << "---------------------------------------" << endl;
 }
 
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
 bool Polygon::loadVertices() {
-    cout << "Importing vertices to polygon objection from " << mo_poly_name << endl;
+    cout << "\nImporting vertices to polygon objection from " << mo_poly_name << endl;
     double *xptr;
     double *yptr;
     long icmolen;
@@ -71,8 +73,8 @@ bool Polygon::loadVertices() {
     long nlen = 0;
     long ierr = 0;
     LG_ERR err = 0;
-    cout << strlen(mo_poly_name) << endl;
-    cout << "cmo name: " << mo_poly_name << endl;
+    // cout << strlen(mo_poly_name) << endl;
+    // cout << "cmo name: " << mo_poly_name << endl;
     numVertices = lg_cmo_get_intinfo("nnodes", mo_poly_name);
     
     if (numVertices <= 0) {
@@ -86,11 +88,13 @@ bool Polygon::loadVertices() {
     int ndim_geom = lg_cmo_get_intinfo("ndimensions_geom", mo_poly_name);
     
     if (err == LG_ERR_SUCCESS) {
+        cout << "---------------------------------------" << endl;
         cout << "Mesh Data for cmo: '" << mo_poly_name << "'" << endl;
         cout << "nnodes: " << numVertices << endl;
         cout << "nelements: " <<  nelements << endl;
         cout << "ndimensions_topo: " <<  ndim << endl;
         cout << "ndimensions_geom: " <<  ndim_geom << endl;
+        cout << "---------------------------------------" << endl;
     }
     
     // get length of

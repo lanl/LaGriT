@@ -158,13 +158,21 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     cout << "Writting points to mesh object " << polygon.mo_pts_name << endl;
     cout << endl;
     polygon.h = *h;
-    cout << "h for sampling: " << polygon.h << endl;
     polygon.dfNumCellsX = *dfNumCellsX;
     polygon.dfNumCellsY = *dfNumCellsY;
     // Defaults are set in poi_polygon.h, should be overloaded at some point in the function call
     polygon.numSamples = *numSamples;
     polygon.resampleSweeps = *resampleSweeps;
     polygon.seed = *seed;
+    cout << "---------------------------------------" << endl;
+    cout << "Poisson Disc Sampling Parameters:" << endl; 
+    cout << "h for sampling:\t\t\t" << polygon.h << endl;
+    cout << "Number of samples:\t\t" << polygon.numSamples << endl;
+    cout << "Number of resample sweeps:\t" << polygon.resampleSweeps << endl;
+    cout << "Seed for generator:\t\t"<<polygon.seed << endl;
+    cout << "---------------------------------------" << endl;
+    cout << endl;
+
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
@@ -185,9 +193,12 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     // Initialize the background look up grid (neighborGrid.cpp)
     polygon.initializeNeighborGrid();
     // Initial sampling sweep (sampling.cpp)
+    cout << "---------------------------------------" << endl; 
     polygon.mainSampling(0, false);
     // Find empty cells, resample therein, and restart the main sampling algorithm (sampling.capp)
     polygon.resample();
+    cout << "Sampling routine is complete\n\n" << endl;
+    cout << "---------------------------------------" << endl; 
     // Write points to file
     //polygon.dumpNodes();
     // copy points to mesh object
