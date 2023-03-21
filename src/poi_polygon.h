@@ -44,6 +44,7 @@ public:
     double xMin;
     double yMin;
     double yMax;
+    double zValue;
 
     // Random number generator
     unsigned int seed = 0;
