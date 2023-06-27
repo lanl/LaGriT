@@ -1,5 +1,9 @@
 Directory for LaGriT unit testing.
 
+level01 - essential commands as part of QA status
+level02 - depends on external libs built in TPLs ie Exodus
+level03 - dev only
+
 USAGE:
      python runtests.py
 or   python runtests.py --levels 1 2 3 -exe ../build/lagrit
