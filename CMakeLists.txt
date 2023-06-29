@@ -104,7 +104,9 @@ endif()
 # message(STATUS "Set Explicit Exodus ROOT: ${SEACASExodus_ROOT}")
 
 # trick cmake to add exodus libs correctly for linking
-set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
+# nc-config --static should pick up all link FLAGS from netcdf 
+# -lcurl needed for linking netcdf libs on linux 
+set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lcurl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
 
 message(STATUS "-----Done Exodus-----")
 
