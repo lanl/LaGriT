@@ -1,21 +1,29 @@
 # Default build with Exodus OFF
-# Edit option below or use cmake .. -DLAGRIT_BUILD_EXODUS=ON
+# for testing cmake options:
+# -DCMAKE_BUILD_TYPE=Debug
+# -DLAGRIT_BUILD_EXODUS=ON (detect Exodus?, default OFF)
+#
+# Some common cmake variables:
+# https://cmake.org/cmake/help/latest/manual/cmake-variables.7.html
+# -D CMAKE_FIND_DEBUG_MODE=ON
+#
+# Not supported yet but available:
+# -D CMAKE_INSTALL_PREFIX (default /usr/local if make install)
+# -D LaGriT_BUILD_STATIC=ON (default .a, use OFF for .so etc)
 #
 # Long version with explicit paths to build lagrit with Exodus 
 # This file is useful for debugging cmake with Exodus
 # Note Windows is not working and is commented out
 # Sep 28 2022 tamiller@lanl.gov lagrit.lanl.gov
 # SEACAS Exodus Gregory Sjaardema gsjaardema@gmail.com
+##############################################################################
 
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
+# set cmake variables for version numbers and compilers
 project(LaGriT VERSION 3.3.3
                DESCRIPTION "LaGriT Meshing Utilities"
                LANGUAGES Fortran CXX C)
-
-# module not being used because this is not working
-# set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
-# message(STATUS "Using cmake module = ${CMAKE_MODULE_PATH}")
 
 option(LAGRIT_BUILD_STATIC "Compile as a static (fat) executable." ON)
 option(LAGRIT_BUILD_EXODUS "Build with Exodus." OFF)
@@ -96,7 +104,9 @@ endif()
 # message(STATUS "Set Explicit Exodus ROOT: ${SEACASExodus_ROOT}")
 
 # trick cmake to add exodus libs correctly for linking
-set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
+# nc-config --static should pick up all link FLAGS from netcdf 
+# -lcurl needed for linking netcdf libs on linux 
+set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lcurl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
 
 message(STATUS "-----Done Exodus-----")
 
@@ -126,8 +136,8 @@ endif()
 
 # message( FATAL_ERROR "Debug exit at STOP." )
 
-# ===== Detect platform, bit-size, and compilers ==================== #
-message(STATUS "Detected System:")
+# ===== Detect local platform, bit-size, and compilers ==================== #
+message(STATUS "Detecting LaGriT build using local cmake files:")
 include("${CMAKE_SOURCE_DIR}/cmake/PlatformSettings.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/DetectBitSize.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake/CompilerFlags-Fortran.cmake")
@@ -140,7 +150,7 @@ else()
   set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-# if not set will ignore sytem release or debug flags
+# cmake variable to set DEBUG or RELEASE on command line 
 if (CMAKE_BUILD_TYPE)
   message("LaGriT compile type set to: ${CMAKE_BUILD_TYPE}")
 endif()
@@ -167,7 +177,7 @@ endif()
 #    )
 #endif()
 
-# create lagrit.h from template lagrit.h.in
+# create lagrit.h using PROJECT_VERSION_* in template lagrit.h.in
 string(TIMESTAMP CMAKE_DATE_COMPILE "%Y/%m/%d")
 configure_file(
     ${SRC_CORE}/lagrit.h.in
@@ -179,8 +189,8 @@ configure_file(
 include(FortranCInterface)
 FortranCInterface_VERIFY()
 
-# Create fc_mangle.h for cpp-fortran routines to handle symbol mangling
-# Names here should be same as found in src/lg_f_interface.h
+# Create fc_mangle.h for c-fortran routines to handle symbol mangling
+# Names here should also be declared in src/lg_f_interface.h
 # More information: https://www.netlib.org/lapack/lawnspdf/lawn270.pdf
 FortranCInterface_HEADER(
     ${SRC_CORE}/fc_mangle.h
@@ -225,7 +235,7 @@ file(
 list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
 list(FILTER SRC_CORE_FILES EXCLUDE REGEX ".*lagrit_main.f$")
 
-message(STATUS "Compilers:")
+message(STATUS "Using Compiler Settings:")
 message(STATUS "  FORTRAN [compiler = \"${CMAKE_Fortran_COMPILER}\"; flags = \"${CMAKE_Fortran_FLAGS}\"]")
 message(STATUS "  C [compiler = \"${CMAKE_C_COMPILER}\"; flags = \"${CMAKE_C_FLAGS}\"]")
 message(STATUS "  C++ [compiler = \"${CMAKE_CXX_COMPILER}\"; flags = \"${CMAKE_CXX_FLAGS}\"]")
@@ -256,12 +266,12 @@ set_target_properties(
 
 # Compile the main LaGriT binary
 add_executable(
-  lagrit.exe
+  lagrit
   ${SRC_CORE}/lagrit_main.f
 )
 
 set_target_properties(
-  lagrit.exe
+  lagrit
   PROPERTIES
   OUTPUT_NAME "lagrit"
   LINKER_LANGUAGE Fortran
@@ -269,14 +279,13 @@ set_target_properties(
 )
 
 # Change from 'lagrit' (OUTPUT_NAME) to 'lagrit.exe' on Windows
-# Note cmake should do this automatically so not needed?
 if (WIN32)
-  set_target_properties(lagrit.exe PROPERTIES SUFFIX ".exe")
+  set_target_properties(lagrit PROPERTIES SUFFIX ".exe")
 endif()
 
 if (LAGRIT_BUILD_STATIC)
-  set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_START_STATIC 1)
-  set_target_properties(lagrit.exe PROPERTIES LINK_SEARCH_END_STATIC 1)
+  set_target_properties(lagrit PROPERTIES LINK_SEARCH_START_STATIC 1)
+  set_target_properties(lagrit PROPERTIES LINK_SEARCH_END_STATIC 1)
 
   if(WIN32)
     set(CMAKE_FIND_LIBRARY_SUFFIXES .lib .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
@@ -289,18 +298,18 @@ endif()
 # end static build options
 
 target_include_directories(
-  lagrit.exe
+  lagrit
   PUBLIC ${TPL_INCLUDE_DIRS} # includes 'exodusII.h' 'exodusII.inc'
 )
 
-target_link_libraries(lagrit.exe
+target_link_libraries(lagrit
    PRIVATE liblagrit           # liblagrit.[dylib|so|a|dll]
    PUBLIC ${TPL_LINK_LIBS}     # Exodus / NetCDF / HDF5 / ZLIB
 )
 
 # this produces errors 
 #make[2]: *** No rule to make target '../TPLs/seacas/lib/libexoIIv2for.a', needed by 'lagrit'.  Stop.
-# target_link_libraries(lagrit.exe
+# target_link_libraries(lagrit
 #     PRIVATE
 #         liblagrit
 #         "${Exodus_LIBRARIES}/libexodus.a"
@@ -312,7 +321,7 @@ target_link_libraries(lagrit.exe
 
 # Install lagrit to ${CMAKE_INSTALL_PATH}/bin/
 install(
-    TARGETS lagrit.exe
+    TARGETS lagrit
     DESTINATION "bin"
 )
 
