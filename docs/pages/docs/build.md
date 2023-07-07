@@ -89,9 +89,9 @@ LaGriT can be compiled on most modern machines including Linux, Mac, and WINDOWS
 The most recent instructions can be found on the github pages.
 
 
-Simple install, build, and test: [LaGriT Github README](https://github.com/lanl/LaGriT/README.md)
+Simple install, build, and test: [LaGriT Github README](https://github.com/lanl/LaGriT/blob/master/README.md)  
 
-Build options and instructions for developers: [LaGriT Github cmake README](https://github.com/lanl/LaGriT/cmake/README.md)
+Build options and instructions for developers: [LaGriT Github cmake README](https://github.com/lanl/LaGriT/blob/master/cmake/README.md)
 
 
 
