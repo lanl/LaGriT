@@ -26,7 +26,7 @@ title: LaGriT - Home
 
     <div class="button" id="button-4">
     <div id="underline"></div>
-    <a href="https://lanl.github.io/LaGriT/pages/pylagrit/original/index.html">PyLaGriT Manual</a>
+    <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
     </div>
 
   </div>
