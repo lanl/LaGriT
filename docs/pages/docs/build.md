@@ -84,7 +84,7 @@ C    For example
 
 ### Sample build scripts
 
-LaGriT can be compiled on most modern machines including Linux, Mac, and WINDOWS. LaGriT uses cmake to build with or without external libraries such as Seacas Exodus. 
+LaGriT can be compiled on most modern machines including Linux, and Mac. WINDOWS is still under development, but pre-cmake versions were successful under Cygwin. LaGriT now uses cmake to build with or without external libraries such as Seacas Exodus. 
 
 The most recent instructions can be found on the github pages.
 
