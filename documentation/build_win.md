@@ -1,4 +1,13 @@
-# Building LaGriT on Windows
+# Old build instructions for Windows with CYGWIN 
+----------------------------------------------
+
+LaGriT V3.3 uses C++ to Fortran wrappers that are easier to build with cmake. Building with Exodus is also made easier with cmake.  
+Though build with cmake works for linux and mac, WINDOWS with new cmake method is still under development.
+
+See https://github.com/lanl/LaGriT/README.md
+
+# Building LaGriT on Windows (pre-V3.3)
+
 ## 1. Installing Cygwin
 
   Get the latest version of Cygwin for your operating system: https://cygwin.com/install.html
