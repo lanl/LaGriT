@@ -139,6 +139,7 @@ std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
 * Exclusion radius of the provided point.
 */
 void Polygon::tagNeighborCells(Point point) {
+    // cout << "tagNeighborCells start" << endl;
     // Get discrete radius. Number of cells covered by the radius
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
@@ -170,6 +171,7 @@ void Polygon::tagNeighborCells(Point point) {
             }
         }
     }
+    // cout << "tagNeighborCells end " << endl;
 }
 
 /*! Walk through grid and find cells that do not contain a point

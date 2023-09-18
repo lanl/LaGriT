@@ -51,7 +51,17 @@ void Polygon::initializeVariables() {
     numNodes = numVertices;
     // determine the bounding box of the domain
     findBoundingBox();
-    
+    // Preallocate a little memory
+    double deltaX = xMax - xMin;
+    double deltaY = yMax - yMin;
+    double max_nodes = (1./h)*(1./h)*deltaX * deltaY;
+    //cout << "delta X" << deltaX << endl;
+    //cout << "delta Y" << deltaY << endl;
+    //cout << "h" << h << endl;
+    //cout << "max nodes " << max_nodes << endl;
+    nodes.reserve(max_nodes);
+    grid.reserve(max_nodes);
+ 
     // get initial exclusion radius
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
@@ -246,6 +256,10 @@ void Polygon::dumpNodes() {
     fp.close();
 }
 
+/*! Constructor for polygon class.
+*/
+Polygon::Polygon(){
+}
 
 /*! Destructor for polygon class.
 * Clears the memory allocated for the background grid

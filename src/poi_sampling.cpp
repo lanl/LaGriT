@@ -123,7 +123,7 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
     unsigned int newPointCount = 0;
     
     if (!restartFlag) {
-        cout << "Starting Main sampling" << endl;
+        cout << "Starting Main Sampling" << endl;
     } else {
         cout << "Restarting sampling at " << startIndex << endl;
     }
@@ -181,15 +181,15 @@ Point Polygon::newCandidate(Point currentPoint) {
 }
 
 void Polygon::acceptCandidate(Point &point) {
-    // point is accepted
+    // cout << "point is accepted" << endl;
     // increase global node count
     numNodes++;
     point.nodeNum = numNodes;
     // increaes current point count
     tagNeighborCells(point);
     // add point to the node vector
+    //printPoint(point);
     nodes.push_back(point);
-    // printPoint(point);
 }
 
 
@@ -206,7 +206,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     // Also, neighborhood cells will return a seg fault is the point is outside
     // of the bounding box
     if (!inBoundingBox(newPoint)) {
-        // cout << "bounding box fail" << endl;
+        //cout << "bounding box fail" << endl;
         return false;
     };
     
@@ -220,6 +220,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     // Check 3
     // Check if the neighbor grid location is occupied.
     // Another cheap check
+    // cout << "Neighbor Check" << endl;
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
     
@@ -231,6 +232,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     
     // Now that we know the point is inside the domain and in an empty-cell
     // we grab the exclusion radius from the distance field.
+    // cout << "get exclusion radius" << endl;
     getExclusionRadius(newPoint);
     
     // Check 4
@@ -240,7 +242,7 @@ bool Polygon::testCandidate(Point &newPoint) {
         // cout << "empty disk failed" << endl;
         return false;
     }
-    
+    // cout << "accepting point" << endl; 
     return true;
 }
 
@@ -251,6 +253,7 @@ bool Polygon::testCandidate(Point &newPoint) {
 */
 bool Polygon::inBoundingBox(Point point) {
     // Checks if point is within bounding box of the polygon
+    // cout << "Bounding box check " << endl;
     if (point.x < xMin) {
         return false;
     } else if (point.y < yMin) {
@@ -324,7 +327,8 @@ bool Polygon::inDomain(Point newPoint) {
     */
     unsigned i, j;
     int c = 0;
-    
+    // cout << "inDomain Check" << endl;
+ 
     for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
         if ( ((nodes[i].y > newPoint.y) != (nodes[j].y > newPoint.y)) && (newPoint.x < (nodes[j].x - nodes[i].x) * (newPoint.y - nodes[i].y) / (nodes[j].y - nodes[i].y) + nodes[i].x) ) {
             // flips back and forth between 0 and 1
@@ -348,11 +352,12 @@ then directly check the distance between those points to ensure that the new poi
 does not reside within the disk of the already accepted points.
 */
 bool Polygon::emptyDiskProperty(Point newPoint) {
+    // cout << "empty disk check" << endl;
     double dist;
     // Get exclusion radius for new pointw
     std::vector<int> nodeIDs;
     nodeIDs = getNeighborCellsRadius(newPoint);
-    
+ 
     // Walk through those nodes to check if the new point is too close to those
     for (int i : nodeIDs) {
         // check if the distance between points is less than either point's exclusion radius
@@ -364,7 +369,7 @@ bool Polygon::emptyDiskProperty(Point newPoint) {
             return false;
         }
     }
-    
+ 
     return true;
 }
 

@@ -8,12 +8,12 @@
 
 /* Point Structure */
 struct Point {
-    double x; // x coord
-    double y; // y coord
-    double radius; // exclusion radius
-    unsigned int ix; // neighbor grid x-index
-    unsigned int iy; // neighbor grid y-index
-    unsigned int nodeNum;
+    double x = 0; // x coord
+    double y = 0; // y coord
+    double radius = 0; // exclusion radius
+    unsigned int ix = 0; // neighbor grid x-index
+    unsigned int iy = 0; // neighbor grid y-index
+    unsigned int nodeNum = 0;
 };
 
 /* Polygon Class */
@@ -38,7 +38,6 @@ public:
     unsigned int numNodes;
     // Points in the point distribution
     std::vector<Point> nodes;
-
     // Bounding box of the polygon
     double xMax;
     double xMin;
@@ -76,6 +75,7 @@ public:
     unsigned int numCellsY;
     // Neighbor grid with linear indexing for 2D field 
     std::vector<unsigned int> grid;
+    
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
 
@@ -126,6 +126,8 @@ public:
     void initializeRandomGenerator(unsigned int seed);
     Point newCandidate(Point currentPoint);
 
+    // Constructor
+    Polygon();
     // Destructor
     ~Polygon();
 };
