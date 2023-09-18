@@ -44,10 +44,13 @@ void Polygon::initializeNeighborGrid() {
     cout << "Num Cells X " << numCellsX << endl;
     cout << "Num Cells Y " << numCellsY << endl;
     cout << "Total Cells " << numCellsX*numCellsY << endl;
+    unsigned int totalCells = numCellsX*numCellsY;
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
     
+    grid.reserve(totalCells * 2);
+ 
     // changeg this to linear indexing with a vector, because Linux was being a pita.
     for (unsigned int i = 0; i < numCellsX * numCellsY + 1; i++) {
         grid.push_back(0);
@@ -95,6 +98,7 @@ This is done using the values of the neighborgrid
 */
 std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
     std::vector<int> nodeIDs;
+    nodeIDs.reserve(0);
     // Get the corners of a square around ix,iy.
     /* Using a square, rather than a circle, because the math is faster.
     * The square has sides of length radius*2, so it contains the circle
@@ -120,8 +124,11 @@ std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
             //if (grid[i][j] > 0) {
-            if (grid[i * numCellsY + j] > 0) {
+            if (grid[i * numCellsY + j] > 0 && i*numCellsY + j < grid.size()) {
                 // nodeIDs.push_back(grid[i][j]);
+                //cout << "total cells : " << numCellsX * numCellsY + 1 << endl;
+                //cout << "i*NumCellsY + j : " << i * numCellsY + j << endl;
+                //cout << "grid[i * numCellsY + j] : " << grid[i * numCellsY + j] << endl;
                 nodeIDs.push_back(grid[i * numCellsY + j]);
             }
         }

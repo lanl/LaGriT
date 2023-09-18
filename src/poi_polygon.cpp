@@ -60,7 +60,6 @@ void Polygon::initializeVariables() {
     //cout << "h" << h << endl;
     //cout << "max nodes " << max_nodes << endl;
     nodes.reserve(max_nodes);
-    grid.reserve(max_nodes);
  
     // get initial exclusion radius
     for (unsigned int i = 0; i < numNodes; i++) {

@@ -8,6 +8,10 @@
 #include "poi_helperFunctions.h"
 #include "poi_sampling.h"
 
+
+
+
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -134,8 +138,8 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
             //    for (unsigned int k = 0; k < 1; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
-            
-            // printPoint(newPoint);
+            //cout << "sampled" << endl; 
+            //printPoint(newPoint);
             // test new point
             if (testCandidate(newPoint)) {
                 acceptCandidate(newPoint);
@@ -223,7 +227,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     // cout << "Neighbor Check" << endl;
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
-    
+ 
     // if (grid[newPoint.ix][newPoint.iy] > 0) {
     if (grid[newPoint.ix * numCellsY + newPoint.iy] > 0) {
         // cout << "grid space filled" << endl;
@@ -253,7 +257,7 @@ bool Polygon::testCandidate(Point &newPoint) {
 */
 bool Polygon::inBoundingBox(Point point) {
     // Checks if point is within bounding box of the polygon
-    // cout << "Bounding box check " << endl;
+    //cout << "Bounding box check " << endl;
     if (point.x < xMin) {
         return false;
     } else if (point.y < yMin) {
@@ -352,7 +356,6 @@ then directly check the distance between those points to ensure that the new poi
 does not reside within the disk of the already accepted points.
 */
 bool Polygon::emptyDiskProperty(Point newPoint) {
-    // cout << "empty disk check" << endl;
     double dist;
     // Get exclusion radius for new pointw
     std::vector<int> nodeIDs;
@@ -362,7 +365,6 @@ bool Polygon::emptyDiskProperty(Point newPoint) {
     for (int i : nodeIDs) {
         // check if the distance between points is less than either point's exclusion radius
         dist = distance2D(newPoint, nodes[i - 1]);
-        
         // Ensure distance between points is larger than the maximum of the
         // points' exclusion radii
         if (dist < std::max(newPoint.radius, nodes[i - 1].radius)) {
