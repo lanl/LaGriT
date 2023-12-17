@@ -27,9 +27,10 @@ C #####################################################################
 C #####################################################################
 C
 C     driver for Poisson disk vertex distribution routine 
-C     test c-fortran interface in poi_routine_2D.cpp
-C      call poisson_2d
-C     &     (mo_poi_poly, mo_poi_pts_out, h_spacing, np_x, np_y)
+C     c-fortran interface in poi_routine_2D.cpp
+C     call poisson_2d
+C    & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
+C    & np_x,np_y,seed,number_of_samples,resample_sweeps)
 C
 C #####################################################################
       implicit none
@@ -38,9 +39,10 @@ C  Define user_sub arguments
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
-      integer nwds,ierror,seed,number_of_samples,resample_sweeps
+      integer nwds,ierror
+      integer seed,number_of_samples,resample_sweeps
 C Define variables 
-      integer i,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
+      integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
       integer h_fac, npx, npy, npz, nverts, nnodes_poly, if_rad_deg
       integer ndimension, if_connect
       integer if_h_provided, if_h_field_variable
@@ -89,8 +91,14 @@ C
       mo_poi_h_field = 'mo_poi_h_field'
 C
       write(logmess,'(a)') 
-     &   'Begin driver for Poisson disk vertex distribution.'
-      call writloga('default',1,logmess,1,ierrw)
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     & '===== Begin driver for Poisson disk vertex distribution. ====='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
 C
 C     These parameters will be set based on user input.
 C
@@ -196,16 +204,116 @@ C ---------------------------------------------------------------------
          goto 9999
       endif
 C ---------------------------------------------------------------------
+C     Set default values
+      seed = 1
+      number_of_samples = 10
+      resample_sweeps = 1
+C
 C     Command Argument 8 (7 since passed from createpts)
 C     If this argument exist, it should be type character, and it will
-C     be used as the file name of the lookup table for h field. Once this
-C     file is written to output, the code will exit this subroutine.
+C     be used as the file name of the lookup table for h field.
 C
-      if(msgtyp(7) .eq. 3) then
+C     There are 4 possible entries if Argument 8 exists
+C     - file_name.mlgi
+C     - poisson_seed      or POISSON_SEED
+C     - number_of_samples or NUMBER_OF_SAMPLES
+C     - resample_sweeps   or RESAMPLE_SWEEPS
+C
+C     Case: nwds=8,  no  variable resolution control file, 1 parameter specified
+C     Case: nwds=9,  yes variable resolution control file, 1 parameter specified
+C     Case: nwds=10, no  variable resolution control file, 2 parameter specified
+C     Case: nwds=11, yes variable resolution control file, 2 parameter specified
+C     Case: nwds=12, no  variable resolution control file, 3 parameter specified
+C     Case: nwds=13, yes variable resolution control file, 3 parameter specified
+
+      if((nwds .eq. 7) .or.(nwds .eq. 9).or.
+     1   (nwds .eq. 11).or.(nwds .eq. 13))then
+C        Case: variable resolution user specified control file name
+         lenopt=icharlnf(cmsgin(7))
          if_h_field_variable = 1
          lenopt=icharlnf(cmsgin(7))
-C         h_field_filename = cmsgin(7)(1:lenopt)
          file_user_h_field_att = cmsgin(7)(1:lenopt)
+      endif
+
+      if(nwds .gt. 7)then
+      if(nwds .eq. 8) then
+         iend   = 1
+         istart = 7
+      elseif(nwds .eq. 9) then
+         iend   = 1
+         istart = 8
+      elseif(nwds .eq. 10) then
+         iend   = 3
+         istart = 7
+      elseif(nwds .eq. 11) then
+         iend   = 3
+         istart = 8
+      elseif(nwds. eq. 12) then
+         iend   = 5
+         istart = 7
+      elseif(nwds. eq. 13) then
+         iend   = 5
+         istart = 8
+      else
+C        ERROR
+      endif
+      do i = istart, istart+iend, 2
+
+      if(msgtyp(i) .eq. 3) then
+         lenopt=icharlnf(cmsgin(i))
+      else
+C        ERROR
+      endif
+      if((cmsgin(i)(1:lenopt).eq.'poisson_seed') .or. 
+     1   (cmsgin(i)(1:lenopt).eq.'POISSON_SEED'))then
+         if(msgtyp(i+1).eq. 1)then
+             seed = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga('default',0,'invalid poisson_seed',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      elseif((cmsgin(i)(1:lenopt).eq.'number_of_samples') .or.
+     1       (cmsgin(i)(1:lenopt).eq.'NUMBER_OF_SAMPLES'))then
+         if(msgtyp(i+1).eq. 1)then
+             number_of_samples = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga
+     &     ('default',0,'invalid number_of_samples',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      elseif((cmsgin(i)(1:lenopt).eq.'resample_sweeps') .or.
+     1       (cmsgin(i)(1:lenopt).eq.'RESAMPLE_SWEEPS'))then
+         if(msgtyp(i+1).eq. 1)then
+             resample_sweeps = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga
+     &       ('default',0,'invalid poisson_resample_sweeps',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga('default',0,'invalid keyword',0,ierrw)
+            call writloga('default',0,'valid keywords:',0,ierrw)
+            call writloga('default',0,
+     &  'poisson_seed POISSON_SEED',0,ierrw)
+            call writloga('default',0,
+     &  'number_of_samples NUMBER_OF_SAMPLES',0,ierrw)
+            call writloga('default',0,
+     &  'resample_sweeps RESAMPLE_SWEEPS',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+      endif
+
+      enddo
+
       endif
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
@@ -322,10 +430,10 @@ C
 C ---------------------------------------------------------------------
 C
 C     Compute the min/max (degrees) interior angle of the input polygon
-C     Hardwired to kick out if minimum angle is less than 9.9 degrees
+C     Hardwired to kick out if minimum angle is less than 9.0 degrees
 C
       if_rad_deg = 2
-      angle_minimum = 9.9
+      angle_minimum = 9.0
 
       call get_min_max_angle
      &       (nnodes_poly,xic,yic,if_rad_deg,
@@ -334,7 +442,7 @@ C
       if (poi_poly_ang_min .lt. angle_minimum)then
          call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
          write(cbuf,'(a)')
-     &     'ERROR: Polygon minimum angle less than 9.9 degrees'
+     &     'ERROR: Polygon minimum angle less than 9.0 degrees'
          call writloga('default',0,cbuf,0,ierrw)
          write(cbuf,'(a,1pe13.6,a,1pe13.6)')
      &     'ERROR: poi_poly_ang_min = ',poi_poly_ang_min,
@@ -440,11 +548,20 @@ C ---------------------------------------------------------------------
       write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_ZMAX / ',z_constant,' ; finish '
       call dotaskx3d(cbuf,ierr)
-
+C
 C ---------------------------------------------------------------------
 C     Create a quad mesh mo_poi_h_field
 C ---------------------------------------------------------------------
       if (if_h_provided .eq. 1) then
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '===== Create quad mesh object for distance field lookup ====='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
 C ---------------------------------------------------------------------
 C     Create lookup table quad mesh points for poi routines 
 C     mesh object name:      mo_poi_h_field
@@ -483,10 +600,7 @@ C---------------------------------------------------------------------
 C
 C     Test h_field_att after user sets values to be sure h_field_att
 C     is greater than or equal to h_spacing_scalar.
-C
-
-      print *, mo_poi_h_field
-      
+C      
       call cmo_get_info
      &     ('h_field_att',mo_poi_h_field,iph_field,ilen,ityp,ierr)
       h_field_min =  1.e20
@@ -545,9 +659,7 @@ C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call
 C ---------------------------------------------------------------------
-      seed = 1
-      number_of_samples = 10
-      resample_sweeps = 1
+C
       call poisson_2d
      & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
      & np_x,np_y,seed,number_of_samples,resample_sweeps)

@@ -64,7 +64,7 @@ void Polygon::initializeVariables() {
 /*  LAGRIT: new routine will load vertices from polygon cmo
 */
 bool Polygon::loadVertices() {
-    cout << "\nImporting vertices to polygon objection from " << mo_poly_name << endl;
+    cout << "\nImporting vertices to polygon object from " << mo_poly_name << endl;
     double *xptr;
     double *yptr;
     long icmolen;
@@ -138,7 +138,7 @@ bool Polygon::loadVertices() {
         printPoint(nodes[i]);
     }
     */
-    cout << "Importing vertices from cmo: " << mo_poly_name << " to polygon obejct complete" << endl;
+    cout << "Importing vertices from cmo: " << mo_poly_name << " to polygon object complete" << endl;
     return true;
 }
 

@@ -155,7 +155,7 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     polygon.mo_dfield_name = mo_poi_h_field;
     cout << "Loading distance field information from " << polygon.mo_dfield_name << endl;
     polygon.mo_pts_name = mo_poi_pts_out;
-    cout << "Writting points to mesh object " << polygon.mo_pts_name << endl;
+    cout << "Writing points to mesh object " << polygon.mo_pts_name << endl;
     cout << endl;
     polygon.h = *h;
     polygon.dfNumCellsX = *dfNumCellsX;
