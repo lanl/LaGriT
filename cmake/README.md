@@ -14,11 +14,20 @@ There's a really good tutorial-overview on CMake here, it covers how to handle m
 
 ## Download LaGriT
 
-Download the repo by running:
+Download the repo as shown under the Code button on git.
+For developers, be sure to use SSH version to clone. 
 
 ```
-$ git clone https://github.com/lanl/LaGriT.git
+$ git clone git@github.com:lanl/LaGriT.git 
 $ cd LaGriT/
+```
+
+If SSH Key needed, generate a key for your machine.
+[See GitHub Docs for SSH Key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+```
+Generate a SSH key (NOT RSA) in your .ssh directory.
+ssh-keygen -t ed25519 -C "email.lanl.gov"
+Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
 ```
 
 ## Build ExodusII (optional)
