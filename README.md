@@ -28,9 +28,9 @@ $ cd LaGriT/
 ### Building LaGriT ###
 ---
 
-#### Building LaGriT - for developers
+#### Building LaGriT - long version 
 
-[Code Development with cmake](cmake/README.md)
+[Building LaGriT with cmake and exodus](cmake/README.md)
 
 
 #### Building LaGriT - Simple
@@ -103,16 +103,22 @@ To include these commands you will need to install Seacas-Exodus.
 
 Use the Exodus Install script to Install Exodus and associated libraries. You can run the file or use the file as a guide to copy and paste commands for installation. The script provides the flags needed by LaGriT and will install seacas in the directory TPLs.
 
+
 ```bash
 $ ./install-exodus.sh
 ```
 
-Check that the following libriaries have been installed in seacas/lib:
+**IF ERRORS** couldn't build NetCDF. exiting.
+Read the instructions and edit files as suggested in install-exodus.sh
+
+Check that the following libriaries should be installed in seacas/lib:
 
 ```
   libexodus.a      libexoIIv2for32.a  libhdf5_hl.a     libnetcdf.a
   libexodus_for.a  libhdf5.a          libhdf5_tools.a  libz.a
 ```
+
+[For more on Building LaGriT with cmake and exodus](cmake/README.md)
 
 For full and current Exodus Installation instructions, go to:
 [Seacas ExodusII](https://github.com/sandialabs/seacas)

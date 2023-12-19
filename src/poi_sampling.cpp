@@ -8,6 +8,10 @@
 #include "poi_helperFunctions.h"
 #include "poi_sampling.h"
 
+
+
+
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -123,7 +127,7 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
     unsigned int newPointCount = 0;
     
     if (!restartFlag) {
-        cout << "Starting Main sampling" << endl;
+        cout << "Starting Main Sampling" << endl;
     } else {
         cout << "Restarting sampling at " << startIndex << endl;
     }
@@ -134,8 +138,8 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
             //    for (unsigned int k = 0; k < 1; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
-            
-            // printPoint(newPoint);
+            //cout << "sampled" << endl; 
+            //printPoint(newPoint);
             // test new point
             if (testCandidate(newPoint)) {
                 acceptCandidate(newPoint);
@@ -181,15 +185,15 @@ Point Polygon::newCandidate(Point currentPoint) {
 }
 
 void Polygon::acceptCandidate(Point &point) {
-    // point is accepted
+    // cout << "point is accepted" << endl;
     // increase global node count
     numNodes++;
     point.nodeNum = numNodes;
     // increaes current point count
     tagNeighborCells(point);
     // add point to the node vector
+    //printPoint(point);
     nodes.push_back(point);
-    // printPoint(point);
 }
 
 
@@ -206,7 +210,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     // Also, neighborhood cells will return a seg fault is the point is outside
     // of the bounding box
     if (!inBoundingBox(newPoint)) {
-        // cout << "bounding box fail" << endl;
+        //cout << "bounding box fail" << endl;
         return false;
     };
     
@@ -220,9 +224,10 @@ bool Polygon::testCandidate(Point &newPoint) {
     // Check 3
     // Check if the neighbor grid location is occupied.
     // Another cheap check
+    // cout << "Neighbor Check" << endl;
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
-    
+ 
     // if (grid[newPoint.ix][newPoint.iy] > 0) {
     if (grid[newPoint.ix * numCellsY + newPoint.iy] > 0) {
         // cout << "grid space filled" << endl;
@@ -231,6 +236,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     
     // Now that we know the point is inside the domain and in an empty-cell
     // we grab the exclusion radius from the distance field.
+    // cout << "get exclusion radius" << endl;
     getExclusionRadius(newPoint);
     
     // Check 4
@@ -240,7 +246,7 @@ bool Polygon::testCandidate(Point &newPoint) {
         // cout << "empty disk failed" << endl;
         return false;
     }
-    
+    // cout << "accepting point" << endl; 
     return true;
 }
 
@@ -251,6 +257,7 @@ bool Polygon::testCandidate(Point &newPoint) {
 */
 bool Polygon::inBoundingBox(Point point) {
     // Checks if point is within bounding box of the polygon
+    //cout << "Bounding box check " << endl;
     if (point.x < xMin) {
         return false;
     } else if (point.y < yMin) {
@@ -324,7 +331,8 @@ bool Polygon::inDomain(Point newPoint) {
     */
     unsigned i, j;
     int c = 0;
-    
+    // cout << "inDomain Check" << endl;
+ 
     for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
         if ( ((nodes[i].y > newPoint.y) != (nodes[j].y > newPoint.y)) && (newPoint.x < (nodes[j].x - nodes[i].x) * (newPoint.y - nodes[i].y) / (nodes[j].y - nodes[i].y) + nodes[i].x) ) {
             // flips back and forth between 0 and 1
@@ -352,19 +360,18 @@ bool Polygon::emptyDiskProperty(Point newPoint) {
     // Get exclusion radius for new pointw
     std::vector<int> nodeIDs;
     nodeIDs = getNeighborCellsRadius(newPoint);
-    
+ 
     // Walk through those nodes to check if the new point is too close to those
     for (int i : nodeIDs) {
         // check if the distance between points is less than either point's exclusion radius
         dist = distance2D(newPoint, nodes[i - 1]);
-        
         // Ensure distance between points is larger than the maximum of the
         // points' exclusion radii
         if (dist < std::max(newPoint.radius, nodes[i - 1].radius)) {
             return false;
         }
     }
-    
+ 
     return true;
 }
 

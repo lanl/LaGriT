@@ -173,6 +173,10 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     cout << "---------------------------------------" << endl;
     cout << endl;
 
+
+    // polygon.distanceField.reserve(10000);
+    // polygon.emptyCells.reserve(10000);
+
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
