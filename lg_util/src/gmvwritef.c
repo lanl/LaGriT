@@ -47,6 +47,39 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+/* Declare Functions */
+gmvwriteopenfile();
+gmvwriteclosefile();
+gmvwriteclosefile();
+gmvwritenodedata();
+gmvwritenodedata();
+gmvwritenodedatastruct();
+gmvwritecellheader();
+gmvwritecellheader();
+gmvwritecelldata();
+gmvwritegeneralcelldata();
+gmvwritematerialheader();
+gmvwritematerialname();
+gmvwritematerialids();
+gmvwritevelocitydata();
+gmvwritenodedatalstruct();
+gmvwritevariableheader();
+gmvwritevariablenamedata();
+gmvwritevariableendvars();
+gmvwriteflagheader();
+gmvwriteflagname();
+gmvwriteflagtype();
+gmvwriteflagdata();
+gmvwriteflagendflag();
+gmvwritepolygonsheader();
+gmvwritepolygonsdata();
+gmvwritepolygonsendpoly();
+gmvwritetracersheader();
+gmvwritetracersnamedata();
+gmvwritetracersendtrace();
+gmvwriteprobtime();
+gmvwritecycleno();
+
 /************************************************************************/
 void fgmvwriteopenfile_(char filnam[])
 {
