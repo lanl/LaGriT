@@ -1,17 +1,17 @@
-LaGriT Release Notes
+LaGriT V3.3.3 Release Notes
 ====================
 
-This page describes version updates for V3.3.3 release. This release updates code to prepare for major capabiltiy and build improvements planned for next year. This release includes minor bug
-fixes, error reporting, and improvements to the LaGriT test suite.
+This page describes version updates for V3.3.3 release. This release updates code to prepare for major capabiltiy improvements planned for next year. This release includes minor bug
+fixes, error reporting, and improvements to the LaGriT test suite and builds using cmake. See Issues for a full list.
 
 Previous release  LaGriT v3.3.2  Apr 16, 2019 
 
-### Major Change in Build 
-
-This release includes a merge from Daniel Livingston's branch for Windows development. This includes new build scripts and associated files that use cmake to compile, build, and test LaGriT based on the OS platform. The new instructions are included in the README.md.
 
 ### Enhancements:
 
+
+- New C++ routines and Fortran drivers for poisson disk capabilities under development. See command createpts/poisson_disk
+- New files and additions to cmake files to interface C++ codes to lagrit fortran routines.
 - read/gocad for 3D .so and 2D .ts files. See test/level01/read_gocad for file examples.
 - AVS UCD pnt format added to make it easy for Paraview to read and view points.
 - GMV option ipolydat = no is now the default, files will have smaller size without voronoi polygons included
@@ -20,12 +20,21 @@ This release includes a merge from Daniel Livingston's branch for Windows develo
 - The manual and command pages were heavily edited to remove old directories and files,
 to update command syntax, and to add examples and demos.
 - bug fixes mainly to improve lagrit reporting and error reporting.
-- test directories cleaned, extra files removed, binary replaced with ascii files
+- test scripts and organization improved, level01 (always), level02 (for TPLs), level03 (dev only)
 
+### Major Change in Build 
+
+This release includes new build scripts and associated files that use cmake to compile, build, and test LaGriT based on the OS platform. 
+
+These cmake scripts do not always use the latest features, instead favoring readability and straightforward statements to help with debugging and troubleshooting. The cmake and install scripts are commented with suggestions and the build documentation has added details for all steps. See README.md and links on that page.
+
+- Cmake is controlled by CMakeLists.txt and settings found in /cmake files.
+- The LaGriT build is fairly simple without ExodusII and is suggested if you do not need to write exodus files.
+- For issues with exodus builds, see added documentation and comments in install install-exodus.sh
 
 ### Known Issues:
 
--This release compiles with GNU Fortran 7.5 compiler, but may exit on exceptions not caught in old portions of code.
+- This release compiles with GNU Fortran 7.5 compiler, but may exit on exceptions not caught in old portions of code.
 Avoid this by using the flag -ffpe-trap=invalid,zero,overflow,underflow,denormal
 
 - Builds with compiler gfortran v5 or greater can generate run-time signal exceptions such as IEEE_DNORMAL. Most exceptions have been tracked down and fixed according to picky compiler suggestions. These exceptions have not changed the behavior of the code. Exceptions will continue to be fixed as they show up.

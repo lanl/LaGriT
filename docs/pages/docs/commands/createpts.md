@@ -16,6 +16,9 @@ This command adds points to a mesh object. For some special cases, it will also 
 
 **[createpts/interp](createpts/createpts_interp.md)** Creates points by linear interpolation between two point sets.
 
+
+**[createpts/poisson_disk](createpts/createpts_poisson.md)** Use Poisson Disk sampling to create uniform or variable spaced points inside a polygon.
+
 **[createpts/sphere](createpts/cresphere.md)** Create points for a sphere.
 
 **[createpts/random](createpts/CRTPTRZRAN.md)** Add random points within region.

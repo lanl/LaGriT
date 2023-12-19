@@ -16,9 +16,19 @@ title: LaGriT - Home
                 
     <div class="button" id="button-4">
     <div id="underline"></div>
-    <a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">Take the Tutorial</a>
+    <a href="https://lanl.github.io/LaGriT/pages/manual.html">LaGriT Manual</a>
     </div>
-            
+
+    <div class="button" id="button-4">
+    <div id="underline"></div>
+    <a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">LaGriT Tutorial</a>
+    </div>
+
+    <div class="button" id="button-4">
+    <div id="underline"></div>
+    <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
+    </div>
+
   </div>
 </div>
 
@@ -68,12 +78,6 @@ enhances the workflow, enabling rapid iterations for use in simulations
 incorporating uncertainty in system geometry and automatic mesh
 generation. 
 
-
-## Documentation
-
-
-- [LaGriT Manual](pages/manual.md)
-- [PyLaGriT Manual](/pylagrit/original/index.html)
 
 
 ## About LaGriT

@@ -28,8 +28,6 @@ $ cd LaGriT/
 ### Building LaGriT ###
 ---
 
-#### Building LaGriT - long version 
-
 [Building LaGriT with cmake and exodus](cmake/README.md)
 
 

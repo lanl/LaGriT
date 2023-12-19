@@ -1,9 +1,15 @@
-# Building LaGriT V3.32 and older
+# Building with make for LaGriT V3.32 and pre-2019 and older
 ----------------------------------------------
 
-**New build instructions apply to V3.33 and newer, see https://github.com/lanl/LaGriT/README.md**
 
 LaGriT installation is intended to be as straightforward as possible for Linux and macOS systems. If you encounter any problems with the build process, submit a ticket on the [Issues page](https://github.com/lanl/LaGriT/issues).
+The files in this directory used the make system to build on linux, mac, and WINDOWS.
+
+## New build instructions apply to V3.33 with cmake
+
+Newer codes use C++ to Fortran wrappers that are easier to build with cmake. Building with Exodus is also made easier with cmake.  See https://github.com/lanl/LaGriT/README.md
+
+# Old instructions for Building LaGriT V3.32 and pre-2019 codes. 
 
 If you are on Windows, see Section 4.0 on this page for more information.
 

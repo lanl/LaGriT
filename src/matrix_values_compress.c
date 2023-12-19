@@ -37,6 +37,9 @@
 #include <stdio.h>
 #include <math.h>
 
+/* function declaration */
+time();
+
 /********************************skiplist.h******************************/
 
 
