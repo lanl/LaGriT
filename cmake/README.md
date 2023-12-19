@@ -45,6 +45,14 @@ include/exodus_config.h  include/exodusII.h     include/exodusII.inc  include/ex
 include/netcdf.h         include/hdf5.h
 ```
 
+Once the ExodusII is successful, build LaGriT as usual but with the EXODUS flag:
+
+```
+mkdir build/ && cd build/
+cmake .. -DCMAKE_BUILD_TYPE=Debug -DLAGRIT_BUILD_EXODUS=ON
+make
+```
+
 ## Create your build directory:
 
 You can build as Debug (-g) or as Release with the CMake flag "-D CMAKE_BUILD_TYPE=[Debug|Release]".
