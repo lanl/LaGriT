@@ -21,14 +21,21 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 Download the repo by running:
 
 ```bash
-$ git clone https://github.com/lanl/LaGriT.git
-$ cd LaGriT/
+git clone https://github.com/lanl/LaGriT.git
+cd LaGriT/
+```
+
+Note for developers, you will need the SSH version to enable *git push* to this repository:
+
+```bash
+git clone git@github.com:lanl/LaGriT.git 
+cd LaGriT/
 ```
 
 ### Building LaGriT ###
 ---
 
-[Building LaGriT with cmake and exodus](cmake/README.md)
+[Detailed Instructions for Building LaGriT with cmake and exodus](cmake/README.md)
 
 
 #### Building LaGriT - Simple
