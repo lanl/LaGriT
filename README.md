@@ -15,8 +15,9 @@ The general capabilities of LaGriT can also be used outside of earth science app
 This allows the meshing capabilities of LaGriT to be combined with the numeric and scientific functionality of Python.
 PyLaGriT allows interactive and automated querying of mesh properties, enhanced looping functionality, and user defined error checking based on LaGriT output.
 
+---
 
-### Getting Started
+### Download LaGriT
 
 Download the repo by running:
 
@@ -33,7 +34,7 @@ cd LaGriT/
 ```
 
 ### Building LaGriT ###
----
+
 
 [Detailed Instructions for Building LaGriT with cmake and exodus](cmake/README.md)
 
