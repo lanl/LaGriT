@@ -30,31 +30,83 @@ ssh-keygen -t ed25519 -C "email.lanl.gov"
 Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
 ```
 
-## Build ExodusII (optional)
+## Build With ExodusII (optional)
 
-See instructions in install-exodus.sh
+ 
+From the top directory run: ```./install-exodus.sh```
+The script will take some time to run abd will clone and build the necessary lib and include files.
+Read comments in the script for hints if things go wrong.
+For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
 
-LaGriT will use libs and files located in TPLs/seacas
+Check that libs were created. LaGriT will use libs and include files located in TPLs/seacas
 
-Expected libs and include files:
-
-```
-lib/libexodus.a          lib/libexoIIv2for32.a  lib/libhdf5_hl.a      lib/libnetcdf.a
-lib/libexodus_for.a      lib/libhdf5.a          lib/libhdf5_tools.a   lib/libz.a
-include/exodus_config.h  include/exodusII.h     include/exodusII.inc  include/exodusII_par.h
-include/netcdf.h         include/hdf5.h
-```
-
-Once the ExodusII is successful, build LaGriT as usual but with the EXODUS flag:
+Once the ExodusII is successful, build LaGriT as usual using the EXODUS flag:
 
 ```
 mkdir build/ && cd build/
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DLAGRIT_BUILD_EXODUS=ON
+cmake .. -DLAGRIT_BUILD_EXODUS=ON
 make
 ```
 
+## Build Without ExodusII
+
+If you do not need to write an Exodus formatted file, you can build LaGriT without the ExoudsII libraries.
+Create a directory for your lagrit executable then use cmake to create the configuration files and directories.
+
+From the top directory in LaGriT:
+```
+mkdir build
+cd build
+cmake ..
+```
+
+Cmake will use settings defined in LaGriT/CMakeLists.txt and should look something like this:
+
+```
+-- ==========================================
+-- ============Configuring LaGriT============
+-- ===================v3.3.3=================
+-- Compile LaGriT as a static binary = ON
+-- Compile LaGriT with ExodusII = OFF
+LaGriT Compiling without ExodusII support.
+To include Exodus, use -DLAGRIT_BUILD_EXODUS=ON
+-- Detecting LaGriT build using local cmake files:
+--   Operating System: Linux
+--   Architecture: 64-bit
+--   Fortran compiler: GNU GFORTRAN
+--   C compiler: GNU GCC
+--   C++ compiler: GNU G++
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /project/eesdev/tam/clone/LaGriT/build
+```
+
+Once cmake has configured the directory files, type make to create the lagrit executable:
+
+```
+make
+```
+
+This directory will have the lagrit executable built according to the cmake configuration.
+
+```
+Scanning dependencies of target liblagrit
+[  0%] Building Fortran object CMakeFiles/liblagrit.dir/src/ColoredGraphModule.f90.o
+...
+[100%] Built target liblagrit
+Scanning dependencies of target lagrit
+[100%] Building Fortran object CMakeFiles/lagrit.dir/src/lagrit_main.f.o
+[100%] Linking Fortran executable lagrit
+[100%] Built target lagrit
+```
+
+
+
+
+
 ## Create your build directory:
 
+By default, most the scripts will expect the lagrit executable to be in the "build" directory. But you build in directories with other names.
 You can build as Debug (-g) or as Release with the CMake flag "-D CMAKE_BUILD_TYPE=[Debug|Release]".
 There's two stages in CMake; the 'configure' stage (where you run 'cmake ..') and the build stage (where you run 'make' using the Makefile created by cmake)
 
