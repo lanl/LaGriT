@@ -50,8 +50,8 @@ make
 
 ## Build Without ExodusII
 
-If you do not need to write an Exodus formatted file, you can build LaGriT without the ExoudsII libraries.
-Create a directory for your lagrit executable then use cmake to create the configuration files and directories.
+If you do not need to write an Exodus formatted file, you can build LaGriT without the ExodusII libraries.
+Create a directory for your lagrit executable, then use cmake to create the configuration files and directories.
 
 From the top directory in LaGriT:
 ```
@@ -81,7 +81,7 @@ To include Exodus, use -DLAGRIT_BUILD_EXODUS=ON
 -- Build files have been written to: /project/eesdev/tam/clone/LaGriT/build
 ```
 
-Once cmake has configured the directory files, type make to create the lagrit executable:
+Once cmake has configured the directory files, type *make* to compile the lagrit executable:
 
 ```
 make
