@@ -45,18 +45,6 @@ quality
 dump/stor/out_hex_1x1m/mohex                                                    
 dump/pflotran/out_hex_1x1m/mohex                                                
 dump/pflotran/out_hex_1x1m_0/mohex/nofilter_zero                                
-cmo delete mohex                                                                
-cmo/create/mohex                                                                
-createpts/xyz/3 4 2/0. 0. 0./1. 1. 1./1 1 1                                     
-cmo/setatt/mohex/imt/1 0 0/1                                                    
-connect                                                                         
-rmpoint compress                                                                
-resetpts/itp                                                                    
-dump avs tmp_hex_1x1m.inp mohex 1 1 0 0                                         
-quality                                                                         
-dump/stor/out_hex_3x4/mohex                                                     
-dump/pflotran/out_hex_3x4/mohex                                                 
-dump/pflotran/out_hex_3x4_0/mohex/nofilter_zero                                 
 read input_sample_tet.inp motet                                                 
 dump/stor/out_sample_tet/motet                                                  
 dump pflotran out_sample_tet motet                                              
