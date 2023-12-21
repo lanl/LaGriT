@@ -18,7 +18,6 @@ _deps
 
 # Mesh files
 *.gmv
-*.inp
 *.exo
 *.vertexset
 *.cellset
@@ -26,15 +25,12 @@ _deps
 *diffout_mac*.txt
 *.zone
 *.zonn
-*.uge
 *.gmvF
 *.fehmn
 *.area
-*.stor
 
 # Log files
 *stdout_darwin.*txt
-*x3dgen
 *.lagrit
 
 # Build files

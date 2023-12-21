@@ -1,0 +1,20 @@
+* 3x4 node
+cmo delete mohex
+cmo / create / mohex
+createpts / xyz / 3 4 2 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+connect
+rmpoint compress
+resetpts / itp
+dump avs tmp_hex_3x4m.inp mohex 1 1 0 0
+
+quality
+cmo/setatt/mohex idebug 5
+*****************
+dump / stor / out_hex_3x4 / mohex
+*****************
+dump / pflotran / out_hex_3x4 / mohex
+*****************
+dump / pflotran / out_hex_3x4_0 / mohex / nofilter_zero
+
+finish
