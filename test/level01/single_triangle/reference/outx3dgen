@@ -2,10 +2,10 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  9  11:18:06          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.3   Linux          *                 
+*               *    Date Compile: 2023/12/20                 *                 
+*               *    Run Time: 2023/Dec 20  13:23:42          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -45,6 +45,7 @@ The current-mesh-object(CMO) is: mo1
  
 finish                                                                          
 triangulate/clockwise                                                           
+TRIANGULATE: Number of triangle cells =    2                                    
 filter/1,0,0                                                                    
 FILTER:Use internal epsilonl value =   0.400296604249E-12                       
 FILTER:Dudding duplicate points:           0                                    
@@ -104,6 +105,7 @@ The current-mesh-object(CMO) is: mo2
  
 finish                                                                          
 triangulate/clockwise                                                           
+TRIANGULATE: Number of triangle cells =    1                                    
 filter/1,0,0                                                                    
 FILTER:Use internal epsilonl value =   0.277555756156E-12                       
 FILTER:Dudding duplicate points:           0                                    

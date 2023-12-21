@@ -2,10 +2,10 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  4  11:54:53          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.3   Linux          *                 
+*               *    Date Compile: 2023/12/20                 *                 
+*               *    Run Time: 2023/Dec 21  15:50:58          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -25,8 +25,8 @@
                                -----oOo-----                                    
  
  
-Output log file: outx3dgen                                                     
-Command log file: logx3dgen                                                    
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
  
 # Test the connect command in two dimensions. Currently this test fails when the
 # unit square is positioned at this location (1000, 0, 0) and also at various   
@@ -47,9 +47,9 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.17500D+01-0.16000D+01-0.00000D+00                                  
-           0.27500D+01-0.17500D+01-0.00000D+00                                  
-           0.50500D+00 0.50000D+01-0.00000D+00                                  
+          -0.17500D+01-0.16000D+01 0.00000D+00                                  
+           0.27500D+01-0.17500D+01 0.00000D+00                                  
+           0.50500D+00 0.50000D+01 0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
@@ -128,9 +128,9 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-           0.99825D+03-0.16000D+01-0.00000D+00                                  
-           0.10028D+04-0.17500D+01-0.00000D+00                                  
-           0.10105D+04 0.50000D+01-0.00000D+00                                  
+           0.99825D+03-0.16000D+01 0.00000D+00                                  
+           0.10028D+04-0.17500D+01 0.00000D+00                                  
+           0.10105D+04 0.50000D+01 0.00000D+00                                  
  
  There are      4 points that failed step       1                               
         1      2      3      4                                                  
@@ -162,7 +162,7 @@ ERROR END: delaunay2d
  
              Warning from: connect2d                         set info 0 elements
  
- Dudding         4 points that have no associated tetrahedra.                   
+ Dudding         4 points that have no associated triangle.                     
   0.1000000E+04  0.0000000E+00  0.0000000E+00          1         1              
   0.1000000E+04  0.0000000E+00  0.0000000E+00          1         1              
   0.1001000E+04  0.0000000E+00  0.0000000E+00          2         1              
