@@ -9,7 +9,7 @@ tags: createpts poisson_disk
 
 Create a uniform or variable spaced points on/in a 2D planar polygon (convex or nonconvex) using Poisson Disk sampling. Optionally connect the vertices using Delaunay triangulation.
 
-
+This poisson_disk command is available for LaGriT versions V3.3.3 or greater.
 The 3D option for poisson_disk is under development and will be available in a future release.
 
 
@@ -91,7 +91,7 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
 
 ## EXAMPLES for Uniform and User Defined Resolutions
 
-**Polygon input file: polygon_unit_square.poly**
+**Polygon input file: unit_square.poly**
 ```
 4 0 0 0 0 
 1 -0.5 -0.5 0
