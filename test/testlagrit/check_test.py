@@ -146,7 +146,7 @@ def diff_chunk(rlines, tlines, rcnt, tcnt, wfile):
                                 print("alpha differ " + rwords[i] + " and " + twords[i])
                             ibad = 1
 
-                    elif rwords[i].isdigit() and twords[i].isdigit:
+                    elif rwords[i].isdigit() and twords[i].isdigit():
                         xval = abs(float(rwords[i]) - float(twords[i]))
                         if xval > epsval:
                             ibad = 1
