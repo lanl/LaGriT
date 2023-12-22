@@ -1,0 +1,37 @@
+Run demo:
+lagrit < demo_circle.lgi
+
+Required files:
+demo_circle.lgi
+user_resolution_1.mlgi
+user_resolution_2.mlgi
+#
+# demo of createpts / poisson_disk module using various arguments
+#
+# output01* is just the distribution of vertices without connectings as Delaunay triangles
+# output02* connect the vertices as a Delaunay triangulation
+# output03* is the same as output02 except the resoltion is reduced from 0.1 to 0.05
+# output04* variable resolution mesh with target edge length defined in user_resolution_1.mlgi
+# output05* variable resolution mesh with target edge length defined in user_resolution_2.mlgi
+
+
+Note that there is a memory error of some kind.
+
+In user_resolution_1.mlgi
+# Slope
+# 0.1 works
+# 0.2 works
+# 0.25 works
+# 0.29 works
+# 0.295 crashes
+# 0.299 crashes
+# 0.3 crashes
+
+In user_resolution_2.mlgi
+# Slope
+# 0.2 works
+# 0.25 works
+# 0.29 works
+# 0.295 crashes
+# 0.299 crashes
+# 0.3 crashes

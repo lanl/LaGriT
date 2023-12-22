@@ -1,0 +1,72 @@
+define/NP/17                                                                    
+cmo/create/mo_pts///tet                                                         
+createpts/rtz/1,NP,1/1.,0.,0./1.,360.,0./1,1,1/                                 
+cmo/printatt/mo_pts/-xyz-/minmax                                                
+filter/1 0 0                                                                    
+rmpoint/compress                                                                
+dump/avs/tmp_polygon_circle_16.poly/mo_pts/1 0 0 0                              
+cmo/delete/mo_pts                                                               
+read/avs/tmp_polygon_circle_16.poly/mo_polygon                                  
+define/H_SCALE/0.1                                                              
+createpts/poisson_disk/2d_polygon/mo_poisson_disk/mo_polygon/H_SCALE/no_connect 
+dump/avs/output01_vertices.inp/mo_poisson_disk                                  
+cmo/delete/mo_poisson_disk                                                      
+createpts/poisson_disk/2d_polygon/mo_poisson_disk/mo_polygon/H_SCALE/connect    
+quality/edge_min/y                                                              
+dump/avs/output02_triangle_h_0.1.inp/mo_poisson_disk                            
+cmo/delete/mo_poisson_disk                                                      
+define/H_SCALE/0.05                                                             
+createpts/poisson_disk/2d_polygon/mo_poisson_disk/mo_polygon/H_SCALE/connect    
+quality/edge_min/y                                                              
+dump/avs/output03_triangle_h_0.05.inp/mo_poisson_disk                           
+cmo/delete/mo_poisson_disk                                                      
+define/H_SCALE/0.01                                                             
+define/10H_SCALE/0.1                                                            
+createpts/poisson_disk/2d_polygon/mo_poisson_disk/mo_polygon/H_SCALE/connect/inp
+ut_resolution_1.mlgi                                                            
+define/MO_H_FIELD/mo_poi_h_field                                                
+define/H_ATTRIBUTE/h_field_att                                                  
+define/SLOPE/0.29                                                               
+define/INTERCEPT/0.0                                                            
+cmo/create/mo_pts///tet                                                         
+createpts/xyz/1,1,1/0.1 0.1 0.0/0.1 0.1 0.0/1,1,1/                              
+createpts/xyz/1,1,1/-0.5 -0.7 0.0/-0.5 -0.7 0.0/1,1,1/                          
+compute/distance_field/MO_H_FIELD/mo_pts/dfield                                 
+math/multiply/MO_H_FIELD/H_ATTRIBUTE/1,0,0/MO_H_FIELD/dfield/SLOPE/             
+math/add/MO_H_FIELD/H_ATTRIBUTE/1,0,0/MO_H_FIELD/H_ATTRIBUTE/INTERCEPT/         
+math/floor/MO_H_FIELD/H_ATTRIBUTE/1 0 0/MO_H_FIELD/H_ATTRIBUTE/H_SCALE          
+math/ceiling/MO_H_FIELD/H_ATTRIBUTE/1 0 0/MO_H_FIELD/H_ATTRIBUTE/10H_SCALE      
+cmo/printatt/MO_H_FIELD/H_ATTRIBUTE/minmax                                      
+dump/avs/output_h_of_x_y_1.inp/MO_H_FIELD                                       
+cmo/delete/mo_pts                                                               
+finish                                                                          
+quality/edge_min/y                                                              
+dump/avs/output04_triangle_variable_1.inp/mo_poisson_disk                       
+cmo/delete/mo_poisson_disk                                                      
+define/H_SCALE/0.01                                                             
+define/10H_SCALE/0.1                                                            
+createpts/poisson_disk/2d_polygon/mo_poisson_disk/mo_polygon/H_SCALE/connect/inp
+ut_resolution_2.mlgi                                                            
+define/MO_H_FIELD/mo_poi_h_field                                                
+define/H_ATTRIBUTE/h_field_att                                                  
+define/SLOPE/0.1                                                                
+define/INTERCEPT/0.0                                                            
+cmo/create/mo_pts///tet                                                         
+createpts/line/npoints///xmin,ymin,zmin/xmax,ymax,zmax/iiz,ijz,ikz/             
+createpts/line/400///-3.95 0.0 0.0/3.95 0.0 0.0/1 1 1                           
+math/sin/mo_pts/yic/1 0 0/mo_pts/xic                                            
+math/multiply/mo_pts/yic/1 0 0/mo_pts/yic/0.25                                  
+math/multiply/mo_pts/xic/1 0 0/mo_pts/xic/0.25                                  
+compute/distance_field/MO_H_FIELD/mo_pts/dfield                                 
+math/multiply/MO_H_FIELD/H_ATTRIBUTE/1,0,0/MO_H_FIELD/dfield/SLOPE/             
+math/add/MO_H_FIELD/H_ATTRIBUTE/1,0,0/MO_H_FIELD/H_ATTRIBUTE/INTERCEPT/         
+math/floor/MO_H_FIELD/H_ATTRIBUTE/1 0 0/MO_H_FIELD/H_ATTRIBUTE/H_SCALE          
+math/ceiling/MO_H_FIELD/H_ATTRIBUTE/1 0 0/MO_H_FIELD/H_ATTRIBUTE/10H_SCALE      
+cmo/printatt/MO_H_FIELD/H_ATTRIBUTE/minmax                                      
+dump/avs/output_h_of_x_y_2.inp/MO_H_FIELD                                       
+cmo/delete/mo_pts                                                               
+finish                                                                          
+quality/edge_min/y                                                              
+dump/avs/output05_triangle_variable_2.inp/mo_poisson_disk                       
+cmo/delete/mo_poisson_disk                                                      
+finish                                                                          
