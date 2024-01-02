@@ -34,7 +34,7 @@ Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
 
  
 From the top directory run: ```./install-exodus.sh``` or for a mac use: ```./MAC_install-exodus.sh```
-The script will take some time to run abd will clone and build the necessary lib and include files.
+The script will take some time to clone, configure, and build the necessary lib and include files.
 Read comments in the script for hints if things go wrong.
 For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
 
