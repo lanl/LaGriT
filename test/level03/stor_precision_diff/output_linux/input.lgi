@@ -6,7 +6,7 @@ cmo / setatt / mohex / imt / 1 0 0 / 1
 connect
 rmpoint compress
 resetpts / itp
-dump avs tmp_hex_3x4m.inp mohex 1 1 0 0
+dump avs out_tet_3x4m.inp mohex 1 1 0 0
 
 quality
 cmo/setatt/mohex idebug 5
