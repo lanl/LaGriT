@@ -4,7 +4,7 @@ The CMake build system is a way of enabling LaGriT to be cross-platform, cross-a
 
 The CMake build is controlled by CMakeLists.txt and files in directory /cmake
 
-The ExodusII libraries can be built using install-exodus.sh
+The ExodusII libraries can be built using install-exodus.sh or MAC_install-exodus.sh
 For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
 **Note for Exodus with LaGriT, FORTRAN must be set to YES**
 
@@ -33,12 +33,16 @@ Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
 ## Build With ExodusII (optional)
 
  
-From the top directory run: ```./install-exodus.sh```
+From the top directory run: ```./install-exodus.sh``` or for a mac use: ```./MAC_install-exodus.sh```
 The script will take some time to run abd will clone and build the necessary lib and include files.
 Read comments in the script for hints if things go wrong.
 For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
 
-Check that libs were created. LaGriT will use libs and include files located in TPLs/seacas
+LaGriT requires the following:
+```
+/seacas/lib/ libexodus.a  libexodus_for.a  libexoIIv2for32.a
+/seacas/include/ exodus_config.h  exodusII.h  exodusII.inc  exodusII_int.h  exodusII_par.h
+```
 
 Once the ExodusII is successful, build LaGriT as usual using the EXODUS flag:
 
