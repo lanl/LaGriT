@@ -87,7 +87,7 @@ Once cmake has configured the directory files, type *make* to compile the lagrit
 make
 ```
 
-This directory will have the lagrit executable built according to the cmake configuration.
+This directory will create the **lagrit** executable using the files created by cmake.
 
 ```
 Scanning dependencies of target liblagrit
@@ -101,7 +101,14 @@ Scanning dependencies of target lagrit
 ```
 
 
+## Run LaGriT Test Suite
 
+Go to LaGriT/test and run the test script. See the README file for further instructions.
+
+```
+$ cd test
+$ python runtests.py
+```
 
 
 ## Create your build directory:
