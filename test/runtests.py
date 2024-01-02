@@ -32,8 +32,7 @@ def main():
         ----------------------------
 
         Level 1 - Default Test Mode
-        Level 2 - Requires Exodus
-        Level 3 - Developer'''),
+        Level 2 - Requires Exodus'''),
         epilog=('''
         '''))
 
@@ -60,6 +59,12 @@ def main():
 
     # Parse command line arguments
     args = parser.parse_args()
+    
+    # Ensure Level 3 is not automatically run
+    if 3 in args.levels:
+        print("Level 3 is for Developer only and should be run manually.")
+        sys.exit(1)
+    
     # Log the parsed arguments for debugging
     test_lg.log.debug("Called with args: " + str(args))
 

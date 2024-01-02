@@ -2,13 +2,13 @@ Directory for LaGriT unit testing.
 
 level01 - essential commands as part of QA status
 level02 - depends on external libs built in TPLs ie Exodus
-level03 - dev only
+level03 - dev only - should be run manually as they may fail with known issues.
 
 USAGE:
      python runtests.py will run ../build/lagrit
 
 Not working?
-or   python runtests.py --levels 1 2 3 -exe ../build/lagrit
+or   python runtests.py --levels 1 2 -exe ../build/lagrit
 or   python runtests.py --help
 
 
@@ -23,8 +23,8 @@ TO RUN AND CHECK SINGLE TEST:
     diff outx3dgen reference/outx3dgen
 
 level01 tests are required for QA projects and basic functionality for all Versions of code.
-level02 is for testing external libraries.
-level03 tests are for algorithms and capability development.
+level02 is for testing external libraries. These tests require Exodus.
+level03 tests are for algorithms and capability development. These tests should be ran manually as they are known to fail.
 
 # STEP 1 CLEAN ALL DIRECTORIES #
 
