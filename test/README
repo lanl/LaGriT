@@ -1,116 +1,26 @@
-Directory for LaGriT unit testing.
+This is the top directory for the LaGriT Test Suite. 
 
-level01 - essential commands as part of QA status
-level02 - depends on external libs built in TPLs ie Exodus
-level03 - dev only - should be run manually as they may fail with known issues.
+There are 3 directories each with subdirectories to test various LaGriT commands. These directories also provide good examples of methods to build or evaluate meshes using LaGriT.
 
-USAGE:
-     python runtests.py will run ../build/lagrit
+level01 - essential commands as part of LaGriT QA status
+level02 - depends on external libs built in TPLs ie ExodusII
+level03 - development for new capabilities and known issues (not part of automatic testing)
 
-Not working?
-or   python runtests.py --levels 1 2 -exe ../build/lagrit
-or   python runtests.py --help
+USAGE (will run ../build/lagrit):
+     python runtests.py
 
+USAGE WITH OPTIONS:
+     python runtests.py --levels 1 2 -exe ../build/lagrit
+     python runtests.py --levels 1
+     python runtests.py -exe /mypath/build/lagrit
+     python runtests.py --help
 
 OUTPUT:
-The screen output will give summary of results, see below.
+The screen output will report a summary of results.
 Summary files written: diffout_$OS.txt and stdout_$OS.txt
- 
-TO RUN AND CHECK SINGLE TEST:   
-  Go to the level*/test_name directory
-  Run lagrit exectuable and compare to files in reference directory. 
-    lagrit < input.lgi
-    diff outx3dgen reference/outx3dgen
-
-level01 tests are required for QA projects and basic functionality for all Versions of code.
-level02 is for testing external libraries. These tests require Exodus.
-level03 tests are for algorithms and capability development. These tests should be ran manually as they are known to fail.
-
-# STEP 1 CLEAN ALL DIRECTORIES #
-
-Directory: recon1
-	Clean.
-Directory: io_agf_simple
-	Clean.
-Directory: addmesh_append
-	Clean.
-(...)
-Directory: pset
-	Clean.
-Directory: zone_outside
-	Clean.
-Done. All output files removed from directories.
-
-
-# STEP 2 RUN ALL DIRECTORIES #
-
-=======
-Operating System:	linux
-Executable:		/project/eesdev/tam/LaGriT/test/../src/lagrit
-Top directory:		/project/eesdev/tam/LaGriT/test/level01
-Out file:		stdout_linux.txt
-	On Wed Jul 24 15:58:00 2019
-=======
- 1  Test Directory recon1 -----------------------
-/project/eesdev/tam/LaGriT/test/../src/mylagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
-(...)
-40  Test Directory zone_outside -----------------------
-/project/eesdev/tam/LaGriT/test/../src/mylagrit -log logx3dgen -out outx3dgen < input.lgi >> /project/eesdev/tam/LaGriT/test/level01/stdout_linux.txt
-Testing Done.
-
-
-# STEP 3 CHECK ALL DIRECTORIES FOR outx3dgen OUTPUT FILE #
-
-Check outx3dgen  1  Test Directory recon1 -----------------------
-    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
-Check outx3dgen  2  Test Directory io_agf_simple -----------------
-    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
-Check outx3dgen  3  Test Directory addmesh_append ----------------
-(...)
-Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
-Check outx3dgen  40  Test Directory zone_outside -----------------
-    Program:  LaGriT V3.400   Linux    : LaGriT successfully completed
-
-Summary:		40 completed outx3dgen files out of 40 test directories
-Output written to:	stdout_linux.txt
-And moved to:		./test_results
-
-
-
-# STEP 4 COMPARE and CHECK ALL DIRECTORIES #
-
-1 Check Directory ./recon1 --------------------------
-
-No lines differ.
-1 Done with Directory ./recon1 -----------------------
- 
-2 Check Directory ./io_agf_simple --------------------------
-
-No lines differ.
-2 Done with Directory ./io_agf_simple -----------------------
- 
-3 Check Directory ./addmesh_append --------------------------
-
-No lines differ.
-(...)
-
-39 Done with Directory ./pset -----------------------
- 
-40 Check Directory ./zone_outside --------------------------
-
-No lines differ.
-40 Done with Directory ./zone_outside -----------------------
- 
-All 40 successful!
-Check done.
-
-Full result written to: 
-/project/eesdev/tam/LaGriT/test/level01/diffout_lin.txt
-and copied to ./test_results 
-
 
 ################################################################
-EXAMPLE TEST FAIL 
+EXAMPLE TEST FAIL
 ################################################################
 
 39 Check Directory ./single_triangle --------------------------
@@ -119,7 +29,7 @@ Test has 258 diffs at line 1 >>
 Test has 258 extra lines in this chunk.
 
 ...
- 
+
 -
 + 64       fsetnames VCHA     scalar max_number_sets const perma   l
 -
@@ -137,6 +47,82 @@ Removed 10 comment lines.
 
 All checks complete, 1 directories failed out of 40
 
-
 ################################################################
+
+DETAILS ABOUT THE TEST SUITE
+
+The LaGriT test directories are split into 3 types. level01 are required as part of the QA status and all tests should pass for any released version of LaGriT. level02 depend on external libraries such as ExodusII. level03 contain subdirectories for new capabilities or known issues. level03 are for developers and are not included in the python test scripts for automatic testing. Once a capability is full developed and output is stable, it will be added to the level01 test suite.
+
+For each test directory there is a reference directory with expected output. Differences between the "outx3dgen" and "reference/outx3dgen" files will indicate why a test fails. The reference directory also contains all out* mesh files written during the run. These can be helpful as examples and for tracking down errors during testing.
+
+
+LAGRIT TEST DIRECTORIES
+
+level01/
+    └── addmesh_add    
+        └── reference
+    ...
+    └── triangulate_polygon
+        └── reference
+    └── zone_outside
+        └── reference
+level02/
+    └── exodus_cube
+        └── reference
+    └── exodus_prisms
+        └── reference
+    └── write_exo
+        └── reference
+level03/
+    └── read_gocad
+        └── reference
+    └── poisson_circle
+        └── reference
+    └── poisson_non_convex
+        └── reference
+
+TO RUN AND CHECK A SINGLE TEST:
+
+  Go to the level* directory
+  Run the script clean_testdirs if you want to start with clean directories. 
+  Go into the individual directory (ie addmesh_add).
+  Run lagrit exectuable and compare to files in reference directory.
+     lagrit -out outx3dgen < input.lgi
+     diff outx3dgen reference/outx3dgen
+  Or use default output file names:
+     lagrit < input.lgi
+     diff lagrit.out reference/outx3dgen
+
+
+TO DIFF OUTX3DGEN IN ALL DIRECTORIES
+
+The python test script runtests.py compares the outx3dgen and reference/outx3dgen files. The script will filter out any acceptable differences and will FAIL differences that seem relevant. If one or more of the tests fail, you may want to check those differences.
+
+From the command line, loop through all directories and diff the outx3dgen files:
+
+  for dir in * ; do echo $dir "---------------------------"; diff $dir/outx3dgen $dir/reference/outx3dgen; done
+
+Differences such as negative zeros are ignored so this diff passes the test:
+
+  385  <   The unit vector for top      is  0.0000000i   0.0000000j   1.0000000k
+  387  >   The unit vector for top      is  0.0000000i  -0.0000000j   1.0000000k
+
+Differences in the banner are expected:
+
+< *               *    Program:  LaGriT V3.3.3   Linux          *                 
+< *               *    Date Compile: 2023/12/22                 *                 
+< *               *    Run Time: 2024/Jan  2  12:47:46          *                 
+< *               *    Manual:   https://lagrit.lanl.gov        *                 
+---
+> *               *    Program:  LaGriT V3.330   Linux          *                 
+> *               *    date_compile: 2021/10/15 test            *                 
+> *               *    Run Time: 2021/Nov  9  11:25:38          *                 
+> *               *    Manual:   http://lagrit.lanl.gov         *   
+
+
+Changes in code can result in small reporting differences. Most can be ignored but release versions should not show these type of difference.
+
+<  30        ipolydat CHAR     scalar          scalar const perma   l yes         
+---
+>  30        ipolydat CHAR     scalar          scalar const perma   l no      
 
