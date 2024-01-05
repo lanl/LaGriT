@@ -21,7 +21,7 @@
 cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
 
 # set cmake variables for version numbers and compilers
-project(LaGriT VERSION 3.3.3
+project(LaGriT VERSION 3.3.4
                DESCRIPTION "LaGriT Meshing Utilities"
                LANGUAGES Fortran CXX C)
 
