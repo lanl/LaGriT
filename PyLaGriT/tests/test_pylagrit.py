@@ -16,7 +16,7 @@ class TestPyLaGriT(unittest.TestCase):
     def setUp(self):
         #Sets upt a lagrit object to be used during tests.
         with suppress_stdout():
-            self.lg = pylagrit.PyLaGriT('/path/to/lagrit')
+            self.lg = pylagrit.PyLaGriT('../../build/lagrit')
 
     def test_read_script(self):
         '''
@@ -26,7 +26,7 @@ class TestPyLaGriT(unittest.TestCase):
         '''
         
         lg = self.lg
-        for f in glob.glob('test_scripts/*.lg'):
+        for f in glob.glob('/test_scripts/*.lg'):
             with suppress_stdout():
                 lg.read_script(f)
                 
