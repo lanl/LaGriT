@@ -24,9 +24,6 @@ git clone https://github.com/sandialabs/seacas.git
 cd seacas && export ACCESS=`pwd`
 
 # ==== INSTALL REQUIRED LIBRARIES  ==================
-CGNS=NO MATIO=NO GNU_PARALLEL=NO FMT=NO SHARED=NO NEEDS_ZLIB=YES ./install-tpl.sh
-
-# ==== INSTALL REQUIRED LIBRARIES  ==================
 # Use seacas/install-tpl.sh
 # These flags are recommended for LaGriT
 CGNS=NO MATIO=NO GNU_PARALLEL=NO FMT=NO SHARED=NO NEEDS_ZLIB=YES ./install-tpl.sh 
