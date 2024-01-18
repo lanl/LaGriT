@@ -16,6 +16,22 @@ SEACAS_INSTALL_DIR=${SEACAS_INSTALL_DIR:-"$(pwd)/TPLs/"}
 # EXO_COMMIT_HASH=${EXO_COMMIT_HASH:-v2021-10-11}
 # =================================================
 
+# ==== MAC SPECIFIC COMPILER EXPORTS ===============
+export PATH="/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH"
+export COMPILER=MacPorts
+fortran_var=$(find /opt/local/bin/gfortran-mp-*)
+cc_var=$(find /opt/local/bin/gcc-mp-*)
+cpp_var=$(find /opt/local/bin/g++-mp-*)
+
+FC="$fortran_var"
+export FC="$fortran_var"
+
+CC="$cc_var"
+export CC="$cc_var"
+
+CXX="$cpp_var"
+export CXX="$cpp_var"
+
 # ==== GET SOURCE  ================================
 mkdir -p ${SEACAS_INSTALL_DIR}
 cd ${SEACAS_INSTALL_DIR}
