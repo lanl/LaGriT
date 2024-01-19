@@ -62,7 +62,7 @@ def main():
     
     # Ensure Level 3 is not automatically run
     if 3 in args.levels:
-        print("Level 3 is for Developer only and should be run manually.")
+        print("Level 3 is for Developers only and should be run manually.")
         sys.exit(1)
     
     # Log the parsed arguments for debugging
@@ -75,6 +75,13 @@ def main():
 
     # Collect test directories based on specified levels
     test_dirs = test_lg.collect_test_dirs(TEST_ROOT, args.levels)
+
+    # Output to let user know current testing levels
+    print("\nRunning tests in level(s): "+str(args.levels)[1:-1] )
+    
+    # Output to let user know that Exodus is not being tested
+    if 2 not in args.levels:
+        print("\n ** Exodus is not being tested. To test Exodus, please run Level 2. **")
 
     # Dynamically generate unittest functions for each test directory
     for test_dir in test_dirs:
@@ -91,4 +98,3 @@ def main():
 # Entry point for the script
 if __name__ == '__main__':
     main()
-    
