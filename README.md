@@ -6,8 +6,8 @@
 
 [![dockerhub](https://img.shields.io/static/v1?label=Docker&message=Download%20V3.3.3&color=blue&style=for-the-badge&logo=docker)](https://hub.docker.com/r/ees16/lagrit) <br/>
 [![readthedocs](https://img.shields.io/static/v1?label=Documentation&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://lanl.github.io/LaGriT/) <br/>
-[![readthedocs](https://img.shields.io/static/v1?label=LaGriT%20Home&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://https://lagrit.lanl.gov/) <br/>
-[![readthedocs](https://img.shields.io/static/v1?label=Meshing%20Portfolio&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://https://meshing.lanl.gov/) <br/>
+[![readthedocs](https://img.shields.io/static/v1?label=LaGriT%20Home&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://lagrit.lanl.gov/) <br/>
+[![readthedocs](https://img.shields.io/static/v1?label=Meshing%20Portfolio&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://meshing.lanl.gov/) <br/>
 
 Los Alamos Grid Toolbox (**LaGriT**) is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions. LaGriT is used for a variety of geology and geophysics modeling applications including porous flow and transport model construction, finite element modeling of stress/strain in crustal fault systems, seismology, discrete fracture networks, asteroids and hydrothermal systems.
 
@@ -46,7 +46,7 @@ git clone https://github.com/lanl/LaGriT.git
 cd LaGriT/
 ```
 
-Note for developers, you will need the SSH version to enable it version control to this repository.
+Note for developers, you will need the SSH version to enable Git version control to this repository.
 
 [Detailed Instructions for Building LaGriT with cmake and exodus](cmake/README.md)
 
