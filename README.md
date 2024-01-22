@@ -2,10 +2,6 @@
 
 **LANL Software: LA-CC-15-069  No. C15097**
 
-
-[//]: # ([![Build Status](https://github.com/lanl/LaGriT/actions/workflows/test-lagrit.yml/badge.svg)
-[//]: # (](https://github.com/lanl/LaGriT/actions/workflows/test-lagrit.yml)
-
 [![Latest Version](https://img.shields.io/github/release/lanl/lagrit.svg?style=flat-square)](https://github.com/lanl/lagrit/releases) [![PyPI](https://img.shields.io/pypi/l/Django.svg)](https://github.com/lanl/LaGriT/blob/doc-test/LICENSE)
 
 [![dockerhub](https://img.shields.io/static/v1?label=Docker&message=Download%20V3.3.3&color=blue&style=for-the-badge&logo=docker)](https://hub.docker.com/r/ees16/lagrit) <br/>
