@@ -19,6 +19,22 @@ PyLaGriT allows interactive and automated querying of mesh properties, enhanced 
 
 ---
 
+### Quick Start
+
+#### Docker Container
+
+The easiest way to get started with LaGriT is through [Docker](https://hub.docker.com/r/ees16/lagrit):
+
+    $ docker pull ees16/lagrit:latest
+    $ docker run -it -v $(pwd):/docker_user/work ees16/lagrit:latest
+
+After the container launches, navigate to:
+
+    $ cd bin
+    $ ./lagrit
+
+---
+
 ### Download LaGriT
 
 Download the repo by running:
