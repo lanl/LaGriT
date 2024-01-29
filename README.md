@@ -41,7 +41,7 @@ After the container launches, navigate to:
 
 - CMake is used to generate the build system.
 - C, C++, and compatible Fortran compilers. MacOS may need command line tools updated.
-- OPTIONAL Exodus libraries installed in TPLs, LaGriT can be built without Exodus.
+- OPTIONAL Exodus libraries installed in TPLs, requires bash and wget.
 
 #### Download LaGriT ####
 
