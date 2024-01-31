@@ -20,6 +20,11 @@ export CXX=/opt/local/bin/g++-mp-12
 export FC=/opt/local/bin/gfortran-mp-12
 ```
 
+On newer machines, the problem is that mac / osx has stolen the name gcc and g++ for the Apple clang compiler.   And they don't provide fortran.
+There are quite a few ways to work around this issue, but in any given case you have to be careful to make sure things are self-consistent.
+
+Below are instructions for installing a set of compilers using MacPorts (Homebrew has recent issues). 
+
 See also LaGriT/MAC_EnvironmentalVar.sh for setting your compilers.
 
 
@@ -141,9 +146,18 @@ This solution worked on MacOS Intel and M1, Ventura and Sonoma for building LaGr
 
 ## New Compilers show precision error for very small numbers
 
-The XCode (14.x) compilers are showing a precision error for very small numbers.
+The XCode 15.0 compilers are showing a precision error for very small numbers.
 This does not alter the meshing results but can show differences in how diagonals are crossed and reporting statistics.
 
+This issue was observed using the following:
+```
+Cmake 3.24.4
+Gmake 3.81
+gcc 15.0.0
+gcc-mp-13
+g++-mp-13
+gfortran-mp-13
+```
 
 The MacPorts compilers shown above do not have this precision issue.
 
