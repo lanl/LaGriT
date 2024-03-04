@@ -8,6 +8,11 @@ LaGriT V3.3.3 builds with and without Exodus on MacOS Intel and M1 machines on M
 
 LaGriT builds without Exodus are usually successful and recommended before building a version with Exodus.
 
+See **LaGriT/MAC-install-exodus.sh** which works for brew as well as macports. This script finds and sets compiler paths due to location and naming changes between homebrew and macports.
+
+See also **LaGriT/MAC_EnvironmentalVar.sh** for setting your compilers.
+
+
 ### Compiler Errors
 
 LaGriT uses C, C++, and Fortran compilers. You may have to set the correct compilers for your build environment. The build may fail for newer models due to differences in naming conventions for both file structure and compilers. 
@@ -23,14 +28,13 @@ export FC=/opt/local/bin/gfortran-mp-12
 On newer machines, the problem is that mac / osx has stolen the name gcc and g++ for the Apple clang compiler.   And they don't provide fortran.
 There are quite a few ways to work around this issue, but in any given case you have to be careful to make sure things are self-consistent.
 
-Below are instructions for installing a set of compilers using MacPorts (Homebrew has recent issues). 
-
-See also LaGriT/MAC_EnvironmentalVar.sh for setting your compilers.
+Below are instructions for installing a set of compilers using MacPorts (Homebrew also works). 
 
 
-## Fortran Compiler Not Found or Incompatible with C compilers
 
-For LaGriT V3.3.3 on MacOS we had problems with compilers installed with Homebrew. Builds for LaGriT and Exodus were successful on Ventura and Sonoma using MacPorts and the following steps.
+## Fortran Compiler Not Found or Incompatible with C compilers (macports example)
+
+For LaGriT V3.3.3 on MacOS the Builds for LaGriT and Exodus were successful on Ventura and Sonoma using MacPorts and Homebrew. This example uses macports.
 
 To use Macports you will need to install XCode command line tools.
 Go to:https://developer.apple.com/download/all/ and select Sonoma Xcode 15.1, Ventura Xcode 14.3, or Early macOS 13.2.
@@ -76,7 +80,7 @@ Make sure Cmake configurations for LaGriT and Exodus are using these tools and c
 
 
  
-## Exodus Build Fails with CommandLineTools Error
+## Exodus Build Fails with CommandLineTools Error (macports example)
 
 Usually these strange permission errors are related to XCode resource management and parallel builds.   In the older XCode (14.x) these were all resolved with the gnu tools (particularly gmake) coming from macports. 
 
