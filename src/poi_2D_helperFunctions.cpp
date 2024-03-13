@@ -6,7 +6,7 @@
 #include <iostream>
 
 
-#include "poi_helperFunctions.h"
+#include "poi_2D_helperFunctions.h"
 
 using std::cout;
 using std::endl;

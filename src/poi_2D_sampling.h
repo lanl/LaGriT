@@ -4,8 +4,8 @@
 #include <vector>
 #include <random>
 
-#include "poi_polygon.h"
-#include "poi_neighborGrid.h"
+#include "poi_2D_polygon.h"
+#include "poi_2D_neighborGrid.h"
 
 double uniformDistribution();
 Point newCandidate(Point newPoint);

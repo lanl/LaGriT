@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <cstring>
 
-#include "poi_polygon.h"
-#include "poi_sampling.h"
-#include "poi_helperFunctions.h"
+#include "poi_2D_polygon.h"
+#include "poi_2D_sampling.h"
+#include "poi_2D_helperFunctions.h"
 
 /* from lagrit lg_ codes */
 #include "lg_c_interface.h"

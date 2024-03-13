@@ -27,7 +27,7 @@ C #####################################################################
 C #####################################################################
 C
 C     driver for Poisson disk vertex distribution routine 
-C     c-fortran interface in poi_routine_2D.cpp
+C     c-fortran interface in poi_2D_routine_2D.cpp
 C     call poisson_2d
 C    & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
 C    & np_x,np_y,seed,number_of_samples,resample_sweeps)

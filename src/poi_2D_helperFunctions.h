@@ -3,7 +3,9 @@
 #include <vector>
 #include <sstream>
 
-#include "poi_polygon.h"
+
+#include "poi_2D_polygon.h"
+
 const int LG_NAME_SIZE = 32;
 
 double distance2D(Point x0, Point x1);

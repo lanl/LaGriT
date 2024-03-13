@@ -5,10 +5,8 @@
 #include <random>
 #include <chrono>
 
-#include "poi_helperFunctions.h"
-#include "poi_sampling.h"
-
-
+#include "poi_2D_helperFunctions.h"
+#include "poi_2d_sampling.h"
 
 
 
@@ -138,7 +136,8 @@ void Polygon::mainSampling(unsigned int startIndex, bool restartFlag) {
             //    for (unsigned int k = 0; k < 1; k++) {
             // Create new points within an anulus around current point
             newPoint = newCandidate(nodes[i]);
-            //cout << "sampled" << endl; 
+            
+            //cout << "sampled" << endl;
             //printPoint(newPoint);
             // test new point
             if (testCandidate(newPoint)) {
@@ -227,7 +226,7 @@ bool Polygon::testCandidate(Point &newPoint) {
     // cout << "Neighbor Check" << endl;
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
- 
+    
     // if (grid[newPoint.ix][newPoint.iy] > 0) {
     if (grid[newPoint.ix * numCellsY + newPoint.iy] > 0) {
         // cout << "grid space filled" << endl;
@@ -246,7 +245,8 @@ bool Polygon::testCandidate(Point &newPoint) {
         // cout << "empty disk failed" << endl;
         return false;
     }
-    // cout << "accepting point" << endl; 
+    
+    // cout << "accepting point" << endl;
     return true;
 }
 
@@ -332,7 +332,7 @@ bool Polygon::inDomain(Point newPoint) {
     unsigned i, j;
     int c = 0;
     // cout << "inDomain Check" << endl;
- 
+    
     for (i = 0, j = numVertices - 1; i < numVertices; j = i++) {
         if ( ((nodes[i].y > newPoint.y) != (nodes[j].y > newPoint.y)) && (newPoint.x < (nodes[j].x - nodes[i].x) * (newPoint.y - nodes[i].y) / (nodes[j].y - nodes[i].y) + nodes[i].x) ) {
             // flips back and forth between 0 and 1
@@ -360,18 +360,19 @@ bool Polygon::emptyDiskProperty(Point newPoint) {
     // Get exclusion radius for new pointw
     std::vector<int> nodeIDs;
     nodeIDs = getNeighborCellsRadius(newPoint);
- 
+    
     // Walk through those nodes to check if the new point is too close to those
     for (int i : nodeIDs) {
         // check if the distance between points is less than either point's exclusion radius
         dist = distance2D(newPoint, nodes[i - 1]);
+        
         // Ensure distance between points is larger than the maximum of the
         // points' exclusion radii
         if (dist < std::max(newPoint.radius, nodes[i - 1].radius)) {
             return false;
         }
     }
- 
+    
     return true;
 }
 
