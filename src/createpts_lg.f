@@ -52,53 +52,59 @@ C#######################################################################
       integer nwds,ierr, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-      integer lenopt,ierror,icharlnf
+      integer lenopt2, lenopt3, ierror,icharlnf
       character*132 logmess
 c
       ierr=0
 C
 C  test for verb and call appropriate routine
 c
-      lenopt=icharlnf(cmsgin(2))
-      if(cmsgin(2)(1:lenopt).eq.'xyz'.or.
-     *   cmsgin(2)(1:lenopt).eq.'rtz'.or.
-     *   cmsgin(2)(1:lenopt).eq.'line'.or.
-     *   cmsgin(2)(1:lenopt).eq.'rtp') then
+      lenopt2=icharlnf(cmsgin(2))
+      lenopt2=icharlnf(cmsgin(3))
+      if(cmsgin(2)(1:lenopt2).eq.'xyz'.or.
+     *   cmsgin(2)(1:lenopt2).eq.'rtz'.or.
+     *   cmsgin(2)(1:lenopt2).eq.'line'.or.
+     *   cmsgin(2)(1:lenopt2).eq.'rtp') then
          call rz(imsgin,xmsgin,cmsgin,msgtype,nwds,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'sphere') then
-         call rzs_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *      nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'diamond') then
-         call rzs_lg(imsgin(1),xmsgin(1),cmsgin(1),msgtype(1),
-     *      nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'brick'.or.
-     *   cmsgin(2)(1:lenopt).eq.'hex') then
-         call rzbrick_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'amr') then
-         call rzamr_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'vector') then
-         call rzv_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'random'.or.
-     *   cmsgin(2)(1:lenopt).eq.'ran') then
-         call ranpts_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'voronoi'.or.
-     *   cmsgin(2)(1:3).eq.'vor') then
-         call vorpts_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'median'.or.
-     *   cmsgin(2)(1:3).eq.'vor') then
-         call medianpts_lg(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'interp') then
-         call rzinterp(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
-      elseif(cmsgin(2)(1:lenopt).eq.'poisson_disk') then
-         call poisson_disk(imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),
-     *   nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'sphere') then
+         call rzs_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'diamond') then
+         call rzs_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'brick'.or.
+     *   cmsgin(2)(1:lenopt2).eq.'hex') then
+         call rzbrick_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'amr') then
+         call rzamr_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'vector') then
+         call rzv_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'random'.or.
+     *       cmsgin(2)(1:lenopt2).eq.'ran') then
+         call ranpts_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'voronoi'.or.
+     *       cmsgin(2)(1:3).eq.'vor') then
+         call vorpts_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'median'.or.
+     *       cmsgin(2)(1:3).eq.'vor') then
+         call medianpts_lg
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'interp') then
+         call rzinterp
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+      elseif(cmsgin(2)(1:lenopt2).eq.'poisson_disk') then
+         if(cmsgin(3)(1:lenopt3).eq.'2d_polygon')then
+         call poisson_disk_2d
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+         elseif(cmsgin(3)(1:lenopt3).eq.'3d_box')then
+         call poisson_disk_3d
+     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
+         endif
       else
          write(logmess,"('Illegal createpts option ',a10)") cmsgin(2)
          call writloga('default',0,logmess,0,ierror)
