@@ -1,4 +1,5 @@
-      subroutine poisson_disk_2d(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
+      subroutine poisson_disk_2d
+     &            (imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
 C
 C     createpts / poisson_disk / [2d_polygon|3d_box] / mo_out / mo_polygon / 
 C                 h_spacing_scalar / [connect|no_connect] / [user_h_field_att.mlgi]
@@ -36,10 +37,10 @@ C #####################################################################
       implicit none
 C
 C  Define user_sub arguments
+      integer nwds,ierror
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
-      integer nwds,ierror
       integer seed,number_of_samples,resample_sweeps
 C Define variables 
       integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
@@ -50,7 +51,7 @@ C Define variables
       logical if_convex
 C
       integer np_x, np_y
-      real*8 h, h2, h02, h05, h08, h10, h_half,
+      real*8 h, h02, h05, h08, h10, h_half,
      &       h_extrude, h_radius, h_trans, h_prime,
      &       h_spacing, delta, delta_x, delta_y, delta_z
       real*8 poi_poly_h_min, poi_poly_ang_min, poi_poly_ang_max
@@ -94,7 +95,7 @@ C
      &   '---------------------------------------'
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
-     & '===== Begin driver for Poisson disk 2D vertex distribution. ====='
+     & '=== Begin driver for Poisson disk 2D vertex distribution. ==='
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '---------------------------------------'
@@ -356,13 +357,17 @@ C ---------------------------------------------------------------------
 C
 C     Compute some length scale parameters based on h, minimum feature size
 C
-      h2 = 2.0*h
+      h_half = h*0.5d0
+      h02 = h*2.0d0
+      h05 = h*5.0d0
+      h08 = h*8.0d0
+      h10 = h*10.0d0
       delta = 0.7d0
-      h_extrude = 0.8d0*h2
+      h_extrude = 0.8d0*h02
 C
       h_radius = ((0.5*h_extrude)**2 + (0.5*h_extrude)**2)**0.5
       h_trans = -0.5*h_extrude + h_radius*cos(asin(delta))
-      h_prime = 0.4*h2
+      h_prime = 0.4*h02
 C
       ijob_buffer = 1
       call buffer_xyz_minmax(
@@ -500,11 +505,6 @@ C
 C ---------------------------------------------------------------------
 C     Set some LaGriT string variables to values 
 C ---------------------------------------------------------------------
-      h_half = h*0.5d0
-      h02 = h*2.0d0
-      h05 = h*5.0d0
-      h08 = h*8.0d0
-      h10 = h*10.0d0
       write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_H_FACTOR / ',h,' ; finish '
       call dotaskx3d(cbuf,ierr)
@@ -657,14 +657,15 @@ C
       call cmo_select(mo_poi_poly,ierr)
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
-C     Poisson Disk algorithm call
+C     Poisson Disk algorithm call (begin)
 C ---------------------------------------------------------------------
 C
       call poisson_2d
      & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
      & np_x,np_y,seed,number_of_samples,resample_sweeps)
+C
 C ---------------------------------------------------------------------
-C     Poisson Disk algorithm call
+C     Poisson Disk algorithm call (end)
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
 C
@@ -823,7 +824,7 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine get_minimum_edge_length(nnode,x,y,h_min)
 C #####################################################################
 C
@@ -856,7 +857,7 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine test_convex(nnode,x,y,if_convex)
 C #####################################################################
 C
@@ -908,7 +909,7 @@ C #####################################################################
          if_convex = .true.
       endif
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine get_min_max_angle(nnode,x,y,if_rad_deg,ang_min,ang_max)
 C #####################################################################
 C
@@ -996,7 +997,7 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine buffer_xyz_minmax(ijob,buffer_factor,
      &                       xmin_buff,xmax_buff,
      &                       ymin_buff,ymax_buff,
@@ -1062,8 +1063,9 @@ C ----------------------------------------------------------
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
-      subroutine poisson_disk_3d(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
+      subroutine poisson_disk_3d
+     &            (imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
 C
 C     createpts / poisson_disk / 2d_polygon / mo_out / mo_polygon / h_spacing_scalar / 
 C                 [connect|no_connect] / [user_resolution.mlgi] /
@@ -1123,34 +1125,26 @@ C #####################################################################
       implicit none
 C
 C  Define user_sub arguments
+      integer nwds,ierror, num_nwds
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
-      integer nwds,ierror, num_nwds
       integer seed,number_of_samples,resample_sweeps
 C Define variables 
       integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
-      integer h_fac, npx, npy, npz, nverts, nnodes_poly, if_rad_deg
+      integer h_fac
       integer ndimension, if_connect
       integer if_h_provided, if_h_field_variable
 
       logical if_convex
 C
       integer np_x, np_y, np_z
-      real*8 h, h2, h02, h05, h08, h10, h_half,
+      real*8 h, h02, h05, h08, h10, h_half,
      &       h_extrude, h_radius, h_trans, h_prime,
      &       h_spacing, delta, delta_x, delta_y, delta_z
-C ???      real*8 poi_poly_h_min, poi_poly_ang_min, poi_poly_ang_max
-      real*8 poi_xmin,poi_ymin,poi_zmin,poi_xmax,poi_ymax,poi_zmax
-
-      real*8 
-     &   xmin_poly,xmax_poly,ymin_poly,ymax_poly,zmin_poly,zmax_poly,
-     &   epsilona_poly,epsilonv_poly,
-     &   xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff,
-     &   z_constant,buffer_factor
-      real*8 angle_minimum
-      integer ijob_buffer
-
+      real*8 poi_box_xmin,poi_box_ymin,poi_box_zmin,
+     &       poi_box_xmax,poi_box_ymax,poi_box_zmax,
+     &       epsilona_box, epsilonv_box
 C     pointers for x,y,z coordinates
       pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
@@ -1159,9 +1153,7 @@ C     pointer for h_field_att
       real*8 h_field(*)
       real*8 h_field_min, h_field_max
 C
-C ???      character*32  mo_poi_poly, mo_poi_h_field, mo_poi_pts_out
       character*32  mo_poi_h_field, mo_poi_pts_out
-      character*32  file_avs_poly
       character*32  file_poisson_vertices, mo_h_field_user
       character*32  file_user_h_field_att
       character*512 logmess
@@ -1183,7 +1175,7 @@ C
      &   '---------------------------------------'
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
-     & '===== Begin driver for Poisson disk 3D vertex distribution. ====='
+     & '=== Begin driver for Poisson disk 3D vertex distribution. ==='
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '---------------------------------------'
@@ -1409,23 +1401,60 @@ C ---------------------------------------------------------------------
 C
 C     Compute some length scale parameters based on h, minimum feature size
 C
-      h2 = 2.0*h
+      h_half = h*0.5d0
+      h02 = h*2.0d0
+      h05 = h*5.0d0
+      h08 = h*8.0d0
+      h10 = h*10.0d0
       delta = 0.7d0
-      h_extrude = 0.8d0*h2
+      h_extrude = 0.8d0*h02
 C
       h_radius = ((0.5*h_extrude)**2 + (0.5*h_extrude)**2)**0.5
       h_trans = -0.5*h_extrude + h_radius*cos(asin(delta))
-      h_prime = 0.4*h2
+      h_prime = 0.4*h02
 C
-      ijob_buffer = 1
-      call buffer_xyz_minmax(
-     &      ijob_buffer,h,
-     &      xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff,
-     &      xmin_poly,xmax_poly,ymin_poly,ymax_poly,zmin_poly,zmax_poly)
-
-      delta_x = xmax_buff - xmin_buff
-      delta_y = ymax_buff - ymin_buff
-      delta_z = zmax_buff - zmin_buff
+C     Using user defined variables:
+C     define / POI_XMIN / real
+C     define / POI_YMIN / real
+C     define / POI_ZMIN / real
+C     define / POI_XMAX / real
+C     define / POI_YMAX / real
+C     define / POI_ZMAX / real
+C
+C     Fill local real variables:
+C     POI_XMIN => poi_box_xmin
+C     POI_YMIN => poi_box_ymin
+C     POI_ZMIN => poi_box_zmin
+C     POI_XMAX => poi_box_xmax
+C     POI_YMAX => poi_box_ymax
+C     POI_ZMAX => poi_box_zmax
+C
+C     The code below is a way of using the user defined variables
+C     to fill local floating point xyz min/max values.
+C
+      cbuf = 'cmo/create/mo_poi_h_field/ / /hex ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf = 'createpts / xyz / 2 2 2 / 
+     &        POI_XMIN POI_YMIN POI_ZMIN / 
+     &        POI_XMAX POI_YMAX POI_ZMAX /
+     &        1 1 1 ; finish'
+      call dotaskx3d(cbuf,ierr)
+      call cmo_select(mo_poi_h_field,ierr)
+      cbuf='setsize ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf='resetpts/itp ; finish'
+      call dotaskx3d(cbuf,ierr)
+      call cmo_select(mo_poi_h_field,ierr)
+      call getsize(poi_box_xmin,poi_box_xmax,
+     &             poi_box_ymin,poi_box_ymax,
+     &             poi_box_zmin,poi_box_zmax,
+     &             epsilona_box,epsilonv_box)
+      cbuf = 'cmo/delete/mo_poi_h_field ; finish'
+      call dotaskx3d(cbuf,ierr)
+C
+      delta_x = poi_box_xmax - poi_box_xmin
+      delta_y = poi_box_ymax - poi_box_ymin
+      delta_z = poi_box_zmax - poi_box_zmin
       np_x = ceiling(delta_x/h)
       np_y = ceiling(delta_y/h)
       np_z = ceiling(delta_z/h)
@@ -1436,11 +1465,6 @@ C
 C ---------------------------------------------------------------------
 C     Set some LaGriT string variables to values 
 C ---------------------------------------------------------------------
-      h_half = h*0.5d0
-      h02 = h*2.0d0
-      h05 = h*5.0d0
-      h08 = h*8.0d0
-      h10 = h*10.0d0
       write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_H_FACTOR / ',h,' ; finish '
       call dotaskx3d(cbuf,ierr)
@@ -1470,22 +1494,22 @@ C ---------------------------------------------------------------------
      &     'define / POI_3D_NPZ / ',np_z,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_XMIN / ',xmin_buff,' ; finish '
+     &     'define / POI_3D_XMIN / ',poi_box_xmin,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_XMAX / ',xmax_buff,' ; finish '
+     &     'define / POI_3D_XMAX / ',poi_box_xmax,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_YMIN / ',ymin_buff,' ; finish '
+     &     'define / POI_3D_YMIN / ',poi_box_ymin,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_YMAX / ',ymax_buff,' ; finish '
+     &     'define / POI_3D_YMAX / ',poi_box_ymax,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_ZMIN / ',zmin_buff,' ; finish '
+     &     'define / POI_3D_ZMIN / ',poi_box_zmin,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_ZMAX / ',zmax_buff,' ; finish '
+     &     'define / POI_3D_ZMAX / ',poi_box_zmax,' ; finish '
       call dotaskx3d(cbuf,ierr)
 C
 C ---------------------------------------------------------------------
@@ -1496,7 +1520,7 @@ C ---------------------------------------------------------------------
      &   '---------------------------------------'
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
-     &   '===== Create 3d hex mesh object for distance field lookup ====='
+     &   '=== Create 3d hex mesh object for distance field lookup ==='
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '---------------------------------------'
@@ -1601,12 +1625,13 @@ C
       call poisson_3d
      & (mo_poi_pts_out,mo_poi_h_field,h_spacing,
      & np_x,np_y,np_z,seed,number_of_samples,resample_sweeps)
+C
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call (end)
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
 C
-C     ??? Clean up, remove temporary mesh objects.
+C     Clean up, remove temporary mesh objects.
 C
 C     Sort and reorder vertices based on x,y,z coordinates.
 C
