@@ -5,7 +5,6 @@
 #include <sstream>
 #include <iostream>
 
-
 #include "poi_2D_helperFunctions.h"
 
 using std::cout;

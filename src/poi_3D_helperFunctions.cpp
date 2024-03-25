@@ -46,6 +46,20 @@ vector<std::string> splitOnWhiteSpace(std::string line) {
     return result;
 }
 
+void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
+    // removes white space from LaGriT string. LaGriT passes it in with white space
+    // fortran will pads the strings with spaces/
+    // This copies each character until we hit a space
+    for (size_t len = 0; len < LG_NAME_SIZE - 1; len++) {
+        snprintf(mo_name_trim, len + 1, "%s", mo_name);
+        
+        if (mo_name[len] == ' ') {
+            break;
+        }
+    }
+}
+
+
 
 
 /*! Print point information to screen

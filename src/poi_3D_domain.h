@@ -33,7 +33,11 @@ class Domain {
     // input polygon filename
     std::string inputFilename;
     // output point name
-    std::string outputFilename;
+    std::string mo_poi_pts_out;
+
+    // distance field mesh object name 
+    std::string mo_dfield_name;
+
     // miminum mesh resolution provided by user
     double h;
     // number of sample attempts around an accepted point (cheap)
@@ -50,7 +54,8 @@ class Domain {
     
     // Edges of the bounding cuboid
     std::vector<Edge> edges;
-    
+
+    int seed;  
     std::mt19937_64 generator;
     
     // Bounding box of the polygon
@@ -62,12 +67,12 @@ class Domain {
     double zMax;
     
     // Basic polygon functions -> polygon.cpp
-    bool parseCommandLine(int argc, char **argv);
+    // bool parseCommandLine(int argc, char **argv);
     void loadVertices();
     void findBoundingBox();
     void initializeVariables();
     void printNodes();
-    void dumpNodes();
+    // void dumpNodes();
     void setBoundary();
     void setEdges();
     

@@ -1623,7 +1623,13 @@ C     Poisson Disk algorithm call (begin)
 C ---------------------------------------------------------------------
 C
       call poisson_3d
-     & (mo_poi_pts_out) 
+     & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
+     & poi_box_xmin, poi_box_xmax, 
+     & poi_box_ymin, poi_box_ymax,
+     & poi_box_zmin, poi_box_zmax, 
+     & np_x,np_y,np_z,  
+     & seed, number_of_samples,
+     & resample_sweeps) 
      
 C     & (mo_poi_pts_out,mo_poi_h_field,h_spacing,
 C     & np_x,np_y,np_z,seed,number_of_samples,resample_sweeps)

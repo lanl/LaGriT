@@ -18,28 +18,28 @@ using std::ifstream;
 
 /* Parse command line and add variable to the polygon object.
 */
-bool Domain::parseCommandLine(int argc, char **argv) {
-    distanceFieldFilename  = argv[1];
-    cout << "Distance Field Filename " << distanceFieldFilename << endl;
-    // arg 2: output filename
-    outputFilename = argv[2];
-    cout << "Writting points to " << outputFilename << endl;
-    // Read in boundaries of the box 
-    xMin = atof(argv[3]);
-    xMax = atof(argv[4]);
-    yMin = atof(argv[5]);
-    yMax = atof(argv[6]);
-    zMin = atof(argv[7]);
-    zMax = atof(argv[8]);
+// bool Domain::parseCommandLine(int argc, char **argv) {
+//     distanceFieldFilename  = argv[1];
+//     cout << "Distance Field Filename " << distanceFieldFilename << endl;
+//     // arg 2: output filename
+//     outputFilename = argv[2];
+//     cout << "Writting points to " << outputFilename << endl;
+//     // Read in boundaries of the box 
+//     xMin = atof(argv[3]);
+//     xMax = atof(argv[4]);
+//     yMin = atof(argv[5]);
+//     yMax = atof(argv[6]);
+//     zMin = atof(argv[7]);
+//     zMax = atof(argv[8]);
 
-    // arg 5: number of samples initialized by accepted point
-    numSamples = 10;
-    cout << "Number of samples " << numSamples << endl;
-    // arg 6: number of re-sampling sweeps. 1 is typically sufficent
-    resampleSweeps = 1;
-    cout << "Number of resample sweeps " << resampleSweeps << endl;
-    return true;
-}
+//     // arg 5: number of samples initialized by accepted point
+//     numSamples = 10;
+//     cout << "Number of samples " << numSamples << endl;
+//     // arg 6: number of re-sampling sweeps. 1 is typically sufficent
+//     resampleSweeps = 1;
+//     cout << "Number of resample sweeps " << resampleSweeps << endl;
+//     return true;
+// }
 
 /*! Computes the 2D bounding box of the polygon */
 void Domain::findBoundingBox() {
@@ -164,18 +164,18 @@ void Domain::printNodes() {
 /*! Writes points to file
 * format is x, y, flag
 */
-void Domain::dumpNodes() {
-    std::ofstream fp;
-    cout << "Writing points to file: " << outputFilename << endl;
-    cout << "There are " << numNodes << " point in the final distribution" << endl;
-    fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
+// void Domain::dumpNodes() {
+//     std::ofstream fp;
+//     cout << "Writing points to file: " << outputFilename << endl;
+//     cout << "There are " << numNodes << " point in the final distribution" << endl;
+//     fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
     
-    for (unsigned int i = 0; i < numNodes; i++) {
-        fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << nodes[i].z << endl;
-    }
+//     for (unsigned int i = 0; i < numNodes; i++) {
+//         fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << nodes[i].z << endl;
+//     }
     
-    fp.close();
-}
+//     fp.close();
+// }
 
 
 /*! Destructor for polygon class.
