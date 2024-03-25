@@ -5,7 +5,7 @@
 #include <chrono>
 #include <random>
 
-#include "poi_3D_helperFunctions.h"
+#include "poi_helperFunctions.h"
 #include "poi_3D_sampling.h"
 
 // #define DEBUG 1;
@@ -15,7 +15,7 @@ using std::endl;
 using std::string;
 using std::vector;
 
-std::uniform_real_distribution<> uniform01(0, 1);
+std::uniform_real_distribution<> uniform01_3D(0, 1);
 // std::mt19937_64 generator(0);
 // Initialize random generator with seed ( see c++ <random> )
 // Mersene Twister 19937 generator (64 bit)
@@ -40,7 +40,7 @@ void Domain::initializeRandomGenerator(unsigned int seed) {
 /*! Returns a number sampled from a uniform distribution on the intervale [0,1]
 */
 double Domain::uniformDistribution() {
-    return uniform01(generator);
+    return uniform01_3D(generator);
 }
 
 /*! Sample polygon boundaries
@@ -399,8 +399,10 @@ bool Domain::testCandidate(Point &newPoint) {
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
     
     newPoint.iz = getNeighborGridCellID(newPoint.z, zMin);
-    
-    if (grid[newPoint.ix][newPoint.iy][newPoint.iz] > 0) {
+
+
+    unsigned int linearIndex = newPoint.ix * (numCellsY * numCellsZ) + newPoint.iy*numCellsZ + newPoint.iz;
+    if (grid[linearIndex] > 0) {
 #ifdef DEBUG
         cout << "grid space filled" << endl;
 #endif

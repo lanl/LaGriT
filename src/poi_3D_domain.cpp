@@ -5,16 +5,33 @@
 #include <iomanip>
 #include <cmath>
 #include <limits>
+#include <cstring>
+#include <stdio.h>
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <iomanip>
+#include <cmath>
+#include <limits>
+#include <stdio.h>
+#include <cstring>
 
 #include "poi_3D_domain.h"
 #include "poi_3D_sampling.h"
-#include "poi_3D_helperFunctions.h"
+#include "poi_helperFunctions.h"
+
+/* from lagrit lg_ codes */
+#include "lg_c_interface.h"
+#include "lg_f_interface.h"
 
 using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
 using std::ifstream;
+using std::string; 
 
 /* Parse command line and add variable to the polygon object.
 */
@@ -130,30 +147,30 @@ void Domain::initializeVariables() {
 
 /*! Load vertices from the avs file
 */
-void Domain::loadVertices() {
-    cout << "Reading vertices from " << inputFilename << endl;
-    string line;
-    ifstream inpFile;
-    vector<string> parsedLine;
-    inpFile.open(inputFilename, ifstream::in);
-    // checkIfOpen(inpFile, filename);
-    // read header
-    getline(inpFile, line);
-    parsedLine = splitOnWhiteSpace(line);
-    numVertices = std::stoi(parsedLine[0]);
-    cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
+// void Domain::loadVertices() {
+//     cout << "Reading vertices from " << inputFilename << endl;
+//     string line;
+//     ifstream inpFile;
+//     vector<string> parsedLine;
+//     inpFile.open(inputFilename, ifstream::in);
+//     // checkIfOpen(inpFile, filename);
+//     // read header
+//     getline(inpFile, line);
+//     parsedLine = splitOnWhiteSpace(line);
+//     numVertices = std::stoi(parsedLine[0]);
+//     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
     
-    // read in the node coordinates
-    for (unsigned int i = 0; i < numVertices; i++) {
-        getline(inpFile, line);
-        parsedLine = splitOnWhiteSpace(line);
-        // Format Node Number, x-coord, y-coord,
-        nodes.push_back({std::stod(parsedLine[1]), std::stod(parsedLine[2]), 0});
-    }
+//     // read in the node coordinates
+//     for (unsigned int i = 0; i < numVertices; i++) {
+//         getline(inpFile, line);
+//         parsedLine = splitOnWhiteSpace(line);
+//         // Format Node Number, x-coord, y-coord,
+//         nodes.push_back({std::stod(parsedLine[1]), std::stod(parsedLine[2]), 0});
+//     }
     
-    inpFile.close();
-    cout << "Reading vertices from " << inputFilename << " complete" << endl;
-}
+//     inpFile.close();
+//     cout << "Reading vertices from " << inputFilename << " complete" << endl;
+// }
 
 /*! Print node information to screen*/
 void Domain::printNodes() {
@@ -161,6 +178,78 @@ void Domain::printNodes() {
         printPoint(nodes[i]);
     }
 }
+
+/* adds nodes from sampling to mo_pts mesh object*/
+void Domain::addNodesToMeshObject() {
+    cout << "Adding nodes to " << mo_poi_pts_out << " mesh object" << endl;
+    LG_ERR err;
+    // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
+    // Create new mesh object for points
+    string cmd_string = "cmo/create/" + string(mo_poi_pts_out) + "/"  + std::to_string(numNodes) + "/0/tet";
+    cout << cmd_string << endl;
+    // // set the cmo to be the empty point mesh object
+    int n = cmd_string.length();
+    // // declaring character array
+    char *cmd_char;
+    cmd_char = new char[n + 1];
+    // // copying the contents of the
+    // // string to char array
+    strcpy(cmd_char, cmd_string.c_str());
+    err = lg_dotask(cmd_char);
+    cmd_string = "cmo/select/" + string(mo_poi_pts_out);
+    cout << cmd_string << endl;
+    // // set the cmo to be the empty point mesh object
+    n = cmd_string.length();
+    // // declaring character array
+    cmd_char = new char[n + 1];
+    // // copying the contents of the
+    // // string to char array
+    strcpy(cmd_char, cmd_string.c_str());
+    err = lg_dotask(cmd_char);
+    err = lg_dotask("cmo/status/brief");
+    double *xptr;
+    double *yptr;
+    double *zptr;
+    long icmolen;
+    long iattlen;
+    int ierror = 0;
+    long nlen = 0;
+    long ierr = 0;
+    // get length of mesh object name
+    icmolen = strlen(mo_poi_pts_out);
+    // What are these?
+    // get mesh object xic and yic data
+    iattlen = 3;
+    fc_cmo_get_vdouble_(mo_poi_pts_out, "xic", &xptr, &nlen, &ierr, icmolen, iattlen);
+    
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
+    }
+    
+    fc_cmo_get_vdouble_(mo_poi_pts_out, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
+    
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
+    }
+    
+    fc_cmo_get_vdouble_(mo_poi_pts_out, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
+    
+    if (ierr != 0 || nlen != numNodes) {
+        cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
+    }
+    
+    // // Copy coordinates from polygon object into the mesh object
+    for (unsigned int i = 0; i < numNodes; i++) {
+        *(xptr + i) = nodes[i].x;
+        *(yptr + i) = nodes[i].y;
+        *(zptr + i) = nodes[i].z;
+    }
+    
+    err = lg_dotask("cmo/status/brief");
+    err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
+}
+
+
 /*! Writes points to file
 * format is x, y, flag
 */

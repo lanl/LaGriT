@@ -6,15 +6,30 @@
 #include <vector>
 #include <random>
 
+// /* Point Structure */
+// struct Point {
+//     double x = 0; // x coord
+//     double y = 0; // y coord
+//     double radius = 0; // exclusion radius
+//     unsigned int ix = 0; // neighbor grid x-index
+//     unsigned int iy = 0; // neighbor grid y-index
+//     unsigned int nodeNum = 0;
+// };
+
 /* Point Structure */
 struct Point {
-    double x = 0; // x coord
-    double y = 0; // y coord
-    double radius = 0; // exclusion radius
-    unsigned int ix = 0; // neighbor grid x-index
-    unsigned int iy = 0; // neighbor grid y-index
-    unsigned int nodeNum = 0;
+    double x; // x coord
+    double y; // y coord
+    double z; // z coord
+    double radius; // exclusion radius
+    unsigned int ix; // neighbor grid x-index
+    unsigned int iy; // neighbor grid y-index
+    unsigned int iz; // neighbor grid y-index
+    unsigned int nodeNum;
+    unsigned int face;
+    // std::vector<unsigned int>edges;
 };
+
 
 /* Polygon Class */
 class Polygon {

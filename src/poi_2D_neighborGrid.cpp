@@ -8,7 +8,7 @@
 
 #include "poi_2D_polygon.h"
 #include "poi_2D_sampling.h"
-#include "poi_2D_helperFunctions.h"
+#include "poi_helperFunctions.h"
 
 using std::cout;
 using std::endl;

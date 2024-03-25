@@ -5,20 +5,21 @@
 #include <math.h>
 #include <random>
 
+#include "poi_2D_polygon.h"
 
-/* Point Structure */
-struct Point {
-    double x; // x coord
-    double y; // y coord
-    double z; // z coord
-    double radius; // exclusion radius
-    unsigned int ix; // neighbor grid x-index
-    unsigned int iy; // neighbor grid y-index
-    unsigned int iz; // neighbor grid y-index
-    unsigned int nodeNum;
-    unsigned int face;
-    // std::vector<unsigned int>edges;
-};
+// /* Point Structure */
+// struct Point {
+//     double x; // x coord
+//     double y; // y coord
+//     double z; // z coord
+//     double radius; // exclusion radius
+//     unsigned int ix; // neighbor grid x-index
+//     unsigned int iy; // neighbor grid y-index
+//     unsigned int iz; // neighbor grid y-index
+//     unsigned int nodeNum;
+//     unsigned int face;
+//     // std::vector<unsigned int>edges;
+// };
 
 /* Edge Structure */
 struct Edge {
@@ -30,13 +31,8 @@ struct Edge {
 /* Domain Class */
 class Domain {
   public:
-    // input polygon filename
-    std::string inputFilename;
     // output point name
-    std::string mo_poi_pts_out;
-
-    // distance field mesh object name 
-    std::string mo_dfield_name;
+    const char * mo_poi_pts_out;
 
     // miminum mesh resolution provided by user
     double h;
@@ -68,7 +64,7 @@ class Domain {
     
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
-    void loadVertices();
+    // void loadVertices();
     void findBoundingBox();
     void initializeVariables();
     void printNodes();
@@ -87,8 +83,10 @@ class Domain {
     unsigned int numCellsY;
     // Numner of cells in Y
     unsigned int numCellsZ;
-    // 2D grid
-    int ***grid;
+    // Neighbor grid with linear indexing for 2D field 
+//    std::vector<unsigned int> grid;
+    std::vector<int> grid;
+
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
     
@@ -104,7 +102,9 @@ class Domain {
     
     // Distance Field Parameters
     // distance field filename
-    std::string distanceFieldFilename;
+  
+    // Name of distance field mesh object
+    const char * mo_dfield_name;
     // distance field cell size (uniform in x and y)
     double dfCellSize;
     // inverse of distance field size
@@ -121,7 +121,7 @@ class Domain {
     unsigned int dfNumCellsY;
     // number of cells in y direction of distance field
     unsigned int dfNumCellsZ;
-    double ***distanceField;
+    std::vector<double> distanceField;
     
     // Distance field -> distancefield.cpp
     void loadDistanceField();
@@ -144,6 +144,9 @@ class Domain {
     bool inBoundingBox(Point point);
     bool inDomain(Point point);
     Point newCandidateOnFace(Point currentPoint, unsigned int faceID);
+
+    // io
+    void addNodesToMeshObject();
     // Destructor
     ~Domain();
 };

@@ -8,7 +8,7 @@
 
 #include "poi_3D_domain.h"
 #include "poi_3D_sampling.h"
-#include "poi_3D_helperFunctions.h"
+#include "poi_helperFunctions.h"
 
 using std::cout;
 using std::endl;
@@ -45,30 +45,17 @@ void Domain::initializeNeighborGrid() {
     cout << "Num Cells X " << numCellsX << endl;
     cout << "Num Cells Y " << numCellsY << endl;
     cout << "Num Cells Z " << numCellsZ << endl;
-    cout << "Total Cells " << numCellsX*numCellsY*numCellsZ << endl;
+    unsigned int totalCells = numCellsX*numCellsY*numCellsZ; 
+    cout << "Total Cells " << totalCells << endl;
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
-    grid = new int**[numCellsX + 1];
-    
-    for (unsigned int i = 0; i < numCellsX + 1; i++) {
-        // the () at the end will initialize all values to 0
-        grid[i] = new int*[numCellsY + 1];
-        
-        for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            grid[i][j] = new int[numCellsZ + 1]();
-        }
+    cout << "Initializing memory for neighbor grid" << endl;
+    grid.reserve(totalCells); 
+    for (unsigned int i = 0; i < totalCells; i++){
+        grid.push_back(0);
     }
-    
-    /*
-    for (unsigned int i = 0; i < numCellsX + 1; i++){
-        for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            for (unsigned int k = 0; k < numCellsZ + 1; k++) {
-                grid[i][j][k] = 0;
-            }
-        }
-    }
-    */
-    
+    cout << "Initializing memory for neighbor grid: Complete" << endl;
+
     // every occupied cells is labelled with the node-number (start at 1) of the node occupying it. empty cells are 0.
     for (unsigned int i = 0; i < numNodes; i++) {
         nodes[i].ix = getNeighborGridCellID(nodes[i].x, xMin);
@@ -92,14 +79,14 @@ void Domain::dumpNBGrid() {
     fp.open(filename.c_str(), std::ofstream::out | std::ofstream::trunc);
     
     // Write Header
-    for (unsigned int i = 0; i < numCellsX + 1; i++) {
+    for (unsigned int k = 0; k < numCellsZ + 1; k++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            for (unsigned int k = 0; k < numCellsZ + 1; k++) {
-                fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << k*cellSize + zMin << "," << grid[i][j][k] << endl;
+            for (unsigned int i = 0; i < numCellsX + 1; i++) {
+                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+                fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << k*cellSize + zMin << "," << grid[linearIndex] << endl;
             }
         }
     }
-    
     fp.close();
 }
 
@@ -139,9 +126,10 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
             for (unsigned int k = kMin; k < kMax; k++) {
-                if (grid[i][j][k] > 0) {
+                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+                if (grid[linearIndex] > 0) {
                     // cout << i << " " << j << " " << k << " " << grid[i][j][k] << endl;
-                    nodeIDs.push_back(grid[i][j][k]);
+                    nodeIDs.push_back(grid[linearIndex]);
                 }
             }
         }
@@ -181,8 +169,9 @@ void Domain::tagNeighborCells(Point point) {
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
             for (unsigned int k = kMin; k < kMax; k++) {
+                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
                 // check is cell is already tagged, if not, then check the distance.
-                if (grid[i][j][k] == 0) {
+                if (grid[linearIndex] == 0) {
                     tmpPoint.x =  i * cellSize + xMin;
                     tmpPoint.y =  j * cellSize + yMin;
                     tmpPoint.z =  k * cellSize + zMin;
@@ -190,7 +179,7 @@ void Domain::tagNeighborCells(Point point) {
                     
                     // if the distance is less than the radius, then tag the grid cell as occupied.
                     if (dist < point.radius) {
-                        grid[i][j][k] = point.nodeNum;
+                        grid[linearIndex] = point.nodeNum;
                         //cout << point.nodeNum << endl;
                     }
                 }
@@ -210,8 +199,10 @@ void Domain::findEmptyCells() {
     for (unsigned int i = 0; i < numCellsX + 1; i++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
             for (unsigned int k = 0; k < numCellsZ + 1; k++) {
+                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+
                 // check if cell is occupied.
-                if (grid[i][j][k] == 0) {
+                if (grid[linearIndex] == 0) {
                     tmpPoint.x = i * cellSize + xMin;
                     tmpPoint.y = j * cellSize + yMin;
                     tmpPoint.z = k * cellSize + zMin;
@@ -256,7 +247,8 @@ unsigned int Domain::fillEmptyCells() {
         // check if the neighbor cell is still empty.
         // Entries get filled in as these points are accetped.
         // Faster to do this check, than update/remove elements from  emptyCells on the fly.
-        if (grid[i][j][k] == 0) {
+        unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+        if (grid[linearIndex] == 0) {
             for (unsigned int count = 0; count < numSamples; count++) {
                 newPoint.x = uniformDistribution() * cellSize + xCellMin;
                 newPoint.y = uniformDistribution() * cellSize + yCellMin;

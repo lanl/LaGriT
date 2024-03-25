@@ -30,6 +30,10 @@ NOTE: these only work for integer scalars
 
 #include <stdio.h>
 #include <cstring>
+#include <iostream>
+
+using std::cout;
+using std::endl;
 
 // Maximum buffer size for stack-allocated buffers
 static constexpr size_t MAX_BUFFER_SIZE = 1024;
@@ -53,6 +57,8 @@ extern "C"
 LG_ERR lg_dotask(const char* cmd) {
     const char* cmd_finish = "; finish";
 
+
+
     if (strlen(cmd) >= (MAX_BUFFER_SIZE - strlen(cmd_finish))) {
         return LG_ERR_C_INVALID_ARGS;
     }
@@ -65,7 +71,7 @@ LG_ERR lg_dotask(const char* cmd) {
         "%s%s",
         cmd,
         cmd_finish);
-    
+
     if ((result >= 0) && (result < MAX_BUFFER_SIZE)) {
         int_ptrsize err = 0;
         DOTASK(cmd_buffer, &err, strlen(cmd_buffer));

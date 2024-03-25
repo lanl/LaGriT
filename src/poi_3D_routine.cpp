@@ -9,9 +9,8 @@
 #include <random>
 #include <sstream>
 
-
 #include "poi_3D_domain.h"
-#include "poi_3D_helperFunctions.h"
+#include "poi_helperFunctions.h"
 
 using std::cout;
 using std::endl;
@@ -148,6 +147,26 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
 
     cout << "---------------------------------------" << endl;
 
+    domain.initializeRandomGenerator(domain.seed);
+    domain.setBoundary(); 
+
+    domain.numVertices = domain.nodes.size();
+
+//     domain.numSamples = 10;
+//     domain.resampleSweeps = 2;
+    domain.loadDistanceField();
+    domain.initializeVariables();
+    domain.initializeNeighborGrid();
+    domain.sampleEdges();
+    cout << "Number of nodes " << domain.numNodes << endl;
+//    domain.sampleFaces();
+//     domain.mainSampling(0, false);
+//     domain.findEmptyCells();
+//     domain.fillEmptyCells();
+//     domain.resample();
+//     // // domain.printNodes();
+//     domain.dumpNodes();
+    domain.addNodesToMeshObject();
 
     cout << "\n===== Finished Poisson 3D Sampling =========\n\n" << endl;
 

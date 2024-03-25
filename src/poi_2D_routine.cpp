@@ -13,7 +13,7 @@
 
 // poisson disk sampling header files
 #include "poi_2D_polygon.h"
-#include "poi_2D_helperFunctions.h"
+#include "poi_helperFunctions.h"
 
 /* from lagrit lg_ codes */
 #include "lg_c_interface.h"
@@ -128,7 +128,10 @@ extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_o
 
    */
 
-void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps) {
+void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], 
+    char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, 
+        unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps) {
+
     // remove white space passed in by LaGriT
     char mo_poi_poly[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
