@@ -8,16 +8,6 @@
 #include <cstring>
 #include <stdio.h>
 
-#include <iostream>
-#include <vector>
-#include <string>
-#include <fstream>
-#include <iomanip>
-#include <cmath>
-#include <limits>
-#include <stdio.h>
-#include <cstring>
-
 #include "poi_3D_domain.h"
 #include "poi_3D_sampling.h"
 #include "poi_helperFunctions.h"
@@ -185,7 +175,7 @@ void Domain::addNodesToMeshObject() {
     LG_ERR err;
     // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
     // Create new mesh object for points
-    string cmd_string = "cmo/create/" + string(mo_poi_pts_out) + "/"  + std::to_string(numNodes) + "/0/tet";
+    string cmd_string = "cmo/cmo/create/" + string(mo_poi_pts_out) + "/" + std::to_string(numNodes) + "/0/tet";
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
