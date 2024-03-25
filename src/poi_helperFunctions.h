@@ -3,13 +3,15 @@
 #include <vector>
 #include <sstream>
 
-
-#include "poi_2D_polygon.h"
+#include "poi_3D_domain.h"
 
 const int LG_NAME_SIZE = 32;
 
 double distance2D(Point x0, Point x1);
 double distance2DSq(Point x0, Point x1);
+double distance3D(Point x0, Point x1);
+double distance3Dsq(Point x0, Point x1);
+
 std::vector<std::string> splitOnWhiteSpace(std::string line);
 void printPoint(Point point);
 void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]);

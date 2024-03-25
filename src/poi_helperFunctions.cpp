@@ -5,7 +5,8 @@
 #include <sstream>
 #include <iostream>
 
-#include "poi_2D_helperFunctions.h"
+#include "poi_helperFunctions.h"
+#include "poi_3D_domain.h"
 
 using std::cout;
 using std::endl;
@@ -21,6 +22,16 @@ double distance2DSq(Point x0, Point x1) {
     return pow(x1.x - x0.x, 2) + pow(x1.y - x0.y, 2);
 }
 
+/* computes Euclidean distance between two points */
+double distance3D(Point x0, Point x1) {
+    return sqrt(pow(x1.x - x0.x, 2) + pow(x1.y - x0.y, 2) + pow(x1.z - x0.z, 2));
+}
+/* Computes Euclidean Distance Squared between two points */
+double distance3DSq(Point x0, Point x1) {
+    return pow(x1.x - x0.x, 2) + pow(x1.y - x0.y, 2) + pow(x1.z - x0.z, 2);
+}
+
+
 /*! Splits a line of text on white space and returns
 *a of strings with the words in the line
 */
@@ -35,6 +46,17 @@ vector<std::string> splitOnWhiteSpace(std::string line) {
     return result;
 }
 
+/*! Print point information to screen
+*/
+void printPoint(Point point) {
+    cout << "Point - x " << point.x;
+    cout << " -y: " << point.y;
+    cout << " -ix: " << point.ix;
+    cout << " -iy: " << point.iy;
+    cout << " -r: " << point.radius;
+    cout << " -node #: " << point.nodeNum << endl;
+}
+
 void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
     // removes white space from LaGriT string. LaGriT passes it in with white space
     // fortran will pads the strings with spaces/
@@ -46,17 +68,4 @@ void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME
             break;
         }
     }
-}
-
-
-
-/*! Print point information to screen
-*/
-void printPoint(Point point) {
-    cout << "Point - x " << point.x;
-    cout << " -y: " << point.y;
-    cout << " -ix: " << point.ix;
-    cout << " -iy: " << point.iy;
-    cout << " -r: " << point.radius;
-    cout << " -node #: " << point.nodeNum << endl;
 }
