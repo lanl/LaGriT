@@ -17,11 +17,33 @@ SEACAS_INSTALL_DIR=${SEACAS_INSTALL_DIR:-"$(pwd)/TPLs/"}
 # =================================================
 
 # ==== MAC SPECIFIC COMPILER EXPORTS ===============
-export PATH="/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH"
-export COMPILER=MacPorts
-fortran_var=$(find /opt/local/bin/gfortran-mp-*)
-cc_var=$(find /opt/local/bin/gcc-mp-*)
-cpp_var=$(find /opt/local/bin/g++-mp-*)
+
+# ==== MAC SPECIFIC COMPILER EXPORTS ===============
+if [[ $(command -v brew) != "" ]]; then
+	echo "Homebrew found"
+	export PATH="/usr/bin/:/opt/homebrew/lib/:/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+	export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
+	export COMPILER=HomeBrew
+	fortran_var=/opt/homebrew/bin/gfortran
+	cc_var=/usr/bin/gcc
+	cpp_var=/usr/bin/g++
+
+elif [[ $(command -v port) != "" ]]; then
+	echo "MacPorts found"
+	export PATH="/opt/local/libexec/gnubin:/opt/local/bin:/opt/local/sbin:$PATH"
+	export COMPILER=MacPorts
+	fortran_var=$(find /opt/local/bin/gfortran-mp-*)
+	cc_var=$(find /opt/local/bin/gcc-mp-*)
+	cpp_var=$(find /opt/local/bin/g++-mp-*)
+
+else
+    echo "Please install compiler using Homebrew or MacPorts. Exiting."
+    exit 1
+fi
+
+echo "Fortran Compiler: $fortran_var"
+echo "C Compiler: $cc_var"
+echo "C++ Compiler: $cpp_var"
 
 FC="$fortran_var"
 export FC="$fortran_var"
