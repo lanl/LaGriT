@@ -60,7 +60,7 @@ C
 C  test for verb and call appropriate routine
 c
       lenopt2=icharlnf(cmsgin(2))
-      lenopt2=icharlnf(cmsgin(3))
+      lenopt3=icharlnf(cmsgin(3))
       if(cmsgin(2)(1:lenopt2).eq.'xyz'.or.
      *   cmsgin(2)(1:lenopt2).eq.'rtz'.or.
      *   cmsgin(2)(1:lenopt2).eq.'line'.or.
