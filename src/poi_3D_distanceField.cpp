@@ -71,26 +71,27 @@ void Domain::loadDistanceField() {
     icmolen = strlen(mo_dfield_name);
     iattlen = 4;
     double dfXMax, dfYMax, dfZMax;
-    double xMin, xMax = 0;
-    double yMin, yMax = 0;
-    double zMin, zMax = 0;
-    fc_cmo_get_double_(mo_dfield_name, "xmin", &xMin, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "ymin", &yMin, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "zmin", &yMin, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "xmax", &xMax, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "ymax", &yMax, &ierr, icmolen, iattlen);
-    fc_cmo_get_double_(mo_dfield_name, "zmax", &yMax, &ierr, icmolen, iattlen);
-    dfXMin = xMin;
-    dfYMin = yMin;
-    dfZMin = zMin;
+    double xMinTmp, xMaxTmp = 0;
+    double yMinTmp, yMaxTmp = 0;
+    double zMinTmp, zMaxTmp = 0;
+    fc_cmo_get_double_(mo_dfield_name, "xmin", &xMinTmp, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymin", &yMinTmp, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "zmin", &zMinTmp, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "xmax", &xMaxTmp, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "ymax", &yMaxTmp, &ierr, icmolen, iattlen);
+    fc_cmo_get_double_(mo_dfield_name, "zmax", &zMaxTmp, &ierr, icmolen, iattlen);
+    
+    dfXMin = xMinTmp;
+    dfYMin = yMinTmp;
+    dfZMin = zMinTmp;
 
-    dfXMax = xMax;
-    dfYMax = yMax;
-    dfZMax = zMax;
+    dfXMax = xMaxTmp;
+    dfYMax = yMaxTmp;
+    dfZMax = zMaxTmp;
 
     cout << "\nDistance Field number of cells. nx " << dfNumCellsX << " ny " << dfNumCellsY << " ny " << dfNumCellsZ << endl;
     cout << "Distance Field lower Bounds. xMin " << dfXMin << " yMin " << dfYMin << " zMin " << dfZMin  << endl;
-    cout << "Distance Field upper Bounds. xMax " << dfYMax << " yMax " << dfYMax << " zMin " << dfZMin << endl;
+    cout << "Distance Field upper Bounds. xMax " << dfYMax << " yMax " << dfYMax << " zMax " << dfZMax << endl;
     double deltaX = xMax - xMin;
     dfCellSize = deltaX / dfNumCellsX;
     // compute inversece cell size
@@ -100,7 +101,7 @@ void Domain::loadDistanceField() {
     distanceField.reserve(dfNumCellsX * dfNumCellsY * dfNumCellsZ);
 
     for (unsigned int i = 0; i < dfNumCellsX * dfNumCellsY * dfNumCellsZ; i++) {
-        distanceField.push_back(0);
+        distanceField.push_back(2*h);
     }
     
     char att[ ] = "h_field_att";
@@ -109,11 +110,12 @@ void Domain::loadDistanceField() {
     fc_cmo_get_vdouble_(mo_dfield_name, att, &hptr, &nlen, &ierr, icmolen, iattlen);
     unsigned int ptIndex = 0;
 
-    for (unsigned int k = 0; k < dfNumCellsZ; k++){
+    for (unsigned int i = 0; i < dfNumCellsX; i++) {
         for (unsigned int j = 0; j < dfNumCellsY; j++) {
-            for (unsigned int i = 0; i < dfNumCellsX; i++) {
+            for (unsigned int k = 0; k < dfNumCellsZ; k++){
                 unsigned int linearIndex = i * (dfNumCellsY * dfNumCellsZ) + j*dfNumCellsZ + k;
                 // distanceField[i][j] = *(hptr + ptIndex);
+                // cout << linearIndex << endl;
                 distanceField[linearIndex] = *(hptr + ptIndex);
                 ptIndex++;
                 // cout << "i,j,k,distanceField " << i << " " << j << " " << k << " " << distanceField[linearIndex] << endl;
@@ -204,9 +206,9 @@ void Domain::dumpDistanceField() {
     
     // format
     // x y value
-    for (unsigned int k = 0; k < dfNumCellsZ; k++){
-        for (unsigned int i = 0; i < dfNumCellsX; i++) {
-            for (unsigned int j = 0; j < dfNumCellsX; j++) {
+    for (unsigned int i = 0; i < dfNumCellsX; i++) {
+        for (unsigned int j = 0; j < dfNumCellsX; j++) {
+            for (unsigned int k = 0; k < dfNumCellsZ; k++){
                 unsigned int linearIndex = i * (dfNumCellsY * dfNumCellsZ) + j*dfNumCellsZ + k;
                 fp << std::setprecision(12) << i*dfCellSize + dfXMin << "," <<  j*dfCellSize + dfYMin 
                     << "," << k*dfCellSize + dfZMin <<  distanceField[linearIndex] << endl;
@@ -237,11 +239,13 @@ void Domain::getExclusionRadius(Point &point) {
     unsigned int i = getDFCellID(point.x, dfXMin);
     unsigned int j = getDFCellID(point.y, dfYMin);
     unsigned int k = getDFCellID(point.z, dfZMin);
-#ifdef DEBUG
-    cout << "x,y,k: " << point.x << " " << point.y << " " << point.z << endl;
+//#ifdef DEBUG
+    cout << "x,y,z: " << point.x << " " << point.y << " " << point.z << endl;
     cout << "i,j,k: " << i << " " << j << " " << k << endl;
-#endif
+//#endif
     unsigned int linearIndex = i * (dfNumCellsY * dfNumCellsZ) + j*dfNumCellsZ + k;
+    cout << "linearIndex: " << linearIndex << endl;
     point.radius = distanceField[linearIndex];
-    //point.radius = h;
+    // linear indexing is broken
+    point.radius = h;
 }

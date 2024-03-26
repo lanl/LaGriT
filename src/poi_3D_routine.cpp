@@ -130,8 +130,10 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
     cout << "h for sampling:\t\t\t\t" << domain.h << "\n" << endl;
     cout << "xMin:\t\t\t\t\t" << domain.xMin << endl;
     cout << "xMax:\t\t\t\t\t" << domain.xMax << endl;
+
     cout << "yMin:\t\t\t\t\t" << domain.yMin << endl;
     cout << "yMax:\t\t\t\t\t" << domain.yMax << endl;
+
     cout << "zMin:\t\t\t\t\t" << domain.zMin << endl;
     cout << "zMax:\t\t\t\t\t" << domain.zMax << "\n" << endl;
 
@@ -158,14 +160,14 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
     domain.initializeVariables();
     domain.initializeNeighborGrid();
     domain.sampleEdges();
+
     cout << "Number of nodes " << domain.numNodes << endl;
-//    domain.sampleFaces();
-//     domain.mainSampling(0, false);
-//     domain.findEmptyCells();
-//     domain.fillEmptyCells();
-//     domain.resample();
-//     // // domain.printNodes();
-//     domain.dumpNodes();
+    //domain.sampleFaces();
+    //domain.mainSampling(0, false);
+    // domain.findEmptyCells();
+    // domain.fillEmptyCells();
+    // domain.resample();
+     // // domain.printNodes();
     domain.addNodesToMeshObject();
 
     cout << "\n===== Finished Poisson 3D Sampling =========\n\n" << endl;

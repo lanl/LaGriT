@@ -175,7 +175,7 @@ void Domain::addNodesToMeshObject() {
     LG_ERR err;
     // Create strings for commands and conver them into chars. Kinda ugly, could be cleaned up.
     // Create new mesh object for points
-    string cmd_string = "cmo/cmo/create/" + string(mo_poi_pts_out) + "/" + std::to_string(numNodes) + "/0/tet";
+    string cmd_string = "cmo/create/" + string(mo_poi_pts_out) + "/" + std::to_string(numNodes) + "/0/tet";
     cout << cmd_string << endl;
     // // set the cmo to be the empty point mesh object
     int n = cmd_string.length();
@@ -185,6 +185,7 @@ void Domain::addNodesToMeshObject() {
     // // copying the contents of the
     // // string to char array
     strcpy(cmd_char, cmd_string.c_str());
+    cout << "calling do task" << endl;
     err = lg_dotask(cmd_char);
     cmd_string = "cmo/select/" + string(mo_poi_pts_out);
     cout << cmd_string << endl;
@@ -237,6 +238,8 @@ void Domain::addNodesToMeshObject() {
     
     err = lg_dotask("cmo/status/brief");
     err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
+    err = lg_dotask("dump/tmp.inp/mo_out");
+
 }
 
 

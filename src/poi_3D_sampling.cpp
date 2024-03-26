@@ -53,7 +53,10 @@ void Domain::sampleEdges() {
     for (unsigned int i = 0; i < edges.size(); i++) {
         cout << "Sampling along edge " << i << " which connects " << edges[i].i << " and " << edges[i].j << endl;
         vector<Point> lineNodes;
+        printPoint(nodes[edges[i].i]);
+        printPoint(nodes[edges[i].j]);
         lineNodes = sampleAlongLine(nodes[edges[i].i], nodes[edges[i].j]);
+        cout << "number of points added: " << lineNodes.size() << endl; 
         boundaryNodes.insert(boundaryNodes.end(), lineNodes.begin(), lineNodes.end());
     }
     
