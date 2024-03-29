@@ -1469,7 +1469,7 @@ C
 C
       delta_x = xmax_buff - xmin_buff
       delta_y = ymax_buff - ymin_buff
-      delta_y = zmax_buff - zmin_buff
+      delta_z = zmax_buff - zmin_buff
       np_x = ceiling(delta_x/h)
       np_y = ceiling(delta_y/h)
       np_z = ceiling(delta_z/h)
