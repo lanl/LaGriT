@@ -1144,7 +1144,12 @@ C
      &       h_spacing, delta, delta_x, delta_y, delta_z
       real*8 poi_box_xmin,poi_box_ymin,poi_box_zmin,
      &       poi_box_xmax,poi_box_ymax,poi_box_zmax,
+     &       xmin_buff,xmax_buff,
+     &       ymin_buff,ymax_buff,
+     &       zmin_buff,zmax_buff,
      &       epsilona_box, epsilonv_box
+      integer ijob_buffer
+
 C     pointers for x,y,z coordinates
       pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
@@ -1452,9 +1457,19 @@ C
       cbuf = 'cmo/delete/mo_poi_h_field ; finish'
       call dotaskx3d(cbuf,ierr)
 C
-      delta_x = poi_box_xmax - poi_box_xmin
-      delta_y = poi_box_ymax - poi_box_ymin
-      delta_z = poi_box_zmax - poi_box_zmin
+      ijob_buffer = 1
+      call buffer_xyz_minmax(
+     &      ijob_buffer,h,
+     &      xmin_buff,xmax_buff,
+     &      ymin_buff,ymax_buff,
+     &      zmin_buff,zmax_buff,
+     &      poi_box_xmin,poi_box_xmax,
+     &      poi_box_ymin,poi_box_ymax,
+     &      poi_box_zmin,poi_box_zmax)
+C
+      delta_x = xmax_buff - xmin_buff
+      delta_y = ymax_buff - ymin_buff
+      delta_y = zmax_buff - zmin_buff
       np_x = ceiling(delta_x/h)
       np_y = ceiling(delta_y/h)
       np_z = ceiling(delta_z/h)
@@ -1494,22 +1509,22 @@ C ---------------------------------------------------------------------
      &     'define / POI_3D_NPZ / ',np_z,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_XMIN / ',poi_box_xmin,' ; finish '
+     &     'define / POI_3D_XMIN / ',xmin_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_XMAX / ',poi_box_xmax,' ; finish '
+     &     'define / POI_3D_XMAX / ',xmax_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_YMIN / ',poi_box_ymin,' ; finish '
+     &     'define / POI_3D_YMIN / ',ymin_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_YMAX / ',poi_box_ymax,' ; finish '
+     &     'define / POI_3D_YMAX / ',ymax_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_ZMIN / ',poi_box_zmin,' ; finish '
+     &     'define / POI_3D_ZMIN / ',zmin_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
       write(cbuf,'(a,1pe13.6,a)')
-     &     'define / POI_3D_ZMAX / ',poi_box_zmax,' ; finish '
+     &     'define / POI_3D_ZMAX / ',zmax_buff,' ; finish '
       call dotaskx3d(cbuf,ierr)
 C
 C ---------------------------------------------------------------------
@@ -1624,15 +1639,12 @@ C ---------------------------------------------------------------------
 C
       call poisson_3d
      & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
-     & poi_box_xmin, poi_box_xmax, 
-     & poi_box_ymin, poi_box_ymax,
-     & poi_box_zmin, poi_box_zmax, 
+     & xmin_buff, xmax_buff, 
+     & ymin_buff, ymax_buff,
+     & zmin_buff, zmax_buff, 
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
-     
-C     & (mo_poi_pts_out,mo_poi_h_field,h_spacing,
-C     & np_x,np_y,np_z,seed,number_of_samples,resample_sweeps)
 C
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call (end)
