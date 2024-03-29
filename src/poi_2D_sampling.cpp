@@ -6,7 +6,7 @@
 #include <chrono>
 
 #include "poi_helperFunctions.h"
-#include "poi_2d_sampling.h"
+#include "poi_2D_sampling.h"
 
 using std::cout;
 using std::endl;
