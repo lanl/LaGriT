@@ -15,6 +15,21 @@ using std::endl;
 using std::string;
 using std::vector;
 
+/*!
+Returns index of neighbor grid
+*/
+unsigned int Domain::getNGLinearIndex(unsigned int i, unsigned int j, unsigned int k) {
+    unsigned int linearIndex = i * (numCellsY * numCellsZ) + j * numCellsZ + k;
+    
+    if (linearIndex >= totalNGCells) {
+        cout << "\nError. Linear index of neighbor grid larger than allocated. Max value : " << totalNGCells << endl;
+        cout << "i,j,k,neighborGrid-index: " << i << ", " << j << ", " << k << ", " << linearIndex << endl;
+        return 0;
+    }
+    
+    return linearIndex;
+}
+
 /*! Returns the index of the neighbor grid for a pt coordinate
 to get x value
 getNeighborGridCellID(x, xMin)
@@ -39,23 +54,25 @@ void Domain::initializeNeighborGrid() {
     cellSize = h / sqrt(3);
     cout << "cellSize: " << cellSize << endl;
     iCellSize = 1.0 / cellSize;
-    numCellsX = int(ceil((xMax - xMin) * iCellSize));
-    numCellsY = int(ceil((yMax - yMin) * iCellSize));
-    numCellsZ = int(ceil((zMax - zMin) * iCellSize));
+    numCellsX = int(ceil((xMax - xMin) * iCellSize)) + 1;
+    numCellsY = int(ceil((yMax - yMin) * iCellSize)) + 1;
+    numCellsZ = int(ceil((zMax - zMin) * iCellSize)) + 1;
     cout << "Num Cells X " << numCellsX << endl;
     cout << "Num Cells Y " << numCellsY << endl;
     cout << "Num Cells Z " << numCellsZ << endl;
-    unsigned int totalCells = numCellsX*numCellsY*numCellsZ; 
-    cout << "Total Cells " << totalCells << endl;
+    totalNGCells = numCellsX * numCellsY * numCellsZ;
+    cout << "Total Cells " << totalNGCells << endl;
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    grid.reserve(totalCells); 
-    for (unsigned int i = 0; i < totalCells; i++){
+    grid.reserve(totalNGCells * 3);
+    
+    for (unsigned int i = 0; i < totalNGCells; i++) {
         grid.push_back(0);
     }
+    
     cout << "Initializing memory for neighbor grid: Complete" << endl;
-
+    
     // every occupied cells is labelled with the node-number (start at 1) of the node occupying it. empty cells are 0.
     for (unsigned int i = 0; i < numNodes; i++) {
         nodes[i].ix = getNeighborGridCellID(nodes[i].x, xMin);
@@ -82,11 +99,12 @@ void Domain::dumpNBGrid() {
     for (unsigned int k = 0; k < numCellsZ + 1; k++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
             for (unsigned int i = 0; i < numCellsX + 1; i++) {
-                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+                auto linearIndex = getNGLinearIndex(i, j, k);
                 fp << i*cellSize + xMin << "," <<  j*cellSize + yMin << "," << k*cellSize + zMin << "," << grid[linearIndex] << endl;
             }
         }
     }
+    
     fp.close();
 }
 
@@ -123,10 +141,11 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
     kMax = std::min(point.iz + numCells, numCellsZ + 1);
     
     // walk through the box, and gather all non-zero entries
-    for (unsigned int i = iMin; i < iMax; i++) {
+    for (unsigned int k = kMin; k < kMax; k++) {
         for (unsigned int j = jMin; j < jMax; j++) {
-            for (unsigned int k = kMin; k < kMax; k++) {
-                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+            for (unsigned int i = iMin; i < iMax; i++) {
+                unsigned int linearIndex = getNGLinearIndex(i, j, k);
+                
                 if (grid[linearIndex] > 0) {
                     // cout << i << " " << j << " " << k << " " << grid[i][j][k] << endl;
                     nodeIDs.push_back(grid[linearIndex]);
@@ -147,29 +166,31 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
 * Exclusion radius of the provided point.
 */
 void Domain::tagNeighborCells(Point point) {
+    cout << "tagging neighbor cells" << endl;
     // Get discrete radius. Number of cells covered by the radius
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
     // Get the range of x and y in the neighborgrid
     unsigned int iMin, iMax;
     iMin = std::max(0, int( point.ix - numCells));
-    iMax = std::min(point.ix + numCells, numCellsX + 1);
+    iMax = std::min(point.ix + numCells, numCellsX);
     unsigned int jMin, jMax;
     jMin = std::max(0, int( point.iy - numCells));
-    jMax = std::min(point.iy + numCells, numCellsY + 1);
+    jMax = std::min(point.iy + numCells, numCellsY);
     unsigned int kMin, kMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     kMin = std::max(0, int( point.iz - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    kMax = std::min(point.iz + numCells, numCellsZ + 1);
+    kMax = std::min(point.iz + numCells, numCellsZ);
     // check if the points are within the radius.
     Point tmpPoint;
     double dist;
     
-    for (unsigned int i = iMin; i < iMax; i++) {
+    for (unsigned int k = kMin; k < kMax; k++) {
         for (unsigned int j = jMin; j < jMax; j++) {
-            for (unsigned int k = kMin; k < kMax; k++) {
-                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+            for (unsigned int i = iMin; i < iMax; i++) {
+                unsigned int linearIndex = getNGLinearIndex(i, j, k);
+                
                 // check is cell is already tagged, if not, then check the distance.
                 if (grid[linearIndex] == 0) {
                     tmpPoint.x =  i * cellSize + xMin;
@@ -196,11 +217,11 @@ void Domain::findEmptyCells() {
     emptyCells.shrink_to_fit();
     Point tmpPoint;
     
-    for (unsigned int i = 0; i < numCellsX + 1; i++) {
+    for (unsigned int k = 0; k < numCellsZ + 1; k++) {
         for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            for (unsigned int k = 0; k < numCellsZ + 1; k++) {
-                unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
-
+            for (unsigned int i = 0; i < numCellsX + 1; i++) {
+                unsigned int linearIndex = getNGLinearIndex(i, j, k);
+                
                 // check if cell is occupied.
                 if (grid[linearIndex] == 0) {
                     tmpPoint.x = i * cellSize + xMin;
@@ -243,11 +264,11 @@ unsigned int Domain::fillEmptyCells() {
         double xCellMin = i * cellSize + xMin;
         double yCellMin = j * cellSize + yMin;
         double zCellMin = k * cellSize + zMin;
-        
         // check if the neighbor cell is still empty.
         // Entries get filled in as these points are accetped.
         // Faster to do this check, than update/remove elements from  emptyCells on the fly.
-        unsigned int linearIndex = i * (numCellsY * numCellsZ) + j*numCellsZ + k;
+        unsigned int linearIndex = getNGLinearIndex(i, j, k);
+        
         if (grid[linearIndex] == 0) {
             for (unsigned int count = 0; count < numSamples; count++) {
                 newPoint.x = uniformDistribution() * cellSize + xCellMin;

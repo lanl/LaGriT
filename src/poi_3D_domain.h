@@ -33,7 +33,7 @@ class Domain {
   public:
     // output point name
     const char * mo_poi_pts_out;
-
+    
     // miminum mesh resolution provided by user
     double h;
     // number of sample attempts around an accepted point (cheap)
@@ -50,8 +50,8 @@ class Domain {
     
     // Edges of the bounding cuboid
     std::vector<Edge> edges;
-
-    int seed;  
+    
+    int seed;
     std::mt19937_64 generator;
     
     // Bounding box of the polygon
@@ -83,10 +83,13 @@ class Domain {
     unsigned int numCellsY;
     // Numner of cells in Y
     unsigned int numCellsZ;
-    // Neighbor grid with linear indexing for 2D field 
+    // Neighbor grid with linear indexing for 2D field
 //    std::vector<unsigned int> grid;
     std::vector<int> grid;
-
+    
+    // total number of cells in the neighbor grid
+    unsigned int totalNGCells;
+    
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
     
@@ -99,12 +102,15 @@ class Domain {
     void findEmptyCells();
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
+    unsigned int getNGLinearIndex(unsigned int i, unsigned int j, unsigned int k);
     
     // Distance Field Parameters
     // distance field filename
-  
+    
     // Name of distance field mesh object
     const char * mo_dfield_name;
+    // max index, used for error detection
+    unsigned int dfieldNumNodes;
     // distance field cell size (uniform in x and y)
     double dfCellSize;
     // inverse of distance field size
@@ -128,6 +134,7 @@ class Domain {
     void dumpDistanceField();
     unsigned int getDFCellID(double x, double xMin);
     void getExclusionRadius(Point &point);
+    unsigned int getDFLinearIndex(unsigned int i, unsigned int j, unsigned int k);
     
     // Sampling functions -> sampling.cpp
     double uniformDistribution();
@@ -144,7 +151,7 @@ class Domain {
     bool inBoundingBox(Point point);
     bool inDomain(Point point);
     Point newCandidateOnFace(Point currentPoint, unsigned int faceID);
-
+    
     // io
     void addNodesToMeshObject();
     // Destructor

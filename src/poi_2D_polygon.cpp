@@ -31,7 +31,7 @@ void Polygon::findBoundingBox() {
     xMin = nodes[0].x;
     yMax = nodes[0].y;
     yMin = nodes[0].y;
-
+    
     for (unsigned int i = 1; i < numNodes; i++) {
         xMax = std::max(xMax, nodes[i].x);
         xMin = std::min(xMin, nodes[i].x);
@@ -54,13 +54,13 @@ void Polygon::initializeVariables() {
     // Preallocate a little memory
     double deltaX = xMax - xMin;
     double deltaY = yMax - yMin;
-    double max_nodes = (1./h)*(1./h)*deltaX * deltaY;
+    double max_nodes = (1. / h) * (1. / h) * deltaX * deltaY;
     //cout << "delta X" << deltaX << endl;
     //cout << "delta Y" << deltaY << endl;
     //cout << "h" << h << endl;
     //cout << "max nodes " << max_nodes << endl;
     nodes.reserve(max_nodes);
- 
+    
     // get initial exclusion radius
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
@@ -127,16 +127,18 @@ bool Polygon::loadVertices() {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
         return false;
     }
+    
     //cout << "Reading in z coords" << endl;
     fc_cmo_get_vdouble_(mo_poly_name, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
+    
     if (ierr != 0 || nlen != numVertices) {
         cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
         return false;
     }
-    // read in the z value, we assign all nodes the same z value in the end. 
+    
+    // read in the z value, we assign all nodes the same z value in the end.
     zValue = *(zptr);
     cout << "Z-coordinate: " << zValue << endl;
-    
     // read in the node coordinates
     Point tmpPoint;
     
@@ -257,7 +259,7 @@ void Polygon::dumpNodes() {
 
 /*! Constructor for polygon class.
 */
-Polygon::Polygon(){
+Polygon::Polygon() {
 }
 
 /*! Destructor for polygon class.

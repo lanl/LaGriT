@@ -1639,9 +1639,9 @@ C ---------------------------------------------------------------------
 C
       call poisson_3d
      & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
-     & xmin_buff, xmax_buff, 
-     & ymin_buff, ymax_buff,
-     & zmin_buff, zmax_buff, 
+     & poi_box_xmin, poi_box_xmax, 
+     & poi_box_ymin, poi_box_ymax,
+     & poi_box_zmin, poi_box_zmax, 
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 

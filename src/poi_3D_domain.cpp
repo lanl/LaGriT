@@ -21,7 +21,7 @@ using std::endl;
 using std::string;
 using std::vector;
 using std::ifstream;
-using std::string; 
+using std::string;
 
 /* Parse command line and add variable to the polygon object.
 */
@@ -31,7 +31,7 @@ using std::string;
 //     // arg 2: output filename
 //     outputFilename = argv[2];
 //     cout << "Writting points to " << outputFilename << endl;
-//     // Read in boundaries of the box 
+//     // Read in boundaries of the box
 //     xMin = atof(argv[3]);
 //     xMax = atof(argv[4]);
 //     yMin = atof(argv[5]);
@@ -81,6 +81,7 @@ void Domain::setBoundary() {
     nodes.push_back({xMin, yMax, zMax, h});
     nodes.push_back({xMax, yMax, zMax, h});
     nodes.push_back({xMax, yMin, zMax, h});
+    numNodes = nodes.size();
     // set domain edge connectivity
     setEdges();
 }
@@ -114,6 +115,7 @@ void Domain::setEdges() {
     //domain.edges.push_back({7,6});
     //domain.edges.push_back({7,3});
 }
+
 /*! Initializes variables of the polygon */
 void Domain::initializeVariables() {
     cout << "Initializing variables " << endl;
@@ -132,7 +134,7 @@ void Domain::initializeVariables() {
         getExclusionRadius(nodes[i]);
     }
     
-    cout << "Initializing variables complete" << endl;
+    cout << "Initializing variables complete\n" << endl;
 }
 
 /*! Load vertices from the avs file
@@ -149,7 +151,7 @@ void Domain::initializeVariables() {
 //     parsedLine = splitOnWhiteSpace(line);
 //     numVertices = std::stoi(parsedLine[0]);
 //     cout << "There are " << numVertices << " nodes on the boundary of the polygon\n";
-    
+
 //     // read in the node coordinates
 //     for (unsigned int i = 0; i < numVertices; i++) {
 //         getline(inpFile, line);
@@ -157,13 +159,16 @@ void Domain::initializeVariables() {
 //         // Format Node Number, x-coord, y-coord,
 //         nodes.push_back({std::stod(parsedLine[1]), std::stod(parsedLine[2]), 0});
 //     }
-    
+
 //     inpFile.close();
 //     cout << "Reading vertices from " << inputFilename << " complete" << endl;
 // }
 
 /*! Print node information to screen*/
 void Domain::printNodes() {
+    cout << "Printing node information" << endl;
+    cout << "There are " << numNodes << " nodes" << endl;
+    
     for (unsigned int i = 0; i < numNodes; i++) {
         printPoint(nodes[i]);
     }
@@ -239,7 +244,6 @@ void Domain::addNodesToMeshObject() {
     err = lg_dotask("cmo/status/brief");
     err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
     err = lg_dotask("dump/tmp.inp/mo_out");
-
 }
 
 
@@ -251,11 +255,11 @@ void Domain::addNodesToMeshObject() {
 //     cout << "Writing points to file: " << outputFilename << endl;
 //     cout << "There are " << numNodes << " point in the final distribution" << endl;
 //     fp.open(outputFilename.c_str(), std::ofstream::out | std::ofstream::trunc);
-    
+
 //     for (unsigned int i = 0; i < numNodes; i++) {
 //         fp << std::setprecision(12) << nodes[i].x << " " << nodes[i].y << " " << nodes[i].z << endl;
 //     }
-    
+
 //     fp.close();
 // }
 

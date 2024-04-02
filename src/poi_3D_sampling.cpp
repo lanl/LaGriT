@@ -56,7 +56,7 @@ void Domain::sampleEdges() {
         printPoint(nodes[edges[i].i]);
         printPoint(nodes[edges[i].j]);
         lineNodes = sampleAlongLine(nodes[edges[i].i], nodes[edges[i].j]);
-        cout << "number of points added: " << lineNodes.size() << endl; 
+        cout << "number of points added: " << lineNodes.size() << endl;
         boundaryNodes.insert(boundaryNodes.end(), lineNodes.begin(), lineNodes.end());
     }
     
@@ -402,9 +402,9 @@ bool Domain::testCandidate(Point &newPoint) {
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
     
     newPoint.iz = getNeighborGridCellID(newPoint.z, zMin);
-
-
-    unsigned int linearIndex = newPoint.ix * (numCellsY * numCellsZ) + newPoint.iy*numCellsZ + newPoint.iz;
+    
+    unsigned int linearIndex = newPoint.ix * (numCellsY * numCellsZ) + newPoint.iy * numCellsZ + newPoint.iz;
+    
     if (grid[linearIndex] > 0) {
 #ifdef DEBUG
         cout << "grid space filled" << endl;

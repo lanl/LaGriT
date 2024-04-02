@@ -128,10 +128,9 @@ extern "C" void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_o
 
    */
 
-void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE], 
-    char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX, 
-        unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps) {
-
+void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NAME_SIZE],
+                 char mo_poi_h_field_in[LG_NAME_SIZE], double *h, unsigned int *dfNumCellsX,
+                 unsigned int *dfNumCellsY, int *seed, int *numSamples, int *resampleSweeps) {
     // remove white space passed in by LaGriT
     char mo_poi_poly[LG_NAME_SIZE];
     process_lagrit_string(mo_poi_poly_in, mo_poi_poly);
@@ -168,18 +167,15 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     polygon.resampleSweeps = *resampleSweeps;
     polygon.seed = *seed;
     cout << "---------------------------------------" << endl;
-    cout << "Poisson Disc Sampling Parameters:" << endl; 
+    cout << "Poisson Disc Sampling Parameters:" << endl;
     cout << "h for sampling:\t\t\t" << polygon.h << endl;
     cout << "Number of samples:\t\t" << polygon.numSamples << endl;
     cout << "Number of resample sweeps:\t" << polygon.resampleSweeps << endl;
-    cout << "Seed for generator:\t\t"<<polygon.seed << endl;
+    cout << "Seed for generator:\t\t" << polygon.seed << endl;
     cout << "---------------------------------------" << endl;
     cout << endl;
-
-
     // polygon.distanceField.reserve(10000);
     // polygon.emptyCells.reserve(10000);
-
     // initialize random number generator
     polygon.initializeRandomGenerator(polygon.seed);
     // load polygon vertices (polygon.cpp)
@@ -200,18 +196,17 @@ void poisson_2d_(char mo_poi_poly_in[LG_NAME_SIZE], char mo_poi_pts_out_in[LG_NA
     // Initialize the background look up grid (neighborGrid.cpp)
     polygon.initializeNeighborGrid();
     // Initial sampling sweep (sampling.cpp)
-    cout << "---------------------------------------" << endl; 
+    cout << "---------------------------------------" << endl;
     polygon.mainSampling(0, false);
     // Find empty cells, resample therein, and restart the main sampling algorithm (sampling.capp)
     polygon.resample();
     cout << "Sampling routine is complete\n\n" << endl;
-    cout << "---------------------------------------" << endl; 
+    cout << "---------------------------------------" << endl;
     // Write points to file
     //polygon.dumpNodes();
     // copy points to mesh object
     polygon.addNodesToMeshObject();
     cout << "===== Poisson 2D Sampling Complete =========\n\n" << endl;
-
     return;
 }
 // #ifdef __cplusplus

@@ -52,11 +52,11 @@ void printPoint(Point point) {
     cout << "Point - x " << point.x;
     cout << " -y: " << point.y;
     cout << " -z: " << point.z << endl;
-   cout << " -ix: " << point.ix;
-   cout << " -iy: " << point.iy;
-   cout << " -iz: " << point.iz;
-   cout << " -r: " << point.radius;
-   cout << " -node #: " << point.nodeNum << endl;
+    cout << " -ix: " << point.ix;
+    cout << " -iy: " << point.iy;
+    cout << " -iz: " << point.iz;
+    cout << " -r: " << point.radius;
+    cout << " -node #: " << point.nodeNum << endl;
 }
 
 void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
