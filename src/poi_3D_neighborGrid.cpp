@@ -24,6 +24,7 @@ unsigned int Domain::getNGLinearIndex(unsigned int i, unsigned int j, unsigned i
     if (linearIndex >= totalNGCells) {
         cout << "\nError. Linear index of neighbor grid larger than allocated. Max value : " << totalNGCells << endl;
         cout << "i,j,k,neighborGrid-index: " << i << ", " << j << ", " << k << ", " << linearIndex << endl;
+        cout << i*cellSize + xMin << ", " <<  j*cellSize + yMin << ", " << k*cellSize + zMin << ", " << grid[linearIndex] << endl;
         return 0;
     }
     
@@ -113,6 +114,7 @@ previously accepted points within the exclusion radius of the current point.
 This is done using the values of the neighborgrid
 */
 std::vector<int> Domain::getNeighborCellsRadius(Point point) {
+    
     std::vector<int> nodeIDs;
     // Get the corners of a square around ix,iy.
     /* Using a square, rather than a circle, because the math is faster.
@@ -128,17 +130,17 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
     // minimum x edge is the current x-index the numCells, or 0.
     iMin = std::max(0, int( point.ix - numCells));
     // maximum x edge is the current x-index plus the numCells, or the edge of the grid.
-    iMax = std::min(point.ix + numCells, numCellsX + 1);
+    iMax = std::min(point.ix + numCells, numCellsX);
     unsigned int jMin, jMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     jMin = std::max(0, int( point.iy - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    jMax = std::min(point.iy + numCells, numCellsY + 1);
+    jMax = std::min(point.iy + numCells, numCellsY);
     unsigned int kMin, kMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     kMin = std::max(0, int( point.iz - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    kMax = std::min(point.iz + numCells, numCellsZ + 1);
+    kMax = std::min(point.iz + numCells, numCellsZ);
     
     // walk through the box, and gather all non-zero entries
     for (unsigned int k = kMin; k < kMax; k++) {
@@ -166,7 +168,8 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
 * Exclusion radius of the provided point.
 */
 void Domain::tagNeighborCells(Point point) {
-    cout << "tagging neighbor cells" << endl;
+//    cout << "tagging neighbor cells" << endl;
+
     // Get discrete radius. Number of cells covered by the radius
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
@@ -217,9 +220,9 @@ void Domain::findEmptyCells() {
     emptyCells.shrink_to_fit();
     Point tmpPoint;
     
-    for (unsigned int k = 0; k < numCellsZ + 1; k++) {
-        for (unsigned int j = 0; j < numCellsY + 1; j++) {
-            for (unsigned int i = 0; i < numCellsX + 1; i++) {
+    for (unsigned int k = 0; k < numCellsZ; k++) {
+        for (unsigned int j = 0; j < numCellsY; j++) {
+            for (unsigned int i = 0; i < numCellsX; i++) {
                 unsigned int linearIndex = getNGLinearIndex(i, j, k);
                 
                 // check if cell is occupied.

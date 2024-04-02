@@ -51,12 +51,12 @@ void Domain::sampleEdges() {
     vector<Point> boundaryNodes;
     
     for (unsigned int i = 0; i < edges.size(); i++) {
-        cout << "Sampling along edge " << i << " which connects " << edges[i].i << " and " << edges[i].j << endl;
+         // cout << "Sampling along edge " << i << " which connects " << edges[i].i << " and " << edges[i].j << endl;
         vector<Point> lineNodes;
-        printPoint(nodes[edges[i].i]);
-        printPoint(nodes[edges[i].j]);
+        // printPoint(nodes[edges[i].i]);
+        // printPoint(nodes[edges[i].j]);
         lineNodes = sampleAlongLine(nodes[edges[i].i], nodes[edges[i].j]);
-        cout << "number of points added: " << lineNodes.size() << endl;
+        // cout << "number of points added: " << lineNodes.size() << endl;
         boundaryNodes.insert(boundaryNodes.end(), lineNodes.begin(), lineNodes.end());
     }
     
@@ -69,7 +69,7 @@ void Domain::sampleEdges() {
         tagNeighborCells(nodes[i]);
     }
     
-    cout << "Sampling boundaries complete\n" << endl;
+    cout << "Sampling edges complete\n" << endl;
 }
 
 /*! Discretizes the edge of the polygon.

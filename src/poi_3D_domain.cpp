@@ -82,6 +82,7 @@ void Domain::setBoundary() {
     nodes.push_back({xMax, yMax, zMax, h});
     nodes.push_back({xMax, yMin, zMax, h});
     numNodes = nodes.size();
+    numVertices = nodes.size();
     // set domain edge connectivity
     setEdges();
 }
@@ -168,7 +169,6 @@ void Domain::initializeVariables() {
 void Domain::printNodes() {
     cout << "Printing node information" << endl;
     cout << "There are " << numNodes << " nodes" << endl;
-    
     for (unsigned int i = 0; i < numNodes; i++) {
         printPoint(nodes[i]);
     }

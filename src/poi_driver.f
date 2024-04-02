@@ -1716,6 +1716,9 @@ C
       call dotaskx3d(cbuf,ierr)
       cbuf = 'quality ; finish '
       call dotaskx3d(cbuf,ierr)
+      cbuf = 'dump / tets.inp / '// mo_poi_pts_out(1:ilen) //' ; finish'
+      call dotaskx3d(cbuf,ierr)
+
 C
  9999 continue
 C 

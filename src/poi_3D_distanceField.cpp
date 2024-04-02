@@ -246,12 +246,12 @@ void Domain::getExclusionRadius(Point &point) {
     unsigned int j = getDFCellID(point.y, dfYMin);
     unsigned int k = getDFCellID(point.z, dfZMin);
 //#ifdef DEBUG
-    cout << "x,y,z: " << point.x << " " << point.y << " " << point.z << endl;
-    cout << "i,j,k: " << i << " " << j << " " << k << endl;
+    //cout << "x,y,z: " << point.x << " " << point.y << " " << point.z << endl;
+    //cout << "i,j,k: " << i << " " << j << " " << k << endl;
 //#endif
     unsigned int linearIndex = getDFLinearIndex(i, j, k);
-    cout << "linearIndex: " << linearIndex << "\n" << endl;
+    //cout << "linearIndex: " << linearIndex << "\n" << endl;
     point.radius = distanceField[linearIndex];
     // linear indexing is broken
-    point.radius = h;
+    // point.radius = h;
 }
