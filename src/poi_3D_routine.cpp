@@ -145,7 +145,7 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
     domain.initializeNeighborGrid();
     domain.sampleEdges();
     cout << "Number of nodes " << domain.numNodes << endl;
-    //domain.sampleFaces();
+    domain.sampleFaces();
     //domain.mainSampling(0, false);
     // domain.findEmptyCells();
     // domain.fillEmptyCells();
