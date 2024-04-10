@@ -5,6 +5,7 @@
 #include <vector>
 // #include <bits/stdc++.h>
 #include <algorithm>
+#include <iomanip>
 
 #include "poi_3D_domain.h"
 #include "poi_3D_sampling.h"
