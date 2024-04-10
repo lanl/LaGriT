@@ -202,7 +202,7 @@ void Domain::tagNeighborCells(Point point) {
                     dist = distance3D(point, tmpPoint);
                     
                     // if the distance is less than the radius, then tag the grid cell as occupied.
-                    if (dist < point.radius) {
+                    if (dist <= point.radius) {
                         grid[linearIndex] = point.nodeNum;
                         //cout << point.nodeNum << endl;
                     }
@@ -257,8 +257,14 @@ unsigned int Domain::fillEmptyCells() {
     // The first entry is i the second is j
     // Example: index 0,1 are i0,j0, 2,3 are i1, j2.
     cout << "Filling empty cells in the background grid" << endl;
-    
+
+    cout << "\tCell#\t\tTotal Cells\tPercentage"<<endl;
     for (unsigned int cellIdx = 0; cellIdx < emptyCells.size(); cellIdx += 3) {
+        if (((cellIdx/3) % 100) == 0){
+            cout << "\t"<<cellIdx/3 <<  "\t\t" << (emptyCells.size()/3) << "\t\t";
+            double percentage = 100.0*(double)cellIdx/(double)emptyCells.size();
+            cout << std::setprecision(3) << percentage << " %"<< endl; 
+        }
         // get the cell index
         unsigned int i = emptyCells[cellIdx];
         unsigned int j = emptyCells[cellIdx + 1];

@@ -74,7 +74,7 @@ LG_ERR lg_dotask(const char* cmd) {
 
     if ((result >= 0) && (result < MAX_BUFFER_SIZE)) {
         int_ptrsize err = 0;
-        DOTASK(cmd_buffer, &err, strlen(cmd_buffer));
+        DOTASK(cmd_buffer, &err, (size_t)strlen(cmd_buffer));
         return (LG_ERR)err;
     } else {
         return LG_ERR_C_INVALID_ARGS;
