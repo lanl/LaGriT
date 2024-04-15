@@ -43,6 +43,8 @@ After the container launches, navigate to:
 - C, C++, and compatible Fortran compilers. MacOS may need command line tools updated.
 - OPTIONAL Exodus libraries installed in TPLs, requires bash and wget.
 
+**Note:** There is an issue with Poisson Disk Commands using any Brew installed compilers and Gnu 10-12. Works on Clang 14-15 and Gnu 9.4.
+
 #### Download LaGriT ####
 
 Download the Https repo by running:
