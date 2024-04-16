@@ -195,3 +195,11 @@ When you run
 gcc –version
 ```
 it should now list homebrew rather than clang.
+
+## Clang and Implicit-int error
+
+Newer versions of Clang have moved away from implicit-int and have begun reporting it as an error rather then a warning. It may be necessary to use the flag
+
+```
+-Wno-error=implicit-int
+```
