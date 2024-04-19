@@ -68,6 +68,11 @@ extern void DOTASK(
     int_ptrsize* ierr,
     size_t cmd_len);
 
+extern void DOTASK_TEST(
+    const char* cmd,
+    int_ptrsize* ierr,
+    size_t cmd_len);
+
 extern void CMO_GET_NAME(
     const char* name,
     int_ptrsize* ierr,
