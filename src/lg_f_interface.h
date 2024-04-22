@@ -42,10 +42,9 @@ ie define DOTASK FortranCInterface_GLOBAL(dotask, DOTASK)
 */
 
 #include "fc_mangle.h"
-#include "type_sizes.h"
 #include <stddef.h>
 
-// typedef int int_ptrsize;
+typedef int int_ptrsize;
 typedef double real8;
 
 #ifdef __cplusplus
@@ -65,11 +64,6 @@ extern void INITLAGRIT(
     size_t batch_file_len);
 
 extern void DOTASK(
-    const char* cmd,
-    int_ptrsize* ierr,
-    size_t cmd_len);
-
-extern void DOTASK_TEST(
     const char* cmd,
     int_ptrsize* ierr,
     size_t cmd_len);

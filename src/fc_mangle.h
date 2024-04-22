@@ -17,7 +17,6 @@
 /* Mangle some symbols automatically.                                       */
 #define INITLAGRIT FortranCInterface_GLOBAL(initlagrit, INITLAGRIT)
 #define DOTASK FortranCInterface_GLOBAL(dotask, DOTASK)
-#define DOTASK_TEST FortranCInterface_GLOBAL_(dotask_test, DOTASK_TEST)
 #define CMO_GET_NAME FortranCInterface_GLOBAL_(cmo_get_name, CMO_GET_NAME)
 #define CMO_GET_INFO FortranCInterface_GLOBAL_(cmo_get_info, CMO_GET_INFO)
 #define CMO_GET_INTINFO FortranCInterface_GLOBAL_(cmo_get_intinfo, CMO_GET_INTINFO)
