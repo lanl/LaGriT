@@ -27,7 +27,7 @@ NOTE: these only work for integer scalars
 
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
-
+#include "type_sizes.h"
 #include <stdio.h>
 #include <cstring>
 
@@ -70,6 +70,56 @@ LG_ERR lg_dotask(const char* cmd) {
         int_ptrsize err = 0;
         DOTASK(cmd_buffer, &err, strlen(cmd_buffer));
         return (LG_ERR)err;
+    } else {
+        return LG_ERR_C_INVALID_ARGS;
+    }
+}
+
+// test strings passed from cpp to fortran
+// similar to dotask but do not process strings as commands
+extern "C"
+LG_ERR lg_dotask_test(const char* cmd) {
+    const char* cmd_finish = "; finish";
+
+//      arg values passed to fortran should be size 8
+//      int_ptrsize is usually integer 8 same as long
+//      The hidden string length is passed as size_t as 8 bytes on x64
+
+    int_ptrsize err = 0;
+    size_t ival = 0;
+
+    printf("Inside C wrapper lg_dotask_test \n");
+    printf("received string: %s\n", cmd);
+    printf("string length: %ld\n", strlen(cmd));
+
+    if (strlen(cmd) >= (MAX_BUFFER_SIZE - strlen(cmd_finish))) {
+        return LG_ERR_C_INVALID_ARGS;
+    }
+
+    char cmd_buffer[MAX_BUFFER_SIZE];
+
+    int result = snprintf(
+        cmd_buffer,
+        MAX_BUFFER_SIZE,
+        "%s%s",
+        cmd,
+        cmd_finish);
+
+    if ((result >= 0) && (result < MAX_BUFFER_SIZE)) {
+
+        printf("  sizeof strlen: %ld\n",sizeof(strlen(cmd_buffer)));
+        printf("  sizeof err: %ld\n",sizeof(err));
+        printf("  sizeof hidden length: %ld\n",sizeof(ival));
+
+
+        printf("sending parameters to FORTRAN dotask_test\n");
+        printf("send string: %s\n", cmd_buffer);
+        printf("string length: %ld\n", strlen(cmd_buffer));
+        
+        DOTASK_TEST(cmd_buffer, &err, strlen(cmd_buffer));
+
+        return (LG_ERR)err;
+
     } else {
         return LG_ERR_C_INVALID_ARGS;
     }

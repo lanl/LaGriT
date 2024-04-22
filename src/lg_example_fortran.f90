@@ -1,6 +1,30 @@
+! #####################################################################
+! This file has examples of dotask and get info routines
+! Added routines for testing strings
+
+      subroutine test_string(cbuf) 
+! #####################################################################
+!     PURPOSE -
+!        test string passing between C and fortran calls 
+!     using print to avoid formatting
+! #####################################################################
+
+      implicit none
+      character*132 cbuf
+      integer icharlnf, ilen
+     
+      ilen = icharlnf(cbuf) 
+      print*
+      print*,"test_string() received string:"
+      print*,"length: ",icharlnf(cbuf)
+      print*,"string: ",cbuf(1:ilen)
+
+      return
+      end
+
+!
+!
       subroutine lg_example_fortran(ierror) 
-!
-!
 ! #####################################################################
 !
 !     PURPOSE -
