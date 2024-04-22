@@ -166,9 +166,40 @@ gfortran-mp-13
 The MacPorts compilers shown above do not have this precision issue.
 
 
+## Compilers using Homebrew
 
+Prior to installing compilers, you must have a working git, https://github.com/git-guides/install-git, and homebrew, https://github.com/homebrew, install.
 
+```
+brew install cmake
+brew install make
+brew install gcc
+brew install wget
+```
+It may be necessary to export your compiler path as MACs like to use Clang whenever possible
 
+```
+export PATH=/usr/local/bin:$PATH
+```
 
+It some cases, creating an alias also helps:
+```
+alias gcc="gcc-13"
+alias g++="g++-13"
+alias cc="cc-13"
+alias c++="c++-13"
+```
 
+When you run 
+```
+gcc –version
+```
+it should now list homebrew rather than clang.
 
+## Clang and Implicit-int error
+
+Newer versions of Clang have moved away from implicit-int and have begun reporting it as an error rather then a warning. It may be necessary to use the flag
+
+```
+-Wno-error=implicit-int
+```

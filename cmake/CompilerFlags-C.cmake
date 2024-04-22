@@ -6,6 +6,13 @@ if("${CMAKE_C_COMPILER_ID}" MATCHES "Clang")
   MESSAGE(STATUS "  C compiler: Clang")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
 
+  execute_process(COMMAND clang --version OUTPUT_VARIABLE clang_version_output)
+  string(REGEX MATCH "[0-9]+" clang_version "${clang_version_output}")
+
+  if (clang_version AND clang_version GREATER_EQUAL 15)
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=implicit-int")
+  endif()
+
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
   MESSAGE(STATUS "  C compiler: GNU GCC")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w -m64")
@@ -26,6 +33,13 @@ endif()
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
   message(STATUS "  C++ compiler: Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w -stdlib=libc++ -std=c++0x")
+
+  execute_process(COMMAND clang --version OUTPUT_VARIABLE clang_version_output)
+  string(REGEX MATCH "[0-9]+" clang_version "${clang_version_output}")
+  
+  if (clang_version AND clang_version GREATER_EQUAL 15)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-error=implicit-int")
+  endif()
 
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   message(STATUS "  C++ compiler: GNU G++")

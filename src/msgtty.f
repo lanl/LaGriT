@@ -804,15 +804,23 @@ C
       data ipointi2d, ipointj2d / 0, 0 /
  
       character*132 logmess
+      character*132 cbuf
       character*32  cmo1, cmo2
       character*32 coption
 C
 C
       isubname='msgtty'
+
+C     ierr2 is returned from inside routines that use it
+C     ierror is used in this routine to flag msgtty errors
+      ierr2 = 0
+      ierror = 0
+
 C
 C        ***************************************************************
 C        DO THE COMMAND.
 C
+C        Get the first word, do not overwrite idsb
          idsb=cmsgout(1)
          lenidsb=icharlnf(idsb)
 C
@@ -1574,7 +1582,7 @@ C
      *          idsb(1:lenidsb).eq.'settets') then
 C
  
-           if(cmsgout(2)(1:lenidsb).eq.'normal') then
+           if(cmsgout(2)(1:6).eq.'normal') then
 C           ***************************************************************
 C           settets/normal  : ASSIGNS INTEGER ID TO ITETCLR
 C                             BASED ON 26 POSSIBLE NORMAL DIRECTIONS
@@ -2474,25 +2482,84 @@ C
          elseif(idsb(1:lenidsb).eq.'test') then
 C
 C           ************************************************************
-C           test : EXECUTE example that can be copied to user_sub.f 
-C
-            call lagrit_test(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+C           test :  
+C           default - easy test using creatpts to check executable
+C           string - string passing tests pending
+C           cpp -  call dotask and get_info c to fortran wrappers
+C           fort - call dotask and get_info fortran routines used by cpp
+C           dotask - call dotask_test with no commands processed 
+
+            if(nwds.eq.1) then
+ 
+               call lagrit_test(imsgout,xmsgout,cmsgout,msgtype,
+     &              nwds,ierr2)
+
+            elseif(nwds.ge.2 .and. cmsgout(2)(1:6) .eq. 'string') then
+                
+               cbuf="one/two/three/four/end"
+               call test_string(cbuf)
+
+            elseif(nwds.ge.2 .and. cmsgout(2)(1:6) .eq. 'dotask') then
+
+C              test string is passed from C++ routine to dotask_test()
+               print*,"msgtty calling dotask_cpp()"
+               call dotask_cpp()
+
+            elseif(nwds.ge.2 .and. cmsgout(2)(1:3) .eq. 'cpp') then
+
+               write(logmess,'(a)') 'Begin C++ tests.'
+               call writloga('default',1,logmess,1,ierrw)
+               call example_cpp()
+
+            elseif(nwds.ge.2 .and. cmsgout(2)(1:4) .eq. 'fort') then
+                
+               write(logmess,'(a)') 'Begin FORTRAN tests.'
+               call writloga('default',1,logmess,1,ierrw)
+               call lg_example_fortran(ierr2)
+
+           elseif(nwds.ge.2 .and. (cmsgout(2)(1:4) .eq. 'list'
+     &                      .or.   cmsgout(2)(1:4) .eq. 'help')) then
+
+               print*,"test         createpts mesh"
+               print*,"test/dotask  c-fortran string passing"
+               print*,"test/cpp     c-fortran dotask and get_info calls"
+               print*,"test/fortran fortran dotask and get_info calls"
+               print*,"test/string  simple fortran string test"
+
+            endif
 
 
+         else
 
-          else
+C           ************************************************************
+C           command idsb() not found is not an error but give warning
 
-              ierror=-1
-              write(logmess,9000) idsb(1:lenidsb)
-              call writloga('default',1,logmess,1,ierrw)
- 9000         format("WARNING: Invalid LaGriT generator command: ",a)
-C
+             write(logmess,9000) idsb(1:lenidsb)
+             call writloga('default',1,logmess,1,ierrw)
+ 9000        format("WARNING: Invalid LaGriT generator command: ",a)
          endif
-C
+
+C early exit here
  9999 continue
-C
+
+C       check for errors from msgtty or called routines 
+        if (ierror .ne. 0) then
+           write(logmess,'(a,i5)')
+     *     'MSGTTY PARSER Error: ',ierror
+           call writloga('default',0,logmess,0,ierrw)
+        endif
+        if (ierr2 .ne. 0) then
+           write(logmess,'(a,i5)')
+     *     'MSGTTY command returned an error: ',ierr2
+           call writloga('default',0,logmess,0,ierrw)
+        endif
+
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     user define for command usersub1
+
       subroutine usersub1()
 C
       implicit real*8 (a-h,o-z)
@@ -2525,6 +2592,10 @@ c      enddo
  9999 continue
       return
       end
+
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     user define for command usersub2
+
       subroutine usersub2()
       return
       end
