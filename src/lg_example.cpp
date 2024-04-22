@@ -18,7 +18,6 @@ where integer=8bytes, real*8=8bytes, pointer=8bytes
 
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
-#include "type_sizes.h"
 #include <stdio.h>
 #include <cstring>
 
@@ -209,46 +208,6 @@ C ----------------------------------------------------------*/
     printf("\n===== end cpp examples ==============================\n");
     return;
 
-}
-
-// for testing dotask without processing commands
-void dotask_cpp_ () {
-
-    LG_ERR err = 0;
-    double minmax[6];
-    double xreal = 0.0;
-    long  ival= 0;
-    long  itype = 0;
-    long  ierr= 0;
-
-    printf("------------------------------------------\n");
-    printf("Inside C++ dotask_cpp \n");
-
-    char* cmd1[512];
-
-    printf("send string to wrapper: %s\n\n", "123456789");
-    err = lg_dotask_test("123456789");
-
-//  if needed, test list of commands
-/******
-    const char* cmds[] = {
-        "command/one",
-        "command/two"};
-
-    for (int i = 0; i < sizeof(cmds)/sizeof(cmds[0]); ++i) {
-
-        printf("send string to wrapper lg_dotask_test: %s\n", cmds[i]);
-        err = lg_dotask_test(cmds[i]);
-
-        if (err != LG_ERR_SUCCESS) {
-            printf("dotask_test error: %s\n", cmds[i]);
-            return;
-        }
-    }
-******/
-
-    printf("End C++ dotask_cpp \n");
-    printf("------------------------------------------\n");
 }
 #ifdef __cplusplus
 }

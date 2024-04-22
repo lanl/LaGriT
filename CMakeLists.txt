@@ -197,7 +197,6 @@ FortranCInterface_HEADER(
     SYMBOLS
         INITLAGRIT # syntax: <subroutine>
         DOTASK
-        DOTASK_TEST
         CMO_GET_NAME
         CMO_GET_INFO
         CMO_GET_INTINFO
