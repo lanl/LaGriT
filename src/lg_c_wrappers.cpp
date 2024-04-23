@@ -27,7 +27,7 @@ NOTE: these only work for integer scalars
 
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
-
+#include "type_sizes.h"
 #include <stdio.h>
 #include <cstring>
 
