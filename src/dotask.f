@@ -2,13 +2,8 @@
 C#######################################################################
 C
 C     PURPOSE -
+C
 C        execute commands
-C
-C        include file defines globals for command parsing and buffer
-C        commands_lg.h:C  cmd_buffer is a the command buffer
-C        commands_lg.h: common /ccommands_lg/ clevels, cmd_buff, cmd_temp,
-C        commands_lg.h: character*16384 cmd_buff, cmd_temp, command
-C
 C     INPUT
 c        task_buff character string of commands to be added
 c        to command_stack
@@ -30,13 +25,8 @@ C#######################################################################
 C
       implicit none
       include 'commands_lg.h'
-
-C     parameters
       character*(*) task_buff
-      integer ierror 
-
-C     local variables
-      integer ierr
+      integer ierror
 c
       ierror=0
       nlevels=nlevels+1
@@ -45,24 +35,9 @@ c
       clevels(nlevels)='internal_lg'
       cmd_buff=' '
       cmd_buff=task_buff
-
-      call pack_command_lg(ierr)
-      if (ierr .ne. 0)  then
-          call x3d_error('dotask:','pack_command_lg')
-          ierror = ierror + 1
-      endif
-      call push_command_lg(ierr)
-      if (ierr .ne. 0) then 
-          call x3d_error('dotask:','push_command_lg')
-          ierror = ierror + 1
-      endif
-      call control_command_lg(ierr)
-      if (ierr .ne. 0) then
-          call x3d_error('dotask:','control_command_lg')
-          ierror = ierror + 1
-      endif
-
-
+      call pack_command_lg(ierror)
+      call push_command_lg(ierror)
+      call control_command_lg(ierror)
       return
       end
       

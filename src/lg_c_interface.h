@@ -61,7 +61,6 @@ void lg_initlagrit();
 
 /// Send a LaGriT command for processing
 LG_ERR lg_dotask(const char* cmd);
-LG_ERR lg_dotask_test(const char* cmd);
 
 LG_ERR lg_cmo_get_name(char* name_buffer, int name_buffer_size);
 
