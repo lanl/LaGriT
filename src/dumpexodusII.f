@@ -152,7 +152,7 @@ c     vars in place of nelmnen and nelmnef - quan
 
       integer i,j,k,ii,j1, k1, k2, idx, idx1, idx2, ioffset
       integer ierr, ierrw
-      integer len_cmo_name, iblk_num, if_debug_local, idebug
+      integer len_cmo_name, iblk_num, idebug
       integer icharlnf,eltyp
       integer ierror_return
       integer nnodes, nelements, nen, mbndry
@@ -178,6 +178,7 @@ c     vars in place of nelmnen and nelmnef - quan
       integer idexi, in_compws, in_ws, in_numatt, in_num
       integer iunit, iflag, ncount, ival, ival2
       integer setcount, index, mpno, set_id
+      integer sslength, ssinc
 
 
       integer num_att_vec(2)
@@ -298,6 +299,7 @@ C
 
 
 c     these should be allocated, but 1000 should be more than enough sidesets
+c tam change to allocation
       integer nfaces_ss1(1000), nfaces_ss2(1000), nfaces_ss(1000)
       integer sideset_tag1(1000), sideset_tag2(1000), sideset_tag(1000)
       integer nnodes_ns(1000)
@@ -357,7 +359,6 @@ C     Initialize flags for output sets
 
 c     for extra output from this routine if compiled non-zero 
 c     also will keep tty output on if not zero
-      if_debug_local = 0
       idebug = 0
       ierror_return = 0
 
@@ -440,6 +441,11 @@ C     Check for faceset option
       if (msgtype(7).eq.3 .and. cmsgin(7)(1:8).eq.'facesets') then
          auto_facesets = .true.
          output_facesets = .true.
+
+c        facesets defined by files
+c tam may be able to skip  output_facesets in this case
+c        note auto setting of bndry output_facesets is true
+c        as it is used to set initial mmgetblk lengths
          if (nwds.gt.7) then
             auto_facesets = .false.
             import_facesets = .true.
@@ -488,10 +494,9 @@ C     set cmo and ierror_return in case things blow up
 
 C     set debug level based on user or code defintions
       call cmo_get_info('idebug',cmo_name,idebug,ilen,ityp,ierr)
-      if (idebug .gt. 0) if_debug_local = idebug
-      if (if_debug_local .gt. 0) then
+      if (idebug .gt. 0) then
          write(logmess,'(a,i5)')
-     &  'dump/exo idebug set: ',if_debug_local
+     &  'dump/exo idebug set: ',idebug
         call writloga('default',1,logmess,1,ierrw)
       endif
 
@@ -504,7 +509,8 @@ C     set debug level based on user or code defintions
 c     Turn off screen output of dotask commands
 c     but leave on for debug mode
 
-      if(if_debug_local.eq.0) call writset('stat','tty','off',ierr)
+C debug
+       if(idebug.eq.0) call writset('stat','tty','off',ierr)
 
       ierr=0
       cbuff = ' '
@@ -719,6 +725,10 @@ c           No element on other side of this face - outer element
          enddo
       enddo
 
+      if (idebug.gt.0) then 
+        print*,"MMGETBLK outerelems1 with length: ",nouter1
+        print*,"MMGETBLK outerfaces1 with length: ",nouter1
+      endif
       call mmgetblk
      &     ('outerelems1',isubname,ipouterelems1,nouter1,1,ierr)
       call mmgetblk
@@ -742,22 +752,37 @@ c     collect all the outer faces
          enddo
       enddo
 
-c     Automated Version to find faces for Side Sets:
+      if (idebug.gt.0) print*,"Set bndry elems and faces: ",nouter1
 
-c     form lists outerfaces2,outerelems2 containing faces
-c     grouped according to contiguous sets separated by sharp angles
-c
-c     Then we will repopulate outerfaces1,outerelems1 from outerfaces2,
-c     outerelems2 by forming sub-groups of faces with the same material IDs
-c     We assume there will be a maximum of 1000 sidesets
+c     set arrays for facesets
+c     the length here is set to 3*nouter1 (num elems on bndry)
+c     
+c tam this logic might be changed to be more clear
+c to set arrays in AUTO or READ portions in their respective sections
 
       if (output_facesets .eqv. .true.) then
+           if (idebug.gt.0) print*,"auto_facesets  true"
+
 	if ( auto_facesets .eqv. .false.) then
+
+          
+c          set ss arrays for side set elements and faces
+c          use intitial length based on nouter1 num elems on bndry 
+
+           sslength = 3*nouter1
+
+           if (idebug.gt.0)
+     &     print*,"mmgetblk ss arrays with sslength: ", sslength
+
 	   call mmgetblk
      &        ('sselemlist',isubname,ipsselemlist,3*nouter1,1,ierr)
+           if (ierr.ne.0) print*,"mmgetblk sselemlist err: ",ierr
 	   call mmgetblk
      &        ('ssfacelist',isubname,ipssfacelist,3*nouter1,1,ierr)
+           if (ierr.ne.0) print*,"mmgetblk ssfacelist err: ",ierr
+
 	   goto 2001
+
 	else
            goto 2000
         endif
@@ -766,6 +791,16 @@ c     We assume there will be a maximum of 1000 sidesets
 	goto 4000
       endif
 
+c     ============================================================
+c     AUTO FACESETS
+
+c     Automated method (replaced by faceset files)
+c
+c     This section forms lists outerfaces2,outerelems2 containing faces
+c     grouped according to contiguous sets separated by sharp angles
+c     Then we will repopulate outerfaces1,outerelems1 from outerfaces2,
+c     outerelems2 by forming sub-groups of faces with the same material IDs
+c     We assume there will be a maximum of 1000 sidesets auto method
 
 c     Auto Break up these faces first according to sharp edges 
 c     (or edges according to sharp corners)
@@ -788,6 +823,10 @@ c     (or edges according to sharp corners)
 
 c     We will reuse the sselemlist and ssfacelist for the final
 c     sideset storage so allocate the larger amount
+
+      print*,"Start Automatic facesets"
+      print*,"mmgetblk sselemlist, ssfacelist length: ",3*nouter1
+
       call mmgetblk
      &     ('sselemlist',isubname,ipsselemlist,3*nouter1,1,ierr)
       call mmgetblk
@@ -804,6 +843,7 @@ c     sideset storage so allocate the larger amount
 
 
 c        start a new sideset
+         print*,"Auto: start new faceset: ",nsidesets2
 
          sselemlist(1:nouter1) = 0
          ssfacelist(1:nouter1) = 0
@@ -1188,15 +1228,19 @@ c                 add to nodeset
       auto_nodesets = .true.
       endif
       goto 4000
-      
 
-C     SECTION SETUP - User Defined Side Sets 
+C     END AUTO FACESETS
+C     ===================================================== 
+
+C     SECTION SETUP - User Defined Exodus Side Sets facesets 
 
 C     option to import facesets from lagrit faceset files
 C     this section updates facesets information
 C     nsidesets - number of sets = nfiles
 C     sideset_tag(1:nfiles) - id number tag to assign
-C     nfaces_ss( )  - indexes into big arrays 
+C     nfaces_ss(1000)  - indexes into big arrays 
+C
+C     mmgetblk length set to sslength=3*nouter1 earlier in code
 C     sselemlist( ) - indexed big array with all elem sets 
 C     ssfacelist( )  - indexed big array with all face sets)
 
@@ -1239,9 +1283,13 @@ C       read and save values from current file
             read(iunit4,*,end=3000) ival,ival2
             ncount= ncount+1
 
+c tam reallocate if too small
+c for now stop reading before overwriting array
             if (ncount .gt. nouter1) then
-              print*,'Warning: array size too small.'
+              print*,'Warning: face count too large for memory.'
               print*,'ncount: ',ncount,' size: ',nouter1
+              print*,'read stopped for ',ifile2(1:ilen)
+              go to 3000
             endif
 
             outerelems1(ncount) = ival
@@ -1255,18 +1303,47 @@ C       read and save values from current file
          write(logmess,*) 'Warning: No idelem idface tags in file: '
      &       //ifile2(1:ilen)
          call writloga('default',1,logmess,1,ierr)
-         print*,'Warning: No idelem, idface in file: ',ifile2(1:ilen)
        endif
 
 C     ********** now write to faceset arrays *******
+     
       iend = offset + ncount
-      if (iend .gt. nouter1*3) then
-        print*,'Warning: ncount may be greater than array size.'
+      if (iend .ge. sslength) then
+
+c       allocate more memory
+        ssinc = 3*nouter1
+
+        write(logmess,'(a,i15)') 
+     &  'MMINCBLK increase memory at offset: ',
+     &   offset
+        call writloga('default',1,logmess,0,ierr)
+
+        write(logmess,'(a,i15,a,i15)') 
+     &       'old length: ',sslength,' increment: ',ssinc
+        call writloga('default',0,logmess,0,ierr)
+
+        call mmincblk
+     &       ('sselemlist',isubname,ipsselemlist,ssinc,ierr)
+        if (ierr.ne.0) print*,"mmincblk sselemlist err: ",ierr
+        call mmgetlen(ipsselemlist,sslength,ierr)
+        if (ierr.ne.0) print*,"mmgetlen sselemlist err: ",ierr
+
+        call mmincblk
+     &       ('ssfacelist',isubname,ipssfacelist,ssinc,ierr)
+        if (ierr.ne.0) print*,"mmincblk ssfacelist err: ",ierr
+        call mmgetlen(ipssfacelist,sslength,ierr)
+
+        write(logmess,'(a,i15)') 'new length: ',sslength
+        call writloga('default',0,logmess,1,ierr)
+
       endif
 
-      print*,'Total read: ',iend
-      print*,'Current offset: ',offset
-      print*,'Set tag: ',i,' nfaces: ',ncount
+      if (idebug .gt. 1) then
+        print*,'Write set ',i
+        print*,"number in  set: ",ncount
+        print*,"index for start: ",offset
+        print*,"index for , end: ",iend
+      endif
 
       sideset_tag(i) = i 
       nfaces_ss(i) = ncount 
@@ -1275,19 +1352,22 @@ C     ********** now write to faceset arrays *******
          ssfacelist(offset+j) = outerfaces1(j)
       enddo
 
-      print*,'first: ',sselemlist(offset+1),
-     &         ssfacelist(offset+1)
-      print*,'last:  ',sselemlist(offset+ncount),
-     &         ssfacelist(offset+ncount)
+c     report ids written
+c     print*,'first: ',sselemlist(offset+1),
+c    &         ssfacelist(offset+1)
+c     print*,'last:  ',sselemlist(offset+ncount),
+c    &         ssfacelist(offset+ncount)
 
       offset = offset + nfaces_ss(i)
-      print*,'Set new offset: ',offset
+
+      if (idebug .gt. 5) call mmverify()
 
 C     ********** done writing to faceset arrays *******
-
 C     end loop through nfiles
       enddo
       nsidesets = nfiles
+
+      print*,"Done with ss facesets: ",nsidesets
 
  9000 if (ierr .lt. 0) then
          write(logmess,*) 'Warning: Could not read facesets file: '
@@ -1300,8 +1380,6 @@ C     end loop through nfiles
         nsidesets = 0
       endif
       continue
-
-
 
 C     -------------------------------------------------
 C     SETUP DONE  
@@ -1350,10 +1428,16 @@ c     hard-coded here. Likewise for iows, the IO word size.
 
 C     SECTION WRITE - Create ExodusII File 
 
+      if (idebug.gt.0) then
+        print*,"create exo file with excre  "
+        print*,"icompws word size: ", icompws
+        print*,"iows data size: ", iows
+        print*,"EXCLOB create the new file: ",filename
+      endif
+
       idexo = excre (filename, EXCLOB, icompws, iows, status)
 
-
-      if (if_debug_local .gt. 0) then
+      if (idebug .gt. 0) then
             write(logmess,'(a,a)')
      &       'EXCRE Create ExodusII File: ',filename
             call writloga('default',1,logmess,0,ierr)
@@ -1368,14 +1452,12 @@ C     SECTION WRITE - Create ExodusII File
             call writloga('default',0,logmess,0,ierr)
       endif
 
-
       if (status.ne.0) then 
         call exerr(isubname,
      & " ERROR opening ExodusII file: ",status)
         ierror_return = status
         go to 9999
       endif
-
  
 C     -------------------------------------------------
 C     SECTION WRITE Initialize ExodusII data 
@@ -1452,7 +1534,7 @@ c     Put some QA info - problem name, date, time etc.
 C     -------------------------------------------------
 C     SECTION WRITE Coordinates
 
-       if (if_debug_local .gt. 0) then
+       if (idebug .gt. 0) then
             write(logmess,'(a,i10)')
      &       'EXCRE Write Coordinates: ',nnodes
             call writloga('default',1,logmess,0,ierr)
@@ -1540,7 +1622,7 @@ c        iblk_id = elcolblk(i)*10000
             eltyp_str='BEAM'
          endif
 
-         if (if_debug_local .gt. 0) then
+         if (idebug .gt. 0) then
             write(logmess,'(a)')
      &       'EXPELB write block elements: '
             call writloga('default',1,logmess,0,ierr)
@@ -1614,7 +1696,7 @@ c        fill arrays for exodus ordering based on sort key ikey_utr
             k = k + nelnodes(eltyp)
          enddo
 
-       if (if_debug_local .gt. 0) then
+       if (idebug .gt. 0) then
             write(logmess,'(a)')
      &       'EXPELC write block connectivity: '
             call writloga('default',1,logmess,0,ierr)
@@ -1838,6 +1920,7 @@ C INTEGER IERR (W) Returned error code. 0 for no errors.
 
          
 C     change to writlog for output to log files
+c     tam
 c     print*,'------------------------------------------'
 c     print*,'EXPSS loop: ',i
 c     print*,'sideset tag: ',sideset_tag(i),'nfaces: ',nfaces_ss(i)
@@ -1862,7 +1945,7 @@ c        write SS sideset information for logfiles
      &     ' Faces: ',nfaces_ss(i)
          call writloga('default',0,logmess,0,ierr)
 
-         if (if_debug_local .ne. 0) then
+         if (idebug .gt. 1) then
              print*,'   nfaces_ss : ',nfaces_ss(i)
              print*,'   sselemlist :',sselemlist(ibeg)
              print*,'   ssfacelist :',ssfacelist(ibeg)
@@ -1914,12 +1997,12 @@ C     CLEANUP and RETURN
 c     Turn on screen output to allow important information
       call writset('stat','tty','on',ierr)
 
-      if(if_debug_local .gt. 1) call mmprint()
+      if(idebug .gt. 1) call mmprint()
 
       
-      if(if_debug_local .ne. 0) then 
+      if(idebug .ne. 0) then 
          write(logmess,'(a,i5)')
-     &     'dumpexodusII debug mode ON set to: ',if_debug_local
+     &     'dumpexodusII debug mode ON set to: ',idebug
          call writloga('default',0,logmess,0,ierr)
       endif
 
