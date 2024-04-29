@@ -296,6 +296,17 @@ FortranCInterface_HEADER(
         LINESEG_TRI)
 ```
 
+### LaGriT command TEST
+
+The following commands have been added as tests during execution. These are especially useful in testing and to debug the c-fortran codes on various machines.
+
+```
+test (no second word) - easy test using createpts to check executable
+test list - list available options
+cpp -  call dotask and c-fortran wrappers using get_info calls to get pointers from fortran
+fortran - call dotask and get_info pointers used by cpp
+dotask - call dotask_test which avoids global commands and just tests dotask parameters
+```
 
 
 
