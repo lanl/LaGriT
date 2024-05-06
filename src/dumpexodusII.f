@@ -449,7 +449,7 @@ c        as it is used to set initial mmgetblk lengths
          if (nwds.gt.7) then
             auto_facesets = .false.
             import_facesets = .true.
-	    call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
+          call mmgetblk("flist", isubname, ipflist, 72*nwds, 1, ierr)
             if(ierr.ne.0)call x3d_error(isubname, 'mmgetblk flist')
 
             nfiles = 0
@@ -763,7 +763,7 @@ c to set arrays in AUTO or READ portions in their respective sections
       if (output_facesets .eqv. .true.) then
            if (idebug.gt.0) print*,"auto_facesets  true"
 
-	if ( auto_facesets .eqv. .false.) then
+      if ( auto_facesets .eqv. .false.) then
 
           
 c          set ss arrays for side set elements and faces
@@ -774,21 +774,21 @@ c          use intitial length based on nouter1 num elems on bndry
            if (idebug.gt.0)
      &     print*,"mmgetblk ss arrays with sslength: ", sslength
 
-	   call mmgetblk
+         call mmgetblk
      &        ('sselemlist',isubname,ipsselemlist,3*nouter1,1,ierr)
            if (ierr.ne.0) print*,"mmgetblk sselemlist err: ",ierr
-	   call mmgetblk
+         call mmgetblk
      &        ('ssfacelist',isubname,ipssfacelist,3*nouter1,1,ierr)
            if (ierr.ne.0) print*,"mmgetblk ssfacelist err: ",ierr
 
-	   goto 2001
+         goto 2001
 
-	else
+      else
            goto 2000
         endif
       else
-	nsidesets = 0
-	goto 4000
+      nsidesets = 0
+      goto 4000
       endif
 
 c     ============================================================
@@ -1376,7 +1376,7 @@ C     end loop through nfiles
          write(logmess,*) 'Warning: No facesets defined.'
          call writloga('default',0,logmess,1,ierr)
         print*, 'Could not read facesets file ',ifile2(1:ilen)
-	print*, 'No facesets will be defined'
+      print*, 'No facesets will be defined'
         nsidesets = 0
       endif
       continue
