@@ -16,8 +16,8 @@ c
       character*22   date_compile
       character*8    os_name
       character*16   my_name
-      character*8    compiler_name
-      character*8    compiler_version
+      character*26    compiler_name
+      character*23    compiler_version
 
       data my_name      /'lagritgen'/
       data os_name      /'@CMAKE_SYSTEM_NAME@ '/

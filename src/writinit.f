@@ -259,11 +259,11 @@ C-----Banner Program, Compiler, and Compiler Version from lagrit.h
       
       write(interfil,9200) compiler_name
       call writloga('default',0,interfil,0,ierrdum)
- 9200 format('*',15x,'*    Compiler Name: ',a,'    *')
+ 9200 format('*',15x,'*    Compiler Name: ',a,'*')
 
-      write(interfil,9200) compiler_version
+      write(interfil,9201) compiler_version
       call writloga('default',0,interfil,0,ierrdum)
- 9200 format('*',15x,'*    Compiler Version: ',a,'    *')
+ 9201 format('*',15x,'*    Compiler Version: ',a,'*')
 
 
 C-----Banner Compile Time and expiration check
