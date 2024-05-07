@@ -10,7 +10,8 @@
 [![readthedocs](https://img.shields.io/static/v1?label=Meshing%20Portfolio&message=Read%20online&color=blue&style=for-the-badge&logo=read-the-docs)](https://meshing.lanl.gov/) <br/>
 
 
-> :note: **Note:** We are currently working on developing Poisson-disk for 3D.
+> [!NOTE]
+> We are currently working on developing Poisson-disk for 3D.
 
 
 Los Alamos Grid Toolbox (**LaGriT**) is a library of user callable tools that provide mesh generation, mesh optimization and dynamic mesh maintenance in two and three dimensions. LaGriT is used for a variety of geology and geophysics modeling applications including porous flow and transport model construction, finite element modeling of stress/strain in crustal fault systems, seismology, discrete fracture networks, asteroids and hydrothermal systems.
