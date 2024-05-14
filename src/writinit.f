@@ -255,6 +255,17 @@ c     otherwise, old util lib is used
 
       call writloga('default',0,interfil,0,ierrdum)
 
+C-----Banner Program, Compiler, and Compiler Version from lagrit.h
+      
+      write(interfil,9200) compiler_name
+      call writloga('default',0,interfil,0,ierrdum)
+ 9200 format('*',15x,'*    Compiler Name: ',a,'*')
+
+      write(interfil,9201) compiler_version
+      call writloga('default',0,interfil,0,ierrdum)
+ 9201 format('*',15x,'*    Compiler Version: ',a,'*')
+
+
 C-----Banner Compile Time and expiration check
 C     now string is day 6:10   time 12:20   year 21:24
 C     the front six is blank or has a year
