@@ -148,6 +148,47 @@ GNU Make 4.4
 
 This solution worked on MacOS Intel and M1, Ventura and Sonoma for building LaGriT and Exodus.
 
+## Exodus Build Fails with a make error that mentions an "sdk"
+
+The error looks like this using macports:
+```
+/Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/_wchar.h:90,
+             	from /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk/usr/include/wchar.h:67,
+             	from /opt/local/include/gcc14/c++/cwchar:44,
+             	from /opt/local/include/gcc14/c++/bits/postypes.h:40,
+             	from /opt/local/include/gcc14/c++/bits/char_traits.h:42,
+             	from /opt/local/include/gcc14/c++/string:42,
+             	from /Users/elm/packages/amanzi/repos/amanzi-1.5.1/src/error_handling/exceptions.hh:13,
+             	from /Users/elm/packages/amanzi/repos/amanzi-1.5.1/src/error_handling/dbc.hh:13,
+             	from /Users/elm/packages/amanzi/repos/amanzi-1.5.1/src/error_handling/dbc.cc:10:
+/opt/local/lib/gcc14/gcc/aarch64-apple-darwin23/14.2.0/include-fixed/stdio.h:83:8: error: 'FILE' does not name a type
+   83 | extern FILE *__stdinp;
+  	|    	^~~~
+```
+
+or this using brew:
+```
+Building CXX object CMakeFiles/cmTC_c85e6.dir/testCXXCompiler.cxx.o
+    /Library/Developer/CommandLineTools/usr/bin/g++   “-I/opt/homebrew/opt/llvm/include”  -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.0.sdk -mmacosx-version-min=14.7 -MD -MT CMakeFiles/cmTC_c85e6.dir/testCXXCompiler.cxx.o -MF CMakeFiles/cmTC_c85e6.dir/testCXXCompiler.cxx.o.d -o CMakeFiles/cmTC_c85e6.dir/testCXXCompiler.cxx.o -c /Users/jhyman/src/LaGriT/TPLs/seacas/TPL/netcdf/netcdf-c/build/CMakeFiles/CMakeScratch/TryCompile-sEGBRU/testCXXCompiler.cxx
+    clang++: error: no such file or directory: '“-I/opt/homebrew/opt/llvm/include”'
+    gmake[1]: *** [CMakeFiles/cmTC_c85e6.dir/build.make:79: CMakeFiles/cmTC_c85e6.dir/testCXXCompiler.cxx.o] Error 1
+    gmake[1]: Leaving directory '/Users/jhyman/src/LaGriT/TPLs/seacas/TPL/netcdf/netcdf-c/build/CMakeFiles/CMakeScratch/TryCompile-sEGBRU'
+    gmake: *** [Makefile:127: cmTC_c85e6/fast] Error 2
+```
+
+**This error happens because newer Mac's require a newer version of x-code Command Line Tools to be installed. These tools don't work nicely with gcc-14. The sdk's for the newer tools are incompatible.** 
+
+To fix the error:
+
+1. Verify that you have an older MacOSX14.sdk installation
+   ```
+   ls /Library/Developer/CommandLineTools/SDKs
+   ```
+2. export older sds:
+   ```
+   export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX14.sdk/
+   ```
+ 
 ## New Compilers show precision error for very small numbers
 
 The XCode 15.0 compilers are showing a precision error for very small numbers.
