@@ -1,0 +1,294 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>ELTSET</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="eltset-element-set">ELTSET (Element Set)</h1>
+
+<hr />
+
+<p>Associate a name with a element set based on various selection criteria and logical operators. Output element sets.</p>
+
+<p>By convention, <em><code class="language-plaintext highlighter-rouge">ifirst,ilast,istride</code></em> syntax represents a set selection defined either by a set of elements from ifirst to ilast, with increments of istride (1 by default). A set selection can also be defined with <strong>eltset,get,</strong> <em>eset_name</em> where <em>eset_name</em> has been defined by the following <strong>eltset</strong> commands. Most commands with the syntax <em>ifirst,ilast,istride</em> can also use <strong>eltset,get,</strong> <em>elset_name</em>.</p>
+
+<p>The following are the syntax and parameter definitions, click on options in table or scroll down the page.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="#attributename"><code class="language-plaintext highlighter-rouge">attribute_name</code></a></td>
+      <td style="text-align: left"><a href="#delete"><strong><code class="language-plaintext highlighter-rouge">delete</code></strong></a></td>
+      <td style="text-align: left"><a href="#list"><strong><code class="language-plaintext highlighter-rouge">list</code></strong></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="#logicals"><strong><code class="language-plaintext highlighter-rouge">logicals</code></strong></a></td>
+      <td style="text-align: left"><a href="#pset"><strong><code class="language-plaintext highlighter-rouge">pset</code></strong></a></td>
+      <td style="text-align: left"><a href="#region"><strong><code class="language-plaintext highlighter-rouge">region</code></strong></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="#volume">quality <strong><code class="language-plaintext highlighter-rouge">volume</code></strong></a></td>
+      <td style="text-align: left"><a href="#volume">quality <strong><code class="language-plaintext highlighter-rouge">aspect</code></strong></a></td>
+      <td style="text-align: left"><a href="#write"><strong><code class="language-plaintext highlighter-rouge">write</code></strong></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="attribute_name-"><code class="language-plaintext highlighter-rouge">attribute_name</code> <a name="attributename"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ attribute_name /<b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> or <b>le</b> or <b>ge</b> /value/
+</pre>
+<p>forms an eltset from elements in <code class="language-plaintext highlighter-rouge">attribute_name</code> that compare to <code class="language-plaintext highlighter-rouge">value</code>. The comparators are <strong>eq</strong> equal to, <strong>gt</strong> greater than, <strong>lt</strong> less than, <strong>ge</strong> greater than or equal, <strong>le</strong> less than or equal to, <strong>ne</strong> not equal.</p>
+
+<h3 id="delete-"><strong><code class="language-plaintext highlighter-rouge">delete</code></strong> <a name="delete"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>delete</b>
+</pre>
+<p>removes a previously define element set from current mesh object</p>
+
+<h3 id="list-"><strong><code class="language-plaintext highlighter-rouge">list</code></strong> <a name="list"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>list</b>
+
+<b>eltset</b> / / <b>list</b>
+</pre>
+<p>list all elements in <code class="language-plaintext highlighter-rouge">eset_name</code>. If the 2nd argument is empty, list all names all of eltsets for the mesh object</p>
+
+<h3 id="logicals-"><strong><code class="language-plaintext highlighter-rouge">logicals</code></strong> <a name="logicals"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>union</b> <b>inter</b> <b>not</b> / eset_list/
+</pre>
+<p>logical operations <strong><code class="language-plaintext highlighter-rouge">union</code></strong>, <strong><code class="language-plaintext highlighter-rouge">inter</code></strong> and <strong><code class="language-plaintext highlighter-rouge">not</code></strong> act on previously defined eltsets. The definition of the unary operator <strong><code class="language-plaintext highlighter-rouge">not</code></strong> is extended such that <strong><code class="language-plaintext highlighter-rouge">not</code></strong>/e1/e2 means e1 and (not(e2)).</p>
+
+<h3 id="pset-"><strong><code class="language-plaintext highlighter-rouge">pset</code></strong> <a name="pset"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>inclusive</b> or <b>exclusive</b> or <b>face</b> /<b>pset,get</b>, pset_name/
+</pre>
+<p>forms an eltset from nodes in a pset with name <code class="language-plaintext highlighter-rouge">pset_name</code>. The following criteria are used to define which elements node set are included. The selection criteria is required.</p>
+
+<ul>
+  <li><strong>inclusive</strong>  all elements any of whose nodes is in pset, if a node is on any element, include it. Generally the largest selection.</li>
+  <li><strong>exclusive</strong>  all elements all of whose nodes are in pset, all nodes of an element must be in the set. Generally a smaller selection.</li>
+  <li><strong>face</strong>  elements if all nodes of a face are in pset</li>
+</ul>
+
+<h3 id="region--mregion-"><strong><code class="language-plaintext highlighter-rouge">region</code></strong>  <strong><code class="language-plaintext highlighter-rouge">mregion</code></strong> <a name="region"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>region</b> or <b>mregion</b> / region_name /
+</pre>
+<p>will return all nodes that are in the specified geometry <strong>region</strong> or material <strong>mregion</strong> given by its <code class="language-plaintext highlighter-rouge">region_name</code>.</p>
+
+<p>This command calculates the center of mass of the element and determine which <strong>mregion</strong> or <strong>region</strong> the center lies in. It is possible if the interface surfaces are curved that the center will not lie in the same material or geometry region as the vertices. Using values of <strong>itetclr</strong> may give the better result.</p>
+
+<h3 id="volume-aspect-"><strong><code class="language-plaintext highlighter-rouge">volume</code></strong> <strong><code class="language-plaintext highlighter-rouge">aspect</code></strong> <a name="volume"></a></h3>
+<pre>
+<b>eltset</b>/eset_name/ <b>volume</b>/ <b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> or <b>le</b> or <b>ge</b> /value
+
+<b>eltset</b>/eset_name/ <b>aspect</b>/ <b>eq</b> or <b>ne</b> or <b>lt</b> or <b>gt</b> or <b>le</b> or <b>ge</b> /value
+</pre>
+<p>forms an eltset based on the quality criteria <strong>volume</strong> or <strong>aspect</strong> ratio. The <code class="language-plaintext highlighter-rouge">value</code> and comparator detirmines the set selection.</p>
+
+<h3 id="write-"><strong><code class="language-plaintext highlighter-rouge">write</code></strong> <a name="write"></a></h3>
+<pre>
+<b>eltset</b>/eset_name or <b>-all-</b> / <b>write</b> /file_name[.cellset]/ <b>ascii</b> or <b>binary</b>
+</pre>
+<p>write or dump an element list with name <code class="language-plaintext highlighter-rouge">eset_name</code> to a file, options are <strong>ascii</strong> or <strong>binary</strong>. The argument <strong>-all-</strong> will write all eltsets in the mesh object.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eltset/element_set1/itetclr/eq/4 
+
+eltset/element_set2/face/pset/get/mypset
+
+eltset/element_set3/inclusive/pset/get/mypset
+
+eltset/element_set4/region/upper 
+
+eltset/element_set5/volume/lt/3.0 
+
+eltset/element_set5/delete
+
+eltset /  / list 
+</code></pre></div></div>
+<p>These are various examples of the eltset command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / select / mo_hex
+intersect_elements / mo_hex / mo_wells / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset,get,e_refine
+cmo / setatt / mo_hex / if_inter / 1,0,0 / 0
+eltset / e_refine / delete
+</code></pre></div></div>
+
+<p>This set of commands will intersect mesh object named mo_hex with mesh object named mo_wells. The attribute <strong>if_inter</strong> is created by <strong><code class="language-plaintext highlighter-rouge">intersect_elements</code></strong> and has a non-zero value for elements intersected by mo_wells. The selected set is refined. It is good practice to clean up if using names and attributes over again. Here we set <strong>if_inter</strong> values to 0 and remove the element set when we are done.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

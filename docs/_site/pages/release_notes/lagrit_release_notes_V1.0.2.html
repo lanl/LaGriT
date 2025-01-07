@@ -1,0 +1,436 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT Release Notes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="lagrit-v101---v102-release-notes-1999---2000">LaGriT V1.0.1 - V1.0.2 Release Notes 1999 - 2000</h1>
+
+<p>This text is converted from old pdf files and may have translation errors.
+See original pdf for clarification.</p>
+
+<p><a href="/assets/images/release_notes8.pdf" download=""> LaGriT V1.0.2 January 2000 </a> PDF Version</p>
+
+<p><a href="/assets/images/release_notes7.pdf" download=""> LaGriT V1.0.1 November 1999 </a> PDF Version</p>
+
+<h2 id="new-commands">New Commands</h2>
+
+<p>intersect_element</p>
+
+<p>intersect two mesh objects and create an element based attribute
+(xsect_cm) that holds the number of times the sink element was
+intersected by a source element</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intersect_elements/sink_mo/source_mo/[attribute_name]
+</code></pre></div></div>
+
+<p>lower_d</p>
+
+<p>extract lower dimensional meshes from the current mesh object,
+create data structure for the lower dimension objects that parallel
+the top d default structure: [d1_nnodes, d1_e|ements, d1_itet,
+d1_jtet, di_itetoff, d1_jtetoff, d1_itetc|r, d1_itettyp] [d2_nnodes, ….. ]</p>
+
+<p>rzv</p>
+
+<p>distribute nodes as linear combinations of 3 supplied vectors.
+rzvlgeom/n1,n2,n3/v11,v12,v13/v21,v22,v23/v31,v32,v33
+geom can be xyz, rtp or rtz. n1,n2,n3 specify the max number
+applied to each vector. The v‘s are the 3 basis vectors.</p>
+
+<p>rzamr</p>
+
+<p>use octree refinement to a specified level on a existing hex mesh
+to distribute nodes within a region- intended a a node distribution
+algorithm only - no hex information is preserved.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rzamr/region_name/number_of_levels
+</code></pre></div></div>
+
+<p>createpts</p>
+
+<p>wrapper for all the ‘rz‘ type commands:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>createpts/xyz|rtz|rtp|/n1,n2,n3/x1,y1,z1/x2,y2,22/[ix,iy,iz/]/ [irx,iry,irz/rx,ry,rz]
+
+createpts/sphere/1|2|8|diamond /nr,npt,xirad,xorad /xcen,ycen,zcen/iz/irat,rz/
+
+createpts/brick/xyz|rtz|rtplni,nj,nk/xmin,ymin,zmin/ xmax,ymax,zmax/iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/isym,jsym,ksym
+
+createpts/brick/xyz|rtz|rtp/ni,nj,nk/pstatus,get,name/connect/
+
+createpts/amr/region_name/number_of_levels
+
+createpts/random/ xyz|rtz|rtp /spacing/x1,y1,z1/x2,y2,z2/ [xcen.ycen,zcen/ edgedist/ ranseed1,ranseed2]
+
+createpts/vector/ xyz|rtz|rtp/n1,n2,n3 /V11,V12,V13/V21,V22,V23/V31,V32,V33
+</code></pre></div></div>
+
+<h2 id="command-enhancements">Command Enhancements</h2>
+
+<p>read/gmvfreeformat</p>
+
+<p>read in an ascii gmv file that is to be read with read (unit,*) statements.</p>
+
+<p>boundary</p>
+
+<p>add option to establish or to reset icr, icontab relationship for a set
+of surfaces. This is normally done by the setpts command, but if
+surfaces are defined after setpts, the surface command will cause
+an entry in the icontab table for the nodes on the surface, but no
+entry will exist for intersections of surfaces.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>boundary/dirichlet/icr//surface list
+
+e.g. boundary/diriclet/icr//top left front will identify the nodes
+on the intersection of the surfaces top left and front, and will set
+the icr value of these nodes to point into the correct icontab entry.
+</code></pre></div></div>
+
+<p>quality</p>
+
+<p>add pcc option which will identify negative coupling coefficients
+and create an element based attribute to store the value (1 means
+okay, anything less than 1 is a negative coupling)</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/pcc
+</code></pre></div></div>
+
+<p>boundary_components</p>
+
+<p>boundary_components Now prints out number of connected boundary components and a representative vertex from
+each component.</p>
+
+<p>rmpoint/sparse</p>
+
+<p>For expert users only. Requires reconnection when done.</p>
+
+<h2 id="bug-fixes">Bug fixes</h2>
+
+<p>06/10/99 pntlimc ﬁx missing argument in call to writloga - return empty set if error</p>
+
+<p>06/13/99 refine_face_add, cer_chain,cel_chain  ﬁx incorrect icr and itp values assigned using reﬁne/addpts to triangular 2d mesh</p>
+
+<p>16/16/99 copypts remove extra comma from write statement</p>
+
+<p>06/1 7/ 99 readavs read pyramid data correctly</p>
+
+<p>06/23/99 control_connnaud_lg ﬁx errors in nesting of inﬁles and in invoking infile from dotask</p>
+
+<p>16/25/99 get_elements_on_edge update len,len1 1f need to increment memory</p>
+
+<p>17/02/99 readgmv_ascii check for end of ﬁle – skip blank lines</p>
+
+<p>07/07/99 regupts this is really a compiler bug - change indirect indexing so optimizer does not generate bad code</p>
+
+<p>17/13/99 control_command_lg skip comments When entered as interactive or as dotasks</p>
+
+<p>07/23/99 refine_face_add make arguments in call match those in subroutine statement</p>
+
+<p>07/23/99 readavs declare pointers — use pointer_arrays.h for integer<em>8/integer</em>4 distinction</p>
+
+<p>08/ 04/99 initlagrit initialize pi</p>
+
+<p>18/05/99 cmo_readdump_cmo allow for zero length attributes</p>
+
+<p>08/05/99 read_lagritgeom ﬁx memory problem</p>
+
+<p>08/10/99 multiimaterial calculate length of matlst correctly</p>
+
+<p>18/11/99 reﬁne_interface_elements_lg use nnodes for length of iseedtet</p>
+
+<p>08/11/99 regnpts use max not min for length of name comparisons</p>
+
+<p>08/1 8/99 readdump use ierror_return</p>
+
+<p>08/27/99 rmpoint get correct values in isetwd</p>
+
+<p>18/30/99 multi_material2d_lg refresh pointers</p>
+
+<p>08/3 0/99 multi_magterial refresh pointers</p>
+
+<p>08/31/99 control_command_lg check for an empty loop</p>
+
+<p>18/31/99 matbld3d_stor, anothermatbld3d_wrapper unformatted IO bugs</p>
+
+<p>18/31/99 writedump restore dump_recolor command</p>
+
+<p>09/01/99 connect2d_lg remove references to if4</p>
+
+<p>09/01/99 initlagrit remove test on uninitialized variable</p>
+
+<p>19/(11/99 read_lagrit_geom use lengths with concatenation operator</p>
+
+<p>09/01/99 refine_face_add initialize isnl for all new nodes</p>
+
+<p>09/01/99 surfset change dotaskgen to dotask</p>
+
+<p>09/01/99 make bigtri get mbndry from mesh object</p>
+
+<p>19/02/99 pset ﬁx test on mregion names</p>
+
+<p>09/03/99 surface restore tabular surface implementation</p>
+
+<p>09/07/99 recon2 allow for nodes on external boundaries with no icr values</p>
+
+<p>19/17/99 cer_chain ﬁx typo (mpary should have been mpary1) effecting pset type refinements</p>
+
+<p>10/03/99 intradd use nefcmo which is required for hybrid grids</p>
+
+<p>10/14/99 region, mregion Check for size of stbout array</p>
+
+<p>10/19/99 rzbrick3 check value of nwds before setting isym, jsym and ksym.</p>
+
+<p>12/13/99 rzbrick3 check nwds before setting end point and ratio ﬂags</p>
+
+<h2 id="code-improvements">Code Improvements</h2>
+
+<p>boundary  new option (see above)</p>
+
+<p>ﬁlter cleaned—up and added comments</p>
+
+<p>pset use Information from call</p>
+
+<p>get_materials_on_edge_lg returns materials around edge</p>
+
+<p>cmo_dump_cmo skip cmo attributes with ‘L’ in ioﬂag ﬁeld when writing lagrit dump ﬁles.</p>
+
+<p>matbld0tri, matbld3d assigned idebug, reduced screen output, removed print *</p>
+
+<p>read_trilayers postproccss by column option, preserve buffers, create buffers at interfaces, read gmv or avs</p>
+
+<p>temptam  new subroutine beads_ona_ring to distribute vertically for read_trilayers</p>
+
+<p>rand_lg new random number routine (fancy)</p>
+
+<p>ran2_lg renamed random number routine (simple)</p>
+
+<p>temp,edit clean up unused code</p>
+
+<p>neighbor_recolor improved algorithm</p>
+
+<p>cmo_interpolate  accept ‘constant’ as interpolation type - implement linear,log, asinh for integer attributes</p>
+
+<p>recon2 test for existence of icontab</p>
+
+<p>readgmv_binary allow line type elements to be read</p>
+
+<p>connect release imt1 when no longer needed</p>
+
+<p>cmo_modatt_cmo look for special name icr,imt,itp, isn and change icr1,imt1,itp1,isn1</p>
+
+<p>zq get rid unused options</p>
+
+<p>rz change i6 formats to i10</p>
+
+<p>cel_chain check for infinite isnl chain loops</p>
+
+<p>dumpavs check if no nodes, elements then return without crashing</p>
+
+<p>delaunay replace expensive inner loop with more efﬁcient code</p>
+
+<p>connect settets, check if mbndry is big enough</p>
+
+<p>checkmbndry</p>
+
+<p>inv3x3, inv2x2, inv_schmidt_hilbert_lg.f better solution to MX=Y for 3X3 and 2X3 cases</p>
+
+<p>volume_qud.f contains 2 algorithms for calculating volume of a quad</p>
+
+<p>volume_element.f call volume_qud(elcment) for old method using centroid, call volume_qud(element)_alt_lg for method equalizing 4 contributing triangle areas</p>
+
+<p>12/03/99 lower_d_lg, cmo_copyatt_mpno_lg copy all user attributes from one mesh object to another — used by lower_d routines</p>
+
+<p>12/13/99 pset a11ow either compare/value or va1ue/compare in syntax of command.</p>
+
+<p>12/14/99 readdump, readgmv_ascii new option read/gmvfreeformat uses read(unit,*) statements.</p>
+
+<h2 id="code-changes">Code Changes</h2>
+
+<p>reﬁne reﬁne..edge for 2d now works like reﬁne..face (in 2d edges are facets and nodes are edges - but people don’t think that way hence the change)</p>
+
+<p>rz initiahze itp,imt,icr  to zero for new nodes</p>
+
+<p>blockcom, local_element.h set up relationships for edges to faces for all element types</p>
+
+<p>readgmv ascii call geniee at end —— skip blank lines, test for eof’
+readgmvibinary call geniee at end</p>
+
+<p>popcones_lg,massage issue rmpoint/compress from within loop (needed for big problems)</p>
+
+<p>lineline, xsectelementscmo, calc_rdist, lineseglineseg, xsectelm, insideielement, linesegtri, kdtreeselect, tritri new subroutines</p>
+
+<p>dump_material_list replace * formats to speed up code</p>
+
+<p>hpsortip, hpsorti, matbldl replace all calls to ssort with calls to appropriate hpsort routine</p>
+
+<p>agd3d don’t print ‘curve neighbor’ warning to standard out.</p>
+
+<p>popcomponents new topo change routine</p>
+
+<p>rmppoint zero out imt,itp,isn,icr for removed nodes in rmpoint/compress option</p>
+
+<p>cmo_interpolate handle ‘and‘ and isetwd as special case</p>
+
+<p>delaunay, refine_edge_add, ﬁndface, matbld0tri, matbld2d_stor replace calls to ssort with hpsort</p>
+
+<p>agd, sgd use inscribed radius not aspect ratio</p>
+
+<p>mergepts_simplex use epsilonv not epsilonl for volume tests</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

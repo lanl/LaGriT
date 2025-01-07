@@ -1,0 +1,232 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>BOUNDARY_COMPONENTS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="boundary_components">BOUNDARY_COMPONENTS</h1>
+
+<hr />
+
+<p>Calculate the number of connected components of a mesh. This is
+useful for looking for holes in a mesh or as a diagnostic when
+looking at a single material (<strong>itetclr</strong>, <strong>imt</strong>) and determining if the
+material is contiguous or broken into multiple pieces.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>boundary_components</b> 
+<b>boundary_components</b> / <b>node</b> / [<b>reset</b> <b>noreset</b>]
+<b>boundary_components</b> / <b>node</b> / material_id_number / [<u><b>reset</b></u> <b>noreset</b>]
+
+<b>boundary_components</b> / <b>element</b> / [<b>reset</b> <u><b>noreset</b></u>]
+<b>boundary_components</b> / <b>element</b> / material_id_number / [<b>reset</b> <u><b>noreset</b></u>]
+</pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">node</code></strong> adds  node attribute <strong>numbnd</strong> and <strong>id_numb</strong> to which is written a  representative node of each outside boundary component.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">node/connected</code></strong> means that a set of nodes of type ‘outside’ (itp = 10 or
+12) can be traversed via element edges that have both vertices of type ‘outside’. This method is not really fool proof in detecting holes in a mesh since one can traverse from the exterior of a mesh to an interior hole in the mesh via an edge that is not really a boundary edge. More coding could deal with this situation.</p>
+
+<p>In addition, the number of connected boundary components and a representative node number from each boundary component is assigned
+to the <strong>numbnd</strong> array. The number of nodes in each boundary set is printed. Non-boundary nodes are assigned <code class="language-plaintext highlighter-rouge">numbnd = 0</code>. If the itp
+array is not current, it must be updated first, with the command
+<strong><code class="language-plaintext highlighter-rouge">resetpts/itp</code></strong>.</p>
+
+<p>By default, <strong>resetpts/itp</strong> is called when the node option is invoked so the <strong>reset</strong>/<strong>noreset</strong> is optional. The node array <strong>id_numb</strong> is similar to <strong>numbnd</strong> in that nodes associate with the same boundary component have the same integer value, however <strong>id_numb</strong> is assigned values starting with 1 and going up to the number of boundary components in sequential order.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">node</code></strong> / <code class="language-plaintext highlighter-rouge">material_id_number</code> means the distinction of boundary nodes as defined by itp array value is 
+ignored. Instead, all nodes with <strong>imt</strong> = <code class="language-plaintext highlighter-rouge">material_id_number</code> are examined and the number of edge connected components is determined
+for just that material. Nodes with imt <code class="language-plaintext highlighter-rouge">material_id_number</code> are assigned <strong>numbnd = 0</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">element</code> adds element attribute <strong>numbnd_e</strong> with the element number of a representative element of a connected set.</p>
+
+<p>The number of connected components of the mesh is computed where ‘connected’ means sets of elements can be traversed via the element faces. The attribute <strong>numbnd_e</strong> is filled with the element number of a representitive element of a connected set. In addition, the number of connected components and a representative element number from each connected component and the number of elements in each connected component set is printed. </p>
+
+<p>When the <code class="language-plaintext highlighter-rouge">material_id_number</code> option is invoked, only elements with <strong>tetclr</strong> = <code class="language-plaintext highlighter-rouge">material_id_number</code>
+are examined. Elements with itetclr <code class="language-plaintext highlighter-rouge">material_id_number</code> are assigned <strong>numbnd_e = 0</strong>.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>boundary_components
+
+boundary_components / element / 3
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="demo-for-node-and-element">DEMO for NODE and ELEMENT</h2>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/boundary_component_node.png" /></p>
+
+<p>Boundary components <strong>node</strong></p>
+
+<p>Note that the interior nodes have numbnd=0 and the nodes of the upper hole have the same value as the outside boundary since the upper hole can be reached by traversing an edge that is connected to the exterior.</p>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/boundary_component_element.png" /></p>
+
+<p>Boundary components <strong>element</strong></p>
+
+<p>Note that the two pieces are have different values for <code class="language-plaintext highlighter-rouge">numbnd_e</code> even though element 15 is touching element 6. This is because one cannot traverse from the blue mesh (<code class="language-plaintext highlighter-rouge">numbnd_e = 15</code>) to the red mesh (<code class="language-plaintext highlighter-rouge">numbnd_e = 24</code>) through faces of the mesh.</p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

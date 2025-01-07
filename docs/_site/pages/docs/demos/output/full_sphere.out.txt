@@ -1,0 +1,254 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2020/10/08 Static          *                 
+*               *    Run Time: 2020/Nov  3  16:29:52          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# Example createpts/interp                                                      
+# Start with inside cube projected to hex sphere                                
+# merge hex to inside of sphere                                                 
+# Sample:                                                                       
+# 12.20 mm tall by 6.1 mm wide by 6.1 mm thick                                  
+# cylinder 6.8mm                                                                
+# SHPB system: 9.5mm                                                            
+# 350 maraging steel bars and 152mm striker                                     
+# start with all (striker, incident, sample and transmitted bar)                
+# diameter 9.5 mm                                                               
+#                                                                               
+# proto = 25mm incident bar, 12.2 sample, 25mm transmitter bar                  
+# Inside hex and points to project                                              
+define/xmin/-2.0                                                                
+define/xmax/2.0                                                                 
+define/ymin/-2.0                                                                
+define/ymax/2.0                                                                 
+define/zmin/-2.0                                                                
+define/zmax/2.0                                                                 
+define/xcen/0.0                                                                 
+define/ycen/0.0                                                                 
+define/zcen/0.0                                                                 
+define/nx/9                                                                     
+define/ny/9                                                                     
+define/nz/9                                                                     
+define/nrad_in/6                                                                
+# radius of outside sphere                                                      
+define/rad_sph/9.25                                                             
+cmo/create/cmo_box///hex                                                        
+# this is cmo_box                                                               
+createpts/brick/xyz/nx ny nz/xmin ymin zmin/xmax ymax zmax/1 1 1                
+          Number of nodes:         729                                          
+          Number of elements:         512                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.640000000000E+02                                  
+cmo/setatt/cmo_box/imt 1                                                        
+       729 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmo_box/itetclr 1                                                    
+       512 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# extract surface to create start points                                        
+extract/surfmesh/1 0 0/cmo2d/cmo_box                                            
+cmo/addatt/cmo2d/itetclr0/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/cmo2d/itetclr1/vint/scalar/nelements////0                            
+finish                                                                          
+cmo/addatt/cmo2d/idnode0/vint/scalar/nnodes////0                                
+finish                                                                          
+cmo/addatt/cmo2d/idelem0/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmo2d/idelem1/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmo2d/facecol/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmo2d/idface0/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmo2d/idface1/vint/scalar/nelements////0                             
+finish                                                                          
+cmo/addatt/cmo2d/ncon50/int/scalar/scalar/constant/permanent/x/0                
+finish                                                                          
+cmo/addatt/cmo2d/nconbnd/int/scalar/scalar/constant/permanent/x/0               
+finish                                                                          
+cmo/addatt/cmo2d/icontab/vint/scalar/ncon50/constant/permanent/x/0              
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+rmpoint/compress/                                                               
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is          386                                        
+RMPOINT: new element count is        384                                        
+pset/p1/seq/1,0,0/                                                              
+ 
+ THE PSET  p1  HAS        386 POINTS                                            
+dump/avs/surface_inbox.inp cmo2d                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+copypts/cmo2d/cmo2d/0,0/1,0,0/                                                  
+copypts added nodes        387 to        772                                    
+pset/p2/seq/0,0,0/                                                              
+ 
+ THE PSET  p2  HAS        386 POINTS                                            
+# create points on sphere                                                       
+# p2 are the duplicate surfmesh nodes added to cmo2d                            
+cmo/select/cmo2d                                                                
+scale/pset,get,p2/radius/rtp/rad_sph rad_sph rad_sph/0. 0. 0.                   
+cmo/setatt/cmo2d/imt 3                                                          
+       772 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmo2d/imt pset,get,p1 1                                              
+       772 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmo2d/imt pset,get,p2 2                                              
+       386 values reset for attribute imt1                                      
+ 
+dump tmp_psets.inp cmo2d                                                        
+dump/avs/tmp_psets.inp/cmo2d                                                    
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# remove duplicate points                                                       
+# assign start end ray points                                                   
+# must have equal number of points in both sets                                 
+filter/1,0,0/                                                                   
+FILTER:Use internal epsilonl value =   0.711496193962E-11                       
+FILTER:Dudding duplicate points:           0                                    
+rmpoint compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is          772                                        
+RMPOINT: new element count is        384                                        
+pset/pstart/attribute imt/1,0,0/eq 1                                            
+ 
+ THE PSET  pstart  HAS        386 POINTS                                        
+pset/pend/attribute imt/1,0,0/eq 2                                              
+ 
+ THE PSET  pend  HAS        386 POINTS                                          
+cmo/create/motmp                                                                
+copypts/motmp/cmo2d                                                             
+cmo/addatt/motmp/idnode0/VINT/scalar/nnodes/linear/temporary/agltn/0.0          
+finish                                                                          
+copypts added nodes          1 to        772                                    
+dump avs tmp_psets_pts.inp motmp 1 3 1 1                                        
+Writing AVS UCD PT ELEMENTS.                                                    
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/motmp                                                                
+     Released Mesh Object: motmp                                                
+# create hex from cube to sphere                                                
+cmo/select/cmo2d                                                                
+createpts/interp/nrad_in/pset,get,pstart/pset,get,pend/cmo_sph                  
+cmo/status/cmo_sph brief                                                        
+ 
+The current-mesh-object(CMO) is: cmo_sph                                        
+ 
+  3 Mesh Object name: cmo_sph                                                   
+    number of nodes =          3088        number of elements =         2688    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+cmo/setatt/cmo_sph/imt 2                                                        
+      3088 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmo_sph/itetclr 2                                                    
+      2688 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump sphere01.inp cmo_sph                                                       
+dump/avs/sphere01.inp/cmo_sph                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# merge inside with outside                                                     
+# write hex mesh                                                                
+addmesh/merge/moall/cmo_box/cmo_sph                                             
+dump hex_mesh_full.inp moall                                                    
+dump/avs/hex_mesh_full.inp/moall                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.153837014911E-11                       
+FILTER:Dudding duplicate points:         386                                    
+rmpoint compress                                                                
+       386 points removed and          0 elements removed.                      
+RMPOINT: new point count is         3431                                        
+RMPOINT: new element count is       3200                                        
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   1.5383701E-12  3.6406802E-36                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :         72                          
+elements with aspect ratio b/w .5  and 1. :       3128                          
+min aspect ratio =  0.4259E+00  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   1.4059032E-09                                                     
+---------------------------------------                                         
+element volumes b/w  0.1250E+00 and  0.2558E+00:       704                      
+element volumes b/w  0.2558E+00 and  0.5234E+00:       528                      
+element volumes b/w  0.5234E+00 and  0.1071E+01:       720                      
+element volumes b/w  0.1071E+01 and  0.2192E+01:       888                      
+element volumes b/w  0.2192E+01 and  0.4485E+01:       360                      
+min volume =   1.2500000E-01  max volume =   4.4854007E+00                      
+-----------------------------------------------------------                     
+      3200 total elements evaluated.                                            
+ 
+# The front of the face will be extracted as 2D mesh                            
+pset/pdel/attribute yic/1,0,0/lt 0.                                             
+ 
+ THE PSET  pdel  HAS       1563 POINTS                                          
+rmpoint pset,get,pdel                                                           
+ Dudded       1258 points plus parents, plus        1312 elements removed.      
+rmpoint compress                                                                
+      1258 points removed and          0 elements removed.                      
+RMPOINT: new point count is         2173                                        
+RMPOINT: new element count is       1888                                        
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump hex_mesh_half.inp moall                                                    
+dump/avs/hex_mesh_half.inp/moall                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+dump hex_mesh_half.gmv moall                                                    
+dump/gmv/hex_mesh_half.gmv/moall                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

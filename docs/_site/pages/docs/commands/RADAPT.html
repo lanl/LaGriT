@@ -1,0 +1,334 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>RADAPT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="radapt">RADAPT</h1>
+
+<hr />
+
+<p>The command radapt performs r-adaption smoothing on 2D or 3D mesh objects. 
+For a more general version of smoothing see command <a href="/pages/docs/commands/SMOOTH.html"><strong><code class="language-plaintext highlighter-rouge">SMOOTH</code></strong></a>.</p>
+
+<p>This command takes a 2D or 3D mesh object and moves nodes (specifically the nodes selected by
+  <code class="language-plaintext highlighter-rouge">ifirst,ilast,istride</code>), without changing the connectivity of the mesh, in order to adapt the mesh to best capture the behavior of a specified field or to an adaption function <strong>fadpt</strong> supplied by the user.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>radapt</b> /[<b>position</b>] / <b>esug</b> or <b>mega</b>/ [ifirst,ilast,istride] / [field]/ [<b>refresh</b> or <b>stale</b>]
+
+<b>radapt</b> / [<b>position</b>] / <b>esug</b> or <b>mega</b>/  [ifirst,ilast,istride] /  [<b>user</b>]
+</pre>
+
+<h2 id="syntax-for-the-adaption-function">SYNTAX for the adaption function</h2>
+
+<pre>
+subroutine <b>fadpt</b>(xvec,yvec,zvec, imtvec, nvec, time, fvec) 
+</pre>
+<p>xvec, yvec, zvec - Vectors of x, y, and z coordinates of the points where the function is to be evaluated. 
+imtvec - Vector of imt values for the case where function value depends on material type as well as position (ie. functions with discontinuities). 
+nvec - Vector length (= number of places where function is to be evaluated).
+time - Time (scalar), for time-dependent functions.
+fvec - Vector of adaption function values.</p>
+
+<h2 id="description">DESCRIPTION</h2>
+
+<p>There are two adaptive smoothing algorithms available:</p>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">esug</code></strong>  Elliptic Smoothing for Unstructured Grids. This can
+  only be used on triangular 2D mesh objects. If field is specified in
+  the command line, <strong>esug</strong> will attempt to adapt the grid to the
+  specified field. If the keyword <strong>user</strong> is specified in the command
+  line, <strong>esug</strong> will attempt to adapt the grid to an <em>adaption
+  function</em> defined by the user-supplied subroutine <strong><code class="language-plaintext highlighter-rouge">fadpt</code></strong>. 
+<br /></li>
+</ol>
+
+<p><em>Ref.: Ahmed Khamayseh and Andrew Kuprat, “Anisotropic Smoothing and Solution Adaption for Unstructured Grids”, Int. J. Num. Meth. Eng., Vol. 39, pp. 3163-3174 (1996)</em></p>
+
+<ol>
+  <li><strong><code class="language-plaintext highlighter-rouge">mega</code></strong> Minimum Error Gradient Adaption. For adaptive
+  smoothing purposes, <strong>mega</strong> can only be used on 3D meshes, and only
+  in conjunction with a user-supplied subroutine <strong><code class="language-plaintext highlighter-rouge">fadpt</code></strong> or with a user specified attribute <code class="language-plaintext highlighter-rouge">field</code>. If adaption is to an attribute field,
+  then <strong>radapt</strong> may be instructed to use the interpolation mode associated with the attribute to <strong>refresh</strong> the attribute values.
+  The default is <strong>stale</strong> in which case the attribute value will not be updated to reflect the new node position. In either case, the
+  user is cautioned to carefully consider the validity of the data used for the adaption. <strong>mega</strong> can be used to adapt hybrid meshes
+  as well as tetrahedral meshes. 
+<br /></li>
+</ol>
+
+<p><em>Ref.: Randolph E. Bank and R. Kent Smith, “Mesh Smoothing Using A Posteriori Error Estimates”, SIAM J. Num. Anal. Vol. 34, Issue 3, pp. 979-997, 1997.</em></p>
+
+<p>If <code class="language-plaintext highlighter-rouge">field</code> adaption is used, the user has specified a valid <code class="language-plaintext highlighter-rouge">field</code>
+  from the current mesh object, and r-adaption is to be based upon
+  this field. Typically, if the field has large gradients or curvature
+  in a particular region, r-adaption using this field will cause nodes
+  to be attracted to the region of interest. (<strong>esug</strong> adapts
+  especially to large gradients, <strong>mega</strong> adapts especially to large
+  second derivatives—“curvature”.)</p>
+
+<p>If adaption is to an attribute field, then <strong><code class="language-plaintext highlighter-rouge">radapt</code></strong> may be instructed to use the interpolation
+  mode associated with the attribute field to <strong>refresh</strong> the
+  attribute values. The default is <strong>stale</strong> in which case the
+  attribute value will not be updated to reflect the new node position
+  adaption. In this case, the user should reduce the number of
+  adaption iterations to less than 4, since r-adaption with stale data
+  becomes meaningless.</p>
+
+<p>If  <strong><code class="language-plaintext highlighter-rouge">refresh</code></strong> is specified, the r-adaption routine will automatically
+  interpolate the new field values every iteration, using a call to
+  the <strong><code class="language-plaintext highlighter-rouge">doping</code></strong> command. In this case, the number of adaption
+  iterations need not be reduced from the default value of 25. In
+  either case, the user is cautioned to carefully consider the
+  validity of the data used for the adaption.</p>
+
+<p>If <strong><code class="language-plaintext highlighter-rouge">user</code></strong> is specified, the mesh will r-adapt to the function returned
+  by the subroutine <strong><code class="language-plaintext highlighter-rouge">fadpt</code></strong> which must be supplied by the user.</p>
+
+<p>If  <strong><code class="language-plaintext highlighter-rouge">position</code></strong> is specified, it signifies that the x-y-z values of the nodes
+  in the current mesh object will be altered. (Other argument values allow for modification options that are not yet implemented.)</p>
+
+<p>If <strong><code class="language-plaintext highlighter-rouge">esug</code></strong> is used (currently available in 2D only), the degree of
+  node adaption will depend on the scale of the specified field. In
+  this case, the results of adaption of the grid to the field can be
+  altered by using one or more <code class="language-plaintext highlighter-rouge">field</code> commands beforehand to modify the field. For example, by increasing the scale of a field using
+  <strong>field</strong> <strong>/scale</strong>, the <strong>esug</strong> algorithm will produce grids with
+  increased numbers of nodes in the regions where the field
+  experiences relatively large gradients. By volume averaging a field
+  using <code class="language-plaintext highlighter-rouge">field</code><strong>/volavg</strong>, <strong>esug</strong> will cause a more gentle form
+  of adaption with a better grading of elements. By composing the
+  values of the field with <strong>log</strong> or <strong>asinh</strong> using <strong>field</strong>
+  /<strong>compose</strong>, one can cause <strong>esug</strong> to shift nodes to where the
+  logarithm (or hyperbolic arcsine) of the field has interesting
+  features, rather than where the field itself has interesting
+  features.</p>
+
+<p>Note: Since the* <strong>mega</strong> adaptive smoothing algorithm is rigorously based on error minimization, it is in general of
+  little or no value to modify the adaption function for this algorithm. In particular, rescaling has no effect on the output.</p>
+
+<p>The variable <strong>MAXITER_SM</strong> (Default: 25)  can be set using the <strong><code class="language-plaintext highlighter-rouge">ASSIGN</code></strong> command before calling <strong><code class="language-plaintext highlighter-rouge">RADAPT</code></strong>.<br />
+This controls the maximum number of adaption iterations to be performed.  If convergence is detected beforehand, less iterations will be
+  performed.  If field data is allowed to become “stale” during the course of r-adaption, <strong>MAXITER_SM</strong> should be reduced (e.g. less than 5).</p>
+
+<h1 id="examples">EXAMPLES</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>radapt /  / esug / 1,0,0 / density
+</code></pre></div></div>
+<p>Using <strong>esug</strong>, adapt all nodes in 2dmesh to the density field. Do not update data.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>radapt /  /  / 1,0,0 / user
+doping / user / density / set /1,0,0/
+</code></pre></div></div>
+<p>Assuming a default 3D cmo, use <strong>mega</strong> to adapt the mesh to the adaption function supplied by the user via subroutine fadpt.
+Afterwards dope (interpolate) the density field with the fadpt function values.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>assign / / / maxiter_sm / 50
+</code></pre></div></div>
+<p>This  changes the maximum number of iterations to 50. If <strong>radapt</strong> detects a sufficient amount of convergence, it will terminate
+  smoothing in less than <strong>maxiter_sm</strong> iterations.</p>
+
+<h2 id="demos-with-sample-functions">DEMOS with SAMPLE FUNCTIONS</h2>
+
+<p>The following demonstrate adaptive smoothing using <strong>mega</strong>.</p>
+
+<h3 id="1-boron-density-function">1. Boron density function</h3>
+
+<p>Load the file fadpt_boron.f ahead of the <strong>LaGriT</strong> libraries; this will cause the default fadpt
+  subroutine to be displaced by the one in this file. The result is that
+  now 3D adaptive smoothing will attempt to adapt 3D tetrahedral or hybrid
+  meshes to the boron density function devised by Kent Smith of Bell Labs.
+  This function has a maximum value of 1.1 x 1018, and drops rapidly to
+  zero; the function attains its largest values on a T-shaped region in
+  space and provides very challenging isosurfaces to capture. Two input
+  decks use this function:</p>
+
+<p>input.boron.3dtet. This deck generates and adapts a tetrahedral mesh to the boron function. A snapshot of the adapted grid may be seen at  <a href="https://lanl.github.io/LaGriT/assets/images/boron.png"> boron.png </a>.</p>
+
+<p>input.boron.3dhex. This deck generates and adapts a hexahedral mesh to the boron function. A snapshot of the adapted grid may be seen <a href="https://lanl.github.io/LaGriT/assets/images/boron.hex.png"> boron_hex.png </a></p>
+
+<ul>
+  <li>Fortran subroutine <a href="/pages/fadpt_boron.f">fadpt_boron.f</a></li>
+  <li>LaGriT command file <a href="/pages/input.boron.3dtet">input.boron.3dtet</a></li>
+  <li>LaGriT command file <a href="/pages/input.boron.3dhex">input.boron.3dhex</a></li>
+</ul>
+
+<h3 id="2-gyroscope-function">2. Gyroscope function</h3>
+
+<p>This function fadpt_gyro.f, has large second derivatives near three rings of unit diameter which are aligned with
+  each of the three coordinate planes which pass through the origin.  Adaption to this function results in the pulling of the grid towards the
+  rings when running the following two input decks:</p>
+
+<p>input.gyro.3dtet. This deck generates and adapts a tetrahedral mesh to the “gyroscope” function. A snapshot of the adapted grid may be seen at <a href="https://lanl.github.io/LaGriT/assets/images/gyro.png"> gyro.png </a></p>
+
+<p>input.gyro.3dhex. This deck generates and adapts a hexahedral mesh to the “gyroscope” function. A snapshot of the adapted grid may be seen at <a href="https://lanl.github.io/LaGriT/assets/images/gyro.hex.png"> gyro.hex.png </a></p>
+
+<ul>
+  <li>Fortran subroutine <a href="/pages/fadpt_gyro.f">fadpt_gyro.f</a></li>
+  <li>LaGriT command file <a href="/pages/input.gyro.3dtet">input.gyro.3dtet</a></li>
+  <li>LaGriT command file <a href="/pages/input.gyro.3dhex">input.gyro.3dhex</a></li>
+</ul>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

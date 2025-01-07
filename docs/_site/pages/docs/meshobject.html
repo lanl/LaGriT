@@ -1,0 +1,586 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Mesh Object Definition</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="mesh-object-definition">Mesh Object Definition</h1>
+
+<p>The data structure which contains the information necessary to define a
+mesh is called a Mesh Object. A Mesh Object consists of attributes that define the
+mesh identified by a mesh object name. Attributes are updated by LaGriT routines and
+can be modified by the user. Use the command <strong>cmo/status</strong> to see the attributes for all mesh objects, 
+or use <strong>cmo/status</strong>/<em>cmo_name</em> for the attributes of the mesh object identified by that name.</p>
+
+<p>The default Mesh Object can be expanded by adding user defined
+attributes with <strong><a href="/pages/docs/commands/cmo/cmo_addatt.html">cmo/addatt</a></strong>. User attributes can be removed with <strong><a href="/pages/docs/commands/cmo/cmo_delatt.html">cmo/delatt</a></strong>. Default mesh object attributes can not be removed. Some of the LaGriT routines add attributes to the mesh object. The user should never try to add an attribute whose name is
+already listed as a mesh object as these are reserved as mesh object attribute names (See below).</p>
+
+<p>The value of many of the scalar attributes can be changed by the <strong><a href="/pages/docs/commands/cmo/cmo_setatt.html">cmo/setatt/</a></strong> command.
+For instance, cmo/setatt/cmo_name/epsilonl/1.d-9 will set the attribute epsilonl to 1.d-9 for the mesh object named cmo_name.</p>
+
+<h2 id="mesh-object-attributes">Mesh Object Attributes</h2>
+
+<p>These are default attributes for a Mesh Object:</p>
+
+<ul>
+  <li>
+    <p><strong>name</strong> (<code class="language-plaintext highlighter-rouge">character*32</code> – mesh object name, this is the unique identifier for any particular mesh object)</p>
+  </li>
+  <li>
+    <p><strong>scalar</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – defined to have value 1)</p>
+  </li>
+  <li>
+    <p><strong>vector</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – defined to have value 3)</p>
+  </li>
+  <li>
+    <p><strong>nnodes</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – number of nodes in the mesh)</p>
+  </li>
+  <li>
+    <p><strong>nelements</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – number of elements in the mesh, e.g. triangles, tetrahedra)</p>
+  </li>
+  <li>
+    <p><strong>nfaces</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – number of unique topological facets in the mesh, e.g. number of edges in 2D or number of element faces in 3D). This is not maintained but may be used by certain commands or by the user.</p>
+  </li>
+  <li>
+    <p><strong>nedges</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – number of unique edges in mesh) This is not maintained but may be used by certain commands or by the user.</p>
+  </li>
+  <li>
+    <p><strong>mbndry</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – value signifying that if the node number is greater than <strong>mbndry</strong> then the node is a boundary node; default 16000000) This value must be greater than 48 * nnodes and may be reset by <strong><a href="/pages/docs/commands/CONNECT1.html">connect</a></strong> (for an example of usage see <a href="/pages/docs/meshobjcon.html#mbndry">Mesh Object Connectivity</a>).</p>
+  </li>
+  <li>
+    <p><strong>ndimensions_topo</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – topological dimensionality; 1, 2 or 3. i.e. a non-planar surface would have
+ndimensions_topo = 2 and ndimensions_geom = 3.)</p>
+  </li>
+  <li>
+    <p><strong>ndimensions_geom</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – 1, 2 or 3 for dimension of geometry; default 3)</p>
+  </li>
+  <li>
+    <p><strong>nodes_per_element</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – value dependent on type of mesh; e.g. for tetrahedral mesh the value will be 4)</p>
+  </li>
+  <li>
+    <p><strong>edges_per_element</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – value dependent on type of mesh; e.g. for tetrahedral mesh the value will be 6)</p>
+  </li>
+  <li>
+    <p><strong>faces_per_element</strong> (<code class="language-plaintext highlighter-rouge">integer</code> – topological number of facets per
+element (i.e. in 1D this number is always 2, for 2D use the number of
+edges of the element, for 3D use the number of faces of the element; e.g. for tetrahedral mesh the value
+will be 4)</p>
+  </li>
+  <li>
+    <p><strong>isetwd</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> containing pset membership information, see <strong><a href="/pages/docs/commands/PSET.html">pset</a></strong> command definition)</p>
+  </li>
+  <li>
+    <p><strong>ialias</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> of alternate node numbers, i.e. for merged points)</p>
+  </li>
+  <li>
+    <p><strong>imt1</strong> (or <strong>imt</strong>) (<code class="language-plaintext highlighter-rouge">integer array</code> of node material values, must be values greater than zero )</p>
+  </li>
+  <li>
+    <p><strong>itp1</strong> (or <strong>itp</strong>) (<code class="language-plaintext highlighter-rouge">integer array</code> of node types if type &gt; 20 node will be invisible) These values can be updated anytime with the <strong>resetpts/itp</strong> command. Use <strong>rmpoint/compress</strong> to remove dudded nodes from the mesh object.</p>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">itp</th>
+      <th style="text-align: left">name</th>
+      <th style="text-align: left">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">0</td>
+      <td style="text-align: left">int</td>
+      <td style="text-align: left">Interior</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">ini</td>
+      <td style="text-align: left">Interface</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">vrt</td>
+      <td style="text-align: left">Virtual</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">vin</td>
+      <td style="text-align: left">Virtual + interface</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">vif</td>
+      <td style="text-align: left">Virtual + interface + free</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">alb</td>
+      <td style="text-align: left">Virtual + Interface + free + reflective</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">rfl</td>
+      <td style="text-align: left">Reflective boundary node </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">11</td>
+      <td style="text-align: left">fre</td>
+      <td style="text-align: left">Free boundary node </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">12</td>
+      <td style="text-align: left">irb</td>
+      <td style="text-align: left">Interface node on reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">13</td>
+      <td style="text-align: left">ifb</td>
+      <td style="text-align: left">Interface node on free boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">14</td>
+      <td style="text-align: left">rfb</td>
+      <td style="text-align: left">Node on intersection of free boundary and reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">15</td>
+      <td style="text-align: left">irf</td>
+      <td style="text-align: left">Interface node on intersection of free boundary and reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">16</td>
+      <td style="text-align: left">vrb</td>
+      <td style="text-align: left">Virtual node on reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">17</td>
+      <td style="text-align: left">vfb</td>
+      <td style="text-align: left">Virtual node on free boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">18</td>
+      <td style="text-align: left">vrf</td>
+      <td style="text-align: left">Virtual node on free + reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">19</td>
+      <td style="text-align: left">vir</td>
+      <td style="text-align: left">Virtual + interface node on reflective boundary</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">20</td>
+      <td style="text-align: left">mrg</td>
+      <td style="text-align: left">Merged node</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">21</td>
+      <td style="text-align: left">dud</td>
+      <td style="text-align: left">Dudded node</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">41</td>
+      <td style="text-align: left">par</td>
+      <td style="text-align: left">Parent node for doubly defined nodes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>icr1</strong> (or <strong>icr</strong>) (<code class="language-plaintext highlighter-rouge">integer array</code> of constraint numbers for nodes; the
+value of this array is an index into the <strong><a href="#icontab">icontab</a></strong> table
+of node constraints described later in this section)</p>
+
+<p><strong>isn1</strong> (or <strong>isn</strong>)(<code class="language-plaintext highlighter-rouge">integer array</code> of child, parent node correspondence)</p>
+
+<p>Points on material interfaces are given itp1 point type 41 (parent). One
+child point is spawned for each material meeting at the parent point.
+The isn1 field of the parent point will contain the point number of the
+first child point. The isn1 field of the first child will contain the
+point number of the next child. The isn1 field of the last child will
+contain the point number of the parent. The point types of the child
+points will be 2, 12, 13, 15 or 19 depending on whether the interface
+point is also on an exterior boundary. This parent, child relationship
+is established by the <strong>settets</strong> command and is undone by the <strong>resetpts/parents</strong> command.</p>
+
+<p><strong>xic</strong>, <strong>yic</strong>, <strong>zic</strong> (<code class="language-plaintext highlighter-rouge">real arrays</code> of node x, y, z coordinates)</p>
+
+<p><strong>itetclr</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> of element material values, should be greater than zero)</p>
+
+<p><strong>itettyp</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> of element shape values. For an example of usage see <strong><a href="/pages/docs/meshobjcon.html#itettyp">Mesh Object Connectivity</a>)</strong>. See element conventions at <strong><a href="/pages/docs/supported.html">Supported element types</a></strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">data_name</th>
+      <th style="text-align: left">value</th>
+      <th style="text-align: left">name</th>
+      <th style="text-align: left">description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">ifelmpnt</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">pnt</td>
+      <td style="text-align: left">point (also known as node or vertex)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmlin</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">lin</td>
+      <td style="text-align: left">line</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmtri</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">tri</td>
+      <td style="text-align: left">triangle </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmqud</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">qud</td>
+      <td style="text-align: left">quadrilateral </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmtet</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">tet</td>
+      <td style="text-align: left">tetrahedron </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmpyr</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">pyr</td>
+      <td style="text-align: left">pyramid</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmpri</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">pri</td>
+      <td style="text-align: left">prism </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmhex</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">hex</td>
+      <td style="text-align: left">hexahedron </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmhyb</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">hyb</td>
+      <td style="text-align: left">hybrid</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ifelmply</td>
+      <td style="text-align: left">10</td>
+      <td style="text-align: left">ply</td>
+      <td style="text-align: left">polygon</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>xtetwd</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> containing eltset membership information, see eltset command definition )</p>
+
+<p><strong>itetoff</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> index into itet array list for elements, for an example of usage see <a href="/pages/docs/meshobjcon.html#itetoff">Mesh Object Connectivity</a>)</p>
+
+<p><strong>jtetoff</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> index into jtet array list for elements, for an example of usage see <a href="/pages/docs/meshobjcon.html#jtetoff">Mesh Object Connectivity</a>)</p>
+
+<p><strong>itet</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> of node vertices for each element, for an example of usage see [Mesh Object Connectivity (meshobjcon.md#itet))</p>
+
+<p><strong>jtet</strong> (<code class="language-plaintext highlighter-rouge">integer array</code> of element connectivity, for an example of usage see <a href="/pages/docs/meshobjcon.html#jtet">Mesh Object Connectivity</a>)</p>
+
+<p><strong>ipolydat</strong>, <strong>vor2d</strong>, <strong>vor3d</strong>  (<code class="language-plaintext highlighter-rouge">character yes or no</code>, default <strong>yes</strong>. These flags include data when writing GMV output files, these can decrease the file size but limits the information written.) <strong>ipolydat</strong> writes polygon data, <strong>vor2d</strong> writes voronoi and median cells for 2D, <strong>vor3d</strong> writes voronoi and median cells for 3D meshes. See <strong><a href="/pages/docs/commands/DUMP2.html">dump/gmv</a></strong></p>
+
+<p><strong>dumptype</strong> (<code class="language-plaintext highlighter-rouge">character</code> with default set to binary, type of gmv file to write)</p>
+
+<p><strong>epsilon</strong> (<code class="language-plaintext highlighter-rouge">real</code> value of machine epsilon which will be calculated by the code.)</p>
+
+<p><strong>epsilonl</strong> (<code class="language-plaintext highlighter-rouge">real</code> value of smallest edge length that the code can distinguish
+and will be set internally by the code, see <strong><a href="/pages/docs/commands/SETSIZE.html">setsize</a></strong> )</p>
+
+<p><strong>epsilona</strong> (<code class="language-plaintext highlighter-rouge">real</code> value of smallest area that the code can distinguish and will be set internally by the code )</p>
+
+<p><strong>epsilonv</strong> (<code class="language-plaintext highlighter-rouge">real</code> value of smallest volume that the code can distinguish and will be set internally by the code )</p>
+
+<p><strong>ipointi</strong>, <strong>ipointj</strong>  (<code class="language-plaintext highlighter-rouge">integer</code> value with the node number of the first node and last node of the current set of
+nodes, used by the indexing syntax for point sets: / 0,0,0 / <strong><a href="/pages/docs/commands/PSET.html">pset</a></strong>)</p>
+
+<p><strong>idebug</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value indicating level of debug output, flag values greater than 0 produce increasing levels of output with 5 or greater generating the most information )</p>
+
+<p><strong>itypconv_sm</strong>, <strong>maxiter_sm</strong> (<code class="language-plaintext highlighter-rouge">integer</code> values used by the smooth routines. maxiter_sm has default 25 and are the number of smoothing iterations in  <strong><a href="/pages/docs/commands/SMOOTH.html">smooth</a></strong> and <strong><a href="/pages/docs/commands/RADAPT.html">radapt</a></strong> )</p>
+
+<p><strong>tolconv_sm</strong> (<code class="language-plaintext highlighter-rouge">real</code> value used by the smooth routines)</p>
+
+<p><strong>nnfreq</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value with default 1, flag to control reconnection after <strong><a href="/pages/docs/commands/REFINE.html">refine</a></strong> This is set to zero to turn off reconnection.)</p>
+
+<p><strong>ivoronoi</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value with default 1, flag to control reconnection criterion. See <strong><a href="/pages/docs/commands/RECON.html">recon)</a></strong> )</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+1 means restore delaunay
+-2 means improve geometric quality of the elements
++2 means adaptive reconnection with user supplied routine
++5 means disable all reconnection
+</code></pre></div></div>
+
+<p><strong>iopt2to2</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value with default 2, flag to contol boundary flips during
+reconnection. See <strong><a href="/pages/docs/commands/RECON.html">recon)</a></strong> )</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 = exterior boundaries
+1 = interfaces
+2 = exterior boundaries and interfaces
+3 = all
+</code></pre></div></div>
+
+<p><strong>velname</strong>, <strong>densname</strong>, <strong>presname</strong>, <strong>enername</strong>  (<code class="language-plaintext highlighter-rouge">character</code> specialized attribute names for velocity, density, pressure, and energy variables.  Default names set to vels, ric, pic, and eic. )</p>
+
+<p><strong>xmin</strong>, <strong>xmax</strong> (<code class="language-plaintext highlighter-rouge">real</code> value with minimum and maximum x coordinate of nodes in the mesh. Values are set internally and by <strong><a href="/pages/docs/commands/SETSIZE.html">setsize</a></strong> )</p>
+
+<p><strong>ymin</strong>, <strong>ymax</strong> (<code class="language-plaintext highlighter-rouge">real</code> value with minimum and maximum y coordinate of nodes in the mesh. Values are set internally and by <strong><a href="/pages/docs/commands/SETSIZE.html">setsize</a></strong> )</p>
+
+<p><strong>zmin</strong>, <strong>zmax</strong> (<code class="language-plaintext highlighter-rouge">real</code> value with minimum and maximum z coordinate of nodes in the mesh. Values are set internally and by <strong><a href="/pages/docs/commands/SETSIZE.html">setsize</a></strong> )</p>
+
+<p><strong>kdtree_level</strong> (<code class="language-plaintext highlighter-rouge">integer</code> with default value 0. This is the resolution level, number of octree refinements where 0 means terminal nodes contain 1  0 means terminal nodes contain 1 member.)</p>
+
+<p><strong>max_number_of_sets</strong> (<code class="language-plaintext highlighter-rouge">integer</code> with default value of 32. This is the number
+of <strong><a href="/pages/docs/commands/PSET.html">pset</a></strong> and <strong><a href="/pages/docs/commands/ELTSET2.html">eltset</a></strong> allowed for a single mesh object.)</p>
+
+<p><strong>number_of_psets</strong>, <strong>number_of_eltsets</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value with the number of psets and eltsets in the mesh.)</p>
+
+<p><strong>psetnames</strong>, <strong>eltsetnames</strong> (<code class="language-plaintext highlighter-rouge">character</code> are the set names for pset and eltset)</p>
+
+<p><strong>geom_name</strong> (<code class="language-plaintext highlighter-rouge">character</code> with default set to -defaultgeom-. This is the name of geometry
+associated with this mesh.  See <strong><a href="/pages/docs/commands/cmo/cmo_geom.html">geom)</a></strong>)</p>
+
+<p><strong>fset_names</strong> (<code class="language-plaintext highlighter-rouge">integer</code> value with the number of face sets in the mesh.)</p>
+
+<p><strong>number_of_fsets</strong> (<code class="language-plaintext highlighter-rouge">character</code> are the set names for fset.)</p>
+
+<p>The above are the default attributes for a mesh object. Multiple mesh objects can be defined, all with their own attributes and attribute values. Added attributes will be listed after this list of defaults if they have been added. The current state and list of attributes of a mesh object can be displayed by using the command <strong><a href="/pages/docs/commands/cmo/cmo_status.html">cmo/status</a></strong>.</p>
+
+<h2 id="mesh-object-attribute-definition">Mesh Object Attribute Definition</h2>
+
+<p>Each attribute (either default attribute or added attribute) in a mesh object has the following defined:</p>
+
+<ul>
+  <li>
+    <p><strong>name</strong>  <code class="language-plaintext highlighter-rouge">character</code> Attribute name, case sensitive.</p>
+  </li>
+  <li>
+    <p><strong>type</strong>  <code class="language-plaintext highlighter-rouge">character</code> with default VDOUBLE. Attribute type is one of the following, case ignored.</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    INT- Integer
+    REAL - Real number
+    CHARACTER - character string (length 32)
+    VINT - Vector of integer
+    VDOUBLE - Vector of real (this is the default)
+    VCHAR - Vector of character strings
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>rank</strong>  <code class="language-plaintext highlighter-rouge">character</code> with default <a href="#scalar">scalar</a>. This is the attribute rank set by an attribute for this Mesh object.</p>
+  </li>
+  <li>
+    <p><strong>length</strong>  <code class="language-plaintext highlighter-rouge">character</code> with default <a href="#nnodes">nnodes</a>. This is the attribute length set by an attribute for this Mesh object.</p>
+  </li>
+  <li>
+    <p><strong>interpolation</strong>   <code class="language-plaintext highlighter-rouge">character</code> with default linear. This is the interpolation option for routines to use:</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    linear   - Linear interpolation  (this is the default)
+    constant - Constant value
+    sequence - Set to the node number
+    copy     - Copy values 
+    user     - User provides a subroutine named user_interpolate
+    log      - Logarithmic interpolation
+    asinh    - Asinh interpolation
+    min      - Set to the minimum
+    max      - Set to the maximum
+    incmin   - Set to the minimum plus one (vint attribute only)
+    incmax   - Set to the maximum plus one (vint attribute only)
+    and      - 'and' the bits
+    or       - 'or' the bits
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>persistence</strong>    <code class="language-plaintext highlighter-rouge">character</code> with default temporary. Attribute persistence where <strong>permanent</strong> can not be deleted, <strong>temporary</strong> can be deleted.</p>
+  </li>
+  <li><strong>ioflag</strong> <code class="language-plaintext highlighter-rouge">character</code> with default alg. These letters are IO flags to define what type of common output files this attribute can be written to. By default, the dump command will write all attributes, this flag can be used to limit which attributes are dumped.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  a - write this attribute on avs dumps
+  g - write this attribute on gmv dumps
+  f - write this attribute on fehm dumps
+  l - write this attribute on LaGriT dumps
+  L - Do Not write this attribute on LaGriT dumps
+</code></pre></div>    </div>
+  </li>
+  <li><strong>default</strong>  <code class="language-plaintext highlighter-rouge">real</code> default is 0.0. This is the attribute value to initialize the data with.</li>
+</ul>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

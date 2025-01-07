@@ -1,0 +1,334 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>EXTRACT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="extract">EXTRACT</h1>
+
+<hr />
+
+<p>This command produces a 2D mesh object from a 3D mesh object. A
+  material interface, a plane , an isosurface or a network may be
+  extracted.</p>
+
+<p>The output mesh object will be oriented such that the outward normal of the
+  plane that defines the surface will point in the same direction as
+  the normals for the triangles in the output MO. If the command
+  extracts on an isosurface, the output MO will be oriented such that
+  the normals for the triangles point in the direction of increasing
+  field. If the command extracts on an interface, the output MO
+  triangles will be oriented the same as the triangles extracted from
+  region1 of the input MO. In the case of a plane extracted along all
+  or a portion of a material interface, only those points that lie
+  inside the material (i.e.: away from the direction of the normal)
+  will be picked up. If the extraction is on a boundary, the normal to
+  the extraction plane must point out of the material in order for
+  points to be picked up.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>extract/ plane /threepts </b>/ x1,y1,z1/x2,y2,z2/x3,y3,z3/1,0,0/cmoout/cmoin
+
+<b>extract/plane/ ptnorm </b>/ x1,y1,z1/xn,yn,zn/1,0,0/cmoout/cmoin
+
+<b>extract/plane/ axes </b>/ xv,yv,zv/1,0,0/cmoout/
+
+<b>extract/plane/ abcd </b>/ a,b,c,d/ 1,0,0/cmoout/cmoin
+
+<b>extract/isosurf </b>/ attribute/value/ 1,0,0/cmoout/cmoin
+
+<b>extract/intrface </b>/ region1/1,0,0/cmoout/cmoin
+
+<b>extract/intrfac2 </b>/ region1/region2/1,0,0/cmoout/cmoin
+
+<b>extract/network </b>/ 1,0,0/cmoout/cmoin
+
+<b>extract/surfmesh </b>/ 1,0,0/cmoout/[cmoin] [<b>external</b>]
+</pre>
+
+<p>The following options are available:</p>
+
+<ul>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">plane/threepts/</code></strong> plane may be defined by three points in the plane  <code class="language-plaintext highlighter-rouge">x1,y1,z1/x2,y2,z2/x3,y3,z3</code></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">plane/ptnorm</code></strong>/ plane defined by vector normal to the plane <code class="language-plaintext highlighter-rouge">x1,y1,z1</code> and <code class="language-plaintext highlighter-rouge">xn,yn,zn</code></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">plane/axes</code></strong>/  three points on the axes of the space <code class="language-plaintext highlighter-rouge">xv,yv,zv</code></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">plane/abcd</code></strong>/ <code class="language-plaintext highlighter-rouge">a,b,c,d</code> are the coefficients of the plane equation ax+by+cz=d</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">isosurf</code></strong>/ An isosurface is defined by the value of the surface and the <code class="language-plaintext highlighter-rouge">attribute</code> to test for this <code class="language-plaintext highlighter-rouge">value</code>.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">intrface</code></strong>/ An interface is defined by the material(s) bounding the interface <code class="language-plaintext highlighter-rouge">region1</code></p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">intrfac2</code></strong>/ <code class="language-plaintext highlighter-rouge">region1</code> [<code class="language-plaintext highlighter-rouge">region2</code>] are the material numbers or the material region (mregion) names whose interface is to be extracted. Use <code class="language-plaintext highlighter-rouge">-all-</code> to extract from all interfaces.</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">network</code></strong> A network is defined as the material interface network from the mesh object. Unlike the other extract forms, this extracts the “parent” interface and not the “child” interface, and ignores boundaries. The output cmo also contains a new attribute “map” which maps nodes in the output cmo to (parent) nodes in the input cmo. This is supposed to work for 2D meshes (tri, quad, or hybrid) in 2D or 3D and 3D meshes (tet, pyr, pri, hex or hybrid).</p>
+  </li>
+  <li>
+    <p><strong><code class="language-plaintext highlighter-rouge">surfmesh</code></strong> extracts the boundary and interface surfaces of a mesh. The keyword <code class="language-plaintext highlighter-rouge">external</code> will not extract interior interfaces. See full description at <a href="/pages/docs/commands/dump/EXTRACT_SURFMESH.html"><strong><code class="language-plaintext highlighter-rouge">extract/surfmesh</code></strong></a>.</p>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">cmoout</code> and <code class="language-plaintext highlighter-rouge">cmoin</code> are the new output mesh object name and source input mesh object name.</p>
+
+<p><code class="language-plaintext highlighter-rouge">1,0,0</code> is the range ifirst, ilast, istride selection to work on.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>extract/plane/threepts/0.,50.,0./1.,50.,0./1.,50.,1./1,0,0/2dmesh/mo_mesh
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / XVEC / 1.0
+define / YVEC / 2.0
+define / ZVEC / 3.0
+extract /plane /ptnorm/ XP YP ZP / XVEC YVEC ZVEC / 1 0 0 / mo_extract / mo_hex
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>extract / isosurf / dfield_1 / 0.0 /1,0,0/ mo_iso1 / mohex
+</code></pre></div></div>
+
+<h2 id="demo">DEMO</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	cmo/create/3dmesh/
+
+	* add an attribute to contain a field for refinement and extraction
+	cmo/addatt/3dmesh/boron
+	cmo/modatt/3dmesh/boron/ioflag/gx/
+	cmo/modatt/3dmesh/boron/interp/linear/
+
+	*  simple unit cube divided into 2 region by a horizontal plane
+	surface/cube/reflect/box/.0,.0,.0/1.,1.,1./
+	surface/mid/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5/
+	region/r1/ le cube and le mid /
+	mregion/m1/ le cube and lt mid /
+	region/r2/ le cube and gt mid /
+	mregion/m2/ le cube and gt mid /
+
+	* start out with just a few nodes
+	createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1/
+	setpts
+	search
+	settets
+
+	* put some values on the field
+	doping/gaussian/boron/set/1,0,0/xyz/0.0,0.0,0.0/1.,0.,0./0.5/ &amp;
+	3.23e+20/0.063/
+
+	* use refine to add more detail - note only linear interpolation
+	* between the few original nodes - one would never really do this
+	without
+
+	* recalculating the field on the finer mesh
+	refine/maxsize///edge/1,0,0/0.01,0.0,0.0/
+	recon
+	refine/constant/boron/linear/edge/1,0,0/1.3+20/
+	recon
+
+	* extract a plane
+	extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./1,0,0/2dmesh/3dmesh
+	pset/p1/geom/xyz/0.,0.,0./.5,.5,.5/
+
+	* extract a plane - note pset is ignored!
+	extract/plane/threepts/0.,0.,0./1.,0.,0./1.,0.,1./pset,get,p1/2dm1/3dmesh
+	dump/gmv/gmv.3dm/3dmesh/
+	dump/gmv/gmv.2dm/2dmesh/
+	dump/gmv/gmv.2d1m/2dm1/
+	cmo/select/3dmesh
+
+	* refine some more
+	refine/constant/boron/linear/edge/1,0,0/1.3+20/
+	recon
+
+	* now get an isosurface
+	extract/isosurf/boron/1.0e+20/1,0,0/2dm2/3dmesh
+	dump/gmv/gmv.2dm2/2dm2
+
+	* get the boundary of one region
+	extract/intrface/m1/1,0,0/2dm3/3dmesh
+	dump/gmv/gmv.2dm3/2dm3
+
+	* get the interface between two regions
+	extract/intrfac2/m1/m2/1,0,0/2dm4/3dmesh
+	dump/gmv/gmv.2dm4/2dm4
+
+	* try the network option
+	extract/network/1,0,0/2dm5/3dmesh
+	dump/gmv/gmv.2dm5/2dm5
+
+	* get the surface mesh - note interface plane is included
+	extract/surfmesh/1,0,0/2dm6/3dmesh
+	dump/gmv/gmv.2dm6/2dm6
+	finish
+</code></pre></div></div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

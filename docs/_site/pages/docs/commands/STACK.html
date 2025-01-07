@@ -1,0 +1,316 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>STACK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="stack">STACK</h1>
+
+<hr />
+
+<p>The <strong>stack/layers</strong> command is used to read surfaces and merge into a
+ single stacked layers cmo. The surfaces must have the same number of
+ nodes, and the x,y coordinates of each layer must be the same. (i.e.
+ x_n,y_n of surface M must equal x_n,y_n of surface N), and the
+ surfaces must be single valued functions of z.</p>
+
+<p>The first file listed is bottom, last file is the top surface.</p>
+
+<p>The lower elevation of each layer truncates the upper. The second from
+ last surface can be made to truncate all lower surfaces, commonly done
+ with a topographic surface.</p>
+
+<p>Three scalar attributes are added and used later by the <strong><code class="language-plaintext highlighter-rouge">stack/fill</code></strong> command.</p>
+<ul>
+  <li><strong>nlayers</strong> are the total number of layers in the stacked cmo, this includes layers added
+ for refinement. nnperlayer are the number of nodes in each of the
+ layers.</li>
+  <li><strong>neperlayer</strong> are the number of elements in each of the layers.</li>
+  <li><strong>layertyp</strong> is created to indicate what type of layer each node is in.
+Value -1 is bottom,  -2 is top, 0 is the surfaces read at input, 1 is a derived interface buffer, 2 is a derived refinement layer.</li>
+</ul>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+cmo/create/ cmo_stack
+<b>stack/layers</b> / [<b>avs</b> or <b>gmv</b>] [minx,miny, maxx,maxy] / &amp; 
+  file_bot(1) [matnum] &amp;
+  file_lay(i) [matnum, refnum] &amp;
+  file_top(n) [matnum, refnum] &amp;
+  [ <b>flip</b> ] [ <b>buffer</b> [xdistance] ] [ <b>pinch</b> xthick ] <b>trunc</b> [ifile_no] [ <b>dpinch</b> xvalue / <b>dmin</b> xvalue ] 
+
+<b>stack/fill</b> / cmo_3D / cmo_stack
+</pre>
+
+<h3 id="required-options">Required Options</h3>
+
+<p>The stacked layers are read into the current mesh object. Create and name the stacked mesh object with <strong>cmo/create</strong>/cmo_stack before command <strong><code class="language-plaintext highlighter-rouge">stack/layers</code></strong>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">stack/fill</code></strong> command creates a new mesh object <code class="language-plaintext highlighter-rouge">cmo_3D</code> from the stacked mesh <code class="language-plaintext highlighter-rouge">cmo_stack</code>.
+The stacked 2D layers are filled to create 3D elements. For triangulated surfaces, the elements will be prisms, and for quad sheets the filler elements will be hex.</p>
+
+<p><strong>avs</strong> or <strong>gmv</strong> are the allowable file types that can be read. These must be surfaces with element type <strong>quad</strong> or <strong>tri</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">minx, miny, maxx, maxy</code> is optional argument that allows a subset of the surfaces to be used.</p>
+
+<p><code class="language-plaintext highlighter-rouge">file(1) ... file(n)</code>  is the list of files to read from bottom surface to top.
+Each surface can be followed by an integer value to indicate a material
+number, and an integer value to indicate the number of layers to add as
+refinement between input surfaces.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mat_num</code> and <code class="language-plaintext highlighter-rouge">ref_num</code> material number and refinement count are optional arguments for each file so the file list can look like one of the following 3 syntax lines:</p>
+<pre>
+    file_bottom, file2, ... file_top 
+    file_bottom mat_num, file2 mat_num, ... file_top mat_num 
+    file_bottom mat_num, file2 mat_num [ref_num], ... file_top mat_num [ref_num]
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">mat_num</code> is the material number for the unit defined by upper and lower surface. These values will detirmine the element colors when the
+ layers are filled with element volumes.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ref_num</code> is the number of refinement layers to add between two surfaces. Refinement is done proportionallly, creating new layers
+ between the choosen surfaces. The first filename can not have a refinement number, units start at second file name. See examples
+ below.</p>
+
+<h3 id="additional-options">Additional Options</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">flip</code></strong>  will flip elements so the normals point positive Z direction, no change if normals are already up direction.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">buffer</code></strong> creates buffer layers around interfaces at a distance equal to <code class="language-plaintext highlighter-rouge">xvalue</code>. It derives layers above and
+below each surface that is read in to the stack routine. Buffers are not created around refinement layers or on the top and bottom surfaces.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">trunc</code></strong>  causes all layers below the choosen surface to be truncated. The truncating surface is indicated by
+the integer <code class="language-plaintext highlighter-rouge">ifile_no</code>. For instance, 5 will truncate all layers below the 5th surface by the 5th surface.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">pinch</code></strong> <code class="language-plaintext highlighter-rouge">xthick</code> controls how layers are made coincident  where they cross and will also help to control the minimum thickness between layers.
+The real value <code class="language-plaintext highlighter-rouge">xthick</code> is mininum thickness allowed between layers. This allows upper surface elevations to be equal to lower surface
+ elevation if the upper surface dips below lower surface. (default 0)</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">dpinch</code></strong> <code class="language-plaintext highlighter-rouge">dvalue</code> <strong>dmin</strong> <code class="language-plaintext highlighter-rouge">mvalue</code> These options are used along with buffers to help elements to follow the interface boundarys. These
+ options differ from the simple <strong>pinch</strong> option and uses the beads_ona_ring algrithm to move points vertically after all the layers are stacked.
+<br />
+The algorithm follows these rules:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> If layer thickness &lt;= dvalue then thickness is set to zero.
+
+ If layer thickness is &lt; dvalue &lt; mvalue, set thickness to mvalue.
+
+ (default dvalue = mvalue = 0.0, no post processing)
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/cmo_stack
+stack/layers/avs/ fsrf5.inp 1/ fsrf09.inp 2/ fsrf44.inp 2 /flip/pinch 1.0
+stack/fill/ mo_prism / cmo_stack
+</code></pre></div></div>
+<p>This command will read 3 triangulated surface files, flip the normal from down to up, and pinch layers less than 1.0 meter apart. When
+ converted to a 3D grid, this mesh  will be two prism elements thick in the z direction.
+<br />
+ A surface is assigned the material value that occurs with it on the command line. When the surfaces are filled with volumes, the nodes on
+ the bottom surface will detirmine the material of volume elements on and above that surface. So nodes on fsrf5.inp and above will all
+ have imt values of 1. Nodes on fsrf09.inp and above will have imt equal to 2.
+<br />
+The prism mesh will have a bottom layer of material 1 and a top layer of material 2.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/cmo_stack
+stack/layers/avs / fsrf5.inp 1/ fsrf09.inp 2/fsrf44.inp 2/ &amp;
+     flip / buffer 3.0 / dpinch 1.0 / dmin 3.0
+</code></pre></div></div>
+
+<p>Three surfaces are read and buffer layers are added at 3 meters below and 3 meters above the unit interface fsrf09.inp. The units are
+ pinched at anything less than 1 meter and the mininum distance to next layer is 3 meters.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo create cmo_stack
+
+stack/layers/avs/ &amp;
+  surf-12.inp 1   &amp;
+  surf-5.inp  2 3 &amp;
+  surf5.inp   3   &amp;
+  surf2_slope.inp 4 &amp;
+  surf25.inp  4 1 / trunc 4 / pinch 0.
+
+stack/fill/mohex/cmo_stack
+
+hextotet//motet/cmohex
+</code></pre></div></div>
+<p>This command reads a list of quad surfaces and assigns material values 1 through 4. The first thickness (between surf-12.inp and surf-5.inp) is
+refined by 3, so that 3 layers are added between these file surfaces. All materials will be 1 in this refined unit. 
+The next two units, material 2 and 3, will have no refinement layers added. The last unit is
+ refined once, with a layer between the file surfaces surf2_slope.inp and surf25.inp.
+<br />
+ The fill option will fill the space between quad surfaces with hex elements. This hex grid will have 4 units and 10 layers.
+<br />
+ The hextotet command can be used to convert the hex grid to a tet grid. Note that the second option to hextotet is defaulted. This
+ allows hextotet to check on the grid’s mesh type and use the appropriate tet conversion. There will be 6 tet from each hex and
+ there are 3 tets from each prism.</p>
+
+<h3 id="links">LINKS</h3>
+
+<p><a href="/pages/docs/stack_demo.html">Simple Examples for stack</a></p>
+
+<p><a href="/pages/docs/stack_demo2.html">Advanced Examples for stack</a></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

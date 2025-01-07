@@ -1,0 +1,471 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT V2 Release Notes</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h2 id="version-22-release-november-2010">Version 2.2 Release November 2010</h2>
+
+<p>This is the last release before work to support 64 bit.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*               *    Program:  LaGriT V2.200   Linux m32      *                 
+*               *    date_compile: 2010/11/22                 *      
+</code></pre></div></div>
+<h3 id="enhancements">Enhancements:</h3>
+
+<ul>
+  <li>
+    <p><strong>interpolate</strong> Changed interpolate to “find” more points on edges
+this will permit nodes to find a nearest edge or point and be
+“inside” the triangle for extreme small or large numbers where
+epsilon values are difficult to evaluate correctly.
+Note, this changed test results for interpolate, test/level01
+results were updated for these improvements.</p>
+  </li>
+  <li>
+    <p><strong>extract/surfmesh</strong> Now creates attributes to hold element local face numbers of 3D input 
+mesh that occur on either side of output mesh face, idface0 and idface1.
+Now copies user-created node-based attributes from source.</p>
+  </li>
+  <li>
+    <p><strong>dump/fehm dump/zone_outside</strong> Changed FEHM outside area to Voronoi instead of Median
+FEHM file file_name_outside.area changed to file_name_outside_vor.area
+For dump/zone, added keywords keepatt_area or keepatt_voronoi which will 
+compute and keep voronoi vector areas xn_varea, yn_varea, zn_varea
+and keepatt_median will compute area/num nodes on face and 
+keep attributes xn_area, yn_area, zn_area
+The written file file_name_outside_vor.area or file_name_outside_med.area 
+is a list of 2D area vectors (Ax_i,Ay_i,Az_i) associated with each node.</p>
+  </li>
+  <li>
+    <p><strong>cmo/addatt/voronoi_varea</strong> will do the same voronoi calculation on triangles
+as is done with the outside area for FEHM modeling files. The call will
+create node attributes xn_varea, yn_varea, zn_varea indicating face directions.</p>
+  </li>
+  <li>
+    <p><strong>dump/ filename</strong> 2 token dump for common files added to writedump.f</p>
+  </li>
+  <li>
+    <p><strong>addmesh/ excavate</strong> remove nodes and elements if they fall with the circumsphere of triangles on the input mesh.</p>
+  </li>
+</ul>
+
+<h3 id="these-issues-were-fixed">These issues were fixed:</h3>
+
+<ul>
+  <li>
+    <p>intrp_gtg.f A bug was fixed in interpolation that would sometimes save
+a node id in pt_gtg or el_gtg attributes that was not related
+to the found candidate and value. This could occur where there are
+multiple candidates for the source and if epsilon values are
+reaching near machine limits. The test in level01/intrp_2D_sizes
+was changed to capture and evaluate these issues.</p>
+  </li>
+  <li>
+    <p>epsilon errors in <em>intrp_gtg.f, inside_lg.f</em> There are changes to interpolate using tests for finding points
+that are inside or on edges or vertices of an element. The epsilon
+tests have been relaxed to allow points that are “near” to be
+found on edge - if within the chosen epsilon. The interpolation
+has been changed to evaluate candidate points based on the
+confidence of being inside the associated triangle. A result
+indicating the point is inside will “win” over a candidate result
+that is on edge or vertice. If idebug attribute is set to a
+number of 5 or greater, there will be many more statements
+written that are related to the inside triangle and epsilon
+tests.</p>
+  </li>
+</ul>
+
+<h2 id="version-2106-6292010">Version 2.106 6/29/2010</h2>
+
+<p>This version contains the work done over the summer by Aaron Gable.
+Better handling of errors and segmentation faults were added to
+various pieces of the code having to do with actions involving
+more than one mesh object and their user defined attributes.</p>
+
+<h3 id="enhancements-1">Enhancements</h3>
+
+<ul>
+  <li>
+    <p><strong>memory</strong> New options to print and check memory manager and report memory usage. This superseeds old utilities mmprint, mmcheck, etc.</p>
+  </li>
+  <li>
+    <p><strong>read</strong> for 3 tokens for .inp .gmv .avs</p>
+  </li>
+  <li>
+    <p><strong>cmo/attribute_union</strong> Change two meshes so they both share the same set of attributes</p>
+  </li>
+  <li>
+    <p><strong>compute / linear_transform</strong> extrapolation from an attribute value in a surface onto every node of
+a 3D mesh</p>
+  </li>
+  <li>
+    <p><strong>compute/signed_distance_field</strong> to calculate signed distance relative to above and below.</p>
+  </li>
+  <li>
+    <p><strong>grid2grid</strong> wrapper for hextotet. can also convert from octree mesh to lagrit with <strong>tree_to_fe</strong></p>
+  </li>
+  <li>
+    <p><em>anothermatbld3d_wrapper.f</em> Create two new node vectors, ccoef, ij_ccoef
+Put the negative ij coefficient value into the two nodes connected to the ij edge.
+The vector ij_coef will assign the j index value to node i so that one can determine 
+which edge is associated with the neative coefficient that is assigned to nodes.</p>
+  </li>
+  <li>
+    <p>Add option to <strong>pset/ / zone</strong> for user specified zone id number</p>
+  </li>
+</ul>
+
+<h3 id="these-issues-were-fixed-1">These issues were fixed:</h3>
+
+<ul>
+  <li>
+    <p>Modified epsilons in tri2d, fixed bug in foreach part of loop</p>
+  </li>
+  <li>
+    <p><em>anothermatbld3d.c</em> possible accuracy improvement using Carl’s changes to include TranslateTetToZero for geometric calculations</p>
+  </li>
+</ul>
+
+<h2 id="version-21-release-august-2009">Version 2.1 Release August 2009</h2>
+
+<p>This is a major update to LaGriT and the lg_util library. 
+Major changes have been made in the core memory management routines to allow 
+development for a 64 bit release.  These changes will be invisible to most users 
+but allows better reporting of errors and memory usage for useful diagnostic information.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>*               *    Program:  LaGriT V2.100   Linux m32      *                 
+*               *    date_compile: 2009/08/03                 *                   
+</code></pre></div></div>
+
+<p>###Enhancements:</p>
+
+<ul>
+  <li>
+    <p>Executable build for Mac with Intel chip</p>
+  </li>
+  <li>
+    <p>New capability in compute module to compute signed distance fields</p>
+  </li>
+  <li>
+    <p>Incorporate METIS source code for graph partition and reorder package
+with LaGriT. For details of METIS algorithms and descriptions of the third command
+line argument see <code class="language-plaintext highlighter-rouge">http://glaros.dtc.umn.edu/gkhome/views/metis</code></p>
+  </li>
+  <li>
+    <p>Add option to create node attribute that is the Voronoi volume
+associated with each node of a Delaunay mesh</p>
+  </li>
+  <li>
+    <p>Module addmesh modified to handle errors so that it can be used in a
+loop without needing to have first call be different</p>
+  </li>
+  <li>
+    <p>Updates stor file commands so default uses newest version of code to
+build sparse matrix. This uses less memory and takes less time to
+build. New syntax options for stor file compression include all (default),
+graph, coefs, or none. Initialize list pointers to null
+assign null to pointers after free
+add warning messages for failure to free.</p>
+  </li>
+  <li>
+    <p><em>initlagrit.f</em> add call to mmverify
+the new util version checks for correct pointer sizes</p>
+  </li>
+  <li>
+    <p><strong>cmo addatt vor_volume</strong> added which calls anothermatbld3d_wrapper to fill voronoi volumes</p>
+  </li>
+  <li>
+    <p><em>dumpfehm.f</em>  Add compress_opt to dumpfehm arguments
+add comments and error checking to clarify code logic
+check options and set for 2D or 3D calls to matbld
+use matbld3d_stor for compress options none and coefs
+use anothermatbld3d_wrapper for compress options all and graph
+Note anothermatbld3d_wrapper can write only scalar coef values</p>
+  </li>
+  <li>
+    <p><em>anothermatbld3d_wrapper.f</em>
+Extensive chages to error handling and messages, but not to the logic of program
+This code has same logic as matbld3d - but uses linked lists instead of mmgetblk calls
+Use io_type to toggle creation of attribute for voronoi volumes or to write to stor file
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+changed all routine messages to start with AMatbld3d_stor to distinguish from matrix built with Matbld3d_stor
+added idebug options
+added status report at end of routine</p>
+  </li>
+  <li>
+    <p><em>matbld3d_stor.f</em>
+Extensive chages to error handling and messages, but not to the logic of program
+This code uses many mmgetblk calls and about 40 percent more memory than linked list version
+added extensive error checking to eliminate segmentation faults
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail
+cleaned up variable declarations and added comments
+added istatus to check for errors and completion of matrix
+added idebug options
+added status report at end of routine</p>
+  </li>
+  <li>
+    <p><em>matbld1.f</em>
+This routine is called  by matbld3d_stor
+added error check and message for every mmgetblk and mmrelblk
+added calls to mmprint when mm calls fail</p>
+  </li>
+</ul>
+
+<p>###These issues were fixed:</p>
+
+<ul>
+  <li>
+    <p>readatt not working correctly for psets</p>
+  </li>
+  <li>
+    <p><em>blockcom.h</em> fix for compile on MAC OS X Absoft on intel comment out ntetmax/0/ and let compiler initialize because we have 2 instances of pointer sizes. See kfix and xfix in neibor.h</p>
+  </li>
+</ul>
+
+<hr />
+<h2 id="version-2004-10212008">Version 2.004 10/21/2008</h2>
+
+<h3 id="enhancements-2">Enhancements:</h3>
+
+<ul>
+  <li>resetpts bug fix, boundary_components and extract_surfmesh added features</li>
+  <li>boundary_components: added id_numb boundary index number</li>
+  <li>extract_surfmesh: added attributes idelem0, idelem1, idnode0 and removed attribute map- Made changes so that filter and rmmat return with no action rather than crash when passed an empty mesh object.</li>
+  <li>Add options dump/att_node and dump/att_elem</li>
+  <li>Add options dump/att_node and dump/att_elem to output tables of either node attributes or element attributes to ascii files with header lines beginning with character #. 
+These are similar to <em>dump/avs/file/mo/0 0 2 0</em> or <em>dump/avs/file/mo/0 0 0 2</em> except the addition of # character to start lines. Now these files can be read in without editing using <em>cmo / readatt /</em> workflow.</li>
+  <li>Added character # for comment lines</li>
+</ul>
+
+<h3 id="these-issues-were-fixed-2">These issues were fixed:</h3>
+<ul>
+  <li>resetpts had a bug for some element types</li>
+  <li>Corrected bug: cmo_exist returned error flag but check of error flag was to wrong error flag variable.</li>
+  <li>Made changes so that filter and rmmat return with no action rather than crash when passed an empty mesh object.</li>
+</ul>
+
+<hr />
+
+<h2 id="version-2003-052008">Version 2.003 05/20/08</h2>
+
+<p>Compile and test V2.003 for platforms SGI-32, SUN, MAC, LINUX</p>
+
+<h3 id="these-issues-were-fixed-3">These issues were fixed:</h3>
+
+<ul>
+  <li>These include fixes to SGI compile errors in dumpavs.f filter.f refine_tet_add.f lagrit*.h writinit.f and the Makefile in src</li>
+  <li>Correct minor bugs. Test case now works. sphere1.f had an incorrect attempt to use MO name before the name had been obtained. Code would crash.</li>
+  <li>offsetsurf.f did not handle problems with non-triangle or line type MO. Instead of kicking out, an attempt was made to compute sythetic normal for a mesh object (such as quad) and this caused code to crash.</li>
+  <li>Fixed error that occured when all output attributes were turned off.</li>
+  <li>Fixed error that occured when all output attributes were turned off.</li>
+  <li>Code tried to allocate a zero length array for xvalues( ).</li>
+</ul>
+
+<h2 id="version-2002-release-april-2008">Version 2.002 Release April 2008</h2>
+
+<p>Improved check_test.py to compare numbers as numerical values instead of text string. The new results are saved in result_files</p>
+
+<p>Generalized version Makefile and dependencies</p>
+
+<ul>
+  <li>Uses wildcards for .f .f90 and .c</li>
+  <li>maintains object files in seperate directories</li>
+  <li>for each platform and for debug and optimized</li>
+  <li>use make help for list of options</li>
+  <li>added options opt and debug as build choices</li>
+</ul>
+
+<p>Initialize nremtet and npoints2 to 0, initialize number_elements and number_nodes to zero</p>
+
+<p>Modify output for Dudded points to indicate when there are no elements (for removal)</p>
+
+<p>Changed name from ‘program adrivgen’ to ‘program lagrit_main’</p>
+
+<p>Modified header correcting spelling, changed X3D to LaGriT.</p>
+
+<h3 id="enhancements-3">Enhancements</h3>
+
+<ul>
+  <li>Add capability to read FEHM zone/zonn files.</li>
+</ul>
+
+<h3 id="these-issues-were-fixed-4">These issues were fixed:</h3>
+
+<ul>
+  <li>corrected change to printatt minmax output so that name has 18 characters, with total line of 80 chars</li>
+  <li>for cmo_setatt.f added error check for existing cmo and expanded name string size for 17 character names</li>
+  <li>for cmo/printatt/ minmax limited format to 80 characters</li>
+  <li>Corrected typo in screen output. Changed ‘nnelements’ to ‘nelements’</li>
+  <li>Changed some memory allocation from real(2) to int(1) for integer work arrays. Running a large problem (&gt;10,000,000 nodes) was
+  crashing at rmpoint due to MALLOC failure.</li>
+</ul>
+
+<p><em>changesets tracked with Mecurial/Trac 0.10.4 on ancho.lanl.gov/lagrit/hg/lagrit</em></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

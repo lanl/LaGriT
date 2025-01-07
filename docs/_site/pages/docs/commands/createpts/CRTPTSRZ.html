@@ -1,0 +1,309 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CREATEPTS/ xyz rtz rtp line</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="createpts-xyz-rtz-rtp-line">CREATEPTS/ xyz rtz rtp line</h1>
+
+<hr />
+
+<p>This command adds points to a mesh object. It can distribute points evenly or according to a ratio zoning method as indicated by the choices <strong>xyz</strong>, <strong>rtz</strong>, <strong>rtp</strong>, or <strong>line</strong>. These points can be connected into a tet mesh object.</p>
+
+<p>If you want a connected hex mesh object, use the <a href="/pages/docs/commands/createpts/CRTPTBRICK.html"><strong>createpts/brick</strong></a> commands instead.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre> 
+<b>createpts</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat /xrz,yrz,zrz ]
+
+<b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
+</pre>
+
+<h3 id="distribution-types">Distribution Types:</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">xyz</code></strong> Cartesian coordinates.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtz</code></strong> Cylindrical coordinates with center at (0,0,0). This results in a (partial) cylinder of points centered around the z axis.  Use the <strong>rotateln</strong> and <strong>trans</strong> command to move cylinder.
+The minimum and maximum coordinates are the triplets:</p>
+<ul>
+  <li>radius from the cylinder’s axis</li>
+  <li>angle in the xy-plane measured from the x-axis</li>
+  <li>length along the z-axis</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtp</code></strong> Spherical coordinates with center at (0,0,0), use a <strong>trans</strong> command to move center to a new coordinate. 
+The minimum and maximum coordinates are the triplets:</p>
+<ul>
+  <li>radius from the center of the sphere axis</li>
+  <li>angle in the zy-plane measured from the positive z-axis</li>
+  <li>the angle in the xy-plane measured from the positive x-axis. <a href="/pages/docs/conventions.html">See  Conventions</a>.</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">line</code></strong> this option implies xyz and will distribute npoint nodes from (xmin,ymin,zmin) to (xmax,ymax,zmaz)</p>
+
+<h3 id="distribution-options">Distribution Options:</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ni,nj,nk</code> are the number of points to be created in each coordinate direction as described above.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xmin,ymin,zmin</code> are the minimums and <code class="language-plaintext highlighter-rouge">xmax,ymax,zmax</code> are the maximums for coordinates as described above.</p>
+
+<p><code class="language-plaintext highlighter-rouge">iiz,ijz,ikz</code> 0 or 1 switches</p>
+<ul>
+  <li>0 = mins and maxs are used as cell centers</li>
+  <li>1 = mins and maxs are used as cell vertices</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">iirat,ijrat,ikrat</code> ratio zoning switches 0=off (default), 1=on</p>
+
+<p><code class="language-plaintext highlighter-rouge">xrz,yrz,zrz</code> ratio zoning value - distance is multiplied by this value for each subsequent point.</p>
+
+<hr />
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>createpts/xyz/ 5,3,10 /0.,2.,0./5.,6.,2./1,1,1/
+</code></pre></div></div>
+<p>This results in a xyz set of 150 points, five across from x=0. to x=5.,
+3 deep from y=2. to y=6. and 10 high from z=0. to z=2.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/ motet / / / tet
+createpts/rtz/ 4,6,11 /0.,0.,0./3.,360.,10./1,0,1/
+cmo/setatt/ motet/ imt/ 1
+filter/1,0,0; rmpoint/compress;
+connect
+</code></pre></div></div>
+<p>This results in 264 cylinder points arranged around the z- axis. <br />
+There are 3 rings of points at distances r=1., r=2. and r=3. from the z-axis.<br />
+There are 11 sets of these three rings of points and heights z=0., z=1., z=2.,…,z=10. <br />
+In each ring there are 6 points where each pair of points is separated by 60° <br />
+Note that ijz=0 requests that points be placed at cell centers, hence the first point will be at 30° not at 0°.<br />
+Corresponding to r=0, there will be 6 identical points at 11 intervals along the z-axis at heights z=0., z=1., z=2.,…z=10.</p>
+
+<p>The <strong>filter</strong> command tags duplicate points and the <strong>rmpoint/compress</strong> removes the tagged points and updates the mesh object. The <strong>connect</strong> command will create a connected tetrahedral mesh object.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define XP1 1.
+define YP1 1.
+define XP2 100.
+define YP2 150.
+define N_POINTS 100
+
+cmo/create/mo_line 
+createpts/line/ N_POINTS / / /XP1 YP1  0. /  XP2 YP2 0. /1 1 1/
+</code></pre></div></div>
+<p>Create a line of 100 unconnected points from point 1,1,0 to 100,150,0.</p>
+
+<h2 id="example-cylinder-in-box">EXAMPLE CYLINDER IN BOX</h2>
+
+<p>Create point distribution with regular spaced grid in a cylinder. Make the mesh 3D and 1 cell wide. Connect into a tet mesh.</p>
+
+<p>Full LaGriT Command file: <a href="https://lanl.github.io/LaGriT/pages/docs/demos/input/lagrit_input_boxincyl.txt">lagrit_input_boxincyl.txt</a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -------------------------------------
+# CREATE CYLINDER POINTS	
+# NRAD are number of points along radius
+# NRAY are number of rays/spokes around
+# NRING are number of ring sections in z direction
+# RAD length of radius from the cylinder’s axis
+# CIRDEG angle around measured from the x-axis
+# RTOP   length along the z-axis from 0.
+
+define CYLMAT 2
+
+define NRAD  11
+define NRAY  73 
+define NRING 2
+define RAD    14.25
+define CIRDEG 360.
+define RTOP   2.
+
+cmo/create/mocyl/ / /tet
+cmo/select/mocyl
+createpts/rtz/NRAD,NRAY,NRING/0. 0. 0./ &amp;
+         RAD CIRDEG RTOP /1,1,1
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># -------------------------------------
+# CREATE INSIDE BOX POINTS
+
+define BOXMAT 1
+
+define XMIN -10.
+define YMIN -10.
+define ZMIN   0.
+define XMAX  10.
+define YMAX  10.
+define ZMAX   2.
+define NX 9
+define NY 9
+define NZ 2
+cmo/create/mobox/ / /tet
+createpts/xyz/NX NY NZ /XMIN YMIN ZMIN /XMAX YMAX ZMAX /1,1,1/
+</code></pre></div></div>
+<p>Image of all points
+<img src="https://lanl.github.io/LaGriT/assets/images/all_points.png" width="400" /></p>
+
+<p>Image of all points, some points removed, then connected into tets.
+<img src="https://lanl.github.io/LaGriT/assets/images/tet_connect.png" width="400" /></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

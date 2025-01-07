@@ -1,5 +1,5 @@
 ---
-title: Example 2: createpts in a cylindrical geometry
+title: "Example 2: createpts in a cylindrical geometry"
 ---
 
  Example 2: createpts in a cylindrical geometry

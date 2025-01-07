@@ -1,0 +1,348 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>MASSAGE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="massage">MASSAGE</h1>
+
+<hr />
+
+<p><strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> creates, annihilates, and moves nodes and swaps
+ connections in a 2D or 3D mesh in order to improve element aspect
+ ratios and establish user-desired edge lengths.</p>
+
+<p>Specifically, <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> performs up to four iterations of a loop
+ which calls AGD3D (a routine for automated merging of nodes), RECON (a
+ routine for automated reconnection of edges), and SGD (a routine for
+ element aspect ratio improvement using smoothing). <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> then
+ calls CEL_CHAIN which performs Rivara edge refinement and then
+ another call to RECON.  In the case of 2-D surface grids, this is then
+ followed by a call to CER_CHAIN which is another edge refinement
+ routine and then a final call to RECON if necessary.</p>
+
+<p>AGD3D will attempt to merge edges that are shorter than <code class="language-plaintext highlighter-rouge">merge_length</code>.  
+ CEL_CHAIN will attempt to bisect edges that are longer than <code class="language-plaintext highlighter-rouge">bisection_length</code> .  
+ For 2D surfaces, CER_CHAIN will attempt to bisect edges that deviate from an
+ averaged surface normal (“have a roughness of”) greater than
+ <code class="language-plaintext highlighter-rouge">tolroughness</code>. 
+ RECON will attempt to create ‘nice’ elements by using face swapping. The LaGriT command <strong><code class="language-plaintext highlighter-rouge">MODE/RECON</code></strong>
+ can alter the meaning of ‘nice’.  The default is to reconnect to restore the delaunay criterion. </p>
+
+<p>Calling <strong>MODE</strong> / <strong>RECON/GEOM</strong> prior to the <strong>MASSAGE</strong> call will create ‘plumper’ elements. 
+ SGD will attempt to improve element aspect ratios by moving nodes.</p>
+
+<p>Note:  Since CEL_CHAIN is called only once at the end of <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong>,
+ it may be necessary to call <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> twice for optimal results. 
+ This is because annihilation of nodes is done with an intent to
+ improve element aspect ratios, but cannot be effective if there are
+ too few nodes initially.</p>
+
+<p>Note: The user may wish to call <strong><code class="language-plaintext highlighter-rouge">RMPOINT/COMPRESS</code></strong> after
+ <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> operations that merge a significant number of nodes.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>massage</b>/bisection_length/merge_length/toldamage/[[tolroughness]]/ &amp;
+[ifirst,ilast,istride]/ [<b>nosmooth</b>] / [<b>norecon</b>]   &amp;
+[<b>strictmergelength</b>]/[<b>ignoremats</b>]/       &amp;
+[<b>lite</b>]/[<b>checkaxy</b>]/[<b>semiexclusive</b>]/[<b>exclusive</b>]
+</pre>
+
+<h3 id="primary-parameters">Primary Parameters</h3>
+
+<p><code class="language-plaintext highlighter-rouge">bisection_length</code>  edge length that will trigger bisection. can either be a scalar value or a
+ node attribute.</p>
+
+<p><code class="language-plaintext highlighter-rouge">merge_length</code>  is the edge length value that will trigger merging.</p>
+
+<p><code class="language-plaintext highlighter-rouge">toldamage</code> is a parameter which controls how much the mesh interface and external boundaries will be deformed.    Roughly, it measures the depths of ‘dents’ that are invariably introduced when nodes are moved, annihilated, and faces are swapped.</p>
+
+<p><code class="language-plaintext highlighter-rouge">tolroughness</code> (for 2D surface grids only)  measure of grid roughness (deviation from average surface
+     normal) that triggers refinement.</p>
+
+<p>The following are guidelines for using these primary parameters:</p>
+
+<p>When setting the bisection parameter <code class="language-plaintext highlighter-rouge">bisection_length</code> as a scalar value, if the edge length is greater than scalar value, the edge will be refined. 
+If a node attribute is used, the edge length is compared to the minimum value of the two nodes, if edge length is greater, the edge will be refined. Thus, one should put a minimum floor value (probably equal to
+ twice the desired minimum edge lenth) for the field. Otherwise the
+ code will refine indefinitely. For an example of an appropriate field see <a href="/pages/docs/commands/MASSAGE2.html"><strong><code class="language-plaintext highlighter-rouge">MASSAGE2</code></strong></a>.</p>
+
+<p>The value of <code class="language-plaintext highlighter-rouge">bisection_length</code> should not be smaller than <code class="language-plaintext highlighter-rouge">merge_length</code>, or the action of
+ merging nodes together will be largely pointless because the newer,
+ longer edges created by merging will simply be bisected again. 
+ It is recommended that <code class="language-plaintext highlighter-rouge">bisection_length</code> be at least three times as large as <code class="language-plaintext highlighter-rouge">merge_length</code>.</p>
+
+<p>If the damage parameter <code class="language-plaintext highlighter-rouge">toldamage</code> is set to an extremely small number, there will be few if any node movements, but annihilations, or face swaps will be allowed.  Conversely, if this parameter is set too large, boundaries may be significantly deformed. Setting <code class="language-plaintext highlighter-rouge">toldamage</code> equal to approximately .01 times the diameter of the mesh frequently gives acceptable results.</p>
+
+<p>Merges of edges of length &lt;= <code class="language-plaintext highlighter-rouge">merge_length</code> are meant to coarsen the mesh, but are not meant to deform surfaces and material interfaces on this scale.  The amount of material/surface deformation set with <code class="language-plaintext highlighter-rouge">toldamage</code> is meant to be considerably less than <code class="language-plaintext highlighter-rouge">merge_length</code>. On the other hand, the maximum roughness tolerated in the graph
+<code class="language-plaintext highlighter-rouge">tolroughness</code> should be considerably more than <code class="language-plaintext highlighter-rouge">toldamage</code>, or roughness refinement will be triggered by actions such as flipping or merging.</p>
+
+<p>The following are guidelines for setting these parameters:</p>
+
+<p><code class="language-plaintext highlighter-rouge">bisection_length</code> &gt;= 3 times <code class="language-plaintext highlighter-rouge">merge_length</code> &gt;&gt; <code class="language-plaintext highlighter-rouge">toldamage</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">tolroughness</code> &gt;= 10 times <code class="language-plaintext highlighter-rouge">toldamage</code>  (for 2D surface grids)</p>
+
+<p>For example, for a grid with diameter of order 3, these values are suggested:
+<code class="language-plaintext highlighter-rouge">bisection_length</code>, <code class="language-plaintext highlighter-rouge">merge_length</code>, <code class="language-plaintext highlighter-rouge">toldamage</code>, <code class="language-plaintext highlighter-rouge">tolroughness</code> = .3, .1, .01, .1</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">bisection_length</code> <strong>or</strong> <code class="language-plaintext highlighter-rouge">merge_length</code> is omitted, the omitted parameter will be set so that <code class="language-plaintext highlighter-rouge">bisection_length</code> = 3 times <code class="language-plaintext highlighter-rouge">merge_length</code>.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">bisection_length</code> <strong>and</strong> <code class="language-plaintext highlighter-rouge">merge_length</code> are omitted, both values will be taken to infinity.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">toldamage</code> is omitted, no node annihilation will take place.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">tolroughness</code> is omitted, no refinement on roughness will occur and thus the format is compatible
+ with old commands where refinement on roughness did not occur.</p>
+
+<h3 id="additional-parameters">Additional Parameters</h3>
+
+<ul>
+  <li>
+    <p><strong>nosmooth</strong> will turn off the <strong><code class="language-plaintext highlighter-rouge">smooth</code></strong> step by skipping the call to SGD.</p>
+  </li>
+  <li>
+    <p><strong>norecon</strong> will turn off all <strong><code class="language-plaintext highlighter-rouge">recon</code></strong> steps.</p>
+  </li>
+  <li>
+    <p><strong>lite</strong> will specify only one iteration of the merging/reconnection/smoothing loop is executed,
+ and a reconnection after edge refinement is omitted.  This is
+ suitable for applications, such as Gradient Weighted Moving Finite
+ Elements, where <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> is called repeatedly.</p>
+  </li>
+  <li>
+    <p><strong>ignoremats</strong> causes <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> to process the multimaterial mesh in a single
+material mode; it ignores multi-material interfaces. </p>
+  </li>
+  <li>
+    <p><strong>strictmergelength</strong> forces strict interpretation of <code class="language-plaintext highlighter-rouge">merge_length</code> so  that there is no merging along the edges of flat elements.  This is important if <strong>ignoremats</strong> is specified to avoid losing the interfaces.</p>
+  </li>
+  <li>
+    <p><strong>checkaxy</strong>  for 2D meshes, ensures the output mesh will have positive xy-projected
+triangle areas, provided that the input mesh had them in the first place. </p>
+  </li>
+  <li>
+    <p><strong>exclusive</strong> applies to point sets, edge refinement operations will only be performed on edges whose
+endpoints are both in the PSET that <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> is working on.  (As usual, new nodes created by refinement are added to the PSET so that <strong><code class="language-plaintext highlighter-rouge">MASSAGE</code></strong> can refine edges recursively.)  The default
+behavior is <strong>inclusive</strong>, where only ONE edge endpoint has to belong
+to the PSET for the edge to be eligible for refinement.</p>
+  </li>
+  <li>
+    <p><strong>semiexclusive</strong> represents an intermediate case between <strong>inclusive</strong> and <strong>exclusive</strong>. Refinment is triggered only by edges with both endpoints in the PSET, but  some edges with less than two endpoints in the PSET might be refined
+as part of a ‘Rivara chain’ triggered by the refinement of an edge with both endpoints in the PSET. </p>
+  </li>
+</ul>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/[0.3/0.1/0.01]
+</code></pre></div></div>
+
+<p>Mesh edges longer than 0.3 will be bisected; mesh edges shorter than
+0.1 might be collapsed if that causes damage (normal surface motion)
+to material interfaces or external boundaries less than 0.01 ;
+ smoothing of nodes causing damage less than 0.01 is allowed ; face
+ swapping causing damage less than 0.01 is allowed.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/[H_SCALE/0.1/0.01]/
+</code></pre></div></div>
+<p>Same as above, except that the <strong><code class="language-plaintext highlighter-rouge">bisection_length</code></strong> is a node field called H_SCALE in this case.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/[[0.3/0.1/0.01/0.1]
+</code></pre></div></div>
+<p>Same as above but for 2-D surface meshes, roughness greater than 0.1 will trigger refinement.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/0.3/0.1/0.01/pset,get,[pset1]
+</code></pre></div></div>
+<p>Mesh edges (containing at least one endpoint in pset1) longer than 0.3
+ will be bisected; mesh edges shorter than 0.1 might be collapsed if
+ that causes damage (normal surface motion) to material interfaces or
+ external boundaries less than 0.01 and if the annihilated node is in
+ pset1;  smoothing of nodes in pset1 causing damage less than 0.01 is
+ allowed; face swapping causing damage less than 0.01 is allowed
+ (unfortunately, LaGriT at this time does not restrict swapping to
+ pset1).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/0.3/0.1/0.01/pset,get,pset1,nosmooth
+</code></pre></div></div>
+<p>As above, but without smoothing.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage/1.e+20/0.1/0.1/1,0,0/nosmooth
+</code></pre></div></div>
+<p>Because of the virtually infinite value of [bisection_length],no edges will be
+ bisected.  Since merge_length=toldamage=0.1, merging of edges  of
+ length less than 0.1 will be considered, and will not be rejected
+ because of excessive damage.  Hence we expect that all edges of length
+ less than 0.1 will be merged away (except in those cases where merging
+ would invert tetrahedra or change material topology).   Because
+ <strong>nosmooth</strong> is specified, no smoothing will take place.  Face
+ swapping causing damage less than [toldamage] is allowed</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>massage[/1.e+20/1.e-9/1.e-9/1,0,0]/nosmooth/strictmergelength /ignoremats
+</code></pre></div></div>
+<p>This set of arguments will remove degenerate elements from a mesh by
+ merging nodes that have the same coordinate values ( within 1.e-9).</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

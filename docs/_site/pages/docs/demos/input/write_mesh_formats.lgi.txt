@@ -1,0 +1,44 @@
+# read write final mesh
+
+define MO_MESH mohex
+
+read avs stack.inp mohex
+cmo/printatt/mohex itetclr minmax
+resetpts/itp
+
+# -----------------------------------------------#
+# Sort by material number
+# use sort to order element blocks as exodus will order
+# if this is not done, lagrit faceset numbers will not
+# correlate to exodus faceset numbers
+# itetclr must be ordered correctly
+# additional sort keys can be based on user preference
+# Not needed for single material value for itetclr
+
+# sort based on element itetclr number and median location
+createpts / median
+sort / MO_MESH / index / ascending / ikey / itetclr xmed ymed zmed
+reorder / MO_MESH / ikey
+  dump / gmv / out_tmp_sort1.gmv / MO_MESH
+  cmo / DELATT / MO_MESH / ikey
+
+# sort nodes based on mesh convention z, y, then x
+sort / MO_MESH / index / ascending / ikey / zic yic xic
+reorder / MO_MESH / ikey
+  cmo / DELATT / MO_MESH / xmed
+  cmo / DELATT / MO_MESH / ymed
+  cmo / DELATT / MO_MESH / zmed
+  cmo / DELATT / MO_MESH / ikey
+  cmo/DELATT/ MO_MESH / ikey_utr 
+  cmo/DELATT/ MO_MESH / layertyp 
+cmo/printatt/mohex/-all- minmax
+
+dump avs mesh_hex_v00.inp mohex
+dump gmv mesh_hex_v00.gmv mohex
+dump exo mesh_hex_v00.exo mohex
+
+quality
+quality/ volume
+
+finish
+

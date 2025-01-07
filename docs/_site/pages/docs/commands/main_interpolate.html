@@ -1,0 +1,478 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>INTERPOLATE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="interpolate">INTERPOLATE</h1>
+
+<hr />
+
+<p>The <strong><code class="language-plaintext highlighter-rouge">interpolate</code></strong> (or <strong><code class="language-plaintext highlighter-rouge">intrp</code></strong>) command is used to interpolate
+attribute values from nodes or elements of a source mesh to node or
+element attributes of a sink mesh. Normally the source grid is coarser or the same resolution as the sink grid.
+Consider using <a href="/pages/docs/commands/UPSCALE.html"><strong><code class="language-plaintext highlighter-rouge">upscale</code></strong></a> to assign values from high resolution to coarse resolution.</p>
+
+<p>Note: <strong><code class="language-plaintext highlighter-rouge">interpolate/map</code></strong> replaces the command <strong><code class="language-plaintext highlighter-rouge">doping/integer1</code></strong> which copied source itetclr values
+to sink imt values. <strong><code class="language-plaintext highlighter-rouge">interpolate/voronoi</code></strong> replaces <strong><code class="language-plaintext highlighter-rouge">doping/integer2</code></strong> which copied nearest node source imt to sink imt.
+<strong><code class="language-plaintext highlighter-rouge">interpolate/continuous</code></strong> evolved from the <strong><code class="language-plaintext highlighter-rouge">doping/table</code></strong> command. These
+commands are still similar to the old versions except that this interpolation has been updated 
+to include attribute selections and expanded options.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>interpolate</b> / intrp_method / cmosink, attsink / 1,0,0 / cmosrc, attsrc / [tie_option] [flag_option] [keep_option] [intrp_function]
+
+<b>interpolate</b> /  <b>map</b> or  <b>voronoi</b> or  <b>continuous</b> or default &amp;
+  /cmosink, attsink / 1,0,0 /cmosrc, attsrc/ &amp;
+  [ <b>tiemin</b> or <b>tiemax</b> ] [ flag_value or   <b>plus1</b> ] &amp;
+  [<b>nearest,</b> node_attribute ] [<b>keepatt</b> or <b>delatt</b> ]  [ intrp_function ]
+
+</pre>
+
+<h2 id="parameter-descriptions">PARAMETER DESCRIPTIONS</h2>
+
+<p><code class="language-plaintext highlighter-rouge">intrp_method</code> defines the method of interpolation used from mesh object cmosrc to mesh object cmosink.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">map</code></strong> method copies the value from the enclosing source element to sink node or element (centroid). 
+Sink nodes located outside the source elements are tagged with values according to flag options. 
+If undefined, the flag value will be a value 1 greater than the max source attribute values. To copy from a source of type node, use voronoi method.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">voronoi</code></strong> copies the value from the nearest source node to the sink node. By selecting the nearest source points, 
+Voronoi regions are generated around each sink point. The resulting sink point (node or centroid) is given the value of the 
+attribute associated with the Voronoi generating point whose Voronoi cell the sink point lands in. The outside flag options
+do not apply for this method, even if a sink point is outside the source, a nearest node will be found.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">continuous</code></strong> interpolates values from the enclosing source element nodes to the sink nodes (or centriod of element). 
+The interpolation is the sum of vertice values multiplied by the relative volume of elements formed by the sink point 
+location on or inside the found element. The element is divided into volumes as determined by the sink point location 
+and its relationship to the vertices of the enclosing element. A triangle becomes three triangles each with a vertices 
+on the sink point. A quad becomes four quads.  A tet becomes four tets. The assigned sink point value is the sum of 
+these values divided by the number of element vertices. The interpolation function belonging to the attribute is applied 
+to the vertice values before being summed. See also the <code class="language-plaintext highlighter-rouge">interp_function</code> option.
+<strong>WARNING</strong> A hex becomes 8 hexs which depends on orthogonal hexs and so is not currently supported. 
+Use hextotet to convert hex elements to tets.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">default</code></strong> - If source attribute is element type then use <code class="language-plaintext highlighter-rouge">map</code>. If source attribute is node type then use <code class="language-plaintext highlighter-rouge">continuous</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cmosink</code>, <code class="language-plaintext highlighter-rouge">attsink</code> are the sink mesh object name and attribute to write interpolated values to. If the sink attribute is element type, centroids are calculated for each element and these are used for the interpolation methods.</p>
+
+<p><code class="language-plaintext highlighter-rouge">indexed_set</code> 1,0,0 (start,stride,stop) or pset,get,pset_name or eltset,get,eltset_name are the set of sink nodes or elements to write interpolated values to. 1,0,0 will select all sink nodes or elements. </p>
+
+<p><code class="language-plaintext highlighter-rouge">cmosrc</code>, <code class="language-plaintext highlighter-rouge">attsrc</code> are the source mesh object name and attribute values interpolating from.</p>
+
+<p>The following parameters are optional on the command line:</p>
+
+<p><code class="language-plaintext highlighter-rouge">tie_option</code> is used to break a tie when a sink point has more than one valid candidate source node or element. 
+Along with kdtree search, nearestpoint() and retrieve_within_eps() routines return a list of
+candidate objects for a sink point. These can be either a list of
+closest points, or a list of elements the point is on or inside.
+<code class="language-plaintext highlighter-rouge">tie_option</code> chooses one candidate from the possible candidates. The
+result is a one-to-one correspondence with each sink point paired with
+a single source node or a single source element. See <code class="language-plaintext highlighter-rouge">keep_option</code> for saving attributes with this correspondence.</p>
+
+<ul>
+  <li>
+    <p><strong>tiemax</strong> selects the maximum value from candidate nodes or
+  elements. This is the default selection.</p>
+  </li>
+  <li>
+    <p><strong>tiemin</strong> selects the minimum value from candidate nodes or
+  elements.</p>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">flag_option</code> is used to assign an error value, or to assign a value for points not inside the source mesh.
+These flag values indicate either that there was an error and a value could
+not be written to the sink attribute. The kdtree element search will
+assign a flag value if a sink point is located outside the source
+grid. <em>This does not apply to Voronoi method which finds nearest node and does not depend on finding an enclosing element.</em></p>
+
+<ul>
+  <li>
+    <p><strong>plus1</strong> will assign a flag value of maximum source value plus 1, this is the default behavior.</p>
+  </li>
+  <li>
+    <p><strong>nearest</strong> <code class="language-plaintext highlighter-rouge">node_attribute</code> will find the nearest source node and
+ use the node’s attribute value as the flag value. The keyword
+ <strong>nearest</strong> must be followed with the name of the source attribute name to be used for the flag values.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">flag_value</code> given as an integer or real value will use this numeric value for the flag assignments.</p>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">keep_option</code> is useful during multiple calls to <strong>interpolate</strong> to use attributes pt_gtg and el_gtg instead of creating these search attributes for every call. The sink and source mesh objects and their index selection must not change.
+The <code class="language-plaintext highlighter-rouge">interpolate</code> command uses kdtree and candidate searches to create sink
+attributes that pair sink points to associated source node or element. By using the keyword ‘keepatt’ these
+attributes are not deleted. On subsequent calls to
+interpolate these attributes are used to look up associated node or element
+numbers.  If <strong>map</strong> or <strong>continuous</strong> methods are used, the element
+attribute named el_gtg will be created. If <strong>voronoi</strong> or the
+flag_option <strong>nearest</strong> are used, the node attribute named pt_gtg
+will be created. The keyword <strong>delatt</strong> deletes any attributes created during the kdtree searches. By default these attributes are removed.</p>
+
+<p><code class="language-plaintext highlighter-rouge">intrp_function</code> replaces the interpolation function associated with
+the sink attribute. This interpolation function is applied to the
+final interpolated field value. Valid interpolate functions are
+linear, asinh, log, copy, sequence, min, incmin, max, incmax, and, or,
+user. Functions such as min and max pass the interpolation value
+unchanged.</p>
+
+<h3 id="debug-syntax">DEBUG SYNTAX</h3>
+<pre>
+<b>cmo/setatt/</b> cmosink / <b>idebug</b> debug_level
+</pre>
+<p>For debugging purposes, setting <strong>idebug</strong> will output additional information from the interpolate routines. The integer value ‘debug_level’ is used to control the amount reported, 0 is no debug (default), 1 is minimum output and triggers calls to mmverify(), 5 is the middle, 9 and greater is verbose and includes information on every point and or element in the mesh.</p>
+
+<h2 id="table-1-attribute-types-for-interpolate">Table 1 Attribute Types for Interpolate</h2>
+
+<p>This table indicates the type of attributes that can be used with the interpolation methods.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"><strong>Method</strong></th>
+      <th style="text-align: left"><strong>Sink</strong></th>
+      <th style="text-align: left"><strong>Source</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>map</strong></td>
+      <td style="text-align: left">node</td>
+      <td style="text-align: left">element</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>map</strong></td>
+      <td style="text-align: left">element</td>
+      <td style="text-align: left">element</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>continuous</strong></td>
+      <td style="text-align: left">node</td>
+      <td style="text-align: left">nodes (on element)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>continuous</strong></td>
+      <td style="text-align: left">element</td>
+      <td style="text-align: left">nodes (on element)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>voronoi</strong></td>
+      <td style="text-align: left">node</td>
+      <td style="text-align: left">node</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>voronoi</strong></td>
+      <td style="text-align: left">element</td>
+      <td style="text-align: left">node</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="table-2-interpolation-methods-and-options">Table 2 Interpolation Methods and Options</h2>
+
+<p>This Table shows supported applications for each of the interpolation methods.</p>
+
+<p>(parenthesis) means the option should work, but may be undefined.</p>
+
+<p>NOT indicates Not Supported</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">OPTIONS</th>
+      <th style="text-align: left"><strong>MAP</strong></th>
+      <th style="text-align: left"><strong>CONTINUOUS</strong></th>
+      <th style="text-align: left"><strong>VORONOI</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>source element type</strong></td>
+      <td style="text-align: left">tri, quad, hex, tet, (pyr), (pri), (line)</td>
+      <td style="text-align: left">tri, quad, NOT hex, tet, (pyr), (pri), (line)</td>
+      <td style="text-align: left">tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>sink element type</strong></td>
+      <td style="text-align: left">tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+      <td style="text-align: left">tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+      <td style="text-align: left">tri, quad, hex, tet, (pyr), (pri), (line), (pnt)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>source attribute</strong></td>
+      <td style="text-align: left">element</td>
+      <td style="text-align: left">nodes (on element)</td>
+      <td style="text-align: left">node</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>sink attribute</strong></td>
+      <td style="text-align: left">node or element (centroid)</td>
+      <td style="text-align: left">node or element (centroid)</td>
+      <td style="text-align: left">node or element (centroid)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>source attribute type</strong></td>
+      <td style="text-align: left">integer or double</td>
+      <td style="text-align: left">integer or double</td>
+      <td style="text-align: left">integer or double</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>sink attribute type</strong></td>
+      <td style="text-align: left">integer or double</td>
+      <td style="text-align: left">double, NOT integer</td>
+      <td style="text-align: left">integer or double</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>interp function</strong></td>
+      <td style="text-align: left">linear, log, sinh, all others pass unaltered</td>
+      <td style="text-align: left">linear, log, sinh, all others pass unaltered</td>
+      <td style="text-align: left">linear, log, sinh, all others pass unaltered</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>tie option</strong></td>
+      <td style="text-align: left">tiemin or tiemax</td>
+      <td style="text-align: left">tiemin or tiemax</td>
+      <td style="text-align: left">tiemin or tiemax</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>flag option</strong></td>
+      <td style="text-align: left">plus1, nearest, or user value</td>
+      <td style="text-align: left">plus1, nearest, or user value</td>
+      <td style="text-align: left">plus1 or user value</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>keepatt option</strong></td>
+      <td style="text-align: left">element attribute <code class="language-plaintext highlighter-rouge">el_gtg</code></td>
+      <td style="text-align: left">element attribute <code class="language-plaintext highlighter-rouge">el_gtg</code></td>
+      <td style="text-align: left">node attribute <code class="language-plaintext highlighter-rouge">pt_gtg</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">Examples</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate / map / cmo_sink imt /1,0,0/ cmo_src itetclr
+</code></pre></div></div>
+<p>For each node in cmo_sink find an enclosing element from mesh
+cmo_src. Assign the element’s itetclr value to the corresponding
+imt attribute of <code class="language-plaintext highlighter-rouge">cmo_sink</code>. For sink points outside of the source elements, a value 1 greater than itetclr max value is assigned.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate / voronoi / cmo_sink itetclr /1,0,0/ cmo_src imt / keepatt
+</code></pre></div></div>
+<p>For each element centroid in cmo_sink find nearest node in cmo_src. Assign the source node imt value to the corresponding
+itetclr attribute of <code class="language-plaintext highlighter-rouge">cmo_sink</code>. The keepatt option keeps the sink attribute pt_gtg with nearest node values for each element centroid.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate / map / cmo_sink Pval /1,0,0/ cmo_src Vval / tiemin, log
+</code></pre></div></div>
+<p>This command will assign source Vval values to sink Pval for
+elements enclosing cmo_sink points. If the sink point is found
+within more than one element, the min value of the candidate
+elements will be chosen. Since the interpolation function “log” is
+named, it will be applied to the source Vval value before being
+written to sink attribute Pval.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate/ voronoi / cmo_sink imt /1,0,0/ cmo_src imt
+</code></pre></div></div>
+<p>For each node in cmo_sink, find the closest node in cmo_src.
+Assign the imt value from the closest cmo_src node to the imt
+attribute of cmo_sink.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate/ continuous / cmo_sink xval /1,0,0/ cmo_src Pv
+</code></pre></div></div>
+<p>For each node in cmo_sink, find a cmo_src element the node is
+inside. Interpolate the element node values in Pv on to the sink
+point and write to the sink attribute xval.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate/ map /cmo_sink imt /1,0,0/ cmo_src itetclr / nearest, imt / keepatt
+
+interpolate/ map /cmo_sink imtreal /1,0,0/ cmo_src itetreal / nearest, imtreal
+</code></pre></div></div>
+
+<p>The first call to interpolate will assign itetclr values from source
+elements to imt in the sink cmo for points inside the source
+elements. Any sink point not inside the source grid will be assigned
+the imt value of the nearest source point. Since keepatt is set,
+both attributes <code class="language-plaintext highlighter-rouge">pt_gtg</code> and <code class="language-plaintext highlighter-rouge">el_gtg</code> will be kept as sink cmo
+attributes and hold the node and element numbers for each sink
+point.</p>
+
+<p>The second call to interpolate will find the sink attributes <code class="language-plaintext highlighter-rouge">pt_gtg</code>
+and <code class="language-plaintext highlighter-rouge">el_gtg</code>. The nearest point and enclosing element kdtree searches
+will be skipped. This time the element value in attribute itetreal
+will be assigned to the sink node attribute imtreal. For points
+outside the grid, values from nearest node attribute imtreal will be
+used. Note that the <strong><code class="language-plaintext highlighter-rouge">delatt</code></strong> keyword does not have to exist, the
+interpolate attributes are always deleted unless the keyword <strong><code class="language-plaintext highlighter-rouge">keepatt</code></strong> is used.</p>
+
+<h2 id="demos">Demos</h2>
+
+<p><a href="../description_voronoi.md">Examples: interpolate / voronoi</a>  Examples from test/level01/interp_voronoi</p>
+
+<p><a href="../description_map.md">Examples: interpolate / map</a>  Examples from test/level01/interp_map</p>
+
+<p><a href="../description_cont.md">Examples: interpolate / continuous</a>  Examples from test/level01/interp_continuous</p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,251 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CREATEPTS/BRICK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="createptsbrick">CREATEPTS/BRICK</h1>
+
+<hr />
+
+<p>Builds a set nodes (logically rectangular) and creates finite element connectivity. This command is similar to the <strong>quadxyz</strong> command except that symmetry flags are included and elements are created.</p>
+
+<p>The <strong>brick</strong> option specifies that a mesh is connected into elements. This command can be used to create finite element connectivity on a logically rectangular set of nodes created by another method. See  <a href="/pages/docs/commands/QUADXYZ1.html"><strong><code class="language-plaintext highlighter-rouge">quadxyz</code></strong></a> or <a href="/pages/docs/commands/createpts/CRTPTSRZ.html"><strong><code class="language-plaintext highlighter-rouge">createpts</code></strong></a> command without the <strong>brick</strong> option.</p>
+
+<p>These commands require a hex or quad cmo type mesh object, use <strong>cmo/create</strong> to set the mesh element type. For instance,<br />
+<code class="language-plaintext highlighter-rouge">cmo/create/mo_name / / / hex</code> or <code class="language-plaintext highlighter-rouge">cmo/create/mo_name / / / quad</code>.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat / xrz,yrz,zrz / isym,jsym,ksym ]
+
+<b>createpts/brick</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b>/ ni,nj,nk / 1,0,0 / <b>connect</b> /
+</pre>
+
+<p><em>Note these actions apply to a hex or quad mesh object as defined with the create command or generated from another command.</em></p>
+
+<h3 id="distribution-types">Distribution Types:</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">xyz</code></strong> specifies Cartesian coordinates.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtz</code></strong> specifies cylindrical coordinates.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtp</code></strong> specifies spherical coordinates.</p>
+
+<h3 id="distribution-options">Distribution Options:</h3>
+
+<p><code class="language-plaintext highlighter-rouge">ni,nj,nk</code> are the number of points to be created in each direction.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xmin,ymin,zmin</code> are the minimums for coordinates.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xmax,ymax,zmax</code> are the maximums for coordinates.</p>
+
+<p><code class="language-plaintext highlighter-rouge">iiz,ijz,ikz</code>  if = 0 then mins and maxs are used as cell centers if =1 then mins and maxs are used as cell vertices. The default is 1,1,1</p>
+
+<p><code class="language-plaintext highlighter-rouge">iirat,ijrat,ikrat</code> are optional and set the ratio zoning switches (0=off,1=on)</p>
+
+<p><code class="language-plaintext highlighter-rouge">xrz,yrz,zrz</code> are optional and are the ratio zoning value - distance is multiplied by the value for each subsequent point.</p>
+
+<p><code class="language-plaintext highlighter-rouge">isym,jsym,ksym</code> symmetry flags - not documented</p>
+
+<p><code class="language-plaintext highlighter-rouge">1,0,0</code> is the point set selection indicated by start,stride,stop or pset,get,pset_name where 1,0,0 are all points.</p>
+
+<hr />
+
+<h2 id="examples">EXAMPLES:</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/cmohex / / / hex
+createpts/brick/xyz / 3,2,3 /0.,0.,0./1.,1.,1./1,1,1
+</code></pre></div></div>
+<p>Creates a set of hex points (3x2x3) and hex elements (2x1x2 hex) in the unit cube. The connect option should not be used in this case because the hex brick connectivity is created.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/cmohex / / / hex
+quadxyz /5,7,5/ 0.,0.,0./1.,0.,0./1.5,0.5,2.0/.5,.2,2.5/ &amp;
+         -1.,1.5,0./2.0,0.,0.0/2.1,1.9,2.4/-0.2,1.8,2.3/
+createpts/brick/xyz/5,7,5/1,0,0/connect
+</code></pre></div></div>
+<p>These commands create a 3D set of nodes using <strong>quadxyz</strong> and then creates hex connectivity with the <strong>createpts/brick</strong> command. Be careful that the <em>nx, ny, nz</em> values for both the <strong>quadxyz</strong> and <strong>createpts/brick</strong> command are the same.
+ </p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/cmoquad/ / / quad
+quadxy/ 11, 11 / 0. 0. 0. / 1. 0. 0. / 1. 1. 0. / 0. 1. 0.
+createpts/brick/xyz/11,11,1/1 0 0 / connect
+</code></pre></div></div>
+<p>The first line creates an empty quad cmo. The second line calls <strong>quadxy</strong> to create a 2D set of nodes. The last line uses <strong>createpts/brick</strong> to connect the points into quad elements.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define RTOP 20.
+define NRADIAL 3
+define NRAYS  20
+define NRINGS 12
+define WRADIUS 2.
+define CIRDEG 360.
+cmo/create/mo_cylinder / / / hex
+createpts/brick/rtz/NRADIAL,NRAYS,NRINGS/0. 0. 0./ &amp;
+         WRADIUS CIRDEG RTOP /1,1,1
+</code></pre></div></div>
+<p>Use the <strong>define</strong> commands to set variables for making a cylinder mesh. <br />
+This hex mesh has height of 20.
+There are 3 points from center to rim, there are 20 points around and 12 points vertical. 
+Width of radius from center is 2 and the cylinder is a full 360 degrees.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

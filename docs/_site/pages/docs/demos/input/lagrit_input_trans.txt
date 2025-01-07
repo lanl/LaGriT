@@ -1,0 +1,49 @@
+*TEST trans (lagrit_input_trans)
+*
+*define geometric regions
+* first region
+cmo/create/mbox1/hex
+surface/outer1/reflect/box/0,0,0/1,1,1
+region/r1/ le outer1 /
+* second region
+cmo/create/mbox2/hex
+surface/outer2/reflect/box/2,0,0/3,1,1
+region/r2/ le outer2 /
+* define material regions
+mregion/mr1/ le outer1 /
+mregion/mr2/ le outer2 /
+* add point distribution to region 1 (min/max as cell centers)
+cmo/select/mbox1
+createpts/xyz/3,3,3/0,0,0/1,1,1
+setpts
+connect
+* point distribution for region 2 (min/max as cell vertices)
+cmo/select/mbox2
+createpts/xyz/3,3,3/2,0,0/3,1,1/1,1,1
+setpts
+connect
+* output both regions in one mesh
+addmesh merge mbox3 mbox1 mbox2
+filter 1 0 0
+dump gmv output1.gmv mbox3
+cmo release mbox3
+*
+*translate the point distribution of region 1
+*
+cmo/select/mbox1
+trans/1,0,0/0.,0.,1./0.,0.,2./
+*
+*translate the point distribution of region 2
+*
+cmo/select/mbox2
+trans/1,0,0/2,0,0/2,0,2/
+*
+addmesh merge mbox3 mbox1 mbox2
+filter 1 0 0
+dump / gmv/output2.gmv/mbox3
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish
+

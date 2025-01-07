@@ -1,0 +1,314 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CONNECT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/manual">Manual</a></li>
+                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="connect">CONNECT</h1>
+
+<hr />
+
+<p>Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay criterion requires that the circumsphere (circumcircle) defined by each tetrahedron (triangle) contains no mesh nodes in its interior. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2), use <strong>connect</strong> to create the mesh, then <strong>dump/stor</strong> to compute and output geometric coefficients file.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Delaunay_triangulation">Click here for a description of Delaunay</a></p>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/docs/connect_notes.html">Click here for more details on the connect algorithm</a></p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>connect</b>/[ <b>delaunay</b>/ ifirst,ilast,istride / big_tet_coordinates ]
+
+<b>connect</b> / <b>noadd</b>
+
+<b>connect</b> / <b>check_interface</b>
+</pre>
+
+<h2 id="options">OPTIONS</h2>
+
+<p><strong><code class="language-plaintext highlighter-rouge">delaunay</code></strong> is the default algorithm and requires that a “big tet” be constructed that contains all nodes in
+  its interior.  For mesh points with multi-materials (imt with multi-values), connect will detect material interfaces and will look for edges that intersect the interfaces.  connect will add points at these intersections to create a conforming mesh, note that mesh quality may be impacted.  </p>
+
+<p><em><code class="language-plaintext highlighter-rouge">ifirst,ilast,istride</code></em> The user has the option of selecting a subset of nodes to connect.</p>
+
+<p><em><code class="language-plaintext highlighter-rouge">big_tet_coordinates</code></em> The user has the option of providing the coordinates of this “big tet”.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">noadd</code></strong> This option will turn off material interface detection.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">check_interface</code></strong> option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.</p>
+
+<h2 id="usage">USAGE</h2>
+
+<p>For 2D and connecting points on a planar surface, the mesh must have <strong>ndimensions_topo</strong>=2 and <strong>ndimensions_geom</strong>=2. This command will create a mesh object with settings appropriate for the connect command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/ cmotri / triplane
+</code></pre></div></div>
+
+<p>The connect command does not filter out coincident vertices (sqrt[(xi-xj)<sup>2</sup> + (yi-yj)<sup>2</sup> + (zi-zj)<sup>2</sup>] &lt; epsilon). Use the following commands before connect to remove duplicate points.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filter/ 1,0,0
+rmpoint/compress
+</code></pre></div></div>
+
+<p>For better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trans 1,0,0 /XBIG,YBIG,ZBIG/ 0. 0. 0./
+connect
+trans 1,0,0 / 0. 0. 0./ XBIG,YBIG,ZBIG
+</code></pre></div></div>
+
+<p>The connect algorithm creates a triangulation or tetrahedralization of the convex hull. If the domain to be meshed is not convex, there is no guarantee that all of its faces and edges will be within the specified mesh boundary. Connections will be formed across non-convex boundaries.</p>
+
+<p>A convex geometry is not guaranteed. A point distribution over a large region where spacing varies from very small to very large can result in high aspect ratios with small concavities formed on mesh boundaries. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tets (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.</p>
+
+<p>The connect command may refuse to add nodes that will result in near
+  zero-volume tetahedra. The volume tests are based on the mesh object
+  epsilons. To ensure that these epsilons are based on the geometry,
+  issue a <strong>setsize</strong> command before <strong>setpts</strong>. Expert users may adjust the epsilons with the <strong>cmo/setatt</strong> command. </p>
+
+<p>The connect command will report if it is successful, check to see if there are any problems. For instance, connect may finish but may not be able to include all points due to a non-convex boundary or a poor point distribution. For instance:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> Dudding      7181 points that have no associated tetrahedra.
+
+ The mesh is complete but could not include all points.                         
+ Number of points that could not be connected:       7181                       
+ 
+LaGriT FINISH: connect        
+</code></pre></div></div>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect/delaunay/
+</code></pre></div></div>
+<p>These two commands are the same, they create the Delaunay tetrahedral connectivity of all nodes in the mesh. Add nodes to break multi-material connections.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_tri / / / triplane
+createpts / xyz / 4 4 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+connect
+cmo / setatt / mo_tri / itetclr / 1 0 0 / 1
+resetpts / itp
+</code></pre></div></div>
+<p>Create a triplane mesh object (ndimensions_topo=2 and ndimensions_geom=2) with 4 x 4 points on plane with Z = 0. Connect into triangles and set node and element materials to 1. The resetpts/itp command will define the boundary nodes for this mesh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
+
+connect/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
+
+connect/delaunay/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
+
+connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
+</code></pre></div></div>
+
+<p>Create the Delaunay tetrahedral connectivity of all nodes in the mesh and specify explicitly the coordinates of the enclosing tetrahedron.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect /pset, get, mypoints
+</code></pre></div></div>
+
+<p>Create the Delaunay tetrahedral connectivity of a subset of nodes with the name mypoints.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect/noadd
+</code></pre></div></div>
+
+<p>Create the Delaunay tetrahedral connectivity of  all nodes in the  mesh and disregard material interfaces.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a 2D triangle mesh
+cmo / create / mo_tri / / / triplane
+
+# Make some points at the four corners
+createpts / xyz / 5 5 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+
+# Add some random points and delete duplicate points
+createpts / random / xyz / 0.4 / 0.1 0.1 0. / 0.9 0.9 0.
+filter / 1 0 0
+rmpoint / compress
+
+# set some defaults for the connect routine
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+
+connect
+
+# set default materials and boundary tags
+cmo / setatt / mo_tri / itetclr / 1 0 0 / 1
+resetpts / itp
+</code></pre></div></div>
+
+<p>Create a simple 2D triangle mesh. Set defaults for material and boundary tags for nice behavior. This starts with points at the corner of a box and fills with random points. The connect command will create the triangulation and the result is a single material mesh with inside/outside boundary points tagged with the itp attribute.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect/check_interface
+</code></pre></div></div>
+
+<p>Create the Delaunay tetrahedral connectivity of  all nodes in the
+  mesh with added checking of edges that have both nodes tagged as
+  itp=’intrface’ to be sure that the edge does not cross a material
+  interface. This option is more expensive but may fix situations
+  where multi-material edges do not get refined because they connect
+  an ‘intrface’ node to an ‘intrface’ node.</p>
+
+<p><a href="/pages/docs/demos/main_2d_connect.html">Click here for 2D demos</a></p>
+
+<p><a href="/pages/docs/demos/main_connect.html">Click here for 3D demos</a></p>
+
+<p>The <strong>connect</strong> command replaces the LaGriT V1 command <strong>search/delaunay</strong>.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pages/docs/demos">Examples</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/manual">Manual</a></li>
+                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>
