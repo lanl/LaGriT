@@ -36,8 +36,7 @@ stress/strain in crustal fault systems, seismology, discrete fracture
 networks, asteroids and hydrothermal systems. 
 
 
-The general capabilities
-of LaGriT can also be used outside of earth science applications and
+The general capabilities of LaGriT can also be used outside of earth science applications and
 applied to nearly any system that requires a grid/mesh and initial and
 boundary conditions, setting of material properties and other model
 setup functions. It can also be use as a tool to pre- and post-process
@@ -51,7 +50,7 @@ and analyze vertex and mesh based data.
       <bold>About LaGriT </bold>
     </label>
     <div class="accordion-content">
-      <p><br><b>LaGriT</b> provides a variety of meshing tools with capabilities specific (but not limited) to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by some modeling applications.
+      <p><br><b>LaGriT</b> provides a variety of meshing tools specific (but not limited) to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by some modeling applications. Capabilities include:
 
         <ul>
 	<li>Representation of 2- and 3-dimensional complex geometries with multiple materials or regions </li>
@@ -93,7 +92,7 @@ and analyze vertex and mesh based data.
     </label>
     <div class="accordion-content">
 
-    <p>LaGriT works on a single or multiple mesh objects. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted through a LaGriT style input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following for more details. 
+    <p>LaGriT works on a single or multiple mesh objects which can be created or read from a file. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted with an input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following about using the commands. Refer to Tutorials and Examples for help with syntax and work flow. 
     </p>
 
     <ul>
@@ -117,8 +116,15 @@ and analyze vertex and mesh based data.
     </label>
     <div class="accordion-content">
 
-    <p>
+    <p>The easiest way to use LaGriT is by copying from working examples. The Tutorials will help you to understand how commands can be combined into a work flow. Examples and demos provide methods to create meshes and ways to optimize for and check for improved mesh quality.
     </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">Tutorials and Examples</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/test_list.html">Test Suite Cases</a></li>
+    <li><a href="https://meshing.lanl.gov/proj/index.shtml">Meshing Projects Page</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/graphics.html">Some Graphics Examples</a></li>
+    </ul>
 
     </div>
   </div>
@@ -132,8 +138,15 @@ and analyze vertex and mesh based data.
     </label>
     <div class="accordion-content">
 
-    <p>
+    <p>The Mesh Object is the data structure which contains the information necessary to define a mesh. It consists of attributes that include coordinates, connectivity, and other data. Attributes are updated by LaGriT routines and can be modified by the user. Descriptions of the mesh object and associated details are included here. 
     </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobject.html">Mesh Object Definition</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobjcon.html">Mesh Object Connectivity</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/supported.html">Supported Element Types</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/geometries.html">Geometries and Regions</a></li>
+    </ul>
 
     </div>
   </div>
@@ -143,44 +156,27 @@ and analyze vertex and mesh based data.
   <div class="accordion-item">
     <input type="checkbox" id="dev-toggle">
     <label class="accordion-header" for="dev-toggle">
-      <bold>LaGriT Code and Development</bold>
+      <bold>Code and Development</bold>
     </label>
     <div class="accordion-content">
 
-    <p>
+    <p>LaGriT was originally written with Fortran and C and now includes C++ routines. New wrappers enable C++ to access fortran code needed to maintain and manipulate mesh objects.  CMake is used to generate the build system and works with C, C++, and compatible Fortran compilers. 
     </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/build.html">Building an Executable and Running LaGriT</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/fortran.html">Fortran Interface to LaGriT code</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/c-fortran.html">C-Fortran Interface to LaGriT code</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/issuing.html">Issuing Commands from a User Program</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/writing.html">Writing User Commands</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/accessing.html">Accessing the Mesh Object</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/util.html">Utility and Memory Subroutines</a></li>
+    </ul>
 
     </div>
   </div>
 </div>
 
-
-## Examples and Tutorials
- 
-- [Tutorials and Examples](pages/tutorial/index.md)
-- [Test Problems](https://github.com/lanl/LaGriT/tree/master/test)
-- [More Meshing Examples](https://meshing.lanl.gov/proj/index.shtml)
-- [Graphics examples](pages/graphics.md)
-
-
-## LaGriT Details
-
--  [Mesh Object Definition](pages/docs/meshobject.md)
--  [Mesh Object Connectivity](pages/docs/meshobjcon.md)
--  [Supported Element Types](pages/docs/supported.md)
--  [Geometries](pages/docs/geometries.md)
-
-
-## LaGriT Development
-
--  [Building an Executable and Running LaGriT](pages/docs/build.md)
--  [Fortran Interface](docs/fortran.md)
--  [C++ Interface](docs/c-fortran.md)
--  [Issuing Commands from a User Program](pages/docs/issuing.md)
--  [Writing User Commands](pages/docs/writing.md)
--  [Accessing the Mesh Object](pages/docs/accessing.md)
--  [Utility Subroutines](pages/util.md)
--  [Github Pages Guide](pages/github_pages_example.md)
 
 
 ### [LaGriT BSD License](https://github.com/lanl/LaGriT/blob/master/LICENSE.md)
