@@ -27,43 +27,45 @@ title: LaGriT - Home
   </div>
 </div>
 
+**LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069** is a library of user
+callable tools that provide mesh generation, mesh optimization and
+dynamic mesh maintenance in two and three dimensions. LaGriT is used for
+a variety of geology and geophysics modeling applications including
+porous flow and transport model construction, finite element modeling of
+stress/strain in crustal fault systems, seismology, discrete fracture
+networks, asteroids and hydrothermal systems. 
+
+
+The general capabilities
+of LaGriT can also be used outside of earth science applications and
+applied to nearly any system that requires a grid/mesh and initial and
+boundary conditions, setting of material properties and other model
+setup functions. It can also be use as a tool to pre- and post-process
+and analyze vertex and mesh based data.
+
+
 <div class="accordion">
   <div class="accordion-item">
     <input type="checkbox" id="lagrit-toggle">
     <label class="accordion-header" for="lagrit-toggle">
-      <bold>LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069</bold>
+      <bold>About LaGriT </bold>
     </label>
     <div class="accordion-content">
-      <p><br>LaGriT is a library of user
-      callable tools that provide mesh generation, mesh optimization and
-      dynamic mesh maintenance in two and three dimensions. LaGriT is used for
-      a variety of geology and geophysics modeling applications including
-      porous flow and transport model construction, finite element modeling of
-      stress/strain in crustal fault systems, seismology, discrete fracture
-      networks, asteroids and hydrothermal systems. The general capabilities
-      of LaGriT can also be used outside of earth science applications and
-      applied to nearly any system that requires a grid/mesh and initial and
-      boundary conditions, setting of material properties and other model
-      setup functions. It can also be use as a tool to pre- and post-process
-      and analyze vertex and mesh based data.</p>
+      <p><br><b>LaGriT</b> provides a variety of meshing tools with capabilities specific (but not limited) to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by some modeling applications.
 
-      <p>Geometric regions for LaGriT are defined as combinations of bounding
-      surfaces, where the surfaces are described analytically or as
-      tessellated surfaces (triangles and/or quadrilaterals). A variety of
-      techniques for distributing points within these geometric regions are
-      provided. Mesh connectivity uses a Delaunay tetrahedralization algorithm
-      that respects material interfaces. The data structures created to
-      implement this algorithm are compact and powerful and expandable to
-      include hybrid meshes (tet, hex, prism, pyramid, quadrilateral,
-      triangle, line) however the main algorithms are for triangle and
-      tetrahedral Delaunay meshes.</p>
+        <ul>
+	<li>Representation of 2- and 3-dimensional complex geometries with multiple materials or regions </li>
+	<li>Unstructured triangle/tetrahedral and structured or unstructured quadrilateral/hexahedral meshing</li>
+	<li>Model set-up including assigning material properties, boundary conditions, and initial conditions</li>
+	<li>Adaptive mesh refinement, smoothing, and optimization</li>
+	<li>Distribute uniform or variable spaced points using Poisson Disk sampling</li>
+	<li>2D and 3D Delaunay triangulation conforming to complex geometry</li>
+	<li>Output for solver packages including specialized format for FEHM, Amanzi/ATS, PFLOTRAN, and TOUGH2</li>
+	<li>Interactive command line, batch input file, or embedded in Fortran/C interfaces (no GUI)</li>
+	</ul>
 
-      <p>Mesh refinement, derefinement and smoothing are available to modify the
-      mesh to provide more resolution in areas of interest. Mesh refinement
-      adds nodes to the mesh based on geometric criteria such as edge length
-      or based on field variable shape. Mesh smoothing moves nodes to adapt
-      the mesh to field variable measures, and, at the same time, maintains
-      quality elements.</p>
+
+      </p>
 
       <p><b>PyLaGriT</b> is a Python interface that allows LaGriT functionality to
       be used interactively and in batch mode. It combines the meshing
@@ -78,9 +80,6 @@ title: LaGriT - Home
 
       <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
       </p>
-- [LaGriT Features](pages/features.md)
-- [Licensing](pages/licensing.md)
-- [Publications](pages/publications.md)
 
     </div>
   </div>
@@ -94,21 +93,62 @@ title: LaGriT - Home
     </label>
     <div class="accordion-content">
 
-    <p>LaGriT is driven by commands and their options.  There are three modes of use
-        <ol>
-          <li>interactive on command line</li>
-          <li>batch driven via a control file  </li>
-          <li>calls from C/Fortran programs</li>
-        </ol>
-     </p>
+    <p>LaGriT works on a single or multiple mesh objects. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted through a LaGriT style input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following for more details. 
+    </p>
 
--  [Mesh Design Considerations](pages/docs/meshing.md)
--  [Syntax Conventions](pages/docs/conventions.md)
--  [Command Interface](pages/docs/commandi.md)
--  [Alphabetic listing of LaGriT commands](pages/commands.md)
--  [LaGriT commands by Category](pages/commands_cat.md)
--  [Errors](pages/docs/errors.md)
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/commands.html">Commands listed Alphabetically</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/commands_cat.html">Commands listed by Category</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/commandi.html">Command Interface</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/conventions.html">Syntax Conventions</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshing.html">Mesh Design Considerations</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/errors.html">LaGriT Error reporting</a></li>
+    </ul>
 
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="examples-toggle">
+    <label class="accordion-header" for="examples-toggle">
+      <bold>Tutorials and Examples</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>
+    </p>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="details-toggle">
+    <label class="accordion-header" for="details-toggle">
+      <bold>LaGriT Details</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>
+    </p>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="dev-toggle">
+    <label class="accordion-header" for="dev-toggle">
+      <bold>LaGriT Code and Development</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>
+    </p>
 
     </div>
   </div>
@@ -143,7 +183,9 @@ title: LaGriT - Home
 -  [Github Pages Guide](pages/github_pages_example.md)
 
 
-
+### [LaGriT BSD License](https://github.com/lanl/LaGriT/blob/master/LICENSE.md)
 ### [Release Notes](pages/release.md)
-### LaGriT Development Team [Contacts](pages/development.md)
-### <a href="https://lanl.github.io/LaGriT/pages/manual.html">Old Index</a>
+### [Old Manual Index](https://lanl.github.io/LaGriT/pages/manual.html)
+### [LaGriT Web Page and Team Contacts](https://lagrit.lanl.gov)
+### LaGriT Development Team email: lagrit-dev@lanl.gov
+
