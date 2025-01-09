@@ -1,0 +1,313 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>QUALITY</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="quality">QUALITY</h1>
+
+<hr />
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality</code></strong> provides a collection of mesh quality measurements. Together with commands in <strong><code class="language-plaintext highlighter-rouge">cmo/addatt</code></strong> a good summary of mesh metrics can be reported or used for further mesh optimization. For quality measurments to characterize tet elements by various types, see <a href="https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html">Quality Measures</a>.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>quality</b> / [quality_type] / [quality_type_options]
+</pre>
+
+<h2 id="descriptions">DESCRIPTIONS</h2>
+
+<p>The following are definitions for valid <em><code class="language-plaintext highlighter-rouge">quality-type</code></em> commands and their <em><code class="language-plaintext highlighter-rouge">quality_type_options</code></em>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality</code></strong></p>
+
+<p>with no arguments writes to screen and outx3dgen or lagrit.out logfile reports on the min, max, and counts of aspect ratios and volumes. The aspect ratios are displayed with 7 bins (log scale) with counts of values between .01 and 1. The element volumes are displayed with 5 bins with counts of values between the min and max volumes.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/aspect</code></strong> / [y]</p>
+
+<p>computes the ratio of the radius of the circumsphere to the radius of the inscribed sphere of a tetrahedron. The ratio is multiplied by 3 so that a value of 1 indicates a regular tetrahedron. The display is a binned count of the number of elements whose aspect ratio falls in each of 7 bins (log scale between .01 and 1).
+<strong>y</strong> option creates <strong>aratio</strong> mesh element attribute containing the value of the aspect ratio for each element. Valid element types are tet and tri, hex, and quad (where the length of the hex or quad diagonals are used).</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/edge_ratio</code></strong> / [y]</p>
+
+<p>computes the ratio (shortest element edge/longest element edge) and displays a binned count of the min/max edge ratio in each of 7 bins (log scale between .01 and 1). <strong>y</strong> option creates <strong>eratio</strong> mesh element attribute containing the value of the min/max edge ratio for each element.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/edge_min</code></strong> / [y]</p>
+
+<p>displays a binned count of the minimum edge lengths displayed log scale between .01 and 1. The binned values are normalized by dividing with the max value. The min and max of the mininum edge length for each element are also reported.
+<strong>y</strong> option creates <strong>edgemin</strong> mesh element attribute containing the value of the min edge length of each element.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/edge_max</code></strong> / [y]</p>
+
+<p>displays a binned count of the maximum edge lengths displayed log scale between .01 and 1. 
+The binned values are normalized by dividing with the max value. The min and max of the maximum edge length for each element are also reported.
+<strong>y</strong> option creates <strong>edgemax</strong> mesh element attribute containing the value of the max edge length of each element.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/angle</code></strong> / <strong>gt</strong> OR <strong>lt</strong> / value /</p>
+
+<p>finds the max and min dihedral angles between adjacent faces (or 2D edges) of an element in radians. If the compare  option is used, it displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also <strong>cmo/addatt/cmo/ang_</strong> commands for dihedral angle and solid angle calculations.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/pcc</code></strong></p>
+
+<p>creates an element based attribute called <strong>neg_coup_coeff</strong> which is a “negative coupling coefficient” indicator.  A value of 1 means the coupling coefficient is OK.  Anything less than 1 means it is negative.  This is useful when viewing a mesh to find where the negative coupling coefficients occur.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/quad</code></strong></p>
+
+<p>generates some quality measures for quads and displays them after binning them into seven bins. For details on the quad quality measures see <a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html">cmo/addatt/ quad_quality</a>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/taylor</code></strong>/ fieldname / value /</p>
+
+<p>creates and displays a count of the number of element-edge pairs with a taylor error estimate value whose absolute value is greater than the supplied value. This creates the attribute <strong>quality_taylor</strong> with length in attribute <strong>quality_taylor_len</strong>.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/volume</code></strong> allows any combination of the <em><code class="language-plaintext highlighter-rouge">quality_type_options</code></em> for example:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/volume/ number_of_bins / itetclr / lt | gt | eq | ne | xvalue / eltset,get,ename 
+</code></pre></div></div>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/volume</code></strong> / [number_of_bins] / [ <strong>itetclr</strong> ]</p>
+
+<p>number_of_bins is an integer value controlling the number of bins in which to distribute the volume values for display. if number_of_bins is 0, then binning of distributed volumes is skipped, and only min and max volumes are reported. number_of_bins must be the 2nd argument to quality if used.</p>
+
+<p>itetclr is a keyword that will give volume information according to the values in the itetclr attribute. Number_of_bins applies to each tetclr value.  For each itetclr value, the volume of elements will be totaled.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/volume</code></strong> / <strong>gt</strong> OR <strong>lt</strong> OR <strong>eq</strong> OR <strong>ne</strong> / value</p>
+
+<p>will report volumes based on compare operator and given xvalue, for instance quality/volume/lt 0.0/ will report total number of elements with volumes less than 0.0 It may be used in combination of other volume options. if used with itetclr keyword, values will be reported by itetclr value</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">quality/volume</code></strong> / <strong>eltset, get,</strong> eset_name</p>
+
+<p>eltset,get,ename will report volumes on elements in defined eltset can be used in combination with previous options with operations done only on the chosen eltset. itetclr will still report for each of the values in itetclr.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/aspect
+</code></pre></div></div>
+<p>display summary of aspect ratio distribution in 7 bins</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/aspect/ y  	
+</code></pre></div></div>
+<p>create attribute <strong>aratio</strong> and display summary of aspect the aratio distribution</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/angle/gt/179/
+</code></pre></div></div>
+<p>return count of elements with a dihedral angle &gt; 179</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/taylor/boron/1.e-10/	
+</code></pre></div></div>
+<p>run taylor error estimate and return count of element edge pairs with absolute error greater than 1.e-10</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/volume	
+quality/volume/ 2 
+</code></pre></div></div>
+<p>The first call will display summary of volumes with 5 bins, the second command will show summary with 2 bins</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality/volume/itetclr	
+quality/volume /itetclr/lt .03	
+quality/volume/itetclr/eltset,get,e2
+</code></pre></div></div>
+<p>All three commands will loop through itetclr (material values) and report a total volume for each itetclr value.
+The second command will report element volumes lt .03 by the itetclr values.
+The third command will report element volumes by itetclr values, but only for elements in the set e2</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality
+quality/ aspect   / y
+quality/ edge_max / y
+cmo/addatt /cmotri /area_normal/ xyz/ anorm
+cmo/addatt /cmotri /scalar /xnorm ynorm znorm / anorm
+cmo/printatt /cmotri / aratio  minmax
+cmo/printatt /cmotri / edgemax minmax
+cmo/printatt /cmotri / znorm   minmax
+</code></pre></div></div>
+<p>Example calls using <strong>quality</strong> and <strong>cmo/addatt</strong> commands to show mesh quality statistics.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality  
+</code></pre></div></div>
+<p>The  default with no arguments will calculate and display element volumes and aspect ratios for the current mesh object.</p>
+
+<p>Output for the quality command with no arguments:</p>
+
+<pre class="lg-output">
+quality
+
+epsilonl, epsilonaspect:   1.4360051E-10  2.9612012E-30                        
+--------------------------------------------                                   
+elements with aspect ratio &lt; .01:                    0                         
+elements with aspect ratio b/w .01 and .02:          0                         
+elements with aspect ratio b/w .02 and .05:          0                         
+elements with aspect ratio b/w .05 and .1 :          0                         
+elements with aspect ratio b/w .1  and .2 :      12020                         
+elements with aspect ratio b/w .2  and .5 :     625891                         
+elements with aspect ratio b/w .5  and 1. :     157053                         
+min aspect ratio =  0.1053E+00  max aspect ratio =  0.7229E+00                 
+epsilonvol:   1.1335396E-05                                                    
+---------------------------------------                                        
+element volumes b/w  0.1667E+02 and  0.3318E+02:    612924                     
+element volumes b/w  0.3318E+02 and  0.6605E+02:     54612                     
+element volumes b/w  0.6605E+02 and  0.1315E+03:     18204                     
+element volumes b/w  0.1315E+03 and  0.2617E+03:     45510                     
+element volumes b/w  0.2617E+03 and  0.5210E+03:     63714                     
+element volumes b/w  0.2617E+03 and  0.5210E+03:     63714                     
+min volume =   1.6666667E+01  max volume =   5.2100000E+02                     
+-----------------------------------------------------------                    
+    794964 total elements evaluated.    
+</pre>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/docs/QUALITY_sliver_cap_needle_wedge.html">Click Here For more Examples on Quality Measurements</a></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

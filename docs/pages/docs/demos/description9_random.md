@@ -1,5 +1,5 @@
 ---
-title: Example 9: random distribution of points in a box
+title: "Example 9: random distribution of points in a box"
 ---
 
  Example 9: random distribution of points in a box

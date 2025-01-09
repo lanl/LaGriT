@@ -1,0 +1,232 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>RZ</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="rz-deprecated-see-createpts-">RZ (deprecated, see <a href="/pages/docs/commands/createpts.html">CREATEPTS</a> )</h1>
+
+<hr />
+
+<p>This command adds points to the mesh. It can distribute points
+  evenly or according to a ratio zoning method.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>rz /xyz rtz rtp</b>/ni,nj,nk/xmin,ymin,zmin/xmax,ymax,zmax/ iiz,ijz,ikz/[iirat,ijrat,ikrat/xrz,yrz,zrz/]
+
+<b>rz/line</b>/np///xmin,ymin,zmin,xmax,ymax,zmax/iiz,ijz,ikz/
+</pre>
+
+<p><strong>xyz</strong> specifies Cartesian coordinates.</p>
+
+<p><strong>rtz</strong> specifies cylindrical coordinates.</p>
+
+<p><strong>rtp</strong> specifies spherical coordinates.</p>
+
+<p><strong>line</strong> this option implies xyz and will distribute n1 nodes from
+  (xmin,ymin,zmin) to (xmax,ymax,zmaz)</p>
+
+<p>When using the rtz or rtp coordinate systems the center is at
+  (0,0,0). Use a <strong>trans</strong> command to move the center. For the
+  <strong>rtz</strong> command, minimum and maximum coordinates are the triplets:
+  radius from the cylinder’s axis, angle in the xy-plane measured from
+  the x-axis and height along the z-axis. For the <strong>rtp</strong> command
+  minimum and maximum coordinates are the triplets: radius from the
+  center of the sphere axis, angle in the zy-plane measured from the
+  positive z-axis and the angle in the xy-plane measured from the
+  positive x-axis (see II.a.11). Note that the <strong>rtz</strong> always results
+  in a (partial) cylinder of points centered around the z axis. Use
+  the <strong>rotateln</strong> command to orient the cylinder. For example, to
+  center the cylinder around the y axis, specify the x axis as the
+  line of rotation in the <strong>rotateln</strong> command.
+  ni,nj,nk number of points to be created in each direction.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xmin,ymin,zmin</code> minimums for coordinates.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xmax,ymax,zmax</code> maximums for coordinates.</p>
+
+<p><code class="language-plaintext highlighter-rouge">iiz,ijz,ikz</code> if =0 then mins and maxs are used as cell centers, if =1 then mins and maxs are used as cell vertices</p>
+
+<p><code class="language-plaintext highlighter-rouge">iirat,ijrat,ikrat</code> ratio zoning switches (0=off,1=on)</p>
+
+<p><code class="language-plaintext highlighter-rouge">xrz,yrz,zrz</code> ratio zoning value - distance is multiplied by this value for each subsequent point.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rz /xyz /5,3,10 /0.,2.,0. /5.,6.,2. /1,1,1/
+</code></pre></div></div>
+
+<p>This results in a set of 150 points, five across from x=0. to x=5., 3
+ deep from y=2. to y=6. and 10 high from z=0. to z=2.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  rz/rtz/4,6,11 /0.,0.,0. /3.,360.,10. /1,0,1/
+</code></pre></div></div>
+
+<p>This results in 264 points arranged around the z- axis. There are 3
+ rings of points at distances r=1., r=2. and r=3. from the z-axis.
+ There are 11 sets of these three rings of points and heights z=0.,
+ z=1., z=2.,…,z=10. In each ring there are 6 points where each pair
+ of points is separated by 60°; note that ijz=0 requests that points be
+ placed at cell centers, hence the first point will be at 30° not at
+ 0°. Corresponding to r=0, there will be 6 identical points at 11
+ intervals along the z-axis at heights z=0., z=1., z=2.,…z=10.
+ <strong>Filter</strong> should be used to remove these duplicate points.</p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

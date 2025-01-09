@@ -1,0 +1,291 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>MSTKLA - Mesh ToolKit interface to LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                
+<h1 id="mstkla---mesh-toolkit-interface-to-lagrit">MSTKLA - Mesh ToolKit interface to LaGriT</h1>
+
+<p>Note these pages have not been updated to newer versions of MSTKLA</p>
+
+<p>(LA-UR-99-6711)</p>
+
+<hr />
+
+<p>Questions, Comments, Suggestions? Contact:</p>
+
+<p>Rao V Garimella,</p>
+
+<p>Email: rao@lanl.gov</p>
+
+<hr />
+
+<p><strong>MSTKLA</strong> is a C interface to the <strong>LaGriT</strong> code which is designed to
+make it easier to use the LaGriT functionality. It tries to hide some of
+the internals of LaGriT and provides an API that works in a somewhat
+object oriented way. It does not attempt to provide or enhance
+interactive commands that exist in LaGriT. Rather, it is designed more
+with writing automated mesh generation procedures and complex meshing
+algorithms within LaGriT in mind.</p>
+
+<p>MSTKLA has one or more <em>mesh objects</em>, which have mesh <strong>regions</strong>,
+mesh <strong>faces,</strong> mesh <strong>edges</strong> and mesh <strong>vertices</strong> (nodes).
+<em>Mesh faces and mesh edges are objects defined on the fly in terms of
+their vertices.</em> One can ask these objects various questions or modify
+their info through operators. In addition there is a <strong>geometric
+model</strong> and <strong>geometric model objects</strong> (In the spirit of consistent
+naming, I am labeling this set of functions <strong>GMTKLA</strong>). Since LaGriT
+does not really store curves or points in the database, these are also
+faked on the fly.</p>
+
+<p>The mesh and model entities are related through the concept of
+<strong>CLASSIFICATION</strong>.</p>
+
+<p>“A mesh entity is classified on a model entity if it forms all or
+part of that model entity’s discretization (grid) but not its
+boundary’s”.</p>
+
+<p>So mesh regions can be classified only on a model region.  Mesh faces
+can be classified on a model face or a model region. Mesh vertices can
+be classified on a model vertex, model edge, model face or model region.</p>
+
+<p>Classification information can be queried from MSTKLA if it is
+available. In particular, in LaGriT, only <strong>external faces</strong> (what
+LaGriT calls <strong>“reflective” boundaries</strong>) and <strong>internal faces or
+interfaces</strong> created with the option <strong>“intrcons”</strong> in the
+<strong>surface</strong>
+command have the information required to retrieve full classification
+information. Full classification information includes the <strong>type</strong> of
+geometric model entity the mesh entity is classified on, the <strong>ID of
+that geometric model entity</strong> and <strong>a pointer to the geometric model
+object</strong> (which can be further queried). Interface surfaces created
+with the surface command option “<strong>intrface</strong>” <strong>do not</strong> have the
+necessary information to relate the mesh and the model fully. (In the
+future, I may put in code to take the “intrface” type surfaces and add
+the info needed to find out the classification information).</p>
+
+<p>Note that the current interface works for querying an existing mesh but
+not <strong>yet</strong> for modifying it. The operators for this are on the way.
+Operators for calling the actual meshing operators (connect, refine,
+smooth, etc) will also be added in the near future.</p>
+
+<p>Finally, the basic interface (low level query and modification
+operators) are expected to retain the same format regardless of what the
+underlying database is (LaGriT or something else). So, for example, I am
+hoping that an operator to retrieve the nodes of an element will retain
+the same form shown below regardless of how it functions internally:</p>
+
+<p>void MR_Vertices(PMeshObj mesh, PMeshRegn reg, int nv, PMeshVert rverts);</p>
+
+<p>I will try hard to maintain this API constant but cannot absolutely guarantee it.</p>
+
+<p>parent-child Also see <a href="/pages/mstkla/parent-child.html">Parent-Child Node</a></p>
+
+<p>typedefs<a href="/pages/mstkla/prelim.html">TYPEDEFS</a></p>
+
+<h2 id="mstkla_init-mstkla-interface-operators">MSTKLA_Init MSTKLA Interface Operators</h2>
+
+<p><strong>MESH INITIALIZATION:</strong></p>
+
+<p>void MSTKLA_Init(void);</p>
+
+<p>Initialize the mesh toolkit.</p>
+
+<p><strong>MESH OPERATORS:</strong></p>
+
+<p>MESH OBJECT: <a href="/pages/mstkla/Mesh.html">MESH OBJECT</a></p>
+
+<p>MESH REGION:<a href="/pages/mstkla/MeshRegion.html">MESH REGION</a></p>
+
+<p>MESH FACE:<a href="/pages/mstkla/MeshFace.html">MESH FACE</a></p>
+
+<p>MESH EDGE:<a href="/pages/mstkla/MeshEdge.html">MESH EDGE</a></p>
+
+<p>MESH VERTEX:<a href="/pages/mstkla/MeshVertex.html">MESH VERTEX</a></p>
+
+<p>GENERIC MESH REGION QUERIES:<a href="/pages/mstkla/GenRegion.html">GENERIC MESH REGION QUERIES</a></p>
+
+<p><strong>GMTKLA_Init GEOMETRIC MODEL INITIALIZATION:</strong></p>
+
+<p>void GMTKLA_Init(void);</p>
+
+<p>Initialize the geometric model interface.</p>
+
+<p><strong>MODEL OPERATORS:</strong></p>
+
+<p>GEOMETRIC MODEL:<a href="/pages/mstkla/Geom.html">GEOMETRIC MODEL</a></p>
+
+<p>MODEL ENTITY:<a href="/pages/mstkla/GeomEntity.html">MODEL ENTITY</a></p>
+
+<p>MODEL REGION:<a href="/pages/mstkla/GeomRegion.html">MODEL REGION</a></p>
+
+<p>MODEL FACE:<a href="/pages/mstkla/GeomFace.html">MODEL FACE</a></p>
+
+<p>MODEL EDGE:<a href="/pages/mstkla/GeomEdge.html">MODEL EDGE</a></p>
+
+<p>MODEL VERTEX: <a href="/pages/mstkla/GeomVertex.html">MODEL VERTEX</a>  <em>Not implemented fully</em></p>
+
+<p>UTILITIES: <a href="/pages/mstkla/utilities.html">UTILITIES:</a></p>
+
+<p>EXAMPLE: <a href="/pages/mstkla/example.html">EXAMPLE OF PROGRAMMING WITH MSTKLA</a>**</p>
+
+<p>EXECUTABLE: <a href="/pages/mstkla/linking.html">LIBRARIES, INCLUDE FILES AND CREATING AN EXECUTABLE</a></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

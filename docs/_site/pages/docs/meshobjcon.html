@@ -1,0 +1,389 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT Mesh Object Connectivity</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="lagrit-mesh-object-connectivity">LaGriT Mesh Object Connectivity</h1>
+
+<p>The Mesh Object attributes <strong>itettyp, itetoff, jtetoff, itet,</strong> and
+<strong>jtet</strong> along with the variables contained in the include files
+<em>local_element.h</em> and <em>blockcom.h</em> completely describe the mesh connectivity. The
+following discussion is based on the concept of local facets and local
+edges for an element. The nodes comprising a given element are always
+specified in a well-defined order; hence when one references the ‘second
+facet’ of an element, one references a pre-defined set of points.</p>
+
+<p>For element ordering of nodes, faces, and edges see <a href="/pages/docs/supported.html">LaGriT Supported Element Types</a>)</p>
+
+<p>The following describes a LaGriT tetrahedral element, with nodes I1-I4 labeled as in the diagram:</p>
+
+<p><img width="320" src="https://lanl.github.io/LaGriT/assets/images/Image232.jpg" /></p>
+
+<p>The 3D face ordering is such that the right-hand-normals of all facets point outward. 
+For this tetrahedral, the points are oriented so that the triple product  I1I2 x I2I3 x I2I4 
+is positive, and the volume of the tetrahedral is one-sixth of the triple
+product and the right-hand-normals of the facets point outward.</p>
+
+<p>The local facets for this tetrahedral are defined as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Facet</th>
+      <th>Point A</th>
+      <th>Point B</th>
+      <th>Point C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>F1</td>
+      <td>I2</td>
+      <td>I3</td>
+      <td>I4</td>
+    </tr>
+    <tr>
+      <td>F2 </td>
+      <td>I1</td>
+      <td>I4</td>
+      <td>I3</td>
+    </tr>
+    <tr>
+      <td>F3 </td>
+      <td> I1</td>
+      <td>I2</td>
+      <td>I4</td>
+    </tr>
+    <tr>
+      <td>F4 </td>
+      <td>I1</td>
+      <td>I3</td>
+      <td>I2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The local edges for this tetrahedral are defined as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Edge</th>
+      <th>Point A</th>
+      <th>Point B</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>E1</td>
+      <td>I1</td>
+      <td>I2</td>
+    </tr>
+    <tr>
+      <td>E2 </td>
+      <td>I1</td>
+      <td>I3</td>
+    </tr>
+    <tr>
+      <td>E3 </td>
+      <td>I1</td>
+      <td>I4</td>
+    </tr>
+    <tr>
+      <td>E4 </td>
+      <td>I2</td>
+      <td>I3</td>
+    </tr>
+    <tr>
+      <td>E5</td>
+      <td>I2</td>
+      <td>I4</td>
+    </tr>
+    <tr>
+      <td>E6</td>
+      <td>I3</td>
+      <td>I4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Similarly, local facets and local edges are defined for all element
+  types.  (see <a href="/pages/docs/supported.html">LaGriT Supported Element Types</a>)</p>
+
+<p><strong>itettyp(it)</strong> gives the element type of element
+   <strong>it.</strong></p>
+
+<p><strong>itetoff(it)</strong> gives the offset to the first node in
+   element <strong>it.</strong></p>
+
+<p><strong>itet(itetoff(it)+j)</strong> gives the jth node of element
+   <strong>it.</strong></p>
+
+<p><strong>nelmnen(itettyp(it))</strong> gives the number of nodes of element
+   <strong>it.</strong></p>
+
+<p>To loop through all the nodes of all elements in the mesh:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    do it=1,ntets
+        do j=1,nelmnen(itettyp(it))
+            k=itet(itetoff(it)+j)
+        enddo
+      enddo
+</code></pre></div></div>
+
+<p><strong>nelmnef(itettyp(it))</strong> gives the number of facets of element
+   <strong>it</strong>. <strong>ielmface0(iface,itettyp(it))</strong> gives the number of nodes
+   on facet <strong>iface</strong> of element <strong>it</strong>.
+   <strong>ielmface1(local_node,iface,itettyp(it))</strong> gives the increment
+   to the node number <strong>(local_node)</strong> on facet <strong>iface</strong> of element
+   <strong>it.</strong></p>
+
+<p>To loop through all the nodes, <strong>k,</strong> of all elements in the mesh
+   by facets:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      do it=1,ntets
+        do i=1,nelmnef(itettyp(it))
+          do j=1,ielmface0(i,itettyp(it))
+             k=itet(itetoff(it)+
+             ielmface1(j,i,itettyp(it)))
+          enddo
+        enddo
+      enddo
+</code></pre></div></div>
+
+<p><strong>nelmnee(itettyp(it))</strong> gives the number of edges of element
+   <strong>it. ielmface2(inode,iface,itettyp(it))</strong> gives the edge number
+   associated with <strong>inode</strong> on facet <strong>iface</strong> of element <strong>it.</strong></p>
+
+<p><strong>ielmedge1(12,iedge,itettyp(it))</strong> gives the node offset
+   associated with edge <strong>iedge</strong> of element <strong>it.</strong></p>
+
+<p>To loop through all pairs of edge nodes <strong>(i1,i2)</strong> of all
+   elements in the mesh :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       do it=1,ntets
+     do i=1,nelmnee(itettyp(it))
+          i1=itet(itetoff(it)+
+          ielmedge1(1,i,itettyp(it)))
+          i2=itet(itetoff(it)+
+          ielmedge1(2,i,itettyp(it))
+      enddo
+      enddo
+</code></pre></div></div>
+
+<p>To loop through all pairs of edge nodes (<strong>i1,i2</strong>) of all
+   elements in the mesh by facets:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       do it=1,ntets
+          do i=1,nelmnef(itettyp(it))
+            do j=1,ielmface0(i,itettyp(it))
+              ie=ielmface2(j,i,itettype(it))
+              i1=itet(itetoff(it)+
+              ielmedge1(1,ie,itettyp(it)))
+              i2=itet(itetoff(it)+
+              ielmedge1(2,ie,itettyp(it)))
+            enddo
+          enddo
+        enddo
+</code></pre></div></div>
+
+<p>jtet<strong>jtet(jtetoff(it)+j)</strong> gives the element number and
+   local facet number of the neighbor to element <strong>it</strong>, facet
+   <strong>j</strong>.</p>
+
+<p>To loop to find all face neighbors of elements ** ** ( <strong>jt</strong> is
+   the neighbor element number<strong>, jf</strong> is the local facet of the
+   neighboring element) if <strong>jt</strong> is a neighbor of element <strong>it</strong> and
+   local face <strong>if</strong> of <strong>it</strong> is the shared face <strong>jf</strong> of <strong>jt</strong>
+   then <strong>jtet</strong> (<strong>jtetoff(it)</strong> + <strong>if</strong>) = <strong>nef_cmo</strong>*
+   (<strong>jt-</strong>1)+<strong>jf,</strong> where <strong>nef_cmo i</strong>s the number of faces per
+   element. Similarily, <strong>jtet</strong> (<strong>jtetoff(jt)</strong> + <strong>jf</strong>) =
+   <strong>nef_cmo</strong>* (<strong>it</strong> -1) ** ** + <strong>if mbndry</strong> is
+   the value added to <strong>jtet</strong> if element <strong>it</strong> is on a boundary or
+   interface; the <strong>jtet</strong> value of an element <strong>it</strong> with facet
+   <strong>j</strong> on an exterior boundary will be exactly <strong>mbndry;</strong> the
+   <strong>jtet</strong> value of an element it with facet <strong>j</strong> on an interior
+   interface will be <strong>mbndry</strong> + the <strong>jtet</strong> value calculated from
+   the neighboring element number and neighbor element local_facet
+   number):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   c get number of faces per element for this mesh object
+   call cmo_get_info(`faces_per_element',cmo_name,
+    nef_cmo,ilen,ity,ics)
+    do it=1,ntets
+     do i=1,nelmnef(itettyp(it))
+    c check if element face is on an external boundry
+        if(jtet(jtetoff(it)+i).eq.mbndry) then
+          jt=0
+          jf=0
+    c check if element face is on an internal boundry
+          elseif(jtet(jtetoff(it)+i).gt.mbndry)then
+         jt=1+(jtet(jtetoff(it)+i)-mbndry-1)/nef_cmo
+         jf=jtet(jtetoff(it)+i)-mbndry-nef_cmo*(jt-1)
+    C Volume element
+            else
+         jt=1+(jtet(jtetoff(it)+i)-1)/nef_cmo
+         jf=jtet(jtetoff(it)+i)-nef_cmo*(jt-1)
+       endif
+     enddo
+    enddo
+</code></pre></div></div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

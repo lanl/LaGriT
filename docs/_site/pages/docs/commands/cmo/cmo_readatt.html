@@ -1,0 +1,261 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CMO / READATT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="cmo--readatt">CMO / READATT</h1>
+
+<hr />
+
+<p>Read field style data from file. Expects same number of values each line.
+<br />Any line starting with “#” will be ignored.
+<br />Any line starting with a character string will be ignored.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>cmo/readatt </b> /cmo_name/attr1/[attr2..] operation / filename
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">cmo_name</code> is type character, required. The data will be read into the node attributes of this mesh object.</p>
+
+<p><code class="language-plaintext highlighter-rouge">attr1</code> is the data to read the first field into, <code class="language-plaintext highlighter-rouge">attr2</code> would be the second field, etc. Not all fields need to be read,
+but they will be read in the order they occur. Attributes are assumed to be node length, see example below how to copy values into element length attributes.</p>
+
+<p><code class="language-plaintext highlighter-rouge">operation</code> is either <strong>add</strong> which will cause new nodes to be added
+  to the mesh object or <code class="language-plaintext highlighter-rouge">ifirst, islast, istride</code> which specifies the
+  nodes whose values will be replaced.</p>
+
+<p><code class="language-plaintext highlighter-rouge">filename</code> is type character required and specifies the ASCII file to be read.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_name / / / tet
+
+cmo/readatt/mo_name/ xic,yic,zic,node_val1,node_val2  / 1,0,0 / input_tab.dat 
+</code></pre></div></div>
+
+<p>Read x,y,z coordinates and some values into node attributes node_val1 and node_val2 from a file of tabular data.
+The first three lines are ignored. None of the tagged information is retained. Ignored lines can be indicated by either a # in column one or anything other than a real or integer as the first token in a line.</p>
+
+<p>Input file input_tab.dat can be a TecPlot format file something like:</p>
+<pre class="lg-output">
+TITLE="Heterogeneity of TMCM #39, 1=newzone 81, 2=newzone 82"
+variables="x","y","z", "zone", "element"
+zone t="facies" I=191, J=136, K= 57
+0.53600E+06 0.41020E+07 0.00000E+00 2  1
+0.53610E+06 0.41020E+07 0.00000E+00 2  2
+0.53620E+06 0.41020E+07 0.00000E+00 2  3
+  ...
+</pre>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/readatt /mo_tet2/xic,yic,zic/add /// myfile
+</code></pre></div></div>
+<p>New nodes will be added to mo_tet2, and their coordinates will be supplied from the file. The value of nnodes will be updated.
+For this example 2 nodes and their values will be added to mo_tet2.</p>
+
+<p>Contents of myfile:</p>
+<pre class="lg-output">
+0.017     12.65     7.25 
+1.1       10.2      3.4
+</pre>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/readatt /mo_tet2/itp1/new_node_attr/pset,set,p1/myfile
+</code></pre></div></div>
+<p>The values of itp1 will be replaced. If new_node\attr does not exist it will be created as a VDOUBLE node based attribute.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># read values into temporary mesh node attributes
+cmo / create / mo_temp
+cmo / readatt / mo_temp / permx permy permz por / 1 0 0 / file.table
+
+read/avs/dfm_tet_mes.inp/mo
+
+# create element attributes
+# nelements should be equal to the node length of mo_temp
+cmo / addatt / mo / permx / vdouble / scalar / nelements
+cmo / addatt / mo / permy / vdouble / scalar / nelements
+cmo / addatt / mo / permz / vdouble / scalar / nelements
+cmo / addatt / mo / por   / vdouble / scalar / nelements
+cmo / copyatt / mo / mo_temp / permx / permx
+cmo / copyatt / mo / mo_temp / permy / permy
+cmo / copyatt / mo / mo_temp / permz / permz
+cmo / copyatt / mo / mo_temp / por   / por
+
+cmo / delete / mo_temp
+</code></pre></div></div>
+<p>Read data into temporary mesh object with attribute nnodes long. The data is copied into element attributes of length equal to the mo_temp node attributes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define MINX 498000.                                                             
+define MAXX 500500.                                                             
+define MINY 537000.                                                             
+define MAXY 540500.                                                             
+define NX 101                                                                    
+define NY 141 
+
+cmo/create/cmoquad///quad                                                       
+quadxy NX NY/MINX MINY 0./MAXX MINY 0./MAXX MAXY 0./MINX MAXY 0.                
+  rzbrick/xyz/NX,NY,1/1,0,0/connect                                               
+
+cmo/readatt/cmoquad/ xic,yic,zic /1,0,0/input_ev.dat    
+
+</code></pre></div></div>
+<p>Read into created quad mesh of known spacing 14261 coordinate values. This is useful for grid files where the connectivity is implied but not included in the coordinate file.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

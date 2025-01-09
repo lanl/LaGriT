@@ -1,0 +1,383 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>EXTRACT/SURFMESH DEMO</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h2 id="demo-extractsurfmesh">DEMO extract/surfmesh</h2>
+
+<p>For syntax and description see <a href="/pages/docs/commands/dump/EXTRACT_SURFMESH.html"><strong><code class="language-plaintext highlighter-rouge">EXTRACT_SURFMESH</code></strong></a>.</p>
+
+<p>For usage with ExodusII files see <a href="/pages/docs/commands/EXODUS.html"><strong><code class="language-plaintext highlighter-rouge">DUMP EXO</code></strong></a>.</p>
+
+<p>This demonstrates the difference between extracting all interfaces and boundaries and extracting external boundaries only. 
+<br />The LaGriT input and output report file are included below.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>Input Hex Mesh</strong></td>
+      <td style="text-align: center"><strong>surfmesh all</strong></td>
+      <td style="text-align: center"><strong>surfmesh external</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><a href="output/box_hex_itp_clip.png"> <img width="300" src="output/box_hex_itp_clip.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_surfmesh_all.png"> <img width="300" src="output/box_surfmesh_all.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_quad_external.png"><img width="300" src="output/box_quad_external.png" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Hex mesh colored by itetclr material, nodes show itp values (clip front)</td>
+      <td style="text-align: center">extract all boundaries and interfaces, color by itetclr1 (clip front)</td>
+      <td style="text-align: center">extract external boundaries only, color by itetclr1 (clip front)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="demo-description">Demo Description</h3>
+
+<p>The first image shows the input hex mesh with 2 materials,  one internal interface, and a simple box shaped boundary.
+The interface and boundary nodes are tagged with the appropriate <strong>itp</strong> values. See more about mesh object attributes at <a href="/pages/docs/meshobject.html">Mesh Object</a>.
+The <strong>itp</strong> values are shown in the image as round points:</p>
+<ul>
+  <li>0 (dark blue) internal nodes</li>
+  <li>2 (light blue) internal nodes on the interface between materials</li>
+  <li>10 (yellow) outside boundary nodes</li>
+  <li>12 (red) outside boundary nodes on the interface between materials</li>
+</ul>
+
+<p>The middle image shows the quad surface extracted from the hex mesh with the default option of all boundaries and interfaces.</p>
+
+<p>The third image shows the quad surface extracted from the hex mesh with the option <strong>external</strong> which ignores internal interfaces. Only the external boundary surface is created.</p>
+
+<p>The surface element type will depend on the element face being extracted, a hex element will produce a quad surface, a tet element will produce a tri surface.</p>
+
+<p>New mesh object attributes are added to the output mesh. Use commands <a href="/pages/docs/commands/cmo/cmo_status.html"><strong>cmo/status</strong></a> and <a href="/pages/docs/commands/cmo/cmo_printatt.html"><strong>cmo/printatt</strong></a> to see these attributes.
+The output from these commands are included in the example LaGriT input and output below.</p>
+
+<h3 id="added-mesh-object-attributes">Added Mesh Object Attributes</h3>
+
+<p>Six new element attributes and one node attribute, are added to the output mesh object.</p>
+<ul>
+  <li>itetclr0 and itetclr1 material colors (itetclr) of each side of the extracted surface. 0 indicates a face on the boundary.</li>
+  <li>idelem0 and idelem1 element number on each side of the extracted surface.</li>
+  <li>idface0 and idface1 the local face number for each element on either side of the extracted surface. A tet will have 4 faces and a hex will have 6 faces.</li>
+  <li>facecol is a model face number constructed from the itetclr0 and itetclr1 attributes and is not guaranteed that the same facecol value will not be given to two disjoint patches of mesh faces.</li>
+  <li>idnode0 provides the mapping from nodes in the extracted interface network to (parent) nodes in the input mesh object; that is, IDNODE0(J) is the parent node in the input mesh object that corresponds to node J in the output mesh object.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>itetclr0</strong></td>
+      <td style="text-align: center"><strong>itetclr1</strong></td>
+      <td style="text-align: center"><strong>idface0</strong></td>
+      <td style="text-align: center"><strong>idface1</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><a href="output/box_surf_itetclr0.png"> <img width="250" src="output/box_surf_itetclr0.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_surf_itetclr1.png"> <img width="250" src="output/box_surf_itetclr1.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_surf_idface0.png"><img width="250" src="output/box_surf_idface0.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_surf_idface1.png"><img width="250" src="output/box_surf_idface1.png" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">between 0 and max material number</td>
+      <td style="text-align: center">between 1 and max material number</td>
+      <td style="text-align: center">between 0 and 6</td>
+      <td style="text-align: center">between 1 and 6</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="convert-quad-surface-to-tri-surface">Convert Quad Surface to Tri Surface</h3>
+
+<p>This demo uses the <a href="/pages/docs/commands/GRID2GRID.html">grid2grid</a> command to convert each quad element to 2 triangles each. 
+Some of the extracted quad mesh objects will no longer have values that make sense, particularly the itetclr0, idface0 etc attributes that have values from the oritinal hex mesh. These attributes can be removed with the <a href="/pages/docs/commands/cmo/cmo_delatt.html"><strong>cmo/DELATT/</strong></a> command.</p>
+
+<p>After the triangle mesh is created, we can set the materials based on normals in 6 directions. This is a quick way to check that triangles have outward pointing normals. Use the command <a href="/pages/docs/commands/SETTETS.html"><strong>settets/normal</strong></a>.</p>
+
+<p><em>Note: after quad elements are split into tri elements, the <strong>extract/surfmesh</strong> attributes no longer apply.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> </th>
+      <th style="text-align: center"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><strong>convert quad to tri</strong></td>
+      <td style="text-align: center"><strong>settets normal</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><a href="output/box_surfmesh_tri_external.png"> <img width="250" src="output/box_surfmesh_tri_external.png" /></a></td>
+      <td style="text-align: center"><a href="output/box_tri_ext_normals_ex.png"> <img width="250" src="output/box_tri_ext_normals_ex.png" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">external quads to 2 triangles each (clip front)</td>
+      <td style="text-align: center">triangles colored by 6 normal directions (exploded view)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="lagrit-command-file-ex_extract_surfmeshlgitxt">LaGriT command file: <a href="/pages/docs/demos/input/ex_extract_surfmesh.lgi.txt">ex_extract_surfmesh.lgi.txt</a></h3>
+<h3 id="lagrit-output-report-ex_extract_surfmeshouttxt">LaGriT output report: <a href="/pages/docs/demos/output/ex_extract_surfmesh.out.txt">ex_extract_surfmesh.out.txt</a></h3>
+
+<p>LaGriT command file:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># CREATE hex mesh
+
+define MO_MESH mo_hex
+define/R0/  0.0
+define/Z0/  0.0
+define/R1/ 10.0
+define/Z1/  8.0
+define/ND/  11
+define/NZ/  9
+
+cmo / create / MO_MESH / / / hex
+createpts/brick/xyz/ND ND NZ/R0 R0 Z0/R1 R1 Z1/1 1 1
+
+# COLOR elements material 1 and material 2 
+pset/p2/attribute xic/1,0,0/ gt 6.
+eltset/e2/ inclusive pset,get,p2
+cmo / setatt / MO_MESH / itetclr 1 
+cmo / setatt / MO_MESH / itetclr eltset,get,e2 2 
+
+# SET BOUNDARIES AND INTERFACES
+resetpts/itp
+dump/avs/box.inp/ MO_MESH
+
+# EXTRACT ALL EXTERNAL AND INTERFACE BOUNDARIES
+# Set material itetclr to attribute itetclr1
+extract/surfmesh/1,0,0/ mos_all / MO_MESH
+cmo/copyatt/ mos_all mos_all / itetclr itetclr1
+
+# EXTRACT EXTERNAL ONLY 
+# Set material itetclr to attribute itetclr1
+extract/surfmesh/1,0,0/ mos_ext / MO_MESH / external
+cmo/copyatt/ mos_ext mos_ext / itetclr itetclr1
+
+# CONVERT QUADS to TRI
+# Set material itetclr to normals in 6 directions
+grid2grid/quadtotri2/ mos_tri / mos_ext
+cmo/select/mos_tri
+settets/normal
+
+# write files
+dump/avs/ surfmesh_all.inp / mos_all
+dump/ surfmesh_all.gmv / mos_all
+
+dump/avs/ surfmesh_external.inp / mos_ext
+dump/ surfmesh_external.gmv / mos_ext
+
+dump/avs/ surfmesh_ext_tri.inp / mos_tri
+dump/ surfmesh_ext_tri.gmv / mos_tri
+
+# report status of all mesh objects
+cmo/status
+
+# report attribute min max for mos_all
+cmo/printatt/mos_all/ -all- minmax
+
+finish
+</code></pre></div></div>
+
+<p>Command to view min and max of extracted quad surface mos_all attributes:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/printatt/mos_all/-all- minmax 
+</code></pre></div></div>
+
+<p>Sample output:</p>
+<pre class="lg-output">
+ATTRIBUTE NAME        MIN               MAX       DIFFERENCE    LENGTH  
+-def-                 0.00000E+00  0.00000E+00 0.00000E+00      585  
+ scalar                1                1               0         1  
+ vector                3                3               0         1  
+ nnodes              585              585               0         1  
+ nedges                0                0               0         1  
+ nfaces                0                0               0         1  
+ nelements           600              600               0         1  
+...
+ imt1                  1                1               0       585  
+ itetclr               1                2               1       600  
+...
+ idnode0               1             1089            1088       585  
+ idelem0               0              797             797       600  
+ idelem1               1              800             799       600  
+ facecol               1                3               2       600  
+ idface0               0                6               6       600  
+ idface1               1                6               5       600  
+...
+</pre>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

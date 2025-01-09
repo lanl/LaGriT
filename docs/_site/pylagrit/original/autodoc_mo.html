@@ -1,0 +1,2441 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Mesh Object &#8212; PyLaGriT 0.0.0 documentation</title>
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <script type="text/javascript" src="static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Point Set Object" href="autodoc_pset.html" />
+    <link rel="prev" title="PyLaGriT" href="autodoc_pylagrit.html" />
+   
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-pylagrit">
+<span id="mesh-object"></span><h1>Mesh Object<a class="headerlink" href="#module-pylagrit" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="pylagrit.MO">
+<em class="property">class </em><code class="descclassname">pylagrit.</code><code class="descname">MO</code><span class="sig-paren">(</span><em>name</em>, <em>parent</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mesh object class</p>
+<dl class="method">
+<dt id="pylagrit.MO.add_element_attribute">
+<code class="descname">add_element_attribute</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.add_element_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes to elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em>) – Attribute name to add</li>
+<li><strong>keyword</strong> – Keyword used by lagrit for specific attributes</li>
+<li><strong>vtype</strong> – Type of variable {‘VDOUBLE’,’VINT’,…}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.add_node_attribute">
+<code class="descname">add_node_attribute</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.add_node_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes to nodes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em>) – Attribute name to add</li>
+<li><strong>keyword</strong> – Keyword used by lagrit for specific attributes</li>
+<li><strong>vtype</strong> – Type of variable {‘VDOUBLE’,’VINT’,…}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.addatt">
+<code class="descname">addatt</code><span class="sig-paren">(</span><em>attname</em>, <em>keyword=None</em>, <em>vtype='VDOUBLE'</em>, <em>rank='scalar'</em>, <em>length='nnodes'</em>, <em>interpolate='linear'</em>, <em>persistence='permanent'</em>, <em>ioflag=''</em>, <em>value=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.addatt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em>) – Attribute name to add</li>
+<li><strong>keyword</strong> – Keyword used by lagrit for specific attributes</li>
+<li><strong>vtype</strong> – Type of variable {‘VDOUBLE’,’VINT’,…}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.addatt_voronoi_volume">
+<code class="descname">addatt_voronoi_volume</code><span class="sig-paren">(</span><em>name='voronoi_volume'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.addatt_voronoi_volume" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add voronoi volume attribute to mesh object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) – name of attribute in LaGriT</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.compute_distance">
+<code class="descname">compute_distance</code><span class="sig-paren">(</span><em>mo</em>, <em>option='distance_field'</em>, <em>attname='dfield'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.compute_distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute distance from one mesh object to another</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mo</strong> (<em>LaGriT mesh object</em>) – Mesh object to compute distance to base mesh from</li>
+<li><strong>option</strong> (<em>str</em>) – The type of distance field calculation. Available choices
+are ‘distance_field’ and ‘signed_distance_field’.</li>
+<li><strong>attname</strong> (<em>str</em>) – The name of the attribute to be created in the base mesh.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: New attribute in base mesh object</p>
+<p>Example:
+from pylagrit import PyLaGriT
+#create source mesh
+npts = (1,91,1)
+mins = (3.,0.,0.)
+maxs = (3.,270.,0.)
+src_mo = lg.create()
+src_mo.createpts_rtz(npts,mins,maxs,connect=False)</p>
+<p>#create sink mesh
+snk_mo = lg.create()
+snk_mo.createpts_xyz([30,30,1],[-5.,-5.,-5.],[5.,5.,5.],connect=False)</p>
+<p>#compute distance and store in sink mesh attribute ‘dfield’
+snk_mo.compute_distance(src_mo)
+snk_mo.dump(‘comptest.gmv’)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.compute_extrapolate">
+<code class="descname">compute_extrapolate</code><span class="sig-paren">(</span><em>surf_mo</em>, <em>dir='zpos'</em>, <em>attname='zic'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.compute_extrapolate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Given a 3D mesh and a 2D surface, this command will extrapolate a scalar</dt>
+<dd>value from that surface onto every point of the mesh.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>surf_mo</strong> (<em>LaGriT mesh object</em>) – Surface mesh object to extrapolate from</li>
+<li><strong>dir</strong> – The direction values are extrapolated from. Choices are one</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>of: ‘zpos’, ‘zneg’, ‘ypos’, ‘yneg’, ‘xpos’, ‘xneg’
+:type  dir: str</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attname</strong> – The name of the attribute in the surface mesh to be</td>
+</tr>
+</tbody>
+</table>
+<p>extrapolated
+:type  attname: str</p>
+<p>Returns: New attribute in base mesh object</p>
+<p>Example:
+from pylagrit import PyLaGriT
+#create surface mesh
+p1 = (-1.,-1.,-1.)
+p2 = (301.,-1.,-1.)
+p3 = (301.,301.,-1.)
+p4 = (-1.,301.,-1.)
+pts = [p1,p2,p3,p4]
+nnodes = (30,30,1)
+surf = lg.create_qua()
+surf.quadxy(nnodes,pts)</p>
+<p>#make surface mesh interesting
+surf.math(‘sin’,’zic’,cmosrc=surf,attsrc=’xic’)
+surf.math(‘multiply’,’zic’,value=5.0,cmosrc=surf,attsrc=’zic’)
+surf.perturb(0.,0.,1.)
+surf.math(‘add’,’zic’,value=60.0,cmosrc=surf,attsrc=’zic’)</p>
+<p>#create base mesh
+hex = lg.create_hex()
+hex.createpts_brick_xyz([30,30,20],[0.,0.,0.],[300.,300.,50.])
+hex.resetpts_itp()</p>
+<p>#extrapolate z values from surface mesh to base mesh
+hex.compute_extrapolate(surf)
+hex.dump(‘extrapolated.gmv’)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.connect">
+<code class="descname">connect</code><span class="sig-paren">(</span><em>option1='delaunay'</em>, <em>option2=None</em>, <em>stride=None</em>, <em>big_tet_coords=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.connect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the nodes into a Delaunay tetrahedral or triangle grid.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>option1</strong> – type of connect: delaunay, noadd, or check_interface</li>
+<li><strong>option2</strong> – type of connect: noadd, or check_interface</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.connect_check_interface">
+<code class="descname">connect_check_interface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.connect_check_interface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the nodes into a Delaunay tetrahedral or triangle grid
+exhaustively checking that no edges of the mesh cross a material
+boundary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.connect_delaunay">
+<code class="descname">connect_delaunay</code><span class="sig-paren">(</span><em>option2=None</em>, <em>stride=None</em>, <em>big_tet_coords=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.connect_delaunay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.connect_noadd">
+<code class="descname">connect_noadd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.connect_noadd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect the nodes into a Delaunay tetrahedral or triangle grid without adding nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy mesh object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.copyatt">
+<code class="descname">copyatt</code><span class="sig-paren">(</span><em>attname_src</em>, <em>attname_sink=None</em>, <em>mo_src=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.copyatt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attname_src</strong> (<em>str</em>) – Name of attribute to copy</li>
+<li><strong>attname_sink</strong> (<em>str</em>) – Name of sink attribute</li>
+<li><strong>mo_src</strong> (<em>PyLaGriT Mesh Object</em>) – Name of source mesh object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.copypts">
+<code class="descname">copypts</code><span class="sig-paren">(</span><em>elem_type='tet'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.copypts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy points from mesh object to new mesh object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>str</em>) – Name to use within lagrit for the created mesh object</li>
+<li><strong>mesh_type</strong> (<em>str</em>) – Mesh type for new mesh</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mesh object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.create_boundary_facesets">
+<code class="descname">create_boundary_facesets</code><span class="sig-paren">(</span><em>stacked_layers=False</em>, <em>base_name=None</em>, <em>reorder=False</em>, <em>external=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.create_boundary_facesets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates facesets for each boundary and writes associated avs faceset file
+:arg base_name: base name of faceset files
+:type base_name: str
+:arg stacked_layers: if mesh is created by stack_layers, user layertyp attr to determine top and bottom
+:type stacked_layers: bool
+:arg reorder_on_meds: reorder nodes on cell medians, usually needed for exodus file
+:type reorder_on_meds: bool
+:returns: Dictionary of facesets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts">
+<code class="descname">createpts</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and Connect Points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>crd</strong> (<em>str</em>) – Coordinate type of either ‘xyz’ (cartesian coordinates), 
+‘rtz’ (cylindrical coordinates), or 
+‘rtp’ (spherical coordinates).</li>
+<li><strong>npts</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – The number of points to create in line</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_brick">
+<code class="descname">createpts_brick</code><span class="sig-paren">(</span><em>crd</em>, <em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and Connect Points</p>
+<p>Creates a grid of points in the mesh object and connects them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>crd</strong> (<em>str</em>) – Coordinate type of either ‘xyz’ (cartesian coordinates), 
+‘rtz’ (cylindrical coordinates), or 
+‘rtp’ (spherical coordinates).</li>
+<li><strong>npts</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The number of points to create in each dimension.</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio 
+zmoning values.</li>
+<li><strong>rz_vls</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Ratio zoning values. Each point will be multiplied by
+a scale of the value for that dimension.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_brick_rtp">
+<code class="descname">createpts_brick_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and connect spherical coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_brick_rtz">
+<code class="descname">createpts_brick_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and connect cylindrical coordinate points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_brick_xyz">
+<code class="descname">createpts_brick_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_vls=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_brick_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and connect Cartesian coordinate points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_dxyz">
+<code class="descname">createpts_dxyz</code><span class="sig-paren">(</span><em>dxyz</em>, <em>mins</em>, <em>maxs</em>, <em>clip='under'</em>, <em>hard_bound='min'</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_dxyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and Connect Points to create an orthogonal hexahedral mesh. The
+vertex spacing is based on dxyz and the mins and maxs specified. mins
+(default, see hard_bound option) or maxs will be adhered to, while maxs
+(default) or mins will be modified based on the clip option to be
+truncated at the nearest value ‘under’ (default) or ‘over’ the range
+maxs-mins. clip and hard_bound options can be mixed by specifying tuples
+(see description below).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dxyz</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The spacing between points in x, y, and z directions</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>clip</strong> (<em>string</em><em> or </em><em>tuple</em><em>(</em><em>string</em><em>,</em><em>string</em><em>,</em><em>string</em><em>)</em>) – How to handle bounds if range does not divide by dxyz, either clip ‘under’ or ‘over’ range</li>
+<li><strong>hard_bound</strong> (<em>string</em><em> or </em><em>tuple</em><em>(</em><em>string</em><em>,</em><em>string</em><em>,</em><em>string</em><em>)</em>) – Whether to use the “min” or “max” as the hard constraint on dimension</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
+<li><strong>connect</strong> (<em>boolean</em>) – Whether or not to connect points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_line">
+<code class="descname">createpts_line</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and Connect Points in a line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>npts</strong> (<em>int</em>) – The number of points to create in line</li>
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The starting value for each dimension.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The ending value for each dimension.</li>
+<li><strong>vc_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines if nodes represent vertices (1) or cell centers (0).</li>
+<li><strong>rz_switch</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Determines true or false (1 or 0) for using ratio zoning values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_median">
+<code class="descname">createpts_median</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_median" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_rtp">
+<code class="descname">createpts_rtp</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtp" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_rtz">
+<code class="descname">createpts_rtz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_rtz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.createpts_xyz">
+<code class="descname">createpts_xyz</code><span class="sig-paren">(</span><em>npts</em>, <em>mins</em>, <em>maxs</em>, <em>vc_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_switch=(1</em>, <em>1</em>, <em>1)</em>, <em>rz_value=(1</em>, <em>1</em>, <em>1)</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.createpts_xyz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.delatt">
+<code class="descname">delatt</code><span class="sig-paren">(</span><em>attnames</em>, <em>force=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.delatt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a list of attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attnames</strong> (<em>str</em><em> or </em><em>lst</em><em>(</em><em>str</em><em>)</em>) – Attribute names to delete</li>
+<li><strong>force</strong> (<em>bool</em>) – If true, delete even if the attribute permanent persistance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.delete" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump">
+<code class="descname">dump</code><span class="sig-paren">(</span><em>filename=None</em>, <em>format=None</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_ats_xml">
+<code class="descname">dump_ats_xml</code><span class="sig-paren">(</span><em>filename</em>, <em>meshfilename</em>, <em>matnames={}</em>, <em>facenames={}</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_ats_xml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write ats style xml file with regions
+:param filename: Name of xml to write
+:type filename: string
+:param meshfilename: Name of exodus file to use in xml
+:type meshfilename: string
+:param matnames: Dictionary of region names keyed by exodus material number
+:type matnames: dict
+:param facenames: Dictionary of faceset names keyed by exodus faceset number
+:type facenames: dict</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_avs2">
+<code class="descname">dump_avs2</code><span class="sig-paren">(</span><em>filename</em>, <em>points=True</em>, <em>elements=True</em>, <em>node_attr=True</em>, <em>element_attr=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_avs2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump avs file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>str</em>) – Name of avs file</li>
+<li><strong>points</strong> (<em>bool</em>) – Output point coordinates</li>
+<li><strong>elements</strong> (<em>bool</em>) – Output connectivity</li>
+<li><strong>node_attr</strong> (<em>bool</em>) – Output node attributes</li>
+<li><strong>element_attr</strong> (<em>bool</em>) – Output element attributes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_exo">
+<code class="descname">dump_exo</code><span class="sig-paren">(</span><em>filename</em>, <em>psets=False</em>, <em>eltsets=False</em>, <em>facesets=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_exo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump exo file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>str</em>) – Name of exo file</li>
+<li><strong>psets</strong> (<em>bool</em>) – Boolean indicating that exodus will only include psets</li>
+<li><strong>eltsets</strong> (<em>bool</em>) – Boolean indicating that exodus will only include element sets</li>
+<li><strong>facesets</strong> (<em>lst</em><em>(</em><a class="reference internal" href="autodoc_faceset.html#pylagrit.FaceSet" title="pylagrit.FaceSet"><em>FaceSet</em></a><em>)</em>) – Array of FaceSet objects</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">createpts_xyz</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span><span class="n">rz_switch</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">(</span><span class="n">brief</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fs</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">create_boundary_facesets</span><span class="p">(</span><span class="n">base_name</span><span class="o">=</span><span class="s1">&#39;faceset_bounds&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dump_exo</span><span class="p">(</span><span class="s1">&#39;cube.exo&#39;</span><span class="p">,</span><span class="n">facesets</span><span class="o">=</span><span class="n">fs</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_fehm">
+<code class="descname">dump_fehm</code><span class="sig-paren">(</span><em>filename</em>, <em>*args</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_fehm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_gmv">
+<code class="descname">dump_gmv</code><span class="sig-paren">(</span><em>filename</em>, <em>format='binary'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_gmv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_lg">
+<code class="descname">dump_lg</code><span class="sig-paren">(</span><em>filename</em>, <em>format='binary'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_lg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_pflotran">
+<code class="descname">dump_pflotran</code><span class="sig-paren">(</span><em>filename_root</em>, <em>nofilter_zero=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_pflotran" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump PFLOTRAN UGE file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_root</strong> (<em>str</em>) – root name of UGE file</li>
+<li><strong>nofilter_zero</strong> (<em>boolean</em>) – Set to true to write zero coefficients to file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">l</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">createpts_xyz</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span><span class="n">rz_switch</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">status</span> <span class="p">(</span><span class="n">brief</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span><span class="o">.</span><span class="n">dump_pflotran</span><span class="p">(</span><span class="s1">&#39;test_pflotran_dump&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_pset">
+<code class="descname">dump_pset</code><span class="sig-paren">(</span><em>filerootname</em>, <em>zonetype='zone'</em>, <em>pset=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_pset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump zone file of psets
+:arg filerootname: rootname of files to create, pset name will be added to name
+:type filerootname: string
+:arg zonetype: Type of zone file to dump, ‘zone’ or ‘zonn’
+:type zonetype: string
+:arg pset: list of psets to dump, all psets dumped if empty list
+:type pset: list[strings]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_zone_imt">
+<code class="descname">dump_zone_imt</code><span class="sig-paren">(</span><em>filename</em>, <em>imt_value</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_zone_imt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.dump_zone_outside">
+<code class="descname">dump_zone_outside</code><span class="sig-paren">(</span><em>filename</em>, <em>keepatt=False</em>, <em>keepatt_median=False</em>, <em>keepatt_voronoi=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.dump_zone_outside" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.elem_type">
+<code class="descname">elem_type</code><a class="headerlink" href="#pylagrit.MO.elem_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_attribute">
+<code class="descname">eltset_attribute</code><span class="sig-paren">(</span><em>attribute_name</em>, <em>attribute_value</em>, <em>boolstr='eq'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_attribute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_bool">
+<code class="descname">eltset_bool</code><span class="sig-paren">(</span><em>eset_list</em>, <em>boolstr='union'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create element set from boolean operation of set of element sets</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>eset_list</strong> (<em>lst</em><em>(</em><em>PyLaGriT element set</em><em>)</em>) – List of elements to perform boolean operation on</li>
+<li><strong>boolstr</strong> (<em>str</em>) – type of boolean operation to perform on element sets, one of [union,inter,not]</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the EltSet within LaGriT</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">PyLaGriT element set object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_inter">
+<code class="descname">eltset_inter</code><span class="sig-paren">(</span><em>eset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_inter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_not">
+<code class="descname">eltset_not</code><span class="sig-paren">(</span><em>eset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_not" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_object">
+<code class="descname">eltset_object</code><span class="sig-paren">(</span><em>mo</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create element set from the intersecting elements with another mesh object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_region">
+<code class="descname">eltset_region</code><span class="sig-paren">(</span><em>region</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_region" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_union">
+<code class="descname">eltset_union</code><span class="sig-paren">(</span><em>eset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_union" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.eltset_write">
+<code class="descname">eltset_write</code><span class="sig-paren">(</span><em>filename_root</em>, <em>eset_name=None</em>, <em>ascii=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.eltset_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write element set(s) to a file in ascii or binary format</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename_root</strong> (<em>str</em>) – root name of file</li>
+<li><strong>eset_name</strong> (<em>EltSet object</em>) – name of eltset to write; if blank, all eltsets in mesh object are written</li>
+<li><strong>ascii</strong> – Switch to indicate ascii [True] or binary [False]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dxyz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.25</span><span class="p">,</span><span class="mf">0.25</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">createpts_dxyz</span><span class="p">(</span><span class="n">dxyz</span><span class="p">,</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="p">,</span><span class="s1">&#39;quad&#39;</span><span class="p">,</span><span class="n">hard_bound</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;min&#39;</span><span class="p">,</span><span class="s1">&#39;max&#39;</span><span class="p">,</span><span class="s1">&#39;min&#39;</span><span class="p">),</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_pset1</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="o">-</span><span class="p">(</span><span class="n">maxs</span><span class="o">-</span><span class="n">mins</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_eset1</span> <span class="o">=</span> <span class="n">example_pset1</span><span class="o">.</span><span class="n">eltset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_pset2</span> <span class="o">=</span> <span class="n">mqua</span><span class="o">.</span><span class="n">pset_geom_xyz</span><span class="p">(</span><span class="n">mins</span><span class="o">+</span><span class="n">maxs</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="n">maxs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">example_eset2</span> <span class="o">=</span> <span class="n">example_pset2</span><span class="o">.</span><span class="n">eltset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># to write one specific eltset</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">eltset_write</span><span class="p">(</span><span class="s1">&#39;test_specific&#39;</span><span class="p">,</span><span class="n">eset_name</span><span class="o">=</span><span class="n">example_eset1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># to write all eltsets</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">eltset_write</span><span class="p">(</span><span class="s1">&#39;test_all&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.extract_surfmesh">
+<code class="descname">extract_surfmesh</code><span class="sig-paren">(</span><em>name=None, stride=[1, 0, 0], reorder=False, resetpts_itp=True, external=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.extract_surfmesh" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.extrude">
+<code class="descname">extrude</code><span class="sig-paren">(</span><em>offset</em>, <em>offset_type='const'</em>, <em>return_type='volume'</em>, <em>direction=[]</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.extrude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extrude mesh object to new mesh object
+This command takes the current mesh object (topologically 1d or 2d mesh (a line, a set of line 
+segments, or a planar or non-planar surface)) and extrudes it into three 
+dimensions along either the normal to the curve or surface (default), 
+along a user defined vector, or to a set of points that the user has specified.
+If the extrusion was along the normal of the surface or along a user 
+defined vector, the command can optionally find the external surface of 
+the volume created and return that to the user.
+Refer to <a class="reference external" href="http://lagrit.lanl.gov/docs/commands/extrude.html">http://lagrit.lanl.gov/docs/commands/extrude.html</a> for more details on arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>str</em>) – Name to use within lagrit for the created mesh object</li>
+<li><strong>offset</strong> (<em>float</em>) – Distance to extrude</li>
+<li><strong>offset_type</strong> (<em>str</em>) – either const or min (interp will be handled in the PSET class in the future)</li>
+<li><strong>return_type</strong> (<em>str</em>) – either volume for entire mesh or bubble for just the external surface</li>
+<li><strong>direction</strong> (<em>lst</em><em>[</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>]</em>) – Direction to extrude in, defaults to normal of the object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">mesh object</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.filter">
+<code class="descname">filter</code><span class="sig-paren">(</span><em>stride=[1, 0, 0], tolerance=None, boolean=None, attribute=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.gmv">
+<code class="descname">gmv</code><span class="sig-paren">(</span><em>exe=None</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.gmv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid">
+<code class="descname">grid2grid</code><span class="sig-paren">(</span><em>ioption</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a mesh with one element type to a mesh with another</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ioption</strong> – type of conversion:
+quadtotri2   quad to 2 triangles, no new points. 
+prismtotet3   prism to 3 tets, no new points. 
+quadtotri4   quad to 4 triangles, with one new point. 
+pyrtotet4   pyramid to 4 tets, with one new point. 
+hextotet5   hex to 5 tets, no new points. 
+hextotet6   hex to 6 tets, no new points. 
+prismtotet14   prism to 14 tets, four new points (1 + 3 faces). 
+prismtotet18   prism to 18 tets, six new points (1 + 5 faces). 
+hextotet24   hex to 24 tets, seven new points (1 + 6 faces). 
+tree_to_fe   quadtree or octree grid to grid with no parent-type elements.</li>
+<li><strong>name</strong> (<em>str</em>) – Internal Lagrit name of new mesh object, automatically created if None</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_hextotet24">
+<code class="descname">grid2grid_hextotet24</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_hextotet24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hex to 24 tets, seven new points (1 + 6 faces)
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_hextotet5">
+<code class="descname">grid2grid_hextotet5</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_hextotet5" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hex to 5 tets, no new points
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_hextotet6">
+<code class="descname">grid2grid_hextotet6</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_hextotet6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hex to 6 tets, no new points
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_prismtotet14">
+<code class="descname">grid2grid_prismtotet14</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_prismtotet14" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prism to 14 tets, four new points (1 + 3 faces)
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_prismtotet18">
+<code class="descname">grid2grid_prismtotet18</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_prismtotet18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prism to 18 tets, four new points (1 + 3 faces)
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_prismtotet3">
+<code class="descname">grid2grid_prismtotet3</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_prismtotet3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quad to 2 triangles, no new points. 
+Prism to 3 tets, no new points. 
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_pyrtotet4">
+<code class="descname">grid2grid_pyrtotet4</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_pyrtotet4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pyramid to 4 tets, with one new point
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_quadtotri2">
+<code class="descname">grid2grid_quadtotri2</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_quadtotri2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quad to 2 triangles, no new points. 
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_quadtotri4">
+<code class="descname">grid2grid_quadtotri4</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_quadtotri4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quad to 4 triangles, with one new point
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.grid2grid_tree_to_fe">
+<code class="descname">grid2grid_tree_to_fe</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.grid2grid_tree_to_fe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quadtree or octree grid to grid with no parent-type elements. 
+:arg name: Internal Lagrit name of new mesh object, automatically created if None
+:type name: str</p>
+<p>Returns MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.information">
+<code class="descname">information</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.information" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a formatted dictionary with mesh information.</p>
+<p>Information is that found in cmo/status/MO</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.interpolate">
+<code class="descname">interpolate</code><span class="sig-paren">(</span><em>method, attsink, cmosrc, attsrc, stride=[1, 0, 0], tie_option=None, flag_option=None, keep_option=None, interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.interpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate values from attribute attsrc from mesh object cmosrc to current mesh object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.interpolate_continuous">
+<code class="descname">interpolate_continuous</code><span class="sig-paren">(</span><em>attsink, cmosrc, attsrc, stride=[1, 0, 0], interp_function=None, nearest=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.interpolate_continuous" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.interpolate_default">
+<code class="descname">interpolate_default</code><span class="sig-paren">(</span><em>attsink, cmosrc, attsrc, stride=[1, 0, 0], tie_option='tiemax', flag_option='plus1', keep_option='delatt', interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.interpolate_default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.interpolate_map">
+<code class="descname">interpolate_map</code><span class="sig-paren">(</span><em>attsink, cmosrc, attsrc, stride=[1, 0, 0], tie_option=None, flag_option=None, keep_option=None, interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.interpolate_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.interpolate_voronoi">
+<code class="descname">interpolate_voronoi</code><span class="sig-paren">(</span><em>attsink, cmosrc, attsrc, stride=[1, 0, 0], interp_function=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.interpolate_voronoi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.intersect_elements">
+<code class="descname">intersect_elements</code><span class="sig-paren">(</span><em>mo</em>, <em>attr_name='attr00'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.intersect_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command takes two meshes and creates an element-based attribute in mesh1 
+that contains the number of elements in mesh2 that intersected the respective 
+element in mesh1. We define intersection as two elements sharing any common point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mo</strong> (<em>PyLaGriT mesh object</em>) – Mesh object to intersect with current mesh object to determine where to refine</li>
+<li><strong>attr_name</strong> (<em>str</em>) – Name to give created attribute</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">attr_name</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>attname=None, stride=[1, 0, 0], pset=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.massage">
+<code class="descname">massage</code><span class="sig-paren">(</span><em>bisection_len</em>, <em>merge_len</em>, <em>toldamage</em>, <em>tolroughness=None</em>, <em>stride=None</em>, <em>nosmooth=False</em>, <em>norecon=False</em>, <em>strictmergelength=False</em>, <em>checkaxy=False</em>, <em>semiexclusive=False</em>, <em>ignoremats=False</em>, <em>lite=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.massage" title="Permalink to this definition">¶</a></dt>
+<dd><p>MASSAGE creates, annihilates, and moves nodes and swaps connections in a 2D or 3D mesh
+in order to improve element aspect ratios and establish user-desired edge lengths.</p>
+<p>The actions of MASSAGE are controlled by values of these four parameters:</p>
+<blockquote>
+<div><p>bisection_length  - edge length that will trigger bisection.
+merge_length - edge length that will trigger merging.
+toldamage - maximum grid deformation of interfaces and external boundaries</p>
+<blockquote>
+<div>allowed in a single merge, smooth or reconnection event.</div></blockquote>
+<dl class="docutils">
+<dt>tolroughness - (for 2D surface grids only)  measure of grid roughness</dt>
+<dd>(deviation from average surface normal) that triggers refinement.</dd>
+</dl>
+</div></blockquote>
+<p>The final, optional keywork argument(s) can be one or more of nosmooth, norecon, lite,
+ignoremats, strictmergelength, checkaxy, semiexclusive, and exclusive.</p>
+<p>Specifying nosmooth will turn off the ‘smooth’ step by skipping the call to SGD.
+Specifying norecon will turn off all ‘recon’ steps.
+If lite is specified, only one iteration of the merging/reconnection/smoothing
+loop is executed, and a reconnection after edge refinement is omitted. 
+This is suitable for applications, such as Gradient Weighted Moving Finite
+Elements, where MASSAGE is called repeatedly.</p>
+<p>The optional argument ignoremats causes MASSAGE to process the multimaterial
+mesh in a single material mode; it ignores the material interfaces.</p>
+<p>The optional argument strictmergelength forces strict interpretation of
+merge_length so that there is no merging along the edges of flat elements.
+This is important if ignoremats is specified to avoid losing the interfaces.</p>
+<p>If checkaxy is given, then we insure that for 2D meshes, the output mesh
+will have positive xy-projected triangle areas, provided that the input mesh
+had them in the first place.</p>
+<p>If exclusive is given, then edge refinement operations will only be performed
+on edges whose endpoints are both in the PSET that MASSAGE is working on.
+(As usual, new nodes created by refinement are added to the PSET so that MASSAGE
+can refine edges recursively.)  The default behavior is ‘inclusive’,
+where only ONE edge endpoint has to belong to the PSET for the edge to be
+eligible for refinement.</p>
+<p>If semiexclusive is given, refinement will only be triggered by edges with
+both endpoints in the PSET, but some edges with less than two endpoints in
+the PSET might be refined as part of a ‘Rivara chain’ triggered by the refinement
+of an edge with both endpoints in the PSET.  This represents an intermediate
+case between ‘inclusive’ and exclusive</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.massage2">
+<code class="descname">massage2</code><span class="sig-paren">(</span><em>filename</em>, <em>min_scale</em>, <em>bisection_len</em>, <em>merge_len</em>, <em>toldamage</em>, <em>tolroughness=None</em>, <em>stride=None</em>, <em>nosmooth=False</em>, <em>norecon=False</em>, <em>strictmergelength=False</em>, <em>checkaxy=False</em>, <em>semiexclusive=False</em>, <em>ignoremats=False</em>, <em>lite=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.massage2" title="Permalink to this definition">¶</a></dt>
+<dd><p>MASSAGE2 iteratively calls MASSAGE to refine adaptively according to a
+gradient field. Thus, the bisection_length option must be a field.</p>
+<p>file_name is a file which contains a set of LaGriT commands that
+calculates the gradient field based on the distance field. In other
+words, the gradient field is a function of the distance field.
+It is necessary to have this file when using this routine, as the field
+must be updated after each refinement iteration.</p>
+<p>Use this function in conjunction with PyLaGriT.define(<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs) for 
+best results.</p>
+<p>See MASSAGE for other arguments.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.math">
+<code class="descname">math</code><span class="sig-paren">(</span><em>operation, attsink, value=None, stride=[1, 0, 0], cmosrc=None, attsrc=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.math" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.maxs">
+<code class="descname">maxs</code><a class="headerlink" href="#pylagrit.MO.maxs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.minmax">
+<code class="descname">minmax</code><span class="sig-paren">(</span><em>attname=None, stride=[1, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.minmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.minmax_xyz">
+<code class="descname">minmax_xyz</code><span class="sig-paren">(</span><em>stride=[1, 0, 0], verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.minmax_xyz" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.mins">
+<code class="descname">mins</code><a class="headerlink" href="#pylagrit.MO.mins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.mregion">
+<code class="descname">mregion</code><span class="sig-paren">(</span><em>boolstr</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.mregion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create mregion using boolean string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>boolstr</strong> (<em>str</em>) – String of boolean operations</li>
+<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">MRegion</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.ndim_geo">
+<code class="descname">ndim_geo</code><a class="headerlink" href="#pylagrit.MO.ndim_geo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.ndim_topo">
+<code class="descname">ndim_topo</code><a class="headerlink" href="#pylagrit.MO.ndim_topo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.nelems">
+<code class="descname">nelems</code><a class="headerlink" href="#pylagrit.MO.nelems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.nnodes">
+<code class="descname">nnodes</code><a class="headerlink" href="#pylagrit.MO.nnodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.paraview">
+<code class="descname">paraview</code><span class="sig-paren">(</span><em>exe=None</em>, <em>filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.paraview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.perturb">
+<code class="descname">perturb</code><span class="sig-paren">(</span><em>xfactor</em>, <em>yfactor</em>, <em>zfactor</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.perturb" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command moves node coordinates in the following manner.</p>
+<p>Three pairs of random numbers between 0 and 1 are generated.
+These pairs refer to the x, y and z coordinates of the nodes respectively.
+The first random number of each pair is multiplied by the factor given in
+the command. The second random number is used to determine
+if the calculated offset is to be added or subtracted from the coordinate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.printatt">
+<code class="descname">printatt</code><span class="sig-paren">(</span><em>attname=None, stride=[1, 0, 0], pset=None, eltset=None, ptype='value'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.printatt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_attribute">
+<code class="descname">pset_attribute</code><span class="sig-paren">(</span><em>attribute</em>, <em>value</em>, <em>comparison='eq'</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet by attribute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attribute</strong> (<em>str</em>) – Nodes defined by attribute ID.</li>
+<li><strong>value</strong> (<em>integer</em>) – attribute ID value.</li>
+<li><strong>comparison</strong> (<em>can use default without specifiy anything</em><em>, or </em><em>list</em><em>[</em><em>lt|le|gt|ge|eq|ne</em><em>]</em>) – attribute comparison, default is eq.</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_bool">
+<code class="descname">pset_bool</code><span class="sig-paren">(</span><em>pset_list</em>, <em>boolean='union'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return PSet from boolean operation on list of psets</p>
+<p>Defines and returns a PSet from points that are not inside the PSet, ps.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_geom">
+<code class="descname">pset_geom</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>ctr=(0</em>, <em>0</em>, <em>0)</em>, <em>geom='xyz'</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_geom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet by Geometry</p>
+<p>Selects points from geometry specified by string geom and returns a 
+PSet.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of one of the shape’s defining points.
+xyz (Cartesian):   (x1, y1, z1); 
+rtz (Cylindrical): (radius1, theta1, z1);
+rtp (Spherical):   (radius1, theta1, phi1);</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of one of the shape’s defining points.
+xyz (Cartesian):   (x2, y2, z2); 
+rtz (Cylindrical): (radius2, theta2, z2);
+rtp (Spherical):   (radius2, theta2, phi2);</li>
+<li><strong>ctr</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of the relative center.</li>
+<li><strong>geom</strong> (<em>str</em>) – Type of geometric shape: ‘xyz’ (spherical), 
+‘rtz’ (cylindrical), ‘rtp’ (spherical)</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_geom_rtp">
+<code class="descname">pset_geom_rtp</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>ctr=(0</em>, <em>0</em>, <em>0)</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_geom_rtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forms a pset of nodes within the sphere, sperical shell or sperical section 
+given by radius1 to radius2, and angles theta1 to theta2 (0 - 180) and angles 
+phi1 to phi2 (0 - 360).
+Refer to <a class="reference external" href="http://lagrit.lanl.gov/docs/conventions.html">http://lagrit.lanl.gov/docs/conventions.html</a> for an explanation of angles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius1, theta1, and phi1.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius2, theta2, and phi2.</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+<li><strong>ctr</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of the relative center.</li>
+<li><strong>stride</strong> – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_geom_rtz">
+<code class="descname">pset_geom_rtz</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>ctr=(0</em>, <em>0</em>, <em>0)</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_geom_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Forms a pset of nodes within the cylinder or cylindrical shell section 
+given by radius1 to radius2, and angles theta1 to theta2 and height z1 to z2.
+Refer to <a class="reference external" href="http://lagrit.lanl.gov/docs/conventions.html">http://lagrit.lanl.gov/docs/conventions.html</a> for an explanation of angles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius1, theta1, and z1.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius2, theta2, and z2.</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+<li><strong>ctr</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of the relative center.</li>
+<li><strong>stride</strong> – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_geom_xyz">
+<code class="descname">pset_geom_xyz</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>ctr=(0</em>, <em>0</em>, <em>0)</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_geom_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet by Tetrahedral Geometry</p>
+<p>Selects points from a Tetrahedral region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate point of 1 of the tetrahedral’s corners.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate point of 1 of the tetrahedral’s corners.</li>
+<li><strong>ctr</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of the relative center.</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_inter">
+<code class="descname">pset_inter</code><span class="sig-paren">(</span><em>pset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_inter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_not">
+<code class="descname">pset_not</code><span class="sig-paren">(</span><em>pset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_not" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_region">
+<code class="descname">pset_region</code><span class="sig-paren">(</span><em>region</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet by region</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>region</strong> – region to create pset</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_surface">
+<code class="descname">pset_surface</code><span class="sig-paren">(</span><em>surface</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_surface" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define PSet by surface</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>surface</strong> – surface to create pset</li>
+<li><strong>stride</strong> (<em>list</em><em>[</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>]</em>) – Nodes defined by ifirst, ilast, and istride.</li>
+<li><strong>name</strong> (<em>str</em>) – The name to be assigned to the PSet created.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: PSet object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.pset_union">
+<code class="descname">pset_union</code><span class="sig-paren">(</span><em>pset_list</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.pset_union" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quadxy">
+<code class="descname">quadxy</code><span class="sig-paren">(</span><em>nnodes</em>, <em>pts</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quadxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define an arbitrary, logical quad of points in 3D space
+with nnodes(x,y,z) nodes. By default, the nodes will be connected.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nnodes</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – The number of nodes to create in each dimension. 
+One value must == 1 and the other two must be &gt; 1.</li>
+<li><strong>pts</strong> (<em>list of four 3-tuples</em><em> (</em><em>float</em><em>)</em>) – The four corners of the quad surface, defined in counter 
+clockwise order (the normal to the quad points is defined
+using the right hand rule and the order of the points).</li>
+<li><strong>connect</strong> (<em>bool</em>) – connect points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Start the lagrit session.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">pylagrit</span><span class="o">.</span><span class="n">PyLaGriT</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create a mesh object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qua</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create_qua</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define 4 points in correct order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">200.0</span><span class="p">,</span><span class="o">-</span><span class="mf">400.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mf">200.0</span><span class="p">,</span><span class="o">-</span><span class="mf">400.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">140.0</span><span class="p">,</span><span class="o">-</span><span class="mf">200.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="mf">118.0</span><span class="p">,</span><span class="mf">200.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">,</span><span class="n">p4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define nnodes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nnodes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">29</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">82</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create and connect skewed plane</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">qua</span><span class="o">.</span><span class="n">quadxy</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span><span class="n">pts</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quadxyz">
+<code class="descname">quadxyz</code><span class="sig-paren">(</span><em>nnodes</em>, <em>pts</em>, <em>connect=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quadxyz" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Define an arbitrary and logical set of points in 3D (xyz) space.
+The set of points will be connected into hexahedrons by default. Set ‘connect=False’ to prevent connection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">arg nnodes:</th><td class="field-body">The number of nodes including the 1st and last point along each X, Y, Z axis. The number of points will be 1 more than the number of elements in each dimension.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type nnodes:</th><td class="field-body">tuple(int, int, int)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">arg pts:</th><td class="field-body">The eight corners of the hexahedron. The four bottom corners are listed first,</td>
+</tr>
+</tbody>
+</table>
+<p>then the four top corners. Each set of corners (bottom and top) are defined in counter-clockwise
+order (the normal to the quad points is defined using the right hand rule and the order of the points).
+:arg pts:  list of eight 3-tuples (float)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">arg connect:</th><td class="field-body">connect points</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type connect:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Start the lagrit session.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">pylagrit</span><span class="o">.</span><span class="n">PyLaGriT</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create a mesh object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define 4 bottom points in correct order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.02</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p3</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p4</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define 4 top points in correct order</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p5</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p6</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p7</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p8</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pts</span> <span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">p3</span><span class="p">,</span><span class="n">p4</span><span class="p">,</span><span class="n">p5</span><span class="p">,</span><span class="n">p6</span><span class="p">,</span><span class="n">p7</span><span class="p">,</span><span class="n">p8</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Define nnodes</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nnodes</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create and connect skewed hex mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span><span class="o">.</span><span class="n">quadxyz</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span><span class="n">pts</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#Dump mesh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">hex</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;quadxyz_test.gmv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality">
+<code class="descname">quality</code><span class="sig-paren">(</span><em>*args</em>, <em>quality_type=None</em>, <em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_angle">
+<code class="descname">quality_angle</code><span class="sig-paren">(</span><em>value</em>, <em>boolean='gt'</em>, <em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_aspect">
+<code class="descname">quality_aspect</code><span class="sig-paren">(</span><em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_aspect" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_edge_max">
+<code class="descname">quality_edge_max</code><span class="sig-paren">(</span><em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_edge_max" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_edge_min">
+<code class="descname">quality_edge_min</code><span class="sig-paren">(</span><em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_edge_min" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_edge_ratio">
+<code class="descname">quality_edge_ratio</code><span class="sig-paren">(</span><em>save_att=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_edge_ratio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.quality_pcc">
+<code class="descname">quality_pcc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.quality_pcc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.read">
+<code class="descname">read</code><span class="sig-paren">(</span><em>filename</em>, <em>filetype=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.read" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.recon">
+<code class="descname">recon</code><span class="sig-paren">(</span><em>option=''</em>, <em>damage=''</em>, <em>checkaxy=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.recon" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.refine">
+<code class="descname">refine</code><span class="sig-paren">(</span><em>refine_option='constant', field=' ', interpolation=' ', refine_type='element', stride=[1, 0, 0], values=[1.0], inclusive_flag='exclusive', prd_choice=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.refine" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.refine_to_object">
+<code class="descname">refine_to_object</code><span class="sig-paren">(</span><em>mo</em>, <em>level=None</em>, <em>imt=None</em>, <em>prd_choice=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.refine_to_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refine mesh at locations that intersect another mesh object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mo</strong> (<em>PyLaGriT mesh object</em>) – Mesh object to intersect with current mesh object to determine where to refine</li>
+<li><strong>level</strong> (<em>int</em>) – max level of refinement</li>
+<li><strong>imt</strong> (<em>int</em>) – Value to assign to imt (LaGriT material type attribute)</li>
+<li><strong>prd_choice</strong> (<em>int</em>) – directions of refinement</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.region">
+<code class="descname">region</code><span class="sig-paren">(</span><em>boolstr</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.region" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create region using boolean string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>boolstr</strong> (<em>str</em>) – String of boolean operations</li>
+<li><strong>name</strong> (<em>string</em>) – Internal lagrit name for mesh object</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Region</p>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mins</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">maxs</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eighth</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">surface_box</span><span class="p">(</span><span class="n">mins</span><span class="p">,</span><span class="n">maxs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr1</span> <span class="o">=</span> <span class="s1">&#39;le &#39;</span><span class="o">+</span><span class="n">eighth</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">boolstr2</span> <span class="o">=</span> <span class="s1">&#39;gt &#39;</span><span class="o">+</span><span class="n">eighth</span><span class="o">.</span><span class="n">name</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">region</span><span class="p">(</span><span class="n">boolstr1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">reg2</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">region</span><span class="p">(</span><span class="n">boolstr2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mreg1</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">mregion</span><span class="p">(</span><span class="n">boolstr1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mreg2</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">mregion</span><span class="p">(</span><span class="n">boolstr2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">createpts_brick_xyz</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">rmregion</span><span class="p">(</span><span class="n">reg1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mesh</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;reg_test.gmv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.region_bool">
+<code class="descname">region_bool</code><span class="sig-paren">(</span><em>bool</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.region_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is deprecated and will be replaced by the MO.region() method in future releases.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts">
+<code class="descname">regnpts</code><span class="sig-paren">(</span><em>geom, ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_rtp">
+<code class="descname">regnpts_rtp</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_rtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>float 3-tuple</em>) – single (x,y,z) point that defines center of spher which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> (<em>int</em><em> or </em><em>float</em>) – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_rtz">
+<code class="descname">regnpts_rtz</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a line and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>2-tuple of float 3-tuples</em>) – two points that define cylinder which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> (<em>int</em><em> or </em><em>float</em>) – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.regnpts_xyz">
+<code class="descname">regnpts_xyz</code><span class="sig-paren">(</span><em>ray_points, region, ptdist, stride=[1, 0, 0], irratio=0, rrz=0, maxpenetr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.regnpts_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from a plane and finding the intersection of each ray with the surfaces that define the region.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>3-tuple of float 3-tuples</em>) – three points that define plane which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.reorder_nodes">
+<code class="descname">reorder_nodes</code><span class="sig-paren">(</span><em>order='ascending'</em>, <em>cycle='zic yic xic'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.reorder_nodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.resetpts_itp">
+<code class="descname">resetpts_itp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.resetpts_itp" title="Permalink to this definition">¶</a></dt>
+<dd><p>set node type from connectivity of mesh</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat">
+<code class="descname">rmmat</code><span class="sig-paren">(</span><em>material_number</em>, <em>option=''</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove points that are of a specified material value 
+(itetclr for elements or imt for nodes). Elements with the specified material 
+value are flagged by setting the element material type negative. They are not 
+removed from the mesh object.
+:param material_number: Number of material
+:type material_number: int
+:param option: {‘’,’node’,’element’,’all’}, ‘node’ removes nodes with imt=material_number, ‘element’ removes elements with itetclr=material_number, ‘all’ or ‘’ removes nodes and elements with material_number equal to imt and itetclr, respectively
+:type option: str
+:param exclusive: if True, removes everything except nodes with imt=material and removes everything except elements with itetclr= material number.
+:type exclusive: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat_element">
+<code class="descname">rmmat_element</code><span class="sig-paren">(</span><em>material_number</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove elements that are of a specified material value 
+(itetclr for elements). Elements with the specified material value are flagged 
+by setting the element material type negative. They are not removed from the mesh 
+object.
+:param material_number: Number of material
+:type material_number: int
+:param exclusive: if True, removes everything except elements with itetclr=material number.
+:type exclusive: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmmat_node">
+<code class="descname">rmmat_node</code><span class="sig-paren">(</span><em>material_number</em>, <em>exclusive=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmmat_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>This routine is used to remove points that are of a specified material value 
+(imt).
+:param material_number: Number of material (imt)
+:type material_number: int
+:param exclusive: if True, removes everything except nodes with imt=material_number
+:type exclusive: bool</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmpoint_compress">
+<code class="descname">rmpoint_compress</code><span class="sig-paren">(</span><em>filter_bool=False</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmpoint_compress" title="Permalink to this definition">¶</a></dt>
+<dd><p>remove all marked nodes and correct the itet array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>resetpts_itp</strong> (<em>bool</em>) – set node type from connectivity of mesh</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmpoint_eltset">
+<code class="descname">rmpoint_eltset</code><span class="sig-paren">(</span><em>eltset</em>, <em>compress=True</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmpoint_eltset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmpoint_pset">
+<code class="descname">rmpoint_pset</code><span class="sig-paren">(</span><em>pset</em>, <em>itype='exclusive'</em>, <em>compress=True</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmpoint_pset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rmregion">
+<code class="descname">rmregion</code><span class="sig-paren">(</span><em>region</em>, <em>rmpoints=True</em>, <em>filter_bool=False</em>, <em>resetpts_itp=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rmregion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove points that lie inside region</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – name of region points will be removed from</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rotateln">
+<code class="descname">rotateln</code><span class="sig-paren">(</span><em>coord1, coord2, theta, center=[0, 0, 0], copy=False, stride=(1, 0, 0)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rotateln" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotates a point distribution (specified by ifirst,ilast,istride) about a line. 
+The copy option allows the user to make a copy of the original points as well 
+as the rotated points, while copy=False just keeps the rotated points themselves. 
+The line of rotation defined by coord1 and coord2 needs to be defined such that 
+the endpoints extend beyond the point distribution being rotated. theta (in degrees) 
+is the angle of rotation whose positive direction is determined by the right-hand-rule, 
+that is, if the thumb of your right hand points in the direction of the line 
+(1 to 2), then your fingers will curl in the direction of rotation. center is the point 
+where the line can be shifted to before rotation takes place. 
+If the copy option is chosen, the new points will have only coordinate values 
+(xic, yic, zic); no values will be set for any other mesh object attribute for these points.
+Note:  The end points of the  line segment must extend well beyond the point set being rotated.</p>
+<dl class="docutils">
+<dt>Example 1:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">10.1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">gridder</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">elem_type</span><span class="o">=</span><span class="s1">&#39;hex&#39;</span><span class="p">,</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">rotateln</span><span class="p">([</span><span class="n">mqua</span><span class="o">.</span><span class="n">xmin</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="n">mqua</span><span class="o">.</span><span class="n">xmax</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">dump_exo</span><span class="p">(</span><span class="s1">&#39;rotated.exo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">dump_ats_xml</span><span class="p">(</span><span class="s1">&#39;rotated.xml&#39;</span><span class="p">,</span><span class="s1">&#39;rotated.exo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mqua</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+<dt>Example 2:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">10.1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#z = [0,1]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">gridder</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span><span class="n">elem_type</span><span class="o">=</span><span class="s1">&#39;quad&#39;</span><span class="p">,</span><span class="n">connect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">rotateln</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">layer</span><span class="o">.</span><span class="n">ymin</span><span class="o">-</span><span class="mf">0.10</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="n">layer</span><span class="o">.</span><span class="n">ymax</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="mi">25</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;tmp_lay_top.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Layer depths?</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#           1   2   3    4    5    6    7   8    9   10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layers</span> <span class="o">=</span> <span class="p">[</span> <span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">addnum</span> <span class="o">=</span> <span class="p">[</span>  <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#matnum = [2]*len(layers)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">matnum</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer_interfaces</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">layers</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mtop</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_files</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tmp_lay_top.inp 1,9&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#stack_files.append(&#39;tmp_lay_peat_bot.inp 1,33&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">li</span><span class="p">,</span><span class="n">m</span><span class="p">,</span><span class="n">a</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">layer_interfaces</span><span class="p">,</span><span class="n">matnum</span><span class="p">,</span><span class="n">addnum</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">layer</span><span class="o">.</span><span class="n">math</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span><span class="n">li</span><span class="p">,</span><span class="s1">&#39;zic&#39;</span><span class="p">,</span><span class="n">cmosrc</span><span class="o">=</span><span class="n">mtop</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">stack_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;tmp_lay&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.inp &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;, &#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">layer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;tmp_lay&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">math</span><span class="p">(</span><span class="s1">&#39;sub&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;zic&#39;</span><span class="p">,</span><span class="n">cmosrc</span><span class="o">=</span><span class="n">mtop</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#layer.setatt(&#39;zic&#39;,-2.)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">layer</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="s1">&#39;tmp_lay_bot.inp&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_files</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;tmp_lay_bot.inp 2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_files</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create stacked layer mesh and fill</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack</span><span class="o">.</span><span class="n">stack_layers</span><span class="p">(</span><span class="s1">&#39;avs&#39;</span><span class="p">,</span><span class="n">stack_files</span><span class="p">,</span><span class="n">flip_opt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_hex</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">stack_fill</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_hex</span><span class="o">.</span><span class="n">dump_exo</span><span class="p">(</span><span class="s1">&#39;rotated.exo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_hex</span><span class="o">.</span><span class="n">dump_ats_xml</span><span class="p">(</span><span class="s1">&#39;rotated.xml&#39;</span><span class="p">,</span><span class="s1">&#39;rotated.exo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stack_hex</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.rzbrick">
+<code class="descname">rzbrick</code><span class="sig-paren">(</span><em>n_ijk</em>, <em>connect=True</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>coordinate_space='xyz'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.rzbrick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds a brick mesh and generates a nearest neighbor connectivity matrix</p>
+<p>Currently only configured for this flavor of syntax:</p>
+<blockquote>
+<div>rzbrick/xyz|rtz|rtp/ni,nj,nk/pset,get,name/connect/</div></blockquote>
+<p>Use this option with quadxyz to connect logically rectangular grids.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n_ijk</strong> (<em>tuple</em>) – number of points to be created in each direction.</li>
+<li><strong>connect</strong> (<em>bool</em>) – connect points</li>
+<li><strong>stride</strong> (<em>tuple</em>) – Stride to select</li>
+<li><strong>coordinate_space</strong> (<em>str</em>) – xyz,rtz,or rtp coordinate spaces</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.select">
+<code class="descname">select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.select" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.sendline">
+<code class="descname">sendline</code><span class="sig-paren">(</span><em>cmd</em>, <em>verbose=True</em>, <em>expectstr='Enter a command'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.sendline" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.set_id">
+<code class="descname">set_id</code><span class="sig-paren">(</span><em>option</em>, <em>node_attname='id_node'</em>, <em>elem_attname='id_elem'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.set_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>This command creates integer attributes that contain the node and/or
+element number. If later operations delete nodes or
+elements causing renumbering, these attributes will contain the
+original node or element number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>option</strong> (<em>str</em>) – create attribute for nodes, elements, or both {‘both’,’node’,’element’}</li>
+<li><strong>node_attname</strong> (<em>str</em>) – name for new node attribute</li>
+<li><strong>elem_attname</strong> (<em>str</em>) – name for new element attribute</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Example:
+from pylagrit import PyLaGriT
+#instantiate PyLaGriT
+lg = PyLaGriT()
+#create source mesh
+npts = (11,11,11)
+mins = (0.,0.,0.)
+maxs = (1.,1.,1.)
+mesh = lg.create()
+mesh.createpts_brick_xyz(npts,mins,maxs)
+#write node and element attribute numbers
+mesh.set_id(‘both’,node_attname=’node_att1’,elem_attname=’elem_att1’)
+#select and remove points
+p_mins = (0.5,0.,0.)
+p_maxs = (1.,1.,1.)
+points = mesh.pset_geom_xyz(p_mins,p_maxs)
+mesh.rmpoint_pset(points)
+#dump mesh with original node and element numbering saved
+mesh.dump(‘set_id_test.gmv’)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.setatt">
+<code class="descname">setatt</code><span class="sig-paren">(</span><em>attname, value, stride=[1, 0, 0]</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.setatt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.setpts">
+<code class="descname">setpts</code><span class="sig-paren">(</span><em>no_interface=False</em>, <em>closed_surfaces=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.setpts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set point types and imt material by calling surfset and regset routines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>ray_points</strong> (<em>float 3-tuple</em>) – single (x,y,z) point that defines center of spher which rays emante from</li>
+<li><strong>region</strong> (<a class="reference internal" href="autodoc_region.html#pylagrit.Region" title="pylagrit.Region"><em>Region</em></a>) – region to generate points within</li>
+<li><strong>ptdist</strong> (<em>int float</em><em> or </em><em>str</em>) – parameter that determines point distribution pattern</li>
+<li><strong>stride</strong> (<em>int</em><em> or </em><a class="reference internal" href="autodoc_pset.html#pylagrit.PSet" title="pylagrit.PSet"><em>PSet</em></a>) – points to shoot rays through</li>
+<li><strong>irratio</strong> (<em>int</em>) – parameter that determines point distribution pattern</li>
+<li><strong>rrz</strong> (<em>int</em><em> or </em><em>float</em>) – ratio zoning value</li>
+<li><strong>maxpenetr</strong> – maximum distance along ray that points will be distributed</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets">
+<code class="descname">settets</code><span class="sig-paren">(</span><em>method=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_color_points">
+<code class="descname">settets_color_points</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_color_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_color_tets">
+<code class="descname">settets_color_tets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_color_tets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_geometry">
+<code class="descname">settets_geometry</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_geometry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_newtets">
+<code class="descname">settets_newtets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_newtets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_normal">
+<code class="descname">settets_normal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.settets_parents">
+<code class="descname">settets_parents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.settets_parents" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.smooth">
+<code class="descname">smooth</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.smooth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.stack_fill">
+<code class="descname">stack_fill</code><span class="sig-paren">(</span><em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.stack_fill" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.stack_layers">
+<code class="descname">stack_layers</code><span class="sig-paren">(</span><em>filelist</em>, <em>file_type='avs'</em>, <em>nlayers=None</em>, <em>matids=None</em>, <em>xy_subset=None</em>, <em>buffer_opt=None</em>, <em>truncate_opt=None</em>, <em>pinchout_opt=None</em>, <em>flip_opt=False</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.stack_layers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.status">
+<code class="descname">status</code><span class="sig-paren">(</span><em>brief=False</em>, <em>verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.subset">
+<code class="descname">subset</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>geom='xyz'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.subset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Mesh Object Subset</p>
+<p>Creates a new mesh object that contains only a geometric subset defined
+by mins and maxs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mins</strong> – Coordinate of one of the shape’s defining points.
+xyz (Cartesian):   (x1, y1, z1); 
+rtz (Cylindrical): (radius1, theta1, z1);
+rtp (Spherical):   (radius1, theta1, phi1);</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate of one of the shape’s defining points.
+xyz (Cartesian):   (x2, y2, z2); 
+rtz (Cylindrical): (radius2, theta2, z2);
+rtp (Spherical):   (radius2, theta2, phi2);</li>
+<li><strong>geom</strong> (<em>str</em>) – Type of geometric shape: ‘xyz’ (spherical), 
+‘rtz’ (cylindrical), ‘rtp’ (spherical)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Typep mins:</th><td class="field-body"><p class="first last">tuple(int, int, int)</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: MO object</p>
+<dl class="docutils">
+<dt>Example:</dt>
+<dd><div class="first highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#To use pylagrit, import the module.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pylagrit</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Start the lagrit session.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">pylagrit</span><span class="o">.</span><span class="n">PyLaGriT</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Create a mesh object.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mo</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mo</span><span class="o">.</span><span class="n">createpts_brick_xyz</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1">#Take the subset from (3,3,3)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mo</span><span class="o">.</span><span class="n">subset</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.subset_rtp">
+<code class="descname">subset_rtp</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.subset_rtp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Spherical MO Subset</p>
+<p>Creates a new mesh object that contains only a spherical subset 
+defined by mins and maxs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius1, theta1, and phi1.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius2, theta2, and phi2.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.subset_rtz">
+<code class="descname">subset_rtz</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.subset_rtz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Cylindrical MO Subset</p>
+<p>Creates a new mesh object that contains only a cylindrical subset 
+defined by mins and maxs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius1, theta1, and z1.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Defines radius2, theta2, and z2.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.subset_xyz">
+<code class="descname">subset_xyz</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.subset_xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Tetrehedral MO Subset</p>
+<p>Creates a new mesh object that contains only a tetrehedral subset 
+defined by mins and maxs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mins</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate point of 1 of the tetrahedral’s corners.</li>
+<li><strong>maxs</strong> (<em>tuple</em><em>(</em><em>int</em><em>, </em><em>int</em><em>, </em><em>int</em><em>)</em>) – Coordinate point of 1 of the tetrahedral’s corners.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Returns: MO object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface">
+<code class="descname">surface</code><span class="sig-paren">(</span><em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_box">
+<code class="descname">surface_box</code><span class="sig-paren">(</span><em>mins</em>, <em>maxs</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_box" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_cylinder">
+<code class="descname">surface_cylinder</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>radius</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_cylinder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.surface_plane">
+<code class="descname">surface_plane</code><span class="sig-paren">(</span><em>coord1</em>, <em>coord2</em>, <em>coord3</em>, <em>name=None</em>, <em>ibtype='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.surface_plane" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.trans">
+<code class="descname">trans</code><span class="sig-paren">(</span><em>xold</em>, <em>xnew</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.trans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate mesh according to old coordinates “xold” to new coordinates “xnew”</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>xold</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – old position</li>
+<li><strong>xnew</strong> (<em>tuple</em><em>(</em><em>float</em><em>,</em><em>float</em><em>,</em><em>float</em><em>)</em>) – new position</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>,</em><em>int</em><em>,</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.tri_mesh_output_prep">
+<code class="descname">tri_mesh_output_prep</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.tri_mesh_output_prep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare tri mesh for output, remove dudded points,
+ensure delaunay volumes, etc.
+Combination of lagrit commands:
+filter/1 0 0
+rmpoint/compress
+recon/1
+resetpts/itp</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.triangulate">
+<code class="descname">triangulate</code><span class="sig-paren">(</span><em>order='clockwise'</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.triangulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>triangulate will take an ordered set of nodes in the current 2d mesh object that define a perimeter of a polygon and create a trangulation of the polygon.  The nodes are assumed to lie in the xy plane; the z coordinate is ignored.  No checks are performed to verify that the nodes define a legal perimeter (i.e. that segments of the perimeter do not cross).  The code will connect the last node to the first node to complete the perimeter.</p>
+<p>This code support triangulation of self-intersecting polygons (polygon with holes), assuming that the order of the nodes are correct. Moreover the connectivity of the polyline must also be defined correctly. No checks are made.</p>
+<dl class="docutils">
+<dt>One disadvantage of the algorithm for triangulating self-intersecting polygons is that it does not always work. For example, if the holes have complicated shapes, with many concave vertices, the code might fail. In this case, the user may try to rotate the order of the nodes: </dt>
+<dd><dl class="first docutils">
+<dt>NODE_ID: </dt>
+<dd>1 -&gt; 2 
+2 -&gt; 3 
+… 
+N -&gt; 1</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">param order:</th><td class="field-body">direction of point ordering</td>
+</tr>
+<tr class="field-even field"><th class="field-name">type order:</th><td class="field-body">string</td>
+</tr>
+</tbody>
+</table>
+<dl class="last docutils">
+<dt>Example:</dt>
+<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">pylagrit</span> <span class="k">import</span> <span class="n">PyLaGriT</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create pylagrit object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lg</span> <span class="o">=</span> <span class="n">PyLaGriT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Define polygon points in clockwise direction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># and create tri mesh object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">coords</span> <span class="o">=</span> <span class="p">[[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1000.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[</span><span class="mf">2200.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+<span class="gp">&gt;&gt;&gt; </span>          <span class="p">[</span><span class="mf">2200.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span> <span class="o">=</span> <span class="n">lg</span><span class="o">.</span><span class="n">tri_mo_from_polyline</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Triangulate polygon</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">triangulate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;imt&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">setatt</span><span class="p">(</span><span class="s1">&#39;itetclr&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># refine mesh with successively smaller edge length constraints</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">edge_length</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">500</span><span class="p">,</span><span class="mi">250</span><span class="p">,</span><span class="mi">125</span><span class="p">,</span><span class="mi">75</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">15</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">l</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">edge_length</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">resetpts_itp</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span><span class="n">refine_option</span><span class="o">=</span><span class="s1">&#39;rivara&#39;</span><span class="p">,</span><span class="n">refine_type</span><span class="o">=</span><span class="s1">&#39;edge&#39;</span><span class="p">,</span><span class="n">values</span><span class="o">=</span><span class="p">[</span><span class="n">l</span><span class="p">],</span><span class="n">inclusive_flag</span><span class="o">=</span><span class="s1">&#39;inclusive&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">smooth</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">recon</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># provide additional smoothing after the last refine</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">smooth</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">motri</span><span class="o">.</span><span class="n">recon</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># create delaunay mesh and clean up</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">tri_mesh_output_prep</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># dump fehm files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">dump_fehm</span><span class="p">(</span><span class="s1">&#39;nk_mesh00&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># view results</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">motri</span><span class="o">.</span><span class="n">paraview</span><span class="p">()</span> 
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale">
+<code class="descname">upscale</code><span class="sig-paren">(</span><em>method</em>, <em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale" title="Permalink to this definition">¶</a></dt>
+<dd><p>The upscale command is used to interpolate attribute values from nodes of a fine source mesh to node
+attributes of a coarse sink mesh. The subroutine finds nodes of the fine source mesh within the Voronoi
+cell of every node in the coarser sink mesh. Nodes on cell boundaries are assigned to two or more sink
+nodes. Then the attributes of all the source nodes within a source node’s cell are upscaled into a
+single value based on the chosen method. Mesh elements and connectivity are ignored and only node
+values are used to upscale values on to the sink mesh nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>method</strong> (<em>str</em>) – Type of upscaling: sum, min, max, and averages ariave, harave, geoave</li>
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src, defaults to name of attsink</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_ariave">
+<code class="descname">upscale_ariave</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_ariave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using arithmetic average of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_geoave">
+<code class="descname">upscale_geoave</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_geoave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using geometric average of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_harave">
+<code class="descname">upscale_harave</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_harave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using harmonic average of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_max">
+<code class="descname">upscale_max</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using maximum of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_min">
+<code class="descname">upscale_min</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using minimum of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pylagrit.MO.upscale_sum">
+<code class="descname">upscale_sum</code><span class="sig-paren">(</span><em>attsink</em>, <em>cmosrc</em>, <em>attsrc=None</em>, <em>stride=(1</em>, <em>0</em>, <em>0)</em>, <em>boundary_choice=None</em>, <em>keepatt=False</em>, <em>set_id=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pylagrit.MO.upscale_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upscale using sum of cmosrc points within Voronoi volumes of current mesh</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>attsink</strong> (<em>str</em>) – attribute sink</li>
+<li><strong>cmosrc</strong> (<em>PyLaGriT Mesh Object</em>) – PyLaGriT mesh object source</li>
+<li><strong>attsrc</strong> (<em>str</em>) – attribute src</li>
+<li><strong>stride</strong> (<em>tuple</em><em>(</em><em>int</em><em>)</em>) – tuple of (first, last, stride) of points</li>
+<li><strong>boundary_choice</strong> (<em>str</em>) – method of choice when source nodes are found on the boundary of multiple Voronoi volumes of sink nodes: single, divide, or multiple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.xlength">
+<code class="descname">xlength</code><a class="headerlink" href="#pylagrit.MO.xlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.xmax">
+<code class="descname">xmax</code><a class="headerlink" href="#pylagrit.MO.xmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.xmin">
+<code class="descname">xmin</code><a class="headerlink" href="#pylagrit.MO.xmin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.ylength">
+<code class="descname">ylength</code><a class="headerlink" href="#pylagrit.MO.ylength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.ymax">
+<code class="descname">ymax</code><a class="headerlink" href="#pylagrit.MO.ymax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.ymin">
+<code class="descname">ymin</code><a class="headerlink" href="#pylagrit.MO.ymin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.zlength">
+<code class="descname">zlength</code><a class="headerlink" href="#pylagrit.MO.zlength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.zmax">
+<code class="descname">zmax</code><a class="headerlink" href="#pylagrit.MO.zmax" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pylagrit.MO.zmin">
+<code class="descname">zmin</code><a class="headerlink" href="#pylagrit.MO.zmin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">PyLaGriT</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stratigraphic.html">Stratigraphic Hex Mesh Tutorial</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="autodoc.html">Class Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="autodoc_pylagrit.html">PyLaGriT Class</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Mesh Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_pset.html">Point Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_eltset.html">Element Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_faceset.html">Face Set Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="autodoc_region.html">Region Class</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="autodoc.html">Class Documentation</a><ul>
+      <li>Previous: <a href="autodoc_pylagrit.html" title="previous chapter">PyLaGriT</a></li>
+      <li>Next: <a href="autodoc_pset.html" title="next chapter">Point Set Object</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dylan R. Harp.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="sources/autodoc_mo.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

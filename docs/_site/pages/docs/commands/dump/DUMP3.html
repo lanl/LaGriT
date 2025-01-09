@@ -1,0 +1,409 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>DUMP/FEHM and DUMP/STOR</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="dump-fehm">DUMP/ fehm</h1>
+<h1 id="dump-stor">DUMP/ stor</h1>
+
+<p>Output a set of files that are of general use but are specifically
+designed for the <a href="http://fehm.lanl.gov">FEHM</a> porous flow and transport
+code. Both commands <strong>dump/fehm</strong> and <strong>dump/stor</strong> use the same set of optional settings after the required file root name and cmo name.</p>
+
+<p>The keyword <strong>fehm</strong> writes the full set of 7 FEHM files.</p>
+
+<p>The keyword <strong>stor</strong> writes a single FEHM sparse matrix stor file.</p>
+
+<h2 id="output-files">OUTPUT FILES:</h2>
+
+<p>The <em>root</em> will be used to form full names for the files that are written:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
+rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
+</code></pre></div></div>
+
+<ol>
+  <li><strong>.fehmn</strong> is a list of
+mesh object node x,y,z values and the element connectivity list in ASCII FEHM format (also dump/coord/… command).</li>
+  <li><strong>_material.zone</strong>
+is a file with a node list for each integer material (imt) value (also dump/zone/imt/… command).</li>
+  <li><strong>_interface.zone</strong>
+is output of FEHM zone format files of nodes along an interface
+where interface is defined as a node to node connection where the
+integer attribute imt changes. <em>Note this file will have 0 length if
+there is only one material.</em></li>
+  <li><strong>_multi_mat.zone</strong>
+is a list of multi-material connections,
+where multi-material is defined as a node to node connection where
+the integer attribute imt changes. Each list consists of a header
+followed by the list of node pairs. The header consists of the
+material number followed by “multi-material connections” on the same
+line, followed by “nnum” (nedges) on the next line, followed by the
+number of entries in the list. The list of node pairs are written
+where first node is inside the current material and the second is
+the connected node on other side of material interface. The lists
+are sorted by the first node. <em>Note this file will have 0 length if
+there is only one material.</em></li>
+  <li>
+    <p><strong>_outside.zone</strong>
+is a list of each node located on the outside areas.</p>
+
+    <p>If the keyword <strong>keepatt</strong> is included, then 6 node based attributes are added to
+the mesh object with the names top, bottom, left_w, right_e,
+back_n, and front_s. Note that a node can belong to more than 1
+zone list. For example, in an orthogonal cube aligned with the
+coordinate axes, a corner node can belong to 3 zone lists (e.g.
+front_s, top and left_w lists). By default, these node
+attributes are deleted after the zone file is written and the mesh
+object remains unchanged. (also dump/zone_outside/… command).</p>
+
+    <p>These outside zones are defined as 6 possible external boundaries for
+rectangular geometries and are defined as:</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    1 = top = top = positive z direction (0,0,1)
+
+    2 = bottom = bottom = negative z direction (0,0,-1)
+
+    3 = left\_w = left or west = negative x direction (-1,0,0)
+
+    4 = front\_s = front or south = negative y direction (0,-1,0)
+
+    5 = right\_e = right or east = positive x direction (1,0,0)
+
+    6 = back\_n = back or north = positive y direction (0,1,0)
+
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p><strong>_outside_vor.area</strong> (default) or <strong>_outside_med.area</strong>
+uses outside nodes to write a list of
+2D area or 1D length vectors (Ax_i,Ay_i,Az_i) associated with
+each and listed the same order as zones and nodes in the file root_name_outside.zone.</p>
+
+    <p>optional keyword <strong>keepatt_voronoi</strong> will keep the attributes created for outside voronoi areas.
+Three node attributes (xn_varea, yn_varea, zn_varea)
+are added and they contain the vector area associated with the
+voronoi areas for each of the nodes located on their external
+triangles.</p>
+
+    <p>optional keyword <strong>keepatt_median</strong> will keep the attributes created for outside median areas.
+Three node attributes (xn_marea, yn_marea, zn_marea)
+are added and they contain the vector area associated with the
+median area for each of the nodes located on their external
+triangles. These area vectors are computed by computing the median
+mesh (triangle centroids connected to triangle edge centers)  If the
+input mesh are 2D triangles, the median length of external edges
+incident upon a node are written.</p>
+  </li>
+  <li>
+    <p><strong>.stor</strong>
+is geometric coefficient matrix written in FEHM stor file format.
+These are the Voronoi (control volume) area and volume associated
+with each node and the sparse matrix structure. 
+ASCII compressed is the default file output.</p>
+
+    <p>The <strong>stor</strong> file represents a sparse coefficient matrix and is used for
+solving PDE on a triangular or tetrahedral Delaunay mesh. The stor
+format is written for FEHM input and is described at this page:   
+<a href="/pages/docs/STOR_Form.html">FEHM STOR File Format</a></p>
+  </li>
+</ol>
+
+<h2 id="format">FORMAT:</h2>
+
+<h3 id="simple">Simple:</h3>
+
+<p><strong>dump</strong> / <strong>fehm</strong> / root_name / cmo_name</p>
+
+<p><strong>dump</strong> / <strong>stor</strong> / root_name / cmo_name</p>
+
+<p>The root_name will be used to form names for all files written.</p>
+
+<p><strong>dump/fehm</strong> will write full set of FEHM input files including a stor file</p>
+
+<p><strong>dump/stor</strong> will write a sparse matrix stor file only (default is ASCII compressed scalar)</p>
+
+<h3 id="optional-keywords">Optional Keywords:</h3>
+
+<p>The following command settings are optional and can occur in any order after the cmo_name.</p>
+
+<p><strong>ascii</strong> or <strong>binary</strong>  indicate IO Mode Options for the stor file. Default is ascii.</p>
+
+<p><strong>scalar</strong>,  <strong>vector</strong>,  <strong>both</strong>,  <strong>area_scalar</strong>,  <strong>area_vector</strong>, or <strong>area_both</strong> are Area Coefficient Options for writing stor file coefficient values. Default is scalar.</p>
+
+<p><strong>all</strong>,  <strong>graph</strong>,  <strong>coefs</strong>, or  <strong>none</strong> are Compression Options for the stor file. Default is all.</p>
+
+<p><strong>delatt</strong> or  <strong>keepatt</strong>  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.</p>
+
+<p><strong>hybrid</strong> or <strong>nohybrid</strong> Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.</p>
+
+<h4 id="stor-io-modes">STOR IO MODES:</h4>
+
+<p><strong>binary</strong>             Output sparse matrix stor file in Fortran unformatted format <em>Note: These files are platform dependent.</em> </p>
+
+<p><strong>ascii</strong> (default)    Output sparse matrix stor file as ASCII format. This is a larger file but not machine dependent.</p>
+
+<h4 id="stor-area-coefficient-options">STOR Area Coefficient OPTIONS:</h4>
+
+<p><strong>scalar</strong> (default)    Area/distance               coefficients are output as scalars </p>
+
+<p><strong>vector</strong>              Area/distance               coefficients are output as vectors </p>
+
+<p><strong>both</strong>                Area/distance               coefficients are output as scalars and vectors </p>
+
+<p><strong>area_scalar</strong>        Area                        coefficients are output as scalars</p>
+
+<p><strong>area_vector</strong>        Area                        coefficients are output as vectors </p>
+
+<p><strong>area_both </strong>         Area                        coefficients are output as scalars and vectors </p>
+
+<h4 id="stor-compression-options">STOR Compression OPTIONS:</h4>
+
+<p><strong>all</strong> (default)   (_astor) compression of area coefficients and compression of coefficient indices</p>
+
+<p><strong>graph</strong>           (_gstor) compression of area coefficient indices (edge compression)  </p>
+
+<p><strong>coefs</strong>           (_cstor) compression of area coefficient to a list of unique values. <em>Note: This older algorithm uses more space and time.</em></p>
+
+<p><strong>none</strong>            (_nstor) full indices and area coefficient list. <em>Note: This older algorithm uses more space and time.</em></p>
+
+<p>The attributes ccoef and ij_ccoef may be added if negative area coefficients are detected when the _astor or _gstor compression algorithms are invoked (default) or by using the <strong>all</strong> or <strong>graph</strong> keywords, these two new attributes are added to the CMO. Since the area coefficients are really edge based quantities but we only have access to node and element quantities, the following convention is used.</p>
+
+<p>If any area coefficient is negative the integer node array ij_ccoef and real node array ccoef are created. All connections with area coefficients &gt;= 0 are set to zero in these attributes, so values will range from the largest negative value to 0. This is not implemented for 2D and there is no option to turn this feature on or off.</p>
+
+<p>If no area coefficients are negative the arrays are not created.</p>
+
+<p>If the area coefficient A_ij, between nodes i and j is negative then</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ccoef(i)    = ccoef(j) = A\_ij
+ij\_ccoef(i) = j
+ij\_ccoef(j) = i
+</code></pre></div></div>
+
+<p><em>Note: The old syntax using the alternate_scalar keyword is now the
+ default option using scalar and compressed. It is the same as using keywords
+ all or graph and if used will be recognized.</em></p>
+
+<h4 id="cmo-attributes-for-outside-zones">CMO Attributes for outside zones:</h4>
+
+<p><strong>delatt</strong> (default)  No new cmo attributes are created.</p>
+
+<p><strong>keepatt</strong> Six node attributes are created (top, bottom, left_w, right_e,back_n, front_s) which are assigned values according to the direction of the octant of their normal vector. Each outside node can occur in multiple directions. For instance an edge between top and left side will be in both top and left_w attributes. Attribute values greater than 0 are nodes found in that direction.</p>
+
+<h4 id="stor-hybrid-options">STOR Hybrid OPTIONS:</h4>
+
+<p><strong>nohybrid</strong> (default)   Do not use hybrid median-Voronoi control volumes</p>
+
+<p><strong>hybrid</strong>               Use hybrid median-Voronoi control volumes.</p>
+
+<p>These hybrid volumes represent a means for addressing poorly shaped
+ tetrahedra on a boundary of the mesh. Boundary tetrahedra whose
+ Voronoi centers are outside the mesh lead to incorrect modeling
+ results. Alternatively, if we construct control volumes using medians
+ (centroids), the center point for each element always lies within that
+ element, but median meshes lack other nice properties of Voronoi
+ meshes.</p>
+
+<p>As a compromise between the median and Voronoi approaches, we start
+ with a Voronoi mesh and fix boundary tetrahedra whose circumcenters
+ are not contained within the boundary of the mesh. To fix such an
+ element, we draw a line segment from the median center to the Voronoi
+ center and find the point at which this segment intersects the surface
+ of the element. This intersection then becomes the center point for
+ the purposes of determining control volumes. Essentially we move the
+ Voronoi center toward the median point until it just reaches the
+ element.</p>
+
+<p>When we use the hybrid approach, we also make a slight change to the
+ way we calculate the area coefficients. Voronoi control volumes have
+ the property that their faces are always perpendicular to the mesh
+ edges that intersect them. With hybrid control volumes (as well as
+ median control volumes), this is not the case. To compensate for this,
+ when we compute the area coefficient we only consider the component of
+ the face area vector which is in the same direction as the edge. We
+ accomplish this by taking the area vector and dotting it with a unit
+ vector in the direction of the edge.</p>
+
+<p>The <strong>hybrid</strong> option may lead to poor results if it is applied to a
+ mesh that is non-Delaunay, because there may be elements which it
+ cannot fix, such as interior elements whose circumcenters are outside
+ the mesh. A warning will be printed if the code detects that the mesh
+ appears to be non-Delaunay.</p>
+
+<p><em>NOTE: The hybrid option is only available with the default implmentation using no other options or including <strong>all</strong>, <strong>graph</strong>, and <strong>scalar</strong> in the command.</em></p>
+
+<h2 id="examples">EXAMPLES:</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> dump / fehm / file_name / cmo   (write all FEHM files, STOR file will be ascii compressed) 
+ dump / stor / file_name / cmo   (write the FEHM STOR file in ascii compressed format) 
+ dump / fehm / file_name / cmo / binary / none (write all FEHM files, STOR file will be unformatted compressed) 
+ dump / stor / file_name_as / cmo / ascii / none / vector (write ascii STOR file with vector coefficients) 
+ dump / stor / file_name_as / cmo / ascii / none / area_scalar (ascii STOR file with area coefficients without distance) 
+</code></pre></div></div>
+
+<h2 id="old-examples-recognized-but-no-longer-used">OLD EXAMPLES (recognized but no longer used):</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  dump / stor / file_name_as / cmo / ascii  / / alternate_scalar 
+  dump / stor / file_name_as / cmo / asciic / / alternate_scalar 
+  dump / fehm / file_name / cmo / binaryc / / alternate_scalar/ keepatt 
+</code></pre></div></div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

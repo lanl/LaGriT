@@ -1,0 +1,206 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Examples: connect 3D non-convex</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                
+<h1 id="examples-connect-3d-non-convex">Examples: connect 3D non-convex</h1>
+
+<h2 id="example-connect-with-sloped-top-boundary"><a href="/pages/docs/demos/description2_connect.html">Example connect with sloped top boundary</a></h2>
+
+<p><a href="output/wave_connect0.png"><img width="250" src="output/wave_connect0.png" /></a>
+<a href="output/wave_connect_tet_edges.png"><img width="250" src="output/wave_connect_tet_edges.png" /></a></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">connect / noadd</code></strong> with input points from a hex mesh created with <strong><code class="language-plaintext highlighter-rouge">stack/layers</code></strong>. This example has a non-convex boundary and bad elements are created connecting across the boundary.</p>
+
+<p>This fix uses <strong><code class="language-plaintext highlighter-rouge">interpolate/map</code></strong> from the hex mesh to the tet mesh to tag and remove bad tets connecting across the boundary.</p>
+
+<h2 id="example-connect-for-conforming-sloped-interfaces"><a href="/pages/docs/demos/description3_connect.html">Example connect for conforming sloped interfaces</a></h2>
+
+<p><a href="output/wave_tet_popped_explode.png"><img width="250" src="output/wave_tet_popped_explode.png" /></a>
+<a href="output/wave_tet_highres_explode.png"><img width="250" src="output/wave_tet_highres_explode.png" /></a></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">connect</code></strong> with input points from a convex hex mesh created with <strong><code class="language-plaintext highlighter-rouge">stack/layers</code></strong>. 
+This example has a thin layer formed from sloped internal interfaces. Bad elements are created across the internal interfaces resulting in “popped” tets.</p>
+
+<p>This example is fixed with resolution that improves the height to width ratio of the mesh spacing.</p>
+
+<h2 id="example-connect-with-check_interface-for-conforming-interfaces-"><a href="/pages/docs/demos/description4_connect.html">Example connect with check_interface for conforming interfaces </a></h2>
+
+<p><a href="output/wave_tet_popped_explode.png"><img width="250" src="output/wave_tet_popped_explode.png" /></a>
+<a href="output/wave_tet_check_ex.png"><img width="250" src="output/wave_tet_check_ex.png" /></a></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">connect / check_interface</code></strong> with input points from a convex hex mesh created with <strong><code class="language-plaintext highlighter-rouge">stack/layers</code></strong>.</p>
+
+<p>This example has a thin layer formed from sloped internal interfaces. Bad elements are created connecting across the internal interfaces resulting in “popped” tets.</p>
+
+<p>This example is fixed using defined geometry <strong><code class="language-plaintext highlighter-rouge">region</code></strong>  and the option  <strong><code class="language-plaintext highlighter-rouge">check_interface</code></strong> to add points at the interface. Note that the interface is preserved but the added nodes may result in thin tets.</p>
+
+<h2 id="see-related-pages">See Related Pages</h2>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html"><strong><code class="language-plaintext highlighter-rouge">connect</code></strong> command</a> description.</p>
+
+<p><a href="/pages/docs/demos/description_connect.html"><strong><code class="language-plaintext highlighter-rouge">connect</code></strong> 3D box Example</a></p>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html"><strong><code class="language-plaintext highlighter-rouge">grid2grid</code></strong> command</a> convert each mesh element to tri or tet elements (such as hex to 5 tets).</p>
+
+<p><a href="/pages/docs/demos/description_hextet.html"><strong><code class="language-plaintext highlighter-rouge">grid2grid</code></strong> Example</a> convert hex mesh to 5 tets each hex.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

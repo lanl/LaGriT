@@ -1,0 +1,259 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>COMPUTE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="compute">COMPUTE</h1>
+
+<hr />
+
+<p>This command contains modules that compute various attributes and functions based on one or more mesh objects. This operation will (often) result in new attributes
+being added to the mesh objects. The action of the command will be controled by the keyword in the second argument position.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>compute/distance_field</b>/mo_sink/mo_source/distance_field_attribute
+ 
+<b>compute/signed_distance_field</b>/mo_sink/mo_source/distance_field_attribute
+  
+<b>compute/linear_transform</b>/mo_main/mo_surface/[direction/att_name]
+</pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">distance_field</code></strong> is the keyword for distance field calculation. Determine
+  the minimum distance from any node in
+  mo_source to every node in mo_sink and place the result in the
+  node based floating point attribute,
+  distance_field_attribute in mo_sink. The computation is
+  accelerated by using the <a href="/pages/docs/commands/kdtree.html">kdtree</a> search algorithm.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">signed_distance_field</code></strong> is the keyword for signed distance field
+  calculation. Determine the minimum distance    
+  from any node in mo_source to every node in mo_sink and place the
+  result in the node based floating        
+  point attribute, distance_field_attribute in mo_sink. The
+  computation is accelerated by using the      
+  <a href="/pages/docs/commands/kdtree.html">kdtree</a> search algorithm.</p>
+
+<p>This option requires the <code class="language-plaintext highlighter-rouge">mo_source</code> MUST be either a triangle or quad surface mesh object. If the surfaces form a topologically closed volume then
+positive, ‘above’ distance is in the     direction of the surface normal vector. Negative is ‘below’ the
+surface. If the surface is not a closed     volume, then the assumptions described in the
+  <a href="/pages/docs/commands/SURFACE.html">surface</a> command are used to determine what is above and what is below the surface.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">linear_transform</code></strong> is the keyword for an extrapolation from an attribute
+  value in a surface onto every node of a 3D mesh.</p>
+
+<p>Given a 3D mesh and a 2D surface, this command will extrapolate a scalar value from that surface
+  onto every point of the mesh. This can be used to (for
+  example):</p>
+
+<ul>
+  <li>Propagate head values from a surface onto all nodes of a
+mesh.</li>
+  <li>Expand a mesh to fit a surface, by propogating the
+appropriate spatial coordinate.</li>
+  <li>Compute the depth relative to a topographic surface to each
+node of a mesh.</li>
+</ul>
+
+<p>This is highly dependant on the spatial relation between the mesh
+and the surface - values from the surface are extrapolated “downward” into the mesh in the direction
+  specified in the command. The
+  direction specified in the command must be one of
+   <code class="language-plaintext highlighter-rouge">zpos, zneg, ypos, yneg, xpos, xneg</code></p>
+
+<p>For example,
+  specifing [zpos] will result in the upper (positive
+  z-axis) side of the mesh having attribute values conforming exactly
+  to those on the surface, while the
+  lower side of the mesh will have whatever attribute values it had
+  previous, with all nodes in between
+  having attribute values distributed linearly between the two
+  extremes. If a direction is not specified,
+  it will default to zpos. If an
+  attribute is not specified, it will default to the spatial attribute
+  appropriate
+  to the chosen direction (i.e. if the direction is
+  yneg, the attribute will default to yic, the
+  y-coordinate of
+  each node. The attribute chosen must already exist in both the
+  surface and main meshes.</p>
+
+<p>Other places to look for modules that compute some standard mesh
+  attributes include, <a href="/pages/docs/commands/QUALITY.html"><strong>QUALITY</strong></a>, which
+  will compute aspect ratio and volume,
+  <a href="/pages/docs/commands/cmo/cmo_addatt.html"><strong>cmo/addatt</strong></a>, which will compute normal vectors, dihedral angles, solid
+  angles, meadian points, Voronoi points and more. User functions can be computed with  <a href="/pages/docs/commands/MATH.html"><strong>MATH</strong></a>.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> cmo / create / cmo_src                                            
+ createpts/rtz/1,91,1/3.,0.,0./3.,270.,0./1,1,1/                   
+ cmo / create / cmo_snk                                            
+ createpts / xyz / 30 30 1 / -5. -5. -5. / 5. 5. 5. / 1 1 1        
+
+ compute / distance_field / cmo_snk / cmo_src / dfield             
+
+ finish           
+</code></pre></div></div>
+
+<p><img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png" width="300" /></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,494 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md)</p>
+
+<hr />
+
+<hr />
+
+<p><strong>MESH INITIALIZATION:</strong>  </p>
+
+<hr />
+
+<p> </p>
+
+<p><em>void</em> <strong>MSTKLA_Init</strong>(<em>void</em>);</p>
+
+<p>Initialize the mesh toolkit.</p>
+
+<hr />
+
+<hr />
+
+<p><strong>MESH OPERATORS</strong></p>
+
+<p> </p>
+
+<p>These operators work on variables of type <em>PMeshObj.</em></p>
+
+<hr />
+
+<p><em>PMeshObj</em> <strong>MESH_Create</strong>();</p>
+
+<p>Creates a default mesh object and returns it - At this point all the
+info</p>
+
+<p>in it is useless.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_InitFromFile</strong>(<em>PMeshObj</em> mesh, *char 
+**filename, *char</p>
+
+<p><em>*format, *int</em> iotype, *char 
+*
+**name);</p>
+
+<p>Read a mesh in from “<em>filename</em>” and initialize the “<em>mesh</em>”.</p>
+
+<p>The file is in the format “<em>format</em>” (“<em>lagrit</em>” for LaGriT dumps,
+“<em>gmv</em>” for GMV files, “<em>avs</em>” for AVS files).</p>
+
+<p><em>‘iotype’</em> is 1 for ascii and 0 for binary.</p>
+
+<p>‘<em>name</em>’ is the name of the mesh that is read and returned</p>
+
+<p>If a LaGriT file is read, the geometric model info will be read as well.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_InitFromCMO</strong>(<em>PMeshObj</em> mesh, <em>char</em> 
+*cmoname);</p>
+
+<p>Initialize the mesh object from a given cmo. If ‘<em>cmoname</em>’ is NULL (say
+sent in as the character string ), the mesh object is initialized from
+the default mesh object. If not the given cmo is made is active and the
+mesh object is</p>
+
+<p>initialized from that.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”This implies that
+sometime in the middle of a LaGriT subroutine, one can call a C routine
+which initializes a mesh object and then uses the functionality of
+MSTKLA!! (Cool!)</p>
+
+<hr />
+
+<p><em>int</em> <strong>MESH_Select</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Make a particular mesh object active</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_Delete</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Delete a particular mesh object.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”
+*</p>
+<ul>
+  <li>NOT YET IMPLEMENTED</li>
+</ul>
+
+<p>*</p>
+<ul>
+  <li>WILL BE IN SOON</li>
+</ul>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_WriteToFile</strong>(<em>PMeshObj</em> mesh, <em>char</em> 
+<em>filename, *char</em></p>
+
+<p><em>format, *int</em> iotype);</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”
+*</p>
+<ul>
+  <li>NOT YET IMPLEMENTED</li>
+</ul>
+
+<p>*</p>
+<ul>
+  <li>WILL BE IN SOON 
+*
+*</li>
+</ul>
+
+<hr />
+
+<p><em>PMeshObj</em> <strong>MESH_Duplicate</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”
+*</p>
+<ul>
+  <li>NOT YET IMPLEMENTED</li>
+</ul>
+
+<p>*
+*</p>
+
+<hr />
+
+<p><em>int</em> <strong>MESH_NumVertices</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Number of vertices (nodes) in the mesh.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif" />“27” “31”
+*
+*</p>
+<ul>
+  <li>IMPORTANT</li>
+</ul>
+
+<p>*
+*
+*</p>
+
+<p>This count may include deleted vertices, parent vertices and other</p>
+
+<p>types of vertices that should be ignored. So when looping through</p>
+
+<p>vertices of a mesh, one should check if the vertex is to be ignored</p>
+
+<p>by checking if MV_Type returns VIGNORE or VDELETED.</p>
+
+<hr />
+
+<p><em>int</em> <strong>MESH_NumRegions</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Number of regions (elements) in the mesh.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif" />“27” “31”
+*
+*</p>
+<ul>
+  <li>IMPORTANT</li>
+</ul>
+
+<p>*
+*
+*</p>
+
+<p>This count may include deleted regions. While looping through the</p>
+
+<p>regions of a mesh, one should check if the region is to be ignored</p>
+
+<p>by checking if MR_Type returns RDELETED.</p>
+
+<hr />
+
+<p><em>PMeshVert</em> <strong>MESH_Vertex</strong>(<em>PMeshObj</em> mesh, <em>int</em> i);</p>
+
+<p>Fetch the i’th vertex (node) of the mesh (This is C so remember i</p>
+
+<p>starts from 0) The returned mesh vertex object can be queried for</p>
+
+<p>information. The returned vertex must always be checked for its type</p>
+
+<p>to see if it deleted or must otherwise be ignored.</p>
+
+<hr />
+
+<p><em>PMeshRegn</em> <strong>MESH_Region</strong>(<em>PMeshObj</em> mesh, <em>int</em> i);</p>
+
+<p>Fetch the i’th region (element) of the mesh. The returned mesh region</p>
+
+<p>can be queried for information. The returned region must be checked if</p>
+
+<p>it is a deleted region.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_BldUpAdj</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Build the vertex to region connectivity. This will allow upward</p>
+
+<p>adjacency operator MV_Regions to be called. In fact those operators</p>
+
+<p>will function properly only after this is called.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_DelUpAdj</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Delete the vertex to region connectivity information to save</p>
+
+<p>memory. It is not possible for MSTKLA to determine when this</p>
+
+<p>information is not needed and call this routine automatically.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_IncrNodeLists</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Increment all the node lists.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”(
+*</p>
+<ul>
+  <li>NOT FULLY TESTED</li>
+</ul>
+
+<p>*
+*)</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_IncrElemLists</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Increment all the element lists.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”(
+*</p>
+<ul>
+  <li>NOT FULLY TESTED</li>
+</ul>
+
+<p>*
+*)</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_CmprNodeLists</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Compress all the element lists.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/note1.gif" />“31” “32”
+*
+*</p>
+<ul>
+  <li>NOT YET
+IMPLEMENTED 
+*
+*
+*</li>
+</ul>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif" />“27” “31”
+*
+*</p>
+<ul>
+  <li>IMPORTANT !!!</li>
+</ul>
+
+<p>*
+*
+*</p>
+
+<p>There is one side effect of compression of lists. If one is storing a</p>
+
+<p>list of node numbers or PMeshVerts (which for the LaGriT interface are</p>
+
+<p>just integers cast as pointers), then after compression, the node</p>
+
+<p>numbers or PMeshVert “addresses” may not be referring to the nodes you</p>
+
+<p>think they are.</p>
+
+<hr />
+
+<p><em>void</em> <strong>MESH_CmprElemLists</strong>(<em>PMeshObj</em> mesh);</p>
+
+<p>Compress all the element lists.  
+*
+*</p>
+<ul>
+  <li>NOT YET IMPLEMENTED 
+*
+*
+*</li>
+</ul>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/bullet12.gif" />“27” “31”
+*
+*</p>
+<ul>
+  <li>IMPORTANT !!!</li>
+</ul>
+
+<p>*
+*
+*</p>
+
+<p>There is one side effect of compression of lists. If one is storing a</p>
+
+<p>list of element numbers or PMeshRegns (which for the LaGriT interface</p>
+
+<p>are just integers cast as pointers), then after compression, the</p>
+
+<p>element numbers or PMeshRegn “addresses” may not be referring to the</p>
+
+<p>elements you think they are.</p>
+
+<p> </p>
+
+<p> 
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/mstkla.md#MSTKLA_Init) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow3.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/prelim.md) <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow4.gif" />“30”
+“30”](http://www.ees.lanl.gov/staff/rao/mstkla/MeshRegion.md)</p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

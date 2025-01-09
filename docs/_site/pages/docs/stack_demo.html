@@ -1,0 +1,457 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Demo Stack Layers</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="demo-stacklayers">Demo stack/layers</h1>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_stack.gif" /></p>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_tet.gif" /></p>
+
+<h2 id="example-1">Example 1</h2>
+
+<p>no buffers, no refinement, no truncation<br />
+STACK TRI LAYERS into cmo name cmo1.
+Read 4 AVS triangulated surfaces into 3 materials.
+Stack and pinchout if layers cross.
+Label material colors with 1 on bottom and 3 on top.</p>
+
+<p>The syntax <strong>stack/layers/avs</strong> means stack a list of AVS triangle surface files.
+This is followed by a list of files with integers after each file,
+the first file in the list is the bottom, the last is the top.
+The first integer after each file name is the material value for cells between layers.
+(a second integer would be the refinement number, default is 0)</p>
+
+<pre>
+cmo create cmo1
+stack/layers/avs/ &amp;
+     surf-12.inp 1 / surf-5.inp 2/ surf5.inp 3/ surf25.inp   
+</pre>
+
+<p>Screen output:</p>
+
+<pre class="lg-output">
+******************************************************************* 
+* Example 1 
+* file: demo_tri_simple.in 
+* stack/layers 
+* no buffers, no refinement, no truncation 
+******************************************************************* 
+* STACK TRI LAYERS into cmo name cmo1 
+* read 4 AVS triangulated surfaces into 3 material units 
+* stack and pinchout if layers cross 
+* label unit colors with 1 on bottom and 3 on top 
+* details: 
+* the syntax stack/layers/avs 
+* means stack a list of AVS triangle surface files 
+* this is followed by a list of files with integers after each file 
+* the first file in the list is the bottom, the last is the top 
+* the first integer after each file name is the material value 
+* (a second integer would be the refinement number) 
+* after the list of surface files, there are command options 
+* the option "pinch" represents the thinness of a layer before 
+* it is pinched out. If a layer crosses, the lower surface truncates. 
+********************************************************************* 
+cmo create cmo1 
+stack/layers/avs surf-12.inp 1 surf-5.inp 2 surf5.inp 3 surf25.inp pinch 0.
+
+Layers to create:          4 
+Max material number:          4
+
+Reading     4 surface files...
+
+................................................................
+
+         surface name  layer color type llcorner  zic 
+          surf-12.inp     1    1   -1         1)  -1.200000E+01 
+           surf-5.inp     2    2    0        37)  -5.000000E+00 
+            surf5.inp     3    3    0        73)   5.000000E+00 
+           surf25.inp     4    4   -2       109)   2.500000E+01
+
+Elements per layer:         48 total:        192 
+Nodes    per layer:         36 total:        144
+
+STACK DONE:         4 files read out of         4
+
+................................................................ 
+ 
+
+********************************************************************* 
+* STACK to PRISM to TET 
+* convert stacked layers in cmo1 into a tet grid named cmotet 
+* The stacked layers are filled to create a prism grid. 
+* The prism grid is then converted to a tet grid. 
+* hextotet will check cmo for mesh type then use hextotet/6
+
+********************************************************************* 
+stack/fill/cmopri/cmo1/ 
+hextotet// cmotet / cmopri 
+boundary_components
+
+   1 different boundary components identified. 
+   2 is a representative vertex 
+finish 
+LaGriT successfully completed 
+</pre>
+<p> </p>
+
+<p>The following commands convert the stacked 2D layers into 3D volumes.
+In this example, triangles are stacked into prism elements. Each of the prism
+elements are then converted into 6 tet elements.
+The command boundary components will check for 1 single boundary.</p>
+
+<pre>
+stack/fill/cmopri/cmo1/
+hextotet/6/ cmotet / cmopri
+boundary_components
+finish
+</pre>
+
+<p>Screen output:</p>
+
+<pre>
+1 different boundary components identified.
+2 is a representative vertex
+</pre>
+
+<p> </p>
+<h2 id="example-2-reverse-material-colors">Example 2 Reverse Material Colors</h2>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/simple_tet_clr2.gif" /></p>
+
+<p>Stack/layers with material colors reversed. <br />
+Material 1 (green) is now the top unit. Material 2 (purple) is middle and 1 (red) is bottom.</p>
+
+<p>The unit value was changed from above example on the command line:</p>
+
+<pre>
+cmo/create/cmo1
+stack/layers/avs/ surf-12.inp 3/ surf-5.inp 2/ surf5.inp 1/ surf25.inp 1
+</pre>
+
+<p>Screen output:</p>
+
+<pre class="lg-output">
+cmo create cmo1 
+stack/layers/avs surf-12.inp 3 surf-5.inp 2 surf5.inp 1 surf25.inp 1
+
+................................................................
+
+         surface name  layer color type llcorner  zic 
+          surf-12.inp     1    3   -1         1)  -1.200000E+01 
+           surf-5.inp     2    2    0        37)  -5.000000E+00 
+            surf5.inp     3    1    0        73)   5.000000E+00 
+           surf25.inp     4    1   -2       109)   2.500000E+01
+
+Elements per layer:         48 total:        192 
+Nodes    per layer:         36 total:        144
+
+STACK DONE:         4 files read out of         4 
+ ................................................................ 
+</pre>
+
+<h2 id="example-3-buffered">Example 3 buffered</h2>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/hex_buffers.jpg" /></p>
+
+<p>Stack quad layers and fill with hex elements, with buffered interfaces. <br />
+Read 6 AVS quad surfaces into 5 material units.
+Label unit colors with 1 on bottom and 5 on top.
+Stack and pinchout if layers are closer than .19 meters.
+Add a buffer layer .2 meters above and below each interface.
+Truncate by 5th file to read.
+Note the <em><code class="language-plaintext highlighter-rouge">&amp;</code></em> character added so command line is not too long to read.</p>
+
+<pre>
+cmo/create/cmo1
+stack/layers/avs &amp;
+  q-1.inp   1   &amp;
+  q0.inp    2   &amp;
+  qhole.inp 3   &amp;
+  q3.inp    4   &amp;
+  qtop.inp  5   &amp;
+  q5.inp    5   &amp;
+  truncate 5 / buffer .2 / pinch .19
+  
+ stack/fill/cmohex/cmo1
+ </pre>
+
+<p>Screen output:</p>
+
+<pre class="lg-output">
+******************************************************** 
+* file: demo_quad_buffers.in 
+* stack/layers 
+* buffers, truncation, no refinement 
+******************************************************** 
+* STACK QUAD LAYERS into cmo named cmo1 
+* Read 6 AVS quad surfaces into 5 material units 
+* label unit colors with 1 on bottom and 5 on top 
+* stack and pinchout if layers closer than .19 meters 
+* add a buffer layer .2 meters above and below each interface 
+* truncate by 5th file to read
+
+cmo create cmo1 
+stack/layers/avs &amp; 
+  q-1.inp   1   &amp; 
+  q0.inp    2   &amp; 
+  qhole.inp 3   &amp; 
+  q3.inp    4   &amp; 
+  qtop.inp  5   &amp; 
+  q5.inp    5   &amp; 
+  truncate 5 / buffer .2 / pinch .19
+
+................................................................
+
+         surface name  layer color type llcorner  zic 
+              q-1.inp     1    1   -1         1)  -1.000000E+00 
+               buffer     2    1    1        34)  -2.000000E-01 
+               q0.inp     3    2    0        67)   0.000000E+00 
+               buffer     4    2    1       100)   2.000000E-01 
+               buffer     5    2    1       133)   8.000000E-01 
+            qhole.inp     6    3    0       166)   1.000000E+00 
+               buffer     7    3    1       199)   1.000000E+00 
+               buffer     8    3    1       232)   1.000000E+00 
+               q3.inp     9    4    0       265)   1.000000E+00 
+               buffer    10    4    1       298)   1.000000E+00 
+               buffer    11    4    1       331)   1.000000E+00 
+             qtop.inp    12    5    0       364)   1.000000E+00 
+               buffer    13    5    1       397)   1.200000E+00 
+               q5.inp    14    5   -2       430)   5.000000E+00
+
+Elements per layer:         20 total:        280 
+Nodes    per layer:         33 total:        462 
+Layers truncated by qtop.inp layer        12
+
+STACK DONE:         6 files read out of         6 
+STACK DONE:         8 layers created for total        14
+
+................................................................
+
+* STACK to HEX to TET 
+* convert stacked layers in cmo1 into a tet grid named cmotet 
+stack/fill/cmohex/cmo1 
+hextotet// cmotet / cmohex
+
+* CHECK the GRID 
+* boundary_components should return 1 boundary 
+* otherwise there are holes in the mesh 
+quality 
+boundary_components 
+
+</pre>
+
+<h2 id="example-4--tri-layers-to-prisms">Example 4  tri layers to prisms</h2>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/tet_trunc_refine.jpg" /></p>
+
+<p><img width="300" src="https://lanl.github.io/LaGriT/assets/images/tet_trunc_refine_exp.jpg" /></p>
+
+<p>tri layer to prism then to tet with truncating surface and layer refinement. <br />
+STACK TRI LAYERS into cmo named cmo1.
+Read 5 AVS triangulated surfaces into 4 material units.
+Label unit colors with 1 on bottom and 3 on top.
+Stack and pinchout if layers cross.
+Add two layers for refinement in second unit.</p>
+
+<p>Note layer type attribute:
+ -1 is bottom, -2 is top surface
+ 0  is surface read from file
+ 1  is layer derived between surface at constant distance
+ 2  is layer derived between surface at proportional distance</p>
+
+<pre>
+cmo create cmo1
+stack/layers/avs       &amp;
+  surf-12.inp      1   &amp;
+  surf-5.inp       2   &amp;
+  surf5.inp        3 2 &amp;
+  surf2_slope.inp  4   &amp;
+  surf25.inp       4   &amp;
+  truncate 4 / pinch 0.
+  
+stack/fill/ cmopri /cmo1
+hextotet // cmotet / cmopri
+</pre>
+
+<p>Screen output:</p>
+
+<pre class="lg-output">
+................................................................
+         surface name  layer color type llcorner  zic
+          surf-12.inp     1    1   -1         1)  -1.200000E+01
+           surf-5.inp     2    2    0        37)  -5.000000E+00
+               refine     3    2    2        73)  -1.666667E+00
+               refine     4    2    2       109)   1.666667E+00
+            surf5.inp     5    3    0       1)   5.000000E+00
+      surf2_slope.inp     6    4    0       181)   1.800000E+01
+           surf25.inp     7    4   -2       217)   2.500000E+01
+Elements per layer:         48 total:        336
+Nodes    per layer:         36 total:        252
+Layers truncated by surf2_slope.inp layer         6
+STACK DONE:         5 files read out of         5
+................................................................
+
+</pre>
+
+<p>Back to <a href="/pages/docs/commands/STACK.html">STACK</a></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

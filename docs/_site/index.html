@@ -1,0 +1,335 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT - Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <link rel="stylesheet" href="/assets/css/index_page_style.css" />
+
+<div class="extended-content-container">
+  <div class="extended-content">
+    <br />Powerful mesh generation,<br />optimization, and maintenance.<br />
+                
+    <div class="button" id="button-3">
+    <div id="circle"></div>
+    <a href="https://github.com/lanl/LaGriT/releases">Download</a>
+    </div>
+                
+    <div class="button" id="button-3">
+    <div id="circle"></div>
+    <a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">LaGriT Tutorial</a>
+    </div>
+
+    <div class="button" id="button-3">
+    <div id="circle"></div>
+    <a href="https://lagrit.lanl.gov/">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+<p><strong>LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069</strong> is a library of user
+callable tools that provide mesh generation, mesh optimization and
+dynamic mesh maintenance in two and three dimensions. LaGriT is used for
+a variety of geology and geophysics modeling applications including
+porous flow and transport model construction, finite element modeling of
+stress/strain in crustal fault systems, seismology, discrete fracture
+networks, asteroids and hydrothermal systems.</p>
+
+<p>The general capabilities of LaGriT can also be used outside of earth science applications and
+applied to nearly any system that requires a grid/mesh and initial and
+boundary conditions, setting of material properties and other model
+setup functions. It can also be use as a tool to pre- and post-process
+and analyze vertex and mesh based data.</p>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="lagrit-toggle" />
+    <label class="accordion-header" for="lagrit-toggle">
+      <bold>About LaGriT </bold>
+    </label>
+    <div class="accordion-content">
+      <p><br /><b>LaGriT</b> provides a variety of meshing tools specific (but not limited) to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by some modeling applications. Capabilities include:
+
+        <ul>
+	<li>Representation of 2- and 3-dimensional complex geometries with multiple materials or regions </li>
+	<li>Unstructured triangle/tetrahedral and structured or unstructured quadrilateral/hexahedral meshing</li>
+	<li>Model set-up including assigning material properties, boundary conditions, and initial conditions</li>
+	<li>Adaptive mesh refinement, smoothing, and optimization</li>
+	<li>Distribute uniform or variable spaced points using Poisson Disk sampling</li>
+	<li>2D and 3D Delaunay triangulation conforming to complex geometry</li>
+	<li>Output for solver packages including specialized format for FEHM, Amanzi/ATS, PFLOTRAN, and TOUGH2</li>
+	<li>Interactive command line, batch input file, or embedded in Fortran/C interfaces (no GUI)</li>
+	</ul>
+
+
+      </p>
+
+      <p><b>PyLaGriT</b> is a Python interface that allows LaGriT functionality to
+      be used interactively and in batch mode. It combines the meshing
+      capabilities of LaGriT with the numeric and scientific functionality of
+      Python including the quering of mesh properties, enhanced looping
+      functionality, and user defined error checking. PyLaGriT has been
+      developed to easily generate meshes by extrusion, dimensional reduction,
+      coarsening and refinement of synthetic and realistic data. PyLaGriT
+      enhances the workflow, enabling rapid iterations for use in simulations
+      incorporating uncertainty in system geometry and automatic mesh
+      generation.
+
+      <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
+      </p>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="using-toggle" />
+    <label class="accordion-header" for="using-toggle">
+      <bold>Using LaGriT Commands</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>LaGriT works on a single or multiple mesh objects which can be created or read from a file. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted with an input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following about using the commands. Refer to Tutorials and Examples for help with syntax and work flow. 
+    </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/commands.html">Commands listed Alphabetically</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/commands_cat.html">Commands listed by Category</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/commandi.html">Command Interface</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/conventions.html">Syntax Conventions</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshing.html">Mesh Design Considerations</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/errors.html">LaGriT Error reporting</a></li>
+    </ul>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="examples-toggle" />
+    <label class="accordion-header" for="examples-toggle">
+      <bold>Tutorials and Examples</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>The easiest way to use LaGriT is by copying from working examples. The Tutorials will help you to understand how commands can be combined into a work flow. Examples and demos provide methods to create meshes and ways to optimize for and check for improved mesh quality.
+    </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">Tutorials and Examples</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/test_list.html">Test Suite Cases</a></li>
+    <li><a href="https://meshing.lanl.gov/proj/index.shtml">Meshing Projects Page</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/graphics.html">Some Graphics Examples</a></li>
+    </ul>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="details-toggle" />
+    <label class="accordion-header" for="details-toggle">
+      <bold>LaGriT Details</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>The Mesh Object is the data structure which contains the information necessary to define a mesh. It consists of attributes that include coordinates, connectivity, and other data. Attributes are updated by LaGriT routines and can be modified by the user. Descriptions of the mesh object and associated details are included here. 
+    </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobject.html">Mesh Object Definition</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobjcon.html">Mesh Object Connectivity</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/supported.html">Supported Element Types</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/geometries.html">Geometries and Regions</a></li>
+    </ul>
+
+    </div>
+  </div>
+</div>
+
+<div class="accordion">
+  <div class="accordion-item">
+    <input type="checkbox" id="dev-toggle" />
+    <label class="accordion-header" for="dev-toggle">
+      <bold>Code and Development</bold>
+    </label>
+    <div class="accordion-content">
+
+    <p>LaGriT was originally written with Fortran and C and now includes C++ routines. New wrappers enable C++ to access fortran code needed to maintain and manipulate mesh objects.  CMake is used to generate the build system and works with C, C++, and compatible Fortran compilers. 
+    </p>
+
+    <ul>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/build.html">Building an Executable and Running LaGriT</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/fortran.html">Fortran Interface to LaGriT code</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/c-fortran.html">C-Fortran Interface to LaGriT code</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/issuing.html">Issuing Commands from a User Program</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/writing.html">Writing User Commands</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/docs/accessing.html">Accessing the Mesh Object</a></li>
+    <li><a href="https://lanl.github.io/LaGriT/pages/util.html">Utility and Memory Subroutines</a></li>
+    </ul>
+    <br />
+    <a href="https://lanl.github.io/LaGriT/pages/manual.html">Old Manual Index</a>
+
+    </div>
+  </div>
+</div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

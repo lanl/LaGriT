@@ -1,0 +1,293 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <p><strong>7. Connect the points into tetrahedra</strong></p>
+
+<p>The mesh designer may use the following set of command to connect the
+points into a tetrahedral mesh:</p>
+
+<ul>
+  <li>
+    <p>eliminate coincident or nearly coincident points</p>
+  </li>
+  <li>
+    <p>1,0,0 means consider all points</p>
+  </li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/FILTER.html">filter</a>/1,0,0</strong>/</p>
+
+<ul>
+  <li>
+    <p>rayend points are set to invisible (21 is the code for invisible)</p>
+  </li>
+  <li>
+    <p>they were used as end points of the rays in the regnpts command</p>
+  </li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/cmo/cmo_setatt.html">cmo</a>/setatt//itp/pset,get,rayend/21</strong>/</p>
+
+<ul>
+  <li>
+    <p>assign material colors to the points</p>
+  </li>
+  <li>
+    <p>identify points that are on material interfaces</p>
+  </li>
+  <li>
+    <p>identify constrained points</p>
+  </li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/SETPTS.html">setpts</a></strong></p>
+
+<ul>
+  <li>
+    <p>connect the points into a Delaunay tetrahedral mesh</p>
+  </li>
+  <li>
+    <p>do not connect across material interfaces - add points if necessary
+o resolve material interfaces</p>
+  </li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/CONNECT1.html">connect</a></strong></p>
+
+<ul>
+  <li>
+    <p>set element (tetrahedral) color</p>
+  </li>
+  <li>
+    <p>spawn child points at material interfaces</p>
+  </li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/SETTETS.html">settets</a></strong></p>
+
+<ul>
+  <li>dump mesh to some output form</li>
+</ul>
+
+<p><strong>dump</strong> <strong>/gmv</strong>/filename</p>
+
+<ul>
+  <li>terminate processing</li>
+</ul>
+
+<p><strong><a href="/pages/docs/commands/FINISH.html">finish</a></strong></p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" /></p>
+
+<p>The complete input for the tutorial is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>* create a 3D tetrahedral mesh object and name it *3dmesh*
+**cmo/create**/3dmesh/
+* unit cube
+**surface**/cube**/reflect** **/box**/0.0,0.0,0.0/1.0,1.0,1.0/
+* define z=.5 plane as interface
+**surface** /cutplane**/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5**/
+*define geometric regions
+**region**/top**/ le** cube **and gt** cutplane ** ** /
+**region**/bottom**/ le** cube **and le** cutplane /
+*** define material regions**
+**mregion**/mattop**/ le** cub**e and gt** cutplane /
+**mregion**/matbot**/ le** cube **and lt** cutplane /
+* create 25 points (5x5x1) in a plane above the unit cube
+* place points on the boundaries in the x and y directions (1,1,0)
+**createpts/xyz**/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/
+* give the points defined by the createpts command the name, rayend
+**pset**/rayend**/seq**/1,0,0/
+* create rays between points in rayend and the plane below the cube
+* distribute 3 points along these rays in the region top
+* add one point at the upper external boundary for each ray
+**regnpts**/top/3**/pset**,**get**,rayend**/xyz**/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
+* distribute 4 points along these rays in the region *bottom*
+* add one point at the lower external boundary for each ray
+* add one point at the material interface for each ray since
+* *bottom* contains the interface - a total of 5 points for each ray.
+* points will be distributed such that the ratio of distances between
+* any two consecutive pairs of points is 0.6 traveling from the source
+* of the ray (the plane) to the ray end.
+**regnpts**/bottom/4**/pset**,**get**,rayend**/xyz**/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/
+* eliminate coincident or nearly coincident points
+* 1,0,0 means consider all points
+**filter/1,0,0**/
+* rayend points are set to invisible (21 is the code for invisible)
+* they were used as end points of the rays in the regnpts command
+**cmo/setall//itp/pset,get,**rayend/21** **/
+* assign material colors to the points
+* identify points that are on material interfaces
+* identify constrained points
+**setpts**
+* connect the points into a Delaunay tetrahedral mesh
+* do not connect across material interfaces -
+* add points if necessary to resolve material interfaces
+**connect**
+* set element (tetrahedral) type
+**settets**
+* dump mesh to some output form
+**dump/gmv**/filename
+* terminate processing
+**finish**
+</code></pre></div></div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,255 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Conventions</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                
+<h1 id="conventions">Conventions</h1>
+
+<p>Following in Section II.b is a alphabetic list of the LaGriT commands.
+Conventions that apply to all commands include:</p>
+
+<ul>
+  <li>Lines are a maximum of 80 characters long, identifiers are a
+maximum of 32 characters long.</li>
+  <li>
+    <p>Continuation lines are signaled by an “&amp;” as the last character of
+a line to be continued. A command can be up to 1024 characters long.</p>
+  </li>
+  <li>
+    <p>Delimiters are comma, slash, equal sign, or blank. (‘,’ ‘/’, ‘=’, ‘ ‘).</p>
+
+    <p>Blanks on either side of other delimiters are ignored. Leading blanks
+are ignored. Commas are usually used for parameters that belong to the
+same logical set such as first point, last point, stride. Slashes are
+usually used to separate sets of parameters.</p>
+  </li>
+  <li>
+    <p>The three parameters: first point, last point, stride can have
+integer values which refer to actual sequential point numbers or they
+can have the character- string values:</p>
+
+    <p><strong><a href="/pages/docs/commands/PSET.html">pset</a></strong>, <strong>get</strong>, name where name has been
+defined by a previous <strong><a href="/pages/docs/commands/PSET.html">pset</a></strong> command.</p>
+
+    <p>The triplet: <code class="language-plaintext highlighter-rouge">1, 0, 0</code> refers to all points.</p>
+
+    <p>The triplet: <code class="language-plaintext highlighter-rouge">0, 0, 0</code> refers to the set of points defined in the last
+geometry command.</p>
+  </li>
+  <li>
+    <p>Commands should be typed in lower case, however names are case
+sensitive.</p>
+
+    <p>In the command description that follows certain symbols have special
+meaning.</p>
+
+    <ul>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">[ ]</code>          surround optional parameters</p>
+      </li>
+      <li>
+        <p><code class="language-plaintext highlighter-rouge">,</code> or <code class="language-plaintext highlighter-rouge">/</code>      separates parameters</p>
+      </li>
+      <li>
+        <p>___        underline specifies default</p>
+      </li>
+      <li>
+        <p><strong>bold</strong> is used for literal keywords such as <strong>xyz</strong>.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Comments are identified by # or * in the first column. Comments are
+parsed; avoid using special characters especially 
+<code class="language-plaintext highlighter-rouge">&amp;</code> in comments.</p>
+  </li>
+  <li>
+    <p>All names (<code class="language-plaintext highlighter-rouge">surface</code>, <code class="language-plaintext highlighter-rouge">region</code>, <code class="language-plaintext highlighter-rouge">pset</code>, …) should be limited to 32
+characters.</p>
+  </li>
+  <li>
+    <p>The right hand rule is used to determine normals to planes and to
+sheet surfaces. The first two points determin the first vector and the
+first and third point determine the second vector. By curling the
+fingers of the right hand from the first vector toward the second
+vector, the right thumb will point in the direction of the normal.</p>
+  </li>
+  <li>
+    <p>To separate commands on the same line use a semicolon (<code class="language-plaintext highlighter-rouge">;</code>).</p>
+  </li>
+  <li>
+    <p>Three coordinate systems are used.</p>
+
+    <p><strong>xyz</strong> refers to the standard Cartesian coordinate system</p>
+
+    <p><strong>rtz</strong> refers to a cylindrical coordinate system aligned along the
+z-axis, where <strong>r</strong> is the radius measured from the zaxis, <strong>t</strong> (theta)
+is the angle measured in the xy-plane from the positive x-axis toward
+the positive y-axis and <strong>z</strong> is the height measured from the xy-plane.</p>
+
+    <p><strong>rtp</strong> refers to a spherical coordinate system, where <strong>r</strong> is the
+radius measured from the origin, <strong>p</strong> (phi) is the angle in the
+xy-plane measured from the positive x-axis toward the positive y-axis,
+<strong>t</strong> (theta) is the angle measured from the positive z-axis to the
+positive y axis.</p>
+  </li>
+</ul>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

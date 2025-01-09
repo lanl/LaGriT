@@ -1,0 +1,685 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <p><a href="/"><strong>Home</strong></a></p>
+
+<p><a href="pages/applications"><strong><em>applications</em></strong></a></p>
+
+<p>                    <a href="pages/docs/demos/index"><del>index</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/createpts"><del>createpts</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/CREATEPTSAMR"><del>CREATEPTSAMR</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/CRTPTBRICK"><del>CRTPTBRICK</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/CRTPTRZRAN"><del>CRTPTRZRAN</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/CRTPTRZV_LG"><del>CRTPTRZV_LG</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/CRTPTSRZ"><del>CRTPTSRZ</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RZ"><del>RZ</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RZRAN"><del>RZRAN</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RZV_LG"><del>RZV_LG</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/createpts_interp"><del>createpts_interp</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/createpts_median"><strong>createpts_median</strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/createpts_voronoi"><strong>createpts_voronoi</strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/createpts/cresphere"><del>cresphere</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/main_createpts"><del>main_createpts</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_2d_connect"><del>main_2d_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_2dconn"><del>description_2dconn</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_2d_recon"><del>main_2d_recon</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_2drecon"><del>description_2drecon</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_addmesh"><del>main_addmesh</del></a></p>
+
+<p>                                                            <a href="pages/hybrid"><del>d</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description1_add"><del>description1_add</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description2_amr"><del>description2_amr</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description3_append"><del>description3_append</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description4_delete"><del>description4_delete</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description5_intersect"><del>description5_intersect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description6_match"><del>description6_match</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description7_merge"><del>description7_merge</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_connect"><del>main_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description2_connect"><del>description2_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description3_connect"><del>description3_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description4_connect"><del>description4_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_connect"><del>description_connect</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_hextet"><del>description_hextet</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_createpts"><del>main_createpts</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description1_xyz"><del>description1_xyz</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description2_rtz"><del>description2_rtz</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description3_rtp"><del>description3_rtp</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description4_brick"><del>description4_brick</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description5_sphere"><del>description5_sphere</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description6_sphereB"><del>description6_sphereB</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description7_brickB"><del>description7_brickB</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description8_sphereC"><del>description8_sphereC</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_dump"><del>main_dump</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_dump"><del>description_dump</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_hextet"><del>main_hextet</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_pset"><del>main_pset</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_pset"><del>description_pset</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_qual"><del>main_qual</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_qual"><del>description_qual</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_regnpts"><del>main_regnpts</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_rivara"><del>main_rivara</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_rmmat"><del>main_rmmat</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RMMAT"><del>RMMAT</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_rotatept"><del>main_rotatept</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_rotatept"><del>description_rotatept</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_sort"><del>main_sort</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_sort"><del>description_sort</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_trans"><del>main_trans</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_trans"><del>description_trans</del></a></p>
+
+<p>                                        <a href="pages/docs/demos/main_tri"><del>main_tri</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/description_tri"><del>description_tri</del></a></p>
+
+<p>                    <a href="pages/lasetup"><del>lasetup</del></a></p>
+
+<p>                                        <a href="pages/lasetup_require"><del>lasetup_require</del></a></p>
+
+<p><a href="pages/development"><del>development</del></a></p>
+
+<p><a href="pages/github_pages_example"><strong>example</strong></a></p>
+
+<p>                    <a href="pages/docs/commands/ADDMESH"><del>ADDMESH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/FILTER"><del>FILTER</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/FILTER_element"><strong><em>FILTER_element</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RMPOINT"><del>RMPOINT</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RESETPT"><del>RESETPT</del></a></p>
+
+<p><a href="pages/github_pages_example"><strong>github_pages_example</strong></a></p>
+
+<p><a href="pages/graphics"><del>graphics</del></a></p>
+
+<p>                    <a href="pages/denise"><del>denise</del></a></p>
+
+<p>                    <a href="pages/finite"><del>finite</del></a></p>
+
+<p>                    <a href="pages/grain"><del>grain</del></a></p>
+
+<p>                    <a href="pages/hex"><del>hex</del></a></p>
+
+<p>                                        <a href="pages/hex1"><del>hex1</del></a></p>
+
+<p>                                        <a href="pages/hex2"><del>hex2</del></a></p>
+
+<p>                    <a href="pages/hybrid"><del>hybrid</del></a></p>
+
+<p>                                        <a href="pages/hybrid1"><del>hybrid1</del></a></p>
+
+<p>                                        <a href="pages/hybrid2"><del>hybrid2</del></a></p>
+
+<p>                    <a href="pages/semiexamples"><del>semiexamples</del></a></p>
+
+<p>                                        <a href="pages/semi"><del>semi</del></a></p>
+
+<p>                                        <a href="pages/semi2"><del>semi2</del></a></p>
+
+<p>                    <a href="pages/tee"><del>tee</del></a></p>
+
+<p>                    <a href="pages/tinkas"><del>tinkas</del></a></p>
+
+<p><a href="pages/licensing"><del>licensing</del></a></p>
+
+<p><a href="pages/manual"><del>manual</del></a></p>
+
+<p>                    <a href="pages/docs/References"><strong><em>References</em></strong></a></p>
+
+<p>                    <a href="pages/docs/accessing"><del>accessing</del></a></p>
+
+<p>                    <a href="pages/docs/build"><strong>build</strong></a></p>
+
+<p>                                        <a href="pages/docs/writing"><strong><em>writing</em></strong></a></p>
+
+<p>                    <a href="pages/docs/commandi"><strong>commandi</strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/CMO2"><del>CMO2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_addatt"><del>cmo_addatt</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/DUMP2"><strong><em>DUMP2</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/QUALITY"><del>QUALITY</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/cmo/cmo_modatt"><del>cmo_modatt</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_create"><strong>cmo_create</strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_select"><strong>cmo_select</strong></a></p>
+
+<p>                    <a href="pages/commands"><del>commands</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/ASSIGN"><strong><em>ASSIGN</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/meshobject"><del>meshobject</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/BOUNDAR1"><del>BOUNDAR1</del></a></p>
+
+<p>                                                            <a href="pages/docs/miscell"><del>miscell</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/BOUNDARY_C"><strong><em>BOUNDARY_C</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/COLORMAP"><del>COLORMAP</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/COMPUTE"><strong><em>COMPUTE</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/MATH"><del>MATH</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/SURFACE"><del>SURFACE</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/kdtree"><del>kdtree</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/CONNECT1"><strong><em>CONNECT1</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/COORDSY"><del>COORDSY</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/COPYPTS"><del>COPYPTS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/DEFINE"><del>DEFINE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/DEREFINE"><del>DEREFINE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/DOPING1"><del>DOPING1</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/main_interpolate"><strong><em>main_interpolate</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/DUMP_RECOLOR"><del>DUMP_RECOLOR</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/EDIT2"><del>EDIT2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/ELTSET2"><del>ELTSET2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/EXTRACT1"><del>EXTRACT1</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/dump/EXTRACT_SURFMESH"><del>EXTRACT_SURFMESH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/dump/EXTRACT_SURFMESH"><del>EXTRACT_SURFMESH</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/GRID2GRID"><del>GRID2GRID</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/extract_facesets"><strong>extract_facesets</strong></a></p>
+
+<p>                                                            <a href="pages/docs/demos/main_extract_surfmesh"><del>main_extract_surfmesh</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/FIELD"><del>FIELD</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/FINISH"><del>FINISH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/FSET"><del>FSET</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/GENIEE"><strong><em>GENIEE</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/GRID2GRID"><del>GRID2GRID</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/HELP"><del>HELP</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/HEXTOTE"><del>HEXTOTE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/INPUT"><del>INPUT</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/INTERSECT"><del>INTERSECT</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/SORT"><del>SORT</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/LOG"><del>LOG</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MASSAGE"><del>MASSAGE</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/MASSAGE2"><del>MASSAGE2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MASSAGE2"><del>MASSAGE2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MATH"><del>MATH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MERGE"><del>MERGE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MODE"><del>MODE</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/RECON"><strong><em>RECON</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/MREGION"><del>MREGION</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/MREGION"><del>REGION</del></a></p>
+
+<p>                                                            <a href="pages/docs/geometries"><del>geometries</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/geometry"><strong>geometry</strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/NEGATIVE"><del>NEGATIVE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/OFFSETSURF"><del>OFFSETSURF</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/PERTURB"><del>PERTURB</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/PSET"><del>PSET</del></a></p>
+
+<p>                                                            <a href="pages/docs/conventions"><del>conventions</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/PSTATUS"><del>PSTATUS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/QUADXY"><del>QUADXY</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/QUADXYZ1"><del>QUADXYZ1</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RADAPT"><del>RADAPT</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/SMOOTH"><del>SMOOTH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/READ"><strong><em>READ</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/cmo/cmo_readatt"><strong>cmo_readatt</strong></a></p>
+
+<p>                                                            <a href="pages/docs/lagrit"><del>lagrit</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_avs"><del>read_avs</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_datex"><del>read_datex</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_fehm_zone"><strong><em>read_fehm_zone</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/read_freeformat"><del>read_freeformat</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_gmv"><del>read_gmv</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_gocad"><strong><em>read_gocad</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/read_iges_grid"><del>read_iges_grid</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_lagrit"><del>read_lagrit</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_ngp"><del>read_ngp</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_sheetij"><del>read_sheetij</del></a></p>
+
+<p>                                                            <a href="pages/docs/read_vrml"><del>read_vrml</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RECON"><strong><em>RECON</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/DEREFINE"><del>REFINE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/MREGION"><del>REGION</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/REGNPTS"><del>REGNPTS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/REORDER"><del>REORDER</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RM"><del>RM</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RMREGION"><del>RMREGION</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RMSPHERE"><del>RMSPHERE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RMSURF"><del>RMSURF</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/ROTATELN"><del>ROTATELN</del></a></p>
+
+<p>                                                            <a href="pages/docs/demos/main_rotateln"><del>main_rotateln</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/ROTATEPT"><del>ROTATEPT</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RZAMR"><del>RZAMR</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RZBRICK"><del>RZBRICK</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/RZS"><del>RZS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SCALE"><del>SCALE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SETPTS"><del>SETPTS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SETSIZE"><strong><em>SETSIZE</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/TRANS"><del>TRANS</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/cmo/cmo_printatt"><strong>cmo_printatt</strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/cmo/cmo_setatt"><strong>cmo_setatt</strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/SETTETS"><del>SETTETS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SMOOTH"><del>SMOOTH</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SORT"><del>SORT</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/STACK"><strong><em>STACK</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/stack_demo"><del>stack_demo</del></a></p>
+
+<p>                                                            <a href="pages/docs/stack_demo2"><del>stack_demo2</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SURFACE"><del>SURFACE</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/SURFPTS"><del>SURFPTS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/TRANS"><del>TRANS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/TRIAGN"><del>TRIAGN</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/UNG2AVS"><del>UNG2AVS</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/UPSCALE"><strong><em>UPSCALE</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/ZQ"><del>ZQ</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/bubble"><del>bubble</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/extrude"><del>extrude</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/calc_rdist"><del>calc_rdist</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/create_graph"><del>create_graph</del></a></p>
+
+<p>                                                            <a href="pages/docs/commands/metis"><del>metis</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/crush_thin_tets"><strong><em>crush_thin_tets</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/elmtest"><del>elmtest</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/extrude"><del>extrude</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/geometry"><strong>geometry</strong></a></p>
+
+<p>                                                            <a href="pages/docs/commands/cmo/cmo_geom"><strong>cmo_geom</strong></a></p>
+
+<p>                                                            <a href="pages/docs/geom"><strong><em>geom</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/intersectelements"><del>intersectelements</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/kdtree"><del>kdtree</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/loop"><strong><em>loop</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/lower_d"><del>lower_d</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/main_interpolate"><strong><em>main_interpolate</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/memory"><strong><em>memory</em></strong></a></p>
+
+<p>                                                            <a href="pages/docs/memmang"><del>memmang</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/metis"><del>metis</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/rankvolume"><strong><em>rankvolume</em></strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/refine2d"><del>refine2d</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/elmtest"><del>test</del></a></p>
+
+<p>                    <a href="pages/commands_cat"><del>commands_cat</del></a></p>
+
+<p>                    <a href="pages/docs/conventions"><del>conventions</del></a></p>
+
+<p>                    <a href="pages/docs/errors"><strong><em>errors</em></strong></a></p>
+
+<p>                    <a href="pages/features"><del>features</del></a></p>
+
+<p>                    <a href="pages/docs/fortran"><del>fortran</del></a></p>
+
+<p>                                        <a href="pages/docs/meshob"><del>meshob</del></a></p>
+
+<p>                    <a href="pages/docs/geometries"><del>geometries</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_constraint"><del>cmo_constraint</del></a></p>
+
+<p>                                        <a href="pages/docs/geom_create"><del>geom_create</del></a></p>
+
+<p>                    <a href="pages/docs/issuing"><del>issuing</del></a></p>
+
+<p>                    <a href="pages/docs/lagrit"><del>lagrit</del></a></p>
+
+<p>                    <a href="pages/docs/meshing"><del>meshing</del></a></p>
+
+<p>                                        <a href="pages/docs/QUALITY_sliver_cap_needle_wedge"><del>QUALITY_sliver_cap_needle_wedge</del></a></p>
+
+<p>                    <a href="pages/docs/meshobjcon"><del>meshobjcon</del></a></p>
+
+<p>                                        <a href="pages/docs/supported"><del>supported</del></a></p>
+
+<p>                    <a href="pages/docs/meshobject"><del>meshobject</del></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_delatt"><strong>cmo_delatt</strong></a></p>
+
+<p>                                        <a href="pages/docs/commands/cmo/cmo_status"><strong>cmo_status</strong></a></p>
+
+<p>                    <a href="pages/publications"><strong><em>publications</em></strong></a></p>
+
+<p>                    <a href="pages/docs/supported"><del>supported</del></a></p>
+
+<p>                    <a href="pages/util"><del>util</del></a></p>
+
+<p>                                        <a href="pages/docs/arrcomp"><del>arrcomp</del></a></p>
+
+<p>                                        <a href="pages/docs/arrsort"><del>arrsort</del></a></p>
+
+<p>                                        <a href="pages/docs/charlen"><del>charlen</del></a></p>
+
+<p>                                        <a href="pages/docs/pointsel"><del>pointsel</del></a></p>
+
+<p>                                        <a href="pages/docs/retpts"><del>retpts</del></a></p>
+
+<p>                    <a href="pages/docs/writing"><strong><em>writing</em></strong></a></p>
+
+<p><a href="pages/publications"><strong><em>publications</em></strong></a></p>
+
+<p><a href="pages/release"><del>release</del></a></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

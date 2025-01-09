@@ -1,0 +1,918 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2019/04/15 Static          *                 
+*               *    Run Time: 2019/Oct 21  16:08:42          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+*--* LAGriT Example Input file                                                  
+*--*                                                                            
+*--* Create a mesh with wave interface and connect                              
+*-------------------------------*                                               
+#                                                                               
+# Use x coordinates to compute z based on cos()                                 
+# z(i)=cos(x(i))                                                                
+# spacing near .25                                                              
+define/XMAX/9.5                                                                 
+define/YMAX/1.                                                                  
+define/NX/40                                                                    
+define/NY/5                                                                     
+define HEX_MESH hex.gmv                                                         
+define TET_MESH tet.gmv                                                         
+# EDIT to define resolution and file names                                      
+# ADD resolution to fix popped tets on interface                                
+define/NX/80                                                                    
+define/NY/10                                                                    
+define HEX_MESH hex2.gmv                                                        
+define TET_MESH tet2.gmv                                                        
+#-------------------------------------------------                              
+# Create the quad mesh with wave topology                                       
+cmo/create/mosurf///quad                                                        
+quadxy/NX NY/0. 0. 0./XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./1 1 1                  
+  QUADXY GENERATED POINTS         1 TO       800                                
+createpts/brick/xyz/NX,NY,1/1 0 0/connect                                       
+          Number of nodes:         800                                          
+          Number of elements:         711                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.950000000000E+01                                  
+cmo/setatt/mosurf/imt/1 0 0/1                                                   
+       800 values reset for attribute imt1                                      
+ 
+cmo/setatt/mosurf/itetclr/1 0 0/1                                               
+       711 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/printatt/mosurf/-xyz-/minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  9.500000000E+00 9.500000000E+00       800  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00       800  
+ zic                0.000000000E+00  0.000000000E+00 0.000000000E+00       800  
+ 
+math/cos/mosurf/zic/1,0,0/mosurf/xic                                            
+cmo/printatt/mosurf/-xyz-/minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  9.500000000E+00 9.500000000E+00       800  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00       800  
+ zic               -9.998873464E-01  1.000000000E+00 1.999887346E+00       800  
+ 
+dump/surf_wave.inp/mosurf                                                       
+dump/avs/surf_wave.inp/mosurf                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+#-------------------------------------------------                              
+# make layers for for input into stack                                          
+define ZBOT 0.                                                                  
+define ZTOP 4.                                                                  
+# translate surfaces for vertical spacing                                       
+define S1 2.                                                                    
+define S2 .6                                                                    
+define S3 1.5                                                                   
+cmo select mosurf                                                               
+trans/1,0,0/0. 0. 0./0. 0. S1                                                   
+cmo/addatt/mosurf/transauto/VDOUBLE/scalar/vector/user/permanent/x/0.0          
+finish                                                                          
+dump/surf_wave_low.inp/mosurf                                                   
+dump/avs/surf_wave_low.inp/mosurf                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+trans/1,0,0/0. 0. 0./0. 0. S2                                                   
+dump/surf_wave_high.inp/mosurf                                                  
+dump/avs/surf_wave_high.inp/mosurf                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/setatt/mosurf/zic/ZBOT                                                      
+       800 values reset for attribute zic                                       
+ 
+dump/surf_flat_bot.inp/mosurf                                                   
+dump/avs/surf_flat_bot.inp/mosurf                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/setatt/mosurf/zic/ZTOP                                                      
+       800 values reset for attribute zic                                       
+ 
+dump/surf_flat_top.inp/mosurf                                                   
+dump/avs/surf_flat_top.inp/mosurf                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+#-------------------------------------------------                              
+# Stack layers from bottom to top wave                                          
+cmo/create/mo_stack                                                             
+stack/layers/avs/surf_flat_bot.inp 1 surf_wave_low.inp 2 3 surf_wave_high.inp 3 
+3 surf_flat_top.inp 3 3                                                         
+ 
+Layers to create:         13                                                    
+Max material number:          3                                                 
+ 
+Reading     4 surface files...                                                  
+cmo/addatt/mo_stack/layertyp/VINT/scalar/nnodes//permanent/agfx                 
+finish                                                                          
+Read first surface: surf_flat_bot.inp                                           
+read/avs/surf_flat_bot.inp/def1                                                 
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: def1                                           
+ 
+  1 Mesh Object name: mosurf                                                    
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_stack                                                  
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: def1                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+Read surface: surf_wave_low.inp                                                 
+read/avs/surf_wave_low.inp/def2                                                 
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: def2                                           
+ 
+  1 Mesh Object name: mosurf                                                    
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: mo_stack                                                  
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: def1                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: cmoprev                                                   
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: def2                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/2.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+finish                                                                          
+Created new trilayer with average distance of   4.9805383E-01                   
+New height: min/max     2.5002816E-01    7.5000000E-01                          
+ 
+Old height: min/max     1.0001127E+00    3.0000000E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: surf_flat_bot.inp and refine                                   
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/def1/cmonxt/                                             
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/5.000000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   9.9610766E-01                   
+New height: min/max     5.0005633E-01    1.5000000E+00                          
+ 
+Old height: min/max     1.0001127E+00    3.0000000E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/7.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   1.4941615E+00                   
+New height: min/max     7.5008449E-01    2.2500000E+00                          
+ 
+Old height: min/max     1.0001127E+00    3.0000000E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+     Released Mesh Object: cmonxt                                               
+cmo/delete/def2/                                                                
+     Released Mesh Object: def2                                                 
+finish                                                                          
+Layers compared: refine and surf_wave_low.inp                                   
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+     Released Mesh Object: def1                                                 
+cmo/delete/cmonxt/                                                              
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Read surface: surf_wave_high.inp                                                
+read/avs/surf_wave_high.inp/def2                                                
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: def2                                           
+ 
+  1 Mesh Object name: mosurf                                                    
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: cmoprev                                                   
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_stack                                                  
+    number of nodes =          4000        number of elements =         3555    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: def1                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: def2                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/2.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+finish                                                                          
+Created new trilayer with average distance of   1.5000000E-01                   
+New height: min/max     1.5000000E-01    1.5000000E-01                          
+ 
+Old height: min/max     6.0000000E-01    6.0000000E-01                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: surf_wave_low.inp and refine                                   
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/5.000000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   3.0000000E-01                   
+New height: min/max     3.0000000E-01    3.0000000E-01                          
+ 
+Old height: min/max     6.0000000E-01    6.0000000E-01                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/7.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   4.5000000E-01                   
+New height: min/max     4.5000000E-01    4.5000000E-01                          
+ 
+Old height: min/max     6.0000000E-01    6.0000000E-01                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+     Released Mesh Object: cmonxt                                               
+cmo/delete/def2/                                                                
+     Released Mesh Object: def2                                                 
+finish                                                                          
+Layers compared: refine and surf_wave_high.inp                                  
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+     Released Mesh Object: def1                                                 
+cmo/delete/cmonxt/                                                              
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Read surface: surf_flat_top.inp                                                 
+read/avs/surf_flat_top.inp/def2                                                 
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: def2                                           
+ 
+  1 Mesh Object name: mosurf                                                    
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  2 Mesh Object name: cmoprev                                                   
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  3 Mesh Object name: mo_stack                                                  
+    number of nodes =          7200        number of elements =         6399    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  4 Mesh Object name: def1                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                 inactive    
+ 
+  5 Mesh Object name: def2                                                      
+    number of nodes =           800        number of elements =          711    
+    dimensions geometry =         3        element type =                qua    
+    dimensions topology =         2        4 nodes      4 faces      4 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/2.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+finish                                                                          
+Created new trilayer with average distance of   3.5194617E-01                   
+New height: min/max     1.0000000E-01    5.9997184E-01                          
+ 
+Old height: min/max     4.0000000E-01    2.3998873E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: surf_wave_high.inp and refine                                  
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/5.000000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   7.0389234E-01                   
+New height: min/max     2.0000000E-01    1.1999437E+00                          
+ 
+Old height: min/max     4.0000000E-01    2.3998873E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+trilayer/derive/proportional/cmonxt/def1/def2/7.500000E-01/                     
+cmo/copy/cmonxt/def2/                                                           
+     Released Mesh Object: cmonxt                                               
+finish                                                                          
+Created new trilayer with average distance of   1.0558385E+00                   
+New height: min/max     3.0000000E-01    1.7999155E+00                          
+ 
+Old height: min/max     4.0000000E-01    2.3998873E+00                          
+finish                                                                          
+cmo/copyatt/cmonxt/def1/itetclr/itetclr/                                        
+       711 copied from def1 itetclr to -> cmonxt itetclr                        
+ 
+finish                                                                          
+Layers compared: refine and refine                                              
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+     Released Mesh Object: cmonxt                                               
+cmo/delete/def2/                                                                
+     Released Mesh Object: def2                                                 
+finish                                                                          
+Layers compared: refine and surf_flat_top.inp                                   
+cmo/delete/cmoprev/                                                             
+     Released Mesh Object: cmoprev                                              
+finish                                                                          
+cmo/copy/cmoprev/cmonxt/                                                        
+finish                                                                          
+addmesh/merge/mo_stack/mo_stack/cmonxt/                                         
+cmo/move/-tmp_source_internal-/mo_stack                                         
+finish                                                                          
+searching for mo_stack attributes in cmonxt                                     
+ attribute not found:          66  layertyp                                     
+ADDMESH:     1 attributes not copied from cmonxt to mo_stack                    
+ 
+cmo/delete/-tmp_source_internal-/                                               
+     Released Mesh Object: -tmp_source_internal-                                
+finish                                                                          
+finish                                                                          
+ 
+................................................................                
+ 
+         surface name  layer color type llcorner  zic                           
+    surf_flat_bot.inp     1    1   -1         1)   0.000000E+00                 
+               refine     2    1    2       801)   7.500000E-01                 
+               refine     3    1    2      1601)   1.500000E+00                 
+               refine     4    1    2      2401)   2.250000E+00                 
+    surf_wave_low.inp     5    2    0      3201)   3.000000E+00                 
+               refine     6    2    2      4001)   3.150000E+00                 
+               refine     7    2    2      4801)   3.300000E+00                 
+               refine     8    2    2      5601)   3.450000E+00                 
+   surf_wave_high.inp     9    3    0      6401)   3.600000E+00                 
+               refine    10    3    2      7201)   3.700000E+00                 
+               refine    11    3    2      8001)   3.800000E+00                 
+               refine    12    3    2      8801)   3.900000E+00                 
+    surf_flat_top.inp    13    3   -2      9601)   4.000000E+00                 
+ 
+Elements per layer:        711  stacked total:           9243                   
+Nodes    per layer:        800  stacked total:          10400                   
+No Truncating layer specified.                                                  
+ 
+files read:         4  from total:         4                                    
+ 
+................................................................                
+ 
+cmo/addatt/mo_stack/nlayers/INT/scalar/scalar/constant//                        
+finish                                                                          
+cmo/addatt/mo_stack/nnperlayer/INT/scalar/scalar/constant//                     
+finish                                                                          
+cmo/addatt/mo_stack/neperlayer/INT/scalar/scalar/constant//                     
+finish                                                                          
+cmo/setatt/mo_stack/nlayers 13                                                  
+         1 values reset for attribute nlayers                                   
+ 
+finish                                                                          
+cmo/setatt/mo_stack/nnperlayer 800                                              
+         1 values reset for attribute nnperlayer                                
+ 
+finish                                                                          
+cmo/setatt/mo_stack/neperlayer 711                                              
+         1 values reset for attribute neperlayer                                
+ 
+finish                                                                          
+     Released Mesh Object: def1                                                 
+     Released Mesh Object: cmonxt                                               
+     Released Mesh Object: cmoprev                                              
+stack done.                                                                     
+ 
+dump gmv tmp_stack_layers.gmv mo_stack                                          
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/printatt/mo_stack/-xyz- minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  9.500000000E+00 9.500000000E+00     10400  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00     10400  
+ zic                0.000000000E+00  4.000000000E+00 4.000000000E+00     10400  
+ 
+# connect statcked surfaces into 3D elements                                    
+stack/fill/mohex/mo_stack                                                       
+cmo/copy/mohex/mo_stack/                                                        
+finish                                                                          
+geniee                                                                          
+finish                                                                          
+cmo select mohex                                                                
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+# write information about this mesh object                                      
+cmo/printatt/mohex/-xyz- minmax                                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  9.500000000E+00 9.500000000E+00     10400  
+ yic                0.000000000E+00  1.000000000E+00 1.000000000E+00     10400  
+ zic                0.000000000E+00  4.000000000E+00 4.000000000E+00     10400  
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   9.9999999E-09  9.9999998E-25                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :       8532                          
+min aspect ratio =  0.5268E+00  max aspect ratio =  0.9993E+00                  
+ 
+epsilonvol:   8.4376950E-12                                                     
+---------------------------------------                                         
+element volumes b/w  0.1344E-02 and  0.2008E-02:      3420                      
+element volumes b/w  0.2008E-02 and  0.3001E-02:       360                      
+element volumes b/w  0.3001E-02 and  0.4484E-02:      1224                      
+element volumes b/w  0.4484E-02 and  0.6701E-02:      1260                      
+element volumes b/w  0.6701E-02 and  0.1001E-01:      2268                      
+min volume =   1.3436934E-03  max volume =   1.0013550E-02                      
+-----------------------------------------------------------                     
+      8532 total elements evaluated.                                            
+ 
+# check hex volumes                                                             
+cmo/addatt/mohex/volume hex_vol                                                 
+ADDATT/volume: creating new attribute: hex_vol                                  
+cmo/printatt/mohex/hex_vol minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ hex_vol            1.343693448E-03  1.001354987E-02 8.669856423E-03      8532  
+ 
+eltset/ebad/hex_vol/le 0.                                                       
+ 
+ THE ELTSET ebad                             HAS          0 ELEMENTS            
+dump HEX_MESH mohex                                                             
+dump/gmv/hex2.gmv/mohex                                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+#-------------------------------------------------                              
+# connect                                                                       
+cmo/create/motet                                                                
+copypts/motet/mohex                                                             
+cmo/addatt/motet/layertyp/VINT/scalar/nnodes/linear/permanent/agfx/0.0          
+finish                                                                          
+copypts added nodes          1 to      10400                                    
+# set some defaults for the connect routine                                     
+filter/1 0 0                                                                    
+FILTER:Use internal epsilonl value =   0.229952892030E-11                       
+FILTER:Dudding duplicate points:           0                                    
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is        10400                                        
+RMPOINT: new element count is          0                                        
+cmo/setatt/motet/imt/1 0 0/1                                                    
+Warning: nelements = 0                                                          
+     10400 values reset for attribute imt1                                      
+ 
+cmo/setatt/motet/itp/1 0 0/0                                                    
+Warning: nelements = 0                                                          
+     10400 values reset for attribute itp1                                      
+ 
+# connect and ignore interfaace materials                                       
+connect/noadd                                                                   
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.19000D+02   -0.75000D+00   -0.30000D+01                            
+           0.47500D+01   -0.75000D+00    0.17000D+02                            
+           0.28500D+02   -0.75000D+00   -0.30000D+01                            
+           0.47500D+01    0.42500D+01    0.20000D+01                            
+ ntets=     29980     node index=     5000     nlstfail=       0 %done=  48.03  
+ ntets=     56635     node index=    10000     nlstfail=       0 %done=  90.73  
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+# interpolate element materials from hex mesh                                   
+interpolate/map/motet itetclr/1,0,0/mohex itetclr                               
+elements in indexed set  =      51192                                           
+ 
+INTRP METHOD:        map   FUNCTION:       user                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
+ 
+cmo select mohex                                                                
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+cmo setatt mohex idebug/0                                                       
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
+           2561             2722           2561        5 %                      
+           5121             5479           5121       10 %                      
+           7681             8194           7681       15 %                      
+          10241            10910          10241       20 %                      
+          12801            13644          12801       25 %                      
+          15361            16402          15361       30 %                      
+          17921            19148          17921       35 %                      
+          20481            21857          20481       40 %                      
+          23041            24657          23041       45 %                      
+          25601            27383          25601       50 %                      
+          28161            30114          28161       55 %                      
+          30721            32861          30721       60 %                      
+          33281            35536          33281       65 %                      
+          35841            38248          35841       70 %                      
+          38401            41074          38401       75 %                      
+          40961            43858          40961       80 %                      
+          43521            46572          43521       85 %                      
+          46081            49288          46081       90 %                      
+          48641            52027          48641       95 %                      
+          51192            54765          51192       100%                      
+ 
+Total Source Elements:                    8532                                  
+Total Sink   Centroids:                  51192                                  
+ 
+ 
+interpolate/map done.                                                           
+ 
+cmo select motet                                                                
+finish                                                                          
+cmo kdtree release                                                              
+cmo/DELATT/mohex/sbox                                                           
+finish                                                                          
+cmo/DELATT/mohex/v12                                                            
+finish                                                                          
+cmo/DELATT/mohex/linkt                                                          
+finish                                                                          
+cmo/DELATT/mohex/v2                                                             
+finish                                                                          
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# report mesh quality and check for neg ccoefs                                  
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   2.2995289E-12  1.2159525E-35                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :      14504                          
+elements with aspect ratio b/w .5  and 1. :      36688                          
+min aspect ratio =  0.1894E+00  max aspect ratio =  0.8120E+00                  
+ 
+epsilonvol:   8.4376950E-12                                                     
+---------------------------------------                                         
+element volumes b/w  0.2227E-03 and  0.3358E-03:     20628                      
+element volumes b/w  0.3358E-03 and  0.5063E-03:      2160                      
+element volumes b/w  0.5063E-03 and  0.7634E-03:      7614                      
+element volumes b/w  0.7634E-03 and  0.1151E-02:      8181                      
+element volumes b/w  0.1151E-02 and  0.1736E-02:     12609                      
+min volume =   2.2269105E-04  max volume =   1.7357839E-03                      
+-----------------------------------------------------------                     
+     51192 total elements evaluated.                                            
+ 
+cmo/addatt/motet/volume/tet_vol                                                 
+ADDATT/volume: creating new attribute: tet_vol                                  
+cmo/addatt/motet/voronoi_volume/vor_vol                                         
+ADDATT/voronoi_volume: creating new attribute: vor_vol                          
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Negative Coefficients ******                               
+AMatbld3d_stor: Total Number of Negative Coefficients         1                 
+AMatbld3d_stor: Number of Significant Negative Coefs         0                  
+AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
+cmo/addatt/motet/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/         
+finish                                                                          
+cmo/addatt/motet/ij_ccoef/VINT/scalar/nnodes/linear/permanent/afgx/0.0/         
+finish                                                                          
+AMatbld3d_stor: npoints =    10400  ncoefs =      87822                         
+AMatbld3d_stor: Number of unique coefs =     49111                              
+AMatbld3d_stor: Maximum num. connections to a node =         10                 
+AMatbld3d_stor: Volume min =   1.6701828E-04                                    
+AMatbld3d_stor: Volume max =   1.0016091E-02                                    
+AMatbld3d_stor: Total Volume:   3.8000000E+01                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   8.1130336E-01                              
+AMatbld3d_stor: (Aij/xij) max =   1.6965953E-17                                 
+AMatbld3d_stor: (Aij/xij) min =  -8.1130336E-01                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
+motet attribute with voronoi volumes created with name vor_vol                  
+ 
+*** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name -notset-                           
+ 
+cmo/printatt/motet/tet_vol/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ tet_vol            2.226910455E-04  1.735783862E-03 1.513092817E-03     51192  
+ 
+cmo/printatt/motet/vor_vol/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ vor_vol            1.670182841E-04  1.001609082E-02 9.849072540E-03     10400  
+ 
+dump TET_MESH motet                                                             
+dump/gmv/tet2.gmv/motet                                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

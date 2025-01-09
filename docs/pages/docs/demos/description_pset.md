@@ -1,5 +1,5 @@
 ---
-title: Example 1: define various point sets within a geometry
+title: "Example 1: define various point sets within a geometry"
 ---
 
 Example 1: define various point sets within a geometry

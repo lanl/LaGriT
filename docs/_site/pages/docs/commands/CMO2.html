@@ -1,0 +1,476 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CMO</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="cmo">CMO</h1>
+
+<hr />
+
+<p>These Current Mesh Object commands operate on the selected Mesh Object. 
+<br />There can be many Mesh Objects in the code for a given problem. Only one 
+Mesh Object at a time is the Current and Active Mesh Object. (There is also one
+Default Mesh Object which is used as the template for generating new
+Mesh Objects).</p>
+
+<p>Each Mesh Object is has both default and user added attributes. The following are CMO (Current Mesh Object) options, click to see more details.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">CMO Options   </th>
+      <th style="text-align: left">Short Description   </th>
+      <th style="text-align: left">Brief Syntax</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html"><strong><code class="language-plaintext highlighter-rouge">addatt</code></strong></a>   </td>
+      <td style="text-align: left">Add an attribute to cmo   </td>
+      <td style="text-align: left"><strong>cmo/addatt</strong>/mo/att_name/type/rank/length</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html"><strong><code class="language-plaintext highlighter-rouge">addatt</code></strong></a>   </td>
+      <td style="text-align: left">Create  new cmo attributes   </td>
+      <td style="text-align: left"><strong>cmo/addatt</strong>/mo/keyword/keyword_options</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html"><strong><code class="language-plaintext highlighter-rouge">attribute_derive</code></strong> </a>   </td>
+      <td style="text-align: left">Derive attributes from another cmo</td>
+      <td style="text-align: left"><strong>cmo/attribute_derive</strong>/sink_mo/src_mo</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_att_derive.html"><strong><code class="language-plaintext highlighter-rouge">attribute_union</code></strong> </a></td>
+      <td style="text-align: left">Combine attributes of two mesh objects</td>
+      <td style="text-align: left"><strong>cmo/attribute_union</strong>/mo_1/mo_2</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_compress.html"><strong><code class="language-plaintext highlighter-rouge">compress</code></strong> </a></td>
+      <td style="text-align: left">Compress cmo arrays to actual lengths</td>
+      <td style="text-align: left"><strong>cmo/compress</strong>/mo_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_constraint.html"><strong><code class="language-plaintext highlighter-rouge">constraint</code></strong> </a></td>
+      <td style="text-align: left">Get surface constraints from cmo to another</td>
+      <td style="text-align: left"><strong>cmo/constraint</strong>/cmo_sink/cmo_src</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_copy.html"><strong><code class="language-plaintext highlighter-rouge">copy</code></strong> </a></td>
+      <td style="text-align: left">Copy a cmo to new cmo</td>
+      <td style="text-align: left"><strong>cmo/copy</strong>/mo_new/mo_master</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_copyatt.html"><strong><code class="language-plaintext highlighter-rouge">copyatt</code></strong> </a></td>
+      <td style="text-align: left">Copy attribute values to another attribute</td>
+      <td style="text-align: left"><strong>cmo/copyatt</strong>/mo mosrc/att att_src</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_create.html"><strong><code class="language-plaintext highlighter-rouge">create</code></strong> </a></td>
+      <td style="text-align: left">Create a new cmo</td>
+      <td style="text-align: left"><strong>cmo/create</strong>/mo_name [/// mesh_type]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html"><strong><code class="language-plaintext highlighter-rouge">delatt</code></strong> </a></td>
+      <td style="text-align: left">Delete a cmo attribute</td>
+      <td style="text-align: left"><strong>cmo/delatt</strong>/mo_name/att_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_delatt.html"><strong><code class="language-plaintext highlighter-rouge">DELATT</code></strong> </a></td>
+      <td style="text-align: left">Force Delete a cmo attribute</td>
+      <td style="text-align: left"><strong>cmo/DELATT</strong>/mo_name/att_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_release.html"><strong><code class="language-plaintext highlighter-rouge">delete</code></strong> </a></td>
+      <td style="text-align: left">Delete an existing cmo</td>
+      <td style="text-align: left"><strong>cmo/delete</strong>/mo_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_derive.html"><strong><code class="language-plaintext highlighter-rouge">derive</code></strong> </a></td>
+      <td style="text-align: left">Copy cmo to new cmo with empty data</td>
+      <td style="text-align: left"><strong>cmo/derive</strong>/mo_name/master_mo</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_geom.html"><strong><code class="language-plaintext highlighter-rouge">geometry</code></strong> </a></td>
+      <td style="text-align: left">Give geometry to cmo from another cmo</td>
+      <td style="text-align: left"><strong>cmo/geometry</strong>/mo_name/geometry_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_length.html"><strong><code class="language-plaintext highlighter-rouge">length</code></strong> </a></td>
+      <td style="text-align: left">Print memory length for cmo attributes</td>
+      <td style="text-align: left"><strong>cmo/length</strong>/mo_name/att_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_list.html"><strong><code class="language-plaintext highlighter-rouge">list</code></strong> </a></td>
+      <td style="text-align: left">List all mesh objects</td>
+      <td style="text-align: left"><strong>cmo/list</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_memory.html"><strong><code class="language-plaintext highlighter-rouge">memory</code></strong> </a></td>
+      <td style="text-align: left">Set length for cmo memory</td>
+      <td style="text-align: left"><strong>cmo/memory</strong>/mo_name/num_nodes/num_elements</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_modatt.html"><strong><code class="language-plaintext highlighter-rouge">modatt</code></strong> </a></td>
+      <td style="text-align: left">Modify cmo attribute parameters</td>
+      <td style="text-align: left"><strong>cmo/modatt</strong>/mo/att_name/parameter/value</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_move.html"><strong><code class="language-plaintext highlighter-rouge">move</code></strong> </a></td>
+      <td style="text-align: left">Change the name of a cmo</td>
+      <td style="text-align: left"><strong>cmo/move</strong>/mo_new/mo_old</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_newlen.html"><strong><code class="language-plaintext highlighter-rouge">newlen</code></strong> </a></td>
+      <td style="text-align: left">Adjust attribute lengths</td>
+      <td style="text-align: left"><strong>cmo/newlen</strong>/mo_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_printatt.html"><strong><code class="language-plaintext highlighter-rouge">printatt</code></strong> </a></td>
+      <td style="text-align: left">Print attribute values</td>
+      <td style="text-align: left"><strong>cmo/printatt</strong>/mo/att_name/[<strong>minmax</strong>] [1,0,0]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_readatt.html"><strong><code class="language-plaintext highlighter-rouge">readatt</code></strong> </a></td>
+      <td style="text-align: left">Read attribute values from file</td>
+      <td style="text-align: left"><strong>cmo/readatt</strong>/mo/att1,att2,[…] /1,0,0/file</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_release.html"><strong><code class="language-plaintext highlighter-rouge">release</code></strong> </a></td>
+      <td style="text-align: left">Delete an existing mesh object</td>
+      <td style="text-align: left"><strong>cmo/release</strong>/mo_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_select.html"><strong><code class="language-plaintext highlighter-rouge">select</code></strong> </a></td>
+      <td style="text-align: left">Make  cmo current and active</td>
+      <td style="text-align: left"><strong>cmo/select</strong>/mo_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setatt.html"><strong><code class="language-plaintext highlighter-rouge">setatt</code></strong> </a></td>
+      <td style="text-align: left">Set values in cmo attributes</td>
+      <td style="text-align: left"><strong>cmo/setatt</strong>/mo/att_name/[1,0,0]/value</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_setid.html"><strong><code class="language-plaintext highlighter-rouge">set_id</code></strong> </a></td>
+      <td style="text-align: left">Create attribute with id numbers</td>
+      <td style="text-align: left"><strong>cmo/set_id</strong>/mo/<strong>node</strong> or <strong>element</strong>/att_name</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_status.html"><strong><code class="language-plaintext highlighter-rouge">status</code></strong> </a></td>
+      <td style="text-align: left">Print mesh object status</td>
+      <td style="text-align: left"><strong>cmo/status</strong>/mo_name/ [<strong>brief</strong>]</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_verify.html"><strong><code class="language-plaintext highlighter-rouge">verify</code></strong> </a></td>
+      <td style="text-align: left">Verify memory for cmo</td>
+      <td style="text-align: left"><strong>cmo/verify</strong>/mo_name</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="active-cmo">Active CMO</h2>
+
+<p>A mesh object is made current or active:</p>
+<ul>
+  <li>As a result of any command that generates a new mesh object</li>
+  <li>As a result of any command that changes a mesh object (e.g. <strong>copyatt</strong>)</li>
+  <li>Use <strong>cmo/select</strong> to explicitly specify the current active mesh object.</li>
+</ul>
+
+<h2 id="reserved-names">RESERVED NAMES</h2>
+
+<p>The following names are reserved and used in the various cmo commands:</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">-default-</code></strong> : the default template for the LaGriT mesh object</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">-def-</code></strong> : the default value for command options</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">-cmo-</code></strong> : the Current Mesh Object</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">-all-</code></strong>: all Mesh Objects or Attributes</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">-xyz-</code></strong>: Mesh Object Attributes xic, yic, and zic</p>
+
+<h2 id="cmo-parameters">CMO Parameters</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Attribute</th>
+      <th style="text-align: left">Possible Values (type character) default in bold</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mo_name</code></td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">att_name</code></td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">mesh_type</code></td>
+      <td style="text-align: left"><strong>tet</strong>, hex, pri, pyr, tri, triplane, quad, hyb, line, pnt</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">type</code></td>
+      <td style="text-align: left"><strong>VDOUBLE</strong>, VINT, VCHAR, INT, REAL, CHARACTER</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">rank</code></td>
+      <td style="text-align: left"><strong>scalar</strong>, vector, tensor, or any INT attribute</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">length</code></td>
+      <td style="text-align: left"><strong>nnodes</strong> or  any INT attribute  </td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">interpolate</code>  </td>
+      <td style="text-align: left"><strong>linear</strong>  copy, sequence, log, asinh, max, min, user, and,or,incmax</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">ioflag</code></td>
+      <td style="text-align: left">a g, f, l – for output of avs, gmv, fehm, LaGriT</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/motet                                                                
+cmo/status/motet/ brief 
+</code></pre></div></div>
+<p>Create and print a brief status of the mesh object named motet:</p>
+<pre class="lg-output"> 
+The current-mesh-object(CMO) is: motet                                          
+ 
+  2 Mesh Object name: motet                                                     
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active   
+</pre>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/moquad/zsave/VDOUBLE/scalar/nnodes/linear/permanent/gxaf/0.0         
+cmo/copyatt/moquad moquad/zsave zic
+cmo/printatt/moquad/-all- minmax  
+</code></pre></div></div>
+<p>Add the attribute zsave to the mesh object and copy zic attribute values into zsave attribute:</p>
+
+<pre class="lg-output"> 
+
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00     14241  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                       14241            14241               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                    14000            14000               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                4                4               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0     14241  
+ ialias                           0                0               0     14241  
+ imt1                             1                1               0     14241  
+ itp1                             0               10              10     14241  
+ icr1                             0                0               0     14241  
+ isn1                             0                0               0     14241  
+ xic                4.980000000E+05  5.005000000E+05 2.500000000E+03     14241  
+ yic                5.370000000E+05  5.405000000E+05 3.500000000E+03     14241  
+ zic                1.638043335E+03  1.856468628E+03 2.184252930E+02     14241  
+ xtetwd                           0                0               0     14000  
+ itetclr                          1                1               0     14000  
+ itettyp                          4                4               0     14000  
+ itetoff                          0            55996           55996     14000  
+ jtetoff                          0            55996           55996     14000  
+ itet                             1            14241           14240     14000x4
+ jtet                             2         16000000        15999998     14000x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.562806528E-10  9.562806528E-10 0.000000000E+00         1  
+ epsilona           4.118418852E-06  4.118418852E-06 0.000000000E+00         1  
+ epsilonv           4.243763815E-04  4.243763815E-04 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                      14241            14241               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               4.980000000E+05  4.980000000E+05 0.000000000E+00         1  
+ ymin               5.370000000E+05  5.370000000E+05 0.000000000E+00         1  
+ zmin               1.638043335E+03  1.638043335E+03 0.000000000E+00         1  
+ xmax               5.005000000E+05  5.005000000E+05 0.000000000E+00         1  
+ ymax               5.405000000E+05  5.405000000E+05 0.000000000E+00         1  
+ zmax               1.856468628E+03  1.856468628E+03 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ zsave              1.638043335E+03  1.856468628E+03 2.184252930E+02     14241  
+</pre>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>
