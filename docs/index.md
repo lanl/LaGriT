@@ -6,7 +6,6 @@ title: LaGriT - Home
 
 <div class="extended-content-container">
   <div class="extended-content">
-    
     <br>Powerful mesh generation,<br>optimization, and maintenance.<br>
                 
     <div class="button" id="button-3">
@@ -14,16 +13,15 @@ title: LaGriT - Home
     <a href="https://github.com/lanl/LaGriT/releases">Download</a>
     </div>
                 
-    <div class="button" id="button-4">
-    <div id="underline"></div>
+    <div class="button" id="button-3">
+    <div id="circle"></div>
     <a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">LaGriT Tutorial</a>
     </div>
 
-    <div class="button" id="button-4">
-    <div id="underline"></div>
-    <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
+    <div class="button" id="button-3">
+    <div id="circle"></div>
+    <a href="https://lagrit.lanl.gov/">Contact Us</a>
     </div>
-
   </div>
 </div>
 
@@ -172,16 +170,9 @@ and analyze vertex and mesh based data.
     <li><a href="https://lanl.github.io/LaGriT/pages/docs/accessing.html">Accessing the Mesh Object</a></li>
     <li><a href="https://lanl.github.io/LaGriT/pages/util.html">Utility and Memory Subroutines</a></li>
     </ul>
+    <br>
+    <a href="https://lanl.github.io/LaGriT/pages/manual.html">Old Manual Index</a>
 
     </div>
   </div>
 </div>
-
-
-
-### [LaGriT BSD License](https://github.com/lanl/LaGriT/blob/master/LICENSE.md)
-### [Release Notes](pages/release.md)
-### [Old Manual Index](https://lanl.github.io/LaGriT/pages/manual.html)
-### [LaGriT Web Page and Team Contacts](https://lagrit.lanl.gov)
-### LaGriT Development Team email: lagrit-dev@lanl.gov
-

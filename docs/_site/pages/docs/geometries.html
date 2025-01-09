@@ -1,7 +1,7 @@
 <html lang="en-gb" dir="ltr">
 
 <head>
-    <title>Geometries</title>
+    <title>Geometries and Regions</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
@@ -51,9 +51,8 @@
                     </div>
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-visible@m">
-                            <li><a href="/pages/manual">Manual</a></li>
-                            <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
                             <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
                             <li><a href="/pages/publications">Publications</a></li>
                             <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
 
@@ -106,9 +105,12 @@
         <div class="tm-main uk-section uk-section-default">
             <div class="uk-container uk-container-small uk-position-relative">
 
-                <h1 id="geometries">Geometries</h1>
+                <h1 id="geometries-and-regions">Geometries and Regions</h1>
 
-<p>A geometry consists of a set of surfaces and regions that are defined in
+<p>Geometric regions for LaGriT are defined as combinations of bounding surfaces, where the surfaces are described analytically or as tessellated surfaces (triangles and/or quadrilaterals). A variety of techniques for distributing points within these geometric regions are provided. Mesh connectivity uses a Delaunay tetrahedralization algorithm that respects material interfaces. The data structures created to implement this algorithm are compact and powerful and expandable to include hybrid meshes (tet, hex, prism, pyramid, quadrilateral, triangle, line) however the main algorithms are for triangle and tetrahedral Delaunay meshes.</p>
+
+<p>A geometry for a mesh object can be defined and saved for use by one or more mesh objects. 
+It consists of a set of surfaces and regions that are defined in
 terms of existing surfaces.  A name is associated with the geometry data
 and the default name is  -defaultgeom-.  A geometry may be named using
 the <strong><a href="/pages/docs/geom_create.html">geometry/create</a></strong> command which must precede
@@ -142,15 +144,13 @@ which each query point falls.</p>
                 <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
                     <a href="/">Home</a>
                     ·
-                    <a href="/pages/docs/demos">Examples</a>
-                    ·
                     <a href="/pylagrit/original/index.html">PyLaGriT</a>
                     ·
-                    <a href="https://www.lanl.gov/org/ddste/aldcels/earth-environmental-sciences/computational-earth-science/index.php">EES-16</a>
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
                     ·
                     <a href="/pages/licensing.html">License</a>
                     ·
-                    <a href="mailto:tamiller@lanl.gov">Contact</a>
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
                 </p>
 
                 <p>&copy; 2019 Los Alamos National Laboratory</p>
@@ -170,9 +170,8 @@ which each query point falls.</p>
                         </form>
                         <li class="uk-nav-header">General</li>
                         <li><a href="/">Home</a></li>
-                        <li><a href="/pages/manual">Manual</a></li>
-                        <li><a href="/pylagrit/original/index.html">PyLaGriT</a></li>
                         <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
                         <li><a href="/pages/publications">Publications</a></li>
                         <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
                     </ul>

@@ -7,13 +7,13 @@
     margin-left: -50vw;
     margin-right: -50vw;
     background-color:#68A5F3;
-    padding-bottom: 50px;
-    padding-top: 50px;
+    padding-bottom: 15px;
+    padding-top: 15px;
 }
 
 @media only screen and (max-width: 960px) {
   .extended-content-container {
-    top: -40px;
+    top: -70px;
   }
 }
     
@@ -22,7 +22,7 @@
     background-color:#68A5F3;
     text-align:center;
     color: white;
-    font-size: 20pt;
+    font-size: 25pt;
 }
 
 /*
@@ -62,6 +62,7 @@
   position: relative;
   transition: all .45s ease-Out;
   color: white;
+  text-decoration: none;
 }
 
 #circle {

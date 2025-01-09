@@ -1,7 +1,7 @@
 <html lang="en-gb" dir="ltr">
 
 <head>
-    <title>crush_thin_tets</title>
+    <title>ABOUT THE TEST SUITE</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
@@ -105,126 +105,72 @@
         <div class="tm-main uk-section uk-section-default">
             <div class="uk-container uk-container-small uk-position-relative">
 
-                <h1 id="crush_thin_tets">CRUSH_THIN_TETS</h1>
+                
+<h2 id="about-the-test-suite">ABOUT THE TEST SUITE</h2>
 
-<hr />
+<p>The LaGriT Test Suite is located on the github repo at LaGriT/test/level01.
+Each directory contains input files and input.lgi with commands to run.</p>
 
-<p>This algorithm can be used to reduce sliver shaped tetrahedrals from a mesh.</p>
+<p>For each test directory there is a reference directory with expected output. Differences between the “outx3dgen” and “reference/outx3dgen” files will indicate why a test fails. The reference directory also contains all out* mesh files written during the run.</p>
 
-<h2 id="syntax">SYNTAX</h2>
+<h2 id="to-run-and-check-a-single-test">TO RUN AND CHECK A SINGLE TEST:</h2>
 
-<pre>
-<b>crush_thin_tets</b>/ cmo_name / [ TOLCRUSH ] / [pset,get,psetname]
-</pre>
-
-<p><code class="language-plaintext highlighter-rouge">cmo_name</code> is the mesh object name.</p>
-
-<p><code class="language-plaintext highlighter-rouge">TOLCRUSH</code> is the optional value providing a measurement selection to crush, the default value is .1</p>
-
-<p><strong>pset,get,</strong> <code class="language-plaintext highlighter-rouge">psetname</code> is the optional node selection for part of the mesh.</p>
-
-<h2 id="description">DESCRIPTION</h2>
-
-<p><strong><code class="language-plaintext highlighter-rouge">crush_thin_tets</code></strong> loops thru tets of a volume mesh
-and looks for elements that, relative to the characteristic
-length established by the normalized root mean square length
-of the edges, are thinner than TOLCRUSH.</p>
-
-<p>In the case that thinness is defined as the minimum tet altitude, then this relative length
-is actually an aspect ratio, because it goes to zero if
-the tet is degenerate and has a maximal value of 1 for a regular tet.</p>
-
-<p>Given the relative length scale, we can measure thinness
-not just of the altitudes, but of any distance measurement in the tet.
-In particular there are four type of thin situations
-possible for a bad tet and we take appropriate actions for each case:</p>
-
-<p>1) If an element has relative edge length shorter than TOLCRUSH, it is merged.</p>
-
-<p>2) If a normal point-to-edge projection has relative length &lt; TOLCRUSH,
-    a node is added to the edge, so that a type (1) merge can take place.</p>
-
-<p>3) If a normal point-to-face projection has relative length &lt; TOLCRUSH,
-     a node is added to the face, so that a type (1) merge can take place.</p>
-
-<p>4) If a normal mutual diagonal-to-diagonal projection has relative length &lt; TOLCRUSH, 
-    a node is added to one diagonal, so that a type (2) situation is created
-    (which leads to another refinement and a type (1) merge).</p>
-
-<p>Since there are situations when a type (1) action would be barely
-rejected on tolerance, but the more complicated type (2) action
-would be barely accepted on tolerance, we loosen the tolerance
-slightly for type (1) actions relative to type (2) actions to avoid this.
-Similarly, there are situations when a type (2) action would be
-barely rejected on tolerance, but the more complicated type (3)
-or type (4) actions would be barely accepted on tolerance.
-To avoid this we loosen the tolerance of type (2) actions relative
-to type (3) and type(4) actions.</p>
-
-<p>Currently we are using these effective tolerances (on relative length):</p>
 <ul>
-  <li>type 1 : 1.2*TOLCRUSH</li>
-  <li>type 2 : 1.1*TOLCRUSH</li>
-  <li>type 3 : TOLCRUSH</li>
-  <li>type 4 : TOLCRUSH</li>
+  <li>Go into the individual directory (ie addmesh_add).</li>
+  <li>Run lagrit exectuable and compare to files in reference directory.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lagrit -out outx3dgen &lt; input.lgi
+  diff outx3dgen reference/outx3dgen
+</code></pre></div>    </div>
+  </li>
+  <li>Or use default output file names:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  lagrit &lt; input.lgi
+  diff lagrit.out reference/outx3dgen
+</code></pre></div>    </div>
+  </li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/addmesh_add">addmesh_add</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/addmesh_append">addmesh_append</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/addmesh_doublemesh">addmesh_doublemesh</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/addmesh_merge">addmesh_merge</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/cmo_addatt_normals">cmo_addatt_normals</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/cmo_readatt">cmo_readatt</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/connect_cube">connect_cube</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/connect_errors">connect_errors</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/createpts">createpts</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/createpts_filter">createpts_filter</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/eltset">eltset</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/filter">filter</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/grid2grid">grid2grid</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/hextotet">hextotet</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/hybrid_volume">hybrid_volume</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/interp_continuous">interp_continuous</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/interp_map">interp_map</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/interp_voronoi">interp_voronoi</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/intersect">intersect</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/intrp_2D_sizes">intrp_2D_sizes</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/io_agf_simple">io_agf_simple</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/pflotran_stor">pflotran_stor</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/pset">pset</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/pset_readwrite">pset_readwrite</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/quad_quality">quad_quality</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/quality">quality</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/read_gocad">read_gocad</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/recon1">recon1</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/refine_octree">refine_octree</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/refine_octree_prd">refine_octree_prd</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/refine_recon_quality">refine_recon_quality</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/rmpoint">rmpoint</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/rotateln">rotateln</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/setpts">setpts</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/single_triangle">single_triangle</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/smooth">smooth</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/smooth_massage">smooth_massage</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/sort">sort</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/stack_layers">stack_layers</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/surface">surface</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/triangulate_polygon">triangulate_polygon</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/zone_outside">zone_outside</a></li>
+  <li><a href="https://github.com/lanl/LaGriT/tree/master/test/level01/zone_outside_minmax">zone_outside_minmax</a></li>
 </ul>
-
-<h2 id="examples">EXAMPLES</h2>
-
-<p>The LaGriT input is an AVS format file with a thin tet number 1 with aspect ratio of .149 making it a sliver.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  6   5  0 0 0
-1  0. -1. .05 
-2  1. 0. -.05 
-3  0. 1. .05 
-4  -1. 0. -.05 
-5  0.  0. -2.
-6  0.  0. 2.
-1 1 tet 1 4 2 3
-2 2 tet 1 2 4 5
-3 3 tet 1 4 3 6
-4 4 tet 2 3 4 5
-4 5 tet 2 1 3 6
-</code></pre></div></div>
-
-<p>This example calls crush_thin_tets twice, once with TOLCRUSH= .1 and again with TOLCRUSH .15, a value larger than the known aspect ratio of .149.
-As a result, nothing will happen on the first call. The second call will find and crush the sliver by splitting elements and merging edges to create a new mesh without the sliver.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>crush_thin_tets / cmotet / .1
-rmpoint/compress
-resetpts itp
-
-crush_thin_tets / cmotet / .15
-rmpoint/compress
-resetpts itp
-</code></pre></div></div>
-
-<p>The first call has no change to the input. The second call splits tets such that thin tet is eliminated. Images show the input tet cell numbers and node numbers (left), the input tet elements exploded for viewing (middle), the output from crush_thin_tets with exploded view (right).</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center"> </th>
-      <th style="text-align: center"> </th>
-      <th style="text-align: center"> </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: center"><strong>input tet id numbers</strong></td>
-      <td style="text-align: center"><strong>input tets exploded</strong></td>
-      <td style="text-align: center"><strong>output tets exploded</strong></td>
-    </tr>
-    <tr>
-      <td style="text-align: center"><img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_input.png" /></td>
-      <td style="text-align: center"><img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_input_ex.png" /></td>
-      <td style="text-align: center"><img width="400" src="https://lanl.github.io/LaGriT/assets/images/crush_output_ex.png" /></td>
-    </tr>
-  </tbody>
-</table>
 
 
             </div>
