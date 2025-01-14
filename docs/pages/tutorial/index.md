@@ -32,13 +32,11 @@
 <!-- Tutorial card -->
 <div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
         <div class="uk-card-media-left uk-cover-container">
-
      	<div class="uk-card-media-top">
    	<img src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
 	</div>
-
         </div>
-    <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
+        <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
         <div>
             <div class="uk-card-body">
                 <h3 class="uk-card-title">Stratigraphic Hex to Tet Mesh Tutorial</h3>
@@ -50,7 +48,7 @@
 </div>
 <!-- End tutorial card -->
 
-
+<!-- Begin Example cards - Order is controlled by height of the images and words. Default .uk-card card height is set at min-height of 350px in assets/uikit_theme.css -->
 <h1 class="uk-heading-line"><span>Examples</span></h1>
 <!-- Types are tutorial, demo, utility, commands in order from most complex to simple -->
 
@@ -67,7 +65,6 @@ Select All, or by one of the categories:
 
 <!-- Cards for Example commands, utility, and demo, tutorial  -->
 <div uk-filter="target: .js-filter">
-
     <ul class="uk-subnav uk-subnav-pill">
         <li class="uk-active" uk-filter-control><a href="#">All</a></li>
         <li uk-filter-control="[data-color='command']"><a href="#">Commands</a></li>
@@ -76,174 +73,153 @@ Select All, or by one of the categories:
         <li uk-filter-control="[data-color='tutorial']"><a href="#">Tutorial</a></li>
     </ul>
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
-
-<!-- demo cards -->
-
-       
-	
+<!-- demo cards -->      	
 	<li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/demo_creatept_interp.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
                         </div>
                         <p>Create Quad Surface from Hex Sphere <br> Stack surfaces into Hex Cylinder</p>
                     </div>
                 </a>
             </div>
         </li>
-
-
 	<li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/description_brick_trunc.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/brick_tet_truncated.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/brick_tet_truncated.png" alt="">
                         </div>
                         <p> Define Layers using Surfaces <br> Connect Tets and Truncate top </p>
                     </div>
                 </a>
             </div>
         </li>
-
         <li data-color="demo">
             <div>
                 <a href="https://github.com/lanl/GeologicMeshing/tree/master/GDSA/">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
                         </div>
                         <p> Four Octree Mesh Examples <br> for GDSA Testing (on github)</p>
                     </div>
                 </a>
             </div>
-        </li>
-	    
+        </li>	    
 	    <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
+                            <img style="max-height:200px;" src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
                         </div>
                         <p>Octree Refine Hex with Surface Intersect</p>
                     </div>
                 </a>
             </div>
         </li>
-
-  <li data-color="demo">
+        <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
+                            <img style="max-height:200px;" src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
                         </div>
                         <p>Stack surfaces into Exodus mesh with Materials with facesets of Boundary and Outlet</p>
                     </div>
                 </a>
             </div>
         </li>
-
         <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/main_rotateln.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/mesh_rot_tet.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/mesh_rot_tet.png" alt="">
                         </div>
                         <p>Use createpts and regnpts <br> to Create a Rotated Cylinder in Box</p>
                     </div>
                 </a>
             </div>
         </li>
-
-
-     <li data-color="demo">
+        <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/main_extract_surfmesh.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
                         </div>
                         <p>Extract Boundary Surfaces <br> from a Multi-material 3D Mesh</p>
                     </div>
                 </a>
             </div>
         </li>
-
- <li data-color="demo">
+        <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
                         </div>
                         <p>Stack cos() surfaces into Hex Mesh and Connect Delaunay  </p>
                     </div>
                 </a>
             </div>
-        </li>
-	    
-	<li data-color="demo">
+        </li>	    
+	    <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
                         <p>Stack cos() surfaces into Hex Mesh and Convert into Tets</p>
                     </div>
                 </a>
             </div>
         </li>
-
 <!-- tutorial cards -->
-
         <li data-color="tutorial">
             <div>
                 <a href="{{ "/pages/tutorial/tutorials/regions_points_to_tet.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
+                            <img style="max-height:200px;" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
                         </div>
                         <p>Tutorial: Create Tet Mesh using Regions and Ray Shooting</p>
                     </div>
                 </a>
             </div>
         </li>
-
       <li data-color="tutorial">
             <div>
                 <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
+                            <img style="max-height:200px;" src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
                         </div>
                         <p>Tutorial: Octree refined Hex to Tet Mesh <br> with Well and Stratigraphic Surfaces</p>
                     </div>
                 </a>
             </div>
         </li>
-
-
 <!-- utility cards -->
-
         <li data-color="utility">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.png" alt="">
+                            <img style="max-height:200px;" src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.png" alt="">
                         </div>
                         <p>Merge Intersecting Surfaces</p>
                     </div>
                 </a>
             </div>
         </li>
-
         <li data-color="utility">
             <div>
                 <a href="{{ "/pages/docs/demos/extract_facesets.html" | relative_url }}">
@@ -253,8 +229,7 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
-	 <li data-color="utility">
+	    <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/convert_feet_to_meters.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -263,7 +238,6 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
         <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/reset_truncated_nodes_imt.html" | relative_url }}">
@@ -273,8 +247,7 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
-<li data-color="utility">
+        <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/cmo_addatt_vorvol.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -283,10 +256,7 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
-
 <!-- command cards alphabetical -->
-
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}" style="font-weight: bold;">
                 <div class="uk-card uk-card-default uk-card-body">addmesh</div>
@@ -367,8 +337,6 @@ Select All, or by one of the categories:
                 <div class="uk-card uk-card-default uk-card-body">triangulate</div>
             </a>
         </li>
-
-
     </ul>
 </div>
 <!-- Examples demos grid -->

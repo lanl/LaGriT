@@ -2226,7 +2226,8 @@ select.uk-form-width-xsmall {
 .uk-card {
     position: relative;
     box-sizing: border-box;
-    transition: box-shadow .1s ease-in-out
+    transition: box-shadow .1s ease-in-out;
+    min-height: 350px; /* This controls the minimum height of cards */
 }
 
 .uk-card-body {
