@@ -102,7 +102,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/brick_tet_truncated.png" alt="">
                         </div>
-                        <p> Define Layered Materials using Surfaces <br> Connect Tets Delaunay and Truncate top </p>
+                        <p> Define Layers using Surfaces <br> Connect Tets and Truncate top </p>
                     </div>
                 </a>
             </div>
@@ -115,7 +115,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
                         </div>
-                        <p> Four Octree Mesh Examples <br> on github for GDSA Testing</p>
+                        <p> Four Octree Mesh Examples <br> for GDSA Testing (on github)</p>
                     </div>
                 </a>
             </div>
@@ -128,7 +128,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
                         </div>
-                        <p>Octree Refine Hex by Intersecting with Surfaces</p>
+                        <p>Octree Refine Hex with Surface Intersect</p>
                     </div>
                 </a>
             </div>
@@ -147,8 +147,34 @@ Select All, or by one of the categories:
             </div>
         </li>
 
-	    
-<li data-color="demo">
+        <li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/main_rotateln.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/mesh_rot_tet.png" alt="">
+                        </div>
+                        <p>Use createpts and regnpts <br> to Create a Rotated Cylinder in Box</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+
+     <li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/main_extract_surfmesh.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
+                        </div>
+                        <p>Extract Boundary Surfaces <br> from a Multi-material 3D Mesh</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
+ <li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/main_connect.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
@@ -169,32 +195,6 @@ Select All, or by one of the categories:
                             <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
                         <p>Stack cos() surfaces into Hex Mesh and Convert into Tets</p>
-                    </div>
-                </a>
-            </div>
-        </li>
-        <li data-color="demo">
-            <div>
-                <a href="{{ "/pages/docs/demos/main_rotateln.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/mesh_rot_tet.png" alt="">
-                        </div>
-                        <p>Use createpts and regnpts to Represent <br> a Rotated Cylinder in Box</p>
-                    </div>
-                </a>
-            </div>
-        </li>
-
-
-     <li data-color="demo">
-            <div>
-                <a href="{{ "/pages/docs/demos/main_extract_surfmesh.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
-                        </div>
-                        <p>Extract Boundary and Interface Surfaces <br> from a Multi-material 3D Mesh</p>
                     </div>
                 </a>
             </div>
