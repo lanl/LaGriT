@@ -88,7 +88,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
                         </div>
-                        <p>Quad Surface from Hex Sphere <br> Stack surfaces into Hex Cylinder</p>
+                        <p>Create Quad Surface from Hex Sphere <br> Stack surfaces into Hex Cylinder</p>
                     </div>
                 </a>
             </div>
@@ -102,7 +102,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/brick_tet_truncated.png" alt="">
                         </div>
-                        <p> Brick Tet Mesh Truncated by Surface</p>
+                        <p> Define Layered Materials using Surfaces <br> Connect Tets Delaunay and Truncate top </p>
                     </div>
                 </a>
             </div>
@@ -115,7 +115,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
                         </div>
-                        <p>Octree 4 Cube Examples</p>
+                        <p> Four Octree Mesh Examples <br> on github for GDSA Testing</p>
                     </div>
                 </a>
             </div>
@@ -128,11 +128,25 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/tets_add_02_TN.PNG" alt="">
                         </div>
-                        <p>Octree Refine Hex using Intersect Object</p>
+                        <p>Octree Refine Hex by Intersecting with Surfaces</p>
                     </div>
                 </a>
             </div>
         </li>
+
+  <li data-color="demo">
+            <div>
+                <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
+                        </div>
+                        <p>Stack surfaces into Exodus mesh with Materials with facesets of Boundary and Outlet</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+
 	    
 <li data-color="demo">
             <div>
@@ -166,25 +180,12 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/mesh_rot_tet.png" alt="">
                         </div>
-                        <p>Rotate Cylinder in Box</p>
+                        <p>Use createpts and regnpts to Represent <br> a Rotated Cylinder in Box</p>
                     </div>
                 </a>
             </div>
         </li>
 
-
-        <li data-color="demo">
-            <div>
-                <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
-                        </div>
-                        <p>Stack surfaces into Exodus mesh with Materials with facesets of Boundary and Outlet</p>
-                    </div>
-                </a>
-            </div>
-        </li>
 
      <li data-color="demo">
             <div>
@@ -193,12 +194,13 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/box_surf_all.png" alt="">
                         </div>
-                        <p>Extract Surfmesh</p>
+                        <p>Extract Boundary and Interface Surfaces <br> from a Multi-material 3D Mesh</p>
                     </div>
                 </a>
             </div>
         </li>
 
+<!-- tutorial cards -->
 
         <li data-color="tutorial">
             <div>
@@ -207,7 +209,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
                         </div>
-                        <p>Tet Mesh using Regions and Ray Shooting</p>
+                        <p>Tutorial: Create Tet Mesh using Regions and Ray Shooting</p>
                     </div>
                 </a>
             </div>
@@ -220,7 +222,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
                         </div>
-                        <p>Tet Mesh using Stratigraphic Surfaces</p>
+                        <p>Tutorial: Octree refined Hex to Tet Mesh <br> with Well and Stratigraphic Surfaces</p>
                     </div>
                 </a>
             </div>
