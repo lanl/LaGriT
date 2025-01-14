@@ -48,7 +48,8 @@
 </div>
 <!-- End tutorial card -->
 
-<!-- Begin Example cards - Order is controlled by height of the images and words. Default .uk-card card height is set at min-height of 350px in assets/uikit_theme.css -->
+<!-- Begin Example cards - Order is controlled by height of the images and words. Default .uk-card-default card height is set at min-height of 350px -->
+<!-- .uk-card-command card height is set at max-height of 200px and in assets/uikit_theme.css -->
 <h1 class="uk-heading-line"><span>Examples</span></h1>
 <!-- Types are tutorial, demo, utility, commands in order from most complex to simple -->
 
@@ -211,10 +212,7 @@ Select All, or by one of the categories:
         <li data-color="utility">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/index.html">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
-                        <div class="uk-card-media-top">
-                            <img style="max-height:200px;" src="https://meshing.lanl.gov/proj/examples/ex_quad_surface_prevent_crossing/03_output_modified_surface.png" alt="">
-                        </div>
+                    <div class="uk-card uk-card-command uk-card-body uk-card-hover">
                         <p>Merge Intersecting Surfaces</p>
                     </div>
                 </a>
@@ -223,7 +221,7 @@ Select All, or by one of the categories:
         <li data-color="utility">
             <div>
                 <a href="{{ "/pages/docs/demos/extract_facesets.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card uk-card-command uk-card-body uk-card-hover">
                         <p> Extract Face and Node Sets <br> with extract/surfmesh</p>
                     </div>
                 </a>
@@ -232,7 +230,7 @@ Select All, or by one of the categories:
 	    <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/convert_feet_to_meters.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card uk-card-command uk-card-body uk-card-hover">
                         <p>Convert <br> Meters and Feet</p>
                     </div>
                 </a>
@@ -241,7 +239,7 @@ Select All, or by one of the categories:
         <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/reset_truncated_nodes_imt.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card uk-card-command uk-card-body uk-card-hover">
                         <p>Reset imt values <br> for truncated mesh</p>
                     </div>
                 </a>
@@ -250,7 +248,7 @@ Select All, or by one of the categories:
         <li data-color="utility">
             <div>
                 <a href="{{ "/pages/tutorial/utility/cmo_addatt_vorvol.html" | relative_url }}">
-                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card uk-card-command uk-card-body uk-card-hover">
                         <p>Voronoi node attribute </p>
                     </div>
                 </a>
@@ -259,82 +257,82 @@ Select All, or by one of the categories:
 <!-- command cards alphabetical -->
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_addmesh.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">addmesh</div>
+                <div class="uk-card uk-card-command uk-card-body">addmesh</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_connect.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">connect 2D</div>
+                <div class="uk-card uk-card-command uk-card-body">connect 2D</div>
             </a>
         </li>
        <li data-color="command">
             <a href="{{ "/pages/docs/demos/description_connect.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">connect 3D</div>
+                <div class="uk-card uk-card-command uk-card-body">connect 3D</div>
             </a>
         </li>
 	 <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_createpts.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">createpts</div>
+                <div class="uk-card uk-card-command uk-card-body">createpts</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_dump.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">dump</div>
+                <div class="uk-card uk-card-command uk-card-body">dump</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/description_hextet.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">grid2grid hextotet5</div>
+                <div class="uk-card uk-card-command uk-card-body">grid2grid hextotet5</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_rivara.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">negative_aij</div>
+                <div class="uk-card uk-card-command uk-card-body">negative_aij</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_pset.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">pset</div>
+                <div class="uk-card uk-card-command uk-card-body">pset</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_qual.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">quality</div>
+                <div class="uk-card uk-card-command uk-card-body">quality</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_2d_recon.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">recon 2D</div>
+                <div class="uk-card uk-card-command uk-card-body">recon 2D</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_regnpts.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">regnpts</div>
+                <div class="uk-card uk-card-command uk-card-body">regnpts</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_rmmat.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">rmmat</div>
+                <div class="uk-card uk-card-command uk-card-body">rmmat</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/description_rotatept.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">rotatept</div>
+                <div class="uk-card uk-card-command uk-card-body">rotatept</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_sort.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">sort</div>
+                <div class="uk-card uk-card-command uk-card-body">sort</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_trans.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">trans</div>
+                <div class="uk-card uk-card-command uk-card-body">trans</div>
             </a>
         </li>
         <li data-color="command">
             <a href="{{ "/pages/docs/demos/main_tri.html" | relative_url }}" style="font-weight: bold;">
-                <div class="uk-card uk-card-default uk-card-body">triangulate</div>
+                <div class="uk-card uk-card-command uk-card-body">triangulate</div>
             </a>
         </li>
     </ul>
