@@ -41,8 +41,8 @@
     <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
         <div>
             <div class="uk-card-body">
-                <h3 class="uk-card-title">Stratigraphic Hex Mesh Tutorial</h3>
-                <p>Complex stratigraphic mesh creation with faults, wells, and subsurface layering</p>
+                <h3 class="uk-card-title">Stratigraphic Hex to Tet Mesh Tutorial</h3>
+                <p>Hex mesh using octree refinement with stratigraphy, faults, wells, and subsurface layering</p>
                 <span class="uk-badge">Advanced</span>
             </div>
         </div>
@@ -141,7 +141,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/wave_tet_highres.png" alt="">
                         </div>
-                        <p>Stacked mesh with Conforming Surfaces  </p>
+                        <p>Stack cos() surfaces into Hex Mesh and Connect Delaunay  </p>
                     </div>
                 </a>
             </div>
@@ -154,7 +154,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/wave_hextotet5_tet_edges.png" alt="">
                         </div>
-                        <p>Stacked mesh hex-to-tet instead of connect</p>
+                        <p>Stack cos() surfaces into Hex Mesh and Convert into Tets</p>
                     </div>
                 </a>
             </div>
@@ -180,7 +180,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
                         </div>
-                        <p>Stacked Mesh with Facesets from Boundary Lines</p>
+                        <p>Stack surfaces into Exodus mesh with Materials with facesets of Boundary and Outlet</p>
                     </div>
                 </a>
             </div>
