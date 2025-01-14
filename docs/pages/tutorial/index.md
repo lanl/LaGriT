@@ -88,7 +88,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
                         </div>
-                        <p>Create Hex Sphere into Stacked Hex Cylinder</p>
+                        <p>Quad Surface from Hex Sphere <br> Stack surfaces into Hex Cylinder</p>
                     </div>
                 </a>
             </div>
