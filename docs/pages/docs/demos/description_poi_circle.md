@@ -8,24 +8,15 @@ The objective is to use the command **createpts/poisson_disk** on a circle polyg
 - variable resolution mesh with target edge length defined in user_resolution_2.mlgi 
 
 
-The following LaGriT command files are used:
+The following LaGriT command files are used (.txt appended to names so browser can display):
 
-LaGriT main command file: [lagrit_input_poi_circle.lgi.txt](input/lagrit_input_poi_circle.lgi.txt)
-LaGriT macro called by main: [user_resolution_1.mlgi](input/user_resolution_1.mlgi)
-LaGriT macro called by main: [user_resolution_2.mlgi](input/user_resolution_2.mlgi)
+- LaGriT main command file: [lagrit_input_poi_circle.lgi.txt](input/lagrit_input_poi_circle.lgi.txt)
+- LaGriT macro called by main: [user_resolution_1.mlgi](input/user_resolution_1.mlgi.txt)
+- LaGriT macro called by main: [user_resolution_2.mlgi](input/user_resolution_2.mlgi.txt)
 
-LaGriT output report: [lagrit_output_poi_circle.out.txt](output/lagrit_output_poi_circle.out.txt)
+- LaGriT output report for this demo: [lagrit_output_poi_circle.out.txt](output/lagrit_output_poi_circle.out.txt)
 
-
-
-
-
-Create poisson disk point distribution and connect into triangles using h = 0.1
-<a href="output/poi_output02_tri_h0.1_lines.png" > <img width="250" src="output/poi_output02_tri_h0.1_emin.png"> </a>
-
-Create poisson disk point distribution and connect into triangles using h = 0.05
-<a href="output/poi_output03_tri_h0.05_lines.png" > <img width="250" src="output/poi_output03_tri_h0.05_emin.png"> </a>
-
+*Click on images for full size views.*
 
 ### Step 1. Create Input Polygon 
 Build a unit circle polygon with number of points (NP) = 17.  One node will be removed because vertices are distributed from 0-360 degrees so last overlaps first.  The command 'filter' removes the duplicate vertex.
@@ -52,7 +43,7 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
 quality / edge_min / y
 dump / avs / output02_triangle_h_0.1.inp / mo_poisson_disk
 ``` 
-<a href="output/poi_output02_tri_h0.1_lines.png" > <img width="250" src="poi_output02_tri_h0.1_lines.png"> </a> <a href="output/poi_output02_tri_h0.1_emin.png" > <img width="250" src="poi_output02_tri_h0.1_emin.png"> </a>
+<a href="output/poi_output02_tri_h0.1_lines.png" > <img width="250" src="output/poi_output02_tri_h0.1_lines.png"> </a> <a href="output/poi_output02_tri_h0.1_emin.png" > <img width="250" src="output/poi_output02_tri_h0.1_emin.png"> </a>
 
 ### Step 3. Compute Poisson Disk vertex distribution with target spacing of 0.05
 Connect the vertices into triangles and add the min edge length attribute "emin".
@@ -64,10 +55,10 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
 quality / edge_min / y
 dump / avs / output03_triangle_h_0.05.inp / mo_poisson_disk
 ```
-<a href="poi_output03_tri_h0.05_lines.png" > <img width="250" src="poi_output03_tri_h0.05_lines.png"> </a> <a href="poi_output03_tri_h0.05_emin.png" > <img width="250" src="poi_output03_tri_h0.05_emin.png"> </a>
+<a href="output/poi_output03_tri_h0.05_lines.png" > <img width="250" src="output/poi_output03_tri_h0.05_lines.png"> </a> <a href="output/poi_output03_tri_h0.05_emin.png" > <img width="250" src="output/poi_output03_tri_h0.05_emin.png"> </a>
 
 ### Step 4. Create a variable resolution mesh based on points
-- Resolution is defined in user functions  in [user_resolution_1.mlgi](input/user_resolution_1.mlgi) 
+- Resolution is defined in user functions  in [user_resolution_1.mlgi](input/user_resolution_1.mlgi.txt) 
 - Decrease the resolution to a target spacing of 0.01
 - The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_1.mlgi
 - Use the macro file to create points and use the distance from the points for resolution field h(x,y)
@@ -83,7 +74,7 @@ dump / avs / output04_triangle_variable_1.inp / mo_poisson_disk
 <a href="output/poi_output04_tri_var1_lines.png" > <img width="250" src="output/poi_output04_tri_var1_lines.png"> </a>
 
 ### Step 5. Create a variable resolution mesh based on sin() wave 
-- Resolution is defined in user functions in [user_resolution_2.mlgi](input/user_resolution_2.mlgi)
+- Resolution is defined in user functions in [user_resolution_2.mlgi](input/user_resolution_2.mlgi.txt)
 - The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_2.mlgi
 - Use the macro file to create points and use the distance from the points for resolution field h(x,y)
 
