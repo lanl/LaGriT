@@ -75,7 +75,6 @@ Select All, or by one of the categories:
     </ul>
     <ul class="js-filter uk-child-width-1-2 uk-child-width-1-3@m uk-text-center" uk-grid="masonry: true">
 <!-- demo cards -->      	
-
 <!-- Basic -->
 	<li data-color="demo">
             <div>
@@ -101,7 +100,6 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
 <!-- Moderate -->
         <li data-color="demo">
             <div>
@@ -110,7 +108,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/GDSA_4Tests_images.png" alt="">
                         </div>
-                        <p> Four Octree Mesh Examples <br> for GDSA Testing (on github) <pre> Moderate</p> 
+                        <p> Four Octree Mesh Examples <br> for GDSA Testing (on github) <br> Moderate</p> 
                     </div>
                 </a>
             </div>
@@ -163,9 +161,7 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
 <!-- Advanced -->
-
          <li data-color="demo">
             <div>
                 <a href="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/method.html">
@@ -178,7 +174,6 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
 	<li data-color="demo">
             <div>
                 <a href="{{ "/pages/docs/demos/demo_creatept_interp.html" | relative_url }}">
@@ -191,7 +186,6 @@ Select All, or by one of the categories:
                 </a>
             </div>
         </li>
-
 <!-- tutorial cards -->
         <li data-color="tutorial">
             <div>
