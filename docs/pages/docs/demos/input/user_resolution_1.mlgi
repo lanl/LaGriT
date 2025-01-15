@@ -3,14 +3,11 @@ define / H_ATTRIBUTE / h_field_att
 
 # Y = Ax + B
 #
-# Slope
-# 0.1 works
-# 0.2 works
-# 0.25 works
-# 0.29 works
-# 0.295 crashes
-# 0.299 crashes
-# 0.3 crashes
+# Slope values to try
+# 0.1 
+# 0.2 
+# 0.25 
+# 0.29 
 #
 define / SLOPE / 0.29
 # Intersect
