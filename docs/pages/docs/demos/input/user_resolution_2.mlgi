@@ -3,13 +3,10 @@ define / H_ATTRIBUTE / h_field_att
 
 # Y = Ax + B
 #
-# Slope
+# Slope values to try
 # 0.2 works
 # 0.25 works
 # 0.29 works
-# 0.295 crashes
-# 0.299 crashes
-# 0.3 crashes
 #
 define / SLOPE / 0.1
 # Intersect
@@ -18,6 +15,7 @@ define / INTERCEPT / 0.0
 # Create some points and then use the distance from the points to define the user
 # defined resolution field h(x,y)
 #
+# use the sin() function to create a set of points in a wave line
 cmo / create / mo_pts / / / tet
 createpts / line / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
 createpts / line / 400 / / / -3.95 0.0 0.0 / 3.95 0.0 0.0 / 1 1 1
