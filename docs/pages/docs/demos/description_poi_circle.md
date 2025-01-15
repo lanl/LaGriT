@@ -90,7 +90,7 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
 quality / edge_min / y
 dump / avs / output04_triangle_variable_1.inp / mo_poisson_disk
 ```
-<a href="input/poi_output04_tri_var1_lines.png" > <img width="250" src="input/poi_output04_tri_var1_lines.png"> </a>
+<a href="output/poi_output04_tri_var1_lines.png" > <img width="250" src="output/poi_output04_tri_var1_lines.png"> </a>
 
 ### Step 4. ######################################
 # Create a variable resolution mesh
@@ -110,7 +110,7 @@ dump / avs / output05_triangle_variable_2.inp / mo_poisson_disk
 cmo / delete / mo_poisson_disk
 ```
 
-<a href="input/poi_output04_tri_var2_lines.png" > <img width="250" src="input/poi_output04_tri_var2_lines.png"> </a>
+<a href="output/poi_output04_tri_var2_lines.png" > <img width="250" src="output/poi_output04_tri_var2_lines.png"> </a>
 
 ### LaGriT Output Report for Mesh Quality
 
