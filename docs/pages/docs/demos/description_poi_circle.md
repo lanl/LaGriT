@@ -14,7 +14,7 @@ The following LaGriT command files are used (.txt appended to names so browser c
 - LaGriT macro called by main: [user_resolution_1.mlgi](input/user_resolution_1.mlgi.txt)
 - LaGriT macro called by main: [user_resolution_2.mlgi](input/user_resolution_2.mlgi.txt)
 
-- LaGriT output report for this demo: [lagrit_output_poi_circle.out.txt](output/lagrit_output_poi_circle.out.txt)
+- LaGriT output report for this demo: [lagrit_output_poi_circle.out.txt](input/lagrit_output_poi_circle.out.txt)
 
 *Click on images for full size views.*
 
