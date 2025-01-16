@@ -13,7 +13,7 @@ title: LaGriT - Home
     </div>                
     <div class="button" id="button-3">
       <div id="circle"></div>
-        <a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">LaGriT Tutorial</a>
+        <a href="{{ "/pages/tutorial/index.html" | relative_url }}">LaGriT Tutorial</a>
     </div>
     <div class="button" id="button-3">
       <div id="circle"></div>
@@ -67,7 +67,7 @@ and analyze vertex and mesh based data.
       enhances the workflow, enabling rapid iterations for use in simulations
       incorporating uncertainty in system geometry and automatic mesh
       generation.
-      <a href="https://lanl.github.io/LaGriT/pylagrit/original/index.html">PyLaGriT Manual</a>
+      <a href="{{ "/pylagrit/original/index.html" | relative_url }}">PyLaGriT Manual</a>
       </p>
     </div>
   </div>
@@ -83,12 +83,12 @@ and analyze vertex and mesh based data.
     <p><br>LaGriT works on a single or multiple mesh objects which can be created or read from a file. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted with an input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following about using the commands. Refer to Tutorials and Examples for help with syntax and work flow. 
     </p>
     <ul>
-      <li><a href="https://lanl.github.io/LaGriT/pages/commands.html">Commands listed Alphabetically</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/commands_cat.html">Commands listed by Category</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/commandi.html">Command Interface</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/conventions.html">Syntax Conventions</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshing.html">Mesh Design Considerations</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/errors.html">LaGriT Error reporting</a></li>
+      <li><a href="{{ "/pages/commands.html" | relative_url }}">Commands listed Alphabetically</a></li>
+      <li><a href="{{ "/pages/commands_cat.html" | relative_url }}">Commands listed by Category</a></li>
+      <li><a href="{{ "/pages/docs/commandi.html" | relative_url }}">Command Interface</a></li>
+      <li><a href="{{ "/pages/docs/conventions.html" | relative_url }}">Syntax Conventions</a></li>
+      <li><a href="{{ "/pages/docs/meshing.html" | relative_url }}">Mesh Design Considerations</a></li>
+      <li><a href="{{ "/pages/docs/errors.html" | relative_url }}">LaGriT Error reporting</a></li>
     </ul>
     </div>
   </div>
@@ -104,10 +104,10 @@ and analyze vertex and mesh based data.
     <p><br>The easiest way to use LaGriT is by copying from working examples. The Tutorials will help you to understand how commands can be combined into a work flow. Examples and demos provide methods to create meshes and ways to optimize for and check for improved mesh quality.
     </p>
     <ul>
-      <li><a href="https://lanl.github.io/LaGriT/pages/tutorial/index.html">Tutorials and Examples</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/test_list.html">Test Suite Cases</a></li>
+      <li><a href="{{ "/pages/tutorial/index.html" | relative_url }}">Tutorials and Examples</a></li>
+      <li><a href="{{ "/pages/docs/test_list.html" | relative_url }}">Test Suite Cases</a></li>
       <li><a href="https://meshing.lanl.gov/proj/index.shtml">Meshing Projects Page</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/graphics.html">Some Graphics Examples</a></li>
+      <li><a href="{{ "/pages/graphics.html" | relative_url }}">Some Graphics Examples</a></li>
     </ul>
     </div>
   </div>
@@ -123,10 +123,10 @@ and analyze vertex and mesh based data.
     <p><br>The Mesh Object is the data structure which contains the information necessary to define a mesh. It consists of attributes that include coordinates, connectivity, and other data. Attributes are updated by LaGriT routines and can be modified by the user. Descriptions of the mesh object and associated details are included here. 
     </p>
     <ul>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobject.html">Mesh Object Definition</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/meshobjcon.html">Mesh Object Connectivity</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/supported.html">Supported Element Types</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/geometries.html">Geometries and Regions</a></li>
+      <li><a href="{{ "/pages/docs/meshobject.html" | relative_url }}">Mesh Object Definition</a></li>
+      <li><a href="{{ "/pages/docs/meshobjcon.html" | relative_url }}">Mesh Object Connectivity</a></li>
+      <li><a href="{{ "/pages/docs/supported.html" | relative_url }}">Supported Element Types</a></li>
+      <li><a href="{{ "/pages/docs/geometries.html" | relative_url }}">Geometries and Regions</a></li>
     </ul>
     </div>
   </div>
@@ -142,16 +142,17 @@ and analyze vertex and mesh based data.
     <p><br>LaGriT was originally written with Fortran and C and now includes C++ routines. New wrappers enable C++ to access fortran code needed to maintain and manipulate mesh objects.  CMake is used to generate the build system and works with C, C++, and compatible Fortran compilers. 
     </p>
     <ul>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/build.html">Building an Executable and Running LaGriT</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/fortran.html">Fortran Interface to LaGriT code</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/c-fortran.html">C-Fortran Interface to LaGriT code</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/issuing.html">Issuing Commands from a User Program</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/writing.html">Writing User Commands</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/docs/accessing.html">Accessing the Mesh Object</a></li>
-      <li><a href="https://lanl.github.io/LaGriT/pages/util.html">Utility and Memory Subroutines</a></li>
+      <li><a href="{{ "/pages/docs/build.html" | relative_url }}">Building an Executable and Running LaGriT</a></li>
+      <li><a href="{{ "/pages/docs/fortran.html" | relative_url }}">Fortran Interface to LaGriT code</a></li>
+      <li><a href="{{ "/pages/docs/c-fortran.html" | relative_url }}">C-Fortran Interface to LaGriT code</a></li>
+      <li><a href="{{ "/pages/docs/issuing.html" | relative_url }}">Issuing Commands from a User Program</a></li>
+      <li><a href="{{ "/pages/docs/writing.html" | relative_url }}">Writing User Commands</a></li>
+      <li><a href="{{ "/pages/docs/accessing.html" | relative_url }}">Accessing the Mesh Object</a></li>
+      <li><a href="{{ "/pages/util.html" | relative_url }}">Utility and Memory Subroutines</a></li>
+      <li><a href="{{ "/pages/github_pages_example.html" | relative_url }}">Style Guide and Conventions</a></li>
     </ul>
     <br>
-    <a href="https://lanl.github.io/LaGriT/pages/manual.html">Old Manual Index</a>
+    <a href="{{ "/pages/manual.html" | relative_url }}">Old Manual Index</a>
     </div>
   </div>
 </div>
