@@ -11,6 +11,8 @@ title: Tutorial LaGriT Introduction
 
 # Tutorial - LaGriT Introduction
 
+## Running LaGriT
+
 LaGriT consists of mesh **commands** and options that are used to create, modify, optimize, and write files. LaGriT can be run on the command line interactively so commands are entered one at a time at the prompt, or with one or more files containing the LaGriT commands. By convention we use ".lgi" for lagrit input file names and ".mlgi" for macro files called from main command file.
 
 Run lagrit from the command line interactively, or put commands in a file and redirect.
@@ -23,7 +25,16 @@ lagrit < input.lgi
 ```
 **Important Note:** the **`finish`** command must be used to exit interactive session and must be at end of command file.
 
+## LaGriT Syntax Conventions
 
+LaGriT reads commands and command options from each line at prompt or each line in a file. Each line starts with a **command** followed by command options. Syntax is very important and the [commands](https://lanl.github.io/LaGriT/pages/commands.html) reference pages should be followed or errors may occur. The following conventions apply:
+
+- Lines are a maximum of 80 characters long, identifiers and file names are a maximum of 32 characters long.
+- A line can be continued by an “&” as the last character of a line to be wrapped.
+- Command and token seperators are comma, slash, or blank. (‘,’ ‘/’ ‘ ‘).
+- White space is ignored except between slashes with empty space indicating default for that option should be used.
+- LaGriT will ignore lines that start with comment indicators '*' or '#'.
+See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conventions.html)
 
 ## Common terms and definitions
 
@@ -48,6 +59,8 @@ lagrit < input.lgi
 - LaGriT (.lgi and .mlgi) = LaGriT command files where .mlgi is a macro called from main command files.
 - AVS (.inp) = file format for mesh information that is easy to convert and recognized by most VIS applications
 - Exodus II (.exo) = Complicated mesh file format used for Amanzi/ATS and recognized by most VIS applications
+
+This tutorial covers the commands needed to generate simple meshes. The tutorial will explain how to generate a mesh, assign material properties, and write files for viewing.
 
 
 ## Step 1. Create a Mesh Object
