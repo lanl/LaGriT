@@ -35,9 +35,10 @@
 .button {
     display: inline-flex;
     height: 40px;
-    width: 165px;
+    /*width: 165px;
     /*border: 2px solid #BFC0C0;*/
     margin: 20px 20px 20px 20px;
+    padding: 0px 10px 0px 10px;
     color: #BFC0C0;
     text-transform: uppercase;
     text-decoration: none;
