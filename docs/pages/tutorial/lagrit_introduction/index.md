@@ -45,6 +45,9 @@ lagrit < input.lgi
 - itetclr = default name for element array with positive integer values indicating color or material
 - itp = boundary tags
 - geometry = created with **`surface`** and **`region`** commands and is used to set mesh materials
+- LaGriT (.lgi and .mlgi) = LaGriT command files where .mlgi is a macro called from main command files.
+- AVS (.inp) = file format for mesh information that is easy to convert and recognized by most VIS applications
+- Exodus II (.exo) = Complicated mesh file format used for Amanzi/ATS and recognized by most VIS applications
 
 
 ## Step 1. Create a Mesh Object
@@ -60,4 +63,14 @@ lagrit < input.lgi
 ## Step 6. Write Mesh and FEHM Setup Files 
 
 ## Step 7. Create a zone list for FEHM 
+
+## Step 8. Create Surfaces for Stacked Mesh
+
+## Step 9. Create Stacked Mesh
+
+## Step 10. Write Exodus Mesh from Stacked Mesh (Need build with Exodus Libraries)
+
+# Final Word
+
+Meshing with LaGriT is not automatic and methods can be complex. But the tools provide a robust variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. For some modeling applications, the LaGriT workflow can be generalized and easier to use. Applications using LaGriT for meshing include dfnWorks and Tinerator, both on github and available for download. We hope this Tutorial provides insight into LaGriT and how it may solve your meshing needs.
 
