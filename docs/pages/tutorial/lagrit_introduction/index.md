@@ -2,14 +2,13 @@
 title: Tutorial LaGriT Introduction
 ---
 
-<link rel="stylesheet" href="{{ "/assets/css/index_page_style.css" | relative_url }}">
+# Tutorial - LaGriT Introduction
 
 <div class="button" id="button-3">
    <div id="circle"></div>
    <a href="{{ "/pages/tutorial/lagrit_introduction/index" | relative_url }}">Download Tutorial</a>
 </div>
 
-# Tutorial - LaGriT Introduction
 
 ## Running LaGriT
 
@@ -60,30 +59,29 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 - AVS (.inp) = file format for mesh information that is easy to convert and recognized by most VIS applications
 - Exodus II (.exo) = Complicated mesh file format used for Amanzi/ATS and recognized by most VIS applications
 
+
+## LaGriT Examples
+
 This tutorial covers the commands needed to generate simple meshes. The tutorial will explain how to generate a mesh, assign material properties, and write files for viewing.
 
 
-## Step 1. Create a Mesh Object
+## [Step 1. Create a Hex Mesh](step_01.md)
 
-## Step 2. Check and View the Mesh
+## Step 2. Assign materials to the Hex Mesh
 
-## Step 3. Assign materials
+## Step 3. Check and View the Mesh
 
-## Step 4. Set boundary nodes
+## Step 4. Write Mesh and FEHM Setup Files 
 
-## Step 5. Check and View the Mesh
+## Step 5. Create a zone list for FEHM 
 
-## Step 6. Write Mesh and FEHM Setup Files 
+## Step 6. Create Surfaces for Stacked Mesh
 
-## Step 7. Create a zone list for FEHM 
+## Step 7. Create Stacked Mesh
 
-## Step 8. Create Surfaces for Stacked Mesh
+## Step 8. Write Exodus Mesh from Stacked Mesh (Need build with Exodus Libraries)
 
-## Step 9. Create Stacked Mesh
+## Final Word
 
-## Step 10. Write Exodus Mesh from Stacked Mesh (Need build with Exodus Libraries)
-
-# Final Word
-
-Meshing with LaGriT is not automatic and methods can be complex. But the tools provide a robust variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. For some modeling applications, the LaGriT workflow can be generalized and easier to use. Applications using LaGriT for meshing include dfnWorks and Tinerator, both on github and available for download. We hope this Tutorial provides insight into LaGriT and how it may solve your meshing needs.
+Meshing with LaGriT is not automatic and methods can be complex. But LaGriT tools provide a robust variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. For some modeling applications, the LaGriT workflow can be generalized and easier to use. Applications using LaGriT for meshing include dfnWorks and Tinerator, both on github and available for download. We hope this Tutorial provides insight into LaGriT and how it may solve your meshing needs.
 
