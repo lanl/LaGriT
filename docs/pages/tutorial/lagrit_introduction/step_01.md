@@ -2,23 +2,24 @@
 title: Tutorial LaGriT Introduction Step 01
 ---
 
+# Step 1. Build a Hex Mesh 
 
 <!-- Begin image -->
-
-<p><a href="images/01_hex_mesh.png"> <img width="500" src="images/01_hex_mesh.png" /> </a></p>
+<p><a href="step_01/01_hex_mesh.png"> <img width="500" src="step_01/01_hex_mesh.png" /> </a></p>
 <br>
 <!-- End image -->
 
-## 1. Build a Hex Mesh 
 
-Define all Mesh Objects to be used in this problem using the [**`cmo/create`**](commands/cmo/cmo_create.md) command. The [**`cmo/create`**](commands/cmo/cmo_create.md) command establishes an
-empty Mesh Object data structure ([see Section III.a](meshobject.md) for a description).
+### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
+### LaGriT  output file: [lagrit.out](step_01/01_create_hex.out.txt)
+
 
 A mesh object can be created by reading a mesh, ie ```read/avs/mesh.inp/ 3dmesh```
 or the mesh can be created. For this example we will start with one of the [`createpts`](../../docs/commands/createpts.md) commands. These are used to add points to a mesh object with defined distributions.
 
 For your first command you will create a 3D mesh object and name it `3dmesh`. This will be a structured hex mesh so we add the element type to the end of the command syntax.
 
+See more on the Mesh Object data structure at [LaGriT Mesh Object](https://lanl.github.io/LaGriT/pages/docs/meshobject.html)
 
 *Note on spacing: the slashes seperate keywords. The slashes with empty spaces are place holders if the user wants to define npoints or nelements in the command. We do not define these here since these values will be updated in the mesh object as points are created.*
 
@@ -32,7 +33,7 @@ View the contents of this empty mesh object. Note the mesh attributes nnodes and
 cmo/status/3dmesh
 ```
 
-We will use one of the simple **`createpts`** commands, this version will create a structured rectangular mesh which. Checking the syntax for [createpts/brick/](https://lanl.github.io/LaGriT/pages/docs/commands/createpts/CRTPTBRICK.html) we see options that can be defined as variables, making them easy to change.
+We will use one of the simple **`createpts`** commands, this version will create a structured rectangular mesh. Checking the syntax for [createpts/brick/](https://lanl.github.io/LaGriT/pages/docs/commands/createpts/CRTPTBRICK.html) we see options that can be defined as variables, making them easy to change.
 
 In LaGriT, variables are assigned using the `define` keyword. We define the variables before the commands. It is good practice to locate these all together with comments at the top of the command file. 
 
