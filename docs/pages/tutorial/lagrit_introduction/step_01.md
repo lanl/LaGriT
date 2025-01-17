@@ -10,8 +10,11 @@ title: Tutorial LaGriT Introduction Step 01
 <!-- End image -->
 
 
-### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
-### LaGriT  output file: [lagrit.out](step_01/01_create_hex.out.txt)
+#### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
+#### LaGriT  output file: [lagrit.out](step_01/01_create_hex.out.txt)
+
+
+## Create a Mesh Object
 
 
 A mesh object can be created by reading a mesh, ie ```read/avs/mesh.inp/ 3dmesh```
@@ -32,6 +35,8 @@ View the contents of this empty mesh object. Note the mesh attributes nnodes and
 ```
 cmo/status/3dmesh
 ```
+
+## Create Points for Hex Mesh
 
 We will use one of the simple **`createpts`** commands, this version will create a structured rectangular mesh. Checking the syntax for [createpts/brick/](https://lanl.github.io/LaGriT/pages/docs/commands/createpts/CRTPTBRICK.html) we see options that can be defined as variables, making them easy to change.
 
@@ -68,6 +73,9 @@ createpts/brick/xyz/ NX NY NZ / XMIN YMIN ZMIN/ XMAX YMAX ZMAX / 1,1,1
 As shown in the screen report, **`createpts/brick`** creates 1122 hex points and 800 hex elements. The connect option should not be used for the **brick** option  because the hex connectivity is created automatically.
 
 
+## Set Materials and Boundary Tags
+
+
 It is good practice to set materials for nodes (imt) and elements (itetlcr) to 1 before continuing. A 0 value in these arrays will cause some viewers to ignore that point or element. These attributes must be positive non-zero integers.
 
 *Note 1,0,0 represents all for node start,stride,end*
@@ -82,6 +90,9 @@ It is also good practice to reset the itp attribute anytime materials are change
 ```
 resetpts/itp
 ```
+
+## Check the Mesh
+
 
 View the Mesh Object status, brief version. This report affirms the creation of a 3D hex mesh. The **brief** option shows the cmo header without all the attributes.
 ```
@@ -100,6 +111,9 @@ Check the mesh with the **`quality`** command.  There should be no negative or z
 quality
 ```
 
+## Write the Mesh and View
+
+
 Write an AVS format mesh file for viewing the mesh.
 This file can be rendered in certain scientific 3D visualization applications such as Paraview.
 
@@ -114,6 +128,8 @@ Image shows hex mesh with node itp colors. The mesh is clipped in half to see th
 ```
 dump/ avs / 01_hex_mesh.inp / 3dmesh
 ```
+
+## finish
 
 Always end a session or a file with the **finish** command.
 
