@@ -35,9 +35,7 @@ LaGriT reads commands and command options from each line at prompt or each line 
 - LaGriT will ignore lines that start with comment indicators '*' or '#'.
 See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conventions.html)
 
-## Common terms and definitions
-
-### General
+## General Meshing Definitions
 
 - Mesh = Grid = elements defining geometric shapes allowing numerical computations for simulations 
 - Node = Vertice = point = mesh object nodes that can be used to connect into elements.
@@ -48,7 +46,7 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 - Voronoi = the vertices of the voronoi volumes correspond to the circumcenters of the Delaunay tri and tets 
 - control volume (CV) method = ensures conservation of mass and energy in fluid flow and heat transfer equations
 
-### LaGriT
+## LaGriT Meshing Definitions
 
 - Current Mesh Object = cmo = the mesh object that actions will act on by default.
 - imt = default name for node array with positive integer values indicating color or material
@@ -60,16 +58,16 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 - Exodus II (.exo) = Complicated mesh file format used for Amanzi/ATS and recognized by most VIS applications
 
 
-## LaGriT Examples
+## LaGriT Basics Tutorial 
 
 This tutorial covers the commands needed to generate simple meshes. The tutorial will explain how to generate a mesh, assign material properties, and write files for viewing.
 
 
 ## [Step 1. Create a Hex Mesh](step_01.md)
 
-## Step 2. Assign materials to the Hex Mesh
+## Step 2. Convert Hex Mesh to Tet Mesh
 
-## Step 3. Check and View the Mesh
+## Step 3. Assign materials to the Mesh
 
 ## Step 4. Write Mesh and FEHM Setup Files 
 
