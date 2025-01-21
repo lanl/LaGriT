@@ -1,0 +1,439 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 9.4.0                  *                 
+*               *    Date Compile: 2024/05/06                 *                 
+*               *    Run Time: 2025/Jan 21  12:03:38          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# LaGriT Tutorial Example 2                                                     
+# Create tet mesh from hex mesh                                                 
+# Use commands connect and grid2grid                                            
+# Create hex mesh from Example 1                                                
+infile 01_create_hex.lgi                                                        
+# Tutorial Example 1                                                            
+#                                                                               
+# Create an empty hex mesh object called 3dmesh                                 
+cmo/create/3dmesh///hex                                                         
+# View the mesh object attributes                                               
+cmo/status/3dmesh                                                               
+ 
+The current-mesh-object(CMO) is: 3dmesh                                         
+ 
+  1 Mesh Object name: 3dmesh                                                    
+    number of nodes =             0        number of elements =            0    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  0.000E+00  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  0.000E+00  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  8.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  1.200E+01  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  1.000E-08  
+ 35        epsilona REAL     scalar          scalar const perma   l  1.000E-08  
+ 36        epsilonv REAL     scalar          scalar const perma   l  1.000E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  0.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  0.000E+00  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l -1.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l -1.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 55            ymax REAL     scalar          scalar const perma   l  1.000E+00  
+ 56            zmax REAL     scalar          scalar const perma   l  1.000E+00  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  0.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+# Define parameters that will be used to create a mesh.                         
+# Values used will be the last written                                          
+# Mesh domain 100x50x80                                                         
+define/XMIN/0.                                                                  
+define/XMAX/100.                                                                
+define/YMIN/0.                                                                  
+define/YMAX/50.                                                                 
+define/ZMIN/0.                                                                  
+define/ZMAX/80.                                                                 
+# Set the number of points along each axis                                      
+# Spacing of 10 will have 11 points for length 100                              
+define/NX/11                                                                    
+define/NY/6                                                                     
+define/NZ/9                                                                     
+define/NZ/17                                                                    
+# Create points and connect into a hex mesh                                     
+createpts/brick/xyz/NX NY NZ/XMIN YMIN ZMIN/XMAX YMAX ZMAX/1,1,1                
+          Number of nodes:        1122                                          
+          Number of elements:         800                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.400000000000E+06                                  
+# Set materials for nodes (imt) and elements (itetlcr) to 1                     
+# This is good practice and avoids 0 values in these atttributes                
+# Note 1,0,0 represents all for node start,stride,end                           
+cmo/setatt/3dmesh/imt/1,0,0/1                                                   
+      1122 values reset for attribute imt1                                      
+ 
+cmo/setatt/3dmesh/itetclr/1,0,0/1                                               
+       800 values reset for attribute itetclr                                   
+ 
+# Set node boundary flags in the itp attribute                                  
+# This is good practice and can be called anytime to update this array          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# View Mesh Object status, brief version                                        
+cmo/status/3dmesh/brief                                                         
+ 
+The current-mesh-object(CMO) is: 3dmesh                                         
+ 
+  1 Mesh Object name: 3dmesh                                                    
+    number of nodes =          1122        number of elements =          800    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+# Report the min max values of the mesh attributes                              
+# keyword -all- or -xyz- can be used                                            
+cmo/printatt/3dmesh/-xyz- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122  
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      1122  
+ zic                0.000000000E+00  8.000000000E+01 8.000000000E+01      1122  
+ 
+# Check mesh with quality command                                               
+# There should be no negative or zero volumes                                   
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :        800                          
+min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   8.8817842E-08                                                     
+---------------------------------------                                         
+All elements have volume  5.0000000E+02                                         
+-----------------------------------------------------------                     
+       800 total elements evaluated.                                            
+ 
+# Write an AVS format mesh file for viewing                                     
+dump/avs/01_hex_mesh.inp/3dmesh                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# END of command file                                                           
+finish                                                                          
+# Check that mesh was created                                                   
+cmo/status/3dmesh/brief                                                         
+ 
+The current-mesh-object(CMO) is: 3dmesh                                         
+ 
+  1 Mesh Object name: 3dmesh                                                    
+    number of nodes =          1122        number of elements =          800    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+# -----------------------------------------                                     
+# Method using connect command                                                  
+# Copy the hex points into a new mesh object                                    
+cmo/create/mo_tet                                                               
+copypts/mo_tet/3dmesh                                                           
+copypts added nodes          1 to       1122                                    
+# Make mo_tet the current mesh object for commands                              
+cmo/list                                                                        
+ 
+ 
+The current-mesh-object(CMO) is: mo_tet                                         
+ 
+  0    Mesh Object name: -default-                                              
+  1    Mesh Object name: 3dmesh                                                 
+  2    Mesh Object name: mo_tet                                                 
+cmo/select/mo_tet                                                               
+cmo/status/mo_tet/brief                                                         
+ 
+The current-mesh-object(CMO) is: mo_tet                                         
+ 
+  2 Mesh Object name: mo_tet                                                    
+    number of nodes =          1122        number of elements =            0    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+# Mark duplicate points as dudded points                                        
+# Remove dudded points from the mesh object                                     
+# Nothing will happen if there are no duplicate points                          
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.305260862918E-10                       
+FILTER:Dudding duplicate points:           0                                    
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is         1122                                        
+RMPOINT: new element count is          0                                        
+# Set some defaults for the connect routine                                     
+cmo/setatt/mo_tet/imt/1 0 0/1                                                   
+Warning: nelements = 0                                                          
+      1122 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo_tet/itp/1 0 0/0                                                   
+Warning: nelements = 0                                                          
+      1122 values reset for attribute itp1                                      
+ 
+# Create Delaunay tet connectivity of all nodes in the mesh                     
+connect                                                                         
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.20000D+03   -0.37500D+02   -0.60000D+02                            
+           0.50000D+02   -0.37500D+02    0.34000D+03                            
+           0.30000D+03   -0.37500D+02   -0.60000D+02                            
+           0.50000D+02    0.21250D+03    0.40000D+02                            
+ 
+ Successfully eliminated all multimaterial connections.                         
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+# Check for 0 or negative elements                                              
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :        926                          
+elements with aspect ratio b/w .5  and 1. :       3874                          
+min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00                  
+ 
+epsilonvol:   8.8817842E-08                                                     
+---------------------------------------                                         
+All elements have volume  8.3333333E+01                                         
+-----------------------------------------------------------                     
+      4800 total elements evaluated.                                            
+ 
+# set default materials and boundary tags                                       
+cmo/setatt/mo_tet/itetclr/1                                                     
+      4800 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# -----------------------------------------                                     
+# Method using grid2grid command                                                
+# Convert each hex into 5 tets                                                  
+grid2grid/hextotet5/mo_hex2tet/3dmesh                                           
+hextotet/5/mo_hex2tet/3dmesh                                                    
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type hex using option    5                                           
+Element Material ID, min/max/range:          1         1         0              
+Epsilon-dist, distmax, distmin:  -1.0000000E-05  1.0000000E+02  2.5000000E+01   
+Epsilon-volume, volmax:   5.0000000E-04  5.0000000E+02                          
+cmo/addatt/mo_hex2tet/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-              
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=       4000                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =       1122                    
+finish                                                                          
+# The new mesh object should be current                                         
+cmo/list                                                                        
+ 
+ 
+The current-mesh-object(CMO) is: mo_hex2tet                                     
+ 
+  0    Mesh Object name: -default-                                              
+  1    Mesh Object name: 3dmesh                                                 
+  2    Mesh Object name: mo_tet                                                 
+  3    Mesh Object name: mo_hex2tet                                             
+# Check for 0 or negative elements                                              
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :       4000                          
+min aspect ratio =  0.6202E+00  max aspect ratio =  0.8165E+00                  
+ 
+epsilonvol:   8.8817842E-08                                                     
+---------------------------------------                                         
+element volumes b/w  0.8333E+02 and  0.9572E+02:      3200                      
+element volumes b/w  0.9572E+02 and  0.1100E+03:         0                      
+element volumes b/w  0.1100E+03 and  0.1263E+03:         0                      
+element volumes b/w  0.1263E+03 and  0.1451E+03:         0                      
+element volumes b/w  0.1451E+03 and  0.1667E+03:       800                      
+min volume =   8.3333333E+01  max volume =   1.6666667E+02                      
+-----------------------------------------------------------                     
+      4000 total elements evaluated.                                            
+ 
+# set default materials and boundary tags                                       
+cmo/setatt/mo_hex2tet/itetclr/1                                                 
+      4000 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# -----------------------------------------                                     
+# Add Attributes and write tet mesh files                                       
+cmo/addatt/mo_tet/volume/tet_vol                                                
+ADDATT/volume: creating new attribute: tet_vol                                  
+cmo/addatt/mo_tet/voronoi_volume/vor_vol                                        
+ADDATT/voronoi_volume: creating new attribute: vor_vol                          
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1122  ncoefs =       7144                         
+AMatbld3d_stor: Number of unique coefs =      4133                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
+AMatbld3d_stor: Volume min =   6.2500000E+01                                    
+AMatbld3d_stor: Volume max =   5.0000000E+02                                    
+AMatbld3d_stor: Total Volume:   4.0000000E+05                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.0000000E+01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.0000000E+01                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
+mo_tet attribute with voronoi volumes created with name vor_vol                 
+ 
+*** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name -notset-                           
+ 
+cmo/addatt/mo_hex2tet/volume/tet_vol                                            
+ADDATT/volume: creating new attribute: tet_vol                                  
+cmo/addatt/mo_hex2tet/voronoi_volume/vor_vol                                    
+ADDATT/voronoi_volume: creating new attribute: vor_vol                          
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1122  ncoefs =       7144                         
+AMatbld3d_stor: Number of unique coefs =      4133                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
+AMatbld3d_stor: Volume min =   6.2500000E+01                                    
+AMatbld3d_stor: Volume max =   5.0000000E+02                                    
+AMatbld3d_stor: Total Volume:   4.0000000E+05                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.0000000E+01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.0000000E+01                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
+mo_hex2tet attribute with voronoi volumes created with name vor_vol             
+ 
+*** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name -notset-                           
+ 
+cmo/printatt/mo_tet/tet_vol/minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ tet_vol            8.333333333E+01  8.333333333E+01 0.000000000E+00      4800  
+ 
+cmo/printatt/mo_tet/vor_vol/minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ vor_vol            6.250000000E+01  5.000000000E+02 4.375000000E+02      1122  
+ 
+cmo/printatt/mo_hex2tet/tet_vol/minmax                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ tet_vol            8.333333333E+01  1.666666667E+02 8.333333333E+01      4000  
+ 
+cmo/printatt/mo_hex2tet/vor_vol/minmax                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ vor_vol            6.250000000E+01  5.000000000E+02 4.375000000E+02      1122  
+ 
+dump/avs/02_tet_connect.inp/mo_tet                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+dump/avs/02_hex2tet5.inp/mo_hex2tet                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# END of command file                                                           
+finish                                                                          
+LaGriT successfully completed                                                   

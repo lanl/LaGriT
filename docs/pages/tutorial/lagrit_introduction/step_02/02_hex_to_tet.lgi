@@ -1,0 +1,78 @@
+# LaGriT Tutorial Example 2
+# Create tet mesh from hex mesh
+# Use commands connect and grid2grid
+
+# Create hex mesh from Example 1
+infile 01_create_hex.lgi
+
+# Check that mesh was created
+cmo/status/ 3dmesh / brief
+
+# -----------------------------------------
+# Method using connect command
+
+# Copy the hex points into a new mesh object
+cmo / create / mo_tet
+copypts / mo_tet / 3dmesh
+
+# Make mo_tet the current mesh object for commands 
+cmo /list
+cmo/ select / mo_tet
+cmo/ status / mo_tet /brief
+
+# Mark duplicate points as dudded points 
+# Remove dudded points from the mesh object
+# Nothing will happen if there are no duplicate points
+filter/1,0,0 ; rmpoint/compress
+
+# Set some defaults for the connect routine
+cmo / setatt / mo_tet / imt / 1 0 0 / 1
+cmo / setatt / mo_tet / itp / 1 0 0 / 0
+
+# Create Delaunay tet connectivity of all nodes in the mesh 
+connect 
+
+# Check for 0 or negative elements
+quality
+
+# set default materials and boundary tags
+cmo / setatt / mo_tet / itetclr / 1
+resetpts / itp
+
+
+# -----------------------------------------
+# Method using grid2grid command
+
+
+# Convert each hex into 5 tets
+grid2grid / hextotet5 / mo_hex2tet / 3dmesh
+
+# The new mesh object should be current
+cmo / list
+
+# Check for 0 or negative elements
+quality
+
+# set default materials and boundary tags
+cmo / setatt / mo_hex2tet / itetclr / 1
+resetpts / itp
+
+# -----------------------------------------
+# Add Attributes and write tet mesh files
+
+cmo/addatt / mo_tet / volume / tet_vol
+cmo/addatt / mo_tet / voronoi_volume / vor_vol
+
+cmo/addatt / mo_hex2tet / volume / tet_vol
+cmo/addatt / mo_hex2tet / voronoi_volume / vor_vol
+
+cmo/printatt/ mo_tet / tet_vol / minmax
+cmo/printatt/ mo_tet / vor_vol / minmax
+cmo/printatt/ mo_hex2tet / tet_vol / minmax
+cmo/printatt/ mo_hex2tet / vor_vol / minmax
+
+dump/avs/02_tet_connect.inp/mo_tet
+dump/avs/02_hex2tet5.inp/mo_hex2tet
+
+# END of command file
+finish
