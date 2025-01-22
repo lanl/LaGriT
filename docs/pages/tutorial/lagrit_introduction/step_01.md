@@ -36,11 +36,14 @@ View the contents of this empty mesh object. Note the mesh attributes nnodes and
 cmo/status/3dmesh
 ```
 
+*Note: the command **cmo/select/3dmesh** can be added here, but not necessary because there is only one mesh. Also, the **create** command makes the created mesh the current mesh.*
+
+
 ## Create Points for Hex Mesh
 
 We will use one of the simple **`createpts`** commands, this version will create a structured rectangular mesh. Checking the syntax for [createpts/brick/](https://lanl.github.io/LaGriT/pages/docs/commands/createpts/CRTPTBRICK.html) we see options that can be defined as variables, making them easy to change.
 
-In LaGriT, variables are assigned using the `define` keyword. We define the variables before the commands. It is good practice to locate these all together with comments at the top of the command file. 
+In LaGriT, variables are assigned using the `define` keyword. We define the variables before the commands. It is good practice to locate these all together with comments at the top of the command file. You can also use the **define** command multiple times, the last will overwrite previous values. This is an easy way to keep track of resolutions as you try them.
 
 ```
 # Mesh domain 100x50x80
@@ -55,6 +58,9 @@ define / ZMAX / 80.
 # Spacing of 10 will have 11 points for length 100
 define / NX / 11
 define / NY / 6
+
+# try 10 meter spacing with 9 nodes first
+# overwrite and use 5 meter spacing with 17 nodes
 define / NZ / 9
 define / NZ / 17
 ```
