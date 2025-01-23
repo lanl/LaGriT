@@ -65,9 +65,9 @@ This tutorial covers the commands needed to generate simple meshes. The tutorial
 
 ## [Step 1. Create a Hex Mesh](step_01.md)
 
-## Step 2. Convert Hex Mesh to Tet Mesh
+## [Step 2. Convert Hex Mesh to Tet Mesh](step_02.md)
 
-## Step 3. Assign materials to the Mesh
+## [Step 3. Assign materials to the Mesh](step_03.md)
 
 ## Step 4. Write Mesh and FEHM Setup Files 
 
