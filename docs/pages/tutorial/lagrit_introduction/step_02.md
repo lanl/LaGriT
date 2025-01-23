@@ -5,20 +5,23 @@ title: Tutorial LaGriT Introduction Step 02
 # Step 2. Create Tet Mesh from the Hex Mesh 
 
 <!-- Begin image -->
-<p><a href="step_02/02_hextotet.png"> <img width="500" src="step_02/02_hextotet.png" /> </a></p>
+<p><a href="step_02/02_hextotet.png"> <img width="500" src="step_02/02_hextotet.png"> </a></p>
 <!-- End image -->
 
 #### LaGriT command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
 #### LaGriT  output file: [lagrit.out](step_02/02_hex_to_tet.out.txt)
 
-This example will use 2 methods for creating a tet mesh from a hex mesh. The first method will use the mesh points to [connect](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. The second will use [grid2grid](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) to convert hex elements into tetrahedrals.
+This example will use 2 methods for creating a tet mesh from a hex mesh. The first method will use the mesh points to [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. The second will use [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) to convert hex elements into tetrahedrals.
 
-The connect algorithm attempts to connect points to satisfy the Delaunay criteria. The dual of Delaunay is Voronoi, important for some simulations.
+Use of **hextotet** (or **grid2grid**) to convert a 3D mesh to a tetrahedral mesh may result in a non-Delaunay tetrahedral mesh. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2) then the **connect** command should be used to create a Delaunay mesh.
 
 
-[Delaunay Definition](https://en.wikipedia.org/wiki/Delaunay_triangulation)
+[Click here for Delaunay Definition](https://en.wikipedia.org/wiki/Delaunay_triangulation)
 
-[Voronoi Definition](https://en.wikipedia.org/wiki/Voronoi_diagram)
+[Click here for Voronoi Definition](https://en.wikipedia.org/wiki/Voronoi_diagram)
+
+[Click here for more details on the connect algorithm](https://lanl.github.io/LaGriT/pages/docs/connect_notes.html)
+
 
 
 
@@ -26,6 +29,8 @@ The connect algorithm attempts to connect points to satisfy the Delaunay criteri
 
 
 ## Create the Hex Mesh from Step 1
+
+
 The **'infile'** command is used to read and run a LaGriT command file. In this case we read and run the same command file that was used to create a hex mesh in Step 1. 
 Use the **cmo/status** command to confirm the mesh object "3dmesh" was created.
 
@@ -48,7 +53,7 @@ The current-mesh-object(CMO) is: 3dmesh
 
 ## Create a new mesh object with points to connect 
 
-The **connect** command will create connectivity from a cloud of points. There should be no duplicate points and the **imt** material should be a single value. The point distribution will impact the success of a connected tet mesh. 
+The [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) command will create connectivity from a cloud of points. There should be no duplicate points and the **imt** material should be a single value. The point distribution will impact the success of a connected tet mesh. 
 A point distribution where spacing varies from very small to very large can result in high aspect ratios and boundary problems. This hex mesh provides structured regular spacing and is topologically consistent and will result in success.  
 
 Copy the hex points into a new mesh object, this removed the connectivity so new elements cat be created. 
@@ -176,6 +181,28 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 
 
 # Viewing the Tet Meshes
+
+The following images were created by using Paraview reading the AVS mesh files. Click to see full resolution images.
+
+Paraview images show tet elements colored by element volumes of connected Delaunay mesh (left) and grid2grid (right). The grid2grid view is clipped in order to see the internal tet elements that are larger than the tets formed at the hex corners. 
+
+<!-- Begin image -->
+<p><a href="step_02/02_connect_vol_clipped.png"> <img width="400" src="step_02/02_connect_vol_clipped.png"> </a>
+   <a href="step_02/02_hex2tet_vol_clipped.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped.png"> </a>
+</p>
+
+Paraview images show the mesh colored by node voronoi volumes. The boundary nodes will have half volumes, the corner nodes will have quarter volumes. Internal voronoi volumes are all the same. Image is clipped to show internal mesh nodes. Both meshes have the same voronoi volumes.
+
+<!-- Begin image -->
+<p><a href="step_02/02_connect_vorvol_clipped.png"> <img width="400" src="step_02/02_connect_vorvol_clipped.png"> </a>
+   <a href="step_02/02_hex2tet_vorvol_clipped.png"> <img width="400" src="step_02/02_hex2tet_vorvol_clipped.png"> </a>
+</p>
+<!-- End image -->
+
+This is a snapshot showing the Paraview settings for the clipped mesh. The full 02_hex2tet5.inp mesh displayed with red wire frame. The mesh is clipped -10, and threshold is used to display tet volumes over 116.
+
+<p><a href="step_02/02_hex2tet_vol_clipped_para.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped_para.png">
+</p>
 
 ## finish
 
