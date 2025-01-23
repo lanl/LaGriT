@@ -13,8 +13,16 @@ title: Tutorial LaGriT Introduction Step 02
 
 This example will use 2 methods for creating a tet mesh from a hex mesh. The first method will use the mesh points to [connect](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. The second will use [grid2grid](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) to convert hex elements into tetrahedrals.
 
+The connect algorithm attempts to connect points to satisfy the Delaunay criteria. The dual of Delaunay is Voronoi, important for some simulations.
 
-# Method using connect
+
+[Delaunay Definition](https://en.wikipedia.org/wiki/Delaunay_triangulation)
+
+[Voronoi Definition](https://en.wikipedia.org/wiki/Voronoi_diagram)
+
+
+
+# Method using Connect Delaunay
 
 
 ## Create the Hex Mesh from Step 1
@@ -167,6 +175,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 </pre>
 
 
+# Viewing the Tet Meshes
 
 ## finish
 
