@@ -71,13 +71,6 @@ This tutorial covers the commands needed to generate simple meshes. The tutorial
 
 ## Step 4. Write Mesh and FEHM Setup Files 
 
-## Step 5. Create a zone list for FEHM 
-
-## Step 6. Create Surfaces for Stacked Mesh
-
-## Step 7. Create Stacked Mesh
-
-## Step 8. Write Exodus Mesh from Stacked Mesh (Need build with Exodus Libraries)
 
 ## Final Word
 
