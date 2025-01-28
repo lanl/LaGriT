@@ -1,0 +1,270 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 9.4.0                  *                 
+*               *    Date Compile: 2024/05/06                 *                 
+*               *    Run Time: 2025/Jan 26  15:34:43          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# LaGriT Tutorial Example 3                                                     
+# Assign materials based on methods pset, regions, and interpolation            
+define IN_FILE 02_tet_mesh.inp                                                  
+define OUT_FILE tet_colors.inp                                                  
+define IN_FILE 01_hex_mesh.inp                                                  
+define OUT_FILE hex_colors.inp                                                  
+define IN_FILE 02_tet_mesh.inp                                                  
+define OUT_FILE tet_colors.inp                                                  
+# Read the IN_FILE to color materials                                           
+read/avs/IN_FILE/mo_mat                                                         
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_mat                                         
+ 
+  1 Mesh Object name: mo_mat                                                    
+    number of nodes =          1122        number of elements =         4800    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+cmo/status/mo_mat/brief                                                         
+ 
+The current-mesh-object(CMO) is: mo_mat                                         
+ 
+  1 Mesh Object name: mo_mat                                                    
+    number of nodes =          1122        number of elements =         4800    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+cmo/select/mo_mat                                                               
+# -----------------------------------------------------------                   
+# Assign materials by Selected sets                                             
+# define some elevations for layers between Z= 0 and 80                         
+define MAT1_Ztop 40.                                                            
+define MAT2_Ztop 62.                                                            
+# SELECT NODE SETS based on attribute zic (Z coordinate)                        
+pset/pmat1/attribute zic/1,0,0/lt MAT1_Ztop                                     
+ 
+ THE PSET  pmat1  HAS        528 POINTS                                         
+pset/pmat2/attribute zic/1,0,0/lt MAT2_Ztop                                     
+ 
+ THE PSET  pmat2  HAS        858 POINTS                                         
+pset/pmat3/attribute zic/1,0,0/ge MAT2_Ztop                                     
+ 
+ THE PSET  pmat3  HAS        264 POINTS                                         
+# SET NODE IMT in order such that last overwrites previous                      
+# layer 2 overwrites layer 3, layer 1 overwrites layer 2                        
+cmo/setatt/mo_mat/imt/pset,get,pmat3/3                                          
+       264 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo_mat/imt/pset,get,pmat2/2                                          
+       858 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo_mat/imt/pset,get,pmat1/1                                          
+       528 values reset for attribute imt1                                      
+ 
+# SELECT ELEMENT SETS based on point sets                                       
+# Use inclusive for any node of element is in set                               
+eltset/emat1/inclusive/pset,get,pmat1                                           
+ 
+ THE ELTSET emat1                            HAS       2400 ELEMENTS            
+eltset/emat2/inclusive/pset,get,pmat2                                           
+ 
+ THE ELTSET emat2                            HAS       3900 ELEMENTS            
+eltset/emat3/inclusive/pset,get,pmat3                                           
+ 
+ THE ELTSET emat3                            HAS       1200 ELEMENTS            
+# SET ELEMENT ITETCLR in order                                                  
+cmo/setatt/mo_mat/itetclr/eltset,get,emat3/3                                    
+      1200 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo_mat/itetclr/eltset,get,emat2/2                                    
+      3900 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo_mat/itetclr/eltset,get,emat1/1                                    
+      2400 values reset for attribute itetclr                                   
+ 
+# write a temporary file to view colors so far                                  
+dump/tmp_layers.inp/mo_mat                                                      
+dump/avs/tmp_layers.inp/mo_mat                                                  
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# -----------------------------------------------------------                   
+# Assign materials by Surfaces and Regions                                      
+# Create surfaces to define a fourth material                                   
+cmo/create/motmp                                                                
+cmo/select/motmp                                                                
+# Create a quad mesh based on corner coordinates                                
+# The surface must be equal or larger than the mesh domain                      
+quadxy/10 5/-1. -1. 10./100.1 -1. 100./100.1 51. 100./-1. 51. 10.               
+  QUADXY GENERATED POINTS         1 TO        50                                
+createpts/brick/xyz/10 5 1/1,0,0/connect                                        
+          Number of nodes:          50                                          
+          Number of elements:          36                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.703850494352E+04                                  
+hextotet/4/mosurf1/motmp                                                        
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type qua using option    4                                           
+Element Material ID, min/max/range:          1         1         0              
+Epsilon-dist, distmax, distmin:  -1.5039540E-05  2.2618778E+02  1.6900000E+02   
+Epsilon-volume, volmax:   1.9551403E-04  1.9551403E+02                          
+cmo/addatt/mosurf1/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-                 
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=        144                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =         86                    
+cmo/printatt/mosurf1/-xyz-/minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic               -1.000000000E+00  1.001000000E+02 1.011000000E+02        86  
+ yic               -1.000000000E+00  5.100000000E+01 5.200000000E+01        86  
+ zic                1.000000000E+01  1.000000000E+02 9.000000000E+01        86  
+ 
+dump/tmp_surf1.inp/mosurf1                                                      
+dump/avs/tmp_surf1.inp/mosurf1                                                  
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Create a second surface offset from first                                     
+offsetsurf/mosurf2/mosurf1/15.                                                  
+dump/tmp_surf2.inp/mosurf2                                                      
+dump/avs/tmp_surf2.inp/mosurf2                                                  
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Define mesh objects as surfaces for geometry                                  
+# Make mesh current so geometry is assigned to it                               
+cmo/select/mo_mat                                                               
+surface/s_mosurf1/reflect/sheet/mosurf1                                         
+cmo/addatt//v2/INT/scalar/scalar/constant/permanent//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//permanent/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/permanent//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/permanent/x/0.0                   
+finish                                                                          
+log/tty/off                                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf1 isetwd                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf1 ialias                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf1 imt1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf1 itp1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf1 icr1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf1 isn1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf1 xtetwd                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf1 itetclr                                                    
+finish                                                                          
+log/tty/on                                                                      
+finish                                                                          
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+surface/s_mosurf2/reflect/sheet/mosurf2                                         
+cmo/addatt//v2/INT/scalar/scalar/constant/permanent//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//permanent/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/permanent//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/permanent/x/0.0                   
+finish                                                                          
+log/tty/off                                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf2 isetwd                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf2 ialias                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf2 imt1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf2 itp1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf2 icr1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf2 isn1                                                       
+finish                                                                          
+cmo/DELATT/s_mosurf2 xtetwd                                                     
+finish                                                                          
+cmo/DELATT/s_mosurf2 itetclr                                                    
+finish                                                                          
+log/tty/on                                                                      
+finish                                                                          
+# Define region between the surfaces                                            
+region/r_slant/ge s_mosurf1 and le s_mosurf2                                    
+# Select node and element sets in the slanted region                            
+pset/pslant/region/r_slant                                                      
+ 
+ THE PSET  pslant  HAS        180 POINTS                                        
+eltset/eslant/region/r_slant                                                    
+ 
+ THE ELTSET eslant                           HAS        797 ELEMENTS            
+# SET element and node materials                                                
+cmo/setatt/mo_mat/imt/pset,get,pslant/4                                         
+       180 values reset for attribute imt1                                      
+ 
+cmo/setatt/mo_mat/itetclr/eltset,get,eslant/4                                   
+       797 values reset for attribute itetclr                                   
+ 
+# set boundary and interface nodes                                              
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/OUT_FILE/mo_mat                                                            
+dump/avs/tet_colors.inp/mo_mat                                                  
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/status/mo_mat/brief                                                         
+ 
+The current-mesh-object(CMO) is: mo_mat                                         
+ 
+  1 Mesh Object name: mo_mat                                                    
+    number of nodes =          1122        number of elements =         4800    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+# Early finish to check results                                                 
+finish                                                                          
+LaGriT successfully completed                                                   
