@@ -52,4 +52,18 @@ cmo/printatt/mo_tet/imt minmax
 cmo/printatt/mo_tet/itetclr minmax                                              
 resetpts/itp                                                                    
 dump/avs/tet_interp_materials.inp mo_tet                                        
+cmo/select/mo_tet                                                               
+cmo/printatt/mo_tet/imt minmax                                                  
+cmo/printatt/mo_tet/itetclr minmax                                              
+quality/volume/material                                                         
+dump/zone_imt/tet/mo_tet                                                        
+cmo addatt/mo_tet/vor_volume/vorvol                                             
+pset/p1/attribute/imt/1,0,0/eq 1                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 2                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 3                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 4                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
 finish                                                                          

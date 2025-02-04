@@ -128,6 +128,29 @@ dump/avs/tet_interp_materials.inp mo_tet
 # -----------------------------------------------------------
 # Report Material Quantities
 
- 
+# Report minmax for node and element materials
+cmo/select/mo_tet
+cmo/printatt/mo_tet/ imt minmax
+cmo/printatt/mo_tet/ itetclr minmax
+
+# Report element volumes by material
+quality/ volume / material 
+
+# Report node imt quantities
+# These are what FEHM will use
+dump/zone_imt/ tet / mo_tet
+
+# Report node voronoi volume totals by node material
+# First add attribute vorvol, then report sums
+cmo addatt/mo_tet/vor_volume/vorvol
+pset/p1/attribute/imt/1,0,0/ eq 1
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol
+pset/p1/attribute/imt/1,0,0/ eq 2
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol
+pset/p1/attribute/imt/1,0,0/ eq 3
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol
+pset/p1/attribute/imt/1,0,0/ eq 4
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol
+
 
 finish

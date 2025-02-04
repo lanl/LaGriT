@@ -6,7 +6,7 @@
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 9.4.0                  *                 
 *               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Jan 26  15:37:30          *                 
+*               *    Run Time: 2025/Jan 28  17:40:45          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -415,5 +415,169 @@ cmo/modatt/-def-/-def-/ioflag/x
 finish                                                                          
 # -----------------------------------------------------------                   
 # Report Material Quantities                                                    
+# Report minmax for node and element materials                                  
+cmo/select/mo_tet                                                               
+cmo/printatt/mo_tet/imt minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                4               3      1122  
+ 
+cmo/printatt/mo_tet/itetclr minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                4               3      4800  
+ 
+# Report element volumes by material                                            
+quality/volume/material                                                         
+ 
+ 
+QUALITY TOTALS for          4 MATERIALS:                                        
+...........................................................                     
+eltset/-etmp-/itetclr/eq/1/                                                     
+ 
+ THE ELTSET -etmp-                           HAS       2160 ELEMENTS            
+finish                                                                          
+ 
+epsilonvol:   8.8817842E-08                                                     
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          1                                          
+...........................                                                     
+All elements have volume  8.3333333E+01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+eltset/-etmp-/itetclr/eq/2/                                                     
+ 
+ THE ELTSET -etmp-                           HAS       1140 ELEMENTS            
+finish                                                                          
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          2                                          
+...........................                                                     
+All elements have volume  8.3333333E+01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+eltset/-etmp-/itetclr/eq/3/                                                     
+ 
+ THE ELTSET -etmp-                           HAS        720 ELEMENTS            
+finish                                                                          
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          3                                          
+...........................                                                     
+All elements have volume  8.3333333E+01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+eltset/-etmp-/itetclr/eq/4/                                                     
+ 
+ THE ELTSET -etmp-                           HAS        780 ELEMENTS            
+finish                                                                          
+---------------------------------------                                         
+ 
+  VOLUMES for ELEMENT COLOR          4                                          
+...........................                                                     
+All elements have volume  8.3333333E+01                                         
+eltset/-etmp-/delete/                                                           
+ 
+ ELTSET -etmp-                           DELETED                                
+ 
+finish                                                                          
+---------------------------------------                                         
+ 
+  SUMMARY VOLUME/AREA of ELEMENT COLORS for mo_tet         1           4        
+...........................................................                     
+Color      Num. Elements   Volume          Fractional Volume                    
+    1        2160          0.1800000E+06     0.450000000                        
+    2        1140          0.9500000E+05     0.237500000                        
+    3         720          0.6000000E+05     0.150000000                        
+    4         780          0.6500000E+05     0.162500000                        
+ Total elements:         4800          Total Volume:  0.4000000E+06             
+-----------------------------------------------------------                     
+      4800 total elements evaluated.                                            
+ 
+# Report node imt quantities                                                    
+# These are what FEHM will use                                                  
+dump/zone_imt/tet/mo_tet                                                        
+*********dump_material_lists********                                            
+Minimum material ID value =      1                                              
+Maximum material ID value =      4                                              
+Total possible materials  =      4                                              
+Material           1 has       468 nodes. #nodes/nnodes is   0.417112290859     
+Material           2 has       270 nodes. #nodes/nnodes is   0.240641713142     
+Material           3 has       204 nodes. #nodes/nnodes is   0.181818187237     
+Material           4 has       180 nodes. #nodes/nnodes is   0.160427808762     
+# Report node voronoi volume totals by node material                            
+# First add attribute vorvol, then report sums                                  
+cmo addatt/mo_tet/vor_volume/vorvol                                             
+ADDATT/voronoi_volume: creating new attribute: vorvol                           
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1122  ncoefs =       7144                         
+AMatbld3d_stor: Number of unique coefs =      4133                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
+AMatbld3d_stor: Volume min =   6.2500000E+01                                    
+AMatbld3d_stor: Volume max =   5.0000000E+02                                    
+AMatbld3d_stor: Total Volume:   4.0000000E+05                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.0000000E+01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.0000000E+01                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph, not coefficient values        
+mo_tet attribute with voronoi volumes created with name vorvol                  
+ 
+*** SPARSE COEFFICIENT MATRIX _gstor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name -notset-                           
+ 
+pset/p1/attribute/imt/1,0,0/eq 1                                                
+ 
+ THE PSET  p1  HAS        468 POINTS                                            
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+nodes in indexed point set  =        468                                        
+sink attribute being created:   cmo = mo_tet  att = vol_tot                     
+cmo/addatt/mo_tet/vol_tot/REAL/scalar/scalar/constant/permanent/                
+finish                                                                          
+       468 values summed from attribute vorvol                                  
+vorvol sum =   0.167500000000E+06                                               
+cmo select mo_tet                                                               
+finish                                                                          
+pset/p1/attribute/imt/1,0,0/eq 2                                                
+ 
+ THE PSET  p1  HAS        270 POINTS                                            
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+nodes in indexed point set  =        270                                        
+       270 values summed from attribute vorvol                                  
+vorvol sum =   0.100000000000E+06                                               
+cmo select mo_tet                                                               
+finish                                                                          
+pset/p1/attribute/imt/1,0,0/eq 3                                                
+ 
+ THE PSET  p1  HAS        204 POINTS                                            
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+nodes in indexed point set  =        204                                        
+       204 values summed from attribute vorvol                                  
+vorvol sum =   0.650000000000E+05                                               
+cmo select mo_tet                                                               
+finish                                                                          
+pset/p1/attribute/imt/1,0,0/eq 4                                                
+ 
+ THE PSET  p1  HAS        180 POINTS                                            
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+nodes in indexed point set  =        180                                        
+       180 values summed from attribute vorvol                                  
+vorvol sum =   0.675000000000E+05                                               
+cmo select mo_tet                                                               
+finish                                                                          
 finish                                                                          
 LaGriT successfully completed                                                   
