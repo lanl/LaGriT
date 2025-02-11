@@ -22,7 +22,7 @@ This example will explain FEHM setup files and how to check and view results.
 - View mesh and attributes 
 
 
-# Read tet mesh with materials from Example 3
+## Read tet mesh with materials from Example 3
 
 Check there are no negative volumes
 Check node materials are defined as expected
@@ -46,7 +46,7 @@ rmpoint compress
 filter/1,0,0
 ```
 
-# Write default FEHM files
+## Write default FEHM files
 
 Write AVS file with attributes created for FEHM files
 
@@ -55,7 +55,7 @@ dump/fehm/ tet /mo_tet/ keepatt
 dump/avs/tet_fehm.inp/mo_tet
 ```
 
-# CHECK for neg ccoefs in the interior mesh
+## CHECK for neg ccoefs in the interior mesh
 
 ```
 cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/
@@ -67,7 +67,7 @@ cmo printatt mo_tet ccoef minmax
 cmo printatt mo_tet -all- minmax
 ```
 
-# Create zone file for vertical well
+## Create zone file for vertical well
 
 nodes located with center column at known location
 
@@ -84,7 +84,7 @@ pset/pwell/ inter / px, py, pz
 pset / pwell / zone / well_center.zone / 11
 ```
 
-# Add mesh object attributes for mesh views
+## Add mesh object attributes for mesh views
 
 Add elevation attribute for mesh views
 save node id to node attributes
@@ -105,7 +105,13 @@ cmo/printatt/mo_tet/-all- minmax
 cmo/status/mo_tet
 ```
 
-# Create a mesh object with just nodes
+<p> Paraview showing mesh attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br>
+<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
+<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
+</p>
+<br>
+
+## Check Well Zone
 
  Remove all nodes not in the well zone
  Write well nodes with all attributes
@@ -122,7 +128,13 @@ rmpoint/compress
 dump/avs/tet_well_pnts.inp/ motmp / 1 3 1 0 0
 cmo/printatt/motmp/-all- minmax
 ```
+Paraview image showing mesh clipped at well location and the well zone nodes. Check the well points are located correctly with respect to mesh materials and connectivity. Query a well node to check attributes such as **imt** material and **elev**. Note when the well points are subset from the full mesh, the node ID changes but the attribute **node_id** has the original mesh node ID saved.
 
+
+<p> 
+<a href="step_04/04_tet_nodes_imt_well_pts.png"> <img width="400" src="step_04/04_tet_nodes_imt_well_pts.png" /> </a>
+ <a href="step_04/04_well_nodes_paraview.png"> <img width="450" src="step_04/04_well_nodes_paraview.png" /> </a>
+</p>
 
 ## finish
 
@@ -132,3 +144,11 @@ Always end a session or a file with the **finish** command.
 finish
 ```
 
+## Snapshots of Paraview Sessions
+
+Snapshot Paraview session shows clipped mesh and well points.
+
+<p> 
+ <a href="step_04/04_mesh_clip_well_paraview.png"> <img width="400" src="step_04/04_mesh_clip_well_paraview.png" /> </a>
+</p>
+<br>
