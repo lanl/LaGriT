@@ -16,14 +16,11 @@ title: Tutorial LaGriT Introduction Step 04
 
 This example will explain FEHM setup files and how to check and view results.
  
-
-- Set selections using [**`pset`**](https://lanl.github.io/LaGriT/pages/docs/commands/PSET.html) for mesh points and [**`eltset`**](https://lanl.github.io/LaGriT/pages/docs/commands/ELTSET2.html).
-- Regions defined by surfaces using [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html) and [**`region`**](https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html)
-- Interpolation from hex materials to tet mesh materials using [**`interpolate`**](https://lanl.github.io/LaGriT/pages/docs/commands/main_interpolate.html) 
-
-
 - Use tet mesh with materials
-- Commands dump/fehm and pset write
+- Use [**`dump/fehm`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#fehm)
+- Set well zone
+- View mesh and attributes 
+
 
 # Read tet mesh with materials from Example 3
 
@@ -93,7 +90,7 @@ Add elevation attribute for mesh views
 save node id to node attributes
 Write the final tet mesh with all attributes
 
-``
+```
 cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0
 cmo/setatt/mo_tet/ iwell /pset,get,pwell/ 11
 cmo/printatt/mo_tet/ iwell/ minmax
