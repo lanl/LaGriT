@@ -1,0 +1,90 @@
+# LaGriT Tutorial Example 4
+# Use tet mesh with materials
+# Commands dump/fehm and pset write
+
+# -----------------------------------------
+# Read tet mesh with materials from Example 3
+
+read / avs / tet_interp_materials.inp / mo_tet
+
+# -----------------------------------------
+# Check there are no negative volumes
+# Check node materials are defined as expected
+quality
+cmo/printatt/mo_tet/imt minmax
+
+# -----------------------------------------
+# FEHM does not use element materials
+# Set to 1 avoids algorithms using multi-material elements
+cmo/select/mo_tet
+cmo/setatt/mo_tet itetclr 1
+
+# Remove double-defined nodes and duplicates
+resetpts/parent
+rmpoint compress
+filter/1,0,0
+
+# -----------------------------------------
+# Write default FEHM files
+dump/fehm/ tet /mo_tet/ keepatt
+
+# Write AVS file with attributes created for FEHM files
+dump/avs/tet_fehm.inp/mo_tet
+
+# CHECK for neg ccoefs in the interior mesh
+cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/
+cmo select mo_tet
+pset pin attribute itp   1,0,0 lt 10
+pset pneg attribute ccoef 1,0,0 lt -.0001
+pset pBAD inter pin pneg
+cmo printatt mo_tet ccoef minmax
+cmo printatt mo_tet -all- minmax
+
+# -----------------------------------------
+# Create zone file for vertical well
+# with center column at known location
+cmo select mo_tet
+
+pset/px/attribute xic/1,0,0/ eq 50.
+pset/py/attribute yic/1,0,0/ eq 20.
+pset/pz/attribute zic/1,0,0/ ge 30.
+pset/pwell/ inter / px, py, pz
+
+# Write FEHM style node list for well zone
+# Assign a zone number larger than material values 
+pset / pwell / zone / well_center.zone / 11
+
+# -----------------------------------------
+# Add mesh object attributes for mesh views
+cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0
+cmo/setatt/mo_tet/ iwell /pset,get,pwell/ 11
+cmo/printatt/mo_tet/ iwell/ minmax
+
+# Add elevation attribute for mesh views
+cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/
+cmo/copyatt/ mo_tet mo_tet / elev zic
+
+# save node id to node attributes
+cmo/set_id/mo_tet/node/ id_node
+
+# Write the final tet mesh with all attributes
+dump/avs/tet_attributes.inp/ mo_tet
+cmo/printatt/mo_tet/-all- minmax
+cmo/status/mo_tet
+
+# Create a mesh object with just nodes
+# Remove all nodes not in the well zone
+cmo/create/motmp
+copypts/motmp/mo_tet
+cmo/select/motmp
+pset/pduds/attribute iwell/1,0,0/ ne 11
+rmpoint/pset,get,pduds
+rmpoint/compress
+
+# Write well nodes with all attributes
+# Use AVS UCD pnt format for paraview
+
+dump/avs/tet_well_pnts.inp/ motmp / 1 3 1 0 0
+cmo/printatt/motmp/-all- minmax
+
+finish
