@@ -69,7 +69,7 @@ This tutorial covers the commands needed to generate simple meshes. The tutorial
 
 ## [Step 3. Assign materials to the Mesh](step_03.md)
 
-## Step 4. Write Mesh and FEHM Setup Files 
+## [Step 4. Write Mesh and FEHM Setup Files](step_04.md) 
 
 
 ## Final Word
