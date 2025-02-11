@@ -2,7 +2,7 @@
 title: Tutorial LaGriT Introduction Step 04
 ---
 
-# Step 3. Write FEHM setup files 
+# Step 4. Write FEHM setup files (In Progress) 
 
 <p>
 <a href="step_04/04_tet_nodes_imt_well_pts.png"> <img width="500" src="step_04/04_tet_nodes_imt_well_pts.png" /> </a>
