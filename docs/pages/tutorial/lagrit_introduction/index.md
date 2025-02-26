@@ -38,24 +38,28 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 ## General Meshing Definitions
 
 - Mesh = Grid = elements defining geometric shapes allowing numerical computations for simulations 
-- Node = Vertice = point = mesh object nodes that can be used to connect into elements.
+- Node = Vertex = point = mesh object nodes that can be used to connect into elements.
 - Element = cell = nodes are connected into element types such as line, triangle, or tetrahedral (see page)
-- structured mesh = elements are arranged in a regular pattern with parallel sides and and orthogonal elements.
-- unstructured mesh = elements arranged to fit complex geometries
-- Delaunay = tri or tet elements arranged such that mesh is optimized for compuational accuracy
-- Voronoi = the vertices of the voronoi volumes correspond to the circumcenters of the Delaunay tri and tets 
-- control volume (CV) method = ensures conservation of mass and energy in fluid flow and heat transfer equations
+- structured mesh = a mesh whose connectivity (topology) can be defined implicitly and cell neighbors are predictable. Generally, a quadrilateral mesh in 2D and hexahedral mesh in 3D. 
+- unstructured mesh = a mesh that requires explicit connectivity information to describe cell topology. Generally used to represent complex shapes. 
+- Delaunay Triangulation = a Delaunay mesh (triangles in 2D, tetrahedra in 3D) has cells such that the circumcircle(2D)/circumsphere(3D) contains no vertices other than the cell vertices. A Delaunay triangulation maximizes the minimum interior angle. 
+- Voronoi Tessellation = the dual of a Deelaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.  Defined as V(pi) = {x | d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}  
+    - The Voronoi cell V(pi) contains all points x that are "closest" to the site pi.
+    - "Closeness" is determined by the distance function d(x, p).
+    - The inequality d(x, pi) ≤ d(x, pj) ensures that x is closer to pi than to any other site pj.
+- control volume (CV) method = in context of computational hydrology, the discretization method used by physics codes such as FEHM and PFLOTRAN for solving multiphase flow of fluid and energy (heat) in porous media. The CV method guarantees conservation of mass and heat.
+
 
 ## LaGriT Meshing Definitions
 
-- Current Mesh Object = cmo = the mesh object that actions will act on by default.
-- imt = default name for node array with positive integer values indicating color or material
-- itetclr = default name for element array with positive integer values indicating color or material
-- itp = boundary tags
-- geometry = created with **`surface`** and **`region`** commands and is used to set mesh materials
-- LaGriT (.lgi and .mlgi) = LaGriT command files where .mlgi is a macro called from main command files.
-- AVS (.inp) = file format for mesh information that is easy to convert and recognized by most VIS applications
-- Exodus II (.exo) = Complicated mesh file format used for Amanzi/ATS and recognized by most VIS applications
+- Current Mesh Object = mo = is the mesh data structure used in LaGriT. 
+- imt = integer material type = default name for vertex array with positive integer values indicating material ID or color.
+- itetclr = integer tet color = default name for cell array with positive integer values indicating material ID or color (legacy name convention)
+- itp = integer type = vertex integer tag indicating type such as interior, exterior, interior boundary, or exterior boundary. 
+- geometry = is created with surface and region commands and is used to set mesh material IDs. 
+- LaGriT (.lgi and .mlgi) = LaGriT command files suffix where .mlgi is a macro called from main command files. (Optional suffix convention) 
+- AVS (.inp) = Advanced Visual Systems ascii file format for mesh information (vertex coordinates, cell connectivity, vertex attributes, cell attributes) recognized by most VIS applications. LaGriT can read and write AVS files. 
+- Exodus II (.exo) = Binary mesh file format built on NetCDF data storage structures used for Amanzi/ATS and recognized by most VIS applications. LaGriT can write Exodus II files but does not read Exodus II files. 
 
 
 ## LaGriT Basics Tutorial 

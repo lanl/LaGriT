@@ -152,3 +152,12 @@ Snapshot Paraview session shows clipped mesh and well points.
  <a href="step_04/04_mesh_clip_well_paraview.png"> <img width="400" src="step_04/04_mesh_clip_well_paraview.png" /> </a>
 </p>
 <br>
+
+## finish
+
+Always end a session or a file with the **finish** command and a line return after the finish command. The command line parser will not parse a command without a line return.
+
+```
+finish
+
+```

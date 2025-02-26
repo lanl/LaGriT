@@ -137,9 +137,10 @@ dump/ avs / 01_hex_mesh.inp / 3dmesh
 
 ## finish
 
-Always end a session or a file with the **finish** command.
+Always end a session or a file with the **finish** command and a line return after the finish command. The command line parser will not parse a command without a line return.
 
 ```
 finish
+
 ```
 
