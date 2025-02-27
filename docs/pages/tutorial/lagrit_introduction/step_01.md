@@ -1,105 +1,146 @@
-<!-- Begin breadcrumb -->
-<ul class="uk-breadcrumb">
-    <li><a href="{{ "/pages/tutorial/index.html" | relative_url }}">Tutorials &amp; Examples</a></li>
-    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
-</ul>
-<!-- End breadcrumb -->
+---
+title: Tutorial LaGriT Introduction Step 01
+---
+
+# Step 1. Build a Hex Mesh 
 
 <!-- Begin image -->
-<img data-src="{{ "/pages/tutorial/stratigraphy/images/01_hex_01.png" | relative_url }}" width="639" height="525" alt="" uk-img>
-<br/>
+<p><a href="step_01/01_hex_mesh.png"> <img width="500" src="step_01/01_hex_mesh.png" /> </a></p>
+<br>
 <!-- End image -->
 
-<h2 id="build-hex" class="uk-h3 uk-margin-remove">1. Building a Hex Mesh</h2>
 
-First, we are going to construct a structured hex mesh. The hex mesh will span
-from 0 meters to 4000 m, 4000 m, and 3000 m, for the x/y/z coordinates
-respectively.
+#### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
+#### LaGriT  output file: [lagrit.out](step_01/01_create_hex.out.txt)
 
-For both consistency and rapid parameter manipulation, these can be stored in
-variables. In LaGriT, variables are assigned using the `define` keyword. 
 
-```
-define / X0 / 0.
-define / X1 / 4000.
-define / Y0 / 0.
-define / Y1 / 4000.
-define / Z0 / 0.
-define / Z1 / 3000.
+## Create a Mesh Object
 
-define / NX / 51
-define / NY / 51
-define / NZ / 26
 
-define / MONAME / mohex
-```
+A mesh object can be created by reading a mesh, ie ```read/avs/mesh.inp/ 3dmesh```
+or the mesh can be created. For this example we will start with one of the [`createpts`](../../docs/commands/createpts.md) commands. These are used to add points to a mesh object with defined distributions.
 
-Above, the spatial domain (`X0,X1,Y0,...`), element density (`NX/NY/NZ`), and
-mesh name (`MONAME`) have been defined.
+For your first command you will create a 3D mesh object and name it `3dmesh`. This will be a structured hex mesh so we add the element type to the end of the command syntax.
 
-Next, we will create an empty mesh object, with element type `hex`, using the
-[`cmo / create`](../../docs/commands/cmo/cmo_create.md) command:
+See more on the Mesh Object data structure at [LaGriT Mesh Object](https://lanl.github.io/LaGriT/pages/docs/meshobject.html)
+
+*Note on spacing: the slashes seperate keywords. The slashes with empty spaces are place holders if the user wants to define npoints or nelements in the command. We do not define these here since these values will be updated in the mesh object as points are created.*
 
 ```
-cmo / create / MONAME / / / hex
+cmo / create / 3dmesh / / / hex
 ```
 
-Due to the variable assignment of `MONAME <- mohex` above, this command is
-translated internally as:
+View the contents of this empty mesh object. Note the mesh attributes nnodes and nelements is currently 0. LaGriT book-keeping routines will update the mesh object as it is modified.
+ 
+```
+cmo/status/3dmesh
+```
+
+*Note: the command **cmo/select/3dmesh** can be added here, but not necessary because there is only one mesh. Also, the **create** command makes the created mesh the current mesh.*
+
+
+## Create Points for Hex Mesh
+
+We will use one of the simple **`createpts`** commands, this version will create a structured rectangular mesh. Checking the syntax for [createpts/brick/](https://lanl.github.io/LaGriT/pages/docs/commands/createpts/CRTPTBRICK.html) we see options that can be defined as variables, making them easy to change.
+
+In LaGriT, variables are assigned using the `define` keyword. We define the variables before the commands. It is good practice to locate these all together with comments at the top of the command file. You can also use the **define** command multiple times, the last will overwrite previous values. This is an easy way to keep track of resolutions as you try them.
 
 ```
-cmo / create / mohex / / / hex
+# Mesh domain 100x50x80
+define / XMIN / 0.
+define / XMAX / 100.
+define / YMIN / 0.
+define / YMAX / 50.
+define / ZMIN / 0.
+define / ZMAX / 80.
+
+# Set the number of points along each axis
+# Spacing of 10 will have 11 points for length 100
+define / NX / 11
+define / NY / 6
+
+# try 10 meter spacing with 9 nodes first
+# overwrite and use 5 meter spacing with 17 nodes
+define / NZ / 9
+define / NZ / 17
 ```
 
-This empty object can then be populated with nodes and elements. 
+Above, the spatial domain (MIN and MAX values) and node density (`NX/NY/NZ`) have been defined.
+Now we can use the define values to add points to the mesh object.
 The [`createpts / brick`](../../docs/commands/createpts/CRTPTBRICK.md) command will generate a defined number of
 hex elements across a defined domain. 
 
-```
-createpts / brick / xyz / NX NY NZ / X0 Y0 Z0 / X1 Y1 Z1 / 1 1 1
-```
-
-`NX` number of hex elements, along with their corresponding vertices, have been
-created in the spatial domain spanning `X0->X1`, along with `NY` elements in
-the Y domain and `NZ` elements in the Z domain.
-
-Optionally, [save the mesh object](../../docs/commands/DUMP2.md):
+`NX` number of hex elements, along with their corresponding vertices, will be created in the spatial domain along the X axis, with `NY` elements in the Y domain and `NZ` elements in the Z domain.
 
 ```
-dump / avs / tmp_hex_01.inp / MONAME
+createpts/brick/xyz/ NX NY NZ / XMIN YMIN ZMIN/ XMAX YMAX ZMAX / 1,1,1
 ```
 
-This file can be rendered in certain scientific 3D visualization applications,
-such as [ParaView](https://www.paraview.org).
-
-<!-- Page left / right -->
-<ul class="uk-pagination">
-    <li><a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}"><span class="uk-margin-small-right" uk-pagination-previous></span> Previous</a></li>
-    <li class="uk-margin-auto-left"><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">Next <span class="uk-margin-small-left" uk-pagination-next></span></a></li>
-</ul>
+As shown in the screen report, **`createpts/brick`** creates 1122 hex points and 800 hex elements. The connect option should not be used for the **brick** option  because the hex connectivity is created automatically.
 
 
-<!-- Sidebar -->
-<div class="tm-sidebar-right uk-visible@l">
-    <div uk-sticky="offset: 160" class="uk-sticky uk-active uk-sticky-fixed" style="position: fixed; top: 160px; width: 200px;">
-        <ul uk-scrollspy-nav="closest: li; scroll: true; offset: 100" class="uk-nav uk-nav-default tm-nav uk-nav-parent-icon">
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">Index</a></li>
-            <li class="uk-active"><a href="#build-hex">1. Building a Hex Mesh</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_02.html" | relative_url }}">2. Define Boundaries Using Point Sets</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_03.html" | relative_url }}">3. Constructing Stratigraphy</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_04.html" | relative_url }}">4. Map Surfaces to Mesh</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_05.html" | relative_url }}">5. Constructing a Fault</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_06.html" | relative_url }}">6. Truncate with Polyline</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_07.html" | relative_url }}">7. Refine Fault</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_08.html" | relative_url }}">8. Insert Wells</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_09.html" | relative_url }}">9. Convert Hex Mesh to Tet</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_10_fehm.html" | relative_url }}">10.1 Write FEHM Files</a></li>
-            <li class=""><a href="{{ "/pages/tutorial/stratigraphy/step_10_exo.html" | relative_url }}">10.2 Write ExodusII Files</a></li>
-            <li class="uk-nav-divider"></li>
-            <!---->
-            <li><a href="{{ "/pages/tutorial/stratigraphy/images/gallery.html" | relative_url }}" target="_blank"><span uk-icon="icon: image" class="uk-margin-small-right uk-icon"></span> <span class="uk-text-middle">Image Gallery</span></a></li>
-            <li><a href="https://github.com/lanl/LaGriT/issues" target="_blank"><span uk-icon="icon: warning" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="warning"><circle cx="10" cy="14" r="1"></circle><circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle><path d="M10.97,7.72 C10.85,9.54 10.56,11.29 10.56,11.29 C10.51,11.87 10.27,12 9.99,12 C9.69,12 9.49,11.87 9.43,11.29 C9.43,11.29 9.16,9.54 9.03,7.72 C8.96,6.54 9.03,6 9.03,6 C9.03,5.45 9.46,5.02 9.99,5 C10.53,5.01 10.97,5.44 10.97,6 C10.97,6 11.04,6.54 10.97,7.72 L10.97,7.72 Z"></path></svg></span> <span class="uk-text-middle">Report issue</span></a></li>
-            <li><a href="mailto:lagrit-dev@lanl.gov" target="_blank"><span uk-icon="icon: commenting" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="commenting"><polygon fill="none" stroke="#000" points="1.5,1.5 18.5,1.5 18.5,13.5 10.5,13.5 6.5,17.5 6.5,13.5 1.5,13.5"></polygon><circle cx="10" cy="8" r="1"></circle><circle cx="6" cy="8" r="1"></circle><circle cx="14" cy="8" r="1"></circle></svg></span> <span class="uk-text-middle">Get help</span></a></li>
-        </ul>
-    </div>
-</div>
+## Set Materials and Boundary Tags
+
+
+It is good practice to set materials for nodes (imt) and elements (itetlcr) to 1 before continuing. A 0 value in these arrays will cause some viewers to ignore that point or element. These attributes must be positive non-zero integers.
+
+*Note 1,0,0 represents all for node start,stride,end*
+
+```
+cmo / setatt / 3dmesh / imt / 1,0,0 / 1
+cmo / setatt / 3dmesh / itetclr / 1,0,0 / 1
+```
+
+It is also good practice to reset the itp attribute anytime materials are changed. This attribute indicates which nodes are on the boundary and which are internal and is used in many of the meshing routines.
+
+```
+resetpts/itp
+```
+
+## Check the Mesh
+
+
+View the Mesh Object status, brief version. This report affirms the creation of a 3D hex mesh. The **brief** option shows the cmo header without all the attributes.
+```
+cmo/status/ 3dmesh / brief
+```
+
+View the min max values of the mesh attributes of the coordinates as another check.
+The keyword -all- or -xyz- can be used to view mesh object attributes.
+```
+cmo/printatt/3dmesh/ -xyz- minmax
+```
+
+Check the mesh with the **`quality`** command.  There should be no negative or zero volumes.
+
+```
+quality
+```
+
+## Write the Mesh and View
+
+
+Write an AVS format mesh file for viewing the mesh.
+This file can be rendered in certain scientific 3D visualization applications such as Paraview.
+
+Viewing this mesh you should see something similar to the image at the top of the page.
+By default, paraview will color the mesh by imt values which are all equal to 1. 
+
+View the mesh using the node attribute itp to see the boundary nodes. The outside nodes will have value of 10 and internal nodes will have value 0. Note when viewing a mesh colored by a node, the colors will "bleed" from one node to the next. Views colored by cell or element will be more distinct.
+
+Image shows hex mesh with node itp colors. The mesh is clipped in half to see the inside nodes of the mesh.
+<p><a href="step_01/01_hex_mesh_itp.png"> <img width="300" src="step_01/01_hex_mesh_itp.png" /> </a></p>
+
+```
+dump/ avs / 01_hex_mesh.inp / 3dmesh
+```
+
+## finish
+
+Always end a session or a file with the **finish** command and a line return after the finish command. The command line parser will not parse a command without a line return.
+
+```
+finish
+
+```
+
