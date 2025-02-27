@@ -11,7 +11,9 @@ title: Tutorial LaGriT Introduction Step 02
 #### LaGriT command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
 #### LaGriT  output file: [lagrit.out](step_02/02_hex_to_tet.out.txt)
 
-This example will use 2 methods for creating a tet mesh from a hex mesh. The first method will use the mesh points to [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. The second will use [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) to convert hex elements into tetrahedrals.
+This example will use 2 methods for creating a tet mesh from a hex mesh. 
+- Method 1 will use the mesh points to [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. 
+- Method 2 will use [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) to convert hex elements into tetrahedrals.
 
 Use of **hextotet** (or **grid2grid**) to convert a 3D mesh to a tetrahedral mesh may result in a non-Delaunay tetrahedral mesh. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2) then the **connect** command should be used to create a Delaunay mesh.
 
@@ -25,14 +27,16 @@ Use of **hextotet** (or **grid2grid**) to convert a 3D mesh to a tetrahedral mes
 
 
 
-# Method using Connect Delaunay
+# Method 1 using Connect Delaunay
 
+The Delaunay algorithm is applied to a set of points. In this example we will use the nodes from the hex mesh in Step 1. The point distribution will impact the success of a connected tet mesh. A point distribution where spacing varies from very small to very large can result in high aspect ratios and boundary problems. This hex mesh provides structured regular spacing and is topologically consistent and will result in a successful Delaunay connection.
+ 
 
 ## Create the Hex Mesh from Step 1
 
 
 The **'infile'** command is used to read and run a LaGriT command file. In this case we read and run the same command file that was used to create a hex mesh in Step 1. 
-Use the **cmo/status** command to confirm the mesh object "3dmesh" was created.
+Use the **'cmo/status'** commands to confirm the mesh object named "3dmesh" was created.
 
 ```
 infile 01_create_hex.lgi
@@ -53,26 +57,44 @@ The current-mesh-object(CMO) is: 3dmesh
 
 ## Create a new mesh object with points to connect 
 
-The [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) command will create connectivity from a cloud of points. There should be no duplicate points and the **imt** material should be a single value. The point distribution will impact the success of a connected tet mesh. 
-A point distribution where spacing varies from very small to very large can result in high aspect ratios and boundary problems. This hex mesh provides structured regular spacing and is topologically consistent and will result in success.  
+The [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) command will create connectivity from a cloud of points. There should be no duplicate points and the **imt** material should be a single value. 
 
-Copy the hex points into a new mesh object, this removed the connectivity so new elements cat be created. 
+Copy the hex points into a new mesh object, this removed the connectivity so new elements can be created. 
 ```
 cmo / create / mo_tet
 copypts / mo_tet / 3dmesh
 ```
 
-We now have multiple mesh objects. You can see a list of mesh objects, use **cmo/select** command to make "mo_tet" mesh object current for the next commands.
+We now have multiple mesh objects that can be listed. Use **cmo/select** command to make "mo_tet" mesh object current for the next commands.
+Note the **cmo/status** command shows there are no elements in this mesh object. The "brief" option will show the mesh object summary without the long list of associated attributes.
 
 ```
-cmo /list
+cmo / list
 cmo/ select / mo_tet
-cmo/ status / mo_tet /brief
+cmo/ status / mo_tet / brief
 ```
+<pre class="lg-output">
+The current-mesh-object(CMO) is: mo_tet
 
-Prepare the points by removing duplicate points and setting imt to a single value and boundry tags to 0. The **filter** command will mark duplicate points as "dudded" points, the **rmpoint/compress** command will remove the dudded nodes from the mesh object. These commands will not make any changes if there are no duplicate points. 
+  0    Mesh Object name: -default-
+  1    Mesh Object name: 3dmesh
+  2    Mesh Object name: mo_tet
+cmo/select/mo_tet
+cmo/status/mo_tet/brief
 
-*Note: the use of special character ";" to call multiple commands on the same line.*
+The current-mesh-object(CMO) is: mo_tet
+
+  2 Mesh Object name: mo_tet
+    number of nodes =          1122        number of elements =            0
+    dimensions geometry =         3        element type =                tet
+    dimensions topology =         3        4 nodes      4 faces      6 edges
+    boundary flag =        16000000        status =                   active
+
+</pre>
+
+Prepare the points by removing duplicates and setting imt to a single value and boundry tags to 0. The **filter** command will mark duplicate points as "dudded" points, the **rmpoint/compress** command will remove the dudded nodes from the mesh object. These commands will not make any changes if there are no duplicate points. 
+
+*Note: the special token ";" can be used to call multiple commands on the same line.*
 
 ```
 # remove dupplicate points if they exist
@@ -101,14 +123,39 @@ The result of the **connect** command should show successs.
 </pre>
 
 
-It is good practice to make sure there are no zero or negative volume elements with the **quality** command. Set the newly created tet materials to 1 and set the **itp** boundary nodes.
+It is good practice to check the results to make sure there are no zero or negative volume elements with the **quality** command. 
 ```
 quality
+```
+
+<pre class="lg-output">
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32
+--------------------------------------------
+elements with aspect ratio < .01:                    0
+elements with aspect ratio b/w .01 and .02:          0
+elements with aspect ratio b/w .02 and .05:          0
+elements with aspect ratio b/w .05 and .1 :          0
+elements with aspect ratio b/w .1  and .2 :          0
+elements with aspect ratio b/w .2  and .5 :        926
+elements with aspect ratio b/w .5  and 1. :       3874
+min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00
+
+epsilonvol:   8.8817842E-08
+---------------------------------------
+All elements have volume  8.3333333E+01
+-----------------------------------------------------------
+      4800 total elements evaluated.
+
+</pre>
+
+Set the tet materials to 1 and update the **itp** array.
+
+```
 cmo / setatt / mo_tet / itetclr / 1
 resetpts / itp
 ```
 
-# Method using grid2grid to convert each hex into 5 tets 
+# Method 2 converts each hex into 5 tets 
 
 The [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) is a wrapper that simplifies many of the grid to grid conversions. In this case we will use the option that converts each hex element into 5 tets (with nopoints added). This command requires the creation of a new mesh object, the new name is given first, with the source mesh object name at the end.
 
@@ -121,12 +168,47 @@ Check for positive volumes and set mesh default values.
 
 ```
 cmo / list
-
 quality
-
 cmo / setatt / mo_hex2tet / itetclr / 1
 resetpts / itp
 ```
+
+There are now 3 mesh objects. "3dmesh" is the hex mesh created at start of this run. "mo_tet" was created with the **connect** command. "mo_hex2tet" was created by the **grid2grid/hextotet5** command.
+Note the **quality** command is evaluating the current mesh object, "cmo_hex2tet".
+
+<pre class="lg-output">
+The current-mesh-object(CMO) is: mo_hex2tet
+
+  0    Mesh Object name: -default-
+  1    Mesh Object name: 3dmesh
+  2    Mesh Object name: mo_tet
+  3    Mesh Object name: mo_hex2tet
+
+quality
+
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32
+--------------------------------------------
+elements with aspect ratio < .01:                    0
+elements with aspect ratio b/w .01 and .02:          0
+elements with aspect ratio b/w .02 and .05:          0
+elements with aspect ratio b/w .05 and .1 :          0
+elements with aspect ratio b/w .1  and .2 :          0
+elements with aspect ratio b/w .2  and .5 :          0
+elements with aspect ratio b/w .5  and 1. :       4000
+min aspect ratio =  0.6202E+00  max aspect ratio =  0.8165E+00
+
+epsilonvol:   8.8817842E-08
+---------------------------------------
+element volumes b/w  0.8333E+02 and  0.9572E+02:      3200
+element volumes b/w  0.9572E+02 and  0.1100E+03:         0
+element volumes b/w  0.1100E+03 and  0.1263E+03:         0
+element volumes b/w  0.1263E+03 and  0.1451E+03:         0
+element volumes b/w  0.1451E+03 and  0.1667E+03:       800
+min volume =   8.3333333E+01  max volume =   1.6666667E+02
+-----------------------------------------------------------
+      4000 total elements evaluated.
+
+</pre>
 
 Now we have two tet meshes, one created with **connect** and the other with **grid2grid**. In general we use the connect algorithm to create Delaunay meshes using Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2). Converting hex elements into tet elements will not be Delaunay and may affect results depending on the physics used. 
 
