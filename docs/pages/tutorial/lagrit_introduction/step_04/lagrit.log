@@ -1,0 +1,41 @@
+read/avs/tet_interp_materials.inp/mo_tet                                        
+quality                                                                         
+cmo/printatt/mo_tet/imt minmax                                                  
+cmo/select/mo_tet                                                               
+cmo/setatt/mo_tet itetclr 1                                                     
+resetpts/parent                                                                 
+rmpoint compress                                                                
+filter/1,0,0                                                                    
+dump/fehm/tet/mo_tet/keepatt                                                    
+dump/avs/tet_fehm.inp/mo_tet                                                    
+cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/                           
+cmo select mo_tet                                                               
+pset pin attribute itp 1,0,0 lt 10                                              
+pset pneg attribute ccoef 1,0,0 lt -.0001                                       
+pset pBAD inter pin pneg                                                        
+cmo printatt mo_tet ccoef minmax                                                
+cmo printatt mo_tet -all- minmax                                                
+cmo select mo_tet                                                               
+pset/px/attribute xic/1,0,0/eq 50.                                              
+pset/py/attribute yic/1,0,0/eq 20.                                              
+pset/pz/attribute zic/1,0,0/ge 30.                                              
+pset/pwell/inter/px,py,pz                                                       
+pset/pwell/zone/well_center.zone/11                                             
+cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0                  
+cmo/setatt/mo_tet/iwell/pset,get,pwell/11                                       
+cmo/printatt/mo_tet/iwell/minmax                                                
+cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/                                   
+cmo/copyatt/mo_tet mo_tet/elev zic                                              
+cmo/set_id/mo_tet/node/id_node                                                  
+dump/avs/tet_attributes.inp/mo_tet                                              
+cmo/printatt/mo_tet/-all- minmax                                                
+cmo/status/mo_tet                                                               
+cmo/create/motmp                                                                
+copypts/motmp/mo_tet                                                            
+cmo/select/motmp                                                                
+pset/pduds/attribute iwell/1,0,0/ne 11                                          
+rmpoint/pset,get,pduds                                                          
+rmpoint/compress                                                                
+dump/avs/tet_well_pnts.inp/motmp/1 3 1 0 0                                      
+cmo/printatt/motmp/-all- minmax                                                 
+finish                                                                          
