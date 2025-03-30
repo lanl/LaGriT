@@ -370,10 +370,15 @@ C
       h_prime = 0.4*h02
 C
       ijob_buffer = 1
-      call buffer_xyz_minmax(
+      call buffer_minmax_range(
      &      ijob_buffer,h,
-     &      xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff,
-     &      xmin_poly,xmax_poly,ymin_poly,ymax_poly,zmin_poly,zmax_poly)
+     &      xmin_buff,xmax_buff,xmin_poly,xmax_poly)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      ymin_buff,ymax_buff,ymin_poly,ymax_poly)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      zmin_buff,zmax_buff,zmin_poly,zmax_poly)
 
       delta_x = xmax_buff - xmin_buff
       delta_y = ymax_buff - ymin_buff
@@ -998,20 +1003,15 @@ C
       return
       end
 C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
-      subroutine buffer_xyz_minmax(ijob,buffer_factor,
-     &                       xmin_buff,xmax_buff,
-     &                       ymin_buff,ymax_buff,
-     &                       zmin_buff,zmax_buff,
-     &                       xmin,xmax,
-     &                       ymin,ymax,
-     &                       zmin,zmax)
+      subroutine buffer_minmax_range(ijob,buffer_factor,
+     &                       xmin_buff,xmax_buff,xmin,xmax)
 C #####################################################################
 C
 C     PURPOSE -
 C
-C        Take as input a bounding box XYZ min/max and create a new bounding
-C        box that is either a constant amount larger (ijob=1) or a scale factor
-C        of the original box size larger (ijob=2)
+C        Take as input a min/max range and create a new range
+C        that is either a constant amount larger/smaller (ijob=1) or a scale factor
+C        of the original range size larger/smaller (ijob=2)
 C
 C     INPUT ARGUMENTS -
 C
@@ -1019,12 +1019,11 @@ C        ijob = 1, then add/subtract buffer_factor to bounding box limits
 C             = 2, then add/subtract scale factor
 C                  e.g.  xmin_buff = xmin - ((xmax - xmin)*buffer_factor)
 C        buffer_factor - value added/subtracted (ijob=1) or scale factor (ijob=2)
-C        xmin,xmax,ymin,ymax,zmin,zmax - input bounding box
+C        xmin,xmax - input range
 C
 C     OUTPUT ARGUMENTS -
 C
-C        xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff, - output bounding box
-C
+C        xmin_buff,xmax_buff - output modified min/max
 C
 C #####################################################################
 
@@ -1032,11 +1031,7 @@ C #####################################################################
 
       integer ijob
       real*8 xmin,xmax,
-     &       ymin,ymax,
-     &       zmin,zmax,
      &       xmin_buff,xmax_buff,
-     &       ymin_buff,ymax_buff,
-     &       zmin_buff,zmax_buff,
      &       buffer_factor
 
       if(ijob .eq. 1) then
@@ -1045,20 +1040,12 @@ C  Set buffer based on a fixed value added or subtracted from the min/max values
 C ----------------------------------------------------------
          xmin_buff = xmin - buffer_factor
          xmax_buff = xmax + buffer_factor
-         ymin_buff = ymin - buffer_factor
-         ymax_buff = ymax + buffer_factor
-         zmin_buff = zmin - buffer_factor
-         zmax_buff = zmax + buffer_factor
       elseif(ijob .eq. 2) then
 C ----------------------------------------------------------
-C Set buffer based on a proportion of the bounding box dimension
+C Set buffer based on a proportion of the range size
 C ----------------------------------------------------------
          xmin_buff = xmin - ((xmax - xmin)*buffer_factor)
          xmax_buff = xmax + ((xmax - xmin)*buffer_factor)
-         ymin_buff = ymin - ((ymax - ymin)*buffer_factor)
-         ymax_buff = ymax + ((ymax - ymin)*buffer_factor)
-         zmin_buff = zmin - ((zmax - zmin)*buffer_factor)
-         zmax_buff = zmax + ((zmax - zmin)*buffer_factor)
       endif
 
       return
@@ -1129,12 +1116,18 @@ C  Define user_sub arguments
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
+      character*32 cstring_in, cstring_out
+      integer istring_type, istring_out
+      real*8  rstring_out
       integer seed,number_of_samples,resample_sweeps
 C Define variables 
       integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
       integer h_fac
       integer ndimension, if_connect
       integer if_h_provided, if_h_field_variable
+      real*8     poi_edge_buffer
+      integer if_poi_edge_buffer
+      integer ierror_xyz(6)
 
       logical if_convex
 C
@@ -1147,7 +1140,7 @@ C
      &       xmin_buff,xmax_buff,
      &       ymin_buff,ymax_buff,
      &       zmin_buff,zmax_buff,
-     &       epsilona_box, epsilonv_box
+     &       epsilona_box, epsilonv_box, buffer_dxyz
       integer ijob_buffer
 
 C     pointers for x,y,z coordinates
@@ -1419,6 +1412,9 @@ C
       h_prime = 0.4*h02
 C
 C     Using user defined variables:
+C
+C     define / IF_POI_EDGE_BUFFER / integer
+C
 C     define / POI_XMIN / real
 C     define / POI_YMIN / real
 C     define / POI_ZMIN / real
@@ -1434,38 +1430,111 @@ C     POI_XMAX => poi_box_xmax
 C     POI_YMAX => poi_box_ymax
 C     POI_ZMAX => poi_box_zmax
 C
-C     The code below is a way of using the user defined variables
+C     The code below is a way of using the known user defined variables
 C     to fill local floating point xyz min/max values.
 C
-      cbuf = 'cmo/create/mo_poi_h_field/ / /hex ; finish'
-      call dotaskx3d(cbuf,ierr)
-      cbuf = 'createpts / xyz / 2 2 2 / 
-     &        POI_XMIN POI_YMIN POI_ZMIN / 
-     &        POI_XMAX POI_YMAX POI_ZMAX /
-     &        1 1 1 ; finish'
-      call dotaskx3d(cbuf,ierr)
-      call cmo_select(mo_poi_h_field,ierr)
-      cbuf='setsize ; finish'
-      call dotaskx3d(cbuf,ierr)
-      cbuf='resetpts/itp ; finish'
-      call dotaskx3d(cbuf,ierr)
-      call cmo_select(mo_poi_h_field,ierr)
-      call getsize(poi_box_xmin,poi_box_xmax,
-     &             poi_box_ymin,poi_box_ymax,
-     &             poi_box_zmin,poi_box_zmax,
-     &             epsilona_box,epsilonv_box)
-      cbuf = 'cmo/delete/mo_poi_h_field ; finish'
-      call dotaskx3d(cbuf,ierr)
+      cstring_in = "IF_POI_EDGE_BUFFER"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      if(ierror .eq. 0) if_poi_edge_buffer = istring_out
+C     Set default to 1, buffer on, if user does not define the variable.
+      if(ierror .ne. 0) if_poi_edge_buffer = 1
+C
+      cstring_in = "POI_EDGE_BUFFER"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      if(ierror .eq. 0) poi_edge_buffer = rstring_out
+C     Set default to 1, buffer on, if user does not define the variable.
+      if(ierror .ne. 0) poi_edge_buffer = 1.0
+C----------
+      cstring_in = "POI_XMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(1) = ierror
+      poi_box_xmin = rstring_out
+C----------
+      cstring_in = "POI_YMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(2) = ierror
+      poi_box_ymin = rstring_out
+C----------
+      cstring_in = "POI_ZMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(3) = ierror
+      poi_box_zmin = rstring_out
+C----------
+      cstring_in = "POI_XMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(4) = ierror
+      poi_box_xmax = rstring_out
+C----------
+      cstring_in = "POI_YMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(5) = ierror
+      poi_box_ymax = rstring_out
+C----------
+      cstring_in = "POI_ZMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(6) = ierror
+      poi_box_zmax = rstring_out
+C
+C     Error reporting
+C
+      do i = 1,6
+         if(ierror_xyz(i) .ne. 0)then
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga
+     &     ('default',0,'User must define bounding box minmax',0,ierrw)
+         if(i .eq. 1)then
+            call writloga
+     &        ('default',0,'define/POI_XMIN/floating_point',0,ierrw)
+         elseif(i .eq. 2)then
+            call writloga
+     &        ('default',0,'define/POI_YMIN/floating_point',0,ierrw)
+         elseif(i .eq. 3)then
+            call writloga
+     &        ('default',0,'define/POI_ZMIN/floating_point',0,ierrw)
+         elseif(i .eq. 4)then
+            call writloga
+     &        ('default',0,'define/POI_XMAX/floating_point',0,ierrw)
+         elseif(i .eq. 5)then
+            call writloga
+     &        ('default',0,'define/POI_YMAX/floating_point',0,ierrw)
+         elseif(i .eq. 6)then
+            call writloga
+     &        ('default',0,'define/POI_ZMAX/floating_point',0,ierrw)
+         endif
+         endif
+      enddo
+C
+C     The data structure that is used as the background search hex mesh
+C     in the Poisson Disk sample algorithm needs to be a tiny bit larger
+C     than the xyz min/max of the box where vertices are distributed
+C     so that there are no outside edge effects.
 C
       ijob_buffer = 1
-      call buffer_xyz_minmax(
+      call buffer_minmax_range(
      &      ijob_buffer,h,
-     &      xmin_buff,xmax_buff,
-     &      ymin_buff,ymax_buff,
-     &      zmin_buff,zmax_buff,
-     &      poi_box_xmin,poi_box_xmax,
-     &      poi_box_ymin,poi_box_ymax,
-     &      poi_box_zmin,poi_box_zmax)
+     &      xmin_buff,xmax_buff,poi_box_xmin,poi_box_xmax)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      ymin_buff,ymax_buff,poi_box_ymin,poi_box_ymax)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      zmin_buff,zmax_buff,poi_box_zmin,poi_box_zmax)
 C
       delta_x = xmax_buff - xmin_buff
       delta_y = ymax_buff - ymin_buff
@@ -1628,6 +1697,30 @@ C
 C
 C ---------------------------------------------------------------------
 C
+C     if_poi_edge_buffer = 0
+C     Keep the box extents at the values set by the user.
+C     if_poi_edge_buffer = 1
+C     Reduce the box extents by h_spacing and create a uniform
+C     dx, dy, dz vertex distribution on each of the 6 faces.
+C
+      if(if_poi_edge_buffer .eq. 0)then
+
+      elseif(if_poi_edge_buffer .eq. 1)then
+      ijob_buffer = 1
+      buffer_dxyz = -1.0*h*poi_edge_buffer
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      xmin_buff,xmax_buff,poi_box_xmin,poi_box_xmax)
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      ymin_buff,ymax_buff,poi_box_ymin,poi_box_ymax)
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      zmin_buff,zmax_buff,poi_box_zmin,poi_box_zmax)
+      endif
+
+C ---------------------------------------------------------------------
+C
 C     Need to pass information to poisson_3d:
 C     mo_poi_h_field, NXP, NYP, NZP, xic, yic, zic, h_field_att
 C     NP, xic, yic, zic
@@ -1637,6 +1730,8 @@ C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call (begin)
 C ---------------------------------------------------------------------
 C
+      if(if_poi_edge_buffer .eq. 0)then
+
       call poisson_3d
      & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
      & poi_box_xmin, poi_box_xmax, 
@@ -1645,10 +1740,71 @@ C
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
+
+      elseif(if_poi_edge_buffer .eq. 1)then
+
+      call poisson_3d
+     & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
+     & xmin_buff, xmax_buff, 
+     & ymin_buff, ymax_buff,
+     & zmin_buff, zmax_buff, 
+     & np_x,np_y,np_z,  
+     & seed, number_of_samples,
+     & resample_sweeps) 
+      endif
 C
 C ---------------------------------------------------------------------
 C     Poisson Disk algorithm call (end)
 C ---------------------------------------------------------------------
+      if(if_poi_edge_buffer .eq. 1)then
+C     Create a mesh object with vertices on the 6 faces of the cube.
+C     Copy those vertices into the mesh object with the Poisson vertices.
+C
+C        Need to define NX,NY,NZ of the brick/xyz mesh vertices.
+C
+         delta_x = poi_box_xmax - poi_box_xmin
+         delta_y = poi_box_ymax - poi_box_ymin
+         delta_z = poi_box_zmax - poi_box_zmin
+         np_x = ceiling(delta_x/h)
+         np_y = ceiling(delta_y/h)
+         np_z = ceiling(delta_z/h)
+
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPX / ',np_x,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPY / ',np_y,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPZ / ',np_z,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo / create / mo_tmp_wrk_poi_hex / / / hex; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'createpts/brick/xyz/POI_3D_NPX POI_3D_NPY POI_3D_NPZ/'
+     &          // 'POI_XMIN POI_YMIN POI_ZMIN/'
+     &          // 'POI_XMAX POI_YMAX POI_ZMAX/1 1 1; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'resetpts / itp; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'pset/p_out/attribute/itp/1 0 0/ge 10; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/create/mo_tmp_wrk_poi_hex_outside/ / / hex; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'copypts/mo_tmp_wrk_poi_hex_outside/ '
+     &          // 'mo_tmp_wrk_poi_hex/0 0 /pset get p_out; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex; finish'
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'copypts/'// mo_poi_pts_out(1:ilen) //
+     &          '/mo_tmp_wrk_poi_hex_outside; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex_outside; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo / select /'// mo_poi_pts_out(1:ilen) //'; finish'
+         call dotaskx3d(cbuf,ierr)
+      endif
+
 C ---------------------------------------------------------------------
 C
 C     Clean up, remove temporary mesh objects.
