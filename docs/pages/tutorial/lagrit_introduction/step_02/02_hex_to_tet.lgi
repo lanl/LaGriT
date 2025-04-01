@@ -1,5 +1,5 @@
-# LaGriT Tutorial Example 2
-# Create tet mesh from hex mesh
+# Tutorial LaGriT Introduction 
+# Step 2. Convert Hex Mesh to Tet Mesh
 # Use commands connect and grid2grid
 
 # Create hex mesh from Example 1
