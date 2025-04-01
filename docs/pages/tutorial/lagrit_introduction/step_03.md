@@ -2,7 +2,7 @@
 title: Tutorial LaGriT Introduction Step 03
 ---
 
-# Step 3. Assign materials to Hex Mesh and Tet Mesh 
+# Step 3. Assign materials to Hex Mesh and Tet Mesh (In Progress) 
 
 <p>
 <a href="step_03/step_03_3_meshes.png"> <img width="600" src="step_03/step_03_3_meshes.png" /> </a>
@@ -19,6 +19,8 @@ This example will show how to use some basic commands to assign materials to mes
 - Set selections using [**`pset`**](https://lanl.github.io/LaGriT/pages/docs/commands/PSET.html) for mesh points and [**`eltset`**](https://lanl.github.io/LaGriT/pages/docs/commands/ELTSET2.html).
 - Regions defined by surfaces using [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html) and [**`region`**](https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html)
 - Interpolation from hex materials to tet mesh materials using [**`interpolate`**](https://lanl.github.io/LaGriT/pages/docs/commands/main_interpolate.html) 
+- Use LaGriT commands to report material node and element counts for the final mesh
+
 
 ## Define Mesh Names
 
