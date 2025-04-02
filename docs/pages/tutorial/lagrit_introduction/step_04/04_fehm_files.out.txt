@@ -6,7 +6,7 @@
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 9.4.0                  *                 
 *               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Feb 10  16:26:59          *                 
+*               *    Run Time: 2025/Mar 20  15:47:33          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -30,9 +30,9 @@
 Output log file: lagrit.out                                                     
 Command log file: lagrit.log                                                    
  
-# LaGriT Tutorial Example 4                                                     
-# Use tet mesh with materials                                                   
-# Commands dump/fehm and pset write                                             
+# Tutorial LaGriT Introduction                                                  
+# Step 4. Write Mesh and FEHM setup files                                       
+# Uses commands dump/fehm and pset write                                        
 # -----------------------------------------                                     
 # Read tet mesh with materials from Example 3                                   
 read/avs/tet_interp_materials.inp/mo_tet                                        
@@ -264,32 +264,38 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  
 # -----------------------------------------                                     
 # Create zone file for vertical well                                            
-# with center column at known location                                          
+# Use region defined by box surface                                             
+# vertical column at 50x 20y end at 20z                                         
 cmo select mo_tet                                                               
-pset/px/attribute xic/1,0,0/eq 50.                                              
+surface/s_box/reflect/box/49.5 19.5 19./50.5 20.5 100.                          
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+region/r_box/le s_box                                                           
+pset/pwell/region/r_box                                                         
  
- THE PSET  px  HAS        102 POINTS                                            
-pset/py/attribute yic/1,0,0/eq 20.                                              
+ THE PSET  pwell  HAS         13 POINTS                                         
+# check extents of the well nodes                                               
+cmo/printatt/mo_tet/-xyz-/minmax/pset,get,pwell                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                5.000000000E+01  5.000000000E+01 0.000000000E+00      1122  
+ yic                2.000000000E+01  2.000000000E+01 0.000000000E+00      1122  
+ zic                2.000000000E+01  8.000000000E+01 6.000000000E+01      1122  
  
- THE PSET  py  HAS        187 POINTS                                            
-pset/pz/attribute zic/1,0,0/ge 30.                                              
- 
- THE PSET  pz  HAS        726 POINTS                                            
-pset/pwell/inter/px,py,pz                                                       
- 
- THE PSET  pwell  HAS         11 POINTS                                         
 # Write FEHM style node list for well zone                                      
 # Assign a zone number larger than material values                              
 pset/pwell/zone/well_center.zone/11                                             
-PSET: THERE ARE  7 PSETS DEFINED                                                
-  pin               pneg              pBAD              px                      
-  py                pz                pwell                                     
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  pin               pneg              pBAD              pwell                   
 PSET: OUTPUT pwell    1 PSETS TO FILE                                           
 # -----------------------------------------                                     
 # Add mesh object attributes for mesh views                                     
 cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0                  
 cmo/setatt/mo_tet/iwell/pset,get,pwell/11                                       
-        11 values reset for attribute iwell                                     
+        13 values reset for attribute iwell                                     
  
 cmo/printatt/mo_tet/iwell/minmax                                                
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
@@ -323,7 +329,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  nodes_per_element                4                4               0         1  
  edges_per_element                6                6               0         1  
  faces_per_element                4                4               0         1  
- isetwd                           0              121             121      1122  
+ isetwd                           0                9               9      1122  
  ialias                           0                0               0      1122  
  imt1                             1                4               3      1122  
  itp1                             0               12              12      1122  
@@ -360,7 +366,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  zmax               8.000000000E+01  8.000000000E+01 0.000000000E+00         1  
  kdtree_level                     0                0               0         1  
  max_number_sets                 64               64               0         1  
- number_of_psets                  7                7               0         1  
+ number_of_psets                  4                4               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
  top                             -5                1               6      1122  
@@ -370,6 +376,9 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  back_n                          -5                6              11      1122  
  front_s                         -5                4               9      1122  
  ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ ncon50                        2500             2500               0         1  
+ nconbnd                          1                1               0         1  
+ icontab                          0                2               2      2500  
  iwell                            0               11              11      1122  
  elev               0.000000000E+00  8.000000000E+01 8.000000000E+01      1122  
  id_node                          1             1122            1121      1122  
@@ -444,7 +453,7 @@ The current-mesh-object(CMO) is: mo_tet
  56            zmax REAL     scalar          scalar const perma   l  8.000E+01  
  57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
  58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
- 59 number_of_psets  INT     scalar          scalar const perma   l  7.000E+00  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  4.000E+00  
  60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
  61       psetnames VCHA     scalar max_number_sets const perma   l             
  62     eltsetnames VCHA     scalar max_number_sets const perma   l             
@@ -458,9 +467,12 @@ The current-mesh-object(CMO) is: mo_tet
  70          back_n VINT     scalar          nnodes linea perma afg -5.000E+00  
  71         front_s VINT     scalar          nnodes linea perma afg -5.000E+00  
  72           ccoef VDOU     scalar          nnodes linea tempo agl  0.000E+00  
- 73           iwell VINT     scalar          nnodes linea perma agl  0.000E+00  
- 74            elev VDOU     scalar          nnodes linea tempo agl  0.000E+00  
- 75         id_node VINT     scalar          nnodes linea perma agl  0.000E+00  
+ 73          ncon50  INT     scalar          scalar const perma   l  2.500E+03  
+ 74         nconbnd  INT     scalar          scalar const perma   l  1.000E+00  
+ 75         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
+ 76           iwell VINT     scalar          nnodes linea perma agl  0.000E+00  
+ 77            elev VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 78         id_node VINT     scalar          nnodes linea perma agl  0.000E+00  
 # Create a mesh object with just nodes                                          
 # Remove all nodes not in the well zone                                         
 cmo/create/motmp                                                                
@@ -489,12 +501,12 @@ copypts added nodes          1 to       1122
 cmo/select/motmp                                                                
 pset/pduds/attribute iwell/1,0,0/ne 11                                          
  
- THE PSET  pduds  HAS       1111 POINTS                                         
+ THE PSET  pduds  HAS       1109 POINTS                                         
 rmpoint/pset,get,pduds                                                          
- Dudded       1111 points plus parents, there are no elements in mesh.          
+ Dudded       1109 points plus parents, there are no elements in mesh.          
 rmpoint/compress                                                                
-      1111 points removed and          0 elements removed.                      
-RMPOINT: new point count is           11                                        
+      1109 points removed and          0 elements removed.                      
+RMPOINT: new point count is           13                                        
 RMPOINT: new element count is          0                                        
 # Write well nodes with all attributes                                          
 # Use AVS UCD pnt format for paraview                                           
@@ -505,10 +517,10 @@ finish
 cmo/printatt/motmp/-all- minmax                                                 
 Warning: nelements = 0                                                          
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        11  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        13  
  scalar                           1                1               0         1  
  vector                           3                3               0         1  
- nnodes                          11               11               0         1  
+ nnodes                          13               13               0         1  
  nedges                           0                0               0         1  
  nfaces                           0                0               0         1  
  nelements                        0                0               0         1  
@@ -518,15 +530,15 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  nodes_per_element                4                4               0         1  
  edges_per_element                6                6               0         1  
  faces_per_element                4                4               0         1  
- isetwd                         120              120               0        11  
- ialias                           0                0               0        11  
- imt1                             1                4               3        11  
- itp1                             0               12              12        11  
- icr1                             0                0               0        11  
- isn1                             0                0               0        11  
- xic                5.000000000E+01  5.000000000E+01 0.000000000E+00        11  
- yic                2.000000000E+01  2.000000000E+01 0.000000000E+00        11  
- zic                3.000000000E+01  8.000000000E+01 5.000000000E+01        11  
+ isetwd                           8                8               0        13  
+ ialias                           0                0               0        13  
+ imt1                             1                4               3        13  
+ itp1                             0               12              12        13  
+ icr1                             0                0               0        13  
+ isn1                             0                0               0        13  
+ xic                5.000000000E+01  5.000000000E+01 0.000000000E+00        13  
+ yic                2.000000000E+01  2.000000000E+01 0.000000000E+00        13  
+ zic                2.000000000E+01  8.000000000E+01 6.000000000E+01        13  
  0 length attribute: xtetwd                                                     
  0 length attribute: itetclr                                                    
  0 length attribute: itettyp                                                    
@@ -539,7 +551,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
  epsilonv           8.881784197E-08  8.881784197E-08 0.000000000E+00         1  
  ipointi                          1                1               0         1  
- ipointj                         11               11               0         1  
+ ipointj                         13               13               0         1  
  idebug                           0                0               0         1  
  itypconv_sm                      1                1               0         1  
  maxiter_sm                      25               25               0         1  
@@ -558,16 +570,16 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  number_of_psets                  1                1               0         1  
  number_of_eltsets                0                0               0         1  
  number_of_fsets                  0                0               0         1  
- top                             -5                1               6        11  
- bottom                          -5               -5               0        11  
- left_w                          -5               -5               0        11  
- right_e                         -5               -5               0        11  
- back_n                          -5               -5               0        11  
- front_s                         -5               -5               0        11  
- ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00        11  
- iwell                           11               11               0        11  
- elev               3.000000000E+01  8.000000000E+01 5.000000000E+01        11  
- id_node                        424             1084             660        11  
+ top                             -5                1               6        13  
+ bottom                          -5               -5               0        13  
+ left_w                          -5               -5               0        13  
+ right_e                         -5               -5               0        13  
+ back_n                          -5               -5               0        13  
+ front_s                         -5               -5               0        13  
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00        13  
+ iwell                           11               11               0        13  
+ elev               2.000000000E+01  8.000000000E+01 6.000000000E+01        13  
+ id_node                        292             1084             792        13  
  
 finish                                                                          
 LaGriT successfully completed                                                   

@@ -16,10 +16,10 @@ pset pBAD inter pin pneg
 cmo printatt mo_tet ccoef minmax                                                
 cmo printatt mo_tet -all- minmax                                                
 cmo select mo_tet                                                               
-pset/px/attribute xic/1,0,0/eq 50.                                              
-pset/py/attribute yic/1,0,0/eq 20.                                              
-pset/pz/attribute zic/1,0,0/ge 30.                                              
-pset/pwell/inter/px,py,pz                                                       
+surface/s_box/reflect/box/49.5 19.5 19./50.5 20.5 100.                          
+region/r_box/le s_box                                                           
+pset/pwell/region/r_box                                                         
+cmo/printatt/mo_tet/-xyz-/minmax/pset,get,pwell                                 
 pset/pwell/zone/well_center.zone/11                                             
 cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0                  
 cmo/setatt/mo_tet/iwell/pset,get,pwell/11                                       
