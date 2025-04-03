@@ -16,13 +16,18 @@ cmo/printatt/mo_tet/imt minmax
 # -----------------------------------------
 # FEHM does not use element materials
 # Set to 1 avoids algorithms using multi-material elements
+# Materials are changed so reset itp to be safe
 cmo/select/mo_tet
 cmo/setatt/mo_tet itetclr 1
+resetpts/itp
 
 # Remove double-defined nodes and duplicates
+# Good practice to include these commands with final mesh
+# Nothing will happen if not needed
+cmo/select/mo_tet
 resetpts/parent
-rmpoint compress
 filter/1,0,0
+rmpoint/compress
 
 # -----------------------------------------
 # Write default FEHM files
@@ -45,7 +50,9 @@ cmo printatt mo_tet -all- minmax
 # Use region defined by box surface
 # vertical column at 50x 20y end at 20z
 
-cmo select mo_tet
+# surfaces and regions are assigned to current mesh object
+# make sure the one you want is selected
+cmo/select/mo_tet
 surface / s_box / reflect / box / 49.5 19.5 19. / 50.5 20.5 100.  
 region/ r_box / le s_box
 pset/pwell/ region / r_box
@@ -53,9 +60,8 @@ pset/pwell/ region / r_box
 # check extents of the well nodes
 cmo/printatt/mo_tet/-xyz-/ minmax/ pset,get,pwell
 
-# Write FEHM style node list for well zone
-# Assign a zone number larger than material values 
-pset / pwell / zone / well_center.zone / 11
+# Write the list of nodes to a file 
+pset/pwell/ write / well_nodes / ascii
 
 # -----------------------------------------
 # Add mesh object attributes for mesh views

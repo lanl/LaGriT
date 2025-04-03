@@ -18,25 +18,25 @@ LaGriT's meshing tools are tailored for geologic applications and Voronoi contro
 
 - Use the tetrahedral mesh with materials created in Step 3.
 - Use [**`dump/fehm`**](https://lanl.github.io/LaGriT/pages/docs/commands/dump/DUMP3.html) to write 7 model setup files.
-    .fehm - mesh coordinates and geometry in FEHM grid format. Same as [**`dump/coord`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#coord)
-    _material.zone - node zone lists for each material. Same as [**`dump/zone_imt`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
-    _outside.zone - node external boundary zone lists. Same as [**`dump/zone_outside`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
-    _outside_vor.area - node external boundary areas
-    _interface.zone - zone lists for nodes along material interfaces
-    _multi_mat.zone - lists of node pairs connected across material interfaces
-    .stor - file with voronoi control volumes associated with each node and the sparce matrix structure. Same as **`dump/stor`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#stor) and described at (https://lanl.github.io/LaGriT/pages/docs/STOR_Form.html)
-- Create a vertical well zone
+- Create a vertical well zone.
 - View and check the mesh quality and defined zones.
 
+The following model setup files will be written:
+-   .fehm - mesh coordinates and geometry in FEHM grid format. Same as [**`dump/coord`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#coord)
+-  _material.zone - node zone lists for each material. Same as [**`dump/zone_imt`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
+-  _outside.zone - node external boundary zone lists. Same as [**`dump/zone_outside`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
+-  _outside_vor.area - node external boundary areas
+-  _interface.zone - zone lists for nodes along material interfaces
+-  _multi_mat.zone - lists of node pairs connected across material interfaces
+-  .stor - file with voronoi control volumes associated with each node and the sparce matrix structure. Same as [**`dump/stor`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#stor) and described at [**stor format**](https://lanl.github.io/LaGriT/pages/docs/STOR_Form.html)
 
 
-## Read tet mesh with materials from Example 3
+## Read the tetrahedral mesh with materials from Example 3
 
-Assume this is a valid mesh with material IDs assigned to the mesh nodes.
-For this example we read the mesh created in Step 3 with assigned materials.
 
-Check there are no negative volumes
-Check node materials are defined as expected
+Read the mesh and check for positive volumes and expected node material values. The `quality` command shows all cells with the same volume as expected. The [`**cmo/printatt**`](https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_printatt.html) command is recommended for checking mesh attributes at important places in the input file. The keyword **minmax** will display the min and max values of mesh attributes for easy confirmation of values. As expected, the node attribute has material values 1 to 4. (See Step 3).
+
+Note. You can add a `finish` command after this section and run just to be sure all is as expected. Then comment out or remove the temporary finish. 
 
 ```
 read / avs / tet_interp_materials.inp / mo_tet
@@ -54,27 +54,51 @@ ATTRIBUTE NAME         MIN               MAX         DIFFERENCE    LENGTH
  imt1                        1                4               3      1122
 </pre>
 
-FEHM does not use element materials
-Set to 1 avoids algorithms using multi-material elements
-Remove double-defined nodes and duplicates
+FEHM uses properties assigned to the voronoi volumes around the mesh vertices (nodes), and does not use the cell (tet elements. It is nice to color the cells for discrete materials when making images, but since we normally do not use them, we set the element attribute **itetclr** to 1. This avoids algorithm using multi-material elements.  
+Sometimes during the meshing process there will be duplicate or double-defined nodes nodes created. Use the `filter` command to find and tag nodes as `dudded`. The **rmpoint/compress** will remove dudded nodes and adjust the conneectivity.
+
+Note. The [`**resetpts/parent**`](https://lanl.github.io/LaGriT/pages/docs/commands/RESETPT.html) command will remove the parent-child relationship is established in the settets command. It is not often needed but will do nothing unless needed.
+
+Note. It is good practice to use `resetpts/itp` when materials are changed. This will update the itp boundary tags which some routines use. Nothing will happen if itp does not need changing. 
 
 ```
 cmo/select/mo_tet
 cmo/setatt/mo_tet itetclr 1
+resetpts/itp
 
+cmo/select/mo_tet
 resetpts/parent
-rmpoint compress
 filter/1,0,0
+rmpoint/compress
 ```
 
 ## Write default FEHM files
 
-Write AVS file with attributes created for FEHM files
+By default, all 7 FEHM files are written. The commonly used files are the .fehm grid file, the materials and outside zone files, and the .stor voronoi coefficents file.
+
+
+Note. The **keepatt* keyword will add attributes that can be viewed if you dump an AVS file after the **dump/fehm** command. 
 
 ```
 dump/fehm/ tet /mo_tet/ keepatt
 dump/avs/tet_fehm.inp/mo_tet
 ```
+
+<pre class="lg-output">
+-rw-rw-r-- 1 tamiller sft 372523 Apr  2 18:29 step_04/tet.fehmn
+-rw-rw-r-- 1 tamiller sft 203060 Apr  2 18:29 step_04/tet.stor
+-rw-rw-r-- 1 tamiller sft  12486 Apr  2 18:29 step_04/tet_material.zone
+-rw-rw-r-- 1 tamiller sft   8067 Apr  2 18:29 step_04/tet_outside.zone
+-rw-rw-r-- 1 tamiller sft  45739 Apr  2 18:29 step_04/tet_outside_vor.area
+-rw-rw-r-- 1 tamiller sft  32600 Apr  2 18:29 step_04/tet_multi_mat.zone
+-rw-rw-r-- 1 tamiller sft      0 Apr  2 18:28 step_04/tet_interface.zone
+</pre>
+
+<p> Paraview showing mesh attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br>
+<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
+<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
+</p>
+<br>
 
 The output from the `dump/fehm` command generates output that is useful for reports and descpriptions of this mesh that can be useful for modelers.
 
@@ -116,11 +140,12 @@ nodes located with center column at known location
 Write FEHM style node list for well zone
 Assign a zone number larger than material values
 
-Create zone file for vertical well
 Use region defined by box surface
 vertical column at 50x 20y
-Write FEHM style node list for well zone
-Assign a zone number larger than material values
+
+# surfaces and regions are assigned to current mesh object
+# make sure the one you want is selected
+
 
 ```
 cmo select mo_tet
@@ -131,7 +156,8 @@ pset/pwell/ region / r_box
 # check extents of the well nodes
 cmo/printatt/mo_tet/-xyz/ minmax/ pset,get,pwell
 
-pset / pwell / zone / well_center.zone / 11
+# Write the list of nodes to a vertexset file
+pset/pwell/ write / well_nodes / ascii
 ```
 
 There should be 13 nodes found within the region. Check the xyz extents to see that one column is selected at the intended elevations.

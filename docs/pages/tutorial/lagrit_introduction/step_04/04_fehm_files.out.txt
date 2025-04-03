@@ -6,7 +6,7 @@
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 9.4.0                  *                 
 *               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Mar 20  15:47:33          *                 
+*               *    Run Time: 2025/Apr  3  10:17:06          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -79,19 +79,26 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 # -----------------------------------------                                     
 # FEHM does not use element materials                                           
 # Set to 1 avoids algorithms using multi-material elements                      
+# Materials are changed so reset itp to be safe                                 
 cmo/select/mo_tet                                                               
 cmo/setatt/mo_tet itetclr 1                                                     
       4800 values reset for attribute itetclr                                   
  
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
 # Remove double-defined nodes and duplicates                                    
+# Good practice to include these commands with final mesh                       
+# Nothing will happen if not needed                                             
+cmo/select/mo_tet                                                               
 resetpts/parent                                                                 
-rmpoint compress                                                                
-         0 points removed and          0 elements removed.                      
-RMPOINT: new point count is         1122                                        
-RMPOINT: new element count is       4800                                        
 filter/1,0,0                                                                    
 FILTER:Use internal epsilonl value =   0.305260862918E-10                       
 FILTER:Dudding duplicate points:           0                                    
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is         1122                                        
+RMPOINT: new element count is       4800                                        
 # -----------------------------------------                                     
 # Write default FEHM files                                                      
 dump/fehm/tet/mo_tet/keepatt                                                    
@@ -105,10 +112,6 @@ Material           2 has       270 nodes. #nodes/nnodes is   0.240641713142
 Material           3 has       204 nodes. #nodes/nnodes is   0.181818187237     
 Material           4 has       180 nodes. #nodes/nnodes is   0.160427808762     
 *********dump_interface_list********                                            
-Interface material         1 has       146 nodes.                               
-Interface material         2 has       194 nodes.                               
-Interface material         3 has       166 nodes.                               
-Interface material         4 has       202 nodes.                               
 *********dump_multi_material_list********                                       
 Material         1 has       351 multi-material connections.                    
 Material         2 has       626 multi-material connections.                    
@@ -217,7 +220,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  isetwd                           0                1               1      1122  
  ialias                           0                0               0      1122  
  imt1                             1                4               3      1122  
- itp1                             0               12              12      1122  
+ itp1                             0               10              10      1122  
  icr1                             0                0               0      1122  
  isn1                             0                0               0      1122  
  xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122  
@@ -229,7 +232,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  itetoff                          0            19196           19196      4800  
  jtetoff                          0            19196           19196      4800  
  itet                             1             1122            1121      4800x4
- jtet                             1         16019200        16019199      4800x4
+ jtet                             1         16000000        15999999      4800x4
  epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.052608629E-11  3.052608629E-11 0.000000000E+00         1  
  epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
@@ -266,7 +269,9 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 # Create zone file for vertical well                                            
 # Use region defined by box surface                                             
 # vertical column at 50x 20y end at 20z                                         
-cmo select mo_tet                                                               
+# surfaces and regions are assigned to current mesh object                      
+# make sure the one you want is selected                                        
+cmo/select/mo_tet                                                               
 surface/s_box/reflect/box/49.5 19.5 19./50.5 20.5 100.                          
 cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
 finish                                                                          
@@ -285,11 +290,11 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  yic                2.000000000E+01  2.000000000E+01 0.000000000E+00      1122  
  zic                2.000000000E+01  8.000000000E+01 6.000000000E+01      1122  
  
-# Write FEHM style node list for well zone                                      
-# Assign a zone number larger than material values                              
-pset/pwell/zone/well_center.zone/11                                             
+# Write the list of nodes to a file                                             
+pset/pwell/write/well_nodes/ascii                                               
 PSET: THERE ARE  4 PSETS DEFINED                                                
   pin               pneg              pBAD              pwell                   
+PSET: Appended .vertexset to the file name                                      
 PSET: OUTPUT pwell    1 PSETS TO FILE                                           
 # -----------------------------------------                                     
 # Add mesh object attributes for mesh views                                     
@@ -332,7 +337,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  isetwd                           0                9               9      1122  
  ialias                           0                0               0      1122  
  imt1                             1                4               3      1122  
- itp1                             0               12              12      1122  
+ itp1                             0               10              10      1122  
  icr1                             0                0               0      1122  
  isn1                             0                0               0      1122  
  xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122  
@@ -344,7 +349,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  itetoff                          0            19196           19196      4800  
  jtetoff                          0            19196           19196      4800  
  itet                             1             1122            1121      4800x4
- jtet                             1         16019200        16019199      4800x4
+ jtet                             1         16000000        15999999      4800x4
  epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
  epsilonl           3.052608629E-11  3.052608629E-11 0.000000000E+00         1  
  epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
@@ -533,7 +538,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  isetwd                           8                8               0        13  
  ialias                           0                0               0        13  
  imt1                             1                4               3        13  
- itp1                             0               12              12        13  
+ itp1                             0               10              10        13  
  icr1                             0                0               0        13  
  isn1                             0                0               0        13  
  xic                5.000000000E+01  5.000000000E+01 0.000000000E+00        13  
