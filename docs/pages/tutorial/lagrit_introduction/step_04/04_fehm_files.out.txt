@@ -6,7 +6,7 @@
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 9.4.0                  *                 
 *               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Apr  3  10:17:06          *                 
+*               *    Run Time: 2025/Apr  3  10:49:56          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -290,11 +290,11 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  yic                2.000000000E+01  2.000000000E+01 0.000000000E+00      1122  
  zic                2.000000000E+01  8.000000000E+01 6.000000000E+01      1122  
  
-# Write the list of nodes to a file                                             
-pset/pwell/write/well_nodes/ascii                                               
+# Write the list of nodes to a zone file                                        
+# Assign a zone number larger than max material                                 
+pset/pwell/zone/tet_well_nodes.zone/ascii/11                                    
 PSET: THERE ARE  4 PSETS DEFINED                                                
   pin               pneg              pBAD              pwell                   
-PSET: Appended .vertexset to the file name                                      
 PSET: OUTPUT pwell    1 PSETS TO FILE                                           
 # -----------------------------------------                                     
 # Add mesh object attributes for mesh views                                     
@@ -311,7 +311,7 @@ cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/
 cmo/copyatt/mo_tet mo_tet/elev zic                                              
       1122 copied from mo_tet zic to -> mo_tet elev                             
  
-# save node id to node attributes                                               
+# save node id to node attributes for visual checks                             
 cmo/set_id/mo_tet/node/id_node                                                  
 cmo/addatt/mo_tet id_node/VINT/scalar/nnodes/linear/permanent//0                
 finish                                                                          

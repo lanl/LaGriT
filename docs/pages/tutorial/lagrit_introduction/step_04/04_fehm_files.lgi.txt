@@ -60,8 +60,9 @@ pset/pwell/ region / r_box
 # check extents of the well nodes
 cmo/printatt/mo_tet/-xyz-/ minmax/ pset,get,pwell
 
-# Write the list of nodes to a file 
-pset/pwell/ write / well_nodes / ascii
+# Write the list of nodes to a zone file 
+# Assign a zone number larger than max material
+pset/pwell/ zone / tet_well_nodes.zone / ascii / 11
 
 # -----------------------------------------
 # Add mesh object attributes for mesh views
@@ -73,7 +74,7 @@ cmo/printatt/mo_tet/ iwell/ minmax
 cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/
 cmo/copyatt/ mo_tet mo_tet / elev zic
 
-# save node id to node attributes
+# save node id to node attributes for visual checks
 cmo/set_id/mo_tet/node/ id_node
 
 # Write the final tet mesh with all attributes

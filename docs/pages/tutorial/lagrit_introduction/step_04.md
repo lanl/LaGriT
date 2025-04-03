@@ -18,17 +18,17 @@ LaGriT's meshing tools are tailored for geologic applications and Voronoi contro
 
 - Use the tetrahedral mesh with materials created in Step 3.
 - Use [**`dump/fehm`**](https://lanl.github.io/LaGriT/pages/docs/commands/dump/DUMP3.html) to write 7 model setup files.
-- Create a vertical well zone.
+- Locate and write a list of nodes representing a vertical well zone.
 - View and check the mesh quality and defined zones.
 
 The following model setup files will be written:
 -   .fehm - mesh coordinates and geometry in FEHM grid format. Same as [**`dump/coord`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#coord)
--  _material.zone - node zone lists for each material. Same as [**`dump/zone_imt`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
--  _outside.zone - node external boundary zone lists. Same as [**`dump/zone_outside`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
--  _outside_vor.area - node external boundary areas
--  _interface.zone - zone lists for nodes along material interfaces
--  _multi_mat.zone - lists of node pairs connected across material interfaces
--  .stor - file with voronoi control volumes associated with each node and the sparce matrix structure. Same as [**`dump/stor`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#stor) and described at [**stor format**](https://lanl.github.io/LaGriT/pages/docs/STOR_Form.html)
+-  material.zone - node zone lists for each material. Same as [**`dump/zone_imt`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
+-  outside.zone - lists of nodes on outside boundaries such as top, bottom, and sides. Same as [**`dump/zone_outside`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone)
+-  outside_vor.area - voronoi areas associated with nodes on outside boundaries
+-  multi_mat.zone - lists of node pairs connected across material interfaces (multi-material nodes) 
+-  interface.zone - lists of nodes along material interfaces (for multi-material cells seldom used with FEHM)
+-  .stor - file with voronoi control volumes associated with each node and the sparse matrix structure. Same as [**`dump/stor`**](https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#stor) and described at [**stor format**](https://lanl.github.io/LaGriT/pages/docs/STOR_Form.html)
 
 
 ## Read the tetrahedral mesh with materials from Example 3
@@ -54,12 +54,17 @@ ATTRIBUTE NAME         MIN               MAX         DIFFERENCE    LENGTH
  imt1                        1                4               3      1122
 </pre>
 
-FEHM uses properties assigned to the voronoi volumes around the mesh vertices (nodes), and does not use the cell (tet elements. It is nice to color the cells for discrete materials when making images, but since we normally do not use them, we set the element attribute **itetclr** to 1. This avoids algorithm using multi-material elements.  
-Sometimes during the meshing process there will be duplicate or double-defined nodes nodes created. Use the `filter` command to find and tag nodes as `dudded`. The **rmpoint/compress** will remove dudded nodes and adjust the conneectivity.
+The following commands are almost always used in preparation of writing FEHM model files. They are not always needed but using them will cause no harm. It is good practice to include in case they are needed.
 
-Note. The [`**resetpts/parent**`](https://lanl.github.io/LaGriT/pages/docs/commands/RESETPT.html) command will remove the parent-child relationship is established in the settets command. It is not often needed but will do nothing unless needed.
+- Set cell colors to 1. FEHM uses properties assigned to the voronoi volumes around the mesh vertices (nodes). Though cell colors are better for images, they are not used in FEHM simulations. It is good practice to set the element attribute **itetclr** to 1. This avoids routines looking for multi-material elements.  
 
-Note. It is good practice to use `resetpts/itp` when materials are changed. This will update the itp boundary tags which some routines use. Nothing will happen if itp does not need changing. 
+- Reset the itp array when materials are changed. This array is important to some routines. 
+
+- The [`**resetpts/parent**`](https://lanl.github.io/LaGriT/pages/docs/commands/RESETPT.html) command will remove the parent-child relationship is established in the settets command.
+
+- Sometimes during the meshing process there will be duplicate or double-defined nodes nodes created. Use the `filter` command to find and tag nodes as `dudded`. 
+
+- IMPORTANT: Nodes tagged for removal will not be deleted from the mesh object until **rmpoint/compress** is called. This will remove any dudded nodes and adjust the connectivity.
 
 ```
 cmo/select/mo_tet
@@ -76,8 +81,17 @@ rmpoint/compress
 
 By default, all 7 FEHM files are written. The commonly used files are the .fehm grid file, the materials and outside zone files, and the .stor voronoi coefficents file.
 
+The **keepatt** keyword will keep attributes normally deleted after writing files.  
+The 6 outside attribute names are added to the mesh object with the names bottom, top, right_e, back_n, front_s, and left_w. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w.
 
-Note. The **keepatt* keyword will add attributes that can be viewed if you dump an AVS file after the **dump/fehm** command. 
+    1 = top = top = positive z direction (0,0,1)
+    2 = bottom = bottom = negative z direction (0,0,-1)
+    3 = left_w = left or west = negative x direction (-1,0,0)
+    4 = front_s = front or south = negative y direction (0,-1,0)
+    5 = right_e = right or east = positive x direction (1,0,0)
+    6 = back_n = back or north = positive y direction (0,1,0)
+
+Note: We normally do not use multiple material regions for FEHM so the `interface.zone` will be empty. (If itetclr=1 and resetpts/itp was called). If the node imt materials are a single value, the `multi_mat.zone` will also be empty.
 
 ```
 dump/fehm/ tet /mo_tet/ keepatt
@@ -100,7 +114,8 @@ dump/avs/tet_fehm.inp/mo_tet
 </p>
 <br>
 
-The output from the `dump/fehm` command generates output that is useful for reports and descpriptions of this mesh that can be useful for modelers.
+The output from the `dump/fehm` command generates output that is useful for checking the final mesh and to share in reports.
+The following is a table reporting the node count for each material. In this case the bottom layer material 1 has the most nodes and the fault material 4 has the fewest as expected. 
 
 <pre class="lg-output">
 *********dump_material_lists********
@@ -111,7 +126,12 @@ Material      1 has       468 nodes. #nodes/nnodes is   0.417112290859
 Material      2 has       270 nodes. #nodes/nnodes is   0.240641713142
 Material      3 has       204 nodes. #nodes/nnodes is   0.181818187237
 Material      4 has       180 nodes. #nodes/nnodes is   0.160427808762
+</pre>
 
+The routine `AMatbld3d_stor` generates a report summary regarding the voronoi volumes and number of coefficients.
+ 
+
+<pre class="lg-output">
 AMatbld3d_stor: *****Zero Negative Coefficients ******
 AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs  0
 AMatbld3d_stor: npoints =     1122  ncoefs =       7144
@@ -121,7 +141,9 @@ AMatbld3d_stor: Volume min =   6.2500000E+01
 AMatbld3d_stor: Volume max =   5.0000000E+02
 </pre>
 
-## CHECK for neg ccoefs in the interior mesh
+Negative coefficents can occur on non-convex boundaries or with unstructured complex meshes. If they occur, these negative coefficients are stored in a node attribute named `ccoef`. Viewing this attribute can provide help in finding areas of the mesh that need adjustment. It is possible that a mesh has ccoef values at or very close to zero, in which case they can be ignored. The following pset commands can help find ccoef values of concern.
+
+Note. The `cmo/addatt` command is called but will not be used if the `AMatbld3d_stor` routine creates it. We create it just in case it does not exist so the commands using it do not fail with an Error.
 
 ```
 cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/
@@ -135,17 +157,13 @@ cmo printatt mo_tet -all- minmax
 
 ## Create zone file for vertical well
 
-nodes located with center column at known location
 
-Write FEHM style node list for well zone
-Assign a zone number larger than material values
+Zones for simulations can be created and written by using the `pset` commands. In this example a single column of nodes is selected to represent a well. There are numerous ways to select, in this example we use a geometric region in box shape. A cylinder would also work.
 
-Use region defined by box surface
-vertical column at 50x 20y
+Regions are defined by surfaces, here we use a box surface around the node column at 50,10 X,Y. The region is defined as inside the box surface, but can be combined with other surfaces for more complex regions. A pset is formed of all points within the `r_bx` region and written to a zone file.
 
-# surfaces and regions are assigned to current mesh object
-# make sure the one you want is selected
-
+ Write the list of nodes to a zone file
+ Assign a zone number larger than max material
 
 ```
 cmo select mo_tet
@@ -156,8 +174,7 @@ pset/pwell/ region / r_box
 # check extents of the well nodes
 cmo/printatt/mo_tet/-xyz/ minmax/ pset,get,pwell
 
-# Write the list of nodes to a vertexset file
-pset/pwell/ write / well_nodes / ascii
+pset/pwell/ zone / tet_well_nodes.zone / ascii / 11
 ```
 
 There should be 13 nodes found within the region. Check the xyz extents to see that one column is selected at the intended elevations.
@@ -174,9 +191,10 @@ ATTRIBUTE NAME         MIN               MAX         DIFFERENCE    LENGTH
 
 ## Add mesh object attributes for mesh views
 
-Add elevation attribute for mesh views
-save node id to node attributes
-Write the final tet mesh with all attributes
+When inspecting the mesh and for nice figures, it is often good to add attributes. A node attribute named `iwell` is created and nodes in the pset `pwell`  are set set to 11. The elevation is nice to see and is created by copying the `zic` attribute to the new attribute named `elev`.
+
+Note. Use the command `cmo/printatt` with **minmax** to check attributes and values in the mesh object.
+
 
 ```
 cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0
@@ -193,17 +211,13 @@ cmo/printatt/mo_tet/-all- minmax
 cmo/status/mo_tet
 ```
 
-<p> Paraview showing mesh attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br>
-<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
-<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
-</p>
-<br>
 
 ## Check Well Zone
 
- Remove all nodes not in the well zone
- Write well nodes with all attributes
- Use AVS UCD pnt format for paraview
+It can be difficult to view mesh nodes within a mesh, it helps to write the points as a seperate file. The mesh nodes (without elements) are copied to a `motmp` mesh object which has all nodes removed except the well nodes. These can be written to any file format, but the AVS UCD pnt type is recoginized by Paraview for easier point displays. This is part of the `dump/avs` options that can be set after the mesh object name.
+
+These options are provided to enable a user the flexiblity of writing ASCII files with desired information. For this example "1 3 1 0 0" means nodes are written, elements are written of type "pnt", node attributes are written, cell attributes are not written, and model attributes are not written. 
+
 
 ```
 cmo/create/motmp
