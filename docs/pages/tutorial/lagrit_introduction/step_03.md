@@ -11,8 +11,9 @@ title: Tutorial LaGriT Introduction Step 03
 <!-- End image -->
 
 
-#### LaGriT command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
-#### LaGriT  output file: [lagrit.out](step_03/03_assign_materials.out.txt)
+#### LaGriT  command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
+#### LaGriT   output file: [lagrit.out](step_03/03_assign_materials.out.txt)
+#### LaGriT all run files: [Folder step_03](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_03)
 
 This example will show how to use some basic commands to assign materials to mesh nodes and elements. Methods include:
 

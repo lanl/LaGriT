@@ -10,8 +10,9 @@ title: Tutorial LaGriT Introduction Step 01
 <!-- End image -->
 
 
-#### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
-#### LaGriT  output file: [lagrit.out](step_01/01_create_hex.out.txt)
+#### LaGriT  command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
+#### LaGriT   output file: [lagrit.out](step_01/01_create_hex.out.txt)
+#### LaGriT all run files: [Folder step_01](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_01)
 
 
 ## Create a Mesh Object

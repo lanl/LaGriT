@@ -81,34 +81,12 @@ rmpoint/compress
 
 ## Write default FEHM files
 
-By default, all 7 FEHM files are written as listed at page top. 
-
-The **keepatt** keyword will keep attributes normally deleted after writing files.  
-The 6 outside attribute names are added to the mesh object with the names bottom, top, right_e, back_n, front_s, and left_w. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w. See left image below.
-
-### Default Outside Zones
-
-1 = top = top = positive z direction (0,0,1)
-2 = bottom = bottom = negative z direction (0,0,-1)
-3 = left_w = left or west = negative x direction (-1,0,0)
-4 = front_s = front or south = negative y direction (0,-1,0)
-5 = right_e = right or east = positive x direction (1,0,0)
-6 = back_n = back or north = positive y direction (0,1,0)
-
-The `_material.zone` file contains zones listing node ids for each integer value found in the mesh **imt** attribute. 
-This is a single file seperated by id, "nnum" and total for each list. See right image below.
-
+By default, all 7 FEHM files are written with rootname "tet". 
 
 ```
 dump/fehm/ tet /mo_tet/ keepatt
 dump/avs/tet_fehm.inp/mo_tet
 ```
-
-<p> Paraview images showing mesh node attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br>
-<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
-<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
-</p>
-<br>
 
 Note: We normally do not use multiple material regions for FEHM so the `interface.zone` will be empty. (If itetclr=1 and resetpts/itp was called). If the node imt materials are a single value, the `multi_mat.zone` will also be empty.
 
@@ -121,6 +99,26 @@ Note: We normally do not use multiple material regions for FEHM so the `interfac
 -rw-rw-r-- 1 tamiller sft  32600 Apr  2 18:29 step_04/tet_multi_mat.zone
 -rw-rw-r-- 1 tamiller sft      0 Apr  2 18:28 step_04/tet_interface.zone
 </pre>
+
+
+The `_material.zone` file contains zones listing node ids for each integer value found in the mesh **imt** attribute.  This is a single file seperated by id, "nnum" and total for each list. See right image below.
+
+The **keepatt** keyword will keep attributes normally deleted after writing files.  The 6 outside attribute names are added to the mesh object with the names and integer id based on normal directions:
+- 1 = top = top = positive z direction (0,0,1)
+- 2 = bottom = bottom = negative z direction (0,0,-1)
+- 3 = left_w = left or west = negative x direction (-1,0,0)
+- 4 = front_s = front or south = negative y direction (0,-1,0)
+- 5 = right_e = right or east = positive x direction (1,0,0)
+- 6 = back_n = back or north = positive y direction (0,1,0)
+
+Note: A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w. See left image below.
+
+
+<p> Paraview images showing mesh node attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br>
+<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
+<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
+</p>
+<br>
 
 
 The output from the `dump/fehm` command generates output that is useful for checking the final mesh and to share in reports.

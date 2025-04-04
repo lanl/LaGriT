@@ -8,8 +8,10 @@ title: Tutorial LaGriT Introduction Step 02
 <p><a href="step_02/02_hextotet.png"> <img width="500" src="step_02/02_hextotet.png"> </a></p>
 <!-- End image -->
 
-#### LaGriT command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
-#### LaGriT  output file: [lagrit.out](step_02/02_hex_to_tet.out.txt)
+#### LaGriT  command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
+#### LaGriT   output file: [lagrit.out](step_02/02_hex_to_tet.out.txt)
+#### LaGriT all run files: [Folder step_02](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_02)
+
 
 This example will use 2 methods for creating a tet mesh from a hex mesh. 
 - Method 1 will use the mesh points to [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) into a Delaunay tet mesh. 
