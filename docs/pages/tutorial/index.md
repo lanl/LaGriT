@@ -201,7 +201,7 @@ Select All, or by one of the categories:
 <!-- tutorial cards -->
         <li data-color="tutorial">
             <div>
-                <a href="{{ "/pages/tutorial/tutorials/lagrit_introduction/index.html" | relative_url }}">
+                <a href="{{ "/pages/tutorial/lagrit_introduction/index.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
                             <img style="max-height:200px;" src="lagrit_introduction/step_04/04_tet_nodes_imt_well_pts.png" alt="">
