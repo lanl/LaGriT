@@ -1,5 +1,5 @@
-# Tutorial Example 1
-#
+# Tutorial LaGriT Introduction 
+# Step 1. Build a Hex Mesh 
 
 # Create an empty hex mesh object called 3dmesh
 cmo / create / 3dmesh / / / hex

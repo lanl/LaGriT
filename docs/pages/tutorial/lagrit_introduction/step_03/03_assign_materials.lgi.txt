@@ -1,5 +1,6 @@
-# LaGriT Tutorial Example 3
-# Assign materials based on methods pset, regions, and interpolation
+# Tutorial LaGriT Introduction
+# Step 3. Assign Materials to the Tet Mesh 
+# Using commands pset, regions, and interpolation
 
 define IN_FILE 02_tet_mesh.inp
 define OUT_FILE tet_colors.inp

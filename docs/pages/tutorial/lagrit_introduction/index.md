@@ -40,8 +40,8 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 - Mesh = Grid = elements defining geometric shapes allowing numerical computations for simulations 
 - Node = Vertex = point = mesh object nodes that can be used to connect into elements.
 - Element = cell = nodes are connected into element types such as line, triangle, or tetrahedral (see page)
-- structured mesh = a mesh whose connectivity (topology) can be defined implicitly and cell neighbors are predictable. Generally, a quadrilateral mesh in 2D and hexahedral mesh in 3D. 
-- unstructured mesh = a mesh that requires explicit connectivity information to describe cell topology. Generally used to represent complex shapes. 
+- Structured mesh = a mesh whose connectivity (topology) can be defined implicitly and cell neighbors are predictable. Generally, a quadrilateral mesh in 2D and hexahedral mesh in 3D. 
+- Unstructured mesh = a mesh that requires explicit connectivity information to describe cell topology. Generally used to represent complex shapes. 
 - Delaunay Triangulation = a Delaunay mesh (triangles in 2D, tetrahedra in 3D) has cells such that the circumcircle(2D)/circumsphere(3D) contains no vertices other than the cell vertices. A Delaunay triangulation maximizes the minimum interior angle. 
 - Voronoi Tessellation = the dual of a Deelaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.  Defined as V(pi) = {x | d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}  
     - The Voronoi cell V(pi) contains all points x that are "closest" to the site pi.
@@ -64,7 +64,10 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 
 ## LaGriT Basics Tutorial 
 
-This tutorial covers the commands needed to generate simple meshes. The tutorial will explain how to generate a mesh, assign material properties, and write files for viewing.
+
+This tutorial shows how to use LaGriT commands to create a simple structured multi-material mesh and files for simulations. This work flow starts with a hexahedral mesh which is connected into a Delaunay tetrahedral mesh. Materials are assigned to the cells and vertices using surfaces. The final step writes files used for simulations such as FEHM. 
+
+You do not need to run LaGriT as the example output files are included in this tutorial. But new users will benefit from running the examples and making modifications to better understand results of different commands and their options.  Paraview is used to create the images in this tutorial and can read any of the AVS *.inp files. 
 
 
 ## [Step 1. Create a Hex Mesh](step_01.md)
@@ -77,6 +80,7 @@ This tutorial covers the commands needed to generate simple meshes. The tutorial
 
 
 ## Final Word
+
 
 Meshing with LaGriT is not automatic and methods can be complex. But LaGriT tools provide a robust variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. For some modeling applications, the LaGriT workflow can be generalized and easier to use. Applications using LaGriT for meshing include dfnWorks and Tinerator, both on github and available for download. We hope this Tutorial provides insight into LaGriT and how it may solve your meshing needs.
 

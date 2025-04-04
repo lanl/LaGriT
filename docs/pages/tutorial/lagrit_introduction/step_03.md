@@ -11,14 +11,17 @@ title: Tutorial LaGriT Introduction Step 03
 <!-- End image -->
 
 
-#### LaGriT command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
-#### LaGriT  output file: [lagrit.out](step_03/03_assign_materials.out.txt)
+#### LaGriT  command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
+#### LaGriT   output file: [lagrit.out](step_03/03_assign_materials.out.txt)
+#### LaGriT all run files: [Folder step_03](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_03)
 
 This example will show how to use some basic commands to assign materials to mesh nodes and elements. Methods include:
 
 - Set selections using [**`pset`**](https://lanl.github.io/LaGriT/pages/docs/commands/PSET.html) for mesh points and [**`eltset`**](https://lanl.github.io/LaGriT/pages/docs/commands/ELTSET2.html).
 - Regions defined by surfaces using [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html) and [**`region`**](https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html)
 - Interpolation from hex materials to tet mesh materials using [**`interpolate`**](https://lanl.github.io/LaGriT/pages/docs/commands/main_interpolate.html) 
+- Use LaGriT commands to report material node and element counts for the final mesh
+
 
 ## Define Mesh Names
 

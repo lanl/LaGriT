@@ -1,6 +1,6 @@
-# LaGriT Tutorial Example 4
-# Use tet mesh with materials
-# Commands dump/fehm and pset write
+# Tutorial LaGriT Introduction
+# Step 4. Write Mesh and FEHM setup files 
+# Uses commands dump/fehm and pset write
 
 # -----------------------------------------
 # Read tet mesh with materials from Example 3
@@ -16,13 +16,18 @@ cmo/printatt/mo_tet/imt minmax
 # -----------------------------------------
 # FEHM does not use element materials
 # Set to 1 avoids algorithms using multi-material elements
+# Materials are changed so reset itp to be safe
 cmo/select/mo_tet
 cmo/setatt/mo_tet itetclr 1
+resetpts/itp
 
 # Remove double-defined nodes and duplicates
+# Good practice to include these commands with final mesh
+# Nothing will happen if not needed
+cmo/select/mo_tet
 resetpts/parent
-rmpoint compress
 filter/1,0,0
+rmpoint/compress
 
 # -----------------------------------------
 # Write default FEHM files
@@ -42,17 +47,22 @@ cmo printatt mo_tet -all- minmax
 
 # -----------------------------------------
 # Create zone file for vertical well
-# with center column at known location
-cmo select mo_tet
+# Use region defined by box surface
+# vertical column at 50x 20y end at 20z
 
-pset/px/attribute xic/1,0,0/ eq 50.
-pset/py/attribute yic/1,0,0/ eq 20.
-pset/pz/attribute zic/1,0,0/ ge 30.
-pset/pwell/ inter / px, py, pz
+# surfaces and regions are assigned to current mesh object
+# make sure the one you want is selected
+cmo/select/mo_tet
+surface / s_box / reflect / box / 49.5 19.5 19. / 50.5 20.5 100.  
+region/ r_box / le s_box
+pset/pwell/ region / r_box
 
-# Write FEHM style node list for well zone
-# Assign a zone number larger than material values 
-pset / pwell / zone / well_center.zone / 11
+# check extents of the well nodes
+cmo/printatt/mo_tet/-xyz-/ minmax/ pset,get,pwell
+
+# Write the list of nodes to a zone file 
+# Assign a zone number larger than max material
+pset/pwell/ zone / tet_well_nodes.zone / ascii / 11
 
 # -----------------------------------------
 # Add mesh object attributes for mesh views
@@ -64,7 +74,7 @@ cmo/printatt/mo_tet/ iwell/ minmax
 cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/
 cmo/copyatt/ mo_tet mo_tet / elev zic
 
-# save node id to node attributes
+# save node id to node attributes for visual checks
 cmo/set_id/mo_tet/node/ id_node
 
 # Write the final tet mesh with all attributes
