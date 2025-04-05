@@ -2,7 +2,7 @@
 title: Tutorial LaGriT Introduction Step 03
 ---
 
-# Step 3. Assign materials to Hex Mesh and Tet Mesh (In Progress) 
+# Step 3. Assign Materials to Hex Mesh and Tet Mesh 
 
 <p>
 <a href="step_03/step_03_3_meshes.png"> <img width="600" src="step_03/step_03_3_meshes.png" /> </a>
