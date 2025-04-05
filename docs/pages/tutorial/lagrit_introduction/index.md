@@ -6,7 +6,7 @@ title: Tutorial LaGriT Introduction
 
 <div class="button" id="button-3">
    <div id="circle"></div>
-   <a href="{{ "/pages/tutorial/lagrit_introduction/index" | relative_url }}">Download Tutorial</a>
+   <a href="{{ "/pages/tutorial/lagrit_introduction/" | relative_url }}">Tutorial on GitHub</a>
 </div>
 
 
