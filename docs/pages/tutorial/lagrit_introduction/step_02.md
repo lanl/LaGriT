@@ -297,3 +297,10 @@ finish
 
 ```
 
+#### [LaGriT Introduction Index](index.html)
+#### [Step 1. Create a Hex Mesh](step_01.html)
+#### [Step 2. Convert Hex Mesh to Tet Mesh](step_02.html)
+#### [Step 3. Assign materials to the Mesh](step_03.html)
+#### [Step 4. Write Mesh and FEHM Setup Files](step_04.html)
+
+
