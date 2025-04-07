@@ -11,7 +11,7 @@ title: Tutorial LaGriT Introduction Step 03
 <!-- End image -->
 
 
-#### LaGriT  command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
+#### LaGriT command file: [03_assign_materials.lgi](step_03/03_assign_materials.lgi.txt)
 #### LaGriT   output file: [lagrit.out](step_03/03_assign_materials.out.txt)
 #### LaGriT all run files: [Folder step_03](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_03)
 
@@ -27,7 +27,7 @@ This example will show how to use some basic commands to assign materials to mes
 
 In this example we assign materials (color) to the hex mesh, then interpolate hex mesh materials to the tet mesh. This method ensures nice interfaces between materials. If the tet mesh is colored with following methods, the tet interfaces will be ragged, with tet elements sticking out. 
 
-Define input and output file names for easy switch between mesh types. As seen here, the second set of file names are last defined and will be used. If you want to see how it looks to use the tet mesh, simply copy and past the first 2 lines after the hex file names. 
+Define input and output file names for easy switch between mesh types. As seen here, the second set of file names are last defined and will be used. If you want to see how it looks to use the tet mesh, simply copy and paste the first 2 lines after the hex file names. 
 
 Results are shown in image at top of page. Image a. This example hex_colors.inp b. Run with tet_colors.inp c. This example using interpolation for tet_colors.inp
 
@@ -41,7 +41,7 @@ define OUT_FILE hex_colors.inp
 
 ## Read the Hex Mesh  
 
-We start with the hex mesh created in Step 1. of this tutorial. Instead of creating it again, we just read the AVS mesh file. Note the variable IN_FILE is define above as "01_hex_mesh.inp". We have given the mesh object the name mo_mat to indicate it is the mesh object we will assign materials to. You can name the mesh anything you want as long as it is clear and consistent with your usage.
+We start with the hex mesh created in Step 1. of this tutorial. Instead of creating it again, we just read the AVS mesh file. Note the variable IN_FILE is define above as "01_hex_mesh.inp". We have given the mesh object the name mo_mat to indicate it is the mesh object we will assign materials to. You can name the mesh anything you want if it is clear and consistent with your usage.
 
 ```
 read/avs/ IN_FILE / mo_mat
@@ -51,14 +51,14 @@ cmo/select/mo_mat
 
 ## Assign Materials by Selected Sets (pset and eltset) 
 
-Define some elevations for layers between top and bottom of mesh  between 0. and 80.
+Define some elevations for layers between top and bottom of mesh between 0. and 80.
 
 ```
 define MAT1_Ztop 40.
 define MAT2_Ztop 62.
 ```
 
-For the current mesh, select node sets based on the attribute zic (Z coordinate). Name the psets "pmat1", "pmat2", and "pmat3" for use in assigning materials. Note reminder the "1,0,0" refers to node numbers start,stride,stop where "0,0" indicates "all".
+For the current mesh, select node sets based on the attribute zic (Z coordinate). Name the psets "pmat1", "pmat2", and "pmat3" for use in assigning materials. Note reminder the "1,0,0" refers to node numbers start, stride, stop where "0,0" indicates "all".
 
 ```
 pset/pmat1/attribute zic/1,0,0/ lt MAT1_Ztop
@@ -144,7 +144,7 @@ View the mesh and the surfaces together to be sure it is correct. The nodes colo
 <a href="step_03/step_03_hex_colors_surfs.png"> <img width="300" src="step_03/step_03_hex_colors_surfs.png" /> </a>
 </p>
 
-To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise these geometry command will not be available for use on the mesh object. Use the **cmo/select** command to make sure you apply these commands to the "mo_mat" mesh object.
+To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise, these geometry command will not be available for use on the mesh object. Use the **cmo/select** command to make sure you apply these commands to the "mo_mat" mesh object.
 
 In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to geometry of type **sheet**. There are many types of surfaces such as cone, and box. See more at [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html). There are options for boundary type which are not necessary for this simple example, so **reflect** is used here.
 
@@ -182,10 +182,10 @@ dump / OUT_FILE / mo_mat
 cmo / status / mo_mat / brief
 ```
 
-Debug hint: things often go wrong early in the script, make sure there are no errors before continuing. You can do this by adding an early finish and observing the output report. If there are no errors reported and the mesh looks as expected, comment the **finish** command so the LaGriT command continues.
+Debug hint: things often go wrong early in the script, make sure there are no errors before continuing. You can do this by adding an early finish and observing the output report. If there are no errors reported, and the mesh looks as expected, comment the **finish** command so the LaGriT command continues.
 
 ```
-# uncomment Early finish to check results
+# Uncomment Early finish to check results
 # 
 finish
 ```
@@ -237,7 +237,7 @@ dump/avs/tet_interp_materials.inp mo_tet
 
 Sometimes it helps to see node and element material quantities before viewing the mesh. This is a good way to catch easy mistakes. These results are also useful to include in reports as part of the setup description. Scripts can be written to parse "lagri.out" results for nice tables and other summary information.
 
-The minmax option is a quick easy way to check for mistakes. The **imt1** (same as **imt**) attribute are the node materials, so length of the array is 1122, the number of nodes in this mesh. The **itetclr** attribute are the element materials with a length of 4800, the number of elements in this mesh. As expected they both have values from 1 to 4. 
+The minmax option is a quick easy way to check for mistakes. The **imt1** (same as **imt**) attribute are the node materials, so length of the array is 1122, the number of nodes in this mesh. The **itetclr** attribute are the element materials with a length of 4800, the number of elements in this mesh. As expected, they both have values from 1 to 4. 
 **Note: these material attributes must have integer numbers greater than 0**
 
 ```
@@ -276,7 +276,7 @@ Color      Num. Elements   Volume          Fractional Volume
       4800 total elements evaluated.
 </pre>
 
-For modeling applications such as FEHM, the node materials are used, not the elements. This **dump/zone_imt** command is part of the FEHM commands available to write material zone files. It is also creates a good summary of the node materials.
+For modeling applications such as FEHM, the node materials are used, not the elements. This **dump/zone_imt** command is part of the FEHM commands available to write material zone files. It also creates a good summary of the node materials.
 
 ```
 dump/zone_imt/ tet / mo_tet
@@ -294,7 +294,7 @@ Material       3 has       204 nodes. #nodes/nnodes is   0.181818187237
 Material       4 has       180 nodes. #nodes/nnodes is   0.160427808762
 </pre>
 
-We do not currently have a easy wrapper command for a summary of voronoi volumes, but a summary can be generated by using the following commands. 
+We do not currently have an easy wrapper command for a summary of voronoi volumes, but a summary can be generated by using the following commands. 
 
 1. Use the command [**`cmo/addatt`**](https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html) to create a node attribute with values of voronoi volumes for each node.
 2. Create a pset for each material value.

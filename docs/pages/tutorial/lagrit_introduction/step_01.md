@@ -10,7 +10,7 @@ title: Tutorial LaGriT Introduction Step 01
 <!-- End image -->
 
 
-#### LaGriT  command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
+#### LaGriT command file: [01_create_hex.lgi](step_01/01_create_hex.lgi.txt)
 #### LaGriT   output file: [lagrit.out](step_01/01_create_hex.out.txt)
 #### LaGriT all run files: [Folder step_01](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_01)
 
@@ -19,13 +19,13 @@ title: Tutorial LaGriT Introduction Step 01
 
 
 A mesh object can be created by reading a mesh, ie ```read/avs/mesh.inp/ 3dmesh```
-or the mesh can be created. For this example we will start with one of the [`createpts`](../../docs/commands/createpts.md) commands. These are used to add points to a mesh object with defined distributions.
+or the mesh can be created. For this example, we will start with one of the [`createpts`](../../docs/commands/createpts.md) commands. These are used to add points to a mesh object with defined distributions.
 
-For your first command you will create a 3D mesh object and name it `3dmesh`. This will be a structured hex mesh so we add the element type to the end of the command syntax.
+For your first command you will create a 3D mesh object and name it `3dmesh`. This will be a structured hex mesh, so we add the element type to the end of the command syntax.
 
 See more on the Mesh Object data structure at [LaGriT Mesh Object](https://lanl.github.io/LaGriT/pages/docs/meshobject.html)
 
-*Note on spacing: the slashes seperate keywords. The slashes with empty spaces are place holders if the user wants to define npoints or nelements in the command. We do not define these here since these values will be updated in the mesh object as points are created.*
+*Note on spacing: the slashes separate keywords. The slashes with empty spaces are place holders if the user wants to define npoints or nelements in the command. We do not define these here since these values will be updated in the mesh object as points are created.*
 
 ```
 cmo / create / 3dmesh / / / hex
@@ -77,7 +77,7 @@ hex elements across a defined domain.
 createpts/brick/xyz/ NX NY NZ / XMIN YMIN ZMIN/ XMAX YMAX ZMAX / 1,1,1
 ```
 
-As shown in the screen report, **`createpts/brick`** creates 1122 hex points and 800 hex elements. The connect option should not be used for the **brick** option  because the hex connectivity is created automatically.
+As shown in the screen report, **`createpts/brick`** creates 1122 hex points and 800 hex elements. The connect option should not be used for the **brick** option because the hex connectivity is created automatically.
 
 
 ## Set Materials and Boundary Tags
@@ -124,8 +124,8 @@ quality
 Write an AVS format mesh file for viewing the mesh.
 This file can be rendered in certain scientific 3D visualization applications such as Paraview.
 
-Viewing this mesh you should see something similar to the image at the top of the page.
-By default, paraview will color the mesh by imt values which are all equal to 1. 
+Viewing this mesh, you should see something like the image at the top of the page.
+By default, Paraview will color the mesh by imt values which are all equal to 1. 
 
 View the mesh using the node attribute itp to see the boundary nodes. The outside nodes will have value of 10 and internal nodes will have value 0. Note when viewing a mesh colored by a node, the colors will "bleed" from one node to the next. Views colored by cell or element will be more distinct.
 
