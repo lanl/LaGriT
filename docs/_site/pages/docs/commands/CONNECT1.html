@@ -52,6 +52,7 @@
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-visible@m">
                             <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
                             <li><a href="/pages/release">Release Notes</a></li>
                             <li><a href="/pages/publications">Publications</a></li>
                             <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
@@ -140,8 +141,9 @@
 
 <h2 id="usage">USAGE</h2>
 
-<p>For 2D and connecting points on a planar surface, the mesh must have <strong>ndimensions_topo</strong>=2 and <strong>ndimensions_geom</strong>=2. This command will create a mesh object with settings appropriate for the connect command.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/ cmotri / triplane
+<p>For 2D and connecting points on a planar surface, the mesh must have <strong>ndimensions_topo</strong>=2 and <strong>ndimensions_geom</strong>=2. This command will create a mesh object with settings appropriate for the connect command.
+<em>Note: the command will fail if you forget the spaced slashes acting a place holders for other options.</em></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/ cmotri / / / triplane
 </code></pre></div></div>
 
 <p>The connect command does not filter out coincident vertices (sqrt[(xi-xj)<sup>2</sup> + (yi-yj)<sup>2</sup> + (zi-zj)<sup>2</sup>] &lt; epsilon). Use the following commands before connect to remove duplicate points.</p>

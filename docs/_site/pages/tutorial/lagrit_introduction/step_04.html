@@ -1,0 +1,465 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Tutorial LaGriT Introduction Step 04</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="step-4-write-fehm-setup-files">Step 4. Write FEHM Setup Files</h1>
+
+<p>
+<a href="step_04/04_tet_nodes_imt_well_pts.png"> <img width="500" src="step_04/04_tet_nodes_imt_well_pts.png" /> </a>
+</p>
+<p><br />
+<!-- End image --></p>
+
+<h4 id="lagrit-command--file-04_fehm_fileslgi">LaGriT command  file: <a href="/pages/tutorial/lagrit_introduction/step_04/04_fehm_files.lgi.txt">04_fehm_files.lgi</a></h4>
+<h4 id="lagrit-output---file-lagritout">LaGriT output   file: <a href="/pages/tutorial/lagrit_introduction/step_04/04_fehm_files.out.txt">lagrit.out</a></h4>
+<h4 id="lagrit-all-run-files-folder-step_04">LaGriT all run files: <a href="https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_04">Folder step_04</a></h4>
+
+<p>LaGriT’s meshing tools are tailored for geologic applications and Voronoi control volume solvers.  Though LaGriT can write files that are of general use, some are specifically designed for the FEHM porous flow and transport code. This example writes model setup files used by FEHM but can be modified for use in other simulators using Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2).</p>
+
+<ul>
+  <li>Use the tetrahedral mesh with materials created in Step 3.</li>
+  <li>Use <a href="https://lanl.github.io/LaGriT/pages/docs/commands/dump/DUMP3.html"><strong><code class="language-plaintext highlighter-rouge">dump/fehm</code></strong></a> to write 7 model setup files.</li>
+  <li>Locate and write a list of nodes representing a vertical well zone.</li>
+  <li>View and check the mesh quality and defined zones.</li>
+</ul>
+
+<p>The following model setup files will be written:</p>
+<ul>
+  <li>material.zone - node zone lists for each material. Same as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone"><strong><code class="language-plaintext highlighter-rouge">dump/zone_imt</code></strong></a></li>
+  <li>outside.zone - lists of nodes on outside boundaries such as top, bottom, and sides. Same as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#zone"><strong><code class="language-plaintext highlighter-rouge">dump/zone_outside</code></strong></a></li>
+  <li>outside_vor.area - voronoi areas associated with nodes on outside boundaries</li>
+  <li>multi_mat.zone - lists of node pairs connected across material interfaces (multi-material nodes)</li>
+  <li>interface.zone - lists of nodes along material interfaces (for multi-material cells seldom used with FEHM)</li>
+  <li>.stor - file with voronoi control volumes associated with each node and the sparse matrix structure. Same as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#stor"><strong><code class="language-plaintext highlighter-rouge">dump/stor</code></strong></a> and described at <a href="https://lanl.github.io/LaGriT/pages/docs/STOR_Form.html"><strong><code class="language-plaintext highlighter-rouge">stor format</code></strong></a></li>
+  <li>.fehm - mesh coordinates and geometry in FEHM grid format. Same as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html#coord"><strong><code class="language-plaintext highlighter-rouge">dump/coord</code></strong></a></li>
+</ul>
+
+<h2 id="read-the-tetrahedral-mesh-with-materials-from-example-3">Read the tetrahedral mesh with materials from Example 3</h2>
+
+<p>Read the mesh and check for positive volumes and expected node material values. The <code class="language-plaintext highlighter-rouge">quality</code> command shows all cells with the same volume as expected. The <a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_printatt.html"><strong><code class="language-plaintext highlighter-rouge">cmo/printatt</code></strong></a> command is recommended for checking mesh attributes at important steps in the input file. The keyword <strong>minmax</strong> will display the min and max values of mesh attributes for easy confirmation of values. As expected, the node attribute has material values 1 to 4. (Created in <a href="../step_03.md">Step 3</a>).</p>
+
+<p>Note. You can add a <code class="language-plaintext highlighter-rouge">finish</code> command after this section and exit early to be sure all is as expected. Then comment out or remove the temporary finish.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read / avs / tet_interp_materials.inp / mo_tet
+quality
+cmo/printatt/mo_tet/imt minmax
+</code></pre></div></div>
+
+<pre class="lg-output">
+---------------------------------------
+All elements have volume  8.3333333E+01
+---------------------------------------
+      4800 total elements evaluated.
+
+ATTRIBUTE NAME         MIN               MAX         DIFFERENCE    LENGTH
+ imt1                        1                4               3      1122
+</pre>
+
+<p>The following commands are almost always used in preparation of writing FEHM model files. They are not always needed but using them will cause no harm. It is good practice to include in case they are needed.</p>
+
+<ul>
+  <li>
+    <p>Set cell colors to 1. FEHM uses properties assigned to the voronoi volumes around the mesh vertices (nodes). Though cell colors are better for images, they are not used in FEHM simulations. It is good practice to set the element attribute <strong>itetclr</strong> to 1. This avoids routines looking for multi-material elements.</p>
+  </li>
+  <li>
+    <p>Reset the itp array when materials are changed. This array is important to some routines.</p>
+  </li>
+  <li>
+    <p>The <a href="https://lanl.github.io/LaGriT/pages/docs/commands/RESETPT.html"><strong><code class="language-plaintext highlighter-rouge">resetpts/parent</code></strong></a> command will remove the parent-child relationship is established in the settets command.</p>
+  </li>
+  <li>
+    <p>Sometimes during the meshing process there will be duplicate or double-defined nodes created. Use the <code class="language-plaintext highlighter-rouge">filter</code> command to find and tag nodes as <code class="language-plaintext highlighter-rouge">dudded</code>.</p>
+  </li>
+  <li>
+    <p>IMPORTANT: Nodes tagged for removal will not be deleted from the mesh object until <code class="language-plaintext highlighter-rouge">rmpoint/compress</code> is called. This will remove any dudded nodes and adjust the connectivity.</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/select/mo_tet
+cmo/setatt/mo_tet itetclr 1
+resetpts/itp
+
+cmo/select/mo_tet
+resetpts/parent
+filter/1,0,0
+rmpoint/compress
+</code></pre></div></div>
+
+<h2 id="write-default-fehm-files">Write default FEHM files</h2>
+
+<p>By default, all 7 FEHM files are written with rootname “tet”.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/fehm/ tet /mo_tet/ keepatt
+dump/avs/tet_fehm.inp/mo_tet
+</code></pre></div></div>
+
+<p>Note: We normally do not use multiple material regions for FEHM so the <code class="language-plaintext highlighter-rouge">interface.zone</code> will be empty. (If itetclr=1 and resetpts/itp was called). If the node imt materials are a single value, the <code class="language-plaintext highlighter-rouge">multi_mat.zone</code> will also be empty.</p>
+
+<pre class="lg-output">
+-rw-rw-r-- 1 tamiller sft 372523 Apr  2 18:29 step_04/tet.fehmn
+-rw-rw-r-- 1 tamiller sft 203060 Apr  2 18:29 step_04/tet.stor
+-rw-rw-r-- 1 tamiller sft  12486 Apr  2 18:29 step_04/tet_material.zone
+-rw-rw-r-- 1 tamiller sft   8067 Apr  2 18:29 step_04/tet_outside.zone
+-rw-rw-r-- 1 tamiller sft  45739 Apr  2 18:29 step_04/tet_outside_vor.area
+-rw-rw-r-- 1 tamiller sft  32600 Apr  2 18:29 step_04/tet_multi_mat.zone
+-rw-rw-r-- 1 tamiller sft      0 Apr  2 18:28 step_04/tet_interface.zone
+</pre>
+
+<p>The <code class="language-plaintext highlighter-rouge">_material.zone</code> file contains zones listing node ids for each integer value found in the mesh <strong>imt</strong> attribute.  This is a single file separated by id, “nnum” and total for each list. See right image below.</p>
+
+<p>The <strong>keepatt</strong> keyword will keep attributes normally deleted after writing files.  The 6 outside attribute names are added to the mesh object with the names and integer id based on normal directions:</p>
+<ul>
+  <li>1 = top = top = positive z direction (0,0,1)</li>
+  <li>2 = bottom = bottom = negative z direction (0,0,-1)</li>
+  <li>3 = left_w = left or west = negative x direction (-1,0,0)</li>
+  <li>4 = front_s = front or south = negative y direction (0,-1,0)</li>
+  <li>5 = right_e = right or east = positive x direction (1,0,0)</li>
+  <li>6 = back_n = back or north = positive y direction (0,1,0)</li>
+</ul>
+
+<p>Note: A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w. See left image below.</p>
+
+<p> Paraview images showing mesh node attributes <b>w_left</b> mesh boundary (left) and node <b>imt</b> materials (right) <br />
+<a href="step_04/04_tet_nodes_left_w.png"> <img width="400" src="step_04/04_tet_nodes_left_w.png" /> </a>
+<a href="step_04/04_tet_nodes_imt.png"> <img width="400" src="step_04/04_tet_nodes_imt.png" /> </a>
+</p>
+<p><br /></p>
+
+<p>The output from the <code class="language-plaintext highlighter-rouge">dump/fehm</code> command generates output that is useful for checking the final mesh and to share in reports.
+The following is a table reporting the node count for each material. In this case the bottom layer material 1 has the most nodes and the fault material 4 has the fewest as expected.</p>
+
+<pre class="lg-output">
+*********dump_material_lists********
+Minimum material ID value =      1
+Maximum material ID value =      4
+Total possible materials  =      4
+Material      1 has       468 nodes. #nodes/nnodes is   0.417112290859
+Material      2 has       270 nodes. #nodes/nnodes is   0.240641713142
+Material      3 has       204 nodes. #nodes/nnodes is   0.181818187237
+Material      4 has       180 nodes. #nodes/nnodes is   0.160427808762
+</pre>
+
+<p>The routine <code class="language-plaintext highlighter-rouge">AMatbld3d_stor</code> generates a report summary regarding the voronoi volumes and number of coefficients.</p>
+
+<pre class="lg-output">
+AMatbld3d_stor: *****Zero Negative Coefficients ******
+AMatbld3d_stor: Number of 'zero' (&lt; compress_eps) coefs  0
+AMatbld3d_stor: npoints =     1122  ncoefs =       7144
+AMatbld3d_stor: Number of unique coefs =              6
+AMatbld3d_stor: Maximum num. connections to a node =  7
+AMatbld3d_stor: Volume min =   6.2500000E+01
+AMatbld3d_stor: Volume max =   5.0000000E+02
+</pre>
+
+<p>Negative coefficients can occur on non-convex boundaries or with unstructured complex meshes. If they occur, these negative coefficients are stored in a node attribute named <code class="language-plaintext highlighter-rouge">ccoef</code>. Viewing this attribute can provide help in finding areas of the mesh that need adjustment. It is possible that a mesh has ccoef values at or very close to zero, in which case they can be ignored. The following pset commands can help find ccoef values of concern.</p>
+
+<p>Note. The <code class="language-plaintext highlighter-rouge">cmo/addatt</code> command is called but will not be used if the <code class="language-plaintext highlighter-rouge">AMatbld3d_stor</code> routine creates it. We create it just in case it does not exist so the commands using it do not fail with an Error.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/
+cmo select mo_tet
+pset pin attribute itp   1,0,0 lt 10
+pset pneg attribute ccoef 1,0,0 lt -.0001
+pset pBAD inter pin pneg
+cmo printatt mo_tet ccoef minmax
+cmo printatt mo_tet -all- minmax
+</code></pre></div></div>
+
+<h2 id="create-zone-file-for-vertical-well">Create zone file for vertical well</h2>
+
+<p>Zones for simulations can be created and written by using the <code class="language-plaintext highlighter-rouge">pset</code> commands. In this example a single column of nodes is selected to represent a well. There are numerous ways to create a set, in this example we use a geometric region in box shape. A cylinder would also work.</p>
+
+<p>Regions are defined by surfaces, here we use a box surface around the node column at 50,10 X,Y. The region is defined as an inside the box surface but can be combined with other surfaces for more complex regions. A pset is formed of all points within the <code class="language-plaintext highlighter-rouge">r_bx</code> region and written to a zone file.</p>
+
+<p>Write the list of nodes to a zone file
+ Assign a zone number larger than max material</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo select mo_tet
+surface / s_box / reflect / box / 49.5 19.5 -1. / 50.5 20.5 100.
+region/ r_box / le s_box
+pset/pwell/ region / r_box
+
+# check extents of the well nodes
+cmo/printatt/mo_tet/-xyz/ minmax/ pset,get,pwell
+
+pset/pwell/ zone / tet_well_nodes.zone / ascii / 11
+</code></pre></div></div>
+
+<p>There should be 13 nodes found within the region. Check the xyz extents to see that one column is selected at the intended elevations.</p>
+
+<pre class="lg-output">
+ THE PSET  pwell  HAS         13 POINTS
+
+cmo/printatt/mo_tet/-xyz-/minmax/pset,get,pwell
+ATTRIBUTE NAME         MIN               MAX         DIFFERENCE    LENGTH
+ xic           5.000000000E+01  5.000000000E+01 0.000000000E+00      1122
+ yic           2.000000000E+01  2.000000000E+01 0.000000000E+00      1122
+ zic           2.000000000E+01  8.000000000E+01 6.000000000E+01      1122
+</pre>
+
+<h2 id="add-mesh-attributes-for-mesh-views">Add Mesh Attributes for Mesh Views</h2>
+
+<p>When inspecting the mesh and to create informative figures, it helps to add attributes. For this example, a node attribute named <strong>iwell</strong> is created and assigned the value 11. The elevation is nice to see and is created by copying the <strong>zic</strong> attribute to a new attribute named <strong>elev</strong>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0
+cmo/setatt/mo_tet/ iwell /pset,get,pwell/ 11
+cmo/printatt/mo_tet/ iwell/ minmax
+
+cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/
+cmo/copyatt/ mo_tet mo_tet / elev zic
+
+cmo/set_id/mo_tet/node/ id_node
+
+dump/avs/tet_attributes.inp/ mo_tet
+cmo/printatt/mo_tet/-all- minmax
+cmo/status/mo_tet
+</code></pre></div></div>
+
+<p>The command <code class="language-plaintext highlighter-rouge">cmo/printatt</code> is used with the <strong>minmax</strong> keyword to check attributes and values in the mesh object. In this example, added attributes include the 6 boundary directions, iwell, elev, and id_node.</p>
+
+<pre class="lg-output">
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122
+ scalar                           1                1               0         1
+ vector                           3                3               0         1
+ nnodes                        1122             1122               0         1
+ nedges                           0                0               0         1
+ nfaces                           0                0               0         1
+ nelements                     4800             4800               0         1
+...
+ imt1                             1                4               3      1122
+ itp1                             0               10              10      1122
+ icr1                             0                0               0      1122
+ isn1                             0                0               0      1122
+ xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      1122
+ zic                0.000000000E+00  8.000000000E+01 8.000000000E+01      1122
+ itetclr                          1                1               0      4800
+...
+ top                             -5                1               6      1122
+ bottom                          -5                2               7      1122
+ left_w                          -5                3               8      1122
+ right_e                         -5                5              10      1122
+ back_n                          -5                6              11      1122
+ front_s                         -5                4               9      1122
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122
+ ncon50                        2500             2500               0         1
+ nconbnd                          1                1               0         1
+ icontab                          0                2               2      2500
+ iwell                            0               11              11      1122
+ elev               0.000000000E+00  8.000000000E+01 8.000000000E+01      1122
+ id_node                          1             1122            1121      1122
+</pre>
+
+<h2 id="check-well-zone">Check Well Zone</h2>
+
+<p>It can be difficult to view mesh nodes within a mesh, it helps to write the points as a separate view file. The mesh nodes (without elements) are copied to a <code class="language-plaintext highlighter-rouge">motmp</code> mesh object which has all nodes removed except the well nodes. These can be written to any file format, but the AVS UCD pnt type is recognized by Paraview for easier point displays. This is part of the <code class="language-plaintext highlighter-rouge">dump/avs</code> options that can be set after the mesh object name.</p>
+
+<p>These options are provided to enable a user the flexibility of writing ASCII files with desired information. For this example, “1 3 1 0 0” means 1= nodes are written, 3 = elements are written of type “pnt”, 1 = node attributes are written, 0 = cell attributes are not written, and 0 = model attributes are not written.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/motmp
+copypts/motmp/mo_tet
+cmo/select/motmp
+pset/pduds/attribute iwell/1,0,0/ ne 11
+rmpoint/pset,get,pduds
+rmpoint/compress
+
+dump/avs/tet_well_pnts.inp/ motmp / 1 3 1 0 0
+cmo/printatt/motmp/-all- minmax
+</code></pre></div></div>
+<p>These Paraview images show the mesh clipped to the well (left) and the well nodes (right). Check the well nodes are located correctly with respect to the mesh materials. Use Paraview to Query a well node to check attributes such as <strong>imt</strong> material and <strong>elev</strong>. Note when the well points are subset from the full mesh, the node ID changes but the attribute <strong>node_id</strong> has the original mesh node ID saved.</p>
+
+<p> 
+<a href="step_04/04_tet_nodes_imt_well_pts.png"> <img width="400" src="step_04/04_tet_nodes_imt_well_pts.png" /> </a>
+ <a href="step_04/04_well_nodes_paraview.png"> <img width="450" src="step_04/04_well_nodes_paraview.png" /> </a>
+</p>
+
+<h2 id="finish">finish</h2>
+
+<p>Always end a session or a file with the <strong>finish</strong> command.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>finish
+</code></pre></div></div>
+
+<h2 id="snapshots-of-paraview-sessions">Snapshots of Paraview Sessions</h2>
+
+<p>This snapshot of the Paraview session shows settings for viewing the clipped mesh and well points.</p>
+
+<p> 
+ <a href="step_04/04_mesh_clip_well_paraview.png"> <img width="400" src="step_04/04_mesh_clip_well_paraview.png" /> </a>
+</p>
+<p><br /></p>
+
+<h2 id="finish-1">finish</h2>
+
+<p>Always end a session or a file with the <strong>finish</strong> command and a line return after the finish command. The command line parser will not parse a command without a line return.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>finish
+
+</code></pre></div></div>
+
+<h4 id="lagrit-introduction-index"><a href="index.html">LaGriT Introduction Index</a></h4>
+<h4 id="step-1-create-a-hex-mesh"><a href="step_01.html">Step 1. Create a Hex Mesh</a></h4>
+<h4 id="step-2-convert-hex-mesh-to-tet-mesh"><a href="step_02.html">Step 2. Convert Hex Mesh to Tet Mesh</a></h4>
+<h4 id="step-3-assign-materials-to-the-mesh"><a href="step_03.html">Step 3. Assign materials to the Mesh</a></h4>
+<h4 id="step-4-write-mesh-and-fehm-setup-files"><a href="step_04.html">Step 4. Write Mesh and FEHM Setup Files</a></h4>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

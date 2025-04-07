@@ -169,7 +169,19 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img style="max-height:200px;" src="https://meshing.lanl.gov/proj/examples/stack_fs_from_bndry/mesh_mat_fs5_and_fs8.png" alt="">
                         </div>
-                        <p>Stack surfaces for Exodus mesh<br> with Boundary and Outlet facesets <br>Advanced</p>
+                        <p>Stack surfaces for Exodus Mesh<br> with Boundary facesets <br>Advanced</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+	<li data-color="demo">
+            <div>
+                <a href="{{ "/pages/docs/demos/description_poi_circle.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/poi_output04_tri_var1_lines.png" alt="">
+                        </div>
+                        <p>Createpts poisson_disk <br> from Circle polygon <br>Advanced</p>
                     </div>
                 </a>
             </div>
@@ -181,7 +193,7 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img style="max-height:200px;" src="/LaGriT/pages/docs/demos/output/cyl_stack_hex.png" alt="">
                         </div>
-                        <p>Create Quad Surface from Hex Sphere <br> Stack surfaces into Hex Cylinder <br>Moderate</p>
+                        <p>2D Surface from Hex Sphere <br> Stack into Hex Cylinder <br>Advanced</p>
                     </div>
                 </a>
             </div>
@@ -189,12 +201,12 @@ Select All, or by one of the categories:
 <!-- tutorial cards -->
         <li data-color="tutorial">
             <div>
-                <a href="{{ "/pages/tutorial/tutorials/regions_points_to_tet.html" | relative_url }}">
+                <a href="{{ "/pages/tutorial/lagrit_introduction/index.html" | relative_url }}">
                     <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                         <div class="uk-card-media-top">
-                            <img style="max-height:200px;" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
+                            <img style="max-height:200px;" src="lagrit_introduction/step_04/04_tet_nodes_imt_well_pts.png" alt="">
                         </div>
-                        <p>Tutorial: Tet Mesh using Regions and Ray Shooting<br>Deprecrated</p>
+                        <p>Tutorial: Introduction to LaGriT<br>Beginner</p>
                     </div>
                 </a>
             </div>
@@ -206,7 +218,19 @@ Select All, or by one of the categories:
                         <div class="uk-card-media-top">
                             <img style="max-height:200px;" src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
                         </div>
-                        <p>Tutorial: Octree refined Mesh with <br>  Well and Stratigraphic Surfaces <br>Advanced</p>
+                        <p>Tutorial: Octree Mesh with <br>  Well and Stratigraphic Surfaces <br>Advanced</p>
+                    </div>
+                </a>
+            </div>
+        </li>
+	<li data-color="tutorial">
+            <div>
+                <a href="{{ "/pages/tutorial/tutorials/regions_points_to_tet.html" | relative_url }}">
+                    <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                        <div class="uk-card-media-top">
+                            <img style="max-height:200px;" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" alt="">
+                        </div>
+                        <p>Tutorial: Mesh from Regions and Ray Shooting<br>Deprecrated</p>
                     </div>
                 </a>
             </div>

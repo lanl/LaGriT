@@ -52,6 +52,7 @@
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-visible@m">
                             <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
                             <li><a href="/pages/release">Release Notes</a></li>
                             <li><a href="/pages/publications">Publications</a></li>
                             <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
@@ -143,7 +144,7 @@ and analyze vertex and mesh based data.</p>
   <div class="accordion-item">
     <input type="checkbox" id="lagrit-toggle" />
     <label class="accordion-header" for="lagrit-toggle">
-      <bold>About LaGriT </bold>
+      <bold>About LaGriT </bold> | Description | Capabilities
     </label>
     <div class="accordion-content">
       <p><br /><b>LaGriT</b> provides a variety of meshing tools specific (but not limited) to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by some modeling applications. Capabilities include:
@@ -178,7 +179,7 @@ and analyze vertex and mesh based data.</p>
   <div class="accordion-item">
     <input type="checkbox" id="using-toggle" />
     <label class="accordion-header" for="using-toggle">
-      <bold>Using LaGriT Commands</bold>
+      <bold>Using LaGriT </bold> | Commands | Syntax | Mesh Design
     </label>
     <div class="accordion-content">
     <p><br />LaGriT works on a single or multiple mesh objects which can be created or read from a file. The actions on the mesh object are driven by mesh commands and their options. These commands can be called interactively on a command line, or scripted with an input file. LaGriT will write two output files upon completion, by default they are lagrit.out (summary and reports for each command) and lagrit.log (saved commands). See the following about using the commands. Refer to Tutorials and Examples for help with syntax and work flow. 
@@ -199,7 +200,7 @@ and analyze vertex and mesh based data.</p>
   <div class="accordion-item">
     <input type="checkbox" id="examples-toggle" />
     <label class="accordion-header" for="examples-toggle">
-      <bold>Tutorials and Examples</bold>
+      <bold>LaGriT Examples</bold> | Tutorials | Test Cases | Projects
     </label>
     <div class="accordion-content">
     <p><br />The easiest way to use LaGriT is by copying from working examples. The Tutorials will help you to understand how commands can be combined into a work flow. Examples and demos provide methods to create meshes and ways to optimize for and check for improved mesh quality.
@@ -218,7 +219,7 @@ and analyze vertex and mesh based data.</p>
   <div class="accordion-item">
     <input type="checkbox" id="details-toggle" />
     <label class="accordion-header" for="details-toggle">
-      <bold>LaGriT Details</bold>
+      <bold>LaGriT Details</bold> | Mesh Objects | Elements | Geometries
     </label>
     <div class="accordion-content">
     <p><br />The Mesh Object is the data structure which contains the information necessary to define a mesh. It consists of attributes that include coordinates, connectivity, and other data. Attributes are updated by LaGriT routines and can be modified by the user. Descriptions of the mesh object and associated details are included here. 
@@ -237,7 +238,7 @@ and analyze vertex and mesh based data.</p>
   <div class="accordion-item">
     <input type="checkbox" id="dev-toggle" />
     <label class="accordion-header" for="dev-toggle">
-      <bold>Code and Development</bold>
+      <bold>LaGriT Development</bold> | Build | C and Fortran | User Programs | Utilities | GitHub Pages
     </label>
     <div class="accordion-content">
     <p><br />LaGriT was originally written with Fortran and C and now includes C++ routines. New wrappers enable C++ to access fortran code needed to maintain and manipulate mesh objects.  CMake is used to generate the build system and works with C, C++, and compatible Fortran compilers. 

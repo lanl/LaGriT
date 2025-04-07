@@ -52,6 +52,7 @@
                     <div class="uk-navbar-right">
                         <ul class="uk-navbar-nav uk-visible@m">
                             <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
                             <li><a href="/pages/release">Release Notes</a></li>
                             <li><a href="/pages/publications">Publications</a></li>
                             <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
@@ -116,30 +117,21 @@
   <li>variable resolution mesh with target edge length defined in user_resolution_2.mlgi</li>
 </ul>
 
-<h3 id="lagrit-command-file-lagrit_input_poi_circlelgitxt">LaGriT command file: <a href="/pages/docs/demos/input/lagrit_input_poi_circle.lgi.txt">lagrit_input_poi_circle.lgi.txt</a></h3>
+<p>The following LaGriT command files are used (.txt appended to names so browser can display):</p>
 
-<h3 id="lagrit-macro-called-by-command-file-user_resolution_1mlgi">LaGriT macro called by command file: <a href="/pages/docs/demos/input/user_resolution_1.mlgi">user_resolution_1.mlgi</a></h3>
-<h3 id="lagrit-macro-called-by-command-file-user_resolution_2mlgi">LaGriT macro called by command file: <a href="/pages/docs/demos/input/user_resolution_2.mlgi">user_resolution_2.mlgi</a></h3>
+<ul>
+  <li>LaGriT main command file: <a href="/pages/docs/demos/input/lagrit_input_poi_circle.lgi.txt">lagrit_input_poi_circle.lgi.txt</a></li>
+  <li>LaGriT macro called by main: <a href="/pages/docs/demos/input/user_resolution_1.mlgi.txt">user_resolution_1.mlgi</a></li>
+  <li>
+    <p>LaGriT macro called by main: <a href="/pages/docs/demos/input/user_resolution_2.mlgi.txt">user_resolution_2.mlgi</a></p>
+  </li>
+  <li>LaGriT output report for this demo: <a href="/pages/docs/demos/input/lagrit_output_poi_circle.out.txt">lagrit_output_poi_circle.out.txt</a></li>
+</ul>
 
-<h3 id="lagrit-output-report-lagrit_output_poi_circleouttxt">LaGriT output report: <a href="output/lagrit_output_poi_circle.out.txt">lagrit_output_poi_circle.out.txt</a></h3>
-
-<p>Create the Input Polygon</p>
-
-<p><a href="input/poi_circle_poly.png"> <img width="250" src="input/poi_circle_poly.png" /> </a></p>
-
-<p>Create poisson disk point distribution and connect into triangles using h = 0.1
-<a href="output/poi_output02_tri_h0.1_lines.png"> <img width="250" src="output/poi_output02_tri_h0.1_emin.png" /> </a></p>
-
-<p>Create poisson disk point distribution and connect into triangles using h = 0.05
-<a href="output/poi_output03_tri_h0.05_lines.png"> <img width="250" src="output/poi_output03_tri_h0.05_emin.png" /> </a></p>
-
-<h2 id="steps-for-this-example">Steps for this Example:</h2>
+<p><em>Click on images for full size views.</em></p>
 
 <h3 id="step-1-create-input-polygon">Step 1. Create Input Polygon</h3>
-
-<p>Build a unit circle polygon
-NP=17 because vertices are distributed from 0-360 degrees
-and then ‘filter’ removes the duplicate vertex</p>
+<p>Build a unit circle polygon with number of points (NP) = 17.  One node will be removed because vertices are distributed from 0-360 degrees so last overlaps first.  The command ‘filter’ removes the duplicate vertex.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / NP / 17
 cmo / create / mo_pts / / / tet
@@ -149,40 +141,38 @@ filter / 1 0 0
 rmpoint / compress
 dump / avs / tmp_polygon_circle_16.poly / mo_pts / 1 0 0 0
 </code></pre></div></div>
+<p><a href="input/poi_circle_poly.png"> <img width="250" src="input/poi_circle_poly.png" /> </a></p>
 
-<h3 id="step-2a-compute-poisson-disk-vertex-distribution-with-target-spacing-of-01">Step 2a. Compute Poisson Disk vertex distribution with target spacing of 0.1</h3>
-<p>connect the vertices 
-add min edge length attribute</p>
+<h3 id="step-2-compute-poisson-disk-vertex-distribution-with-target-spacing-of-01">Step 2. Compute Poisson Disk vertex distribution with target spacing of 0.1</h3>
+<p>Connect the vertices into triangles and add the min edge length attribute “emin”.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Compute Poisson Disk vertex distribution with target spacing of 0.1
-# Connect the vertices as a Delaunay triangulation
-#
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / H_SCALE / 0.1
 createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &amp;
       / H_SCALE / connect
 quality / edge_min / y
 dump / avs / output02_triangle_h_0.1.inp / mo_poisson_disk
 </code></pre></div></div>
+<p><a href="output/poi_output02_tri_h0.1_lines.png"> <img width="250" src="output/poi_output02_tri_h0.1_lines.png" /> </a> <a href="output/poi_output02_tri_h0.1_emin.png"> <img width="250" src="output/poi_output02_tri_h0.1_emin.png" /> </a></p>
 
-<h3 id="step-2b-compute-poisson-disk-vertex-distribution-with-target-spacing-of-005">Step 2b. Compute Poisson Disk vertex distribution with target spacing of 0.05</h3>
-<p>connect the vertices
-add min edge length attribute</p>
+<h3 id="step-3-compute-poisson-disk-vertex-distribution-with-target-spacing-of-005">Step 3. Compute Poisson Disk vertex distribution with target spacing of 0.05</h3>
+<p>Connect the vertices into triangles and add the min edge length attribute “emin”.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Decrease the resolution to a target spacing of 0.05
-#
-define / H_SCALE / 0.05
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / H_SCALE / 0.05
 createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &amp;
       / H_SCALE / connect
 quality / edge_min / y
 dump / avs / output03_triangle_h_0.05.inp / mo_poisson_disk
 </code></pre></div></div>
+<p><a href="output/poi_output03_tri_h0.05_lines.png"> <img width="250" src="output/poi_output03_tri_h0.05_lines.png" /> </a> <a href="output/poi_output03_tri_h0.05_emin.png"> <img width="250" src="output/poi_output03_tri_h0.05_emin.png" /> </a></p>
 
-<h3 id="step-3-create-a-variable-resolution-mesh">Step 3. Create a variable resolution mesh</h3>
-<h1 id="resolution-is-defined-in-user-functions-defined-in-user_resolution_1mlgi">Resolution is defined in user functions defined in user_resolution_1.mlgi</h1>
-<p>#</p>
-<h1 id="decrease-the-resolution-to-a-target-spacing-of-001">Decrease the resolution to a target spacing of 0.01</h1>
-<p>#</p>
-<h1 id="the-two-user-defined-variables-h_scale-10h_scale-are-used-in-user_resolution_1mlgi">The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_1.mlgi</h1>
-<p>#</p>
+<h3 id="step-4-create-a-variable-resolution-mesh-based-on-points">Step 4. Create a variable resolution mesh based on points</h3>
+<ul>
+  <li>Resolution is defined in user functions  in <a href="/pages/docs/demos/input/user_resolution_1.mlgi.txt">user_resolution_1.mlgi</a></li>
+  <li>Decrease the resolution to a target spacing of 0.01</li>
+  <li>The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_1.mlgi</li>
+  <li>Use the macro file to create points and use the distance from the points for resolution field h(x,y)</li>
+</ul>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define /   H_SCALE / 0.01
 define / 10H_SCALE / 0.1
 createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &amp;
@@ -192,32 +182,30 @@ dump / avs / output04_triangle_variable_1.inp / mo_poisson_disk
 </code></pre></div></div>
 <p><a href="output/poi_output04_tri_var1_lines.png"> <img width="250" src="output/poi_output04_tri_var1_lines.png" /> </a></p>
 
-<h3 id="step-4">Step 4.</h3>
-<h1 id="create-a-variable-resolution-mesh">Create a variable resolution mesh</h1>
-<h1 id="resolution-is-defined-in-user-functions-defined-in-user_resolution_1mlgi-1">Resolution is defined in user functions defined in user_resolution_1.mlgi</h1>
-<p>#</p>
-<h1 id="decrease-the-resolution-to-a-target-spacing-of-001-1">Decrease the resolution to a target spacing of 0.01</h1>
-<p>#</p>
-<h1 id="the-two-user-defined-variables-h_scale-10h_scale-are-used-in-user_resolution_2mlgi">The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_2.mlgi</h1>
-<p>#</p>
+<h3 id="step-5-create-a-variable-resolution-mesh-based-on-sin-wave">Step 5. Create a variable resolution mesh based on sin() wave</h3>
+<ul>
+  <li>Resolution is defined in user functions in <a href="/pages/docs/demos/input/user_resolution_2.mlgi.txt">user_resolution_2.mlgi</a></li>
+  <li>The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_2.mlgi</li>
+  <li>Use the macro file to create points and use the distance from the points for resolution field h(x,y)</li>
+</ul>
+
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define /   H_SCALE / 0.01
 define / 10H_SCALE / 0.1
 createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &amp;
       / H_SCALE / connect / user_resolution_2.mlgi
 quality / edge_min / y
 dump / avs / output05_triangle_variable_2.inp / mo_poisson_disk
-cmo / delete / mo_poisson_disk
 </code></pre></div></div>
-
-<p><a href="output/poi_output04_tri_var2_lines.png"> <img width="250" src="output/poi_output04_tri_var2_lines.png" /> </a></p>
+<p><a href="output/poi_output05_tri_var2_lines.png"> <img width="250" src="output/poi_output05_tri_var2_lines.png" /> </a></p>
 
 <h3 id="lagrit-output-report-for-mesh-quality">LaGriT Output Report for Mesh Quality</h3>
+
+<p>Reading the “lagrit.out” and screen output, the min edge results can be viewed.
+Shown below is the quality report of min edge lengths for user_resolution_2.mlgi used in Step 5.</p>
 
 <pre class="lg-output">
  
 quality/edge_min/y
-cmo/addatt//edgemin/VDOUBLE/scalar/nelements
-finish
 
 epsilonl, epsilonaspect:   6.2803698E-13  2.4771691E-37
 --------------------------------------------

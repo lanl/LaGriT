@@ -1,0 +1,69 @@
+define IN_FILE 02_tet_mesh.inp                                                  
+define OUT_FILE tet_colors.inp                                                  
+define IN_FILE 01_hex_mesh.inp                                                  
+define OUT_FILE hex_colors.inp                                                  
+read/avs/IN_FILE/mo_mat                                                         
+cmo/status/mo_mat/brief                                                         
+cmo/select/mo_mat                                                               
+define MAT1_Ztop 40.                                                            
+define MAT2_Ztop 62.                                                            
+pset/pmat1/attribute zic/1,0,0/lt MAT1_Ztop                                     
+pset/pmat2/attribute zic/1,0,0/lt MAT2_Ztop                                     
+pset/pmat3/attribute zic/1,0,0/ge MAT2_Ztop                                     
+cmo/setatt/mo_mat/imt/pset,get,pmat3/3                                          
+cmo/setatt/mo_mat/imt/pset,get,pmat2/2                                          
+cmo/setatt/mo_mat/imt/pset,get,pmat1/1                                          
+eltset/emat1/inclusive/pset,get,pmat1                                           
+eltset/emat2/inclusive/pset,get,pmat2                                           
+eltset/emat3/inclusive/pset,get,pmat3                                           
+cmo/setatt/mo_mat/itetclr/eltset,get,emat3/3                                    
+cmo/setatt/mo_mat/itetclr/eltset,get,emat2/2                                    
+cmo/setatt/mo_mat/itetclr/eltset,get,emat1/1                                    
+dump/tmp_layers.inp/mo_mat                                                      
+cmo/create/motmp                                                                
+cmo/select/motmp                                                                
+quadxy/10 5/-1. -1. 10./100.1 -1. 100./100.1 51. 100./-1. 51. 10.               
+createpts/brick/xyz/10 5 1/1,0,0/connect                                        
+hextotet/4/mosurf1/motmp                                                        
+cmo/printatt/mosurf1/-xyz-/minmax                                               
+dump/tmp_surf1.inp/mosurf1                                                      
+offsetsurf/mosurf2/mosurf1/15.                                                  
+dump/tmp_surf2.inp/mosurf2                                                      
+cmo/select/mo_mat                                                               
+surface/s_mosurf1/reflect/sheet/mosurf1                                         
+surface/s_mosurf2/reflect/sheet/mosurf2                                         
+region/r_slant/ge s_mosurf1 and le s_mosurf2                                    
+pset/pslant/region/r_slant                                                      
+eltset/eslant/region/r_slant                                                    
+cmo/setatt/mo_mat/imt/pset,get,pslant/4                                         
+cmo/setatt/mo_mat/itetclr/eltset,get,eslant/4                                   
+resetpts/itp                                                                    
+dump/OUT_FILE/mo_mat                                                            
+cmo/status/mo_mat/brief                                                         
+cmo/delete/motmp                                                                
+cmo/delete/mosurf1                                                              
+cmo/delete/mosurf2                                                              
+cmo/list                                                                        
+read/avs/02_tet_mesh.inp/mo_tet                                                 
+cmo/select/mo_tet                                                               
+interpolate/map/mo_tet/itetclr/1,0,0/mo_mat itetclr                             
+interpolate/voronoi/mo_tet/imt/1,0,0/mo_mat imt                                 
+cmo/printatt/mo_tet/imt minmax                                                  
+cmo/printatt/mo_tet/itetclr minmax                                              
+resetpts/itp                                                                    
+dump/avs/tet_interp_materials.inp mo_tet                                        
+cmo/select/mo_tet                                                               
+cmo/printatt/mo_tet/imt minmax                                                  
+cmo/printatt/mo_tet/itetclr minmax                                              
+quality/volume/material                                                         
+dump/zone_imt/tet/mo_tet                                                        
+cmo addatt/mo_tet/vor_volume/vorvol                                             
+pset/p1/attribute/imt/1,0,0/eq 1                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 2                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 3                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+pset/p1/attribute/imt/1,0,0/eq 4                                                
+math/sum/mo_tet/vol_tot/pset,get,p1/mo_tet/vorvol                               
+finish                                                                          

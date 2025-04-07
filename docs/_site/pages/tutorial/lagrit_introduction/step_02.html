@@ -1,0 +1,445 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Tutorial LaGriT Introduction Step 02</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="step-2-create-tet-mesh-from-the-hex-mesh">Step 2. Create Tet Mesh from the Hex Mesh</h1>
+
+<!-- Begin image -->
+<p><a href="step_02/02_hextotet.png"> <img width="500" src="step_02/02_hextotet.png" /> </a></p>
+<!-- End image -->
+
+<h4 id="lagrit-command-file-02_hex_to_tetlgi">LaGriT command file: <a href="/pages/tutorial/lagrit_introduction/step_02/02_hex_to_tet.lgi.txt">02_hex_to_tet.lgi</a></h4>
+<h4 id="lagrit---output-file-lagritout">LaGriT   output file: <a href="/pages/tutorial/lagrit_introduction/step_02/02_hex_to_tet.out.txt">lagrit.out</a></h4>
+<h4 id="lagrit-all-run-files-folder-step_02">LaGriT all run files: <a href="https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_02">Folder step_02</a></h4>
+
+<p>This example will use 2 methods for creating a tet mesh from a hex mesh.</p>
+<ul>
+  <li>Method 1 will use the mesh points to <a href="https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html"><strong>‘connect’</strong></a> into a Delaunay tet mesh.</li>
+  <li>Method 2 will use <a href="https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html"><strong>‘grid2grid’</strong></a> to convert hex elements into tetrahedrals.</li>
+</ul>
+
+<p>Use of <strong>hextotet</strong> (or <strong>grid2grid</strong>) to convert a 3D mesh to a tetrahedral mesh may result in a non-Delaunay tetrahedral mesh. If the target simulator is one that uses two-point flux approximation and Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2) then the <strong>connect</strong> command should be used to create a Delaunay mesh.</p>
+
+<p><a href="https://en.wikipedia.org/wiki/Delaunay_triangulation">Click here for Delaunay Definition</a></p>
+
+<p><a href="https://en.wikipedia.org/wiki/Voronoi_diagram">Click here for Voronoi Definition</a></p>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/docs/connect_notes.html">Click here for more details on the connect algorithm</a></p>
+
+<h1 id="method-1-using-connect-delaunay">Method 1 using Connect Delaunay</h1>
+
+<p>The Delaunay algorithm is applied to a set of points. In this example we will use the nodes from the hex mesh in Step 1. The point distribution will impact the success of a connected tet mesh. A point distribution where spacing varies from very small to very large can result in high aspect ratios and boundary problems. This hex mesh provides structured regular spacing and is topologically consistent and will result in a successful Delaunay connection.</p>
+
+<h2 id="create-the-hex-mesh-from-step-1">Create the Hex Mesh from Step 1</h2>
+
+<p>The <strong>‘infile’</strong> command is used to read and run a LaGriT command file. In this case we read and run the same command file that was used to create a hex mesh in Step 1. 
+Use the <strong>‘cmo/status’</strong> commands to confirm the mesh object named “3dmesh” was created.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>infile 01_create_hex.lgi
+cmo/status/ 3dmesh / brief
+</code></pre></div></div>
+
+<p>The status report should indicate the current mesh object is a hex mesh with 1122 nodes and 800 hex elements.</p>
+<pre class="lg-output">
+The current-mesh-object(CMO) is: 3dmesh
+
+  1 Mesh Object name: 3dmesh
+    number of nodes =          1122        number of elements =          800
+    dimensions geometry =         3        element type =                hex
+    dimensions topology =         3        8 nodes      6 faces     12 edges
+    boundary flag =        16000000        status =                   active
+</pre>
+
+<h2 id="create-a-new-mesh-object-with-points-to-connect">Create a new mesh object with points to connect</h2>
+
+<p>The <a href="https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html"><strong>‘connect’</strong></a> command will create connectivity from a cloud of points. There should be no duplicate points, and the <strong>imt</strong> material should be a single value.</p>
+
+<p>Copy the hex points into a new mesh object, this removed the connectivity so new elements can be created.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_tet
+copypts / mo_tet / 3dmesh
+</code></pre></div></div>
+
+<p>We now have multiple mesh objects that can be listed. Use <strong>cmo/select</strong> command to make “mo_tet” mesh object current for the next commands.
+Note the <strong>cmo/status</strong> command shows there are no elements in this mesh object. The “brief” option will show the mesh object summary without the long list of associated attributes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / list
+cmo/ select / mo_tet
+cmo/ status / mo_tet / brief
+</code></pre></div></div>
+<pre class="lg-output">
+The current-mesh-object(CMO) is: mo_tet
+
+  0    Mesh Object name: -default-
+  1    Mesh Object name: 3dmesh
+  2    Mesh Object name: mo_tet
+cmo/select/mo_tet
+cmo/status/mo_tet/brief
+
+The current-mesh-object(CMO) is: mo_tet
+
+  2 Mesh Object name: mo_tet
+    number of nodes =          1122        number of elements =            0
+    dimensions geometry =         3        element type =                tet
+    dimensions topology =         3        4 nodes      4 faces      6 edges
+    boundary flag =        16000000        status =                   active
+
+</pre>
+
+<p>Prepare the points by removing duplicates and setting imt to a single value and boundary tags to 0. The <strong>filter</strong> command will mark duplicate points as “dudded” points; the <strong>rmpoint/compress</strong> command will remove the dudded nodes from the mesh object. These commands will not make any changes if there are no duplicate points.</p>
+
+<p><em>Note: the special token “;” can be used to call multiple commands on the same line.</em></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Remove duplicate points if they exist
+filter/1,0,0 ; rmpoint/compress
+
+# Set some defaults for the connect routine
+cmo / setatt / mo_tet / imt / 1 0 0 / 1
+cmo / setatt / mo_tet / itp / 1 0 0 / 0
+
+# Create Delaunay tet connectivity of all nodes in the mesh
+connect
+
+</code></pre></div></div>
+
+<p>The result of the <strong>connect</strong> command should show success.</p>
+<pre class="lg-output">
+ Coordinates of enclosing tetrahedron are:
+          -0.20000D+03   -0.37500D+02   -0.60000D+02
+           0.50000D+02   -0.37500D+02    0.34000D+03
+           0.30000D+03   -0.37500D+02   -0.60000D+02
+           0.50000D+02    0.21250D+03    0.40000D+02
+
+ Successfully eliminated all multimaterial connections.
+
+ The mesh is now complete!
+</pre>
+
+<p>It is good practice to check the results to make sure there are no zero or negative volume elements with the <strong>quality</strong> command.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>quality
+</code></pre></div></div>
+
+<pre class="lg-output">
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32
+--------------------------------------------
+elements with aspect ratio &lt; .01:                    0
+elements with aspect ratio b/w .01 and .02:          0
+elements with aspect ratio b/w .02 and .05:          0
+elements with aspect ratio b/w .05 and .1 :          0
+elements with aspect ratio b/w .1  and .2 :          0
+elements with aspect ratio b/w .2  and .5 :        926
+elements with aspect ratio b/w .5  and 1. :       3874
+min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00
+
+epsilonvol:   8.8817842E-08
+---------------------------------------
+All elements have volume 8.3333333E+01
+-----------------------------------------------------------
+      4800 total elements evaluated.
+
+</pre>
+
+<p>Set the tet materials to 1 and update the <strong>itp</strong> array.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / setatt / mo_tet / itetclr / 1
+resetpts / itp
+</code></pre></div></div>
+
+<h1 id="method-2-converts-each-hex-into-5-tets">Method 2 converts each hex into 5 tets</h1>
+
+<p>The <a href="https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html"><strong>‘grid2grid’</strong></a> is a wrapper that simplifies many of the grid-to-grid conversions. In this case we will use the option that converts each hex element into 5 tets (with no points added). This command requires the creation of a new mesh object, the new name is given first, with the source mesh object name at the end.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grid2grid / hextotet5 / mo_hex2tet / 3dmesh
+</code></pre></div></div>
+
+<p>Check the list of mesh objects, the new “mo_hex2tet” mesh object should now be current as the newly created object.
+Check for positive volumes and set mesh default values.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / list
+quality
+cmo / setatt / mo_hex2tet / itetclr / 1
+resetpts / itp
+</code></pre></div></div>
+
+<p>There are now 3 mesh objects. “3dmesh” is the hex mesh created at start of this run. “mo_tet” was created with the <strong>connect</strong> command. “mo_hex2tet” was created by the <strong>grid2grid/hextotet5</strong> command.
+Note the <strong>quality</strong> command is evaluating the current mesh object, “cmo_hex2tet”.</p>
+
+<pre class="lg-output">
+The current-mesh-object(CMO) is: mo_hex2tet
+
+  0    Mesh Object name: -default-
+  1    Mesh Object name: 3dmesh
+  2    Mesh Object name: mo_tet
+  3    Mesh Object name: mo_hex2tet
+
+quality
+
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32
+--------------------------------------------
+elements with aspect ratio &lt; .01:                    0
+elements with aspect ratio b/w .01 and .02:          0
+elements with aspect ratio b/w .02 and .05:          0
+elements with aspect ratio b/w .05 and .1 :          0
+elements with aspect ratio b/w .1  and .2 :          0
+elements with aspect ratio b/w .2  and .5 :          0
+elements with aspect ratio b/w .5  and 1. :       4000
+min aspect ratio =  0.6202E+00  max aspect ratio =  0.8165E+00
+
+epsilonvol:   8.8817842E-08
+---------------------------------------
+element volumes b/w 0.8333E+02 and 0.9572E+02:      3200
+element volumes b/w 0.9572E+02 and 0.1100E+03:         0
+element volumes b/w 0.1100E+03 and 0.1263E+03:         0
+element volumes b/w 0.1263E+03 and 0.1451E+03:         0
+element volumes b/w 0.1451E+03 and 0.1667E+03:       800
+min volume =   8.3333333E+01 max volume =   1.6666667E+02
+-----------------------------------------------------------
+      4000 total elements evaluated.
+
+</pre>
+
+<p>Now we have two tet meshes, one created with <strong>connect</strong> and the other with <strong>grid2grid</strong>. In general, we use the connect algorithm to create Delaunay meshes using Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2). Converting hex elements into tet elements will not be Delaunay and may affect results depending on the physics used.</p>
+
+<p>For viewing these new meshes, we can add node and element attributes. With the following commands we add values for each tet volume and for the voronoi volume around each mesh node.
+See a list of attributes that can be created at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html"><strong><code class="language-plaintext highlighter-rouge">cmo/addatt</code></strong></a></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt / mo_tet / volume / tet_vol
+cmo/addatt / mo_tet / voronoi_volume / vor_vol
+
+cmo/addatt / mo_hex2tet / volume / tet_vol
+cmo/addatt / mo_hex2tet / voronoi_volume / vor_vol
+
+cmo/printatt/ mo_tet / tet_vol / minmax
+cmo/printatt/ mo_tet / vor_vol / minmax
+cmo/printatt/ mo_hex2tet / tet_vol / minmax
+cmo/printatt/ mo_hex2tet / vor_vol / minmax
+
+dump/avs/02_tet_connect.inp/mo_tet
+dump/avs/02_hex2tet5.inp/mo_hex2tet
+</code></pre></div></div>
+
+<p>We can use the <strong>cmo/printatt</strong> command to view the minmax values of the attributes in named mesh objects.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/printatt/ mo_tet / tet_vol / minmax
+cmo/printatt/ mo_tet / vor_vol / minmax
+cmo/printatt/ mo_hex2tet / tet_vol / minmax
+cmo/printatt/ mo_hex2tet / vor_vol / minmax
+</code></pre></div></div>
+
+<p>The connect mesh and the hextotet mesh have the same 1122 number of nodes. But the connectivity created 4800 tet elements with connect and 4000 for hextotet mesh. Notice the tet element minmax volumes have different results, the connected mesh has volumes all equal. For this structured point distribution, the voronoi volumes for each node have the same min max range.</p>
+
+<pre class="lg-output">
+cmo/printatt/mo_tet/tet_vol/minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ tet_vol            8.333333333E+01  8.333333333E+01 0.000000000E+00      4800
+
+cmo/printatt/mo_tet/vor_vol/minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ vor_vol            6.250000000E+01  5.000000000E+02 4.375000000E+02      1122
+
+cmo/printatt/mo_hex2tet/tet_vol/minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ tet_vol            8.333333333E+01  1.666666667E+02 8.333333333E+01      4000
+
+cmo/printatt/mo_hex2tet/vor_vol/minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ vor_vol            6.250000000E+01  5.000000000E+02 4.375000000E+02      1122
+</pre>
+
+<h1 id="viewing-the-tet-meshes">Viewing the Tet Meshes</h1>
+
+<p>The following images were created by using Paraview reading the AVS mesh files. Click to see full resolution images.</p>
+
+<p>Paraview images show tet elements colored by element volumes of connected Delaunay mesh (left) and grid2grid (right). The grid2grid view is clipped to see the internal tet elements that are larger than the tets formed at the hex corners.</p>
+
+<!-- Begin image -->
+<p><a href="step_02/02_connect_vol_clipped.png"> <img width="400" src="step_02/02_connect_vol_clipped.png" /> </a>
+   <a href="step_02/02_hex2tet_vol_clipped.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped.png" /> </a>
+</p>
+
+<p>Paraview images show the mesh colored by node voronoi volumes. The boundary nodes will have half volumes, the corner nodes will have quarter volumes. Internal voronoi volumes are all the same. Image is clipped to show internal mesh nodes. Both meshes have the same voronoi volumes.</p>
+
+<!-- Begin image -->
+<p><a href="step_02/02_connect_vorvol_clipped.png"> <img width="400" src="step_02/02_connect_vorvol_clipped.png" /> </a>
+   <a href="step_02/02_hex2tet_vorvol_clipped.png"> <img width="400" src="step_02/02_hex2tet_vorvol_clipped.png" /> </a>
+</p>
+<!-- End image -->
+
+<p>This is a snapshot showing the Paraview settings for the clipped mesh. The full 02_hex2tet5.inp mesh displayed with red wire frame. The mesh is clipped -10, and threshold is used to display tet volumes over 116.</p>
+
+<p><a href="step_02/02_hex2tet_vol_clipped_para.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped_para.png" /> </a>
+</p>
+
+<h2 id="finish">finish</h2>
+
+<p>Always end a session or a file with the <strong>finish</strong> command and a line return after the finish command. The command line parser will not parse a command without a line return.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>finish
+
+</code></pre></div></div>
+
+<h4 id="lagrit-introduction-index"><a href="index.html">LaGriT Introduction Index</a></h4>
+<h4 id="step-1-create-a-hex-mesh"><a href="step_01.html">Step 1. Create a Hex Mesh</a></h4>
+<h4 id="step-2-convert-hex-mesh-to-tet-mesh"><a href="step_02.html">Step 2. Convert Hex Mesh to Tet Mesh</a></h4>
+<h4 id="step-3-assign-materials-to-the-mesh"><a href="step_03.html">Step 3. Assign materials to the Mesh</a></h4>
+<h4 id="step-4-write-mesh-and-fehm-setup-files"><a href="step_04.html">Step 4. Write Mesh and FEHM Setup Files</a></h4>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>
