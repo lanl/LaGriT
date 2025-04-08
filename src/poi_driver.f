@@ -1740,7 +1740,14 @@ C
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
-
+C CWG debug
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'dump/avs/debug_poisson_3d.inp/'
+     &           // mo_poi_pts_out(1:ilen) //'; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf='cmo/status/brief ; finish '
+         call dotaskx3d(cbuf,ierr)
+C CWG debug
       elseif(if_poi_edge_buffer .eq. 1)then
 
       call poisson_3d
@@ -1751,6 +1758,14 @@ C
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
+C CWG debug
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'dump/avs/debug_poisson_3d_buf.inp/'
+     &           // mo_poi_pts_out(1:ilen) //'; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf='cmo/status/brief ; finish '
+         call dotaskx3d(cbuf,ierr)
+C CWG debug
       endif
 C
 C ---------------------------------------------------------------------
@@ -1788,17 +1803,50 @@ C
          call dotaskx3d(cbuf,ierr)
          cbuf = 'pset/p_out/attribute/itp/1 0 0/ge 10; finish'
          call dotaskx3d(cbuf,ierr)
-         cbuf = 'cmo/create/mo_tmp_wrk_poi_hex_outside/ / / hex; finish'
+         cbuf = 'cmo/create/mo_tmp_wrk_poi_hex_outside/ / / tet; finish'
          call dotaskx3d(cbuf,ierr)
          cbuf = 'copypts/mo_tmp_wrk_poi_hex_outside/ '
      &          // 'mo_tmp_wrk_poi_hex/0 0 /pset get p_out; finish'
          call dotaskx3d(cbuf,ierr)
+C CWG debug
+         cbuf = 'dump/avs/debug_poisson_3d_outside.inp/' //
+     &           'mo_tmp_wrk_poi_hex_outside; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf='cmo/status/brief ; finish '
+         call dotaskx3d(cbuf,ierr)
+C CWG debug
          cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex; finish'
          call dotaskx3d(cbuf,ierr)
          ilen = icharlnf(mo_poi_pts_out)
-         cbuf = 'copypts/'// mo_poi_pts_out(1:ilen) //
-     &          '/mo_tmp_wrk_poi_hex_outside; finish'
+C         cbuf = 'copypts/ '// mo_poi_pts_out(1:ilen) //
+C     &          ' / mo_tmp_wrk_poi_hex_outside ; finish'
+         cbuf = 'addmesh/merge/ '// mo_poi_pts_out(1:ilen) // ' / '
+     &                          // mo_poi_pts_out(1:ilen) // 
+     &              '/ mo_tmp_wrk_poi_hex_outside ; finish'
          call dotaskx3d(cbuf,ierr)
+C
+C        Need to convert mesh object type back to tet. the addmesh/merge MO is not tet
+C
+         cbuf = 'cmo/create/mo_poi_tmp_poi_pts_out/ / /tet ; finish'
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'copypts/mo_poi_tmp_poi_pts_out '
+     &           // mo_poi_pts_out(1:ilen) // ' ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete'// mo_poi_pts_out(1:ilen) // ' ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/move/ ' // mo_poi_pts_out(1:ilen) // 
+     &          ' mo_poi_tmp_poi_pts_out; finish'
+         call dotaskx3d(cbuf,ierr)
+
+C CWG debug
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'dump/avs/debug_poisson_3d_merge.inp/'
+     &           // mo_poi_pts_out(1:ilen) //'; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf='cmo/status/brief ; finish '
+         call dotaskx3d(cbuf,ierr)
+C CWG debug
          cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex_outside; finish'
          call dotaskx3d(cbuf,ierr)
          cbuf = 'cmo / select /'// mo_poi_pts_out(1:ilen) //'; finish'
