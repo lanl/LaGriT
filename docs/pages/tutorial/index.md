@@ -30,21 +30,33 @@
 <h1 class="uk-heading-line"><span>Tutorials</span></h1>
 
 <!-- Tutorial card -->
-<div class="uk-card uk-card-default uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-        <div class="uk-card-media-left uk-cover-container">
-     	<div class="uk-card-media-top">
-   	<img src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
-	</div>
-        </div>
-        <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
-        <div>
-            <div class="uk-card-body">
-                <h3 class="uk-card-title">Stratigraphic Hex to Tet Mesh Tutorial</h3>
-                <p>Hex mesh using octree refinement with stratigraphy, faults, wells, and subsurface layering</p>
-                <span class="uk-badge">Advanced</span>
-            </div>
-        </div>
-    </a>
+<div uk-filter="target: .js-filter">
+    <div class="js-filter uk-child-width-1-2 uk-child-width-1-2@m uk-text-center" uk-grid="masonry: true">
+            <a href="{{ "/pages/tutorial/lagrit_introduction/index.html" | relative_url }}">
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card-media-top">
+                        <img style="max-height:200px;" src="lagrit_introduction/step_04/04_tet_nodes_imt_well_pts.png" alt="">
+                    </div>
+                    <p> 
+                        <h3 class="uk-card-title">LaGriT Introdution Tutorial</h3>
+                        <p>Designed to familiarize new users with LaGriT commands, definitions, and tools.</p>
+                        <span class="uk-badge">Beginner</span>
+                    </p>
+                </div>
+            </a>
+            <a href="{{ "/pages/docs/demos/description_brick_trunc.html" | relative_url }}">
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card-media-top">
+                        <img style="max-height:200px;" src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">
+                    </div>
+                    <p> 
+                        <h3 class="uk-card-title">Stratigraphic Hex to Tet Mesh Tutorial</h3>
+                        <p>Hex mesh using octree refinement with stratigraphy, faults, wells, and subsurface layering</p>
+                        <span class="uk-badge">Advanced</span>
+                    </p>
+                </div>
+            </a>
+    </div>
 </div>
 <!-- End tutorial card -->
 
