@@ -260,12 +260,21 @@ unsigned int Domain::fillEmptyCells() {
     cout << "Filling empty cells in the background grid" << endl;
 
     cout << "\tCell#\t\tTotal Cells\tPercentage"<<endl;
+    double currentPercentage = 0;
     for (unsigned int cellIdx = 0; cellIdx < emptyCells.size(); cellIdx += 3) {
-        if (((cellIdx/3) % 100) == 0){
+        // if (((cellIdx/3) % 100) == 0){
+        //     cout << "\t"<<cellIdx/3 <<  "\t\t" << (emptyCells.size()/3) << "\t\t";
+        //     double percentage = 100.0*(double)cellIdx/(double)emptyCells.size();
+        //     cout << std::setprecision(3) << percentage << " %"<< endl; 
+        // }
+        double percentage = 100.0*(double)cellIdx/(double)emptyCells.size();
+        if (percentage > currentPercentage){
+            currentPercentage += 5;
             cout << "\t"<<cellIdx/3 <<  "\t\t" << (emptyCells.size()/3) << "\t\t";
-            double percentage = 100.0*(double)cellIdx/(double)emptyCells.size();
             cout << std::setprecision(3) << percentage << " %"<< endl; 
         }
+
+
         // get the cell index
         unsigned int i = emptyCells[cellIdx];
         unsigned int j = emptyCells[cellIdx + 1];
