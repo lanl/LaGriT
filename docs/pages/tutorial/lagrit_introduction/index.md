@@ -43,7 +43,8 @@ See more at [Syntax Conventions](https://lanl.github.io/LaGriT/pages/docs/conven
 - Structured mesh = a mesh whose connectivity (topology) can be defined implicitly, and cell neighbors are predictable. Generally, a quadrilateral mesh in 2D and hexahedral mesh in 3D. 
 - Unstructured mesh = a mesh that requires explicit connectivity information to describe cell topology. Generally used to represent complex shapes. 
 - Delaunay Triangulation = a Delaunay mesh (triangles in 2D, tetrahedra in 3D) has cells such that the circumcircle(2D)/circumsphere(3D) contains no vertices other than the cell vertices. A Delaunay triangulation maximizes the minimum interior angle. 
-- Voronoi Tessellation = the dual of a Delaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.  Defined as V(pi) = {x | d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}  
+- Voronoi Tessellation = the dual of a Delaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.
+    - Defined as ```V(pi) = {x | d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}```  
     - The Voronoi cell V(pi) contains all points x that are "closest" to the site pi.
     - "Closeness" is determined by the distance function d(x, p).
     - The inequality d(x, pi) ≤ d(x, pj) ensures that x is closer to pi than to any other site pj.
