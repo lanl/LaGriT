@@ -243,7 +243,7 @@ void Domain::addNodesToMeshObject() {
     
     err = lg_dotask("cmo/status/brief");
     err = lg_dotask("cmo/printatt/-def-/-xyz-/minmax");
-    err = lg_dotask("dump/tmp.inp/mo_out");
+// cwg mo_out does not exist    err = lg_dotask("dump/tmp.inp/mo_out");
 }
 
 

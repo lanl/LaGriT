@@ -63,7 +63,7 @@ C
      &   z_constant,buffer_factor
       real*8 angle_minimum
       integer ijob_buffer
-
+C
 C     pointers for x,y,z coordinates
       pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
