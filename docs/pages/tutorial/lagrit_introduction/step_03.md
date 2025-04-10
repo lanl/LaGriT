@@ -15,7 +15,10 @@ title: Tutorial LaGriT Introduction Step 03
 #### LaGriT   output file: [lagrit.out](step_03/03_assign_materials.out.txt)
 #### LaGriT all run files: [Folder step_03](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_03)
 
-This example will show how to use some basic commands to assign materials to mesh nodes and elements. Methods include:
+This example will show how to use some basic commands to assign materials to mesh nodes and elements. Interpolation of materials from the hex mesh to the tet mesh is used to ensure block shaped interfaces.
+
+
+Methods include:
 
 - Set selections using [**`pset`**](https://lanl.github.io/LaGriT/pages/docs/commands/PSET.html) for mesh points and [**`eltset`**](https://lanl.github.io/LaGriT/pages/docs/commands/ELTSET2.html).
 - Regions defined by surfaces using [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html) and [**`region`**](https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html)
@@ -101,8 +104,8 @@ Viewing the mesh file tmp_layers.inp we can check if node **imt** and element Ma
 These images were created from Paraview showing the mesh colored by node attribute **imt** left. The mesh is colored by element materials on the right, mesh nodes colored by **imt**. Though modeling software such as FEHM use only the node materials, viewing the mesh by element color presents a better picture. Click on images to view full resolution image.
 
 <p>
-<a href="step_03/step_03_hex_layers_imt.png"> <img width="300" src="step_03/step_03_hex_layers_imt.png" /> </a>
-<a href="step_03/step_03_hex_layers_imt_itetclr.png"> <img width="300" src="step_03/step_03_hex_layers_imt_itetclr.png" /> </a>
+<a href="step_03/step_03_hex_layers_imt.png"> <img width="350" src="step_03/step_03_hex_layers_imt.png" /> </a>
+<a href="step_03/step_03_hex_layers_imt_itetclr.png"> <img width="350" src="step_03/step_03_hex_layers_imt_itetclr.png" /> </a>
 </p>
 <br>
 
@@ -143,7 +146,7 @@ dump/ tmp_surf2.inp / mosurf2
 View the mesh and the surfaces together to be sure it is correct. The nodes colored red in the image is the region we will set to material 4.
 
 <p>
-<a href="step_03/step_03_hex_colors_surfs.png"> <img width="300" src="step_03/step_03_hex_colors_surfs.png" /> </a>
+<a href="step_03/step_03_hex_colors_surfs.png"> <img width="420" src="step_03/step_03_hex_colors_surfs.png" /> </a>
 </p>
 
 To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise, these geometry command will not be available for use on the mesh object. Use the **cmo/select** command to make sure you apply these commands to the "mo_mat" mesh object.
@@ -216,6 +219,11 @@ The **interpolate/voronoi** command copies the value from the nearest source nod
 interpolate/map/mo_tet/ itetclr /1,0,0/ mo_mat itetclr
 interpolate/voronoi/mo_tet/ imt /1,0,0/ mo_mat imt
 ```
+
+<p>Mesh left shows results if these steps are applied to the tet mesh. Mesh right shows hex mesh interpolated to tet mesh.
+ <a href="step_03/step_03_tet_colors_bad.png"> <img width="350" src="step_03/step_03_tet_colors_bad.png" /> </a>
+ <a href="step_03/step_03_tet_colors_good.png"> <img width="350" src="step_03/step_03_tet_colors_good.png" /> </a> 
+</p>
 
 Check the interpolated materials with the **printatt** commands. There should be minmax values 1 and 4.
 
