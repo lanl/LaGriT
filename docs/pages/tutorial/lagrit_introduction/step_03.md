@@ -148,7 +148,7 @@ View the mesh and the surfaces together to be sure it is correct. The nodes colo
 
 To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise, these geometry command will not be available for use on the mesh object. Use the **cmo/select** command to make sure you apply these commands to the "mo_mat" mesh object.
 
-In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to define surfaces of type **sheet**. There are many types of surfaces such as cone, and box. See more at [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html). There are options for boundary type which are not necessary for this simple example, so the type **reflect** is used here.
+In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to define surfaces of type **sheet**. There are many types of surfaces such as cone, and box. See more at [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html). 
 
 ```
 cmo / select / mo_mat
@@ -156,17 +156,13 @@ surface / s_mosurf1 / reflect / sheet / mosurf1
 surface / s_mosurf2 / reflect / sheet / mosurf2
 ```
 
-Now that LaGriT has sheets named "s_mosurf1" and "s_mosurf2" for the mesh object geometry, we can use them to define a region between the sheets. 
-Use the surface names and above (ge) and below (le) to set region between the surfaces.
-
-The [**`region operators`**](https://lanl.github.io/LaGriT/pages/docs/dividereg.html) are used in the command to define regions. For instance, **ge** for a surface means the space on the same side as the surface normal direction, **le** means the space opposite of the normal direction. Use **le, ge** to include nodes equal to the surface, otherwise use **lt, gt**. 
-
+Now that LaGriT has sheets named "s_mosurf1" and "s_mosurf2" defined for the mesh object geometry, we can use them to define a region between the surfaces. 
+The **le** and **ge** operators are used with the [**`region`***](https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html) command to define regions. For instance, **ge** for a surface means the space on the same side as the surface normal direction, **le** means the space opposite of the normal direction. Use **le, ge** to include nodes equal to the surface, otherwise use **lt, gt**. 
 ```
 region/ r_slant / ge s_mosurf1 and le s_mosurf2
 ```
 
-Select node and element sets in the slanted region.
-And assign node and element materials for both.
+Now use this region named "r_slant" to define node and elements in the slanted region. Use the **cmo/setatt** command with these sets to assign the value 4 to node **imt** and element **itetclr** arrays, but only to the defined sets. The value 4 will overwrite previous values of 1-3 set earlier.
 
 ```
 pset/ pslant / region / r_slant
@@ -176,8 +172,8 @@ cmo/ setatt / mo_mat / imt / pset,get,pslant / 4
 cmo/ setatt / mo_mat / itetclr / eltset,get,eslant / 4
 ```
 
-Update the boundary and interface attribute **itp** and write the mesh with materials.
-Note here we are using the "OUT_FILE" variable defined above with the output mesh name.
+Since the materials have changed, it is good practice to update the boundary and interface attribute **itp** mesh arrays.
+Write the mesh with materials using the "OUT_FILE" variable defined at the beginning.
 
 ```
 resetpts/itp
@@ -188,18 +184,17 @@ cmo / status / mo_mat / brief
 Debug hint: things often go wrong early in the script, make sure there are no errors before continuing. You can do this by adding an early finish and observing the output report. If there are no errors reported, and the mesh looks as expected, comment the **finish** command so the LaGriT command continues.
 
 ```
-# Uncomment Early finish to check results
-# 
-finish
+# Uncomment Early finish to check results 
+# finish
 ```
 
 
 ## Assign Materials by Interpolation
 
-This will preserve the stair-step interfaces of materials
+If you color the tetrahedral mesh using the above steps, you might get ragged edges that do not look as nice as the colored hex mesh. And if you added refinement to your mesh, using your original coarse hex mesh colors will better preserve the layers as you intended. This will preserve the stair-step interfaces of materials
 
- remove unneeded mesh objects
-
+It is good practice to remove mesh objects that are no longer needed. The more mesh objects that exist, the greater possibility of things getting tangled or mistakes with typos.
+ 
 ```
 cmo/delete/motmp
 cmo/delete/mosurf1
@@ -207,28 +202,39 @@ cmo/delete/mosurf2
 cmo/list
 ```
 
- Read tet mesh from Step 2
+Now that we have a hex mesh with materials the way we like them. Read the computational tetrahedral mesh (from Step 2), and interpolate the hex (source) values to the tet mesh.
 
 ```
 read/avs/ 02_tet_mesh.inp / mo_tet
 cmo/select/mo_tet
 ```
 
-Use the **interpolate** command using the materials assigned to mesh object "mo_mat".
+The **interpolate/map** command copies the value from the enclosing source element to the element (centroid).
+The **interpolate/voronoi** command copies the value from the nearest source node to the sink node. 
 
 ```
 interpolate/map/mo_tet/ itetclr /1,0,0/ mo_mat itetclr
 interpolate/voronoi/mo_tet/ imt /1,0,0/ mo_mat imt
 ```
 
- check interpolated values
+Check the interpolated materials with the **printatt** commands. There should be minmax values 1 and 4.
 
 ```
 cmo/printatt/mo_tet/imt minmax
 cmo/printatt/mo_tet/itetclr minmax
 ```
 
- Set boundary nodes and write view file
+<pre class="lg-output">
+cmo/printatt/mo_tet/imt minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ imt1                             1                4               3      1122
+
+cmo/printatt/mo_tet/itetclr minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ itetclr                          1                4               3      4800
+</pre>
+
+Set the boundary nodes based on these new materials and write an AVS mesh file for viewing.
 
 ```
 resetpts/itp
