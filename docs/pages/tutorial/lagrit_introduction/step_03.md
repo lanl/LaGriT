@@ -110,15 +110,17 @@ These images were created from Paraview showing the mesh colored by node attribu
 
 ## Assign Materials by Surfaces
 
-Create surfaces to define a fourth material defined by the region between the surfaces.
-In this case we use a mesh object name that implies it is temporary. Creating naming conventions for your objects will help you to keep track of objects during the workflow.
+
+The **region** command is extremely useful for defining nodes or elements based on surfaces or geometric shapes. Most of these are represented by their equations, but a surface can also be a mesh that is created or read from file as used in this example.  We create two surfaces using **surface/sheet/**/*mo_name* which will be used to define a region representing a fourth material. 
+
+Note. In this case we use a mesh object name that implies it is temporary and will be deleted after use. Creating naming conventions for your objects will help you to keep track of objects during the workflow.
 
 ```
 cmo / create / motmp
 cmo / select / motmp
 ```
 
-Create a quad mesh based on corner coordinates, since this will be used to define regions on the mesh, make sure the surface coordinates extend equal or greater to the mesh. A surface that truncates inside the mesh domain will be ill defined with respect to below or above.
+Create a quad mesh based on corner coordinates, since this will be used to define regions on the mesh, make sure the surface coordinates extend equal or greater to the mesh. A surface that truncates inside the mesh domain will be ill defined with respect to below or above. These two surfaces could also be created with the **surface/plane** command and used in the same way, but are internal and can not be viewed with respect to the mesh.
 
 The **brick** option for **createpts** is used to create a quad mesh from the point distribution.  The quads are converted to triangles with the **hextotet** command. After the surface is created, print the minmax coordinates and view the surface to make sure it where you want it. 
 
@@ -146,7 +148,7 @@ View the mesh and the surfaces together to be sure it is correct. The nodes colo
 
 To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise, these geometry command will not be available for use on the mesh object. Use the **cmo/select** command to make sure you apply these commands to the "mo_mat" mesh object.
 
-In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to geometry of type **sheet**. There are many types of surfaces such as cone, and box. See more at [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html). There are options for boundary type which are not necessary for this simple example, so **reflect** is used here.
+In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to define surfaces of type **sheet**. There are many types of surfaces such as cone, and box. See more at [**`surface`**](https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html). There are options for boundary type which are not necessary for this simple example, so the type **reflect** is used here.
 
 ```
 cmo / select / mo_mat
@@ -154,9 +156,10 @@ surface / s_mosurf1 / reflect / sheet / mosurf1
 surface / s_mosurf2 / reflect / sheet / mosurf2
 ```
 
-Now that LaGriT has named sheets as part of the mesh object geometry, we can now define the region between. Use the surface names and above (ge) and below (le) to set region between the surfaces.
+Now that LaGriT has sheets named "s_mosurf1" and "s_mosurf2" for the mesh object geometry, we can use them to define a region between the sheets. 
+Use the surface names and above (ge) and below (le) to set region between the surfaces.
 
-Note: see page describing directional operators at [**`lt, le, gt, ge`**](https://lanl.github.io/LaGriT/pages/docs/dividereg.html) 
+The [**`region operators`**](https://lanl.github.io/LaGriT/pages/docs/dividereg.html) are used in the command to define regions. For instance, **ge** for a surface means the space on the same side as the surface normal direction, **le** means the space opposite of the normal direction. Use **le, ge** to include nodes equal to the surface, otherwise use **lt, gt**. 
 
 ```
 region/ r_slant / ge s_mosurf1 and le s_mosurf2
