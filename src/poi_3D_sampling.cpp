@@ -225,7 +225,7 @@ void Domain::sampleFaces() {
         }
     }
     
-    cout << "Sampleing on Faces Complete" << endl;
+    cout << "Sampling on Faces Complete" << endl;
     cout << newPointCnt << " points added on the faces\n\n" << endl;
 }
 
