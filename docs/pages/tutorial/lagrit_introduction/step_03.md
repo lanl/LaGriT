@@ -207,6 +207,7 @@ cmo/list
 
 Now that we have a hex mesh with materials the way we like them. Read the computational tetrahedral mesh (from Step 2), and interpolate the hex (source) values to the tet mesh.
 
+
 ```
 read/avs/ 02_tet_mesh.inp / mo_tet
 cmo/select/mo_tet
@@ -252,10 +253,12 @@ dump/avs/tet_interp_materials.inp mo_tet
 
 ## Report Material Quantities
 
-Sometimes it helps to see node and element material quantities before viewing the mesh. This is a good way to catch easy mistakes. These results are also useful to include in reports as part of the setup description. Scripts can be written to parse "lagri.out" results for nice tables and other summary information.
+Sometimes it helps to see node and element material quantities before viewing the mesh. This is a good way to catch easy mistakes. These results are also useful to include in reports as part of the setup description. Scripts can be written to parse "lagrit.out" results for nice tables and other summary information.
 
 The minmax option is a quick easy way to check for mistakes. The **imt1** (same as **imt**) attribute are the node materials, so length of the array is 1122, the number of nodes in this mesh. The **itetclr** attribute are the element materials with a length of 4800, the number of elements in this mesh. As expected, they both have values from 1 to 4. 
 **Note: these material attributes must have integer numbers greater than 0**
+
+Note. Unless the tet mesh is modified to be different from the source hex mesh, they will have the same number of nodes. Only the element type and count will change.
 
 ```
 cmo/select/mo_tet
