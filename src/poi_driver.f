@@ -386,7 +386,6 @@ C
       np_y = ceiling(delta_y/h)
       np_x = 1.5*np_x
       np_y = 1.5*np_y
-C
       call cmo_get_info('nnodes',mo_poi_poly,nnodes_poly,ilen,ityp,ierr)
       call cmo_get_info('xic',   mo_poi_poly,ipxic,      ilen,ityp,ierr)
       call cmo_get_info('yic',   mo_poi_poly,ipyic,      ilen,ityp,ierr)
@@ -1140,6 +1139,7 @@ C
      &       xmin_buff,xmax_buff,
      &       ymin_buff,ymax_buff,
      &       zmin_buff,zmax_buff,
+     &       dx_lookup, dy_lookup, dz_lookup,
      &       epsilona_box, epsilonv_box, buffer_dxyz
       integer ijob_buffer
 
@@ -1542,9 +1542,20 @@ C
       np_x = ceiling(delta_x/h)
       np_y = ceiling(delta_y/h)
       np_z = ceiling(delta_z/h)
-      np_x = 1.5*np_x
-      np_y = 1.5*np_y
-      np_z = 1.5*np_z
+
+C      np_x = 1.5*np_x
+C      np_y = 1.5*np_y
+C      np_z = 1.5*np_z
+C
+C     Test lower resolution TEST TEST TEST
+      np_x = 0.4*np_x
+      np_y = 0.4*np_y
+      np_z = 0.4*np_z
+C     Test lower resolution TEST TEST TEST
+
+      dx_lookup = delta_x/np_x
+      dy_lookup = delta_y/np_y
+      dz_lookup = delta_z/np_z
 C
 C ---------------------------------------------------------------------
 C     Set some LaGriT string variables to values 
@@ -1605,6 +1616,16 @@ C ---------------------------------------------------------------------
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '=== Create 3d hex mesh object for distance field lookup ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '=== Lookup Table nx ny nz ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(i12,i12,i12)') np_x,np_y,np_z
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '=== Lookup Table dx dy dz ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(e10.3,e10.3,e10.3)')dx_lookup,dy_lookup,dz_lookup
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '---------------------------------------'
@@ -1740,14 +1761,6 @@ C
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
-C CWG debug
-         ilen = icharlnf(mo_poi_pts_out)
-         cbuf = 'dump/avs/debug_poisson_3d.inp/'
-     &           // mo_poi_pts_out(1:ilen) //'; finish'
-         call dotaskx3d(cbuf,ierr)
-         cbuf='cmo/status/brief ; finish '
-         call dotaskx3d(cbuf,ierr)
-C CWG debug
       elseif(if_poi_edge_buffer .eq. 1)then
 
       call poisson_3d
@@ -1758,14 +1771,6 @@ C CWG debug
      & np_x,np_y,np_z,  
      & seed, number_of_samples,
      & resample_sweeps) 
-C CWG debug
-         ilen = icharlnf(mo_poi_pts_out)
-         cbuf = 'dump/avs/debug_poisson_3d_buf.inp/'
-     &           // mo_poi_pts_out(1:ilen) //'; finish'
-         call dotaskx3d(cbuf,ierr)
-         cbuf='cmo/status/brief ; finish '
-         call dotaskx3d(cbuf,ierr)
-C CWG debug
       endif
 C
 C ---------------------------------------------------------------------
@@ -1808,13 +1813,6 @@ C
          cbuf = 'copypts/mo_tmp_wrk_poi_hex_outside/ '
      &          // 'mo_tmp_wrk_poi_hex/0 0 /pset get p_out; finish'
          call dotaskx3d(cbuf,ierr)
-C CWG debug
-         cbuf = 'dump/avs/debug_poisson_3d_outside.inp/' //
-     &           'mo_tmp_wrk_poi_hex_outside; finish'
-         call dotaskx3d(cbuf,ierr)
-         cbuf='cmo/status/brief ; finish '
-         call dotaskx3d(cbuf,ierr)
-C CWG debug
          cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex; finish'
          call dotaskx3d(cbuf,ierr)
          ilen = icharlnf(mo_poi_pts_out)
@@ -1838,15 +1836,6 @@ C
          cbuf = 'cmo/move/ ' // mo_poi_pts_out(1:ilen) // 
      &          ' mo_poi_tmp_poi_pts_out; finish'
          call dotaskx3d(cbuf,ierr)
-
-C CWG debug
-         ilen = icharlnf(mo_poi_pts_out)
-         cbuf = 'dump/avs/debug_poisson_3d_merge.inp/'
-     &           // mo_poi_pts_out(1:ilen) //'; finish'
-         call dotaskx3d(cbuf,ierr)
-         cbuf='cmo/status/brief ; finish '
-         call dotaskx3d(cbuf,ierr)
-C CWG debug
          cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex_outside; finish'
          call dotaskx3d(cbuf,ierr)
          cbuf = 'cmo / select /'// mo_poi_pts_out(1:ilen) //'; finish'
@@ -1920,9 +1909,6 @@ C
       call dotaskx3d(cbuf,ierr)
       cbuf = 'quality ; finish '
       call dotaskx3d(cbuf,ierr)
-      cbuf = 'dump / tets.inp / '// mo_poi_pts_out(1:ilen) //' ; finish'
-      call dotaskx3d(cbuf,ierr)
-
 C
  9999 continue
 C 
