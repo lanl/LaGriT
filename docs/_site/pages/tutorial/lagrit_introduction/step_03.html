@@ -118,7 +118,9 @@
 <h4 id="lagrit---output-file-lagritout">LaGriT   output file: <a href="/pages/tutorial/lagrit_introduction/step_03/03_assign_materials.out.txt">lagrit.out</a></h4>
 <h4 id="lagrit-all-run-files-folder-step_03">LaGriT all run files: <a href="https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_03">Folder step_03</a></h4>
 
-<p>This example will show how to use some basic commands to assign materials to mesh nodes and elements. Methods include:</p>
+<p>This example will show how to use some basic commands to assign materials to mesh nodes and elements. Interpolation of materials from the hex mesh to the tet mesh is used to ensure block shaped interfaces.</p>
+
+<p>Methods include:</p>
 
 <ul>
   <li>Set selections using <a href="https://lanl.github.io/LaGriT/pages/docs/commands/PSET.html"><strong><code class="language-plaintext highlighter-rouge">pset</code></strong></a> for mesh points and <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ELTSET2.html"><strong><code class="language-plaintext highlighter-rouge">eltset</code></strong></a>.</li>
@@ -198,21 +200,22 @@ cmo/setatt/mo_mat/itetclr/eltset,get,emat1/ 1
 <p>These images were created from Paraview showing the mesh colored by node attribute <strong>imt</strong> left. The mesh is colored by element materials on the right, mesh nodes colored by <strong>imt</strong>. Though modeling software such as FEHM use only the node materials, viewing the mesh by element color presents a better picture. Click on images to view full resolution image.</p>
 
 <p>
-<a href="step_03/step_03_hex_layers_imt.png"> <img width="300" src="step_03/step_03_hex_layers_imt.png" /> </a>
-<a href="step_03/step_03_hex_layers_imt_itetclr.png"> <img width="300" src="step_03/step_03_hex_layers_imt_itetclr.png" /> </a>
+<a href="step_03/step_03_hex_layers_imt.png"> <img width="350" src="step_03/step_03_hex_layers_imt.png" /> </a>
+<a href="step_03/step_03_hex_layers_imt_itetclr.png"> <img width="350" src="step_03/step_03_hex_layers_imt_itetclr.png" /> </a>
 </p>
 <p><br /></p>
 
 <h2 id="assign-materials-by-surfaces">Assign Materials by Surfaces</h2>
 
-<p>Create surfaces to define a fourth material defined by the region between the surfaces.
-In this case we use a mesh object name that implies it is temporary. Creating naming conventions for your objects will help you to keep track of objects during the workflow.</p>
+<p>The <strong>region</strong> command is extremely useful for defining nodes or elements based on surfaces or geometric shapes. Most of these are represented by their equations, but a surface can also be a mesh that is created or read from file as used in this example.  We create two surfaces using <strong>surface/sheet/</strong>/<em>mo_name</em> which will be used to define a region representing a fourth material.</p>
+
+<p>Note. In this case we use a mesh object name that implies it is temporary and will be deleted after use. Creating naming conventions for your objects will help you to keep track of objects during the workflow.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / motmp
 cmo / select / motmp
 </code></pre></div></div>
 
-<p>Create a quad mesh based on corner coordinates, since this will be used to define regions on the mesh, make sure the surface coordinates extend equal or greater to the mesh. A surface that truncates inside the mesh domain will be ill defined with respect to below or above.</p>
+<p>Create a quad mesh based on corner coordinates, since this will be used to define regions on the mesh, make sure the surface coordinates extend equal or greater to the mesh. A surface that truncates inside the mesh domain will be ill defined with respect to below or above. These two surfaces could also be created with the <strong>surface/plane</strong> command and used in the same way, but are internal and can not be viewed with respect to the mesh.</p>
 
 <p>The <strong>brick</strong> option for <strong>createpts</strong> is used to create a quad mesh from the point distribution.  The quads are converted to triangles with the <strong>hextotet</strong> command. After the surface is created, print the minmax coordinates and view the surface to make sure it where you want it.</p>
 
@@ -233,27 +236,24 @@ dump/ tmp_surf2.inp / mosurf2
 <p>View the mesh and the surfaces together to be sure it is correct. The nodes colored red in the image is the region we will set to material 4.</p>
 
 <p>
-<a href="step_03/step_03_hex_colors_surfs.png"> <img width="300" src="step_03/step_03_hex_colors_surfs.png" /> </a>
+<a href="step_03/step_03_hex_colors_surfs.png"> <img width="420" src="step_03/step_03_hex_colors_surfs.png" /> </a>
 </p>
 
 <p>To use the geometry commands such as surfaces and regions, FIRST make sure your mesh object is current. Otherwise, these geometry command will not be available for use on the mesh object. Use the <strong>cmo/select</strong> command to make sure you apply these commands to the “mo_mat” mesh object.</p>
 
-<p>In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to geometry of type <strong>sheet</strong>. There are many types of surfaces such as cone, and box. See more at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html"><strong><code class="language-plaintext highlighter-rouge">surface</code></strong></a>. There are options for boundary type which are not necessary for this simple example, so <strong>reflect</strong> is used here.</p>
+<p>In the previous steps we created two mesh objects, mosurf1 and mosurf2. We now tell LaGriT to use those mesh objects to define surfaces of type <strong>sheet</strong>. There are many types of surfaces such as cone, and box. See more at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/SURFACE.html"><strong><code class="language-plaintext highlighter-rouge">surface</code></strong></a>.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / select / mo_mat
 surface / s_mosurf1 / reflect / sheet / mosurf1
 surface / s_mosurf2 / reflect / sheet / mosurf2
 </code></pre></div></div>
 
-<p>Now that LaGriT has named sheets as part of the mesh object geometry, we can now define the region between. Use the surface names and above (ge) and below (le) to set region between the surfaces.</p>
-
-<p>Note: see page describing directional operators at <a href="https://lanl.github.io/LaGriT/pages/docs/dividereg.html"><strong><code class="language-plaintext highlighter-rouge">lt, le, gt, ge</code></strong></a></p>
-
+<p>Now that LaGriT has sheets named “s_mosurf1” and “s_mosurf2” defined for the mesh object geometry, we can use them to define a region between the surfaces. 
+The <strong>le</strong> and <strong>ge</strong> operators are used with the <a href="https://lanl.github.io/LaGriT/pages/docs/commands/REGION.html"><strong><code class="language-plaintext highlighter-rouge">region</code></strong>*</a> command to define regions. For instance, <strong>ge</strong> for a surface means the space on the same side as the surface normal direction, <strong>le</strong> means the space opposite of the normal direction. Use <strong>le, ge</strong> to include nodes equal to the surface, otherwise use <strong>lt, gt</strong>.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>region/ r_slant / ge s_mosurf1 and le s_mosurf2
 </code></pre></div></div>
 
-<p>Select node and element sets in the slanted region.
-And assign node and element materials for both.</p>
+<p>Now use this region named “r_slant” to define node and elements in the slanted region. Use the <strong>cmo/setatt</strong> command with these sets to assign the value 4 to node <strong>imt</strong> and element <strong>itetclr</strong> arrays, but only to the defined sets. The value 4 will overwrite previous values of 1-3 set earlier.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset/ pslant / region / r_slant
 eltset/ eslant / region / r_slant
@@ -262,8 +262,8 @@ cmo/ setatt / mo_mat / imt / pset,get,pslant / 4
 cmo/ setatt / mo_mat / itetclr / eltset,get,eslant / 4
 </code></pre></div></div>
 
-<p>Update the boundary and interface attribute <strong>itp</strong> and write the mesh with materials.
-Note here we are using the “OUT_FILE” variable defined above with the output mesh name.</p>
+<p>Since the materials have changed, it is good practice to update the boundary and interface attribute <strong>itp</strong> mesh arrays.
+Write the mesh with materials using the “OUT_FILE” variable defined at the beginning.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resetpts/itp
 dump / OUT_FILE / mo_mat
@@ -272,16 +272,15 @@ cmo / status / mo_mat / brief
 
 <p>Debug hint: things often go wrong early in the script, make sure there are no errors before continuing. You can do this by adding an early finish and observing the output report. If there are no errors reported, and the mesh looks as expected, comment the <strong>finish</strong> command so the LaGriT command continues.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Uncomment Early finish to check results
-# 
-finish
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Uncomment Early finish to check results 
+# finish
 </code></pre></div></div>
 
 <h2 id="assign-materials-by-interpolation">Assign Materials by Interpolation</h2>
 
-<p>This will preserve the stair-step interfaces of materials</p>
+<p>If you color the tetrahedral mesh using the above steps, you might get ragged edges that do not look as nice as the colored hex mesh. And if you added refinement to your mesh, using your original coarse hex mesh colors will better preserve the layers as you intended. This will preserve the stair-step interfaces of materials</p>
 
-<p>remove unneeded mesh objects</p>
+<p>It is good practice to remove mesh objects that are no longer needed. The more mesh objects that exist, the greater possibility of things getting tangled or mistakes with typos.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/delete/motmp
 cmo/delete/mosurf1
@@ -289,25 +288,41 @@ cmo/delete/mosurf2
 cmo/list
 </code></pre></div></div>
 
-<p>Read tet mesh from Step 2</p>
+<p>Now that we have a hex mesh with materials the way we like them. Read the computational tetrahedral mesh (from Step 2), and interpolate the hex (source) values to the tet mesh.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read/avs/ 02_tet_mesh.inp / mo_tet
 cmo/select/mo_tet
 </code></pre></div></div>
 
-<p>Use the <strong>interpolate</strong> command using the materials assigned to mesh object “mo_mat”.</p>
+<p>The <strong>interpolate/map</strong> command copies the value from the enclosing source element to the element (centroid).
+The <strong>interpolate/voronoi</strong> command copies the value from the nearest source node to the sink node.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interpolate/map/mo_tet/ itetclr /1,0,0/ mo_mat itetclr
 interpolate/voronoi/mo_tet/ imt /1,0,0/ mo_mat imt
 </code></pre></div></div>
 
-<p>check interpolated values</p>
+<p>Mesh left shows results if these steps are applied to the tet mesh. Mesh right shows hex mesh interpolated to tet mesh.
+ <a href="step_03/step_03_tet_colors_bad.png"> <img width="350" src="step_03/step_03_tet_colors_bad.png" /> </a>
+ <a href="step_03/step_03_tet_colors_good.png"> <img width="350" src="step_03/step_03_tet_colors_good.png" /> </a> 
+</p>
+
+<p>Check the interpolated materials with the <strong>printatt</strong> commands. There should be minmax values 1 and 4.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/printatt/mo_tet/imt minmax
 cmo/printatt/mo_tet/itetclr minmax
 </code></pre></div></div>
 
-<p>Set boundary nodes and write view file</p>
+<pre class="lg-output">
+cmo/printatt/mo_tet/imt minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ imt1                             1                4               3      1122
+
+cmo/printatt/mo_tet/itetclr minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ itetclr                          1                4               3      4800
+</pre>
+
+<p>Set the boundary nodes based on these new materials and write an AVS mesh file for viewing.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resetpts/itp
 dump/avs/tet_interp_materials.inp mo_tet
@@ -315,10 +330,12 @@ dump/avs/tet_interp_materials.inp mo_tet
 
 <h2 id="report-material-quantities">Report Material Quantities</h2>
 
-<p>Sometimes it helps to see node and element material quantities before viewing the mesh. This is a good way to catch easy mistakes. These results are also useful to include in reports as part of the setup description. Scripts can be written to parse “lagri.out” results for nice tables and other summary information.</p>
+<p>Sometimes it helps to see node and element material quantities before viewing the mesh. This is a good way to catch easy mistakes. These results are also useful to include in reports as part of the setup description. Scripts can be written to parse “lagrit.out” results for nice tables and other summary information.</p>
 
 <p>The minmax option is a quick easy way to check for mistakes. The <strong>imt1</strong> (same as <strong>imt</strong>) attribute are the node materials, so length of the array is 1122, the number of nodes in this mesh. The <strong>itetclr</strong> attribute are the element materials with a length of 4800, the number of elements in this mesh. As expected, they both have values from 1 to 4. 
 <strong>Note: these material attributes must have integer numbers greater than 0</strong></p>
+
+<p>Note. Unless the tet mesh is modified to be different from the source hex mesh, they will have the same number of nodes. Only the element type and count will change.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/select/mo_tet
 cmo/printatt/mo_tet/ imt minmax

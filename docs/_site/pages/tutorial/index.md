@@ -44,7 +44,7 @@
                     </p>
                 </div>
             </a>
-            <a href="{{ "/pages/docs/demos/description_brick_trunc.html" | relative_url }}">
+            <a href="{{ "/pages/tutorial/stratigraphy/index.html" | relative_url }}">
                 <div class="uk-card uk-card-default uk-card-body uk-card-hover">
                     <div class="uk-card-media-top">
                         <img style="max-height:200px;" src="stratigraphy/images/21_tet_01_exo_blocks.png" alt="">

@@ -147,16 +147,9 @@ See more at <a href="https://lanl.github.io/LaGriT/pages/docs/conventions.html">
   <li>Structured mesh = a mesh whose connectivity (topology) can be defined implicitly, and cell neighbors are predictable. Generally, a quadrilateral mesh in 2D and hexahedral mesh in 3D.</li>
   <li>Unstructured mesh = a mesh that requires explicit connectivity information to describe cell topology. Generally used to represent complex shapes.</li>
   <li>Delaunay Triangulation = a Delaunay mesh (triangles in 2D, tetrahedra in 3D) has cells such that the circumcircle(2D)/circumsphere(3D) contains no vertices other than the cell vertices. A Delaunay triangulation maximizes the minimum interior angle.</li>
-  <li>
-    <table>
-      <tbody>
-        <tr>
-          <td>Voronoi Tessellation = the dual of a Delaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.  Defined as V(pi) = {x</td>
-          <td>d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}</td>
-        </tr>
-      </tbody>
-    </table>
+  <li>Voronoi Tessellation = the dual of a Delaunay triangulation, meaning that the vertices of one correspond to the cells of the other, and the edges of one correspond to the edges of the other.
     <ul>
+      <li>Defined as <code class="language-plaintext highlighter-rouge">V(pi) = {x | d(x, pi) ≤ d(x, pj) for all pj ∈ S, j ≠ i}</code></li>
       <li>The Voronoi cell V(pi) contains all points x that are “closest” to the site pi.</li>
       <li>“Closeness” is determined by the distance function d(x, p).</li>
       <li>The inequality d(x, pi) ≤ d(x, pj) ensures that x is closer to pi than to any other site pj.</li>

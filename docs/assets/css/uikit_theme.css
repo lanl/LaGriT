@@ -8787,7 +8787,7 @@ iframe.uk-cover {
 .tm-navbar-container:not(.uk-navbar-transparent) .uk-button-default {
     background-color: transparent;
     color: #fff;
-    border-color: rgba(255, 255, 255, 0.8)
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 .uk-light .uk-button-default:hover,
