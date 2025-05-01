@@ -4,10 +4,13 @@ title: Demo Faults with Octree Refinement
 
 
 <!-- Begin image -->
-<p>
+<p> Octree Refinement using Fault Surfaces
 
 <a href="images/hex_ref02_flts_xaxis.png"> <img width="500" src="images/hex_ref02_flts_xaxis.png" /> </a>
-<a href="images/hex3b_surfs_vor_vol.png"> <img width="500" src="images/hex3b_surfs_vor_vol.png" /> </a>
+</p>
+
+<p> View and Evaluate Fault Objects
+<a href="images/hex3b_fault_pieces.png"> <img width="500" src="images/hex3b_fault_pieces.png" /> </a>
 
 </p>
 <br>
@@ -322,6 +325,11 @@ dump/avs/ hex_refine_attributes.inp /MOVOL
 finish
 
 ```
+
+<p> View of Fault Surfaces with Mesh colored by Voronoi Volumes 
+<a href="images/hex3b_surfs_vor_vol.png"> <img width="500" src="images/hex3b_surfs_vor_vol.png" /> </a>
+
+</p>
 
 
 
