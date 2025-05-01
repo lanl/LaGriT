@@ -8,7 +8,7 @@ title: Tutorial LaGriT Introduction Step 02
 <p><a href="step_02/02_hextotet.png"> <img width="500" src="step_02/02_hextotet.png"> </a></p>
 <!-- End image -->
 
-#### LaGriT  command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
+#### LaGriT command file: [02_hex_to_tet.lgi](step_02/02_hex_to_tet.lgi.txt)
 #### LaGriT   output file: [lagrit.out](step_02/02_hex_to_tet.out.txt)
 #### LaGriT all run files: [Folder step_02](https://github.com/lanl/LaGriT/tree/master/docs/pages/tutorial/lagrit_introduction/step_02)
 
@@ -59,7 +59,7 @@ The current-mesh-object(CMO) is: 3dmesh
 
 ## Create a new mesh object with points to connect 
 
-The [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) command will create connectivity from a cloud of points. There should be no duplicate points and the **imt** material should be a single value. 
+The [**'connect'**](https://lanl.github.io/LaGriT/pages/docs/commands/CONNECT1.html) command will create connectivity from a cloud of points. There should be no duplicate points, and the **imt** material should be a single value. 
 
 Copy the hex points into a new mesh object, this removed the connectivity so new elements can be created. 
 ```
@@ -94,12 +94,12 @@ The current-mesh-object(CMO) is: mo_tet
 
 </pre>
 
-Prepare the points by removing duplicates and setting imt to a single value and boundry tags to 0. The **filter** command will mark duplicate points as "dudded" points, the **rmpoint/compress** command will remove the dudded nodes from the mesh object. These commands will not make any changes if there are no duplicate points. 
+Prepare the points by removing duplicates and setting imt to a single value and boundary tags to 0. The **filter** command will mark duplicate points as "dudded" points; the **rmpoint/compress** command will remove the dudded nodes from the mesh object. These commands will not make any changes if there are no duplicate points. 
 
 *Note: the special token ";" can be used to call multiple commands on the same line.*
 
 ```
-# remove dupplicate points if they exist
+# Remove duplicate points if they exist
 filter/1,0,0 ; rmpoint/compress
 
 # Set some defaults for the connect routine
@@ -111,7 +111,7 @@ connect
 
 ```
 
-The result of the **connect** command should show successs.
+The result of the **connect** command should show success.
 <pre class="lg-output">
  Coordinates of enclosing tetrahedron are:
           -0.20000D+03   -0.37500D+02   -0.60000D+02
@@ -144,7 +144,7 @@ min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00
 
 epsilonvol:   8.8817842E-08
 ---------------------------------------
-All elements have volume  8.3333333E+01
+All elements have volume 8.3333333E+01
 -----------------------------------------------------------
       4800 total elements evaluated.
 
@@ -159,7 +159,7 @@ resetpts / itp
 
 # Method 2 converts each hex into 5 tets 
 
-The [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) is a wrapper that simplifies many of the grid to grid conversions. In this case we will use the option that converts each hex element into 5 tets (with nopoints added). This command requires the creation of a new mesh object, the new name is given first, with the source mesh object name at the end.
+The [**'grid2grid'**](https://lanl.github.io/LaGriT/pages/docs/commands/GRID2GRID.html) is a wrapper that simplifies many of the grid-to-grid conversions. In this case we will use the option that converts each hex element into 5 tets (with no points added). This command requires the creation of a new mesh object, the new name is given first, with the source mesh object name at the end.
 
 ```
 grid2grid / hextotet5 / mo_hex2tet / 3dmesh
@@ -201,18 +201,18 @@ min aspect ratio =  0.6202E+00  max aspect ratio =  0.8165E+00
 
 epsilonvol:   8.8817842E-08
 ---------------------------------------
-element volumes b/w  0.8333E+02 and  0.9572E+02:      3200
-element volumes b/w  0.9572E+02 and  0.1100E+03:         0
-element volumes b/w  0.1100E+03 and  0.1263E+03:         0
-element volumes b/w  0.1263E+03 and  0.1451E+03:         0
-element volumes b/w  0.1451E+03 and  0.1667E+03:       800
-min volume =   8.3333333E+01  max volume =   1.6666667E+02
+element volumes b/w 0.8333E+02 and 0.9572E+02:      3200
+element volumes b/w 0.9572E+02 and 0.1100E+03:         0
+element volumes b/w 0.1100E+03 and 0.1263E+03:         0
+element volumes b/w 0.1263E+03 and 0.1451E+03:         0
+element volumes b/w 0.1451E+03 and 0.1667E+03:       800
+min volume =   8.3333333E+01 max volume =   1.6666667E+02
 -----------------------------------------------------------
       4000 total elements evaluated.
 
 </pre>
 
-Now we have two tet meshes, one created with **connect** and the other with **grid2grid**. In general we use the connect algorithm to create Delaunay meshes using Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2). Converting hex elements into tet elements will not be Delaunay and may affect results depending on the physics used. 
+Now we have two tet meshes, one created with **connect** and the other with **grid2grid**. In general, we use the connect algorithm to create Delaunay meshes using Voronoi control volumes (FEHM, PFLOTRAN, TOUGH2). Converting hex elements into tet elements will not be Delaunay and may affect results depending on the physics used. 
 
 For viewing these new meshes, we can add node and element attributes. With the following commands we add values for each tet volume and for the voronoi volume around each mesh node.
 See a list of attributes that can be created at [**`cmo/addatt`**](https://lanl.github.io/LaGriT/pages/docs/commands/cmo/cmo_addatt.html)
@@ -268,7 +268,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 
 The following images were created by using Paraview reading the AVS mesh files. Click to see full resolution images.
 
-Paraview images show tet elements colored by element volumes of connected Delaunay mesh (left) and grid2grid (right). The grid2grid view is clipped in order to see the internal tet elements that are larger than the tets formed at the hex corners. 
+Paraview images show tet elements colored by element volumes of connected Delaunay mesh (left) and grid2grid (right). The grid2grid view is clipped to see the internal tet elements that are larger than the tets formed at the hex corners. 
 
 <!-- Begin image -->
 <p><a href="step_02/02_connect_vol_clipped.png"> <img width="400" src="step_02/02_connect_vol_clipped.png"> </a>
@@ -285,7 +285,7 @@ Paraview images show the mesh colored by node voronoi volumes. The boundary node
 
 This is a snapshot showing the Paraview settings for the clipped mesh. The full 02_hex2tet5.inp mesh displayed with red wire frame. The mesh is clipped -10, and threshold is used to display tet volumes over 116.
 
-<p><a href="step_02/02_hex2tet_vol_clipped_para.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped_para.png">
+<p><a href="step_02/02_hex2tet_vol_clipped_para.png"> <img width="400" src="step_02/02_hex2tet_vol_clipped_para.png"> </a>
 </p>
 
 ## finish
@@ -296,4 +296,11 @@ Always end a session or a file with the **finish** command and a line return aft
 finish
 
 ```
+
+#### [LaGriT Introduction Index](index.html)
+#### [Step 1. Create a Hex Mesh](step_01.html)
+#### [Step 2. Convert Hex Mesh to Tet Mesh](step_02.html)
+#### [Step 3. Assign materials to the Mesh](step_03.html)
+#### [Step 4. Write Mesh and FEHM Setup Files](step_04.html)
+
 

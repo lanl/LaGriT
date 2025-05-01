@@ -64,7 +64,7 @@ The following commands are almost always used in preparation of writing FEHM mod
 
 - The [**`resetpts/parent`**](https://lanl.github.io/LaGriT/pages/docs/commands/RESETPT.html) command will remove the parent-child relationship is established in the settets command.
 
-- Sometimes during the meshing process there will be duplicate or double-defined nodes nodes created. Use the `filter` command to find and tag nodes as `dudded`. 
+- Sometimes during the meshing process there will be duplicate or double-defined nodes created. Use the `filter` command to find and tag nodes as `dudded`. 
 
 - IMPORTANT: Nodes tagged for removal will not be deleted from the mesh object until `rmpoint/compress` is called. This will remove any dudded nodes and adjust the connectivity.
 
@@ -101,7 +101,7 @@ Note: We normally do not use multiple material regions for FEHM so the `interfac
 </pre>
 
 
-The `_material.zone` file contains zones listing node ids for each integer value found in the mesh **imt** attribute.  This is a single file seperated by id, "nnum" and total for each list. See right image below.
+The `_material.zone` file contains zones listing node ids for each integer value found in the mesh **imt** attribute.  This is a single file separated by id, "nnum" and total for each list. See right image below.
 
 The **keepatt** keyword will keep attributes normally deleted after writing files.  The 6 outside attribute names are added to the mesh object with the names and integer id based on normal directions:
 - 1 = top = top = positive z direction (0,0,1)
@@ -148,7 +148,7 @@ AMatbld3d_stor: Volume min =   6.2500000E+01
 AMatbld3d_stor: Volume max =   5.0000000E+02
 </pre>
 
-Negative coefficents can occur on non-convex boundaries or with unstructured complex meshes. If they occur, these negative coefficients are stored in a node attribute named `ccoef`. Viewing this attribute can provide help in finding areas of the mesh that need adjustment. It is possible that a mesh has ccoef values at or very close to zero, in which case they can be ignored. The following pset commands can help find ccoef values of concern.
+Negative coefficients can occur on non-convex boundaries or with unstructured complex meshes. If they occur, these negative coefficients are stored in a node attribute named `ccoef`. Viewing this attribute can provide help in finding areas of the mesh that need adjustment. It is possible that a mesh has ccoef values at or very close to zero, in which case they can be ignored. The following pset commands can help find ccoef values of concern.
 
 Note. The `cmo/addatt` command is called but will not be used if the `AMatbld3d_stor` routine creates it. We create it just in case it does not exist so the commands using it do not fail with an Error.
 
@@ -167,7 +167,7 @@ cmo printatt mo_tet -all- minmax
 
 Zones for simulations can be created and written by using the `pset` commands. In this example a single column of nodes is selected to represent a well. There are numerous ways to create a set, in this example we use a geometric region in box shape. A cylinder would also work.
 
-Regions are defined by surfaces, here we use a box surface around the node column at 50,10 X,Y. The region is defined as inside the box surface, but can be combined with other surfaces for more complex regions. A pset is formed of all points within the `r_bx` region and written to a zone file.
+Regions are defined by surfaces, here we use a box surface around the node column at 50,10 X,Y. The region is defined as an inside the box surface but can be combined with other surfaces for more complex regions. A pset is formed of all points within the `r_bx` region and written to a zone file.
 
  Write the list of nodes to a zone file
  Assign a zone number larger than max material
@@ -256,9 +256,9 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 
 ## Check Well Zone
 
-It can be difficult to view mesh nodes within a mesh, it helps to write the points as a seperate view file. The mesh nodes (without elements) are copied to a `motmp` mesh object which has all nodes removed except the well nodes. These can be written to any file format, but the AVS UCD pnt type is recoginized by Paraview for easier point displays. This is part of the `dump/avs` options that can be set after the mesh object name.
+It can be difficult to view mesh nodes within a mesh, it helps to write the points as a separate view file. The mesh nodes (without elements) are copied to a `motmp` mesh object which has all nodes removed except the well nodes. These can be written to any file format, but the AVS UCD pnt type is recognized by Paraview for easier point displays. This is part of the `dump/avs` options that can be set after the mesh object name.
 
-These options are provided to enable a user the flexiblity of writing ASCII files with desired information. For this example "1 3 1 0 0" means 1= nodes are written, 3 = elements are written of type "pnt", 1 = node attributes are written, 0 = cell attributes are not written, and 0 = model attributes are not written. 
+These options are provided to enable a user the flexibility of writing ASCII files with desired information. For this example, "1 3 1 0 0" means 1= nodes are written, 3 = elements are written of type "pnt", 1 = node attributes are written, 0 = cell attributes are not written, and 0 = model attributes are not written. 
 
 
 ```
@@ -305,3 +305,10 @@ Always end a session or a file with the **finish** command and a line return aft
 finish
 
 ```
+
+#### [LaGriT Introduction Index](index.html)
+#### [Step 1. Create a Hex Mesh](step_01.html)
+#### [Step 2. Convert Hex Mesh to Tet Mesh](step_02.html)
+#### [Step 3. Assign materials to the Mesh](step_03.html)
+#### [Step 4. Write Mesh and FEHM Setup Files](step_04.html)
+
