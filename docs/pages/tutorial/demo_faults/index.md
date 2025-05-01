@@ -13,50 +13,32 @@ title: Demo Faults with Octree Refinement
 <a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a>
 </p>
 <br>
+<p> View and Evaluate Mesh and Fault Cell and Voronoi Volumes 
+ <a href="images/hex3b_vor_vol_cut.png"> <img width="350" src="images/hex3b_vor_vol_cut.png" /> </a>
 
-<p> Methods to View and Evaluate Fault Objects
-<br>
-<a href="images/hex3b_fault_pieces.png"> <img width="400" src="images/hex3b_fault_pieces.png" /> </a>
-
-</p>
-
-<p> View and Evaluate Mesh and Fault Volumes 
- <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
-
- <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
+ <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="350" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
 
 </p>
 <br>
 <!-- End image -->
 
+This example demonstrates how to manage multiple fault objects for optimized fault resolutions. For each level of refinement (0=none, 1= half spacing, 2 = quarter spacing...) attributes are added and examined. This mesh starts with 100m spacing with refinement at intersection of two fault surfaces. 
+
+Attributes are added to the fault and fault pieces to detirmine the level and extent of refinement.
+Fault ID 6 (near vertical) will be represented by a cell thickness of 12.5m with voronoi volumes 2 nodes thick with 2000 - 3500 m^3 each node
+Fault ID 12 will have a single nodes with edge lengths of 12.5m and voronoi volume 2000 m^3 for entire surface
+
 ## LaGriT Command Files
 
-Main driver calling infile macros [**`hex_refine.lgi`**](./hex_refine.lgi)
+Main driver refining and writing files  [**`hex_refine.lgi`**](./hex_refine.lgi)
 
+For each LEVEL of resolution 0 to 3:
 - Refine hex mesh by intersected object [**`refine_object.mlgi`**](./refine_object.mlgi)
 - Add attributes including volumes to the mesh [**`hex_add_volumes.mlgi`**](./hex_add_volumes.mlgi)
 - Subset attribute mesh by intersection by fault surfaces [**`extract_hex_fault.mlgi`**](./extract_hex_fault.mlgi)
 - Subset hex faults into single node for thin faults [**`extract_thin_faults.mlgi`**](./extract_thin_faults.mlgi)
 - Remove extra unused attributes [**`remove_attributes.mlgi`**](./remove_attributes.mlgi)
 
-========================================================================
-
- Three new integer element attributes will be created as part of the
- book keeping for the octree mesh data structure.
-
- When elements are refined
- the original element (parent) is not removed when eight child elements
- are created. For example, if you have a single hex and refine it, you
- will then have 9 elements, 1 itetlev=N element and 8 children of the
- original perent element refined to itetlev = N+1.
-
- itetlev = level of refinement
-         = 0 not refined
-         = 1 refined once
-         = 2 refined twice
-           etc.
-
-========================================================================
 
 
 ## CREATE HEX MESH
@@ -354,6 +336,8 @@ finish
 <p> <a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a></p>
 <p> <a href="images/hex_ref02_flts_yaxis.png"> <img width="400" src="images/hex_ref02_flts_yaxis.png" /> </a></p>
 
+
+<p> <a href="images/hex3b_faults_zoom.png"> <img width="400" src="images/hex3b_faults_zoom.png" /> </a></p>
 
 <p> <a href="images/hex3b_itetlev.png"> <img width="400" src="images/hex3b_itetlev.png" /> </a></p>
 <p> <a href="images/hex3b_cell_vol.png"> <img width="400" src="images/hex3b_cell_vol.png" /> </a></p>
