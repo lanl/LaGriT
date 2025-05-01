@@ -19,8 +19,25 @@ title: Demo Faults with Octree Refinement
 <a href="images/hex3b_fault_pieces.png"> <img width="400" src="images/hex3b_fault_pieces.png" /> </a>
 
 </p>
+
+<p> View and Evaluate Mesh and Fault Volumes 
+ <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
+
+ <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
+
+</p>
 <br>
 <!-- End image -->
+
+## LaGriT Command Files
+
+Main driver calling infile macros [**`hex_refine.lgi`**](./hex_refine.lgi)
+
+- Refine hex mesh by intersected object [**`refine_object.mlgi`**](./refine_object.mlgi)
+- Add attributes including volumes to the mesh [**`hex_add_volumes.mlgi`**](./hex_add_volumes.mlgi)
+- Subset attribute mesh by intersection by fault surfaces [**`extract_hex_fault.mlgi`**](./extract_hex_fault.mlgi)
+- Subset hex faults into single node for thin faults [**`extract_thin_faults.mlgi`**](./extract_thin_faults.mlgi)
+- Remove extra unused attributes [**`remove_attributes.mlgi`**](./remove_attributes.mlgi)
 
 ========================================================================
 
