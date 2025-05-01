@@ -2,15 +2,21 @@
 title: Demo Faults with Octree Refinement 
 ---
 
+# Demo Faults with Octree Refinement
+
+## Featuring
 
 <!-- Begin image -->
 <p> Octree Refinement using Fault Surfaces
 
-<a href="images/hex_ref02_flts_xaxis.png"> <img width="500" src="images/hex_ref02_flts_xaxis.png" /> </a>
+<br>
+<a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a>
 </p>
+<br>
 
-<p> View and Evaluate Fault Objects
-<a href="images/hex3b_fault_pieces.png"> <img width="500" src="images/hex3b_fault_pieces.png" /> </a>
+<p> Methods to View and Evaluate Fault Objects
+<br>
+<a href="images/hex3b_fault_pieces.png"> <img width="400" src="images/hex3b_fault_pieces.png" /> </a>
 
 </p>
 <br>
