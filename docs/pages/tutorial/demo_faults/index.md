@@ -332,8 +332,26 @@ finish
 
 ```
 
-<p> View of Fault Surfaces with Mesh colored by Voronoi Volumes 
-<a href="images/hex3b_surfs_vor_vol.png"> <img width="500" src="images/hex3b_surfs_vor_vol.png" /> </a>
+
+<p> <a href="images/hex_ref02_flt.png"> <img width="400" src="images/hex_ref02_flt.png" /> </a></p>
+<p> <a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a></p>
+<p> <a href="images/hex_ref02_flts_yaxis.png"> <img width="400" src="images/hex_ref02_flts_yaxis.png" /> </a></p>
+
+
+<p> <a href="images/hex3b_itetlev.png"> <img width="400" src="images/hex3b_itetlev.png" /> </a></p>
+<p> <a href="images/hex3b_cell_vol.png"> <img width="400" src="images/hex3b_cell_vol.png" /> </a></p>
+<p> <a href="images/hex3b_vor_vol.png"> <img width="400" src="images/hex3b_vor_vol.png" /> </a></p>
+<p> <a href="images/hex3b_vor_vol_cut.png"> <img width="400" src="images/hex3b_vor_vol_cut.png" /> </a></p>
+<p> <a href="images/hex3b_edgemax.png"> <img width="400" src="images/hex3b_edgemax.png" /> </a></p>
+<p> <a href="images/hex3b_edgemin.png"> <img width="400" src="images/hex3b_edgemin.png" /> </a></p>
+
+<p> <a href="images/hex3b_surfs_cell_vol.png"> <img width="400" src="images/hex3b_surfs_cell_vol.png" /> </a></p>
+<p> <a href="images/hex3b_surfs_vor_vol.png"> <img width="400" src="images/hex3b_surfs_vor_vol.png" /> </a></p>
+
+<p> <a href="images/hex3b_fault_pieces_lev0.png"> <img width="400" src="images/hex3b_fault_pieces_lev0.png" /> </a></p>
+<p> <a href="images/hex3b_fault_pieces.png"> <img width="400" src="images/hex3b_fault_pieces.png" /> </a></p>
+<p> <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a></p>
+
 
 </p>
 
