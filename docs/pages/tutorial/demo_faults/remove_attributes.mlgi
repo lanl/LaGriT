@@ -1,0 +1,18 @@
+# define mesh object name
+cmo/printatt/MO/-all- minmax
+cmo/DELATT/MO/itetclr0
+cmo/DELATT/MO/itetclr1
+cmo/DELATT/MO/idnode0
+cmo/DELATT/MO/idelem0
+cmo/DELATT/MO/idelem1
+cmo/DELATT/MO/facecol
+cmo/DELATT/MO/idface0
+cmo/DELATT/MO/idface1
+cmo/DELATT/MO/numbnd
+cmo/DELATT/MO/id_numb
+cmo/DELATT/MO/iign
+cmo/DELATT/MO/ncon50
+cmo/DELATT/MO/nconbnd
+cmo/DELATT/MO/icontab
+cmo/DELATT/MO/facecol
+finish

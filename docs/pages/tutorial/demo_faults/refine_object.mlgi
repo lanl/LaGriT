@@ -1,0 +1,37 @@
+****************************************
+* infile for refine using intersection with object
+****************************************
+* Using 
+* CMO_HEX - Mesh object to be intersected
+* CMO_OBJ - Mesh object that intersects CMO_HEX
+* LEVEL - refine level 0, 1, 2, 3, ...
+****************************************
+
+cmo / printatt / CMO_HEX / -xyz- / minmax
+cmo / printatt / CMO_OBJ  / -xyz- / minmax
+
+* Refine elements that are intersected by CMO_OBJ
+
+cmo / setatt / CMO_HEX / ATT_NAME_E / 1 0 0 / 0
+intersect_elements / CMO_HEX / CMO_OBJ / ATT_NAME_E
+
+cmo / select / CMO_HEX
+eltset / e_obj / ATT_NAME_E / gt / 0
+
+* Add attribute. If it already exists, nothing happens.
+cmo/addatt/CMO_HEX/itetlev/vint/scalar/nelements
+
+eltset / elev  / itetlev / le / LEVEL
+eltset / e_refine / inter / elev e_obj
+refine/eltset / eltset,get, e_refine
+rmpoint / compress
+
+eltset / e_obj / delete
+eltset / e_refine / delete
+cmo / select / CMO_HEX
+
+cmo / printatt / CMO_HEX / itetlev / minmax
+*** infile for refine by intersect done ***
+
+finish
+
