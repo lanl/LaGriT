@@ -8,21 +8,20 @@ title: Demo Faults with Octree Refinement
 
 <!-- Begin image -->
 <p> Octree Refinement using Fault Surfaces
-
 <br>
-<a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a>
+<a href="images/hex_ref02_flts_xaxis.png"> <img width="350" src="images/hex_ref02_flts_xaxis.png" /> </a>
 </p>
 <br>
-<p> View and Evaluate Mesh and Fault Cell and Voronoi Volumes 
+
+<p> View and Evaluate Cell and Voronoi Volumes of the Mesh and the Fault Pieces to aid Model Setup 
+<br>
  <a href="images/hex3b_vor_vol_cut.png"> <img width="350" src="images/hex3b_vor_vol_cut.png" /> </a>
-
  <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="350" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
-
 </p>
 <br>
 <!-- End image -->
 
-This example demonstrates how to manage multiple fault objects for optimized fault resolutions. For each level of refinement (0=none, 1= half spacing, 2 = quarter spacing...) attributes are added and examined. This mesh starts with 100m spacing with refinement at intersection of two fault surfaces. 
+This example demonstrates how to manage multiple fault objects to control fault resolutions for intended volumes. For each level of refinement (0=none, 1= half spacing, 2 = quarter spacing...) attributes are added and examined. This mesh starts with 100m spacing with refinement at intersection of two fault surfaces. 
 
 Attributes are added to the fault and fault pieces to detirmine the level and extent of refinement.
 Fault ID 6 (near vertical) will be represented by a cell thickness of 12.5m with voronoi volumes 2 nodes thick with 2000 - 3500 m^3 each node
@@ -35,40 +34,33 @@ Main driver refining and writing files  [**`hex_refine.lgi`**](./hex_refine.lgi)
 For each LEVEL of resolution 0 to 3:
 - Refine hex mesh by intersected object [**`refine_object.mlgi`**](./refine_object.mlgi)
 - Add attributes including volumes to the mesh [**`hex_add_volumes.mlgi`**](./hex_add_volumes.mlgi)
-- Subset attribute mesh by intersection by fault surfaces [**`extract_hex_fault.mlgi`**](./extract_hex_fault.mlgi)
-- Subset hex faults into single node for thin faults [**`extract_thin_faults.mlgi`**](./extract_thin_faults.mlgi)
+- Subset the attribute mesh to cells intersected by fault surfaces [**`extract_hex_fault.mlgi`**](./extract_hex_fault.mlgi)
+- For thin faults, extract nodes from either side of the hex fault [**`extract_thin_faults.mlgi`**](./extract_thin_faults.mlgi)
 - Remove extra unused attributes [**`remove_attributes.mlgi`**](./remove_attributes.mlgi)
 
 
 
 ## CREATE HEX MESH
-This is Level 0 mesh that will be refined
 
-```
-# Mesh domain 100x50x80
-define / XMIN / 400.
-define / XMAX / 2600.
-define / YMIN / 200.
-define / YMAX / 2200.
-define / ZMIN / 4000.
-define / ZMAX / 5400.
+Create a hex mesh with a domain of 2200x2000x1400 meters and 100 m spacing using the **createpts** command in the main control file [**`hex_refine.lgi`**](./hex_refine.lgi). 
+For details on these commands see tutorial [Build a Hex Mesh](https://lanl.github.io/LaGriT/pages/tutorial/lagrit_introduction/step_01.html)
+This is Level 0 mesh that will be refined by halves using the octree method. If you know your target spacing, choose a level 0 mesh spacing that is multiples of 2. For example if you want a fault with 10m spacing, your level 0 hex mesh will need to have spacing of 20, 40, 80, or 160 etc.
 
-# Set the number of points along each axis
-# 2200x2000x1400 domain
-define / NX / 23
-define / NY / 21
-define / NZ / 15
+The output file *lagrit.out* and the screen reports the following about this mesh.
 
-# create hex mesh
-cmo / create / mohex / / / hex
-createpts/brick/xyz/ NX NY NZ / XMIN YMIN ZMIN/ XMAX YMAX ZMAX / 1,1,1
-cmo / setatt / mohex / imt / 1,0,0 / 1
-cmo / setatt / mohex / itetclr / 1,0,0 / 1
-resetpts/itp
-quality
-quality/edge_min
-dump/avs/hex0.inp/mohex
-```
+<pre class="lg-output">
+cmo/create/mohex///hex
+createpts/brick/xyz/NX NY NZ/XMIN YMIN ZMIN/XMAX YMAX ZMAX/1,1,1
+          Number of nodes:        7245
+          Number of elements:        6160
+          Number of negative volume elements:           0
+          Total volume:     0.616000000000E+10
+
+All elements have volume  1.0000000E+06
+min min edge length =  0.1000E+03  max min edge length =  0.1000E+03
+
+</pre>
+
 
 ## SET REFINE OBJECTS
 
