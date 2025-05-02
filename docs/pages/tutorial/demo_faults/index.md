@@ -76,7 +76,15 @@ addmesh/merge/mo_faults/mo_faults/mo_flt12
   cmo/printatt/mo_faults/itetclr/minmax
   cmo/printatt/mo_faults/-xyz-/minmax
   cmo/printatt/mohex/-xyz-/minmax
+
 ```
+
+
+<p> View of hex level 0 mesh with fault surfaces and subset by their intersection.
+<br> 
+<a href="images/hex0_surfs.png"> <img width="300" src="images/hex0_surfs.png" /> </a>
+<a href="images/hex0_fault_pieces.png"> <img width="300" src="images/fault_pieces.png" /> </a>
+</p>
 
 ## REFINE and VIEW RESULTS
 
@@ -323,27 +331,29 @@ finish
 
 ```
 
+<p> <a href="images/hex0_surfs.png"> <img width="200" src="images/hex0_surfs.png" /> </a></p>
+<p> <a href="images/hex0_fault_pieces.png"> <img width="200" src="images/fault_pieces.png" /> </a></p>
 
-<p> <a href="images/hex_ref02_flt.png"> <img width="400" src="images/hex_ref02_flt.png" /> </a></p>
-<p> <a href="images/hex_ref02_flts_xaxis.png"> <img width="400" src="images/hex_ref02_flts_xaxis.png" /> </a></p>
-<p> <a href="images/hex_ref02_flts_yaxis.png"> <img width="400" src="images/hex_ref02_flts_yaxis.png" /> </a></p>
+<p> <a href="images/hex_ref02_flt.png"> <img width="200" src="images/hex_ref02_flt.png" /> </a></p>
+<p> <a href="images/hex_ref02_flts_xaxis.png"> <img width="200" src="images/hex_ref02_flts_xaxis.png" /> </a></p>
+<p> <a href="images/hex_ref02_flts_yaxis.png"> <img width="200" src="images/hex_ref02_flts_yaxis.png" /> </a></p>
 
 
-<p> <a href="images/hex3b_faults_zoom.png"> <img width="400" src="images/hex3b_faults_zoom.png" /> </a></p>
+<p> <a href="images/hex3b_faults_zoom.png"> <img width="200" src="images/hex3b_faults_zoom.png" /> </a></p>
 
-<p> <a href="images/hex3b_itetlev.png"> <img width="400" src="images/hex3b_itetlev.png" /> </a></p>
-<p> <a href="images/hex3b_cell_vol.png"> <img width="400" src="images/hex3b_cell_vol.png" /> </a></p>
-<p> <a href="images/hex3b_vor_vol.png"> <img width="400" src="images/hex3b_vor_vol.png" /> </a></p>
-<p> <a href="images/hex3b_vor_vol_cut.png"> <img width="400" src="images/hex3b_vor_vol_cut.png" /> </a></p>
-<p> <a href="images/hex3b_edgemax.png"> <img width="400" src="images/hex3b_edgemax.png" /> </a></p>
-<p> <a href="images/hex3b_edgemin.png"> <img width="400" src="images/hex3b_edgemin.png" /> </a></p>
+<p> <a href="images/hex3b_itetlev.png"> <img width="200" src="images/hex3b_itetlev.png" /> </a></p>
+<p> <a href="images/hex3b_cell_vol.png"> <img width="200" src="images/hex3b_cell_vol.png" /> </a></p>
+<p> <a href="images/hex3b_vor_vol.png"> <img width="200" src="images/hex3b_vor_vol.png" /> </a></p>
+<p> <a href="images/hex3b_vor_vol_cut.png"> <img width="200" src="images/hex3b_vor_vol_cut.png" /> </a></p>
+<p> <a href="images/hex3b_edgemax.png"> <img width="200" src="images/hex3b_edgemax.png" /> </a></p>
+<p> <a href="images/hex3b_edgemin.png"> <img width="200" src="images/hex3b_edgemin.png" /> </a></p>
 
-<p> <a href="images/hex3b_surfs_cell_vol.png"> <img width="400" src="images/hex3b_surfs_cell_vol.png" /> </a></p>
-<p> <a href="images/hex3b_surfs_vor_vol.png"> <img width="400" src="images/hex3b_surfs_vor_vol.png" /> </a></p>
+<p> <a href="images/hex3b_surfs_cell_vol.png"> <img width="200" src="images/hex3b_surfs_cell_vol.png" /> </a></p>
+<p> <a href="images/hex3b_surfs_vor_vol.png"> <img width="200" src="images/hex3b_surfs_vor_vol.png" /> </a></p>
 
-<p> <a href="images/hex3b_fault_pieces_lev0.png"> <img width="400" src="images/hex3b_fault_pieces_lev0.png" /> </a></p>
-<p> <a href="images/hex3b_fault_pieces.png"> <img width="400" src="images/hex3b_fault_pieces.png" /> </a></p>
-<p> <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="400" src="images/hex3b_fault_pieces_vorvol.png" /> </a></p>
+<p> <a href="images/hex3b_fault_pieces_lev0.png"> <img width="200" src="images/hex3b_fault_pieces_lev0.png" /> </a></p>
+<p> <a href="images/hex3b_fault_pieces.png"> <img width="200" src="images/hex3b_fault_pieces.png" /> </a></p>
+<p> <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="200" src="images/hex3b_fault_pieces_vorvol.png" /> </a></p>
 
 
 </p>
