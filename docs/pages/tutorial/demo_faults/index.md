@@ -70,7 +70,10 @@ These faults were exported from an Earthvision Geologic model as triangulated su
 
 There are many ways surfaces may be processed and read by LaGriT. See [Demo Import Surfaces](surfaces/index.md)
 
-For easier management of fault objects, their names reflect their assigned ID. 
+For multiple objects used for refinement it is recommended they are merged into a single mesh oject.
+Assign a value to each for reference while merged. For this example **addmesh/merge** is used which will not change material values. **addmesh/append** will increment material values to each object appended to the final mesh. See more at [addmesh/merge](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html)
+
+ 
 
 ```
 read/avs/fault_surf06.inp/mo_flt6
@@ -78,10 +81,18 @@ read/avs/fault_surf12.inp/mo_flt12
 addmesh/merge/mo_faults/mo_faults/mo_flt6
 addmesh/merge/mo_faults/mo_faults/mo_flt12
   cmo/printatt/mo_faults/itetclr/minmax
-  cmo/printatt/mo_faults/-xyz-/minmax
-  cmo/printatt/mohex/-xyz-/minmax
-
 ```
+
+In the first call to addmesh, **mo_faults** is created and **mo_flt6** is copied. In the second call to addmesh, **mo_flt12** is added to mo_faults which now has both fault 6 and 12. This syntax can be scripted or used in a loop to easily merge a large number of objects into one mesh object. In this example fault 6 can still be used by its itetclr value of 6.
+
+Use cmo/printatt to confirm the merged mesh object has both 6 and 12.
+
+<pre class="lg-output">
+cmo/printatt/mo_faults/itetclr/minmax
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ itetclr                          6               12               6      9723
+
+</pre>
 
 
 <p> View of hex level 0 mesh with fault surfaces and subset by their intersection.
@@ -90,60 +101,43 @@ addmesh/merge/mo_faults/mo_faults/mo_flt12
 <a href="images/hex0_fault_pieces.png"> <img width="300" src="images/hex0_fault_pieces.png" /> </a>
 </p>
 
+
 ## REFINE and VIEW RESULTS
 
 This is the majority of work and can be skipped once resolutions are decided.
-View results to decide on preferred resolutions
+View results to evaluate and decide on preferred resolutions
  Use the following infile macros for each refinement
- 1. hex_add_volumes.mlgi
+ 1. [hex_add_volumes.mlgi](hex_add_volumes.md)
     Reduce octree to tet mesh and add volume attributes
 
  These are called seperately for each fault
  so each can be examined to decide on final resolution
- 2. extract_hex_fault.mlgi
+ 2. [extract_hex_fault.mlgi](extract_hex_fault.md)
     Extract intersected cells as refined hex faults
- 3. extract_thin_faults.mlgi
+ 3. [extract_thin_faults.mlgi](extract_thin_faults.md)
      Extract either side as single node thin faults
 
 ## START with LEVEL 0 100m spacing
 No Refinement
 
-**** WRITE RESULTS ****
-
 ```
-define MOHEX     mohex
-define MOVOL     movol
-
-# define the octree mesh name and volume tet mesh name
-# this is not an octree mesh yet so just make a copy
-cmo/copy/MOVOL/MOHEX
-cmo/addatt/MOVOL/itetlev/vint/scalar/nelements/linear/permanent//0.0
-  infile hex_add_volumes.mlgi
-
-# Write files for level 0 fault 6
-define MOHEX     movol
-define MATNO     6
-define MOS       mo_flt6
-define FILE_FLT  hex0_fault_6.inp
-define FILE_NFLT hex0_fault_6_side_n.inp
-define FILE_PFLT hex0_fault_6_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
-# Write files for level 0 fault 12
-define MOHEX     movol
-define MATNO     12
-define MOS       mo_flt12
-define FILE_FLT  hex0_fault_12.inp
-define FILE_NFLT hex0_fault_12_side_n.inp
-define FILE_PFLT hex0_fault_12_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
+infile hex_add_volumes.mlgi
+infile extract_hex_fault.mlgi
+infile extract_thin_faults.mlgi
 dump/hex0_attributes.inp/movol
-cmo/delete/movol
-cmo/status/brief
 ```
+
+Results (after converting to tets)
+
+
+<pre class="lg-output">
+ itetlev                          0                0               0      6160
+ vor_vol            1.250000000E+05  1.000000000E+06 8.750000001E+05      7245
+ cell_vol           1.000000000E+06  1.000000000E+06 0.000000000E+00      6160
+ edgemin            1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
+ edgemax            1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
+</pre>
+
 
 ## REFINE LEVEL 1 50m spacing with a single call using merged fault object
 
@@ -156,46 +150,14 @@ refine / eltset / eltset get e_refine
 cmo / setatt / mohex / if_inter / 1 0 0 / 0
 ```
 
+<pre class="lg-output">
+ itetlev                          0                1               1     12040
+ vor_vol            3.124999999E+04  1.000000000E+06 9.687500001E+05     15782
+ cell_vol           1.250000000E+05  1.000000000E+06 8.750000000E+05     12040
+ edgemin            5.000000000E+01  1.000000000E+02 5.000000000E+01     12040
+ edgemax            5.000000000E+01  1.000000000E+02 5.000000000E+01     12040
 
-
-**** WRITE RESULTS ****
-
-```
-define MOHEX     mohex
-define MOVOL     movol
-
-# convert octree mesh to standard form add attributes
-cmo/delete/MOVOL
-grid2grid/tree_to_fe/ MOVOL / MOHEX
-  dump/tmp_grid2grid.inp/MOVOL
-  quality
-  infile hex_add_volumes.mlgi
-
-# Write files for level 1 fault 6
-define MOHEX     movol
-define MATNO     6
-define MOS       mo_flt6
-define FILE_FLT  hex1_fault_6.inp
-define FILE_NFLT hex1_fault_6_side_n.inp
-define FILE_PFLT hex1_fault_6_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
-# Write files for level 1 fault 12
-define MOHEX     movol
-define MATNO     12
-define MOS       mo_flt12
-define FILE_FLT  hex1_fault_12.inp
-define FILE_NFLT hex1_fault_12_side_n.inp
-define FILE_PFLT hex1_fault_12_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
-dump/hex1_attributes.inp/movol
-cmo/delete/movol
-cmo/status/brief
-```
-
+</pre>
 
 ## REFINE LEVELS 2 and 3 using LOOP
 
@@ -204,6 +166,7 @@ cmo/status/brief
  loop/ do / variable / start stop stride/ loop_end / command
 
 ```
+
 # Definitions used in macro infile refine_object.mlgi
 define CMO_HEX    mohex
 define CMO_OBJ    mo_faults
@@ -219,46 +182,19 @@ loop / do / LOOP_VAR / 2 LOOP_MAX 1 / loop_end &
 
 ```
 
+Mesh node count 202831 and mesh tet count 147889
 
-**** WRITE RESULTS ****
+<pre class="lg-output">
+ itetlev                          0                3               3    147889
+ vor_vol            4.882812487E+02  1.000000000E+06 9.995117188E+05    202831
+ cell_vol           1.953125000E+03  1.000000000E+06 9.980468750E+05    147889
+ edgemin            1.250000000E+01  1.000000000E+02 8.750000000E+01    147889
+ edgemax            1.250000000E+01  1.000000000E+02 8.750000000E+01    147889
 
-```
-define MOHEX     mohex
-define MOVOL     movol
-
-# convert octree mesh to standard form add attributes
-cmo/delete/MOVOL
-grid2grid/tree_to_fe/ MOVOL / MOHEX
-  dump/tmp_grid2grid.inp/MOVOL
-  quality
-  infile hex_add_volumes.mlgi
-
-# Write files for level 3 fault 6
-define MOHEX     movol
-define MATNO     6
-define MOS       mo_flt6
-define FILE_FLT  hex3_fault_6.inp
-define FILE_NFLT hex3_fault_6_side_n.inp
-define FILE_PFLT hex3_fault_6_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
-# Write files for level 3 fault 12
-define MOHEX     movol
-define MATNO     12
-define MOS       mo_flt12
-define FILE_FLT  hex3_fault_12.inp
-define FILE_NFLT hex3_fault_12_side_n.inp
-define FILE_PFLT hex3_fault_12_side_p.inp
-  infile extract_hex_fault.mlgi
-  infile extract_thin_faults.mlgi
-
-dump/hex3_attributes.inp/movol
-cmo/delete/movol
-cmo/status/brief
-```
+</pre>
 
 ## REFINE and EXPAND level 3 around single fault 12
+Make sure neighbor and connecting cells are the same size to ensure the same voronoi volume around each node.
 
 
 ```
@@ -314,6 +250,25 @@ cmo/delete/movol
 cmo/status/brief
 ```
 
+
+Results for extracted fault and single side of fault
+
+<pre class="lg-output">
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ itetlev                          3                3               0     30255
+ cell_vol           1.953125000E+03  1.953125000E+03 0.000000000E+00     30255
+ vor_vol            4.882812492E+02  1.953125048E+03 1.464843798E+03     61581
+
+Thin fault
+
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
+ imt1                            12               12               0     30960
+ cell_vol           1.562500000E+02  1.562500000E+02 0.000000000E+00     30384
+ vor_vol            4.882812492E+02  1.953125048E+03 1.464843798E+03     30960
+
+</pre>
+
+
 ## WRITE FINAL REFINED MESH and ATTRIBUTES
 
 ```
@@ -334,6 +289,18 @@ dump/avs/ hex_refine_attributes.inp /MOVOL
 finish
 
 ```
+
+Mesh node count 264766 and tet count 208943
+
+<pre class="lg-output">
+
+ itetlev                          0                3               3    208943
+ vor_vol            4.882812462E+02  1.000000000E+06 9.995117188E+05    264766
+ cell_vol           1.953125000E+03  1.000000000E+06 9.980468750E+05    208943
+ edgemin            1.250000000E+01  1.000000000E+02 8.750000000E+01    208943
+ edgemax            1.250000000E+01  1.000000000E+02 8.750000000E+01    208943
+
+</pre>
 
 <p> <a href="images/hex0_surfs.png"> <img width="200" src="images/hex0_surfs.png" /> </a></p>
 <p> <a href="images/hex0_fault_pieces.png"> <img width="200" src="images/hex0_fault_pieces.png" /> </a></p>
