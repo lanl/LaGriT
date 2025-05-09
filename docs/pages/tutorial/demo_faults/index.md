@@ -66,7 +66,11 @@ min min edge length =  0.1000E+03  max min edge length =  0.1000E+03
 
 merge faults for easier refinement
 
-See Demo Import Surfaces
+These faults were exported from an Earthvision Geologic model as triangulated surfaces. The material ID 6 and 12 were assigned based on provided fault names.
+
+There are many ways surfaces may be processed and read by LaGriT. See [Demo Import Surfaces](surfaces/index.md)
+
+For easier management of fault objects, their names reflect their assigned ID. 
 
 ```
 read/avs/fault_surf06.inp/mo_flt6
@@ -83,7 +87,7 @@ addmesh/merge/mo_faults/mo_faults/mo_flt12
 <p> View of hex level 0 mesh with fault surfaces and subset by their intersection.
 <br> 
 <a href="images/hex0_surfs.png"> <img width="300" src="images/hex0_surfs.png" /> </a>
-<a href="images/hex0_fault_pieces.png"> <img width="300" src="images/fault_pieces.png" /> </a>
+<a href="images/hex0_fault_pieces.png"> <img width="300" src="images/hex0_fault_pieces.png" /> </a>
 </p>
 
 ## REFINE and VIEW RESULTS
@@ -332,7 +336,7 @@ finish
 ```
 
 <p> <a href="images/hex0_surfs.png"> <img width="200" src="images/hex0_surfs.png" /> </a></p>
-<p> <a href="images/hex0_fault_pieces.png"> <img width="200" src="images/fault_pieces.png" /> </a></p>
+<p> <a href="images/hex0_fault_pieces.png"> <img width="200" src="images/hex0_fault_pieces.png" /> </a></p>
 
 <p> <a href="images/hex_ref02_flt.png"> <img width="200" src="images/hex_ref02_flt.png" /> </a></p>
 <p> <a href="images/hex_ref02_flts_xaxis.png"> <img width="200" src="images/hex_ref02_flts_xaxis.png" /> </a></p>
