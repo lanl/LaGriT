@@ -222,7 +222,7 @@ Detail showing vor_vol 4.882812487E+02  5.167643229E+03
 <br>
 <a href="images/hex3_itetlev.png"> <img width="300" src="images/hex3_itetlev.png" /> </a>
 <a href="images/hex3_fault_pieces_vorvol.png"> <img width="400" src="images/hex3_fault_pieces_vorvol.png" /> </a>
-<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/fault_detail_vorvol.png" /> </a>
+<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
 </p>
 
 ## REFINE and EXPAND level 3 around single fault 12
