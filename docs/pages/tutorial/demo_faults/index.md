@@ -7,13 +7,14 @@ title: Demo Faults with Octree Refinement
 ## Featuring
 
 <!-- Begin image -->
-<p> Octree Refinement using Fault Surfaces
+<p> Detailed Example for Octree Refinement using Fault Surfaces
 <br>
+<a href="images/fault_surfaces.png"> <img width="350" src="images/fault_surfaces.png" /> </a>
 <a href="images/hex_ref02_flts_xaxis.png"> <img width="350" src="images/hex_ref02_flts_xaxis.png" /> </a>
 </p>
 <br>
 
-<p> View and Evaluate Cell and Voronoi Volumes of the Mesh and the Fault Pieces to aid Model Setup 
+<p> Evaluate Cell and Voronoi Volumes of the Meshed faults to aid Model Setup 
 <br>
  <a href="images/hex3b_vor_vol_cut.png"> <img width="350" src="images/hex3b_vor_vol_cut.png" /> </a>
  <a href="images/hex3b_fault_pieces_vorvol.png"> <img width="350" src="images/hex3b_fault_pieces_vorvol.png" /> </a>
@@ -66,7 +67,7 @@ min min edge length =  0.1000E+03  max min edge length =  0.1000E+03
 
 merge faults for easier refinement
 
-These faults were exported from an Earthvision Geologic model as triangulated surfaces. The material ID 6 and 12 were assigned based on provided fault names.
+These faults were exported from an Earthvision Geologic model as triangulated surfaces. The material ID 6 (green) and 12 (yellow) were assigned based on provided fault names. See image at page top.
 
 There are many ways surfaces may be processed and read by LaGriT. See [Demo Import Surfaces](surfaces/index.md)
 
@@ -95,29 +96,21 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
 </pre>
 
 
-<p> View of hex level 0 mesh with fault surfaces and subset by their intersection.
-<br> 
-<a href="images/hex0_surfs.png"> <img width="300" src="images/hex0_surfs.png" /> </a>
-<a href="images/hex0_fault_pieces.png"> <img width="300" src="images/hex0_fault_pieces.png" /> </a>
-</p>
+## VIEW RESULTS for each level of Refinement
 
+The cells and nodes used to represent faults often need refinement to more closely fit the surfaces and for more appropriate fault thickness. These steps aid in evaluating the faults at each refinement. As usual there is a trade off between a high number of nodes for best resolution vs the total number of nodes added by each level of refinement.
 
-## REFINE and VIEW RESULTS
+Once resolutions are decided, this can be skipped and used just once at the end to report volume information for each fault.
 
-This is the majority of work and can be skipped once resolutions are decided.
-View results to evaluate and decide on preferred resolutions
- Use the following infile macros for each refinement
- 1. [hex_add_volumes.mlgi](hex_add_volumes.md)
-    Reduce octree to tet mesh and add volume attributes
+The following infile macros are used at each refinement.
+ 
+1.  Connect nodes into a tet mesh for node and cell volumes [hex_add_volumes.mlgi](hex_add_volumes.md)
+2.  Extract intersected cells as refined hex fault pieces [extract_hex_fault.mlgi](extract_hex_fault.md)
+3.  Extract either side of hex piece as single node thin faults [extract_thin_faults.mlgi](extract_thin_faults.md)
 
- These are called seperately for each fault
- so each can be examined to decide on final resolution
- 2. [extract_hex_fault.mlgi](extract_hex_fault.md)
-    Extract intersected cells as refined hex faults
- 3. [extract_thin_faults.mlgi](extract_thin_faults.md)
-     Extract either side as single node thin faults
 
 ## START with LEVEL 0 100m spacing
+
 No Refinement
 
 ```
@@ -129,14 +122,22 @@ dump/hex0_attributes.inp/movol
 
 Results (after converting to tets)
 
+The itetlev is 0 so cells at 100x100x100 have volumes at 1.00E+06. The node voronoi volumes are also 1.00E+06 internally and 1.25E+05 at the boundary. The edgemin and edgemax are 100 meters as expected.
 
 <pre class="lg-output">
- itetlev                          0                0               0      6160
- vor_vol            1.250000000E+05  1.000000000E+06 8.750000001E+05      7245
- cell_vol           1.000000000E+06  1.000000000E+06 0.000000000E+00      6160
- edgemin            1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
- edgemax            1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
+ATTRIBUTE NAME      MIN               MAX         DIFFERENCE    LENGTH
+ itetlev                  0                0               0      6160
+ vor_vol    1.250000000E+05  1.000000000E+06 8.750000001E+05      7245
+ cell_vol   1.000000000E+06  1.000000000E+06 0.000000000E+00      6160
+ edgemin    1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
+ edgemax    1.000000000E+02  1.000000000E+02 0.000000000E+00      6160
 </pre>
+
+<p> View of hex level 0 mesh with fault surfaces and hex pieces subset by intersection.
+<br>
+<a href="images/hex0_surfs.png"> <img width="300" src="images/hex0_surfs.png" /> </a>
+<a href="images/hex0_fault_pieces.png"> <img width="300" src="images/hex0_fault_pieces.png" /> </a>
+</p>
 
 
 ## REFINE LEVEL 1 50m spacing with a single call using merged fault object
