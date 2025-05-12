@@ -165,11 +165,11 @@ cmo / setatt / mohex / if_inter / 1 0 0 / 0
 
 </pre>
 
-<p> View of hex level 1 mesh hex pieces colored by voronoi volumes.
+<p> View of hex level 1 mesh and fault pieces colored by voronoi volumes.
 <br>
 <a href="images/hex1_itetlev.png"> <img width="300" src="images/hex1_itetlev.png" /> </a>
-<a href="images/hex1_flt12_vor_vol.png"> <img width="300" src="images/hex1_flt12_vor_vol.png" /> </a>
-<a href="images/hex1_flt6_vor_vol.png"> <img width="300" src="images/hex1_flt6_vor_vol.png" /> </a>
+<a href="images/hex1_flt12_vor_vol.png"> <img width="350" src="images/hex1_flt12_vor_vol.png" /> </a>
+<a href="images/hex1_flt6_vor_vol.png"> <img width="350" src="images/hex1_flt6_vor_vol.png" /> </a>
 </p>
 
 
@@ -206,12 +206,23 @@ Node count: 202831
  edgemin            1.250000000E+01  1.000000000E+02 8.750000000E+01    147889
  edgemax            1.250000000E+01  1.000000000E+02 8.750000000E+01    147889
 
+fault 6
+ cell_vol           1.953125000E+03  1.953125000E+03 0.000000000E+00     22186
+ vor_vol            4.882812494E+02  3.417968781E+03 2.929687531E+03     44976
+
+fault 12
+ cell_vol           1.953125000E+03  1.953125000E+03 0.000000000E+00     30255
+ vor_vol            4.882812487E+02  5.167643229E+03 4.679361980E+03     61581
+
 </pre>
 
-<p> View of hex level 1 mesh hex pieces colored by voronoi volumes.
+Detail showing vor_vol 4.882812487E+02  5.167643229E+03
+
+<p> View of hex level 3 mesh and fault pieces colored by voronoi volumes.
 <br>
 <a href="images/hex3_itetlev.png"> <img width="300" src="images/hex3_itetlev.png" /> </a>
-<a href="images/hex3_fault_pieces_vorvol.png"> <img width="300" src="images/hex3_fault_pieces_vorvol.png" /> </a>
+<a href="images/hex3_fault_pieces_vorvol.png"> <img width="400" src="images/hex3_fault_pieces_vorvol.png" /> </a>
+<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/fault_detail_vorvol.png" /> </a>
 </p>
 
 ## REFINE and EXPAND level 3 around single fault 12
