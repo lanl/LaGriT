@@ -112,6 +112,8 @@ The following infile macros are used at each refinement.
 ## START with LEVEL 0 100m spacing
 
 No Refinement
+Node count: 7245
+
 
 ```
 infile hex_add_volumes.mlgi
@@ -142,6 +144,9 @@ ATTRIBUTE NAME      MIN               MAX         DIFFERENCE    LENGTH
 
 ## REFINE LEVEL 1 50m spacing with a single call using merged fault object
 
+Refine 1 time
+Node count: 15782
+
 ```
 # refine intersected hex cells
 cmo / select / mohex
@@ -159,6 +164,14 @@ cmo / setatt / mohex / if_inter / 1 0 0 / 0
  edgemax            5.000000000E+01  1.000000000E+02 5.000000000E+01     12040
 
 </pre>
+
+<p> View of hex level 1 mesh hex pieces colored by voronoi volumes.
+<br>
+<a href="images/hex1_itetlev.png"> <img width="300" src="images/hex1_itetlev.png" /> </a>
+<a href="images/hex1_flt12_vor_vol.png"> <img width="300" src="images/hex1_flt12_vor_vol.png" /> </a>
+<a href="images/hex1_flt6_vor_vol.png"> <img width="300" src="images/hex1_flt6_vor_vol.png" /> </a>
+</p>
+
 
 ## REFINE LEVELS 2 and 3 using LOOP
 
@@ -183,7 +196,8 @@ loop / do / LOOP_VAR / 2 LOOP_MAX 1 / loop_end &
 
 ```
 
-Mesh node count 202831 and mesh tet count 147889
+Refine 3 times
+Node count: 202831
 
 <pre class="lg-output">
  itetlev                          0                3               3    147889
@@ -194,9 +208,17 @@ Mesh node count 202831 and mesh tet count 147889
 
 </pre>
 
-## REFINE and EXPAND level 3 around single fault 12
-Make sure neighbor and connecting cells are the same size to ensure the same voronoi volume around each node.
+<p> View of hex level 1 mesh hex pieces colored by voronoi volumes.
+<br>
+<a href="images/hex3_itetlev.png"> <img width="300" src="images/hex3_itetlev.png" /> </a>
+<a href="images/hex3_fault_pieces_vorvol.png"> <img width="300" src="images/hex3_fault_pieces_vorvol.png" /> </a>
+</p>
 
+## REFINE and EXPAND level 3 around single fault 12
+Make sure neighbor and connecting cells are the same size to ensure the same voronoi volume around each node representing this fault.
+
+Refine both faults 3 times, one fault refinement is expanded
+Node count: 264766
 
 ```
 # refine intersected hex cells for fault 12
