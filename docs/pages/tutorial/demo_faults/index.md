@@ -220,9 +220,8 @@ Detail showing vor_vol 4.882812487E+02  5.167643229E+03
 
 <p> View of hex level 3 mesh and fault pieces colored by voronoi volumes.
 <br>
-<a href="images/hex3_itetlev.png"> <img width="300" src="images/hex3_itetlev.png" /> </a>
+<a href="images/hex3_itetlev.png"> <img width="400" src="images/hex3_itetlev.png" /> </a>
 <a href="images/hex3_fault_pieces_vorvol.png"> <img width="400" src="images/hex3_fault_pieces_vorvol.png" /> </a>
-<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
 </p>
 
 ## REFINE and EXPAND level 3 around single fault 12
@@ -230,6 +229,15 @@ Make sure neighbor and connecting cells are the same size to ensure the same vor
 
 Refine both faults 3 times, one fault refinement is expanded
 Node count: 264766
+
+<p> Fault 12 with variable voronoi volumes (left) and level 3 refinement expanded for constand volumes (right) 
+<br>
+<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
+<a href="images/hex3b_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
+</p>
+
+This expands the level 3 refinement area around fault 12 so fault cells are connected to cells of the same level and size. This ensures that fault 12 nodes will all have the same voronoi volumes, except on the boundaries as expected.
+
 
 ```
 # refine intersected hex cells for fault 12
