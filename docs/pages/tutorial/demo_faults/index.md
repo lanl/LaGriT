@@ -230,10 +230,14 @@ Make sure neighbor and connecting cells are the same size to ensure the same vor
 Refine both faults 3 times, one fault refinement is expanded
 Node count: 264766
 
-<p> Fault 12 with variable voronoi volumes (left) and level 3 refinement expanded for constand volumes (right) 
+<p> Fault 12 with variable voronoi volumes depending on connected cells 
 <br>
-<a href="images/hex3_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
-<a href="images/hex3b_fault_detail_vorvol.png"> <img width="400" src="images/hex3_fault_detail_vorvol.png" /> </a>
+<a href="images/hex3_fault_detail_vorvol.png"> <img width="450" src="images/hex3_fault_detail_vorvol.png" /> </a>
+</p>
+
+<p> Fault 12 with level 3 refinement expanded for constand volumes
+<br>
+<a href="images/hex3b_fault_detail_vorvol.png"> <img width="450" src="images/hex3b_fault_detail_vorvol.png" /> </a>
 </p>
 
 This expands the level 3 refinement area around fault 12 so fault cells are connected to cells of the same level and size. This ensures that fault 12 nodes will all have the same voronoi volumes, except on the boundaries as expected.
