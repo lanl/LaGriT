@@ -38,6 +38,9 @@ After the container launches, navigate to:
     $ cd bin
     $ ./lagrit
 
+
+*Docker is no longer available from LANL EES servers as of Sep 1 2025.*
+
 ---
 
 ### Building LaGriT
