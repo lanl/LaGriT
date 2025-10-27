@@ -10,6 +10,8 @@
 
 // #define DEBUG 1;
 
+const double SCALEFACTOR = 0.9; 
+
 using std::cout;
 using std::endl;
 using std::string;
@@ -19,7 +21,7 @@ std::uniform_real_distribution<> uniform01_3D(0, 1);
 // std::mt19937_64 generator(0);
 // Initialize random generator with seed ( see c++ <random> )
 // Mersene Twister 19937 generator (64 bit)
-/*******************************************************************/
+/*******************************************************************a
 /*******************************************************************/
 /*! Gets time based seed
     Return: Seed based on the system clock */
@@ -49,7 +51,7 @@ double Domain::uniformDistribution() {
 void Domain::sampleEdges() {
     cout << "Sampling points on edges" << endl;
     vector<Point> boundaryNodes;
-    
+
     for (unsigned int i = 0; i < edges.size(); i++) {
          // cout << "Sampling along edge " << i << " which connects " << edges[i].i << " and " << edges[i].j << endl;
         vector<Point> lineNodes;
@@ -65,6 +67,7 @@ void Domain::sampleEdges() {
     
     for (unsigned int i = 0; i < numNodes; i++) {
         getExclusionRadius(nodes[i]);
+        nodes[i].radius *= SCALEFACTOR * 0.9;
         nodes[i].nodeNum = i + 1;
         tagNeighborCells(nodes[i]);
     }
@@ -86,24 +89,31 @@ vector<Point> Domain::sampleAlongLine(Point x0, Point x1) {
     prevSample.y = x0.y;
     prevSample.z = x0.z;
     getExclusionRadius(prevSample);
+    prevSample.radius *= SCALEFACTOR; 
+
     distance = distance3D(x0, x1);
     direction[0] = (x1.x - x0.x) / distance;
     direction[1] = (x1.y - x0.y) / distance;
     direction[2] = (x1.z - x0.z) / distance;
     // maximum number of points between vertices
     unsigned int numPoints;
-    numPoints = int(floor(distance / h));
+    numPoints = int(ceil(distance / (h * SCALEFACTOR)));
     
     for (unsigned int i = 0; i < numPoints; i++) {
         // sample new point frm Uniform distribution on [0.9*local_radius,1.1*local_radius]
         increment = uniformDistribution() * 0.2 * prevSample.radius + 0.9 * prevSample.radius;
+        // increment = ( uniformDistribution() * 0.2+ 0.9) * prevSample.radius;
+        // increment = prevSample.radius; 
+        // cout << 'line increment: ' << increment << endl; 
         prevSample.x = prevSample.x + direction[0] * increment;
         prevSample.y = prevSample.y + direction[1] * increment;
         prevSample.z = prevSample.z + direction[2] * increment;
         
         // make sure the point is in the domain and not too close the end point
-        if (inBoundingBox(prevSample) && (distance3D(prevSample, x1) > 0.5 * prevSample.radius)) {
+        if (inBoundingBox(prevSample) && (distance3D(prevSample, x1) > 0.75 * prevSample.radius)) {
             getExclusionRadius(prevSample);
+            prevSample.radius *= SCALEFACTOR;
+
             prevSample.ix = getNeighborGridCellID(prevSample.x, xMin);
             prevSample.iy = getNeighborGridCellID(prevSample.y, yMin);
             prevSample.iz = getNeighborGridCellID(prevSample.z, zMin);
@@ -125,7 +135,7 @@ void Domain::acceptCandidate(Point &point) {
     tagNeighborCells(point);
     // add point to the node vector
     nodes.push_back(point);
-    //printPoint(newPoint);
+    // printPoint(point);
 }
 
 
@@ -150,73 +160,69 @@ void Domain::sampleFaces() {
     
     }
     */
-    
+    int faceNumSamples;
+    faceNumSamples = 10*numSamples; 
+
     for (unsigned int faceID = 0; faceID < 6; faceID++) {
         cout << "Sampling along face " << faceID << endl;
-        
         for (unsigned int i = 0; i < numNodes; i++) {
+            // nodes[i].radius *= SCALEFACTOR; 
             if (faceID == 0 && nodes[i].z == zMin) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint, SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
                 }
             } else if (faceID == 1 && nodes[i].z == zMax) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint, SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
                 }
             } else if (faceID == 2 && nodes[i].x == xMin) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint, SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
                 }
             } else if (faceID == 3 && nodes[i].x == xMax) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint,SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
                 }
             } else if (faceID == 4 && nodes[i].y == yMin) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint,SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
                 }
             } else if (faceID == 5 && nodes[i].y == yMax) {
-                for (unsigned int k = 0; k < numSamples; k++) {
+                for (unsigned int k = 0; k < faceNumSamples; k++) {
                     // Create new points within an anulus around current point
                     newPoint = newCandidateOnFace(nodes[i], faceID);
-                    
                     // test new point
-                    if (testCandidate(newPoint)) {
+                    if (testCandidate(newPoint, SCALEFACTOR)) {
                         acceptCandidate(newPoint);
                         newPointCnt++;
                     }
@@ -227,6 +233,7 @@ void Domain::sampleFaces() {
     
     cout << "Sampling on Faces Complete" << endl;
     cout << newPointCnt << " points added on the faces\n\n" << endl;
+
 }
 
 // angle = uniformDistribution() * M_PI * 2.0;
@@ -238,7 +245,10 @@ Point Domain::newCandidateOnFace(Point currentPoint, unsigned int faceID) {
     Point newPoint;
     double radius, angle;
     // sample from an annulus with inner radius h and outter 1.5h;
-    radius = uniformDistribution() * 1.5 * currentPoint.radius + currentPoint.radius;
+    // printPoint(currentPoint);
+    radius = uniformDistribution() * 1.5 * currentPoint.radius +  0.9 * currentPoint.radius;
+    // cout << "new radius: " << radius << endl; 
+
     // random rotation within the annulus
     angle = uniformDistribution() * M_PI * 2.0;
     
@@ -317,7 +327,7 @@ void Domain::mainSampling(unsigned int startIndex, bool restartFlag) {
             newPoint = newCandidate(nodes[i]);
             
             // test new point
-            if (testCandidate(newPoint)) {
+            if (testCandidate(newPoint, 1)) {
                 acceptCandidate(newPoint);
                 newPointCount++;
                 // if (numNodes % 100 == 0){
@@ -371,7 +381,7 @@ Point Domain::newCandidate(Point currentPoint) {
     * Checks if grid cell in empty
     * Checks distance to nearby points is greater than local tolerance
 */
-bool Domain::testCandidate(Point &newPoint) {
+bool Domain::testCandidate(Point &newPoint, double radiusScaleFactor) {
     // Check 1
     // Check if point is within the bounding box of the polygon.
     // This first check is cheap and easy, so it's done first.
@@ -418,7 +428,7 @@ bool Domain::testCandidate(Point &newPoint) {
     cout << "getExclusionRadius  " << endl;
 #endif
     getExclusionRadius(newPoint);
-    
+    newPoint.radius *= radiusScaleFactor; 
     // Check 4
     // Check to ensure new point is not within the exclusion radius
     // of accepted points

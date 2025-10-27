@@ -294,7 +294,7 @@ unsigned int Domain::fillEmptyCells() {
                 newPoint.y = uniformDistribution() * cellSize + yCellMin;
                 newPoint.z = uniformDistribution() * cellSize + zCellMin;
                 
-                if (testCandidate(newPoint)) {
+                if (testCandidate(newPoint, 1)) {
                     numNodes++;
                     newPoints++;
                     newPoint.nodeNum = numNodes;

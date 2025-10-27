@@ -142,7 +142,7 @@ class Domain {
     void mainSampling(unsigned int startIndex, bool restartFlag);
     void resample();
     Point newCandidate(Point currentPoint);
-    bool testCandidate(Point &newPoint);
+    bool testCandidate(Point &newPoint, double scaleFactor);
     void acceptCandidate(Point &newPoint);
     bool emptyDiskProperty(Point newPoint);
     void sampleEdges();

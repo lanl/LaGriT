@@ -1543,14 +1543,14 @@ C
       np_y = ceiling(delta_y/h)
       np_z = ceiling(delta_z/h)
 
-C      np_x = 1.5*np_x
-C      np_y = 1.5*np_y
-C      np_z = 1.5*np_z
+      np_x = 1.5*np_x
+      np_y = 1.5*np_y
+      np_z = 1.5*np_z
 C
 C     Test lower resolution TEST TEST TEST
-      np_x = 0.4*np_x
-      np_y = 0.4*np_y
-      np_z = 0.4*np_z
+C      np_x = 0.4*np_x
+C      np_y = 0.4*np_y
+C      np_z = 0.4*np_z
 C     Test lower resolution TEST TEST TEST
 
       dx_lookup = delta_x/np_x

@@ -79,6 +79,7 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
     domain.numSamples = *numSamples;
     domain.resampleSweeps = *resampleSweeps;
     domain.seed = *seed;
+
     cout << "---------------------------------------" << endl;
     cout << "Poisson Disc Sampling Parameters:" << endl;
     cout << "h for sampling:\t\t\t\t" << domain.h << "\n" << endl;
@@ -105,7 +106,11 @@ void poisson_3d_(char mo_poi_pts_out_in[LG_NAME_SIZE], char mo_poi_h_field_in[LG
     domain.initializeVariables();
     domain.initializeNeighborGrid();
     domain.sampleEdges();
-    domain.sampleFaces();
+    // resample over faces a few times
+    for (unsigned int i = 0; i < 4; i++){
+        domain.sampleFaces();
+    }
+
     domain.mainSampling(0, false);
     domain.findEmptyCells();
     domain.fillEmptyCells();
