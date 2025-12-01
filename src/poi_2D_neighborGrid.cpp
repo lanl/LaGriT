@@ -5,6 +5,7 @@
 #include <vector>
 // #include <bits/stdc++.h>
 #include <algorithm>    // std::sort
+#include <iomanip>
 
 #include "poi_2D_polygon.h"
 #include "poi_2D_sampling.h"
