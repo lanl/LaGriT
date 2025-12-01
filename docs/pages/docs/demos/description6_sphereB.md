@@ -1,5 +1,5 @@
 ---
-title: Example 6: creatpts in a spherical geometry using shells as region  boundaries
+title: "Example 6: creatpts in a spherical geometry using shells as region  boundaries"
 ---
 
  Example 6: creatpts in a spherical geometry using shells as region

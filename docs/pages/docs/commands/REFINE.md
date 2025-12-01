@@ -287,4 +287,68 @@ refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 3
 ```
 refine the material 2 elements of a hex mesh , refine only in the Z vertical direction
 
+## Octree Example with loop
+
+Use a loop to refine up to itetlev = 3 but not 4. This will select elements with itetlev < 3 to refine.
+
+```
+* Refine to octree itetlev= 3 elements that are intersected by cmo_3
+*
+define / CMO_OBJ / cmo_3
+define / LEVEL / 3
+define / LOOP_MAX / 4
+*
+loop / do / LOOP_VAR 1 LOOP_MAX 1 / loop_end infile refine_object.mlgi
+
+```
+
+
+The loop uses this infile refine_object.mlgi
+
+<pre>
+ ****************************************
+*
+* Refine based on intersection with object
+*
+****************************************
+* External definitions
+*
+* CMO_HEX - Mesh object to be intersected
+* CMO_OBJ - Mesh object that intersects CMO_HEX
+* LEVEL - refine level 0, 1, 2, 3, ...
+*
+****************************************
+*
+cmo / printatt / CMO_HEX / -xyz- / minmax
+cmo / printatt / CMO_OBJ  / -xyz- / minmax
+*
+*
+* Refine elements that are intersected by CMO_OBJ
+*
+cmo / setatt / CMO_HEX / xsect / 1 0 0 / 0
+intersect_elements / CMO_HEX / CMO_OBJ / xsect
+
+cmo / select / CMO_HEX
+eltset / e_obj / xsect / gt / 0
+*
+* Add this just in case. If it already exists, nothing
+* will happen. If it does not exist, it gets added and set to zero
+*
+cmo/addatt/CMO_HEX/itetlev/vint/scalar/nelements
+*
+eltset / elev  / itetlev / le / LEVEL
+eltset / e_refine / inter / elev e_obj
+*
+refine/eltset / eltset,get, e_refine
+rmpoint / compress
+
+eltset / e_obj / delete
+eltset / e_refine / delete
+****************************************
+cmo / select / CMO_HEX
+cmo / printatt / CMO_HEX / itetlev / minmax
+*
+finish
+</pre>
+
 

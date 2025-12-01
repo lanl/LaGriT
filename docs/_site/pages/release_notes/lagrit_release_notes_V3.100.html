@@ -1,0 +1,433 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT Release Notes V3.1</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h2 id="lagrit-v3108-july-2016">LaGriT V3.108 July 2016</h2>
+
+<p>The was the Last version released under Open Distribution license LA-CC-2012-084 before Open Source.</p>
+
+<p>This code was tagged in Mercurial as V3.108 and used to start open-source repository on github.</p>
+
+<p>This includes work by summer student Mikita Yankouski with WIN development using Cygwin.</p>
+<ul>
+  <li>Added top level python control suite, and standarized level02 output files. See instructions.txt and cmake-script.</li>
+  <li>Files changed for WIN are opsys.h and type_sizes.h to account for win64 and changed define for SIZEOF_LONG</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>file: opsys.h
+#ifdef win64
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 8
+ #define SIZEOF_VOIDP 8
+ #define MAX_UINT 18446744073709551615.00 
+#endif
+         
+#ifdef win64
+ #define int_ptrsize long long
+
+file: type_sizes.h
+#ifdef __CYGWIN__
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 4
+ #define SIZEOF_VOIDP 8
+#endif 
+
+file: machine_header.h
+#ifdef win64
+ #define FCV_UNDERSCORE
+ #define SIZEOF_INT 4
+ #define SIZEOF_LONG 8
+ #define SIZEOF_VOIDP 8
+#endif
+
+file: Makefile
+ifeq ($(COMPILER), cygwin)
+  SUFFC = _cygwin
+  FC = /bin/gfortran
+  CC = /bin/gcc
+  CXX = /bin/c++
+  FC90 = /bin/gfortran
+  OSTAG = _cygwin
+         
+ FFLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+ FF90FLAGS = -fcray-pointer -fdefault-integer-8 -m64 -Dwin64
+ CFLAGS = -m64 -Dwin64 
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="lagrit-v3106-august-2015">LaGriT V3.106 August 2015</h2>
+
+<p>Major update to write PFLOTRAN type option stor file and new syntax using Exodus II 6.9 libraries.</p>
+
+<p><em>Note: The LaGriT run-time banner shows V3.2 with compile date Aug 2015,
+even though it is actually a branch from V3.106.</em></p>
+
+<h3 id="enhancements">Enhancements:</h3>
+
+<ul>
+  <li><strong>dump / pflotran</strong> Writes .uge file for pflotran and is used by the DFN suite of scripts. The deve directory is in <em>/n/swdev/LAGRIT/work/pflotran</em>. The syntax looks like:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   dump / pflotran / root_name / cmo_name
+   dump / pflotran / root_name / cmo_name / nofilter_zero
+</code></pre></div></div>
+
+<ul>
+  <li><strong>dump / exo</strong> calls ExodusII new routines changed from V5 to V6. LaGriT command syntax is unchanged.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>           http://sourceforge.net/projects/exodusii/files/
+           Exodus II 6.09
+           HDF5 version 1.8.6
+           netcdf-4.1.3
+</code></pre></div></div>
+
+<ul>
+  <li><em>exo block id</em> modified to input digit instead of <em>digit</em>0000. All exodus files are same as Exodus II 5, except for the block id.
+ Tests have been updated resulting in the following differences:</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        Exodus 6.09:
+        &lt;               :api_version = 6.09f ;
+        &lt;               :version = 6.09f ;
+        ---
+        &lt;  eb_prop1 = 1, 2, 3 ;
+
+        Exodus 5.22a:
+                       :api_version = 5.22f ;
+                       :version = 5.22f ;
+        ---
+          eb_prop1 = 10000, 20000, 30000 ;
+</code></pre></div></div>
+
+<ul>
+  <li><strong>compress_eps</strong> new cmo attribute for stor file allowing user to extend range of ccoef values by setting mesh attribute compress_eps (from default 1e-8). Changing value of compress_epsilon seemed to help loss of coeffs with large aspect ratios.</li>
+</ul>
+
+<h3 id="these-issues-were-fixed">These issues were fixed:</h3>
+
+<ul>
+  <li>
+    <p><strong>dump / stor</strong> corrected bug for 2D grids that overwrite volic with incorrect value if grid is non-planer.</p>
+  </li>
+  <li>
+    <p><strong>dump / fehm</strong> add space between ns and nelements, increase to i12</p>
+  </li>
+  <li>
+    <p><strong>read / fehm</strong> fixed seg fault for 0 elem report message by using a,a instead of a in write format.</p>
+  </li>
+  <li>
+    <p><em>build ExodusII6 libraries</em> The following issue was fixed when building static libraries with exodus:</p>
+  </li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>These are the external libs used with LaGriT V3.1 As of November 2012
+         http://sourceforge.net/projects/exodusii/files/
+         Exodus II 5.22a
+         HDF5 version 1.8.6
+         netcdf-4.1.3
+         
+Error in Library inclusion order in the following places:
+        1. /n/swdev/src/exodusii/exodus-6.09/exodus/cbind/CMakeList.txt 
+            Line 284
+        2. /n/swdev/src/exodusoo/exodus-6.09/exodus/forbind/CMakeList.txt
+            Line 62
+            
+Solution was to switch ${HDF5_LIBRARY with ${HDF5HL_LIBRARY
+    
+Linux RHEL Exodus 5 libraries were built in /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus
+
+Build executable for linux:
+gfortran -O -Dlinx64 -static -fcray-pointer -fdefault-integer-8 -fno-sign-zero -o mylagrit lagrit_main.o lagrit_fdate.o lagrit_lin64_o_gf4.5.a /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/lg_util/lib/util_lin64_o_gfort4.5.a -L /n/swdev/LAGRIT/VERS_3.100_012_NOV09/build_lagrit/exodus/lin64/lib -lexoIIv2for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -lm -lstdc++
+
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="lagrit-v3101-november-2013">LaGriT V3.101 November 2013</h2>
+
+<p>Note for DFNWorks applications using LaGriT, this version does NOT have the PFLOTRAN file option.
+This version of code uses ExodusII 5 routine calls. These are replaced with ExodusII 6 in newer versions.</p>
+
+<p>V3.103 is last version lagrit code using Exodus 5 libs</p>
+
+<p>V3.104 is new  version lagrit code using Exodus 6 libs</p>
+
+<h3 id="enhancements-1">Enhancements:</h3>
+
+<ul>
+  <li><strong>read / zone</strong> or <strong>zone_element</strong> added option zone_element which allows reading of node or element list in FEHM zone or zonn format. Each node or element number found in the list has attribute tagged.</li>
+</ul>
+
+<h3 id="these-issues-were-fixed-1">These issues were fixed:</h3>
+
+<ul>
+  <li>
+    <p><strong>addatt</strong>/mo_tri / <strong>unit_area_normal</strong> fixed incorrect zero result and fixed attribute handling so vector array is formed using irank = 3.</p>
+  </li>
+  <li>
+    <p><strong>cmo/addatt/</strong> mo/ <strong>area_normal/xyz/</strong> Result is off by factor of 2, fixed area normal to assign half the cross product (for triangles).</p>
+  </li>
+  <li>
+    <p><strong>synth_norm</strong> fixed handling of attributes. The synthetic normals were creating a dummy attribute not used because offsetsurf is creating x_n_norm y_n_norm z_n_norm on the input cmo. Attribute names are ignored on the command line, added better reporting for this.</p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="lagrit-v3100-november-2012">LaGriT V3.100 November 2012</h2>
+
+<p>Major changes to most parts of the code to enable 64 bit compilation and
+added external ExodusII 5 libraries to write Exodus basic mesh files.
+This includes work by Quan Bui for ExodusII node sets and element sets.</p>
+
+<h3 id="enhancements-2">Enhancements:</h3>
+
+<ul>
+  <li><strong>dump / exo</strong> Now includes netcdf and exodus libs for writing exodus mesh files and reading and writing facesets.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        Syntax:
+          dump / exo / ifile / cmoname
+
+          Dump exodus files with/without facesets, fast/slow options:
+          dump / exo / ifile / cmoname / facesets / on
+          dump / exo / ifile / cmoname / facesets / off
+          dump / exo / ifile / cmoname / facesets / on file1,file2,...filen
+          dump / exo / ifile / cmoname / facesets / off file1,file2,...filen
+
+          write exo pset and eltsets:
+          dump / exo / filenam.exo / cmoname / psets / eltsets /
+          dump/exo/mesh_07.exo/mo7//eltsets/ &amp;
+             facesets bc01.faceset &amp;
+             bc02.faceset bc03.faceset bc04.faceset &amp;
+             bc05.faceset bc08.faceset bc09.faceset
+          dump/exo/mesh_06.exo/mo6/psets// &amp;
+             facesets bc01.faceset &amp;
+             bc02.faceset bc03.faceset bc04.faceset &amp;
+             bc05.faceset bc08.faceset bc09.faceset
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><strong>dump</strong> 3 token short syntax for dump (avs,gmv,lg,lagrit,ts,exo)</p>
+  </li>
+  <li>
+    <p><strong>extract/surfmesh</strong> Now creates attributes to hold element local face numbers of 3D
+  input mesh that occur on either side of output mesh face, idface0
+  and idface1. Now copies user-created node-based attributes from
+  source.</p>
+  </li>
+  <li>
+    <p><strong>interpolate</strong>  Changed interpolate to “find” more points on edges this will permit
+ nodes to find a nearest edge or point and be “inside” the triangle
+ for extreme small or large numbers where epsilon values are
+ difficult to evaluate correctly.</p>
+  </li>
+  <li><strong>massage</strong> Added option for massage to refine based on an attribute field.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Syntax:
+       massage / [bisection length/field name] / merge_length / toldamage / ...
+</code></pre></div>    </div>
+  </li>
+  <li><strong>massage2</strong> Under development massage2 syntax for incremental refinement strategies.
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Syntax:
+       massage2/ [file name] / [Target Length Scale]/[field name]/ &amp;
+          merge_length/toldamage/[tolroughness]/[ifirst,ilast,istride]/ ...
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><strong>math</strong> add modulo and mod options</p>
+  </li>
+  <li>
+    <p><strong>recon</strong> Code improvements related to recon 0 and recon 1 will result in
+ slightly different but better connectivity results.</p>
+  </li>
+  <li><strong>sort</strong> Added line sort by nodes or elements for creating valid polygons
+ that can be read and used by other routines.</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   Syntax:
+          sort / line_graph / cmo / ascending  descending / [key] / [nodes/elements]
+</code></pre></div></div>
+
+<h3 id="these-issues-were-fixed-2">These issues were fixed:</h3>
+
+<ul>
+  <li>
+    <p>cmo/copyatt fix copy from node attribute to elem attribute of equal length</p>
+  </li>
+  <li>
+    <p>cmo/readatt fix to allow character in first position which will be skipped</p>
+  </li>
+  <li>
+    <p>minor fixes related to 64 bit code changes. Improved error catching for common routines.</p>
+  </li>
+</ul>
+
+<hr />
+
+<p><em>Changesets tracked in Mercurial/Trac on ancho.lanl.gov/lagrit</em></p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

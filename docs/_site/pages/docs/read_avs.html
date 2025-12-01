@@ -1,0 +1,334 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>read / avs</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="read--avs">read / avs</h1>
+
+<p>read an AVS format file into a mesh object. This command requires either cmo-name to be given in
+the command or for a mesh object to have been created previously. This file format contains no geometry
+information. </p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<p><strong>read</strong>/ filename.[inp or .avs] / cmo_name</p>
+
+<p><strong>read</strong> <strong>/avs</strong>/ filename /[cmoname]/[ node_flag / element_flag / attribute_flag]</p>
+
+<h2 id="options">OPTIONS</h2>
+<p> </p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Argument</th>
+      <th style="text-align: left">Default</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">node_flag</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0=skip node data   1=read node data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">element_flag</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0=skip element data  1=read element data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">attribute_flag</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0=skip attribute data 1=read attribute data</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read/ file1.inp /cmo1
+read/ avs / file1 /cmo1
+</code></pre></div></div>
+
+<p>read into existing and current mesh object
+and skip, do not read the attribute data</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read/ avs / file2.avs / /1/1/0
+</code></pre></div></div>
+
+<h2 id="avs-ucd-ascii-file-format">AVS UCD ASCII FILE FORMAT</h2>
+
+<p>AVS (avs.com) is a data visualization tool with ASCII mesh file formats used by LaGriT as they are easy to read and easy to convert from and to other mesh file formats. The Unstructured Cell Data (UCD) format is described here.</p>
+
+<p>A UCD data structure consists of an irregular coordinate structure made up of cells of various types.
+Each cell has a corresponding number of nodes and connectivity. 
+Data can be associated with each node, cell, or the entire “model”.<br />
+The data is structured as a set of components. Each component can be either a scalar or a vector.
+The input file cannot contain blank lines or lines with leading blanks. 
+Comments, if present, must precede all data in the file. 
+The general order of the data is as follows.</p>
+
+<ol>
+  <li>
+    <p>Numbers defining the overall structure, including the number of nodes, the number of cells, and the length of the vector of data associated with the nodes, cells, and the model.</p>
+  </li>
+  <li>
+    <p>For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.</p>
+  </li>
+  <li>
+    <p>For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity.</p>
+  </li>
+</ol>
+
+<p>These are the valid AVS cell types with node order relative to LaGriT ordering conventions as shown at <strong><a href="/pages/docs/supported.html">LaGriT Supported Element Types</a></strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pt    (Point)          avs order  = lagrit order
+line  (Line)           avs order  = lagrit order
+tri   (Triangle)       avs order  = lagrit order
+quad  (Quadrilateral)  avs order  = lagrit order
+tet   (Tetrahedron)    avs order  = 1 2 4 3 
+pyr   (Pyramid)        avs order  = 5 1 2 3 4 
+prism (Prism)          avs order  = 4 5 6 1 2 3 
+hex   (Hexahedron)     avs order  = 5 6 7 8 1 2 3 4 
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.</p>
+  </li>
+  <li>
+    <p>For each node data a label on seperate lines; label/unit label pair, separated by a comma.</p>
+  </li>
+  <li>
+    <p>For each node in a separate line, the vector of data values associated with it.</p>
+  </li>
+  <li>
+    <p>Cell based data descriptions, if present, then follow in the same order and format as items 4, 5, and 6.</p>
+  </li>
+</ol>
+
+<p>This is the format of the AVS ASCII UCD file:</p>
+<pre>
+
+# comment  
+num_nodes  num_cells  num_node_data  num_cell_data  num_model_data 
+node_id_1 x y z 
+. . .
+node_id_n x y z
+cell_id_1 mat_id  cell_type  cell_vert 1 ... cell_vert n 
+. . .
+cell_id_n mat_id  cell_type  cell_vert 1 ... cell_vert n
+num_node_data  node_data_1_size node_data_n_size
+node_data_1_label, units_data_1 
+. . .
+node_data_n_label, units_data_n
+node_id_1  node_data_1 ...  node_data_n
+. . .
+node_id_n  node_data_1 ...  node_data_n
+num_cell_data  cell_data_1_size cell_data_n_size
+cell_data_1_label, units_data_1 
+. . .
+cell_data_n_label, units_data_n
+cell_id_1  cell_data_1 ...  cell_data_n
+. . .
+cell_id_n  cell_data_1 ...  cell_data_n
+</pre>
+
+<p>This is an Example ASCII UCD File for a single hexahedral cell with 8 nodes.  The first line header indicates 8 nodes, 1 element, 2 node attributes, 0 element attributes, 0 model attributes. In the section where attributes are defined, the first line indicates there are 2 attributes, both scalar. After the first attribute line is the list of attribute names along with their type.</p>
+
+<pre>
+8 1 2 0 0 
+1 0.000 0.000 1.000 
+2 1.000 0.000 1.000 
+3 1.000 1.000 1.000 
+4 0.000 1.000 1.000 
+5 0.000 0.000 0.000 
+6 1.000 0.000 0.000 
+7 1.000 1.000 0.000 
+8 0.000 1.000 0.000 
+1 1 hex 1 2 3 4 5 6 7 8 
+002 1 1
+layer, integer
+stress, real
+1  1   4999.9999  
+2  1   18749.9999 
+3  1   37500.0000 
+4  1   56250.0000 
+5  0   74999.9999 
+6  0   93750.0001 
+7  0   107500.0003 
+8  0   5000.0001 
+
+</pre>
+
+<p>This is an Example ASCII UCD File for a point, this is handy for use with Paraview to render the point object instead of reading point values into a table. This example has 3 nodes, each as UCD object <strong>pt</strong>. The file has 0 attributes for nodes, elements, and model.</p>
+
+<pre>
+         3          3          0          0          0
+001   3.304250000000E+05  4.309168000000E+06  0.000000000000E+00
+002   3.308220000000E+05  4.314749000000E+06  0.000000000000E+00
+003   3.259190000000E+05  4.313480000000E+06  0.000000000000E+00
+001        1    pt  1
+002        1    pt  2
+003        1    pt  3
+
+ </pre>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

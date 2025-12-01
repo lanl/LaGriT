@@ -1,0 +1,323 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>7</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <p><strong>Miscellaneous</strong></p>
+
+<p>setsize</p>
+
+<p>The subroutine <strong>setsize</strong> sets the mesh object attriburtes: xmin,
+  xmax, ymin, ymax, zmin, zmax, epsilona, epsilonv</p>
+
+<p><strong>setsize</strong>( )</p>
+
+<p>xmin, xmax, ymin, ymax, zmin, zmax are set from the minimum and
+   maximum xic,yic,zic values of all ‘real’ points (dudded and merged
+   points will be ignored).</p>
+
+<p>epsilona is set to :
+   ((xmax-xmin)
+*
+*2+(ymax-ymin)
+*
+*2+(zmax-zmin)
+*
+*2)</p>
+
+<p>*epsilonr
+*1000.</p>
+
+<p>epsilonv is set to :
+   abs(xmax-xmin)
+*abs(ymax-ymin)
+*abs(zmax-zmin) 
+*epsilonr
+*1000.</p>
+
+<p>getsize</p>
+
+<p>The subroutine <strong>getsize</strong> returns the mesh object attributes:  
+  xmin, xmax, ymin, ymax, zmin, zmax, epsilona, epsilonv</p>
+
+<p><strong>getsize</strong>(xmin,xmax,ymin,ymax,zmin,zmax,epsilona,epsilonv)</p>
+
+<p>set_user_bounds</p>
+
+<p>This routine allows the user to set boundary values. <a href="commands/BOUNDAR1.md">See the
+  boundary command.</a>
+  <strong>set_user_bounds</strong>(<strong>nubndpts,ubndpts,cmo,ipattr, idfield</strong>)</p>
+
+<p><strong>nubndpts</strong> - number of boundary nodes</p>
+
+<p><strong>ubndpt</strong> - integer array of boundary node indices</p>
+
+<p><strong>cmo</strong> - a mesh object name</p>
+
+<p><strong>ipattr</strong> - pointer to mesh object attribute to contain boundary
+  values</p>
+
+<p><strong>idfield</strong> - identifier used to identify the set of boundary nodes.</p>
+
+<p>inside routines</p>
+
+<p>The <strong>inside</strong> set of subroutines test whether a query point is
+  strictly inside, strictly outside or on the surface of the specified
+  element.  The value returned in iflag is 0 if the query point is
+  inside the element, -1 if outside, or is set to the local face
+  number containing the query point.  Coordinates of the query point
+  are in xq, yq, zq.  Coordinates of the vertices of the element are
+  in x1, y1, z1, x2…..  The coordinates of these vertices of the
+  element must be specified in the correct order (<a href="meshobjcon.md">see the section on
+  Mesh Object Connectivity)</a>.  For triangular
+  elements both <strong>inside_tri</strong> and <strong>inside_tri2d </strong> must be called;
+  the first call will determine if the query point is in the plane of
+  the triangle;  the second, if it is in the interior of the
+  triangle.  Similar calls must be made for planar quad meshes.</p>
+
+<p><strong>inside_pyr</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,xq,yq,zq,iflag)</p>
+
+<p><strong>inside_pri</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,xq,yq,zq,iflag)</p>
+
+<p><strong>inside_hex</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,</p>
+
+<p>xq,yq,zq,iflag)</p>
+
+<p><strong>inside_tet</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</p>
+
+<p><strong>inside_quad</strong>2d(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</p>
+
+<p><strong>inside_tri2</strong>d(x1,y1,z1,x2,y2,z2,x3,y3,z3,xq,yq,zq,iflag)</p>
+
+<p>These routines should not be confused with</p>
+
+<p><strong>inside_quad</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,xq,yq,zq,iflag)</p>
+
+<p><strong>inside_tri</strong>(x1,y1,z1,x2,y2,z2,x3,y3,z3,xq,yq,zq,iflag)</p>
+
+<p>which return in iflag: 1 if the query point is on the plane of the
+  element, 0 if below the plane and -1 if above.</p>
+
+<p>The generic subroutine <strong>inside_element</strong> (element_type, xcoords,
+  ycoords, zcoords, xq,yq,zq,iflag) which returns iflag = -1 if the
+  query point (xq,yq,zq) is outside the element, 0 if it is inside, 1
+  &lt; n &lt; 6 where n is the face of the element on which the query
+  point sits.  element_type is an integer, 1 = point, 2 = line, 3=
+  triangle, 4= quad, 5=tet, 6= pyramid, 7= prism, 8=hex).  The x,y,z
+  coordinates of the vertices of the element are given in xcoords,
+  ycoords, zcoords.  The order of the vertices is important.</p>
+
+<p> </p>
+
+<p>volume_element</p>
+
+<p>return the volume of an element.</p>
+
+<p><strong>volume_element</strong> (ielmtyp,xicvol,yicvol,zicvol,volelm)</p>
+
+<p><strong>ilemtyp</strong> is the element type (input, usually extracted from the
+  ittettyp attribute)</p>
+
+<p><strong>xicvol, yicvol, zicvol</strong> are arrays of the coordinates of the
+  vertices of the element (input)</p>
+
+<p><strong>volelm</strong> is the volume of the element (output)</p>
+
+<p>user_interpolate</p>
+
+<p><strong>       
+ user_interpolate</strong>(cmo_sink,cmo_src,cmolength,cname,nlist,list,ierror_return)</p>
+
+<p>Supplying this subroutine and linking it in when building the
+  executable allows the user to supply the interpolation formula for
+  an attribute whose interpolation has been set to <strong>user</strong>.  By
+  default several mesh object attributes have interpolation type
+  <strong>user,</strong> for example, isn1, itetoff ( there is no obvious way to
+  assign a correct value to new nodes or elements based on the values
+  of old elements and other parts of the LaGriT code take care of
+  assigning correct values).  Therefore if a user attribute is created
+  with interpolation type <strong>user</strong> and the subroutine
+  user_interpolate is supplied, this routine must check the <strong>cname</strong>
+  argument to make sure it matches the name of the user attribute.
+  (e.g.  if the user attribute is called my_attribute then the
+  routine must contain a statement such as:</p>
+
+<p>         if(cname.eq.’my_attribute’) then</p>
+
+<p>                 <strong>cmo_sink       </strong> is the SINK mesh object</p>
+
+<p>                 <strong>cmo_src         </strong> is the SOURCE mesh object</p>
+
+<p>                 <strong>cmolength</strong>        is “nnodes” or “nelements”</p>
+
+<p>                 <strong>cname </strong>              is the name of the attribute</p>
+
+<p>                 <strong>nlist </strong>                 number of items to
+ interpolate</p>
+
+<p>                 <strong>list(nlist) </strong>         the list of items for which
+ new interpolated values are to be produced</p>
+
+<p>                 <strong>ierror_return</strong>    0 = no error</p>
+
+<p>                                               &gt;1 = error</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

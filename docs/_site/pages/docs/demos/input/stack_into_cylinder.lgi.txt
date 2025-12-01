@@ -1,0 +1,43 @@
+read avs surface_xy.inp mosurf
+
+#-------------------------------------------------
+# make layers for for input into stack
+
+cmo/setatt/mosurf/zic/ 0. 
+dump / layer_sbot.inp / mosurf
+
+cmo/setatt/mosurf/zic/ 12.2
+dump / layer_stop.inp / mosurf
+
+cmo/setatt/mosurf/zic/ 22.2
+dump / layer_bar_top.inp / mosurf
+
+cmo/setatt/mosurf/zic/ -22.2
+dump / layer_bar_bot.inp / mosurf
+
+
+#-------------------------------------------------
+# Stack layers from bottom to top
+cmo/create/mo_stack
+stack/layers/avs/ &
+ layer_bar_bot.inp 1 &
+ layer_sbot.inp  2 4 &
+ layer_stop.inp 3 4 &
+ layer_bar_top.inp 3 4
+dump avs stack_layers.inp mo_stack
+
+stack/fill/mohex / mo_stack
+cmo select mohex
+filter/1,0,0
+rmpoint compress
+resetpts itp
+
+# write information about this mesh object
+cmo/printatt/mohex/-xyz- minmax
+quality
+
+dump avs stack.inp mohex
+dump gmv stack.gmv mohex
+cmo printatt mohex -all- minmax
+
+finish

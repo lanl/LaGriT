@@ -328,6 +328,7 @@ This command writes the existing colormap to the specified file.  [See colormap 
 </pre>
 
 Output in STL, stereo lithography format. This is only supported for triangle mesh objects.
+See more about the STL format at [dump examples](../demos/description_dump.md)
 
 <br>
 

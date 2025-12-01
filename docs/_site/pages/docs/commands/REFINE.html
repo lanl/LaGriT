@@ -1,0 +1,463 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>REFINE</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="refine">REFINE</h1>
+
+<hr />
+
+<p>The refine command is used to create more elements. The method in which these new elements are formed is based on the <code class="language-plaintext highlighter-rouge">refine_method</code>
+ chosen. The refine criteria used in these methods are defined at <a href="/pages/docs/REFINE1.html">Grid Refinement</a> Section.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>refine</b>/refine_method/ [field]/ [interpolation]/refine_type /ifirst,ilast,istride/xvalue/xvalue2/xvalue3/inclusive_flag/
+
+<b>refine/roughness</b> ///<b>edge</b>/ifirst,ilast,istride/distance/surface_name/<b>exclusive</b> or <b>inclusive</b>
+
+<b>refine/edge_list</b> ///<b>edge</b>/  end_points
+
+<b>refine/interface</b> /// <b>edge</b>/pset,get,psetname
+
+<b>refine</b> / <b>eltset</b> or <b>element_set</b>   / eltset,get,esetname
+
+</pre>
+
+<h3 id="refine-methods">Refine Methods</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">junction</code></strong> will refine object where <code class="language-plaintext highlighter-rouge">field</code> crosses <code class="language-plaintext highlighter-rouge">xvalue</code></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">constant</code></strong> will refine object where <code class="language-plaintext highlighter-rouge">field</code> &gt; <code class="language-plaintext highlighter-rouge">xvalue</code></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">delta</code></strong> will refine object where delta(<code class="language-plaintext highlighter-rouge">field</code>) &gt; <code class="language-plaintext highlighter-rouge">xvalue</code></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">lambda</code></strong> will refine object where lambda(<code class="language-plaintext highlighter-rouge">field</code>) &lt; <code class="language-plaintext highlighter-rouge">xvalue</code></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">maxsize</code></strong> will refine object where object &gt; <code class="language-plaintext highlighter-rouge">xvalue</code>. Size refers to volume for tets, area for face, and length for edges.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">aspect</code></strong> will refine where aspect ratio &lt; <code class="language-plaintext highlighter-rouge">xvalue</code></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">addpts</code></strong> will refine explicitly by adding a set of nodes defined in pset,get,psetsname</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rivara</code></strong> edges longer than <code class="language-plaintext highlighter-rouge">xvalue</code> will be refined according to the principle that a refined edge candidate is the longest edge in
+     any element that contains it. This results in a recursive refinement procedure that adds neighboring edges to the refinement
+     candidate list until no neighbor edge is longer then the candidate. <code class="language-plaintext highlighter-rouge">refine_type</code> must be <strong>edge</strong>. Arguments <code class="language-plaintext highlighter-rouge">field</code> and
+     <strong>interpolation</strong> are ignored. This method of refinement, when used with a <strong>pset</strong>, produces a nicely graded mesh.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rivara_boundary</code></strong> applies the rivara algorithm, but will only bisect edges on external boundaries.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rivera_truncated</code></strong> applies the rivara algorithm, but restricts the neighborhood search to the edges in the selected <strong>pset</strong>. If the
+     <strong>pset</strong> is the entire mesh, this method has the same behavior as rivara.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">roughness</code></strong> will refine based on the distance of the endpoint of an edge to the plane determined by the synthetic normal with
+     respect to a specified surface at the other endpoint of the edge.  This is intended to increase refinement on surfaces near corners
+     or around sharp bends in surfaces. <code class="language-plaintext highlighter-rouge">xvalue</code> is the distance, the <code class="language-plaintext highlighter-rouge">surface_name</code> must follow the <code class="language-plaintext highlighter-rouge">xvalue</code> distance argument.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">edge_list</code></strong> will bisect a set of edges specified by the node numbers of the endpoints of the edges. refine_type must be
+     <strong>edge</strong> followed by a list of <code class="language-plaintext highlighter-rouge">end_points</code> making up the edge_list.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">element_set</code></strong> or <strong><code class="language-plaintext highlighter-rouge">eltset</code></strong> will refine all elements in a specified element set. The mesh object may be tri, quad, tet or
+     hex. Internally a node set will be created from the chosen elements. Because of the conversion from element set to point
+     set, it is possible that some element not in the original element set will have all of its nodes as members of the internally
+     constructed points set and hence will be refined. The default refine_method is <strong><code class="language-plaintext highlighter-rouge">constant</code></strong>; refine_type is element;
+     inclusion_flag is <strong><code class="language-plaintext highlighter-rouge">exclusive.</code></strong> Their are no other arguments after the element set name.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">interface</code></strong> will bisect a set of non-interface edges of tets all of whose vertices are interface nodes. Valid only for 3D
+     tetrahedral grids and is useful to ‘unlock’ tetrahedra that are stuck because all of their vertices lie on interface surfaces. 
+     After the refine operation these tetrahedral will be replaced by tetrahedra containing a vertex that is not on the surface - thus
+     allowing later smooth or massage operations more freedom to improve the grid.</p>
+
+<p>The following are unavailable or untested:</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">spawn</code></strong> spawns new nodes at the locations given.  It finds the existing edge that is closest to the
+  desired node It then refines that edge and moves the resulting node to the desired location provided that the move does not invert any elements.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">cel</code></strong> calls  CEL (create on edge length).  Takes a mesh object and bisects edges that
+     (i) have both endpoints in the list of selected mass points, and (ii) have length greater than TOLLENGTH.
+     The process is recursive in that new nodes are added to the list of mass points, meaning that newly created edges can
+   be refined until all the edges in the mesh have length  less than TOLLENGTH.<br />
+  This    leads to recursive refinement with nondegrading element aspect ratios.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">minsize</code></strong>, <strong><code class="language-plaintext highlighter-rouge">lambdade</code></strong>, and <strong><code class="language-plaintext highlighter-rouge">rmelements</code></strong> are no longer supported.</p>
+
+<h3 id="refine-type">Refine Type</h3>
+
+<p>refine_type specifies what object will be refined and how that object will be refined:</p>
+
+<ul>
+  <li><strong>element</strong> or <strong>tet</strong> in 3D will refine elements by placing a point in the center of the element.</li>
+  <li><strong>element</strong> in 2D (triangle) will refine element by refining all edges of the triangle.</li>
+  <li><strong>face</strong> in 3D will refine facets by placing a point in the center of the facet.</li>
+  <li><strong>face</strong> in 2D (triangle) will refine face by refining all edges of the face.</li>
+  <li><strong>edge</strong> will refine edges by placing a point on the midpoint of the edge.</li>
+  <li><strong>faceedge</strong> will refine facets by refining all edges of the facet.</li>
+  <li><strong>tetedge</strong> will refine elements by refining all edges of the element.</li>
+</ul>
+
+<h3 id="refine-options">Refine Options</h3>
+
+<p><code class="language-plaintext highlighter-rouge">field</code> must refer to a previously defined attribute of the current Mesh Object.</p>
+
+<p><code class="language-plaintext highlighter-rouge">interpolation</code> specifies how to interpolate the <code class="language-plaintext highlighter-rouge">field</code> to give <code class="language-plaintext highlighter-rouge">field</code>
+values to the new nodes created. The valid types are <strong>linear, log</strong>, and <strong>sinh</strong>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">range</code> is the selection of points designated by node numbers for ifirst,ilast,istride or <strong>pset</strong>,get,pname. 1,0,0 will select all
+nodes in the Mesh object.</p>
+
+<p><code class="language-plaintext highlighter-rouge">xvalue</code> [/<code class="language-plaintext highlighter-rouge">xvalue2/xvalue3</code>/] is the real number usually indicating a size for the different refine methods. Most of the refine methods do not
+use the second and third values so their argument positions will be empty ///.</p>
+
+<p><code class="language-plaintext highlighter-rouge">inclusion_flag</code> is an optional flag specifing if refinement is an inclusive or an exclusive operation. By default, all operations are
+exclusive. For inclusive, if an edge refinement is specified restricted to a <strong>pset</strong>, then an edge is eligible for refinement if either
+or both of the end points belong to the <strong>pset</strong> selected. If the <code class="language-plaintext highlighter-rouge">inclusion_flag</code> is exclusive then both end points must be in the
+<strong>pset</strong>. The implemented values are <strong>inclusive</strong> and <strong>exclusive</strong>.</p>
+
+<h2 id="quadtree-and-octree-refinement">QUADTREE and OCTREE REFINEMENT</h2>
+
+<p>Quad and hexahedral elements may be refined creating quad tree and octree meshes. Three new Mesh object attributes are added during this
+operation. The refine_type must be element. The refine_method must be constant, junction or maxsize. 
+The values for /<code class="language-plaintext highlighter-rouge">xvalue/xvalue2/xvalue3</code>/ should be /-1.,0.,0./. For an element set, use
+the shortened syntax refine/element_set/eltset,get,esetname.</p>
+
+<p>The element attributes added to the Mesh object are:</p>
+
+<p><strong>itetlev</strong> is an integer attribute with the level of refinement. An unrefined mesh element has itetlev(ie)=0, one level of refinement itetlev(ie)=1, etc.</p>
+
+<p><strong>itetkid</strong> is a pointer to a child element number. If nothing has been done to change element numbering, it is element number of the
+ first child element created and the rest of the children are in sequence after the first child. If itetkid(ie)=0 , the element has
+ not been refined further.</p>
+
+<p><strong>itetpar</strong> is a pointer to the parent element at refinement level. itetlev(ie)-1.</p>
+
+<p>Quad meshes will have 4 children for each refined element. Hex meshes will have 8 children. The children are generated sequentially; The
+ first child will contain the first local node of the parent element, the other elements are created in the order shown in this diagram.</p>
+
+<p>For example in the picture below, element e1 is refined to create 8 children, c1, c2, c3, c4, c5, c6, c7, c8.</p>
+
+<p>The table gives the octree attribute values for each of the elements.</p>
+
+<p><img width="400" src="https://lanl.github.io/LaGriT/assets/images/dsquare.gif" /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Element #</th>
+      <th style="text-align: left">itetlev</th>
+      <th style="text-align: left">itetkid</th>
+      <th style="text-align: left">itetpar</th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">c1</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td style="text-align: left">2</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c1</td>
+      <td style="text-align: left">2</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c2</td>
+      <td style="text-align: left">3</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c3</td>
+      <td style="text-align: left">4</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c4</td>
+      <td style="text-align: left">5</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c5</td>
+      <td style="text-align: left">6</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c6</td>
+      <td style="text-align: left">7</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c7</td>
+      <td style="text-align: left">8</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">c8</td>
+      <td style="text-align: left">9</td>
+      <td style="text-align: left">1</td>
+      <td style="text-align: left">0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>One can control refinement so that a hex is broken into either 8, 4 or 2 elements and a quad is broken into either 4 or 2 elements. This is
+ controlled with the principal refine direction choice <code class="language-plaintext highlighter-rouge">prd_choice</code> parameter. This syntax works assuming imt values are greater or equal
+ to zero with principal refine direction chosen through a combination of “123” <code class="language-plaintext highlighter-rouge">prd_choice</code> indicators as defined below. The command line
+ used is:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> refine/constant/itetclr/linear/element/1,0,0/-1.,0.,0./exclusive/amr prd_choice
+</code></pre></div></div>
+<p>or with element selection (based on pset and inclusive/exclusive options):</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> refine/constant/imt1/linear/element/pset,get,pname/-1.,0.,0./inclusive/ amr prd_choice
+</code></pre></div></div>
+
+<p>The parameter <code class="language-plaintext highlighter-rouge">prd_choice</code> indicates the chosen principal refinement direction based on the local hex element topology as defined by edge numbers,
+ for instance, quad edge 1 is in the x direction relative to the local topology.</p>
+
+<ul>
+  <li><strong>1</strong> refine along x direction, 1 hex-&gt;2 hex, 1 quad-&gt;2 quad (quad edges 1 and 4)</li>
+  <li><strong>2</strong> refine along y direction, 1 hex-&gt;2 hex, 1 quad-&gt;2 quad (quad edges 2 and 3)</li>
+  <li><strong>3</strong> refine along z direction, 1 hex-&gt;2 hex, 1 quad-&gt;4 quad</li>
+  <li><strong>12</strong> refine along x and y direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad</li>
+  <li><strong>13</strong> refine along x and z direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad</li>
+  <li><strong>23</strong> refine along y and z direction, 1 hex-&gt;4 hex, 1 quad-&gt;4 quad</li>
+  <li><strong>123</strong> refine xyz with prd amr routines, 1 hex-&gt;8 hex, 1 quad-&gt;4 quad</li>
+  <li><strong>0</strong> refine xyz with default amr refinement, 1 hex-&gt;8 hex, 1 quad-&gt;4 quad</li>
+</ul>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / prefine / union / prefine1 prefine2 prefine3
+eltset / erefine / inclusive / pset get prefine
+refine/ eltset / eltset,get,erefine
+</code></pre></div></div>
+<p>will octree refine hex elements belonging to the set of points named prefine</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine / maxsize ///edge /pset,get,something / .25
+</code></pre></div></div>
+<p>will refine element where edge is longer than .25</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/constant/concentration/log /edge/1,0,0/25.0 /// inclusive
+</code></pre></div></div>
+<p>will refine where concentration is greater than 25.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine /addpts///tet /pset,get,newpoints/
+</code></pre></div></div>
+<p>refine explicitly by adding the new nodes defined in the set newpoints</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine /rivara///edge/pset,get,p1/.5///inclusive
+</code></pre></div></div>
+<p>refine all edges containing at least one node in pset p1 that are longer than .5. 
+Using the ‘rivera’ algorithm may result in edges not containing nodes in the pset to be refined.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/rivara_truncated///edge/pset,get,p1/.5///exclusive
+</code></pre></div></div>
+<p>rivera_truncated, exclusive will refine only edges both of whose endpoints are in the selected pset named p1</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/rivara_boundary///edge/1,0,0/.25
+</code></pre></div></div>
+<p>rivara_boundary will only refine boundary edges.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/roughness///edge/1,0,0/.28/ptop/inclusive
+</code></pre></div></div>
+<p>will refine based on .28 distance to the surface named ptop.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/edge_list///edge/1 2 23 47
+</code></pre></div></div>
+<p>will refine the edge with end points 1 and 2 AND the edge with end points 23 and 47.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eltset / elem3 / id_elem1 / eq / 3
+refine/eltset / eltset,get, elem3
+</code></pre></div></div>
+<p>will create a node set from the element set named elem3 and refine using the constant option.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/constant/imt1/linear/element/pset,get,pbox/-1.,0.,0./inclusive
+</code></pre></div></div>
+<p>create a quadtree refined quad mesh</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eltset / elm2 / itetclr / eq / 2
+pset/ pelm2 / eltset elm2
+refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 12
+</code></pre></div></div>
+<p>refine the material 2 elements of a hex mesh , do not refine in the Z vertical direction</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>refine/constant/imt1/linear/element/pset,get,pelm2/-1.,0.,0./inclusive/amr 3
+</code></pre></div></div>
+<p>refine the material 2 elements of a hex mesh , refine only in the Z vertical direction</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

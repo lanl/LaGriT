@@ -1,0 +1,267 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>REGNPTS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="regnpts">REGNPTS</h1>
+
+<hr />
+
+<p>Generates points in a region previously defined by the region command. The points are generated by shooting rays through a user specified set of points from an origin point, line, or plane and finding the intersection of each ray with the surfaces that define the region.</p>
+
+<p>The region must exist for the current mesh object and defined with surfaces using <a href="/pages/docs/commands/SURFACE.html"><strong><code class="language-plaintext highlighter-rouge">SURFACE</code></strong></a> and <a href="/pages/docs/commands/REGION.html"><strong><code class="language-plaintext highlighter-rouge">REGION</code></strong></a> commands.</p>
+
+<p>Points are distributed on boundaries if the region was defined using <strong>ge</strong> or <strong>le</strong> to define the interface or boundary.</p>
+
+<p>Only surface intersection points are created if <code class="language-plaintext highlighter-rouge">ptdist</code> is a keyword as defined below.</p>
+
+<p>If another region intrudes upon the regnpts region so that the regpts region is divided into more than one piece, points that fall inside the intruding region are not distributed.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+
+<b>regnpts</b>/region_name/ptdist/ifirst,ilast,istride/geom/ray_points /irratio,rrz,maxpenetr
+
+<b>regnpts</b>/region_name/ptdist/ifirst,ilast,istride/<b>xyz</b>/x1,y1,z1/x2,y2,z2/x3,y3,z3/irratio,rrz/maxpenetr
+
+<b>regnpts</b>/region_name/ptdist/ifirst,ilast,istride/<b>rtz</b>/x1,y1,z1/x2,y2,z2/irratio,rrz/
+
+<b>regnpts</b>/region_name/ptdist/ifirst,ilast,istride/<b>rtp</b>/xcen,ycen,zcen/irratio,rrz,maxpenetr
+
+<b>regnpts</b>/region_name/ptdist/ifirst,ilast,istride/<b>points</b>ifirst2,ilast2,istride2/irratio,rrz/ maxpenetr
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">region_name</code> must exist for the current mesh object as described above.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ifirst,ilast,istride</code> are the points to shoot rays through. The range 1,0,0 means all points, a named set may also be used with <strong>pset</strong>,<strong>get</strong>,psetname.</p>
+
+<h3 id="actions-based-on-pdist-type">Actions Based on <code class="language-plaintext highlighter-rouge">pdist</code> Type</h3>
+
+<p>If <code class="language-plaintext highlighter-rouge">ptdist</code> is a one of the keywords  <strong>inside</strong>, <strong>in</strong>, <strong>out</strong>, <strong>outside</strong>, or <strong>both</strong>  surface points are created regardless of region ownership of the interface or boundary surface – if a ray encounters a region more than once, the appropriate surface intersection point(s) is generated for each encounter.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">ptdist</code> if a real value, then points are distributed at that distance along the ray, up to a maximum of <code class="language-plaintext highlighter-rouge">maxpenetr</code> points along the ray (in addition to any interface points that may be created). If the ray encounters a region more than once, multiple sets of points are generated.
+<code class="language-plaintext highlighter-rouge">irratio</code> / <code class="language-plaintext highlighter-rouge">rrz</code> is ignored when <code class="language-plaintext highlighter-rouge">ptdist</code> is a real value.</p>
+
+<p>If <code class="language-plaintext highlighter-rouge">ptdist</code> is an integer, then that many points are evenly distributed along the ray in the region. 
+<code class="language-plaintext highlighter-rouge">irratio</code> / <code class="language-plaintext highlighter-rouge">rrz</code> defines the ratio zoning used to distribute the points.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">irratio</code> = 1: the point distribution is adjusted so that the ratio between successive pairs of points is rrz.</li>
+  <li><code class="language-plaintext highlighter-rouge">irratio</code> = 2: points are distributed by equal volumes depending on the geometry type.</li>
+  <li><code class="language-plaintext highlighter-rouge">irratio</code> = 3: ratio zoning is calculated on the longest ray; then this length is applied to all the rays.</li>
+</ul>
+
+<h3 id="ray-start-based-on-geom">Ray Start Based on <code class="language-plaintext highlighter-rouge">geom</code></h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">xyz</code></strong> shoot rays from normal of plane defined by cartesian coordinate points 1, 2, and 3.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtz</code></strong> shoot rays perpendicular from the cylinder line defined at point 1 to point 2.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rtp</code></strong> shoot rays from spherical center from the given point.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>region/top/ ge pbot and le ptop and ge plft and le prgt  &amp;
+              and ge pbck and le pfrt and gt cutplane /
+
+regnpts/top/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
+</code></pre></div></div>
+<p>Create rays between points in rayend and the plane.  Distribute 3 points along these rays in the region top
+add one point at the upper external boundary for each ray.
+Then add one point at the upper external boundary for each ray.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>regnpts/InWF_SOIL_REGION/10/pset,get,InWF_SOIL_RAYEND/rtz/-0.5000000,42.42380,2 &amp;
+        9.98730/-0.5000000,82.67780,29.98730/-0.5000000,82.67780,100.0000/0,0/        `
+</code></pre></div></div>
+<p>Create cylindrical points in region defined as  InWF_SOIL.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># define surfaces
+surface/lay1/intrface/plane/ 0 0 119 / 10 0 119 / 10 100 119  
+
+# create regions
+region/reg1/ le box1 and le lay1
+
+# create ray end points
+createpts/xyz/ 1 3 14 / -5 0 0 / -5 100 119 / 1 1 1 
+pset/rayend/seq/1 0 0 
+
+# remove duplicate points if they exist
+filter/1,0,0 ; rmpoint/compress
+
+# shoot points into volume in region reg1
+regnpts/reg1/100/pset get rayend/xyz/ 300 0 0/ 300 10 0/ 300 10 1/ 1 1.
+
+# remove ray end points
+rmpoint/pset get rayend
+filter/1,0,0 
+rmpoint/compress
+
+# color point imt and connect
+setpts
+connect
+</code></pre></div></div>
+<p>Typical set of commands using regions and ray shooting to create a mesh.</p>
+
+<p>Click here for <a href="/pages/docs/demos/main_regnpts.html">Examples</a></p>
+
+<p>Click here for <a href="https://lanl.github.io/LaGriT/pages/tutorial/tutorials/regions_points_to_tet.html">Tutorial</a> using ray shooting methods</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

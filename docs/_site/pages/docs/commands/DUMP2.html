@@ -1,0 +1,723 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>DUMP</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="dump">DUMP</h1>
+
+<hr />
+
+<p>This command produces an output file from a Mesh Object. Some of the standard graphics packages are supported including AVS, GMV, and TECPLOT. See alphabetic list below for descriptions and syntax.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<hr />
+
+<pre>
+<b>dump</b> / file_type / file_name /[cmo_name]/
+
+<b>dump</b> / file<b>.inp .gmv .lagrit .lg .exo .ts</b> / [cmo_name]/
+</pre>
+
+<p>The <strong><code class="language-plaintext highlighter-rouge">dump</code></strong> command is followed by a keyword <code class="language-plaintext highlighter-rouge">file_type</code> to indicate the type of file to write. ‘cmo_name’ is the mesh object to write. 
+<br />
+The second line shows the short form where <code class="language-plaintext highlighter-rouge">file_type</code> is recognized by the file name extension as listed below.</p>
+
+<h3 id="extensions-for-short-syntax">EXTENSIONS for SHORT SYNTAX</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">   <strong>AVS</strong> <a href="#avs"><strong>.inp</strong> or <strong>.avs</strong></a></td>
+      <td style="text-align: left">   <strong>GMV</strong> <a href="#gmv"><strong>.gmv</strong></a></td>
+      <td style="text-align: left">   <strong>Exodusii</strong> <a href="#exodus"><strong>.exo</strong></a></td>
+      <td style="text-align: left">   <strong>GoCAD</strong> <a href="#gocad"><strong>.ts</strong></a></td>
+      <td style="text-align: left">   <strong>LaGriT</strong> <a href="#lagrit"><strong>.lagrit</strong> or <strong>.lg</strong></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="additional-file-types">ADDITIONAL FILE TYPES</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">   <a href="#chad"><strong>chad</strong></a>   </td>
+      <td style="text-align: left">   <a href="#coord"><strong>coord</strong></a>   </td>
+      <td style="text-align: left">   <a href="#datex"><strong>datex</strong></a>   </td>
+      <td style="text-align: left">   <a href="#elem_adj"><strong>elem_adj_node</strong></a>   </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#elem_adj"><strong>elem_adj_elem</strong></a>   </td>
+      <td style="text-align: left">   <a href="#fehm"><strong>fehm</strong></a>   </td>
+      <td style="text-align: left">   <a href="#geofest"><strong>geofest</strong></a>   </td>
+      <td style="text-align: left">   <a href="#geom"><strong>geom</strong></a>   </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#pflotran"><strong>pflotran</strong></a>   </td>
+      <td style="text-align: left">   <a href="#recolor"><strong>recolor</strong></a>   </td>
+      <td style="text-align: left">   <a href="#stl"><strong>stl</strong></a>   </td>
+      <td style="text-align: left">   <a href="#stor"><strong>stor</strong></a>   </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#tecplot"><strong>tecplot</strong></a>   </td>
+      <td style="text-align: left">   <a href="#zone"><strong>zone</strong></a>   </td>
+      <td style="text-align: left">   <a href="#zone"><strong>zone_imt</strong></a>   </td>
+      <td style="text-align: left">   <a href="#zone"><strong>zone_outside</strong></a>   </td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="avs-"><strong><code class="language-plaintext highlighter-rouge">AVS</code></strong> <a name="avs"></a></h3>
+
+<pre>
+<b>dump / avs</b> / file_name/ [cmo_name] / [iopt_points, iopt_elements, iopt_node_attributes, iopt_elem_attributes] 
+</pre>
+
+<p>Will write the AVS UCD (Unstructured Cell Data) file format.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">avs</code></strong>  = <strong><code class="language-plaintext highlighter-rouge">avs2</code></strong> writes data values as real or integer depending on type with spacing dependent on size of values.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">avs1</code></strong> = old avs writes all data values as real with large spacing (larger file size).</p>
+
+<p><code class="language-plaintext highlighter-rouge">iopt values</code> indicate which data to write or skip, default is everything on with <code class="language-plaintext highlighter-rouge">iopt</code> values = 1 1 1 1.</p>
+
+<p>For example,</p>
+
+<pre>
+<b>dump</b> / avs / file.inp / cmo_name
+
+<b>dump</b> / avs / file.inp / cmo_name / 1, 1, 0, 0
+
+<b>dump</b>/ file_name<b>.inp</b> / cmo_name
+</pre>
+
+<p>the first line will write node coordinates, element connectivity, and node and element attributes if they exist. The second line will write node coordinates and element connectivity, but not node attributes or element attributes.</p>
+
+<p>If <em><code class="language-plaintext highlighter-rouge">iopt_</code></em> values = 2, or if <em><code class="language-plaintext highlighter-rouge">iopt_points</code></em> = 0, then the output will not be a valid AVS UCD format file. 
+These options are provided to enable a user the flexiblity of writing ASCII files with desired information, and are not intended to be used with <strong><code class="language-plaintext highlighter-rouge">read/avs</code></strong> or other Applications that read AVS UCD files. A WARNING message is given for non-standard AVS output. The following describe valid <em><code class="language-plaintext highlighter-rouge">iopt_</code></em> values.</p>
+
+<p><em><code class="language-plaintext highlighter-rouge">iopt_points</code></em> is the first section listing node id and their x y z coordinates.</p>
+<ul>
+  <li>= 0 Do not output node coordinate section.</li>
+  <li>= 1 Output node coordinate information (node_id  x  y  z)</li>
+  <li>= 2 Output node coordinates information without node number in first column (  x  y  z)</li>
+</ul>
+
+<p><em><code class="language-plaintext highlighter-rouge">iopt_elements</code></em> is the second section listing element id, material, type, node vertices.</p>
+<ul>
+  <li>= 0 Do not output element connectivity information</li>
+  <li>= 1 Output element connectivity information</li>
+  <li>= 3 Output points as AVS pt type for VIS applications. This is only for nodes with 0 elements.</li>
+</ul>
+
+<p><em><code class="language-plaintext highlighter-rouge">iopt_node_attributes</code></em> are the node attributes listing name, type, node_id and values for each.<br />
+Note by default the AVS files include the mesh object node attributes imt1, itp1, icr1, and isn1</p>
+<ul>
+  <li>= 0 Do not output node attribute information</li>
+  <li>= 1 Output node attribute information</li>
+  <li>= 2 Output node attribute information without node id in first column</li>
+</ul>
+
+<p><em><code class="language-plaintext highlighter-rouge">iopt_elem_attributes</code></em> are the node attributes listing name, type, element_id and values for each.</p>
+<ul>
+  <li>iopt_values_elem = 0 Do not output element attribute information</li>
+  <li>iopt_values_elem = 1 Output element attribute information</li>
+  <li>iopt_values_elem = 2 Output element attribute information without element id in first column</li>
+</ul>
+
+<p>Note LaGriT Versions V3.30 and older have the following keyword definitions:</p>
+<pre>
+avs      =  All numbers written as reals.
+att_node =  Node Attributes are written as real and integer, header info lines start with #
+att_elem =  Element Attributes are written as real and integer, header info lines start with #
+</pre>
+
+<p>For a description of the AVS file format see the <a href="/pages/docs/read_avs.html"><code class="language-plaintext highlighter-rouge">read/avs</code> command</a>.</p>
+
+<p><br /></p>
+
+<h3 id="chad-"><strong><code class="language-plaintext highlighter-rouge">CHAD</code></strong> <a name="chad"></a></h3>
+
+<pre>
+<b>dump / chad</b> / file_name /[cmo_name]/ 
+</pre>
+
+<p>Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.</p>
+
+<p><br /></p>
+
+<h3 id="coord-"><strong><code class="language-plaintext highlighter-rouge">COORD</code></strong> <a name="coord"></a></h3>
+
+<pre>
+<b>dump / coord</b> / file_name /[cmo_name]/
+</pre>
+
+<p>See also <strong><code class="language-plaintext highlighter-rouge">dump/fehm</code></strong></p>
+
+<p>Will output a single file with node list x,y,z values and element connectivity list in FEHM format. Files are written in FEHM format and are described by <a href="/pages/docs/commands/dump/DUMP3.html">clicking here for details</a>.</p>
+
+<p>The coord file is one of a set of files written when the fehm file type is called.</p>
+
+<p><br /></p>
+
+<h3 id="datex-"><strong><code class="language-plaintext highlighter-rouge">DATEX</code></strong> <a name="datex"></a></h3>
+
+<pre>
+<b>dump / datex</b>  OR  <b>simul</b> / file_name / [cmo_name]
+</pre>
+
+<p>will output a file with Geometry, Element, Region, Location, and Dataset in DATEX format.</p>
+
+<p><br /></p>
+
+<h3 id="elem_adj_elem-or-elem_adj_node-"><strong><code class="language-plaintext highlighter-rouge">ELEM_ADJ_ELEM</code></strong> or <strong><code class="language-plaintext highlighter-rouge">ELEM_ADJ_NODE</code></strong> <a name="elem_adj"></a></h3>
+
+<pre>
+<b>dump / elem_adj_elem</b> / file_name* / mo_name / [ <b>delatt</b>  OR  <b>keepatt</b>  OR  <b>attonly</b> ]
+</pre>
+
+<ul>
+  <li>Option: <code class="language-plaintext highlighter-rouge">delatt</code> - Write adjacency information to an ascii file. Write list of all elements adjacent to each element.
+    <ul>
+      <li>File format: <code class="language-plaintext highlighter-rouge">elem_number ean_num e1 e2 ... en</code></li>
+    </ul>
+  </li>
+  <li>Option: <code class="language-plaintext highlighter-rouge">keepatt</code> - write file and add node attribute <code class="language-plaintext highlighter-rouge">ean_num</code> (number of elements adjacent to each node)</li>
+  <li>Option: <code class="language-plaintext highlighter-rouge">attonly</code> - do not write file, add node attribute <code class="language-plaintext highlighter-rouge">ean_num</code>, a dummy argument is still required in the file_name field</li>
+</ul>
+
+<pre>
+<b>dump / elem_adj_node</b> / file_name / mo_name 
+</pre>
+
+<p>Write adjacency information to an ascii file. Write list of all elements adjacent to each node. (-99 is a boundary)</p>
+
+<p>File format: <code class="language-plaintext highlighter-rouge">node_number number_of_adjacent_elem e1 e2 ... en</code></p>
+
+<p><br /></p>
+
+<h3 id="exo-or-exodusii-"><strong><code class="language-plaintext highlighter-rouge">EXO</code></strong> or <strong><code class="language-plaintext highlighter-rouge">EXODUSII</code></strong> <a name="exodus"></a></h3>
+
+<pre>
+<b>dump / exo</b>  OR  <b>exodusii</b> / file_name / mo_name [ psets ] / [ eltsets] / [ facesets file1 file2 ... filen ] 
+</pre>
+
+<p>Write a mesh object to a file in the Exodus II format. The keyword psets as token 5 will cause all psets (lists of vertex numbers) associated with the mesh object to be written to the ExodusII output file.</p>
+
+<p>The keyword eltsets as token 6 will cause all eltsets (lists of cell numbers) associated with the mesh object to be written to the ExodusII output file.</p>
+
+<p>If face set information is being provided from files (<code class="language-plaintext highlighter-rouge">file1 file2 ... filen</code>) the format of the file is written in AVS UCD cell attribute format. The first column is the global cell number, the second column is the local face number.</p>
+
+<p>Click here for <a href="/pages/docs/commands/EXODUS.html">more details on options and files that are written for ExodusII</a>.</p>
+
+<p><br /></p>
+
+<h3 id="fehm-"><strong><code class="language-plaintext highlighter-rouge">FEHM</code></strong> <a name="fehm"></a></h3>
+
+<pre>
+<b>dump/ fehm</b> / rootname / cmo_name / [ optional keywords ]
+</pre>
+
+<p>Write out a series of files for the FEHM flow and transport code. The tokens after the cmo name are all optional.</p>
+
+<p>The following keyword commands are optional and can occur in any order after the cmo name.</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">ascii</code> or <code class="language-plaintext highlighter-rouge">binary</code>  indicate IO Mode Options for the stor file. Default is ascii.</li>
+  <li><code class="language-plaintext highlighter-rouge">scalar</code>,  <code class="language-plaintext highlighter-rouge">vector</code>,  <code class="language-plaintext highlighter-rouge">both</code>,  <code class="language-plaintext highlighter-rouge">area_scalar</code>,  <code class="language-plaintext highlighter-rouge">area_vector</code>, or <code class="language-plaintext highlighter-rouge">area_both</code> are Area Coefficient Options for writing stor file coefficient values. Default is scalar.</li>
+  <li><code class="language-plaintext highlighter-rouge">all</code>,  <code class="language-plaintext highlighter-rouge">graph</code>,  <code class="language-plaintext highlighter-rouge">coefs</code>, or  <code class="language-plaintext highlighter-rouge">none</code> are Compression Options for the stor file. Default is all.</li>
+  <li><code class="language-plaintext highlighter-rouge">delatt</code> or  <code class="language-plaintext highlighter-rouge">keepatt</code>  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.</li>
+  <li><code class="language-plaintext highlighter-rouge">hybrid</code> or <code class="language-plaintext highlighter-rouge">nohybrid</code> Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.</li>
+</ul>
+
+<p>The default options will delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
+The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">rootname</code> will be used to form full names for the files that are written:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rootname.fehmn              rootname_interface.zone      rootname_outside_vor.area     
+rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone       rootname.stor
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">.fehm</code> - mesh coordinates and geometry ( see <code class="language-plaintext highlighter-rouge">dump/coord/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">_material.zone</code> - node imt (material) zone lists ( see <code class="language-plaintext highlighter-rouge">dump/zone_imt/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">_outside.zone</code> - node external boundary zone lists (see <code class="language-plaintext highlighter-rouge">dump/zone_outside/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">_outside_vor.area</code> - node external boundary area lists (see <code class="language-plaintext highlighter-rouge">dump/zone_outside/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">_interface.zone</code> - zone lists for nodes along material interfaces</li>
+  <li><code class="language-plaintext highlighter-rouge">_multi_mat.zone</code> - lists of node pairs connected across material interfaces</li>
+  <li><code class="language-plaintext highlighter-rouge">.stor</code> - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure</li>
+</ul>
+
+<p>Click here for <a href="/pages/docs/commands/dump/DUMP3.html">more details on the FEHM files and options.</a>
+Click here for the <a href="/pages/docs/STOR_Form.html">FEHM style STOR file format.</a></p>
+
+<p><br /></p>
+
+<h3 id="geofest-"><strong><code class="language-plaintext highlighter-rouge">GEOFEST</code></strong> <a name="geofest"></a></h3>
+
+<pre>
+<b>dump/ geofest /</b> file_name 
+</pre>
+
+<p>Write a file to be read by the GeoFEST, Geophysical Finite Element Simulation Tool hosted by Open Channel Foundation. The output file is ascii.</p>
+
+<p><br /></p>
+
+<h3 id="geom-"><strong><code class="language-plaintext highlighter-rouge">GEOM</code></strong> <a name="geom"></a></h3>
+
+<pre>
+<b>dump / geom /</b> file_name 
+</pre>
+
+<p>will write an ascii file containing the geometry information for the current run. This information includes the region and mregion definitions and surface, names, types and definitions.</p>
+
+<p><br /></p>
+
+<h3 id="gmv-"><strong><code class="language-plaintext highlighter-rouge">GMV</code></strong> <a name="gmv"></a></h3>
+
+<pre>
+<b>dump / gmv /</b> file_name / [mo_name] / [<u><b>binary</b></u> or <u><b>ascii</b></u> ]
+
+<b>dump</b>/ file_name<b>.gmv</b> / [mo_name] /
+</pre>
+
+<p>Write a file to be read by the graphics program GMV.  The defaults are binary and current mesh object.
+Use <strong>cmo/setatt//ipolydat/no</strong> to reduce file size. This command will keep the polygon data from being written to GMV files.</p>
+
+<p>For more on GMV visit: http://www.generalmeshviewer.com</p>
+
+<p><br /></p>
+
+<h3 id="gocad-"><strong><code class="language-plaintext highlighter-rouge">GOCAD</code></strong> <a name="gocad"></a></h3>
+
+<pre>
+<b>dump / gocad /</b> file_name 
+</pre>
+
+<p>Write a gocad TSURF file of triangle elements.</p>
+
+<p><br /></p>
+
+<h3 id="lagrit-"><strong><code class="language-plaintext highlighter-rouge">LaGriT</code></strong> <a name="lagrit"></a></h3>
+
+<pre>
+<b>dump / lagrit /</b> file_name / [cmo_name]/ [binary OR ascii] 
+</pre>
+
+<p>Write a LaGriT restart file that contains geometry and mesh object information. The geometry belongs to the <code class="language-plaintext highlighter-rouge">cmo_name</code> with which it was created.  The  <code class="language-plaintext highlighter-rouge">cmo_name</code> can be <strong>-all-</strong> in which case all mesh objects are written to the file or it can specify a list of mesh objects to be written. A subsequent read/lagrit command will restart the code at the state at which the <strong><code class="language-plaintext highlighter-rouge">dump</code></strong> command was issued. The default file type is binary.</p>
+
+<p><br /></p>
+
+<h3 id="pflotran-"><strong><code class="language-plaintext highlighter-rouge">PFLOTRAN</code></strong> <a name="pflotran"></a></h3>
+
+<pre>
+<b>dump / pflotran</b> / file_name_root / cmo_name / 
+<b>dump / pflotran</b> / file_name_root / cmo_name / nofilter_zero
+</pre>
+
+<p>Write coefficient matrix (stor) style values in PFLOTRAN <strong>.uge</strong> format file. The default <strong><code class="language-plaintext highlighter-rouge">dump/pflotran</code></strong> command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.</p>
+
+<p>The following is the format used by PFLOTRAN for <strong>.uge</strong> (explicit unstructured grid) file.</p>
+
+<p>The first block are the list of ids of cells and the coordinates of cell centroids and the volumes of the cells. The PFLOTRAN cells are Voronoi volumes, one for each node.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CELLS &lt;integer&gt;    integer = # cells (N)
+id_1  x_1  y_1  z_1 volume_1
+d_2   x_2  y_2  z_2  volume_2
+...
+...
+id_N x_N y_N z_N volume_N
+</code></pre></div></div>
+
+<p>The second block consists of a list of ids of the connecting cells (id_up, id_dn), 
+coordinates of the face centroid between the two connected cells and 
+areas of the faces.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONNECTIONS &lt;integer&gt;   integer = # connections (M)
+id_up_1 id_dn_1 x_1 y_1 z_1 area_1
+id_up_2 id_dn_2 x_2 y_2 z_2 area_2
+...
+...
+id_up_M id_dn_M x_M y_M z_M area_M
+</code></pre></div></div>
+
+<p><br /></p>
+
+<h3 id="recolor-"><strong><code class="language-plaintext highlighter-rouge">RECOLOR</code></strong> <a name="recolor"></a></h3>
+
+<pre>
+<b>dump / recolor /</b> file_name 
+</pre>
+
+<p>This command writes the existing colormap to the specified file.  <a href="/pages/docs/commands/COLORMAP.html">See colormap command</a></p>
+
+<p><br /></p>
+
+<h3 id="stl-"><strong><code class="language-plaintext highlighter-rouge">STL</code></strong> <a name="stl"></a></h3>
+
+<pre>
+<b>dump / stl /</b> file_name 
+</pre>
+
+<p>Output in STL, stereo lithography format. This is only supported for triangle mesh objects.</p>
+
+<p><br /></p>
+
+<h3 id="stor-"><strong><code class="language-plaintext highlighter-rouge">STOR</code></strong> <a name="stor"></a></h3>
+
+<pre>
+<b>dump / stor /</b> file_name_root / cmo_name /
+[ascii  OR  binary ] / 
+[scalar  OR  vector  OR  both  OR  area_scalar  OR  area_vector  OR  area_both] \
+[all  OR  graph  OR  coefs  OR  none] / [hybrid  OR  nohybrid ] 
+</pre>
+
+<p>Same syntax as <strong><code class="language-plaintext highlighter-rouge">dump/fehm</code></strong> except the only output is the FEHM sparse matrix coefficient STOR file <code class="language-plaintext highlighter-rouge">rootname.stor</code>. 
+File can be written in ascii or binary (fortran unformatted platform dependent). The area coefficient values can be written as scalar or vector.
+The compression default is <strong>all</strong> which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
+The stor file is one of a set of files written when the fehm file type is called.</p>
+
+<p><a href="/pages/docs/commands/dump/DUMP3.html">Click here for further explanation of syntax options.</a></p>
+
+<p><a href="/pages/docs/STOR_Form.html">Click here for the FEHM style STOR file format.</a></p>
+
+<p><br /></p>
+
+<h3 id="tecplot-"><strong><code class="language-plaintext highlighter-rouge">TECPLOT</code></strong> <a name="tecplot"></a></h3>
+
+<pre>
+<b>dump / tecplot /</b> file_name 
+</pre>
+
+<p>Write a file to be read by the Tecplot graphics package.  The output file is ascii. Only node attributes are output, element attributes are ignored and not output. Tecplot does not support prism or pyramid element types so they are written as eight node, degenerate hex elements. 
+The ioflag parameter is used to control if the node attributes are output or not is the AVS ioflag. The expected suffix for the file name is <strong>.plt</strong>. If a name is given without the <strong>.plt</strong> suffix, a suffix “.plt” is added.</p>
+
+<p>Output is ascii. This output format does not support output of a mesh with nodes but zero elements. If there are zero elements, a header is written but node coordinate information is not output.</p>
+
+<p><br /></p>
+
+<h3 id="zone-"><strong><code class="language-plaintext highlighter-rouge">ZONE</code></strong> <a name="zone"></a></h3>
+
+<pre>
+<b>dump / zone /</b> file_name/ [cmo_name] / [delatt  OR  keepatt]   [keepatt_voronoi  OR  keepatt_median] 
+</pre>
+
+<p>Write out a set of fehm format zone files for the mesh object nodes. These include zones for mesh materials and the external faces of the mesh as described below. The keepatt option will keep node attributes that tag nodes on external mesh boundaries (see zone_outside).</p>
+
+<p>The delatt option will delete the outside attributes if they exist (the are removed by default). The area attributes for outside nodes can be created with the keepatt_voronoi or keepatt_median options (see zone_outside).</p>
+
+<p>Files are written in FEHM format and are described in the dump/fehm command by <a href="/pages/docs/commands/dump/DUMP3.html">clicking here for details.</a></p>
+
+<hr />
+
+<p>The <code class="language-plaintext highlighter-rouge">file_name</code> is used to create names for the following 5 files:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">file_name_material.zone</code> - node imt (material) zone lists (see <code class="language-plaintext highlighter-rouge">dump/zone_imt/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">file_name_outside.zone</code> - node external boundary zone lists (see <code class="language-plaintext highlighter-rouge">dump/zone_outside/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">file_name_outside_vor.area</code> or file_name_outside_med.area - node external boundary area lists (see <code class="language-plaintext highlighter-rouge">dump/zone_outside/...</code> command)</li>
+  <li><code class="language-plaintext highlighter-rouge">file_name_interface.zone</code> - zone lists for nodes along material interfaces, 0 length file if mesh is single material</li>
+  <li><code class="language-plaintext highlighter-rouge">file_name_multi_mat.zone</code> - lists of node pairs connected across material interfaces, 0 length file if mesh is single material</li>
+</ul>
+
+<pre>
+<b>dump / zone_imt /</b> file_name / [cmo_name] / [ imt_value ]   
+</pre>
+
+<p>will output only one file with name file_name_material.zone. 
+It is written in FEHM zone format and are described by 
+<a href="/pages/docs/commands/dump/DUMP3.html">clicking here for details.</a></p>
+
+<p><code class="language-plaintext highlighter-rouge">file_name_material.zone</code> is node list for each integer material (imt) value. 
+If the optional fifth argument is specified as an integer, then a node list file is written only listing the nodes with the value specified by imt_value. 
+For options to output PSET’s as ZONE/ZONN files see <a href="/pages/docs/commands/PSET.html">PSET</a>.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">zone_imt</code> file is one of a set of files written when the fehm file type is called.</p>
+
+<pre>
+<b>dump / zone_outside</b>  OR  <b>zone_outside_minmax /</b> file_name /[cmo_name] / 
+[delatt  OR  keepatt]  [keepatt_voronoi  OR  keepatt_median] 
+</pre>
+
+<p>Write fehm zone format files that contain the outside node list and the associated outside area list.</p>
+
+<p>There are two files written:</p>
+
+<ol>
+  <li>file_name_outside.zone is a node list for each of 6 possible external boundaries.</li>
+</ol>
+
+<p>If keepatt is specified, then 6 node based attributes are added to the mesh object with the names  <strong>bottom</strong>, <strong>top</strong>,  <strong>right_e</strong>, <strong>back_n</strong>, <strong>front_s</strong>, and <strong>left_w</strong>. A node can occur in multiple zones. For instance, a node located on a top corner of the mesh can be found in zones for top, front_s, and left_w.</p>
+
+<ul>
+  <li>1 = top = top = positive z direction (0,0,1)</li>
+  <li>2 = bottom = bottom = negative z direction (0,0,-1)</li>
+  <li>3 = left_w = left or west = negative x direction (-1,0,0)</li>
+  <li>4 = front_s = front or south = negative y direction (0,-1,0)</li>
+  <li>5 = right_e = right or east = positive x direction (1,0,0)</li>
+  <li>6 = back_n = back or north = positive y direction (0,1,0)</li>
+</ul>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">file_name_outside_vor.area</code> is a list of Voronoi area vectors <code class="language-plaintext highlighter-rouge">(Ax_i,Ay_i,Az_i)</code> associated with each external node. 
+It is written to match the node lists as written in the <code class="language-plaintext highlighter-rouge">outside.zone</code> file. Along with each outside zone tag (such as top), there is a sum of each vector for that zone. For applications such as infiltration, the z component (each 3rd value) would be used from the top zone list.</li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>00001  top   Sum VORONOI vectors:  0.5000000E+00 0.5000000E+00 0.5000000E+00
+nnum
+   3
+  -2.500000000000E-01  -2.500000000000E-01   2.500000000000E-01   2.500000000000E-01   0.000000000000E+00   1.250000000000E-01
+   0.000000000000E+00   2.500000000000E-01   1.250000000000E-01
+</code></pre></div></div>
+
+<p>If the keyword keepatt_voronoi is specified, three node attributes <code class="language-plaintext highlighter-rouge">(xn_varea, yn_varea, zn_varea)</code> representing the voronoi area are added.
+If the keyword keepatt_median is specified, three node attributes <code class="language-plaintext highlighter-rouge">(xn_marea, yn_marea, zn_marea)</code> representing the median area are added and the file name will be file_name_outside_med.area. 
+Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.</p>
+
+<p>The option <code class="language-plaintext highlighter-rouge">zone_outside_minmax</code> is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes <code class="language-plaintext highlighter-rouge">i_index, j_index, and k_index</code> are created.</p>
+
+<p><a href="https://lanl.github.io/LaGriT/assets/images/zone_outside.png" target="_blank"> Click here for an image </a> showing difference between the default and the minmax options for outside nodes.</p>
+
+<p>These zone_outside files are part of a set of files written when the zone or fehm file type is called. The fehm zone format and descriptions are  in the <code class="language-plaintext highlighter-rouge">dump/fehm</code> command details.</p>
+
+<h2 id="examples">EXAMPLES:</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump / gmv /file_name.gmv/cmo_name/
+dump / gmv /file_name.gmv/cmo_name/ascii
+
+dump / file_name.gmv / cmo_name
+
+dump / tecplot /file_name.plt/cmo_name
+
+dump / lagrit /file_name.lg/-all-/binary
+
+dump/file_name.inp/cmo_name
+dump / avs /file_name.inp/cmo_name
+dump / avs /file_name.inp/cmo_name/1 0 0 0 (output only node coordinates)
+dump / avs /file_name.inp/cmo_name/1 1 0 0 (output node coordinates and element connectivity)
+dump / avs /file_name.inp/cmo_name/0 0 0 1 (output element attributes)
+dump / avs /file_name.inp/cmo_name/0 0 2 2 (output node and element attributes without node numbers as first column of output)
+dump / avs2 /file_name.inp/cmo_name/1 1 1 0 (output node coordinates, element connectivity and node attributes)
+
+dump / fehm /file_root/cmo_name/ (write ascii compressed STOR file and full set of fehm input files)
+dump / stor /file_root/cmo_name/ (write ascii compressed STOR file)
+dump / stor /file_root/cmo_name/ binary (write unformatted compressed STOR file - platform dependent)
+dump / stor /file_name/cmo_name/ascii/area_scalar
+
+dump / zone_outside /file_root/cmo_name/keepatt (write outside node zones and voronoi areas, keep outside attributes)
+dump / zone_outside /file_root/cmo_name/keepatt_voronoi (write outside node zones and keep Voronoi area attributes)
+dump / zone_outside_minmax /file_root/cmo_name (write outside nodes at minmax extent of each column)
+
+dump / zone /file_root/cmo_name/ delatt keepatt_voronoi (write all FEHM zone and area files, delete the outside attributes and keep the voronoi area attributes)
+
+dump/ exo / file_name / cmo_name
+</code></pre></div></div>
+
+<p>Write generic exodus output without any sets.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/ exo / file_name / cmo_name / psets
+</code></pre></div></div>
+
+<p>Write exodus output with point sets only.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/ exo / file_name / cmo_name / / eltsets
+</code></pre></div></div>
+
+<p>Write exodus output with element sets only.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/ exo / file_name / cmo_name / / / facesets
+</code></pre></div></div>
+
+<p>Write exodus output with face sets only. The facesets are internally calculated and defined. Note that the algorithm is computationally expensive and can take a long time to finish.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/ exo / file_name / cmo_name / / / facesets file1,file2,...,filen
+</code></pre></div></div>
+
+<p>Write exodus output with face sets only. The face sets are imported from file1, file2, …, filen.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump/ exo / file_name / cmo_name / psets / eltsets / facesets file1,file2,...,filen
+</code></pre></div></div>
+
+<p>Write exodus output with all psets, element sets, and face sets. The face sets are imported from file1, file2, …, filen.</p>
+
+<p><a href="../main_dump.md">Click here for demos</a></p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

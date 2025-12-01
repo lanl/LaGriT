@@ -1,0 +1,289 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Fortran Accessing the Mesh Object</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="accessing-the-mesh-object-using-fortran">Accessing the Mesh Object using Fortran</h1>
+
+<p>LaGriT code is written mostly in Fortran, but also includes C and C++ codes. See the files in src and lg_util for more examples.</p>
+
+<p>The following template is a Fortran code example of using the an existing mesh
+object and of creating a new mesh object. The existing mesh object is a
+3d object. The object to be created is a 2d object. It is first
+necessary to set up the pointer statements for both the existing and new
+mesh objects. All these mesh object attributes are integers except
+for xic,yix,zic which are real*8.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> C Definitions for incoming (existing) cmo
+        pointer (ipimt1, imt1)
+        pointer (ipitp1, itp1)
+        pointer (ipicr1, icr1)
+        pointer (ipisn1, isn1)
+        integer imt1(1000000), itp1(1000000)
+        integer icr1(1000000), isn1(1000000)
+        
+        pointer (ipxic, xic)
+        pointer (ipyic, yic)
+        pointer (ipzic, zic)
+        real*8 xic(1000000), yic(1000000), zic(1000000)
+        
+        pointer (ipitetclr, itetclr)
+        pointer (ipitettyp, itettyp)
+        pointer (ipitetoff, itetoff)
+        pointer (ipjtetoff, jtetoff)
+        pointer (ipitet, itet)
+        pointer (ipjtet, jtet)
+        integer itetclr(1000000), itettyp(1000000)
+        integer itetoff(1000000), jtetoff(1000000)
+        integer itet(4,1000000) , jtet(4,1000000)
+        
+ C Definitions for cmo that is to be created
+        pointer (ipimt1a, imt1a)
+        pointer (ipitp1a, itp1a)
+        pointer (ipicr1a, icr1a)
+        pointer (ipisn1a, isn1a)
+        integer imt1a(1000000), itp1a(1000000)
+        integer icr1a(1000000), isn1a(1000000)
+        pointer (ipxica, xica)
+        pointer (ipyica, yica)
+        pointer (ipzica, zica)
+        real*8 xica(1000000), yica(1000000), zica(1000000)
+        pointer (ipitetclra, itetclra)
+        pointer (ipitettypa, itettypa)
+        pointer (ipitetoffa, itetoffa)
+        pointer (ipjtetoffa, jtetoffa)
+        pointer (ipiteta, iteta)
+        pointer (ipjteta, jteta)
+        integer itetclra(1000000), itettypa(1000000)
+        integer itetoffa(1000000), jtetoffa(1000000)
+        integer iteta(3,1000000),  jteta(3,1000000)
+
+ C Get the existing cmo - its name is in the variable cmoin
+        call cmo_get_name(cmoin,ier)
+
+ C Get the scalar mesh variables
+        call cmo_get_intinfo('nnodes',cmoin,npoints,lencm,itypcm,ier)
+        call cmo_get_intinfo('nelements',cmoin,ntets,lencm,itypcm,ier)
+        call cmo_get_intinfo('ndimensions\_topo',cmoin,ndt,lencm,itypcm,ier)
+        call cmo_get_intinfo('ndimensions\_geom',cmoin,ndg,lencm,itypcm,ier)
+        call cmo_get_intinfo('nodes\_per\_element',cmoin,npe,lencm,itypcm,ier)
+        call cmo_get_intinfo('faces\_per\_element',cmoin,nfpe,lencm,itypcm,ier)
+        call cmo_get_intinfo('mbndry',cmoin,mbndry,lencm,itypcm,ier)
+
+ C Get pointers to the vector variables
+        call cmo_get_info('ialias',cmoin,ipialias,lenialias,ictype,ier)
+        call cmo_get_info('imt1',cmoin,ipimt1,lenimt1,ictype,ier)
+        call cmo_get_info('itp1',cmoin,ipitp1,lenitp1,ictype,ier)
+        call cmo_get_info('icr1',cmoin,ipicr1,lenicr1,ictype,ier)
+        call cmo_get_info('isn1',cmoin,ipisn1,lenisn1,ictype,ier)
+        call cmo_get_info('xic',cmoin,ipxic,lenxic,ictype,ier)
+        call cmo_get_info('yic',cmoin,ipyic,lenyic,ictype,ier)
+        call cmo_get_info('zic',cmoin,ipzic,lenzic,ictype,ier)
+        call cmo_get_info('itetclr',cmoin,ipitetclr,lenitetclr,ictype,ier)
+        call cmo_get_info('itettyp',cmoin,ipitettyp,lenitettyp,ictype,ier)
+        call cmo_get_info('itetoff',cmoin,ipitetoff,lenitetoff,ictype,ier)
+        call cmo_get_info('jtetoff',cmoin,ipjtetoff,lenjtetoff,ictype,ier)
+        call cmo_get_info('itet',cmoin,ipitet,lenitet,ictype,ier)
+        call cmo_get_info('jtet',cmoin,ipjtet,lenjtet,icmotype,ier)
+
+ C Create the new 2d cmo - call it cmoout.
+        call cmo_exist(cmoout,ier)
+
+ C ier.eq.0 means that the cmo already exists - if so release it.
+        if(ier.eq.0) call cmo_release(cmoout,idelete)
+
+ C Set active cmo to cmoout
+        call cmo_set_name(cmoout,ier)
+
+ C set scalar mesh variables
+        call cmo_set_intinfo('nnodes',cmoout,npoints,1,1,ier)
+        call cmo_set\intinfo('nelements',cmoout,ntets,1,1,ier)
+
+ C the following scalars need to be set for a 2d cmo
+
+        call cmo_set_info('ndimensions_topo',cmoout,2,1,1,ier)
+        call cmo_set_info('ndimensions_geom',cmoout,3,1,1,ier)
+        call cmo_set_info('nodes_per_element',cmoout,3,1,1,ier)
+        call cmo_set_info('faces_per_element',cmoout,3,1,1,ier)
+
+ C allocate memory for vector variables
+        call cmo_newlen(cmoout,ier)
+
+ C now get the pointers to the allocated memory for the vector data
+        call cmo_get_info('imt1',cmoout,ipimt1a,lenimt1a,icmotype,ier)
+        call cmo_get_info('itp1',cmoout,ipitp1a,lenitp1a,icmotype,ier)
+        call cmo_get_info('icr1',cmoout,ipicr1a,lenicr1a,icmotype,ier)
+        call cmo_get_info('isn1',cmoout,ipisn1a,lenisn1a,icmotype,ier)
+        call cmo_get_info('xic',cmoout,ipxica,lenxica,icmotype,ier)
+        call cmo_get_info('yic',cmoout,ipyica,lenyica,icmotype,ier)
+        call cmo_get_info('zic',cmoout,ipzica,lenzica,icmotype,ier)
+        call cmo_get_info('itetclr',cmoout,ipitetclra,lenclra,icmotype,ier)
+        call cmo_get_info('itettyp',cmoout,ipitettypa,lentypa,icmotype,ier)
+        call cmo_get_info('itetoff',cmoout,ipitetoffa,lenoffa,icmotype,ier)
+        call cmo_get_info('jtetoff',cmoout,ipjtetoffa,lenoffa,icmotype,ier)
+        call cmo_get_info('itet',cmoout,ipiteta,leniteta,icmotype,ier)
+        call cmo_get_info('jtet',cmoout,ipjteta,lenjteta,icmotype,ier)
+
+ C now the values for the components of the 2d mesh object can be assigned.
+
+ 
+</code></pre></div></div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

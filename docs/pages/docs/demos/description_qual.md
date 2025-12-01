@@ -1,5 +1,5 @@
 ---
-title: Example 1: Check quality of various meshes
+title: "Example 1: Check quality of various meshes"
 ---
 
 Example 1: Check quality of various meshes

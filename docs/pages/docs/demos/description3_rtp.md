@@ -1,5 +1,5 @@
 ---
-title: Example 3: creatpts in a spherical geometry
+title: "Example 3: creatpts in a spherical geometry"
 ---
 
  Example 3: creatpts in a spherical geometry

@@ -1,0 +1,156 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2019/04/15 Static          *                 
+*               *    Run Time: 2019/Dec 17  09:31:36          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# TEST triangulate (lagrit_input_tri.lgi)                                       
+#                                                                               
+# Input file input_concave.inp                                                  
+#  7  0 0 0 0                                                                   
+#  1 0.  0.  0.                                                                 
+#  2 9.  0.  0.                                                                 
+#  3 10. 0.  0.                                                                 
+#  4 10. 10. 0.                                                                 
+#  5 5.  20. 0.                                                                 
+#  6 0.  10. 0.                                                                 
+#  7 2.  4.  0.                                                                 
+# -----------------------------                                                 
+cmo/create/cmotri1///tri                                                        
+read/avs/input_concave.inp/cmotri1                                              
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: cmotri1                                        
+ 
+  1 Mesh Object name: cmotri1                                                   
+    number of nodes =             7        number of elements =            0    
+    dimensions geometry =         3        element type =                tri    
+    dimensions topology =         2        3 nodes      3 faces      3 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+triangulate/counterclockwise                                                    
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.496506830649E-11                       
+FILTER:Dudding duplicate points:           0                                    
+finish                                                                          
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is            7                                        
+RMPOINT: new element count is          5                                        
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo/setatt/cmotri1/itetclr/1                                                    
+         5 values reset for attribute itetclr                                   
+ 
+cmo/setatt/cmotri1/imt/1                                                        
+         7 values reset for attribute imt1                                      
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   4.9650683E-12  1.2239838E-34                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          1                          
+elements with aspect ratio b/w .1  and .2 :          1                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          3                          
+min aspect ratio =  0.8841E-01  max aspect ratio =  0.9889E+00                  
+ 
+epsilonvol:   1.1102230E-10                                                     
+---------------------------------------                                         
+element volumes b/w  0.5000E+01 and  0.7924E+01:         1                      
+element volumes b/w  0.7924E+01 and  0.1256E+02:         1                      
+element volumes b/w  0.1256E+02 and  0.1991E+02:         0                      
+element volumes b/w  0.1991E+02 and  0.3155E+02:         1                      
+element volumes b/w  0.3155E+02 and  0.5000E+02:         2                      
+min volume =   5.0000000E+00  max volume =   5.0000000E+01                      
+-----------------------------------------------------------                     
+         5 total elements evaluated.                                            
+ 
+dump/gmv/output_tri1.gmv/cmotri1                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# create concave by removing node 7                                             
+cmo/create/cmotri2///tri                                                        
+copypts/cmotri2/cmotri1/0,0/1,6,1                                               
+copypts added nodes          1 to          6                                    
+triangulate/counterclockwise                                                    
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.496506830649E-11                       
+FILTER:Dudding duplicate points:           0                                    
+finish                                                                          
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is            6                                        
+RMPOINT: new element count is          4                                        
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+cmo/setatt/cmotri2/itetclr/1                                                    
+         4 values reset for attribute itetclr                                   
+ 
+cmo/setatt/cmotri2/imt/1                                                        
+         6 values reset for attribute imt1                                      
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   4.9650683E-12  1.2239838E-34                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          1                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :          3                          
+min aspect ratio =  0.1891E+00  max aspect ratio =  0.9889E+00                  
+ 
+epsilonvol:   1.1102230E-10                                                     
+---------------------------------------                                         
+element volumes b/w  0.5000E+01 and  0.7924E+01:         1                      
+element volumes b/w  0.7924E+01 and  0.1256E+02:         0                      
+element volumes b/w  0.1256E+02 and  0.1991E+02:         0                      
+element volumes b/w  0.1991E+02 and  0.3155E+02:         0                      
+element volumes b/w  0.3155E+02 and  0.5000E+02:         3                      
+min volume =   5.0000000E+00  max volume =   5.0000000E+01                      
+-----------------------------------------------------------                     
+         4 total elements evaluated.                                            
+ 
+dump gmv output_tri2.gmv cmotri2                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

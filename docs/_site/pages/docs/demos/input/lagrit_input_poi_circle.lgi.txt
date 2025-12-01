@@ -1,0 +1,84 @@
+#
+# demo of createpts / poisson_disk module using various arguments
+#
+# output01* is just the distribution of vertices without connectings as Delaunay triangles
+# output02* connect the vertices as a Delaunay triangulation
+# output03* is the same as output02 except the resoltion is reduced from 0.1 to 0.05
+# output04* variable resolution mesh with target edge length defined in user_resolution_1.mlgi
+# output05* variable resolution mesh with target edge length defined in user_resolution_2.mlgi
+#
+# Build a unit circle polygon
+# NP=17 because vertices are distributed from 0-360 degrees 
+# and then 'filter' removes the duplicate vertex
+#
+define / NP / 17
+cmo / create / mo_pts / / / tet
+createpts/rtz/ 1,NP,1 /1.,0.,0./1.,360.,0./1,1,1/
+cmo / printatt / mo_pts / -xyz- / minmax
+filter / 1 0 0
+rmpoint / compress
+dump / avs / tmp_polygon_circle_16.poly / mo_pts / 1 0 0 0
+cmo / delete / mo_pts
+#
+# Read in a polygon file that defines a unit circle with 16 vertices
+#
+read / avs / tmp_polygon_circle_16.poly / mo_polygon
+######################################
+# Compute Poisson Disk vertex distribution with target spacing of 0.1
+# Do not connect the vertices
+#
+define / H_SCALE / 0.1
+createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
+      / H_SCALE / no_connect
+dump / avs / output01_vertices.inp / mo_poisson_disk
+cmo / delete / mo_poisson_disk
+######################################
+# Compute Poisson Disk vertex distribution with target spacing of 0.1
+# Connect the vertices as a Delaunay triangulation
+#
+createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
+      / H_SCALE / connect
+quality / edge_min / y
+dump / avs / output02_triangle_h_0.1.inp / mo_poisson_disk
+cmo / delete / mo_poisson_disk
+######################################
+# Decrease the resolution to a target spacing of 0.05
+#
+define / H_SCALE / 0.05
+createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
+      / H_SCALE / connect
+quality / edge_min / y
+dump / avs / output03_triangle_h_0.05.inp / mo_poisson_disk
+cmo / delete / mo_poisson_disk
+######################################
+# Create a variable resolution mesh
+# Resolution is defined in user functions defined in user_resolution_1.mlgi
+#
+# Decrease the resolution to a target spacing of 0.01
+#
+# The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_1.mlgi
+#
+define /   H_SCALE / 0.01
+define / 10H_SCALE / 0.1
+createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
+      / H_SCALE / connect / user_resolution_1.mlgi
+quality / edge_min / y
+dump / avs / output04_triangle_variable_1.inp / mo_poisson_disk
+cmo / delete / mo_poisson_disk
+######################################
+# Create a variable resolution mesh
+# Resolution is defined in user functions defined in user_resolution_1.mlgi
+#
+# Decrease the resolution to a target spacing of 0.01
+#
+# The two user defined variables H_SCALE, 10H_SCALE, are used in user_resolution_2.mlgi
+#
+define /   H_SCALE / 0.01
+define / 10H_SCALE / 0.1
+createpts / poisson_disk / 2d_polygon / mo_poisson_disk / mo_polygon &
+      / H_SCALE / connect / user_resolution_2.mlgi
+quality / edge_min / y
+dump / avs / output05_triangle_variable_2.inp / mo_poisson_disk
+cmo / delete / mo_poisson_disk
+#
+finish

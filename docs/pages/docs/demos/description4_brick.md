@@ -1,5 +1,5 @@
 ---
-title:  Example 4: creatpts in a rectangular geometry that includes a material interface
+title:  "Example 4: creatpts in a rectangular geometry that includes a material interface"
 ---
 
  Example 4: creatpts in a rectangular geometry that includes a material
