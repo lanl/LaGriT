@@ -1,69 +1,77 @@
-#ifndef POLYGON_H_
-#define POLYGON_H_
-#include <vector>
-#include <cmath>
+#ifndef DOMAIN_H_
+#define DOMAIN_H_
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include <random>
 
-/* Point Structure */
-struct Point {
-    double x = 0; // x coord
-    double y = 0; // y coord
-    double radius = 0; // exclusion radius
-    unsigned int ix = 0; // neighbor grid x-index
-    unsigned int iy = 0; // neighbor grid y-index
-    unsigned int nodeNum = 0;
+#include "poi_2D_polygon.h"
+
+// /* Point Structure */
+// struct Point {
+//     double x; // x coord
+//     double y; // y coord
+//     double z; // z coord
+//     double radius; // exclusion radius
+//     unsigned int ix; // neighbor grid x-index
+//     unsigned int iy; // neighbor grid y-index
+//     unsigned int iz; // neighbor grid y-index
+//     unsigned int nodeNum;
+//     unsigned int face;
+//     // std::vector<unsigned int>edges;
+// };
+
+/* Edge Structure */
+struct Edge {
+    unsigned int i; // node 1 index
+    unsigned int j; // node 2 index
 };
 
-/* Polygon Class */
-class Polygon {
-public:
-    // mesh object name for input polygon
-    const char * mo_poly_name;
-    // mesh object name for output points
-    const char * mo_pts_name;
 
-    // outputfilename
-    std::string outputFilename = "points.xyz";
+/* Domain Class */
+class Domain {
+  public:
+    // output point name
+    const char * mo_poi_pts_out;
+    
     // miminum mesh resolution provided by user
     double h;
     // number of sample attempts around an accepted point (cheap)
-    unsigned int numSamples = 10;
+    unsigned int numSamples;
+    
     // number of resample sweeps used to fill in holes (expensive)
-    unsigned int resampleSweeps = 1;
+    unsigned int resampleSweeps;
     // Number of vertices on the input polygon.
     unsigned int numVertices;
     // Numder of nodes in the point distribution
     unsigned int numNodes;
     // Points in the point distribution
     std::vector<Point> nodes;
+    
+    // Edges of the bounding cuboid
+    std::vector<Edge> edges;
+    
+    int seed;
+    std::mt19937_64 generator;
+    
     // Bounding box of the polygon
     double xMax;
     double xMin;
     double yMin;
     double yMax;
-    double zValue;
-
-    // Random number generator
-    unsigned int seed = 0;
-    std::mt19937_64 generator;
-
+    double zMin;
+    double zMax;
+    
     // Basic polygon functions -> polygon.cpp
     // bool parseCommandLine(int argc, char **argv);
-    bool loadVertices();
-    void addNodesToMeshObject();
-
+    // void loadVertices();
     void findBoundingBox();
     void initializeVariables();
-
     void printNodes();
-    void dumpNodes();
-
-    // LAGRIT added functions
-    bool loadVerticesCMO();
-
-
+    // void dumpNodes();
+    void setBoundary();
+    void setEdges();
+    
     // Neighborhood Grid Parameters and functions
     // Neighborhood grid cell size (h/sqrt(2))
     double cellSize;
@@ -73,12 +81,18 @@ public:
     unsigned int numCellsX;
     // Numner of cells in Y
     unsigned int numCellsY;
-    // Neighbor grid with linear indexing for 2D field 
-    std::vector<unsigned int> grid;
+    // Numner of cells in Y
+    unsigned int numCellsZ;
+    // Neighbor grid with linear indexing for 2D field
+//    std::vector<unsigned int> grid;
+    std::vector<int> grid;
+    
+    // total number of cells in the neighbor grid
+    unsigned int totalNGCells;
     
     // Vector of cells that do not contain a point
     std::vector<int> emptyCells;
-
+    
     // Neighborbood grid function -> neighborhoodGrid.cpp
     unsigned int getNeighborGridCellID(double x, double xMin);
     void initializeNeighborGrid();
@@ -88,9 +102,15 @@ public:
     void findEmptyCells();
     unsigned int fillEmptyCells();
     void tagNeighborCells(Point point);
-
+    unsigned int getNGLinearIndex(unsigned int i, unsigned int j, unsigned int k);
+    
+    // Distance Field Parameters
+    // distance field filename
+    
     // Name of distance field mesh object
     const char * mo_dfield_name;
+    // max index, used for error detection
+    unsigned int dfieldNumNodes;
     // distance field cell size (uniform in x and y)
     double dfCellSize;
     // inverse of distance field size
@@ -99,37 +119,43 @@ public:
     double dfXMin;
     // minimum y-value of distance field
     double dfYMin;
+    // minimum z-value of distance field
+    double dfZMin;
     // number of cells in x direction of distance field
     unsigned int dfNumCellsX;
     // number of cells in y direction of distance field
     unsigned int dfNumCellsY;
+    // number of cells in y direction of distance field
+    unsigned int dfNumCellsZ;
     std::vector<double> distanceField;
-
+    
     // Distance field -> distancefield.cpp
     void loadDistanceField();
-    void loadDistanceFieldCMO();
     void dumpDistanceField();
     unsigned int getDFCellID(double x, double xMin);
     void getExclusionRadius(Point &point);
-
-    // Sampling functions -> poi_sampling.cpp
+    unsigned int getDFLinearIndex(unsigned int i, unsigned int j, unsigned int k);
+    
+    // Sampling functions -> sampling.cpp
+    double uniformDistribution();
+    void initializeRandomGenerator(unsigned int seed);
     void mainSampling(unsigned int startIndex, bool restartFlag);
     void resample();
-    bool testCandidate(Point &newPoint);
+    Point newCandidate(Point currentPoint);
+    bool testCandidate(Point &newPoint, double scaleFactor);
     void acceptCandidate(Point &newPoint);
     bool emptyDiskProperty(Point newPoint);
-    void sampleBoundaries();
+    void sampleEdges();
+    void sampleFaces();
     std::vector<Point> sampleAlongLine(Point x0, Point x1);
     bool inBoundingBox(Point point);
     bool inDomain(Point point);
-    double uniformDistribution();
-    void initializeRandomGenerator(unsigned int seed);
-    Point newCandidate(Point currentPoint);
-
-    // Constructor
-    Polygon();
+    Point newCandidateOnFace(Point currentPoint, unsigned int faceID);
+    
+    // io
+    void addNodesToMeshObject();
     // Destructor
-    ~Polygon();
+    ~Domain();
 };
 
 #endif

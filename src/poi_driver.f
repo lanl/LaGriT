@@ -1,4 +1,5 @@
-      subroutine poisson_disk(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
+      subroutine poisson_disk_2d
+     &            (imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
 C
 C     createpts / poisson_disk / [2d_polygon|3d_box] / mo_out / mo_polygon / 
 C                 h_spacing_scalar / [connect|no_connect] / [user_h_field_att.mlgi]
@@ -27,7 +28,7 @@ C #####################################################################
 C #####################################################################
 C
 C     driver for Poisson disk vertex distribution routine 
-C     c-fortran interface in poi_routine_2D.cpp
+C     c-fortran interface in poi_2D_routine_2D.cpp
 C     call poisson_2d
 C    & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
 C    & np_x,np_y,seed,number_of_samples,resample_sweeps)
@@ -36,10 +37,10 @@ C #####################################################################
       implicit none
 C
 C  Define user_sub arguments
+      integer nwds,ierror
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
       real*8  xmsgin(nwds)
-      integer nwds,ierror
       integer seed,number_of_samples,resample_sweeps
 C Define variables 
       integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
@@ -50,7 +51,7 @@ C Define variables
       logical if_convex
 C
       integer np_x, np_y
-      real*8 h, h2, h02, h05, h08, h10, h_half,
+      real*8 h, h02, h05, h08, h10, h_half,
      &       h_extrude, h_radius, h_trans, h_prime,
      &       h_spacing, delta, delta_x, delta_y, delta_z
       real*8 poi_poly_h_min, poi_poly_ang_min, poi_poly_ang_max
@@ -62,7 +63,7 @@ C
      &   z_constant,buffer_factor
       real*8 angle_minimum
       integer ijob_buffer
-
+C
 C     pointers for x,y,z coordinates
       pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
       real*8 xic(*),yic(*),zic(*)
@@ -86,7 +87,7 @@ C     Do some work for the poisson routines
 C     in this fortran driver calling lagrit commands
 C     once everything is setup, call poisson_2d to create points
 C
-      isubname="poisson_disk"
+      isubname="poisson_disk_2d"
       ierror = 0
       mo_poi_h_field = 'mo_poi_h_field'
 C
@@ -94,7 +95,7 @@ C
      &   '---------------------------------------'
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
-     & '===== Begin driver for Poisson disk vertex distribution. ====='
+     & '=== Begin driver for Poisson disk 2D vertex distribution. ==='
       call writloga('default',0,logmess,0,ierrw)
       write(logmess,'(a)') 
      &   '---------------------------------------'
@@ -356,19 +357,28 @@ C ---------------------------------------------------------------------
 C
 C     Compute some length scale parameters based on h, minimum feature size
 C
-      h2 = 2.0*h
+      h_half = h*0.5d0
+      h02 = h*2.0d0
+      h05 = h*5.0d0
+      h08 = h*8.0d0
+      h10 = h*10.0d0
       delta = 0.7d0
-      h_extrude = 0.8d0*h2
+      h_extrude = 0.8d0*h02
 C
       h_radius = ((0.5*h_extrude)**2 + (0.5*h_extrude)**2)**0.5
       h_trans = -0.5*h_extrude + h_radius*cos(asin(delta))
-      h_prime = 0.4*h2
+      h_prime = 0.4*h02
 C
       ijob_buffer = 1
-      call buffer_xyz_minmax(
+      call buffer_minmax_range(
      &      ijob_buffer,h,
-     &      xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff,
-     &      xmin_poly,xmax_poly,ymin_poly,ymax_poly,zmin_poly,zmax_poly)
+     &      xmin_buff,xmax_buff,xmin_poly,xmax_poly)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      ymin_buff,ymax_buff,ymin_poly,ymax_poly)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      zmin_buff,zmax_buff,zmin_poly,zmax_poly)
 
       delta_x = xmax_buff - xmin_buff
       delta_y = ymax_buff - ymin_buff
@@ -376,7 +386,6 @@ C
       np_y = ceiling(delta_y/h)
       np_x = 1.5*np_x
       np_y = 1.5*np_y
-C
       call cmo_get_info('nnodes',mo_poi_poly,nnodes_poly,ilen,ityp,ierr)
       call cmo_get_info('xic',   mo_poi_poly,ipxic,      ilen,ityp,ierr)
       call cmo_get_info('yic',   mo_poi_poly,ipyic,      ilen,ityp,ierr)
@@ -500,11 +509,6 @@ C
 C ---------------------------------------------------------------------
 C     Set some LaGriT string variables to values 
 C ---------------------------------------------------------------------
-      h_half = h*0.5d0
-      h02 = h*2.0d0
-      h05 = h*5.0d0
-      h08 = h*8.0d0
-      h10 = h*10.0d0
       write(cbuf,'(a,1pe13.6,a)')
      &     'define / POI_H_FACTOR / ',h,' ; finish '
       call dotaskx3d(cbuf,ierr)
@@ -657,14 +661,15 @@ C
       call cmo_select(mo_poi_poly,ierr)
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
-C     Poisson Disk algorithm call
+C     Poisson Disk algorithm call (begin)
 C ---------------------------------------------------------------------
 C
       call poisson_2d
      & (mo_poi_poly,mo_poi_pts_out,mo_poi_h_field,h_spacing,
      & np_x,np_y,seed,number_of_samples,resample_sweeps)
+C
 C ---------------------------------------------------------------------
-C     Poisson Disk algorithm call
+C     Poisson Disk algorithm call (end)
 C ---------------------------------------------------------------------
 C ---------------------------------------------------------------------
 C
@@ -823,7 +828,7 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine get_minimum_edge_length(nnode,x,y,h_min)
 C #####################################################################
 C
@@ -856,7 +861,7 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine test_convex(nnode,x,y,if_convex)
 C #####################################################################
 C
@@ -908,7 +913,7 @@ C #####################################################################
          if_convex = .true.
       endif
       end
-C SUBROUTINE BEGIN ####################################################
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
       subroutine get_min_max_angle(nnode,x,y,if_rad_deg,ang_min,ang_max)
 C #####################################################################
 C
@@ -996,21 +1001,16 @@ C
 
       return
       end
-C SUBROUTINE BEGIN ####################################################
-      subroutine buffer_xyz_minmax(ijob,buffer_factor,
-     &                       xmin_buff,xmax_buff,
-     &                       ymin_buff,ymax_buff,
-     &                       zmin_buff,zmax_buff,
-     &                       xmin,xmax,
-     &                       ymin,ymax,
-     &                       zmin,zmax)
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
+      subroutine buffer_minmax_range(ijob,buffer_factor,
+     &                       xmin_buff,xmax_buff,xmin,xmax)
 C #####################################################################
 C
 C     PURPOSE -
 C
-C        Take as input a bounding box XYZ min/max and create a new bounding
-C        box that is either a constant amount larger (ijob=1) or a scale factor
-C        of the original box size larger (ijob=2)
+C        Take as input a min/max range and create a new range
+C        that is either a constant amount larger/smaller (ijob=1) or a scale factor
+C        of the original range size larger/smaller (ijob=2)
 C
 C     INPUT ARGUMENTS -
 C
@@ -1018,12 +1018,11 @@ C        ijob = 1, then add/subtract buffer_factor to bounding box limits
 C             = 2, then add/subtract scale factor
 C                  e.g.  xmin_buff = xmin - ((xmax - xmin)*buffer_factor)
 C        buffer_factor - value added/subtracted (ijob=1) or scale factor (ijob=2)
-C        xmin,xmax,ymin,ymax,zmin,zmax - input bounding box
+C        xmin,xmax - input range
 C
 C     OUTPUT ARGUMENTS -
 C
-C        xmin_buff,xmax_buff,ymin_buff,ymax_buff,zmin_buff,zmax_buff, - output bounding box
-C
+C        xmin_buff,xmax_buff - output modified min/max
 C
 C #####################################################################
 
@@ -1031,11 +1030,7 @@ C #####################################################################
 
       integer ijob
       real*8 xmin,xmax,
-     &       ymin,ymax,
-     &       zmin,zmax,
      &       xmin_buff,xmax_buff,
-     &       ymin_buff,ymax_buff,
-     &       zmin_buff,zmax_buff,
      &       buffer_factor
 
       if(ijob .eq. 1) then
@@ -1044,20 +1039,889 @@ C  Set buffer based on a fixed value added or subtracted from the min/max values
 C ----------------------------------------------------------
          xmin_buff = xmin - buffer_factor
          xmax_buff = xmax + buffer_factor
-         ymin_buff = ymin - buffer_factor
-         ymax_buff = ymax + buffer_factor
-         zmin_buff = zmin - buffer_factor
-         zmax_buff = zmax + buffer_factor
       elseif(ijob .eq. 2) then
 C ----------------------------------------------------------
-C Set buffer based on a proportion of the bounding box dimension
+C Set buffer based on a proportion of the range size
 C ----------------------------------------------------------
          xmin_buff = xmin - ((xmax - xmin)*buffer_factor)
          xmax_buff = xmax + ((xmax - xmin)*buffer_factor)
-         ymin_buff = ymin - ((ymax - ymin)*buffer_factor)
-         ymax_buff = ymax + ((ymax - ymin)*buffer_factor)
-         zmin_buff = zmin - ((zmax - zmin)*buffer_factor)
-         zmax_buff = zmax + ((zmax - zmin)*buffer_factor)
+      endif
+
+      return
+      end
+C SUBROUTINE BEGIN #################################################### <<<<<<<<<<<<<<<<<<<
+      subroutine poisson_disk_3d
+     &            (imsgin,xmsgin,cmsgin,msgtyp,nwds,ierror)
+C
+C     createpts / poisson_disk / 2d_polygon / mo_out / mo_polygon / h_spacing_scalar / 
+C                 [connect|no_connect] / [user_resolution.mlgi] /
+C                 [ poisson_seed integer ] [ number_of_samples integer ] 
+C                 [ resample_sweeps integer ]
+C
+C     User supplies via LaGriT control file:
+C     define / POI_XMIN / real
+C     define / POI_YMIN / real
+C     define / POI_ZMIN / real
+C     define / POI_XMAX / real
+C     define / POI_YMAX / real
+C     define / POI_ZMAX / real
+C
+C     createpts / poisson_disk / 3d_box / mo_out / h_spacing_scalar / 
+C                 [connect|no_connect] / [user_resolution.mlgi] /
+C                 [ poisson_seed integer ] [ number_of_samples integer ] 
+C                 [ resample_sweeps integer ]
+C
+C     createpts / poisson_disk(1) / 3d_box(2) / mo_out(3) / h_spacing_scalar(4) / 
+C                 [connect|no_connect](5) / [user_resolution.mlgi](6) /
+C                 [ poisson_seed integer ](7) [ number_of_samples integer ](8) 
+C                 [ resample_sweeps integer ](9)
+C #####################################################################
+C
+C     PURPOSE -
+C
+C     Parse inputs and setup necessary data structures for call to
+C     Poisson disk point distribution algorithm.
+C
+C     INPUT ARGUMENTS -
+C
+C        imsgin - integer array of tokens returned by parser
+C        xmsgin - real array of tokens returned by parser
+C        cmsgin - character array of tokens returned by parser
+C        msgtyp - integer array of token types returned by parser
+C
+C     OUTPUT ARGUMENTS -
+C
+C        ierror - 0 for successful completion - -1 otherwise
+C
+C
+C #####################################################################
+
+C #####################################################################
+C
+C     driver for Poisson disk vertex distribution routine
+C     ???????????????????? 
+C     c-fortran interface in poi_routine_2D.cpp
+C     call poisson_3d
+C    & (poi_xmin,poi_ymin,poi_zmin,poi_xmax,poi_ymax,poi_zmax,
+C    &  mo_poi_pts_out,mo_poi_h_field,h_spacing,
+C    & np_x,np_y,np_z,seed,number_of_samples,resample_sweeps)
+C     ???????????????????? 
+C
+C #####################################################################
+      implicit none
+C
+C  Define user_sub arguments
+      integer nwds,ierror, num_nwds
+      character*32 cmsgin(nwds)
+      integer imsgin(nwds),msgtyp(nwds)
+      real*8  xmsgin(nwds)
+      character*32 cstring_in, cstring_out
+      integer istring_type, istring_out
+      real*8  rstring_out
+      integer seed,number_of_samples,resample_sweeps
+C Define variables 
+      integer i,istart,iend,ilen,ilen2,lenopt,ityp,ierr,ierrw,icharlnf
+      integer h_fac
+      integer ndimension, if_connect
+      integer if_h_provided, if_h_field_variable
+      real*8     poi_edge_buffer
+      integer if_poi_edge_buffer
+      integer ierror_xyz(6)
+
+      logical if_convex
+C
+      integer np_x, np_y, np_z
+      real*8 h, h02, h05, h08, h10, h_half,
+     &       h_extrude, h_radius, h_trans, h_prime,
+     &       h_spacing, delta, delta_x, delta_y, delta_z
+      real*8 poi_box_xmin,poi_box_ymin,poi_box_zmin,
+     &       poi_box_xmax,poi_box_ymax,poi_box_zmax,
+     &       xmin_buff,xmax_buff,
+     &       ymin_buff,ymax_buff,
+     &       zmin_buff,zmax_buff,
+     &       dx_lookup, dy_lookup, dz_lookup,
+     &       epsilona_box, epsilonv_box, buffer_dxyz
+      integer ijob_buffer
+
+C     pointers for x,y,z coordinates
+      pointer (ipxic,xic),(ipyic,yic),(ipzic,zic)
+      real*8 xic(*),yic(*),zic(*)
+C     pointer for h_field_att
+      pointer (iph_field, h_field)
+      real*8 h_field(*)
+      real*8 h_field_min, h_field_max
+C
+      character*32  mo_poi_h_field, mo_poi_pts_out
+      character*32  file_poisson_vertices, mo_h_field_user
+      character*32  file_user_h_field_att
+      character*512 logmess
+      character*8092 cbuf
+      character*12  isubname
+C
+C ---------------------------------------------------------------------
+C ---------------------------------------------------------------------
+C
+C     Do some work for the poisson routines 
+C     in this fortran driver calling lagrit commands
+C     once everything is setup, call poisson_2d to create points
+C
+      isubname="poisson_disk_3d"
+      ierror = 0
+      mo_poi_h_field = 'mo_poi_h_field'
+C
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     & '=== Begin driver for Poisson disk 3D vertex distribution. ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+C
+C     These parameters will be set based on user input.
+C
+C ???      mo_poi_poly      = "                                "
+C ???      file_avs_poly    = "                                "
+      ndimension = 0
+      if_connect = 0
+      if_h_provided = 0
+      if_h_field_variable = 0
+      if_convex = .true.
+C ---------------------------------------------------------------------
+C     Command Argument 3 (2 since passed from createpts)
+C     Determine if action is 2D polygon or 3D box
+C ---------------------------------------------------------------------
+      num_nwds = 2
+      if(msgtyp(num_nwds) .eq. 3) then
+C
+C     Argument is type character
+C
+      lenopt=icharlnf(cmsgin(num_nwds))
+      if(cmsgin(num_nwds)(1:lenopt) .eq. '2d_polygon')then
+            ndimension = 2
+      elseif(cmsgin(num_nwds)(1:lenopt) .eq. '3d_box')then
+            ndimension = 3
+      else
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga('default',0,'invalid token 3',0,ierrw)
+         call writloga
+     &        ('default',0,'valid token 3 2d_polygon|3d_box',0,ierrw)
+         call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+      endif
+      else
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga('default',0,'invalid token 3',0,ierrw)
+         call writloga
+     &        ('default',0,'valid token 3 2d_polygon|3d_box',0,ierrw)
+         call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+      endif
+C ---------------------------------------------------------------------
+C     Command Argument 4 (3 since passed from createpts)
+C     Assign name of mesh object that will hold the
+C     Poisson Disk vertex distribution.
+C ---------------------------------------------------------------------
+      num_nwds = 3
+      if(msgtyp(num_nwds) .eq. 3) then
+         lenopt=icharlnf(cmsgin(num_nwds))
+         mo_poi_pts_out = cmsgin(num_nwds)(1:lenopt)
+      endif
+C ---------------------------------------------------------------------
+C     Command Argument 5 (4 since passed from createpts)
+C     This is the target edge length for a uniform mesh or
+C     this is the minmum edge length for a variable edge size mesh.
+C
+C     If command argument is a float or integer, assign h_spacing to this value.
+C
+C     If command argument is character, assume it is the name of mesh
+C     object holding a quad point distribution that will be used as
+C     lookup table for variable h_spacing(x,y).
+C ---------------------------------------------------------------------
+      num_nwds = 4
+      if((msgtyp(num_nwds) .eq. 1) .or. (msgtyp(num_nwds) .eq. 2)) then
+         if_h_provided = 1
+C
+C        Use h as variable name
+C
+         if(msgtyp(num_nwds) .eq. 2) then
+         h_spacing = xmsgin(num_nwds)
+         h = xmsgin(num_nwds)
+         else
+         h_spacing = float(imsgin(num_nwds))
+         h = float(imsgin(num_nwds))
+         endif  
+      elseif(msgtyp(num_nwds) .eq. 3) then
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga('default',0,'invalid token 5',0,ierrw)
+         call writloga
+     &        ('default',0,'valid token 5 real or integer',0,ierrw)
+         call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+      endif
+C ---------------------------------------------------------------------
+C     Command Argument 6 (5 since passed from createpts)
+C     Decide if Poisson Disk point distribution is past through
+C     Delaunay triangulation/tetrahedralization module to create
+C     tri/tet connectivity.
+C ---------------------------------------------------------------------
+      num_nwds = 5
+      lenopt=icharlnf(cmsgin(num_nwds))
+      if(cmsgin(num_nwds)(1:lenopt) .eq. 'connect')then
+         if_connect = 1
+      elseif(cmsgin(num_nwds)(1:lenopt) .eq. 'no_connect')then
+         if_connect = 0
+      else
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga('default',0,'invalid token 6',0,ierrw)
+         call writloga
+     &        ('default',0,'valid token 6 connect|no_connect',0,ierrw)
+         call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         ierror = -1
+         goto 9999
+      endif
+C ---------------------------------------------------------------------
+C     Set default values
+      seed = 1
+      number_of_samples = 10
+      resample_sweeps = 1
+C
+C     Command Argument 7 (6 since passed from createpts)
+C     If this argument exist, it should be type character, and it will
+C     be used as the file name of the lookup table for h field.
+C
+C     There are 4 possible entries if Argument 7 exists
+C     - file_name.mlgi
+C     - poisson_seed      or POISSON_SEED
+C     - number_of_samples or NUMBER_OF_SAMPLES
+C     - resample_sweeps   or RESAMPLE_SWEEPS
+C
+C     Case: nwds=7,  no  variable resolution control file, 1 parameter specified
+C     Case: nwds=8,  yes variable resolution control file, 1 parameter specified
+C     Case: nwds=9,  no  variable resolution control file, 2 parameter specified
+C     Case: nwds=10, yes variable resolution control file, 2 parameter specified
+C     Case: nwds=11, no  variable resolution control file, 3 parameter specified
+C     Case: nwds=12, yes variable resolution control file, 3 parameter specified
+      num_nwds = 6
+
+      if((nwds .eq. 6) .or.(nwds .eq. 8).or.
+     1   (nwds .eq. 10).or.(nwds .eq. 12))then
+C        Case: variable resolution user specified control file name
+         lenopt=icharlnf(cmsgin(num_nwds))
+         if_h_field_variable = 1
+         lenopt=icharlnf(cmsgin(num_nwds))
+         file_user_h_field_att = cmsgin(num_nwds)(1:lenopt)
+      endif
+
+      if(nwds .gt. 6)then
+      if(nwds .eq. 7) then
+         iend   = 1
+         istart = 6
+      elseif(nwds .eq. 8) then
+         iend   = 1
+         istart = 7
+      elseif(nwds .eq. 9) then
+         iend   = 3
+         istart = 6
+      elseif(nwds .eq. 10) then
+         iend   = 3
+         istart = 7
+      elseif(nwds. eq. 11) then
+         iend   = 5
+         istart = 6
+      elseif(nwds. eq. 12) then
+         iend   = 5
+         istart = 7
+      else
+C        ERROR
+      endif
+      do i = istart, istart+iend, 2
+
+      if(msgtyp(i) .eq. 3) then
+         lenopt=icharlnf(cmsgin(i))
+      else
+C        ERROR
+      endif
+      if((cmsgin(i)(1:lenopt).eq.'poisson_seed') .or. 
+     1   (cmsgin(i)(1:lenopt).eq.'POISSON_SEED'))then
+         if(msgtyp(i+1).eq. 1)then
+             seed = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga('default',0,'invalid poisson_seed',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      elseif((cmsgin(i)(1:lenopt).eq.'number_of_samples') .or.
+     1       (cmsgin(i)(1:lenopt).eq.'NUMBER_OF_SAMPLES'))then
+         if(msgtyp(i+1).eq. 1)then
+             number_of_samples = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga
+     &     ('default',0,'invalid number_of_samples',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      elseif((cmsgin(i)(1:lenopt).eq.'resample_sweeps') .or.
+     1       (cmsgin(i)(1:lenopt).eq.'RESAMPLE_SWEEPS'))then
+         if(msgtyp(i+1).eq. 1)then
+             resample_sweeps = imsgin(i+1)
+         else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga
+     &       ('default',0,'invalid poisson_resample_sweeps',0,ierrw)
+            call writloga
+     &        ('default',0,'valid token must be integer',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+         endif
+      else
+            call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+            call writloga('default',0,'invalid keyword',0,ierrw)
+            call writloga('default',0,'valid keywords:',0,ierrw)
+            call writloga('default',0,
+     &  'poisson_seed POISSON_SEED',0,ierrw)
+            call writloga('default',0,
+     &  'number_of_samples NUMBER_OF_SAMPLES',0,ierrw)
+            call writloga('default',0,
+     &  'resample_sweeps RESAMPLE_SWEEPS',0,ierrw)
+            call writloga('default',1,'ERROR POISSON DISK',0,ierrw)
+      endif
+
+      enddo
+
+      endif
+C ---------------------------------------------------------------------
+C ---------------------------------------------------------------------
+C     Finished parsing command line tokens.
+C ---------------------------------------------------------------------
+C ---------------------------------------------------------------------
+C
+C     Compute some length scale parameters based on h, minimum feature size
+C
+      h_half = h*0.5d0
+      h02 = h*2.0d0
+      h05 = h*5.0d0
+      h08 = h*8.0d0
+      h10 = h*10.0d0
+      delta = 0.7d0
+      h_extrude = 0.8d0*h02
+C
+      h_radius = ((0.5*h_extrude)**2 + (0.5*h_extrude)**2)**0.5
+      h_trans = -0.5*h_extrude + h_radius*cos(asin(delta))
+      h_prime = 0.4*h02
+C
+C     Using user defined variables:
+C
+C     define / IF_POI_EDGE_BUFFER / integer
+C
+C     define / POI_XMIN / real
+C     define / POI_YMIN / real
+C     define / POI_ZMIN / real
+C     define / POI_XMAX / real
+C     define / POI_YMAX / real
+C     define / POI_ZMAX / real
+C
+C     Fill local real variables:
+C     POI_XMIN => poi_box_xmin
+C     POI_YMIN => poi_box_ymin
+C     POI_ZMIN => poi_box_zmin
+C     POI_XMAX => poi_box_xmax
+C     POI_YMAX => poi_box_ymax
+C     POI_ZMAX => poi_box_zmax
+C
+C     The code below is a way of using the known user defined variables
+C     to fill local floating point xyz min/max values.
+C
+      cstring_in = "IF_POI_EDGE_BUFFER"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      if(ierror .eq. 0) if_poi_edge_buffer = istring_out
+C     Set default to 1, buffer on, if user does not define the variable.
+      if(ierror .ne. 0) if_poi_edge_buffer = 1
+C
+      cstring_in = "POI_EDGE_BUFFER"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      if(ierror .eq. 0) poi_edge_buffer = rstring_out
+C     Set default to 1, buffer on, if user does not define the variable.
+      if(ierror .ne. 0) poi_edge_buffer = 1.0
+C----------
+      cstring_in = "POI_XMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(1) = ierror
+      poi_box_xmin = rstring_out
+C----------
+      cstring_in = "POI_YMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(2) = ierror
+      poi_box_ymin = rstring_out
+C----------
+      cstring_in = "POI_ZMIN"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(3) = ierror
+      poi_box_zmin = rstring_out
+C----------
+      cstring_in = "POI_XMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(4) = ierror
+      poi_box_xmax = rstring_out
+C----------
+      cstring_in = "POI_YMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(5) = ierror
+      poi_box_ymax = rstring_out
+C----------
+      cstring_in = "POI_ZMAX"
+      call get_define_variable_lg
+     *  (cstring_in,
+     *   istring_type,istring_out,rstring_out,cstring_out,ierror)
+      ierror_xyz(6) = ierror
+      poi_box_zmax = rstring_out
+C
+C     Error reporting
+C
+      do i = 1,6
+         if(ierror_xyz(i) .ne. 0)then
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         call writloga
+     &     ('default',0,'User must define bounding box minmax',0,ierrw)
+         if(i .eq. 1)then
+            call writloga
+     &        ('default',0,'define/POI_XMIN/floating_point',0,ierrw)
+         elseif(i .eq. 2)then
+            call writloga
+     &        ('default',0,'define/POI_YMIN/floating_point',0,ierrw)
+         elseif(i .eq. 3)then
+            call writloga
+     &        ('default',0,'define/POI_ZMIN/floating_point',0,ierrw)
+         elseif(i .eq. 4)then
+            call writloga
+     &        ('default',0,'define/POI_XMAX/floating_point',0,ierrw)
+         elseif(i .eq. 5)then
+            call writloga
+     &        ('default',0,'define/POI_YMAX/floating_point',0,ierrw)
+         elseif(i .eq. 6)then
+            call writloga
+     &        ('default',0,'define/POI_ZMAX/floating_point',0,ierrw)
+         endif
+         endif
+      enddo
+C
+C     The data structure that is used as the background search hex mesh
+C     in the Poisson Disk sample algorithm needs to be a tiny bit larger
+C     than the xyz min/max of the box where vertices are distributed
+C     so that there are no outside edge effects.
+C
+      ijob_buffer = 1
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      xmin_buff,xmax_buff,poi_box_xmin,poi_box_xmax)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      ymin_buff,ymax_buff,poi_box_ymin,poi_box_ymax)
+      call buffer_minmax_range(
+     &      ijob_buffer,h,
+     &      zmin_buff,zmax_buff,poi_box_zmin,poi_box_zmax)
+C
+      delta_x = xmax_buff - xmin_buff
+      delta_y = ymax_buff - ymin_buff
+      delta_z = zmax_buff - zmin_buff
+      np_x = ceiling(delta_x/h)
+      np_y = ceiling(delta_y/h)
+      np_z = ceiling(delta_z/h)
+
+      np_x = 1.5*np_x
+      np_y = 1.5*np_y
+      np_z = 1.5*np_z
+C
+C     Test lower resolution TEST TEST TEST
+C      np_x = 0.4*np_x
+C      np_y = 0.4*np_y
+C      np_z = 0.4*np_z
+C     Test lower resolution TEST TEST TEST
+
+      dx_lookup = delta_x/np_x
+      dy_lookup = delta_y/np_y
+      dz_lookup = delta_z/np_z
+C
+C ---------------------------------------------------------------------
+C     Set some LaGriT string variables to values 
+C ---------------------------------------------------------------------
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTOR / ',h,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX0.5 / ',h_half,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX2 / ',h02,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX5 / ',h05,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX8 / ',h08,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_H_FACTORX10 / ',h10,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+
+      write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPX / ',np_x,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPY / ',np_y,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPZ / ',np_z,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_XMIN / ',xmin_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_XMAX / ',xmax_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_YMIN / ',ymin_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_YMAX / ',ymax_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_ZMIN / ',zmin_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &     'define / POI_3D_ZMAX / ',zmax_buff,' ; finish '
+      call dotaskx3d(cbuf,ierr)
+C
+C ---------------------------------------------------------------------
+C     Create a 3d hex mesh mo_poi_h_field
+C ---------------------------------------------------------------------
+      if (if_h_provided .eq. 1) then
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '=== Create 3d hex mesh object for distance field lookup ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '=== Lookup Table nx ny nz ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(i12,i12,i12)') np_x,np_y,np_z
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '=== Lookup Table dx dy dz ==='
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(e10.3,e10.3,e10.3)')dx_lookup,dy_lookup,dz_lookup
+      call writloga('default',0,logmess,0,ierrw)
+      write(logmess,'(a)') 
+     &   '---------------------------------------'
+      call writloga('default',0,logmess,0,ierrw)
+C ---------------------------------------------------------------------
+C     Create lookup table 3d hex mesh points for poi routines 
+C     mesh object name:      mo_poi_h_field
+C     mesh object attribute: h_field_att
+C ---------------------------------------------------------------------
+      cbuf = 'cmo/create/mo_poi_h_field/ / /hex ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf = 'createpts / xyz / POI_3D_NPX POI_3D_NPY POI_3D_NPZ / 
+     &        POI_3D_XMIN POI_3D_YMIN POI_3D_ZMIN / 
+     &        POI_3D_XMAX POI_3D_YMAX POI_3D_ZMAX /
+     &        1 1 1 ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf = 'cmo/printatt/mo_poi_h_field /-xyz-/minmax ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf = 'cmo / addatt / mo_poi_h_field / h_field_att / 
+     &        vdouble / scalar / nnodes ; finish'
+      call dotaskx3d(cbuf,ierr)
+      write(cbuf,'(a,1pe13.6,a)')
+     &      'cmo/setatt/mo_poi_h_field/h_field_att/ 1 0 0 / ', 
+     &       h_spacing, ' ; finish'
+      call dotaskx3d(cbuf,ierr)
+      endif
+
+      if (if_h_field_variable .eq. 1) then
+C ---------------------------------------------------------------------
+C     Assign mo_poi_h_field attribute h_field_att by calling user
+C     supplied function user_h_field_att.mlgi
+C     infile / user_h_field_att.mlgi
+C     h_field_att(x,y) = ???
+C
+C     User defined field must have scalar values greater than or equal
+C     to h_spacing_scalar.
+C---------------------------------------------------------------------
+      ilen = icharlnf(file_user_h_field_att)
+      cbuf = 'infile/'//file_user_h_field_att(1:ilen)//' ;finish'
+      call dotaskx3d(cbuf,ierr)
+C
+C     Test h_field_att after user sets values to be sure h_field_att
+C     is greater than or equal to h_spacing_scalar.
+C      
+      call cmo_get_info
+     &     ('h_field_att',mo_poi_h_field,iph_field,ilen,ityp,ierr)
+      h_field_min =  1.e20
+      h_field_max = -1.e20
+      do i = 1, np_x*np_y
+         h_field_min = min(h_field_min,h_field(i))
+         h_field_max = max(h_field_max,h_field(i))
+      enddo
+C
+C     Error and quit if minimum in user supplied field is .lt. h*0.5
+C
+      if(h_field_min .lt. h*0.49)then
+         call writloga('default',1,'ERROR POISSON DISK:',0,ierrw)
+         write(cbuf,'(a)')
+     &     'ERROR: h_field_att value is smaller than target edge length'
+         call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a,1pe13.6,a,1pe13.6)')
+     &     'ERROR: h = ',h,' h_field_min = ',h_field_min
+         call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a)')
+     &     'ERROR: User supplied function can be 0.5*h, but not smaller'
+         call writloga('default',0,cbuf,0,ierrw)
+         cbuf = 
+     &     'cmo/printatt/mo_poi_h_field /h_field_att/minmax ; finish'
+         call dotaskx3d(cbuf,ierr)
+         ierror = -1
+         goto 9999
+      endif
+C
+C     WARNING if maximum in user supplied field is .gt. h*100
+C
+      if(h_field_max .gt. h*100.0)then
+         call writloga('default',1,'WARNING POISSON DISK:',0,ierrw)
+         write(cbuf,'(a)')
+     &  'WARNING: h_field_att value is much larger than target h length'
+         call writloga('default',0,cbuf,0,ierrw)
+         write(cbuf,'(a,1pe13.6,a,1pe13.6)')
+     &   'WARNING: h = ',h,' h_field_max = ',h_field_min
+         call writloga('default',0,cbuf,0,ierrw)
+         cbuf = 
+     &     'cmo/printatt/mo_poi_h_field /h_field_att/minmax ; finish'
+         call dotaskx3d(cbuf,ierr)
+      endif
+C
+      endif
+C
+C ---------------------------------------------------------------------
+C
+C     if_poi_edge_buffer = 0
+C     Keep the box extents at the values set by the user.
+C     if_poi_edge_buffer = 1
+C     Reduce the box extents by h_spacing and create a uniform
+C     dx, dy, dz vertex distribution on each of the 6 faces.
+C
+      if(if_poi_edge_buffer .eq. 0)then
+
+      elseif(if_poi_edge_buffer .eq. 1)then
+      ijob_buffer = 1
+      buffer_dxyz = -1.0*h*poi_edge_buffer
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      xmin_buff,xmax_buff,poi_box_xmin,poi_box_xmax)
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      ymin_buff,ymax_buff,poi_box_ymin,poi_box_ymax)
+      call buffer_minmax_range(
+     &      ijob_buffer,buffer_dxyz,
+     &      zmin_buff,zmax_buff,poi_box_zmin,poi_box_zmax)
+      endif
+
+C ---------------------------------------------------------------------
+C
+C     Need to pass information to poisson_3d:
+C     mo_poi_h_field, NXP, NYP, NZP, xic, yic, zic, h_field_att
+C     NP, xic, yic, zic
+C
+C ---------------------------------------------------------------------
+C ---------------------------------------------------------------------
+C     Poisson Disk algorithm call (begin)
+C ---------------------------------------------------------------------
+C
+      if(if_poi_edge_buffer .eq. 0)then
+
+      call poisson_3d
+     & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
+     & poi_box_xmin, poi_box_xmax, 
+     & poi_box_ymin, poi_box_ymax,
+     & poi_box_zmin, poi_box_zmax, 
+     & np_x,np_y,np_z,  
+     & seed, number_of_samples,
+     & resample_sweeps) 
+      elseif(if_poi_edge_buffer .eq. 1)then
+
+      call poisson_3d
+     & (mo_poi_pts_out,mo_poi_h_field, h_spacing,
+     & xmin_buff, xmax_buff, 
+     & ymin_buff, ymax_buff,
+     & zmin_buff, zmax_buff, 
+     & np_x,np_y,np_z,  
+     & seed, number_of_samples,
+     & resample_sweeps) 
+      endif
+C
+C ---------------------------------------------------------------------
+C     Poisson Disk algorithm call (end)
+C ---------------------------------------------------------------------
+      if(if_poi_edge_buffer .eq. 1)then
+C     Create a mesh object with vertices on the 6 faces of the cube.
+C     Copy those vertices into the mesh object with the Poisson vertices.
+C
+C        Need to define NX,NY,NZ of the brick/xyz mesh vertices.
+C
+         delta_x = poi_box_xmax - poi_box_xmin
+         delta_y = poi_box_ymax - poi_box_ymin
+         delta_z = poi_box_zmax - poi_box_zmin
+         np_x = ceiling(delta_x/h)
+         np_y = ceiling(delta_y/h)
+         np_z = ceiling(delta_z/h)
+
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPX / ',np_x,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPY / ',np_y,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         write(cbuf,'(a,i10,a)')
+     &     'define / POI_3D_NPZ / ',np_z,' ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo / create / mo_tmp_wrk_poi_hex / / / hex; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'createpts/brick/xyz/POI_3D_NPX POI_3D_NPY POI_3D_NPZ/'
+     &          // 'POI_XMIN POI_YMIN POI_ZMIN/'
+     &          // 'POI_XMAX POI_YMAX POI_ZMAX/1 1 1; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'resetpts / itp; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'pset/p_out/attribute/itp/1 0 0/ge 10; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/create/mo_tmp_wrk_poi_hex_outside/ / / tet; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'copypts/mo_tmp_wrk_poi_hex_outside/ '
+     &          // 'mo_tmp_wrk_poi_hex/0 0 /pset get p_out; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex; finish'
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+C         cbuf = 'copypts/ '// mo_poi_pts_out(1:ilen) //
+C     &          ' / mo_tmp_wrk_poi_hex_outside ; finish'
+         cbuf = 'addmesh/merge/ '// mo_poi_pts_out(1:ilen) // ' / '
+     &                          // mo_poi_pts_out(1:ilen) // 
+     &              '/ mo_tmp_wrk_poi_hex_outside ; finish'
+         call dotaskx3d(cbuf,ierr)
+C
+C        Need to convert mesh object type back to tet. the addmesh/merge MO is not tet
+C
+         cbuf = 'cmo/create/mo_poi_tmp_poi_pts_out/ / /tet ; finish'
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'copypts/mo_poi_tmp_poi_pts_out '
+     &           // mo_poi_pts_out(1:ilen) // ' ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete'// mo_poi_pts_out(1:ilen) // ' ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/move/ ' // mo_poi_pts_out(1:ilen) // 
+     &          ' mo_poi_tmp_poi_pts_out; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/delete/mo_tmp_wrk_poi_hex_outside; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo / select /'// mo_poi_pts_out(1:ilen) //'; finish'
+         call dotaskx3d(cbuf,ierr)
+      endif
+
+C ---------------------------------------------------------------------
+C
+C     Clean up, remove temporary mesh objects.
+C
+C     Sort and reorder vertices based on x,y,z coordinates.
+C
+         cbuf = 'sort/-def-/index/ascending/ikeyv/xic yic zic ; finish'
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'reorder/'// mo_poi_pts_out(1:ilen) //'/ikeyv ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/DELATT/-def-/ikeyv ; finish '
+         call dotaskx3d(cbuf,ierr)
+C
+C ---------------------------------------------------------------------
+C     Obtain point distribution from poisson_3d and 
+C     connect as a Delaunay triangulation
+C ---------------------------------------------------------------------
+      if(if_connect .eq. 1)then
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'cmo / select / '// mo_poi_pts_out(1:ilen) //' ; finish'
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo / setatt / -def- / imt / 1 0 0 / 1 ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'connect ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'quality ; finish '
+         call dotaskx3d(cbuf,ierr)
+C ---------------------------------------------------------------------
+C
+C        Sort and reorder cells based on x,y,z coordinate of centroid
+C
+         cbuf = 'createpts / median ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 
+     &       'sort/-def-/index/ascending/ikeyc/xmed ymed zmed ; finish '
+         call dotaskx3d(cbuf,ierr)
+         ilen = icharlnf(mo_poi_pts_out)
+         cbuf = 'reorder / '
+     &      // mo_poi_pts_out(1:ilen) //' / ikeyc; finish'
+         call dotaskx3d(cbuf,ierr)
+C
+C        Clean up some attributes
+C
+         cbuf = 'cmo/DELATT/-def-/ikeyc ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/DELATT/-def-/xmed ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/DELATT/-def-/ymed ; finish '
+         call dotaskx3d(cbuf,ierr)
+         cbuf = 'cmo/DELATT/-def-/zmed ; finish '
+         call dotaskx3d(cbuf,ierr)
+C
+      endif
+C
+C     Release the distance field lookup mesh object
+C
+      cbuf = 'cmo/release/mo_poi_h_field ; finish'
+      call dotaskx3d(cbuf,ierr)      
+C
+C     Make the Poisson points/mesh the current mesh object.
+C
+      ilen = icharlnf(mo_poi_pts_out)
+      cbuf = 'cmo / select / '// mo_poi_pts_out(1:ilen) //' ; finish'
+      call dotaskx3d(cbuf,ierr)
+      cbuf = 'quality ; finish '
+      call dotaskx3d(cbuf,ierr)
+C
+ 9999 continue
+C 
+      if (ierror .eq. 0) then
+        write(logmess,"(a)")'poisson_disk exit'
+        call writloga('default',0,logmess,0,ierrw)
+      else
+        write(logmess,"(a)")'ERROR: poisson_disk'
+        call writloga('default',0,logmess,0,ierrw)
+        write(logmess,"(a,i4)")'poisson_disk exit with error: ',ierror
+        call writloga('default',0,logmess,0,ierrw)
+        write(logmess,"(a)")'ERROR: poisson_disk'
+        call writloga('default',0,logmess,0,ierrw)
       endif
 
       return

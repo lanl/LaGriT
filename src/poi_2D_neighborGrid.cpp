@@ -5,9 +5,10 @@
 #include <vector>
 // #include <bits/stdc++.h>
 #include <algorithm>    // std::sort
+#include <iomanip>
 
-#include "poi_polygon.h"
-#include "poi_sampling.h"
+#include "poi_2D_polygon.h"
+#include "poi_2D_sampling.h"
 #include "poi_helperFunctions.h"
 
 using std::cout;
@@ -44,13 +45,12 @@ void Polygon::initializeNeighborGrid() {
     cout << "Num Cells X " << numCellsX << endl;
     cout << "Num Cells Y " << numCellsY << endl;
     cout << "Total Cells " << numCellsX*numCellsY << endl;
-    unsigned int totalCells = numCellsX*numCellsY;
+    unsigned int totalCells = numCellsX * numCellsY;
     // Create the background neighbor grid that is numCellX by numCellsY
     // The dynamic memory allocation gets freed in the destructor of polygon.
     cout << "Initializing memory for neighbor grid" << endl;
-    
     grid.reserve(totalCells * 2);
- 
+    
     // changeg this to linear indexing with a vector, because Linux was being a pita.
     for (unsigned int i = 0; i < numCellsX * numCellsY + 1; i++) {
         grid.push_back(0);
@@ -124,7 +124,7 @@ std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
     for (unsigned int i = iMin; i < iMax; i++) {
         for (unsigned int j = jMin; j < jMax; j++) {
             //if (grid[i][j] > 0) {
-            if (grid[i * numCellsY + j] > 0 && i*numCellsY + j < grid.size()) {
+            if (grid[i * numCellsY + j] > 0 && i * numCellsY + j < grid.size()) {
                 // nodeIDs.push_back(grid[i][j]);
                 //cout << "total cells : " << numCellsX * numCellsY + 1 << endl;
                 //cout << "i*NumCellsY + j : " << i * numCellsY + j << endl;
@@ -178,6 +178,7 @@ void Polygon::tagNeighborCells(Point point) {
             }
         }
     }
+    
     // cout << "tagNeighborCells end " << endl;
 }
 
@@ -221,8 +222,19 @@ unsigned int Polygon::fillEmptyCells() {
     // The first entry is i the second is j
     // Example: index 0,1 are i0,j0, 2,3 are i1, j2.
     cout << "Filling empty cells in the background grid" << endl;
+   
     
+    cout << "\tCell#\t\tTotal Cells\tPercentage"<<endl;
+    double currentPercentage = 0;
     for (unsigned int cellIdx = 0; cellIdx < emptyCells.size(); cellIdx += 2) {
+
+        double percentage = 100.0*(double)cellIdx/(double)emptyCells.size();
+        if (percentage > currentPercentage){
+            currentPercentage += 5;
+            cout << "\t"<<cellIdx/2 <<  "\t\t" << (emptyCells.size()/2) << "\t\t";
+            cout << std::setprecision(3) << percentage << " %"<< endl; 
+        }
+
         // get the cell index
         unsigned int i = emptyCells[cellIdx];
         unsigned int j = emptyCells[cellIdx + 1];
