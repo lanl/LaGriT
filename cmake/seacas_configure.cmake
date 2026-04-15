@@ -108,6 +108,7 @@ else()
   set(ENV{GNU_PARALLEL} "NO")
   set(ENV{FMT}          "NO")
   set(ENV{CATCH2}       "NO")
+  set(ENV{SZIP}         "NO")   # arm64 macOS has no SZIP lib; HDF5 doesn't need it
   set(ENV{SHARED}       "NO")
   if(NEEDS_ZLIB)
     set(ENV{NEEDS_ZLIB} "YES")
