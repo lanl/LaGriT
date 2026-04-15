@@ -25,8 +25,8 @@ if [[ $(command -v brew) != "" ]]; then
 	export PATH="/opt/homebrew/opt/make/libexec/gnubin:$PATH"
 	export COMPILER=HomeBrew
 	fortran_var=/opt/homebrew/bin/gfortran
-	cc_var=/usr/bin/gcc
-	cpp_var=/usr/bin/g++
+	cc_var=/opt/homebrew/bin/gcc-14
+	cpp_var=/usr/bin/g++-14
 
 elif [[ $(command -v port) != "" ]]; then
 	echo "MacPorts found"
@@ -49,7 +49,7 @@ FC="$fortran_var"
 export FC="$fortran_var"
 
 CC="$cc_var"
-export CC="$cc_var"
+export CC="/opt/homebrew/bin/gcc-14"
 
 CXX="$cpp_var"
 export CXX="$cpp_var"

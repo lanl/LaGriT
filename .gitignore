@@ -1,5 +1,6 @@
 TPLs/
 src/lagrit.h
+src/fc_mangle.h
 lg_util/src/mm2000.h
 *pyc
 *DS_Store
