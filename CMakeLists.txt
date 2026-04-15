@@ -73,7 +73,7 @@ endif()
 
 # If still not found, either fetch it or hard-fail with a useful message.
 option(LAGRIT_FETCH_EXODUS
-  "Automatically fetch and build SEACAS/Exodus via CMake if not found locally." ON)
+  "Automatically fetch and build SEACAS/Exodus via CMake if not found locally." OFF)
 
 if(NOT EXODUS_ROOT)
   if(LAGRIT_FETCH_EXODUS)
