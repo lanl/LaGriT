@@ -46,80 +46,86 @@ message(STATUS "Compile LaGriT with ExodusII = ${LAGRIT_BUILD_EXODUS}")
 # Add Third Party Libraries here and add all to TPL_LIBRARIES
 # These include Exodus and PETSc (planned for Voronoi codes)
 
-if (LAGRIT_BUILD_EXODUS) 
+if (LAGRIT_BUILD_EXODUS)
 
 message(STATUS "-----Configuring Exodus-----")
 
-# this is the long version to build LAGRIT with Exodus
-# it is useful if Exodus cmake files or libs are not found
-# new versions of exodus should set definitions with find_package()
-# Look for SEACAS/ExodusII libraries
-# then set the "TPL_LIBRARIES" variable to full paths of found libs
-# NAMES exodus libexodus exoIIv2for netcdf hdf5_hl hdf5 libz
+# EXODUS_ROOT: explicit path to a SEACAS install prefix (contains lib/ and include/).
+# Leave empty to let CMake auto-detect from known locations or fetch from source.
+set(EXODUS_ROOT "" CACHE PATH
+  "Path to SEACAS/Exodus install prefix (contains lib/ and include/). \
+Leave empty to auto-detect or set LAGRIT_FETCH_EXODUS=ON to build automatically.")
 
-set(EXODUS_ROOT "${CMAKE_SOURCE_DIR}/TPLs/seacas")
+# Auto-detect from common locations (checked in priority order)
+if(NOT EXODUS_ROOT)
+  foreach(_candidate
+      "$ENV{SEACAS_ROOT}"                          # user environment variable
+      "${CMAKE_SOURCE_DIR}/TPLs/seacas"            # legacy: install-exodus.sh output
+      "${CMAKE_BINARY_DIR}/_deps/seacas"           # cmake fetch output
+  )
+    if(_candidate AND EXISTS "${_candidate}/include/exodusII.h")
+      set(EXODUS_ROOT "${_candidate}")
+      message(STATUS "  Auto-detected Exodus: ${EXODUS_ROOT}")
+      break()
+    endif()
+  endforeach()
+endif()
+
+# If still not found, either fetch it or hard-fail with a useful message.
+option(LAGRIT_FETCH_EXODUS
+  "Automatically fetch and build SEACAS/Exodus via CMake if not found locally." ON)
+
+if(NOT EXODUS_ROOT)
+  if(LAGRIT_FETCH_EXODUS)
+    set(EXODUS_ROOT "${CMAKE_BINARY_DIR}/_deps/seacas")
+    message(STATUS "  Exodus not found locally — will fetch and build from GitHub at build time")
+    message(STATUS "  (requires network access, bash, and make)")
+    include("${CMAKE_SOURCE_DIR}/cmake/FetchExodus.cmake")
+    set(_LAGRIT_EXODUS_FETCHED TRUE)
+  else()
+    message(FATAL_ERROR
+      "ExodusII not found.  Options:\n"
+      "  1. cmake -DLAGRIT_FETCH_EXODUS=ON        (auto-fetch + build, needs network)\n"
+      "  2. Run install-exodus.sh first, then cmake -DLAGRIT_BUILD_EXODUS=ON\n"
+      "  3. cmake -DEXODUS_ROOT=/path/to/seacas   (point to an existing install)\n"
+      "  4. Set env var SEACAS_ROOT=/path/to/seacas before running cmake")
+  endif()
+endif()
+
 set(Exodus_INCLUDE_DIR "${EXODUS_ROOT}/include")
-set(Exodus_LIBRARIES "${EXODUS_ROOT}/lib")
+set(Exodus_LIB_DIR     "${EXODUS_ROOT}/lib")
 
-if(EXISTS "${Exodus_INCLUDE_DIR}")
-  message(STATUS "  Found exodus include dir: ${Exodus_INCLUDE_DIR}")
-else()
-  message("FATAL_ERROR: exodus include dir not found in ${EXODUS_ROOT}")
+# Validate paths — skip when fetching because the files don't exist yet.
+if(NOT _LAGRIT_EXODUS_FETCHED)
+  if(NOT EXISTS "${Exodus_INCLUDE_DIR}/exodusII.h")
+    message(FATAL_ERROR
+      "exodusII.h not found in ${Exodus_INCLUDE_DIR}.\n"
+      "Check EXODUS_ROOT=${EXODUS_ROOT} or re-run install-exodus.sh.")
+  endif()
+  if(NOT EXISTS "${Exodus_INCLUDE_DIR}/exodusII.inc")
+    message(FATAL_ERROR
+      "exodusII.inc not found in ${Exodus_INCLUDE_DIR}.\n"
+      "Check EXODUS_ROOT=${EXODUS_ROOT} or re-run install-exodus.sh.")
+  endif()
+  message(STATUS "  Exodus include : ${Exodus_INCLUDE_DIR}")
+  message(STATUS "  Exodus lib dir : ${Exodus_LIB_DIR}")
 endif()
 
-if(EXISTS "${Exodus_INCLUDE_DIR}/exodusII.inc")
-  set(EXO_INC "${Exodus_INCLUDE_DIR}/exodusII.inc")
-  message(STATUS "  Found exodusII.inc : ${EXO_INC}")
-else()
-  message("FATAL_ERROR: exodusII.inc not found in ${EXO_INC}")
+# Build the linker flag string, platform-aware.
+# Linux needs -lcurl for static netcdf and -static-libgfortran/-static-libgcc.
+# macOS does not need -lcurl, and -static-libgfortran may or may not be needed.
+set(TPL_LINK_LIBS
+  "-L${Exodus_LIB_DIR} -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lhdf5 -lz -ldl")
+if(UNIX AND NOT APPLE)
+  string(APPEND TPL_LINK_LIBS " -lcurl -static-libgfortran -static-libgcc")
+elseif(APPLE)
+  string(APPEND TPL_LINK_LIBS " -static-libgfortran")
 endif()
 
-# set libraries with individual calls to each lib name
-if(EXISTS "${Exodus_LIBRARIES}")
-find_library(EXO_FOUND libexodus.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-find_library(EXO_FORT_FOUND libexodus_for.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-find_library(EXO_FORT32_FOUND libexoIIv2for32.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-find_library(HDF5_FOUND libhdf5.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-find_library(NETCDF_FOUND libnetcdf.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-find_library(ZLIB_FOUND libz.a 
-    PATHS ${EXODUS_ROOT} ${Exodus_LIBRARIES} NO_DEFAULT_PATH)
-  message(STATUS "  Found Exodus      lib: ${EXO_FOUND}")
-  message(STATUS "  Found Exodus_fort lib: ${EXO_FORT_FOUND}")
-  message(STATUS "  Found HDF5        lib: ${HDF5_FOUND}")
-  message(STATUS "  Found NetCDF      lib: ${NETCDF_FOUND}")
-  message(STATUS "  Found ZLIB        lib: ${ZLIB_FOUND}")
-else()
-  message("FATAL_ERROR: Exodus libs not found in ${Exodus_LIBRARIES}")
-endif()
-
-# IF NOT FOUND hard-wire root and paths here
-# set(EXODUS_ROOT "/project/eesdev/tam/LaGriT-build/TPLs/seacas")
-# set(Exodus_LIBRARIES "${EXODUS_ROOT}/lib")
-# set(Exodus_INCLUDE_DIR "${EXODUS_ROOT}/include")
-# message(STATUS "Set Explicit Exodus ROOT: ${SEACASExodus_ROOT}")
-
-# trick cmake to add exodus libs correctly for linking
-# nc-config --static should pick up all link FLAGS from netcdf 
-# -lcurl needed for linking netcdf libs on linux 
-set(TPL_LINK_LIBS "-L${EXODUS_ROOT}/lib -lexodus_for -lexodus -lnetcdf -lhdf5_hl -lcurl -lhdf5 -lz -ldl -static-libgfortran -static-libgcc")
+set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR}")
+set(TPL_LIBRARIES    "${Exodus_LIB_DIR}")
 
 message(STATUS "-----Done Exodus-----")
-
-# SET TPLS with exodus and petsc includes and libs
-if (Exodus_INCLUDE_DIR AND Exodus_LIBRARIES) # AND NetCDF_FOUND AND HDF5_FOUND AND ZLIB_FOUND
-  set(TPL_INCLUDE_DIRS "${Exodus_INCLUDE_DIR}")
-#  set(TPL_LIBRARIES ${HDF5_FOUND} ${NETCDF_FOUND} ${ZLIB_FOUND} ${EXO_FOUND} ${EXO_FORT32_FOUND} ${EXO_FORT_FOUND} )
-  set(TPL_LIBRARIES "${Exodus_LIBRARIES}" )
-
-else()
-  message("ERROR: ExodusII and/or other dependencies could not be found.")
-  message( FATAL_ERROR "Build ExodusII or use -DLaGriT_BUILD_EXODUS=OFF" )
-endif()
 
 endif()
 # END TPLs
@@ -127,7 +133,7 @@ endif()
 if (LAGRIT_BUILD_EXODUS)
   add_definitions(-DLAGRIT_INCLUDE_EXODUSII)
   message(STATUS "ExodusII support enabled: ${LAGRIT_BUILD_EXODUS}")
-  message(STATUS "ExodusII libraries      : ${Exodus_LIBRARIES}")
+  message(STATUS "ExodusII lib dir        : ${Exodus_LIB_DIR}")
   message(STATUS "ExodusII include        : ${Exodus_INCLUDE_DIR}")
 else()
   message("LaGriT Compiling without ExodusII support.")
@@ -281,6 +287,13 @@ set_target_properties(
 # Change from 'lagrit' (OUTPUT_NAME) to 'lagrit.exe' on Windows
 if (WIN32)
   set_target_properties(lagrit PROPERTIES SUFFIX ".exe")
+endif()
+
+# When Exodus is auto-fetched, both targets must wait for seacas_exodus to
+# finish (configure + build + install) before compiling or linking.
+if(_LAGRIT_EXODUS_FETCHED)
+  add_dependencies(liblagrit seacas_exodus)  # needs headers (exodusII.h)
+  add_dependencies(lagrit    seacas_exodus)  # needs libs   (libexodus.a etc.)
 endif()
 
 if (LAGRIT_BUILD_STATIC)
