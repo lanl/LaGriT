@@ -12,10 +12,11 @@
 
 include(ExternalProject)
 
-# Pin to a known-good SEACAS release.  Update this tag when you verify a newer
-# release works (see https://github.com/sandialabs/seacas/releases).
-set(SEACAS_GIT_TAG "v2024-01-10" CACHE STRING
-    "SEACAS git tag used when auto-fetching Exodus (github.com/sandialabs/seacas/releases)")
+# Default to the SEACAS master branch so no tag maintenance is needed.
+# Override with -DSEACAS_GIT_TAG=v2024-01-10 (or any release tag) if you need
+# a reproducible/offline build.  See github.com/sandialabs/seacas/releases.
+set(SEACAS_GIT_TAG "master" CACHE STRING
+    "SEACAS git branch or tag to fetch (default: master for latest)")
 mark_as_advanced(SEACAS_GIT_TAG)
 
 # Seacas traditionally uses a single directory as both source tree and install
