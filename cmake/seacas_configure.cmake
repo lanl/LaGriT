@@ -60,7 +60,37 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
-# 2. Patch cmake-exodus to add -lcurl (Linux only)
+# 2. Patch TPL/hdf5/runcmake.sh
+#    Disable SZIP support — the SZIP library is not available on arm64 macOS
+#    and is not needed by LaGriT.
+# ---------------------------------------------------------------------------
+set(_hdf5_runcmake "${SOURCE_DIR}/TPL/hdf5/runcmake.sh")
+if(EXISTS "${_hdf5_runcmake}")
+  file(READ "${_hdf5_runcmake}" _hdf5)
+  if(NOT _hdf5 MATCHES "HDF5_ENABLE_SZIP_SUPPORT")
+    # Anchor on the CMAKE_INSTALL_PREFIX line which is present in all versions
+    set(_hdf5_search  [=[-DCMAKE_INSTALL_PREFIX:PATH=${ACCESS} \]=])
+    set(_hdf5_replace [=[-DCMAKE_INSTALL_PREFIX:PATH=${ACCESS} \
+  -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+  -DHDF5_ENABLE_SZIP_ENCODING:BOOL=OFF \]=])
+    string(REPLACE "${_hdf5_search}" "${_hdf5_replace}" _hdf5_patched "${_hdf5}")
+    if(_hdf5_patched STREQUAL _hdf5)
+      message(WARNING
+        "[seacas] Could not patch TPL/hdf5/runcmake.sh "
+        "(search string not found). Build may fail on arm64 macOS.")
+    else()
+      file(WRITE "${_hdf5_runcmake}" "${_hdf5_patched}")
+      message(STATUS "[seacas] Patched TPL/hdf5/runcmake.sh (disabled SZIP)")
+    endif()
+  else()
+    message(STATUS "[seacas] TPL/hdf5/runcmake.sh already patched")
+  endif()
+else()
+  message(WARNING "[seacas] TPL/hdf5/runcmake.sh not found — skipping SZIP patch")
+endif()
+
+# ---------------------------------------------------------------------------
+# 4. Patch cmake-exodus to add -lcurl (Linux only)
 #    netcdf static libraries on Linux need curl at link time.
 # ---------------------------------------------------------------------------
 if(ADD_CURL)
@@ -89,7 +119,7 @@ if(ADD_CURL)
 endif()
 
 # ---------------------------------------------------------------------------
-# 3. Build TPLs: HDF5, NetCDF, (optionally) zlib
+# 5. Build TPLs: HDF5, NetCDF, (optionally) zlib
 #    install-tpl.sh installs everything under $ACCESS = SOURCE_DIR.
 #    Skip if netcdf is already present (idempotent re-run).
 # ---------------------------------------------------------------------------
@@ -138,7 +168,7 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
-# 4. Configure Exodus with cmake-exodus
+# 6. Configure Exodus with cmake-exodus
 #    Creates ${SOURCE_DIR}/build/CMakeCache.txt.
 #    Skip if already configured (idempotent).
 # ---------------------------------------------------------------------------
