@@ -61,18 +61,19 @@ endif()
 
 # ---------------------------------------------------------------------------
 # 2. Patch TPL/hdf5/runcmake.sh
-#    Disable SZIP support — the SZIP library is not available on arm64 macOS
-#    and is not needed by LaGriT.
+#    Explicitly disable SZIP — when NEEDS_SZIP=NO seacas omits the flag
+#    entirely and HDF5 cmake auto-detects and enables SZIP if any szip lib
+#    is present (common on macOS/arm64).  We force it OFF explicitly.
 # ---------------------------------------------------------------------------
 set(_hdf5_runcmake "${SOURCE_DIR}/TPL/hdf5/runcmake.sh")
 if(EXISTS "${_hdf5_runcmake}")
   file(READ "${_hdf5_runcmake}" _hdf5)
-  if(NOT _hdf5 MATCHES "HDF5_ENABLE_SZIP_SUPPORT")
-    # Anchor on the CMAKE_INSTALL_PREFIX line which is present in all versions
-    set(_hdf5_search  [=[-DCMAKE_INSTALL_PREFIX:PATH=${ACCESS} \]=])
-    set(_hdf5_replace [=[-DCMAKE_INSTALL_PREFIX:PATH=${ACCESS} \
-  -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
-  -DHDF5_ENABLE_SZIP_ENCODING:BOOL=OFF \]=])
+  if(NOT _hdf5 MATCHES "HDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF")
+    # Anchor on the Z_LIB line which is stable across seacas versions
+    set(_hdf5_search  [=[-DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=ON \]=])
+    set(_hdf5_replace [=[-DHDF5_ENABLE_Z_LIB_SUPPORT:BOOL=ON \
+	 -DHDF5_ENABLE_SZIP_SUPPORT:BOOL=OFF \
+	 -DHDF5_ENABLE_SZIP_ENCODING:BOOL=OFF \]=])
     string(REPLACE "${_hdf5_search}" "${_hdf5_replace}" _hdf5_patched "${_hdf5}")
     if(_hdf5_patched STREQUAL _hdf5)
       message(WARNING
