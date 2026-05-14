@@ -1,0 +1,487 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>cmo/addatt</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="cmoaddatt">cmo/addatt</h1>
+
+<hr />
+
+<p>The <strong><code class="language-plaintext highlighter-rouge">cmo/addatt</code></strong> command is used to add and initialize a mesh object attribute.</p>
+
+<p>The general version of the <a href="#general"><strong><code class="language-plaintext highlighter-rouge">cmo/addatt</code></strong></a> adds and initializes a new mesh object attribute. 
+<br /></p>
+
+<p>The <a href="#keywords">keyword</a> version of the command recognizes keywords to create and/or fill attribute as defined by the keyword being used.
+If the named attribute already exists, values in the attribute will be overwritten.</p>
+
+<p><strong>Valid Keywords:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">   <a href="#scalar">scalar</a></td>
+      <td style="text-align: left">    <a href="#vector">vector</a></td>
+      <td style="text-align: left">   <a href="#median">median</a></td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#edge_connections">edge_connections</a></td>
+      <td style="text-align: left">   <a href="#num_node_diff">num_node_diff</a></td>
+      <td style="text-align: left">    <a href="#xyz_rtp">xyz_rtp</a></td>
+      <td style="text-align: left">    <a href="#xyz_rtz">xyz_rtz</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#volume">volume</a></td>
+      <td style="text-align: left">   <a href="#voronoi">voronoi</a></td>
+      <td style="text-align: left">    <a href="#voronoi_volume">voronoi_volume</a></td>
+      <td style="text-align: left">    <a href="#hybrid_volume">hybrid_volume</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#sumnode">sumnode</a></td>
+      <td style="text-align: left">    <a href="#avgnode">avgnode</a></td>
+      <td style="text-align: left">   <a href="#minnode">minnode</a></td>
+      <td style="text-align: left">    <a href="#maxnode">maxnode</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#ang_mind">ang_mind</a></td>
+      <td style="text-align: left">    <a href="#ang_minr">ang_minr</a></td>
+      <td style="text-align: left">   <a href="#ang_maxd">ang_maxd</a></td>
+      <td style="text-align: left">    <a href="#ang_maxr">ang_maxr</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#ang_mind_solid">ang_mind_solid</a></td>
+      <td style="text-align: left">    <a href="#ang_minr_solid">ang_minr_solid</a></td>
+      <td style="text-align: left">   <a href="#ang_maxd_solid">ang_maxd_solid</a></td>
+      <td style="text-align: left">    <a href="#ang_maxr_solid">ang_maxr_solid</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Valid Keywords for 2D:</strong></p>
+
+<p>Some calculations are only supported for mesh objects of type line, tri, and quad. 
+If one wants to compute the normals to, for example, the outside nodes of a hex or tet mesh, one must first extract a surface mesh and then 
+compute the normals to the surface mesh.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+      <th style="text-align: left"> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">   <a href="#area_normal">area_normal</a></td>
+      <td style="text-align: left">    <a href="#unit_area_normal">unit_area_normal</a></td>
+      <td style="text-align: left">    <a href="#synth_normal_area">synth_normal_area</a></td>
+      <td style="text-align: left">    <a href="#area_normal_angle">synth_normal_angle</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">   <a href="#volume">area</a></td>
+      <td style="text-align: left">    <a href="#volume">length</a></td>
+      <td style="text-align: left">    <a href="#voronoi_varea">voronoi_varea</a></td>
+      <td style="text-align: left">    <a href="#quad_quality">quad_quality</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="general-syntax-">GENERAL SYNTAX <a name="general"></a></h2>
+
+<pre>
+<b>cmo/addatt</b>/mo_name/ att_name / [ type / rank / length / interpolate / persistence / ioflag / value ]
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">mo_name</code> is the name of the mesh object to add attribute to.</p>
+
+<p><code class="language-plaintext highlighter-rouge">att_name</code> is the name of the new attribute for the mesh object.</p>
+
+<p><code class="language-plaintext highlighter-rouge">type / rank / length / interpolate / persistence / ioflag / value</code> are parameters for the new attribute. The defaults are: type (vdouble), rank (scalar), length (nnodes), interpolation (linear), persistance (temporary), ioflag (agl), value (0.0).  See <a href="/pages/docs/commands/cmo/cmo_modatt.html"><strong><code class="language-plaintext highlighter-rouge">MODATT</code></strong></a> for descriptions of mesh object attribute parameters.</p>
+
+<h2 id="keyword-syntax-">KEYWORD SYNTAX <a name="keywords"></a></h2>
+
+<pre>
+<b>cmo/addatt</b>/mo_name/ keyword / keyword_parameters / 
+
+<b>cmo/addatt/-def-</b>/ keyword / keyword_parameters / 
+</pre>
+
+<h3 id="keywords-for-4th-parameter">KEYWORDS for 4th parameter:</h3>
+
+<p><a name="scalar"></a>
+<strong>scalar</strong> / <code class="language-plaintext highlighter-rouge">att_1snk att_2snk att_3snk</code> / <code class="language-plaintext highlighter-rouge">att_v_src</code> <br /> creates three node or element scalar attributes from a vector attribute.</p>
+
+<p><a name="vector"></a>
+<strong>vector</strong> / <code class="language-plaintext highlighter-rouge">att_v_snk</code> / <code class="language-plaintext highlighter-rouge">att_1src att_2src att_3src</code><br /> creates node or element attribute of rank vector from three existing scalar attributes. The new attribute will have a length = rank x nnodes (or nelements).  <em>Note: vector type attributes are not supported in many of the <strong>dump</strong> formats including AVS and GMV. Convert a vector attribute to multiple scalar attributes before writing to file.</em></p>
+
+<p><a name="median"></a>
+<strong>median</strong> / [<code class="language-plaintext highlighter-rouge">xmed ymed zmed</code>]<br /> creates three element attributes that are the coordinates of the median point (average value of the vertices) of each element. This is valid for all element types.  (default attribute names are xmed, ymed, zmed)</p>
+
+<p><a name="edge_connections"></a>
+<strong>edge_connections</strong> / <code class="language-plaintext highlighter-rouge">att_sink</code><br /> creates an integer node attribute with the number of edge connections to each node.</p>
+
+<p><a name="node_num_diff"></a>
+<strong>node_num_diff</strong> / <code class="language-plaintext highlighter-rouge">att_sink</code><br /> creates an integer attribute with the maximum difference in node number between the node and any node it is connected to. 
+That is for node i connected to nodes j_1, j_2, …j_n, the attribute will contain attribute=max(i-j_1,i-j_2, … i-j_n)</p>
+
+<p><a name="volume"></a>
+<strong>volume</strong> or <strong>area</strong> / <code class="language-plaintext highlighter-rouge">att_name</code><br /> creates an element attribute of type VDOUBLE. For <strong>volume</strong> the attribute is filled with <strong>volume</strong>(if 3D), <strong>area</strong>(if 2D) or <strong>length</strong>(if lines). Currently implemented for triangle areas.</p>
+
+<p><a name="voronoi"></a>
+<strong>voronoi</strong> / <code class="language-plaintext highlighter-rouge">xvor, yvor, zvor</code><br /> creates three element attributes that are the x y z coordinates of the Voronoi point (center of circumscribed circle or sphere) of each element. This is only valid for elements of type tri and tet. This command does not check if a mesh is Delaunay, so a better keyword might be circumscribed_center. (Default attribute names are xvor, yvor, zvor).</p>
+
+<p><a name="voronoi_volume"></a>
+<strong>voronoi_volume</strong> / <code class="language-plaintext highlighter-rouge">att_name</code><br /> creates a node attribute of type VDOUBLE. Currently implemented for a tetrahedral mesh by calling the build stor function to form the Voronoi bounding area for each node. See more about build stor in <a href="/pages/docs/commands/DUMP2.html">dump/stor</a>.</p>
+
+<p><a name="hybrid_volume"></a>
+<strong>hybrid_volume</strong> / <code class="language-plaintext highlighter-rouge">att_name</code><br /> creates a node attribute of type VDOUBLE which contains the volume of each hybrid median-Voronoi control volume. This is currently implemented for a tetrahedral mesh by calling the build stor function with the hybrid option. See <a href="/pages/docs/commands/DUMP2.html">dump/stor</a> for details on what hybrid median-Voronoi volumes are. Currently this option is only available for 3D tetrahedral meshes.</p>
+
+<p><a name="sumnode"></a>
+<strong>sumnode</strong> / <code class="language-plaintext highlighter-rouge">att_name_elem</code> / <code class="language-plaintext highlighter-rouge">att_name_node</code><br />  creates an element attribute and fills it with the sum of each elements’ node attribute values.</p>
+
+<p><a name="avgnode"></a>
+<strong>avgnode</strong> / <code class="language-plaintext highlighter-rouge">att_name_elem</code> / <code class="language-plaintext highlighter-rouge">att_name_node</code> <br /> creates an element attribute and fills it with the average of each elements’ node attribute values.</p>
+
+<p><a name="minnode"></a>
+<strong>minnode</strong> / <code class="language-plaintext highlighter-rouge">att_name_elem</code> / <code class="language-plaintext highlighter-rouge">att_name_node</code> <br /> creates an element attribute and fills it with the minimum of each elements’ node attribute values.</p>
+
+<p><a name="maxnode"></a>
+<strong>maxnode</strong> / <code class="language-plaintext highlighter-rouge">att_name_elem</code> / <code class="language-plaintext highlighter-rouge">att_name_node</code> <br /> creates an element attribute and fills it with the maximum of each elements’ node attribute values.</p>
+
+<p><a name="xyz_rtp"></a>
+<strong>xyz_rtp</strong> / [ <code class="language-plaintext highlighter-rouge">[att_node_r att_node_theta att_node_phi</code> ]<br /> creates three node attributes and fills them with the node coordinate, x y z in spherical coordinates, radius, theta, phi. (Defaults are c_r, c_theta, c_phi).</p>
+
+<p><a name="xyz_rtz"></a>
+<strong>xyz_rtz</strong> / [ <code class="language-plaintext highlighter-rouge">c_r, c_theta, c_z</code> ]<br /> creates three node attributes and fills them with the node coordinate, x y z in cylindrical coordinates, radius, theta, z. (Defaults are c_r, c_theta, c_z).</p>
+
+<p><a name="area_normal"></a>
+<strong>area_normal</strong> / <code class="language-plaintext highlighter-rouge">normal_type / att_v_name</code><br /> creates an element attribute of rank vector and fills with the x y z components of area normals for each face. 
+The <code class="language-plaintext highlighter-rouge">normal_type</code> choices include <strong>xyz, rtz</strong>, and <strong>rtp</strong>. 
+The area normal is a vector perpendicular to the triangle face with length equal to the area of the triangle. Currently implemented for <strong>xyz</strong> on triangles only.</p>
+
+<p><a name="unit_area_normal"></a>
+<strong>unit_area_normal</strong> / <code class="language-plaintext highlighter-rouge">normal_type / att_v_name</code><br /> creates an element attribute of rank vector and fills with the x y z components of vector perpendicular to the face and with length equal to one.
+The <code class="language-plaintext highlighter-rouge">normal_type</code> choices include <strong>xyz, rtz</strong>, and <strong>rtp</strong>.                                                                        <br />
+The area normal is a vector perpendicular to the triangle face with length equal to the area of the triangle. Currently implemented for <strong>xyz</strong> on triangles only.</p>
+
+<p><a name="voronoi_varea"></a>
+<strong>voronoi_varea</strong> / <code class="language-plaintext highlighter-rouge">att_name_xn att_name_yn att_name_zn</code><br /> creates three node attributes with type VDOUBLE. The attributes represent each of the x y z components for the Voronoi areas formed by surrounding nodes. Currently implemented for a triangle mesh by calling the same routine that is used to compute the Voronoi areas for the external faces of a tetrahedral mesh. Works only on a triangle mesh. See more in <a href="/pages/docs/commands/DUMP2.html">dump/zone_outside</a>.</p>
+
+<p><a name="synth_normal_area"></a>
+<strong>synth_normal_area</strong> <br />  creates three node attributes, x_n_norm, y_n_norm, z_n_norm, and fills them with the area weighted normal of each node.</p>
+
+<p><a name="synth_normal_angle"></a>
+<strong>synth_normal_angle</strong> <br /> creates three node attributes, x_n_norm, y_n_norm, z_n_norm, and fills them with the angle weighted normal of each node.</p>
+
+<p><em>The synthetic normal is computed by computing the normal to all elements incident upon a node and then taking the weighted average of all the normals. The weight factor is based on area or incident angle depending upon which option is selected.</em></p>
+
+<p><a name="quad_quality"></a>
+<strong>quad_quality</strong> / <code class="language-plaintext highlighter-rouge">att_name_quality / att_name_regularity / att_name_flag</code> <br /> creates element attributes att_name_quality, att_name_regularity, and att_name_flag. These three attributes all describe the quality of each quadrilateral in a quad mesh. See example below.</p>
+
+<p>The following commands create element attributes related to element angle measurments.</p>
+
+<p>The Dihedral angle calculations are supported for tri, quad, tet, pyramid, prism, hex.
+The Solid angle calculation is only supported for tet elements.</p>
+
+<p>See also the command <a href="/pages/docs/commands/QUALITY.html"><strong><code class="language-plaintext highlighter-rouge">QUALITY</code></strong></a> for adding attributes such as element aspect ratio(quality/aratio) and edge length ratio (quality/edge_ratio), minimum edge length (quality/ edge_min) and maximum edge length (quality/edge_max).</p>
+
+<p><a name="ang_mind"></a>
+<strong>ang_mind</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the minimum dihedral angle (degrees) of the element</p>
+
+<p><a name="ang_min"></a>
+<strong>ang_minr</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the minimum dihedral angle (radian) of the element</p>
+
+<p><a name="ang_maxd"></a>
+<strong>ang_maxd</strong> / <code class="language-plaintext highlighter-rouge">att_name</code><br />  create a scalar element attribute and fill it with the maximum dihedral angle (degrees) of the element</p>
+
+<p><a name="ang_maxr"></a>
+<strong>ang_maxr</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the maximum dihedral angle (radian) of the element</p>
+
+<p><em>These dihedral angles will be between 0 and 2pi.</em></p>
+
+<p><a name="ang_mind_solid"></a>
+<strong>ang_mind_solid</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the minimum solid angle (degrees) of the element</p>
+
+<p><a name="ang_mind_solid"></a>
+<strong>ang_minr_solid</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the minimum solid angle (radian) of the element</p>
+
+<p><a name="ang_mind_solid"></a>
+<strong>ang_maxd_solid</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the maximum solid angle (degrees) of the element</p>
+
+<p><a name="ang_mind_solid"></a>
+<strong>ang_maxr_solid</strong> / <code class="language-plaintext highlighter-rouge">att_name</code> <br /> create a scalar element attribute and fill it with the maximum solid angle (radian) of the element</p>
+
+<p><em>These solid angles will be between 0 and 4pi.</em></p>
+
+<h2 id="examples-of-general-format">EXAMPLES of GENERAL FORMAT</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmo1 / boron1 /VDOUBLE/scalar/nnodes/asinh/permanent
+</code></pre></div></div>
+<p>Create node attribute named boron1 with interpolate method of asinh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmo1 /z_save/VDOUBLE/scalar/nnodes/linear/permanent/
+cmo/copyatt/ cmo1 cmo1 / z_save zic
+</code></pre></div></div>
+<p>Create node attribute named z_save then use <strong>copyatt</strong> to copy values from zic to z_save.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmo1 /boron3 /VDOUBLE/scalar/nnodes/user/temporary/ .1
+</code></pre></div></div>
+<p>Create temporary node attribute named boron3 and fill with value .1</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/-default-/boron3
+</code></pre></div></div>
+<p>Create attribute named boron3 with default mesh object settings.</p>
+
+<h2 id="examples-of-keyword-format">EXAMPLES of KEYWORD FORMAT</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmotri / area_normal / anorm
+</code></pre></div></div>
+
+<p>Create and fill element vector named anorm with the x,y,z components for area normals of each triangle.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmotri / unit_area_normal / n_face
+</code></pre></div></div>
+<p>Create and fill element vector named n_face with the x,y,z components for unit area normals of each triangle.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/cmo1/ scalar / xnorm, ynorm, znorm / anorm
+</code></pre></div></div>
+<p>Create attributes xnorm, ynorm, znorm from the three components of the vector attribute anorm.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/cmo1/ vector / vnorm /xnorm, ynorm, znorm
+</code></pre></div></div>
+<p>Create vector attribute vnorm from the three attributes xnorm, ynorm, znorm with length nnode (or nelement) x 3.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/ cmotri / area / darea
+</code></pre></div></div>
+<p>Create and fill attribute named darea with area of each triangle.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt / cmotet / voronoi_volume / vor_vol
+</code></pre></div></div>
+<p>Create and fill attribute named vor_vol with Voronoi volume of each node in tetrahedral mesh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt / cmotet / hybrid_volume / hybrid_vol
+</code></pre></div></div>
+<p>Create and fill an attribute named hybrid_vol with the hybrid median-Voronoi volume of each node in a tetrahedral mesh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/cmotri/ voronoi_varea / xvarea yvarea zvarea
+</code></pre></div></div>
+<p>Create and fill attributes xvarea, yvarea, and zvarea with xyz components of the Voronoi areas for each node in triangle mesh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / addatt / cmo / ang_mind / ang_mind
+cmo / addatt / cmo / ang_minr / ang_minr
+cmo / addatt / cmo / ang_maxd / ang_maxd
+cmo / addatt / cmo / ang_maxr / ang_maxr
+cmo / addatt / cmo / ang_mind_solid / sang_mind
+cmo / addatt / cmo / ang_minr_solid / sang_minr
+cmo / addatt / cmo / ang_maxd_solid / sang_maxd
+cmo / addatt / cmo / ang_maxr_solid / sang_maxr
+cmo / addatt / cmo / synth_normal_area
+cmo / addatt / cmo / synth_normal_angle
+cmo / addatt / cmo / sumnode / elem_sum_imt / imt 
+cmo / addatt / cmo / maxnode / elem_max_boron / boron 
+</code></pre></div></div>
+<p>Various examples.</p>
+
+<h2 id="example-quad_quality">EXAMPLE quad_quality:</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/addatt/cmoquad / quad_quality / quality regularity flag
+</code></pre></div></div>
+
+<p>Create attributes named quality, regularity, and flag with several quad quality measures.</p>
+
+<p>The first attribute represents the measure: <img src="https://lanl.github.io/LaGriT/assets/images/quad_quality_equation.png" /></p>
+
+<p>where <img src="https://lanl.github.io/LaGriT/assets/images/alpha.png" /> is a normalization constant and</p>
+
+<p><img src="https://lanl.github.io/LaGriT/assets/images/h_max.png" /> is the longest length among the fouredges and the diagonals.</p>
+
+<p><img src="https://lanl.github.io/LaGriT/assets/images/h_s.png" /> is the mininum area of the four triangles constructed by adding a diagonal to the quad. This metric ranges from zero (poor) to one (good).</p>
+
+<p><img src="https://lanl.github.io/LaGriT/assets/images/quad_quality.jpg" /></p>
+
+<p>The second attribute represetns the <em>regularity</em> of each quad ABCD, defined as
+<img src="https://lanl.github.io/LaGriT/assets/images/regularity.png" /></p>
+
+<p>where <img src="https://lanl.github.io/LaGriT/assets/images/p_ac.png" /> and <img src="https://lanl.github.io/LaGriT/assets/images/p_bd.png" /></p>
+
+<p>This is a measure of the extent to which the quad is planar. The values range from zero (non-planar) to one (planar).</p>
+
+<p>The third and final attribute is an integer flag which gives information about the quad:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0 (good) = the quad is non-degenerate. For drawing a diagonal across it, the area vectors of the triangles have a positive dot product.
+
+1 (degenerate) = at least one of the triangles detirmined by three of the vertices of the quad has zero area. That is the quad has degenerated into a triangle or worse.
+
+2 (warped) = one of the quad's diagonals divides it into two triangles whose area vectors have a negative dot product. If the quad is planar, then this is self-intersecting or vertices are in wrong order by mistake.
+</code></pre></div></div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

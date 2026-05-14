@@ -1,0 +1,36 @@
+# TEST triangulate (lagrit_input_tri.lgi)
+#
+# Input file input_concave.inp
+#  7  0 0 0 0
+#  1 0.  0.  0.
+#  2 9.  0.  0.
+#  3 10. 0.  0.
+#  4 10. 10. 0.
+#  5 5.  20. 0.
+#  6 0.  10. 0.
+#  7 2.  4.  0.
+# -----------------------------
+
+cmo / create / cmotri1 / / / tri
+read / avs / input_concave.inp / cmotri1
+
+triangulate/counterclockwise
+cmo/setatt/cmotri1/ itetclr/ 1
+cmo/setatt/cmotri1/ imt / 1
+quality
+
+dump / gmv / output_tri1.gmv /cmotri1
+
+# create concave by removing node 7
+cmo / create / cmotri2 / / / tri
+copypts / cmotri2 / cmotri1 / 0,0 /1,6,1
+
+triangulate/counterclockwise
+cmo/setatt/cmotri2/ itetclr/ 1
+cmo/setatt/cmotri2/ imt / 1
+quality
+
+dump gmv output_tri2.gmv cmotri2
+
+finish
+

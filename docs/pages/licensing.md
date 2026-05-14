@@ -2,25 +2,6 @@
 title: LaGriT Licensing
 ---
 
- 
-# LaGriT Registration and Download
-
-LaGriT binaries are available for download. Supported platforms are
-primarily Linux, other platforms such as Mac OSX and WINDOWS are
-available but may not be current with latest release. The most current
-version of LaGriT is open-source (see below).
-
-For a LaGriT binary, fill out a the web form (link below) and
-instructions for downloading LaGriT will be emailed to you.
-[Click here to enter registration information](https://lagrit.lanl.gov/reg/form.php)
-
-*Note: The username for the site is "lagrit" and the password is
-"register".*
-
-For questions contact LaGriT registration at [lagrit-reg@lanl.gov](mailto:lagrit-reg@lanl.gov).
-
-------------------------------------------------------------------------
-
 # LaGriT Open Source
 
 LaGriT V3 LA-CC-15-069 is distributed as open-source software under a

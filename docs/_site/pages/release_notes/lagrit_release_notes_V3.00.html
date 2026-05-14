@@ -1,0 +1,274 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT Release Notes V3.001 August 2011</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="lagrit-release-notes-v3001-august-2011">LaGriT Release Notes V3.001 August 2011</h1>
+
+<p>Major changes incoporating work from Andrew Kuprat (64bit work) and
+summer student Adam Cozzette to add more capability. Changes to make
+64bit code more consistent and easier to modify for various platforms.
+The code for stack routines are combined into stack_options.f from
+temptam.f and read_trilayers.f. The beads algorithm and routines are
+now all in their own file beads_ona_ring.f</p>
+
+<p>LaGriT assumes that the size of an integer is the same size as a
+pointer. Use the preprocessor and configure settings to select the
+integer type so that it matches the size of a pointer.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> #if SIZEOF_INT == SIZEOF_VOIDP
+ #define int_ptrsize int
+ #elif SIZEOF_LONG == SIZEOF_VOIDP
+ #define int_ptrsize long
+ 
+ Makefile changes for 64 bit compile:
+    -fcray-pointer
+ Enables the Cray pointer extension, which provides a C-like pointer
+
+   -falign-commons (will try to reorder commons so this is not needed)
+</code></pre></div></div>
+
+<p>By default, gfortran enforces proper alignment of all variables in a COMMON block by padding them as needed. On certain platforms this is mandatory, on others it increases performance. If a COMMON block is not declared with consistent data types everywhere, this padding can cause trouble, and -fno-align-commons can be used to disable automatic alignment. The same form of this option should be used for all files that share a COMMON block. To avoid potential alignment issues in COMMON blocks, it is recommended to order objects from largests to smallest.</p>
+
+<p>This includes Work from Andrew Kuprat and summer student Adam Cozzette.</p>
+
+<h3 id="enhancements">Enhancements:</h3>
+
+<ul>
+  <li>
+    <p><strong>filterkd</strong> - new filter command uses kd-tree for filter. Uses reverseform.f</p>
+  </li>
+  <li><em>anothermatbld3d.c</em> added several functions for computing the hybrid point of a control volume: tetisOnBoundary, intersectSegmentWithFace, getHybridPoint</li>
+  <li>added helper functions for computing dot products and distances.</li>
+  <li>changed the areaOf3dTriangle function to compute a vector area rather than a scalar.</li>
+  <li>a change computes a unit vector in the direction of an edge between
+            two points in the tetrahedral mesh. We dot this with the facet of the Voronoi
+            cell in order to consider just the component of the area that is in the
+            direction of the edge.</li>
+  <li>changed the parameter list for initialize3ddiffusionmat_ so that the
+            function also takes arrays for jtet, pmbndry, ifhybrid, and hybridfactor.
+            ifhybrid indicates whether to use hybrid volumes and hybrid_factor is an
+            attribute that the function will fill in order to indicate the extent to which
+            each cell is hybridized</li>
+  <li>added function prototypes so that gcc can perform type checking</li>
+  <li>
+    <p>added #ifdef to match format string to size of integers being used</p>
+  </li>
+  <li><em>anothermatbld3d_wrapper.f</em> changed subroutine call to add hybrid_factor
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                   subroutine anothermatbld3d_wrapper
+      -     x           (ifile,io_type,num_area_coef,ifcompress)
+      +     x           (ifile,io_type,num_area_coef,ifcompress, ifhybrid)
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Added support for quad metrics in quality / quad</p>
+  </li>
+  <li>
+    <p>Added support for writing element sets out to a file based on pset logic so that eltset will write each element set to a separate file if it is given the -all- option filenames now end with .cellset</p>
+  </li>
+  <li>
+    <p>intersect added sort line_graph after performing the intersection</p>
+  </li>
+  <li>
+    <p><strong>pset</strong> changed pset to verify a point before writing to file. Added the -all- option that writes each pset to seperate files with the new file extension .vertexset</p>
+  </li>
+  <li>
+    <p><strong>sort/ line_graph</strong> in file line_graph_sort.cpp. Create the sort keys correctly based on whether it is actually sorting nodes or elements.</p>
+  </li>
+  <li><em>writedump.f</em> changes to facilitate the <em>hybrid</em> option and Rao’s new <strong>dump / exo</strong> code.</li>
+</ul>
+
+<h2 id="these-issues-were-fixed">These issues were fixed:</h2>
+
+<ul>
+  <li>
+    <p>fix bug in 2D delaunay connect connect2d_lg.f where the code doubled the coordinates of the first Voronoi point.</p>
+  </li>
+  <li>
+    <p>fixed a bug where attempting to redefine an element set, the set is now zeroed out and written afresh</p>
+  </li>
+  <li>
+    <p><em>cr_copy.f</em> fixed an off-by-one error by making an array one element longer in a call to mmgetblk with length + 1 that was causing segfault errors</p>
+  </li>
+  <li>
+    <p><em>geniee.f</em> changed loop to check condition before starting, this avoids writing to memory is invalid</p>
+  </li>
+  <li>
+    <p><em>pcc_test.f</em> fixed Warning so it is given once instead of once for every element</p>
+  </li>
+  <li>
+    <p><strong>reorder</strong> fixed so that it doesn’t rely on the numerical values to determine whether to sort nodes or elements and added messages to indicate possible WARNINGS for reorder</p>
+  </li>
+  <li>
+    <p><em>rotatelo.f</em> Fixed a bug whereby rotateln would rotate some points in one direction and some points in the opposite direction.</p>
+  </li>
+  <li>
+    <p><em>sparseMatrix.c</em> removed unused variables in order to get rid of compiler warnings. Added #if for printf to use string according to integer size</p>
+  </li>
+  <li>
+    <p><em>readgmv_binary.f</em> Changed gmv routines readgmv_binary.f and dumpgmv_hybrid.f so read/write gmv works on 64-bit</p>
+  </li>
+</ul>
+
+<hr />
+
+<p><em>Changesets tracked in Mercurial/Trac on ancho.lanl.gov/lagrit</em></p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

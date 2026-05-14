@@ -1,0 +1,504 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2019/04/15 Static          *                 
+*               *    Run Time: 2020/Jan 10  12:08:53          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# LaGriT Example for face sets using extract/surfmesh                           
+# Write face to element correlation based on surface                            
+#                                                                               
+# Also write node zones associated with these sets                              
+# Note surfmesh nodes do not remember master node numbers                       
+# Use set_id to carry these to surfmesh                                         
+# ----------------------------------------------------                          
+# CREATE master mesh used by the model                                          
+# These are the final node and element numbers                                  
+# First create a hex mesh and color by 2 regions                                
+# Convert to tets so we have triangle faces                                     
+define MO_MESH mo_hex                                                           
+define/MIN/0.0                                                                  
+define/MAX/10.0                                                                 
+define/ZMAX/6.0                                                                 
+define/NXY/11                                                                   
+define/NZ/7                                                                     
+cmo/create/MO_MESH///hex                                                        
+createpts/brick/xyz/NXY NXY NZ/MIN MIN MIN/MAX MAX ZMAX/1 1 1                   
+          Number of nodes:         847                                          
+          Number of elements:         600                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.600000000000E+03                                  
+surface/lay1/intrface/plane/0. 0. 4./1. 1. 4./0. 1. 4.                          
+  The unit vector for lay1     is  0.0000000i  -0.0000000j   1.0000000k         
+region/r_mat1/lt lay1                                                           
+region/r_mat2/ge lay1                                                           
+mregion/mat1/lt lay1                                                            
+mregion/mat2/gt lay1                                                            
+setpts                                                                          
+ FOR imt=   1 NAME= mat1     THERE ARE             484 POINTS                   
+ FOR imt=   2 NAME= mat2     THERE ARE             242 POINTS                   
+ FOR imt=   3 NAME= intrface THERE ARE             121 POINTS                   
+eltset/e_mat2/region/r_mat2                                                     
+ 
+ THE ELTSET e_mat2                           HAS        200 ELEMENTS            
+cmo/setatt/mo_hex/itetclr 1                                                     
+       600 values reset for attribute itetclr                                   
+ 
+cmo/setatt/mo_hex/itetclr/eltset,get,e_mat2/2                                   
+       200 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+dump/hex.gmv/mo_hex                                                             
+dump/gmv/hex.gmv/mo_hex                                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/printatt/mo_hex/itetclr minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                2               1       600  
+ 
+# convert hex mesh to tet mesh                                                  
+grid2grid/hextotet5/mo_master/mo_hex                                            
+hextotet/5/mo_master/mo_hex                                                     
+ iremove_vol=   0 iremove_dup=   0 icheckpt=   1                                
+Input Mesh type hex using option    5                                           
+Element Material ID, min/max/range:          1         2         1              
+Epsilon-dist, distmax, distmin:  -1.0000000E-06  1.0000000E+00  1.0000000E+00   
+Epsilon-volume, volmax:   1.0000000E-06  1.0000000E+00                          
+cmo/addatt/mo_master/iign/vint/scalar/nnodes/-def-/-def-/gx/-def-               
+finish                                                                          
+  WARNING: Volumes le zero not removed, nelements=       3000                   
+No duplicate points                                                             
+  WARNING: Duplicate points not removed, nnodes =        847                    
+finish                                                                          
+# remove duplicates and set boundary tags                                       
+cmo/select/mo_master                                                            
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is          847                                        
+RMPOINT: new element count is       3000                                        
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# create attribute to save node id numbers                                      
+cmo/set_id/mo_master/node/id_node                                               
+cmo/addatt/mo_master id_node/VINT/scalar/nnodes/linear/permanent//0             
+finish                                                                          
+cmo/printatt/mo_master/id_node minmax                                           
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ id_node                          1              847             846       847  
+ 
+cmo/delete/mo_hex                                                               
+     Released Mesh Object: mo_hex                                               
+dump/tet.gmv/mo_master                                                          
+dump/gmv/tet.gmv/mo_master                                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/printatt/mo_master/-all- minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       847  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                         847              847               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     3000             3000               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                0               0       847  
+ ialias                           0                0               0       847  
+ imt1                             1                3               2       847  
+ itp1                             0               12              12       847  
+ icr1                             0                0               0       847  
+ isn1                             0                0               0       847  
+ xic                0.000000000E+00  1.000000000E+01 1.000000000E+01       847  
+ yic                0.000000000E+00  1.000000000E+01 1.000000000E+01       847  
+ zic                0.000000000E+00  6.000000000E+00 6.000000000E+00       847  
+ xtetwd                           0                0               0      3000  
+ itetclr                          1                2               1      3000  
+ itettyp                          5                5               0      3000  
+ itetoff                          0            11996           11996      3000  
+ jtetoff                          0            11996           11996      3000  
+ itet                             1              847             846      3000x4
+ jtet                             1         16009987        16009986      3000x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.411113946E-12  3.411113946E-12 0.000000000E+00         1  
+ epsilona           5.240252676E-11  5.240252676E-11 0.000000000E+00         1  
+ epsilonv           1.332267630E-10  1.332267630E-10 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                        847              847               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+01  1.000000000E+01 0.000000000E+00         1  
+ ymax               1.000000000E+01  1.000000000E+01 0.000000000E+00         1  
+ zmax               6.000000000E+00  6.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ iign                             0                0               0       847  
+ id_node                          1              847             846       847  
+ 
+# ----------------------------------------------------                          
+# EXTRACT ALL BOUNDARIES AND INTERFACES                                         
+# The surface mesh object will have attributes we need                          
+extract/surfmesh/1,0,0/mo_surf/mo_master                                        
+cmo/addatt/mo_surf/itetclr0/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/itetclr1/vint/scalar/nelements////0                          
+finish                                                                          
+cmo/addatt/mo_surf/idnode0/vint/scalar/nnodes////0                              
+finish                                                                          
+cmo/addatt/mo_surf/idelem0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idelem1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/facecol/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface0/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/idface1/vint/scalar/nelements////0                           
+finish                                                                          
+cmo/addatt/mo_surf/iign/VINT/scalar/nnodes/linear/temporary/gx                  
+finish                                                                          
+cmo/addatt/mo_surf/id_node/VINT/scalar/nnodes/linear/permanent/agltn            
+finish                                                                          
+cmo/addatt/mo_surf/ncon50/int/scalar/scalar/constant/permanent/x/0              
+finish                                                                          
+cmo/addatt/mo_surf/nconbnd/int/scalar/scalar/constant/permanent/x/0             
+finish                                                                          
+cmo/addatt/mo_surf/icontab/vint/scalar/ncon50/constant/permanent/x/0            
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+ geniee: mesh has                    40  jtet loops, max cycle length=          
+                                                                               3
+finish                                                                          
+finish                                                                          
+cmo/printatt/mo_surf/-all- minmax                                               
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00       523  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                         523              523               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     1080             1080               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 2                2               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                3                3               0         1  
+ edges_per_element                3                3               0         1  
+ faces_per_element                3                3               0         1  
+ isetwd                           0                0               0       523  
+ ialias                           0                0               0       523  
+ imt1                             1                1               0       523  
+ itp1                             0                0               0       523  
+ icr1                             0                0               0       523  
+ isn1                             0                0               0       523  
+ xic                0.000000000E+00  1.000000000E+01 1.000000000E+01       523  
+ yic                0.000000000E+00  1.000000000E+01 1.000000000E+01       523  
+ zic                0.000000000E+00  6.000000000E+00 6.000000000E+00       523  
+ xtetwd                           0                0               0      1080  
+ itetclr                          1                1               0      1080  
+ itettyp                          3                3               0      1080  
+ itetoff                          0             3237            3237      1080  
+ jtetoff                          0             3237            3237      1080  
+ itet                             1              523             522      1080x3
+ jtet                             1         16002393        16002392      1080x3
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilona           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ epsilonv           9.999999939E-09  9.999999939E-09 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                        523              523               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ ymin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ zmin              -1.000000000E+00 -1.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ ymax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ zmax               1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  0                0               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ itetclr0                         0                2               2      1080  
+ itetclr1                         1                2               1      1080  
+ idnode0                          1              847             846       523  
+ idelem0                          0             2497            2497      1080  
+ idelem1                          1             2999            2998      1080  
+ facecol                          1                3               2      1080  
+ idface0                          0                4               4      1080  
+ idface1                          2                4               2      1080  
+ iign                             0                0               0       523  
+ id_node                          1              847             846       523  
+ ncon50                           0                0               0         1  
+ nconbnd                          0                0               0         1  
+ 0 length attribute: icontab                                                    
+ jtet_cycle_max                   3                3               0         1  
+ 
+# color itetclr according to the two facesets to write                          
+# 1 = internal interface                                                        
+# 2 = top                                                                       
+cmo/select/mo_surf                                                              
+cmo/setatt/mo_surf/itetclr/3                                                    
+      1080 values reset for attribute itetclr                                   
+ 
+# select faces on interface below material 2                                    
+eltset/e_set1/itetclr0 eq 2                                                     
+ 
+ THE ELTSET e_set1                           HAS        200 ELEMENTS            
+cmo/setatt/mo_surf/itetclr/eltset,get,e_set1 1                                  
+       200 values reset for attribute itetclr                                   
+ 
+# select faces at top of mesh                                                   
+pset/ptop/attribute zic/1,0,0/ge ZMAX                                           
+ 
+ THE PSET  ptop  HAS        121 POINTS                                          
+eltset/etop/exclusive/pset,get,ptop                                             
+ 
+ THE ELTSET etop                             HAS        200 ELEMENTS            
+cmo/setatt/mo_surf/itetclr/eltset,gt,etop 2                                     
+       200 values reset for attribute itetclr                                   
+ 
+# check faces for correct selection                                             
+cmo/printatt/mo_surf/itetclr minmax                                             
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                3               2      1080  
+ 
+dump/surfmesh.gmv/mo_surf                                                       
+dump/gmv/surfmesh.gmv/mo_surf                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# ----------------------------------------------------                          
+# WRITE NODE SET files the easy way                                             
+# write zonn and vertexsets for selected psets                                  
+# define the psets                                                              
+cmo/select/mo_master                                                            
+pset/TOP_NODES/attribute zic/1,0,0/ge ZMAX                                      
+ 
+ THE PSET  TOP_NODES  HAS        121 POINTS                                     
+pset/play_in/attribute itp/1,0,0/eq 2                                           
+ 
+ THE PSET  play_in  HAS         81 POINTS                                       
+pset/play_bnd/attribute itp/1,0,0/eq 12                                         
+ 
+ THE PSET  play_bnd  HAS         40 POINTS                                      
+pset/INTER_NODES/union play_in play_bnd                                         
+ 
+ THE PSET  INTER_NODES  HAS        121 POINTS                                   
+# write the psets                                                               
+pset/TOP_NODES/zonn/top_nodes.zonn/ascii                                        
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  TOP_NODES         play_in           play_bnd          INTER_NODES             
+PSET: OUTPUT TOP_NODES    1 PSETS TO FILE                                       
+pset/TOP_NODES/write/top_nodes.vertexset/ascii                                  
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  TOP_NODES         play_in           play_bnd          INTER_NODES             
+PSET: OUTPUT TOP_NODES    1 PSETS TO FILE                                       
+pset/INTER_NODES/zonn/inter_nodes.zonn/ascii                                    
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  TOP_NODES         play_in           play_bnd          INTER_NODES             
+PSET: OUTPUT INTER_NODES    1 PSETS TO FILE                                     
+pset/INTER_NODES/write/inter.vertexset/ascii                                    
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  TOP_NODES         play_in           play_bnd          INTER_NODES             
+PSET: OUTPUT INTER_NODES    1 PSETS TO FILE                                     
+# ----------------------------------------------------                          
+# SUBSET and WRITE FACE and NODE SETS                                           
+# prepare surfmesh to write only idelem1 and idface1 pairs                      
+# these will be the master mesh element to element face number                  
+# copy surfmesh so we can subset multiple times                                 
+# use AVS format for writing element-face attributes                            
+# use AVS format for writing node-id_node attributes                            
+cmo/DELATT/mo_surf/itetclr0                                                     
+cmo/DELATT/mo_surf/idnode0                                                      
+cmo/DELATT/mo_surf/idelem0                                                      
+cmo/DELATT/mo_surf/facecol                                                      
+cmo/DELATT/mo_surf/itetclr1                                                     
+cmo/DELATT/mo_surf/idface0                                                      
+# instead of delete we can limit the ioflag                                     
+cmo/modatt/mo_surf/imt/ioflag/l                                                 
+cmo/modatt/mo_surf/itp/ioflag/l                                                 
+cmo/modatt/mo_surf/isn/ioflag/l                                                 
+cmo/modatt/mo_surf/icr/ioflag/l                                                 
+# TOP NODES AND FACES                                                           
+define/FILENAME/top.faceset                                                     
+define/SS_ID/1                                                                  
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_keep/itetclr/eq/SS_ID                                                  
+ 
+ THE ELTSET e_keep                           HAS        200 ELEMENTS            
+eltset/e_delete/not/e_keep                                                      
+ 
+ THE ELTSET e_delete                         HAS        880 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded        402 points plus parents, and         880 elements removed.       
+rmpoint/compress                                                                
+       402 points removed and          0 elements removed.                      
+RMPOINT: new point count is          121                                        
+RMPOINT: new element count is        200                                        
+dump/avs/top_nodes.dat/mo_tmp/0 0 1 0                                           
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    1                                       
+WARNING: dump/avs  iopt_values_elem=    0                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/DELATT/mo_tmp/id_node                                                       
+dump/avs/FILENAME/mo_tmp/0 0 1 2                                                
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    1                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+# INTERFACE NODES AND FACES                                                     
+define/FILENAME/interface.faceset                                               
+define/SS_ID/2                                                                  
+cmo/copy/mo_tmp/mo_surf                                                         
+cmo/select/mo_tmp                                                               
+eltset/e_keep/itetclr/eq/SS_ID                                                  
+ 
+ THE ELTSET e_keep                           HAS        200 ELEMENTS            
+eltset/e_delete/not/e_keep                                                      
+ 
+ THE ELTSET e_delete                         HAS        880 ELEMENTS            
+rmpoint/element/eltset get e_delete                                             
+ Dudded        402 points plus parents, and         880 elements removed.       
+rmpoint/compress                                                                
+       402 points removed and          0 elements removed.                      
+RMPOINT: new point count is          121                                        
+RMPOINT: new element count is        200                                        
+dump/avs/interface_nodes.dat/mo_tmp/0 0 1 0                                     
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    1                                       
+WARNING: dump/avs  iopt_values_elem=    0                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/DELATT/mo_tmp/id_node                                                       
+dump/avs/FILENAME/mo_tmp/0 0 0 2                                                
+WARNING: dump/avs  iopt_points=    0                                            
+WARNING: dump/avs  iopt_elements=    0                                          
+WARNING: dump/avs  iopt_values_node=    0                                       
+WARNING: dump/avs  iopt_values_elem=    2                                       
+WARNING: dump/avs  will produce non-standard AVS output that                    
+WARNING: read/avs may not be able to read.                                      
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/delete/mo_tmp                                                               
+     Released Mesh Object: mo_tmp                                               
+# ----------------------------------------------------                          
+# WRITE MASTER MESH with face surfaces for viewing                              
+# ExodusII and GMV files can have face sets defined                             
+dump/exo/mesh_facesets.exo/mo_master///facesets interface.faceset top.faceset   
+got       1 interface.faceset                                                   
+got       2 top.faceset                                                         
+ 
+ExodusII: Start writing to file: mesh_facesets.exo using cmo: mo_master         
+ 
+cmo/set_id/mo_master/element/e_num_temp                                         
+cmo/addatt/mo_master e_num_temp/VINT/scalar/nelements/linear/permanent//0       
+finish                                                                          
+finish                                                                          
+sort/mo_master/index/ascending/ikey_utr/itetclr/e_num_temp                      
+cmo/addatt/mo_master/ikey_utr/vint/scalar/nelements///gax/0                     
+finish                                                                          
+ SORT: order key written to attribute: ikey_utr                                 
+ 
+finish                                                                          
+cmo/DELATT/mo_master/e_num_temp                                                 
+finish                                                                          
+ 
+Title: LAGRIT TO EXODUSII                                                       
+number of dimension:               3                                            
+number of nodes:                 847                                            
+number of elements:             3000                                            
+number of edges:                   0                                            
+number of edge blocks:             0                                            
+number of element blocks:          2                                            
+number of face blocks:             0                                            
+number of node sets:               0                                            
+number of edge sets:               0                                            
+number of element sets:            0                                            
+number of side sets:               2                                            
+number of face sets:               0                                            
+number of node maps:               0                                            
+number of edge maps:               0                                            
+number of face maps:               0                                            
+number of element maps:            0                                            
+ 
+ 
+------------------------------------------                                      
+EXPSS loop:                                                                     
+        1 Side Set tag:             1 Faces:           200                      
+        2 Side Set tag:             2 Faces:           200                      
+------------------------------------------                                      
+Done ExodusII Side Sets Total:       2                                          
+ 
+ 
+ExodusII: Done writing to ExodusII file: mesh_facesets.exo using cmo: mo_master 
+ 
+dump/gmv/mesh_facesets.gmv/mo_master                                            
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

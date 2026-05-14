@@ -1,0 +1,7 @@
+*TEST quality (lagrit_input_qual2)
+read / gmv / input_tet2.gmv / cmo
+*begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

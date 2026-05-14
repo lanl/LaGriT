@@ -1,0 +1,1120 @@
+Work notes for Version 1.1 to 1.4 2006 and 2007
+Version Control in CVS before moving to Mercurial
+
+===== Pre Hg, PVCS 2007 ========
+************************************************************
+Thu Oct 18 09:29:08 MDT 2007
+-r--r-----   1 pvcs       183223 Oct 16 10:49
+/pvcs.config/t3d/ref/hextotet_hybrid_nosb.f
+-r--r-----   1 pvcs        11371 Oct 17 15:11 /pvcs.config/t3d/ref/writinit.f
+-r--r-----   1 pvcs        21889 Oct 17 15:12
+/pvcs.config/t3d/ref/cmo_command_nosb.f
+
+************************************************************
+Wed Oct  3 08:18:59 MDT 2007
+
+-r--r-----   1 pvcs        63449 Sep  7 19:05 cmo_addatt_nosb.f
+-r--r-----   1 pvcs        22562 Oct  1 08:16 copypts_nosb.f
+-r--r-----   1 pvcs        17962 Oct  1 08:16 extract_surfmesh.f
+-r--r-----   1 pvcs        19237 Oct  1 08:17 do_extract_nosb.f
+-r--r-----   1 pvcs        76380 Oct  1 08:17 pset_nosb.f
+-r--r-----   1 pvcs        17330 Oct  1 08:18 cmo_command.f
+-r--r-----   1 pvcs        17769 Oct  1 08:18 setsize_nosb.f
+-r--r-----   1 pvcs        36846 Oct  1 08:18 eset_nosb.f
+-r--r-----   1 pvcs        39698 Oct  1 08:19 rmpoint_nosb.f
+-r--r-----   1 pvcs        19749 Oct  1 08:19 cmo_command_nosb.f
+-r--r-----   1 pvcs       183922 Oct  1 08:20 hextotet_hybrid_nosb.f
+-r--r-----   1 pvcs        12519 Oct  3 08:13 initx3d.f
+-r--r-----   1 tam         11358 Oct  3 08:16 writinit.f
+-r--r-----   1 tam          6125 Oct  3 08:18 initlagrit_nosb.f
+-r--r-----   1 tam          2551 Oct  3 08:23 lagrit.h
+
+************************************************************
+Thu Aug 30 Build all (plus static version of linux util lib)
+
+-r--r-----   1 pvcs        51722 Jul 23 09:31 refine_edge_2d.f
+-r--r-----   1 pvcs        10497 Aug 22 15:02 getedges.f
+-r--r-----   1 pvcs        62138 Aug 22 15:02 cmo_addatt_nosb.f
+-r--r-----   1 pvcs        65859 Aug 23 08:00 intrp_gtg.f
+-r--r-----   1 pvcs        22754 Aug 29 10:52 sortbins.f
+-r--r-----   1 pvcs        34549 Aug 29 10:53 filter.f
+-r--r-----   1 pvcs        45843 Aug 29 16:29 sheet_nosb.f
+-r--r-----   1 pvcs        25151 Aug 29 16:30 shttstv_nosb.f
+-r--r-----  1 tam  t3d    4228 Aug 30 10:01 pntlimc_nosb.f
+
+
+
+************************************************************
+Wed Aug 15 and on - no build, working with static options
+
+From: "Jeremy D. Smith" <supp_jds@absoft.com>
+Date: August 20, 2007 8:40:25 AM MDT
+To: "Terry A. Miller" <tamiller@lanl.gov>
+Subject: Re: compile on OSX 10.4
+Reply-To: support@absoft.com
+
+Hello,
+
+Does the program work if you take out the "-s" compiler option?  Also
+take out -B100 you do not need that option.  It is used to compile code
+for Pentium processors which is not needed.
+
+Zip up your 2 source code files (adrivgen.f and fdate.f) along with your
+two libraries (lagrit_mac_g.a and util_mac_g.a) and send them to me.  I
+want to see if I can duplicate the errors you are receiving.
+
+--
+Thanks,
+Jeremy Smith
+Absoft Technical Support
+support@absoft.com
+http://www.absoft.com/support.html
+
+On Fri, 2007-08-17 at 11:01 -0600, Terry A. Miller wrote:
+Hello Jeremy,
+The only thing I have added to the makefile is the -s option.
+initlagrit_nosb.f is just one of many fortran files that is compiled
+into library /home/tam/src/lagrit/libs/lagrit_mac_g.a
+
+
+All the files were compiled using a Makefile and compile line:
+/Applications/Absoft/bin/f77   -s -g -f -N113 -N90 -B19 -B100 -q -w
+    initlagrit_nosb.f -c
+
+
+The optimized version does not give errors.
+The optimized library uses
+/Applications/Absoft/bin/f77   -s -f -N113 -N90 -B19 -B100 -O -q -w
+    initlagrit_nosb.f -c
+
+Terry A. Miller
+LANL EES6 505-667-8009
+lanl grids at www.meshing.lanl.gov
+
+ork with static options using pvcs with updates
+-r--r-----   1 pvcs        22314 Jul 25 10:01 sortbins.f
+-r--r-----   1 pvcs        58278 Jul 25 10:02 cmo_addatt_nosb.f
+
+added -static to unix link line
+
+ -s Force all program storage to be treated as static and initialized to zero.
+ -N3 Include record length information for SEQUENTIAL, UNFORMATTED files.
+
+Try using the "-s" compiler option in place of "-static".  "-s" is static
+storage.
+This option also allows for much larger memory usage within a program, which I
+think is your problem.
+If your program goes beyond the stack size, you will receive a segmentation
+fault.
+The stack size is different on different operating systems.
+
+
+--
+Thanks,
+Jeremy Smith
+Absoft Technical Support
+support@absoft.com
+http://www.absoft.com/support.html
+
+************************************************************
+Mon Jul 23 10:14:02 MDT 2007
+
+-r--r-----  1 pvcs t3d   44563 Jun 18 07:18 /pvcs.config/t3d/ref/upscale.f
+-r--r-----  1 pvcs t3d   85833 Jul 12 07:34 /pvcs.config/t3d/ref/geniee.f
+-r--r-----  1 pvcs t3d   27527 Jul 17 08:41
+/pvcs.config/t3d/ref/dump_fehm_geom.f
+-r--r-----  1 pvcs t3d   27049 Jul 19 15:22
+/pvcs.config/t3d/ref/dump_outside_list.f
+-r--r-----  1 pvcs t3d   33528 Jul 19 15:24
+/pvcs.config/t3d/ref/writedump_nosb.f
+-r--r-----  1 pvcs t3d   51722 Jul 23 09:31
+/pvcs.config/t3d/ref/refine_edge_2d.f
+
+
+
+************************************************************
+Mon Jul 23 08:32:16 MDT 2007
+
+C        $Log:   /pvcs.config/t3d/src/refine_edge_2d.f_a  $
+CPVCS
+CPVCS       Rev 1.36   23 Jul 2007 09:31:50   gable
+CPVCS    Fix error in checking in Rev 1.35 overwrote with geniee.f. Oops.
+
+-r--r-----  1 pvcs t3d   44563 Jun 18 07:18 /pvcs.config/t3d/ref/upscale.f
+-r--r-----  1 pvcs t3d   85735 Jul 12 07:33
+/pvcs.config/t3d/ref/refine_edge_2d.f
+-r--r-----  1 pvcs t3d   85833 Jul 12 07:34 /pvcs.config/t3d/ref/geniee.f
+-r--r-----  1 pvcs t3d   27527 Jul 17 08:41
+/pvcs.config/t3d/ref/dump_fehm_geom.f
+-r--r-----  1 pvcs t3d   27049 Jul 19 15:22
+/pvcs.config/t3d/ref/dump_outside_list.f
+-r--r-----  1 pvcs t3d   33528 Jul 19 15:24
+/pvcs.config/t3d/ref/writedump_nosb.f
+
+
+Working on OS SunOS lagrit_sun_g and  lagrit_sun_g_070723
+ild: (undefined symbol) refine2db_
+-- referenced in the text segment of
+/home/tam/src/lagrit/libs/lagrit_sun_g.a(msgtty_nosb.o)
+ild: (undefined symbol) refine_edge_2d_
+-- referenced in the text segment of
+/home/tam/src/lagrit/libs/lagrit_sun_g.a(reconloop2d.o)
+
+************************************************************
+  76901 Jun 14 07:57 crush_thin_tets.f - new routine
+   2937 Jun 14 08:25 cmo_get_stdptrs.f - new routine
+  85060 Jun 14 09:32 msgtty_nosb.f - added new routine
+  44401 Jun 14 09:11 upscale.f - in development
+  15841 Jun 14 07:37 math_sum.f - bug fixes
+
+msgtty_nosb.f -> /pvcs.config/t3d/src/msgtty_nosb.f_a
+New rev 1.35, previous rev 1.34
+Enter description of changes.  Then type ctrl-D.
+> added new command crush_thin_tets
+
+New archive /pvcs.config/t3d/src/crush_thin_tets.f_a
+Enter description of workfile.  Then type ctrl-D.
+> Initial revision
+
+New archive /pvcs.config/t3d/src/cmo_get_stdptrs.f_a
+Enter description of workfile.  Then type ctrl-D.
+> Initial revision.
+
+math_sum.f -> /pvcs.config/t3d/src/math_sum.f_a
+New rev 1.4, previous rev 1.3
+Enter description of changes.  Then type ctrl-D.
+> fixed improper string values and checking for
+> parameters associated with the sink cmo
+
+upscale.f -> /pvcs.config/t3d/src/upscale.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> better logic regarding search and keepatt option
+> better reporting regarding setup and options
+
+***********************************************************
+*            *     Version:  1.108
+*            *     Compiled: 2007/06/13 at 10:00:
+modify tmp.h VMinor=108 instead of 107
+-rwxrwxrwx   1 tam  pf  402556 Jun 13 14:24 libs/util_lin_g.a
+-rwxrwxrwx   1 tam  pf  218456 Jun 13 14:25 libs/util_lin_o.a
+-rwxrwxrwx   1 tam  pf  715204 Jun 13 14:26 libs/util_sun_g.a
+-rwxrwxrwx   1 tam  pf  272588 Jun 13 14:26 libs/util_sun_o.a
+-rwxrwxrwx   1 tam  pf  485284 Jun 13 14:28 libs/util_mac_g.a
+-rwxrwxrwx   1 tam  pf  200412 Jun 13 14:29 libs/util_mac_o.a
+
+NOTE NEW UTIL LIB
+-r--r-----  1 tam pf  27283 May 31 14:40 mm2000.f
+added better error reports
+
+
+TAM work:
+-r--r-----   1 pvcs        44417 Jun 13 07:13 upscale.f
+-r--r-----   1 pvcs         6454 Jun 13 07:20 cmo_delatt_cmo_nosb.f
+-r--r-----   1 pvcs         5363 Jun 13 07:26 cmo_delatt_def_nosb.f
+-r--r-----   1 pvcs        11477 Jun 13 07:34 cmo_delatt_nosb.f
+-r--r-----   1 pvcs        16035 Jun 13 07:47 kdtree_cmo.f
+
+
+C      Note: The reserved names for a mesh object are
+C      -def- is default argument, current mesh object is used
+C      -cmo- is the current mesh object
+C      -default- is the template object and is modified with cmo_delatt_def
+
+cmo_delatt_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_nosb.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> changes to argument handling now check for reserved keywords
+> -cmo- -def- -default- and handles them correctly
+> error reporting has been clarified with subroutine name
+> and type of error encounterd when using keyword arguments
+
+
+cmo_delatt_cmo_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_cmo_nosb.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> added subroutine name and cmo to clarify error reports
+
+cmo_delatt_def_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_def_nosb.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> added  error reports to be clear that the -default-
+> attribute is permanent and is not related to the
+> parameter keyword -def- used in command syntax
+
+      subroutine cmo_delatt_def(att_name,ierror_return)
+C         This Routine Deletes an Attribute from the Default Mesh Object.
+C         This template mesh object is not part of the active cmo list
+C         and is named with the reserved word -default-
+
+kdtree_cmo.f -> /pvcs.config/t3d/src/kdtree_cmo.f_a
+New rev 1.3, previous rev 1.2
+Enter description of changes.  Then type ctrl-D.
+> before deleting attributes, check if they exist
+> this avoids excessive error reporting
+
+upscale.f -> /pvcs.config/t3d/src/upscale.f_a
+New rev 1.4, previous rev 1.3
+Enter description of changes.  Then type ctrl-D.
+> new version adds options sum, min, and max
+> syntax and code updated to mirror interpolate
+> debug and error checking added
+> option single added to conserve number of nodes used
+> so nodes sharing voronoi boundaries are used only once
+> this version is runs fine on test, but needs more work
+
+GABLE work:
+-r--r-----   1 pvcs        84755 Jun  5 15:32 msgtty_nosb.f
+-r--r-----   1 pvcs         1656 Jun  5 15:33 compute.f
+-r--r-----   1 pvcs         8649 Jun  5 15:33 distance_field.f
+
+/pvcs.config/t3d/src/msgtty_nosb.f
+CPVCS       Rev 1.34   05 Jun 2007 15:32:32   gable
+CPVCS    Added call to COMPUTE module.
+CPVCS
+CPVCS       Rev 1.33   05 Jul 2006 16:24:46   gable
+CPVCS    Added user prompts if someone tries to use quit or end. The
+CPVCS    prompt suggests they try the command finish. Also modified
+CPVCS    help syntax to accept capital letters.
+
+/pvcs.config/t3d/src/compute.f
+CPVCS       Rev 1.0   05 Jun 2007 15:33:08   gable
+CPVCS    Initial revision.
+
+/pvcs.config/t3d/src/distance_field.f
+CPVCS       Rev 1.0   05 Jun 2007 15:33:24   gable
+CPVCS    Initial revision.
+
+
+************************************************************
+*            *     Version:  1.107                         *
+*            *     Compiled: 2007/05/16 at 10:00:          *
+
+
+==============
+
+From: Denise George <dgeorge@lanl.gov>
+Date: March 21, 2006 4:08:21 PM MST
+To: Gable Carl <gable@lanl.gov>, Miller Terry <tamiller@lanl.gov>
+Cc: Kuprat Andrew <andrew.kuprat@pnl.gov>, George Denise <dgeorge@lanl.gov>
+Subject: 64 bit address and lagrit and absoft compilers
+
+I checked in 3 files to the utilities project
+mmsc_absoft64.c
+mm2000_i8.f
+mm2000_i8.h
+these files are to be used when compiling the 64 bit address version using the
+absoft compilers.
+also use io_64.c in place of io.c
+Then to make the utility library
+cc -g -c -m64 *.c
+f77 -g -c -m64 -i8 *.f
+ar rcu libutil.a *.o
+
+For liblagrit.a use the standard sources
+then
+cc -g -c -m64 *.c
+f90 -g -c -YEXT_NAMES=LCS -m64 -i8 *.f90
+f77 -g -c -i8 -m64 *.f
+ar rcu liblagrit.a *.o
+
+I've gotten this to work on a linux box with the latest absoft compiler
+(version 10.0)
+
+There are bugs in the Mac version 9.2 that cause the compiler to abort when
+compiling some routines with -i8
+Absoft tells me these will be fixed when they release the version 10 compiler
+for the Mac. -- so till then we are stuck.
+
+Denise
+==============
+
+Linking on SPARC V9 Platforms Under Solaris 7 and 8:
+Many static system libraries, such as libm.a and libc.a, are not available in Solaris 7 or 8 environments on SPARC V9 platforms. Only dynamic, shared libraries, libm.so and libc.so, are provided. This means that -Bstatic and -dn compiler options may cause linking errors on SPARC V9 platforms with Solaris 7 or 8. Applications must use dynamic libraries in these cases.
+To explicitly link with a static version of a user library while linking dynamically system libraries, use a command line that looks something like:
+  f77 -o prog prog.f -Bstatic -lxyz -labc -Bdynamic
+This will link with libxyz.a and libabc.a, but all other libraries, including system libraries, will be linked dynamically.
+
+
+
+Note: need fdate.f for executable to get date strings correct.
+/n/local_SunOS/forte7/SUNWspro/bin/f90 -g -lf77compat -o xlagrit_sun_g adrivgen.o cmo_command_nosb.o dump_outside_list.o fdate.o upscale.o writedump_nosb.o writinit.o /home/tam/src/lagrit/libs/lagrit_sun_g.a /home/tam/src/lagrit/libs/util_sun_g.a -Bstatic
+
+voronoi% xlagrit_sun_g
+
+
+*               * * * * * * * * * * * * * * * * * * * * * * * *
+*               *                                             *
+*               *    Program:  LaGriT V2.001   SunOS          *
+*               *    Compiled: 2007/10/18                     *
+*               *    Run Time: 2007/10/18  10:39:12           *
+*               *    Manual:   http://lagrit.lanl.gov         *
+*               *                                             *
+*               * * * * * * * * * * * * * * * * * * * * * * * *
+
+                               -----oOo-----
+LaGriT Copyright: This program was prepared by Los Alamos National Security, LLC
+at Los Alamos National Laboratory (LANL) under contract No. DE-AC52-06NA25396
+with the U.S. Department of Energy (DOE). All rights in the program are reserved
+by the DOE and Los Alamos National Security, LLC. Permission is granted to the
+public to copy and use this software without charge, provided that this Notice
+and any statement of authorship are reproduced on all copies. Neither the
+U.S. Government nor LANS makes any warranty, express or implied, or assumes
+any liability or responsibility for the use of this software.
+                               -----oOo-----
+
+Versions: -------------------------------------------------------
+
+writinit.f -> /pvcs.config/t3d/src/writinit.f_a
+New rev 1.19, previous rev 1.18
+Enter description of changes.  Then type ctrl-D.
+> Version was not being written to SunOS
+
+cmo_command_nosb.f -> /pvcs.config/t3d/src/cmo_command_nosb.f_a
+New rev 1.12, previous rev 1.11
+Enter description of changes.  Then type ctrl-D.
+> modified error checking  for existing cmo so the
+> check is done only for actions where necessary
+
+Wed Oct  3 08:18:59 MDT 2007
+
+lagrit.h -> /pvcs.config/t3d/src/lagrit.h_a
+New rev 1.23, previous rev 1.22
+Enter description of changes.  Then type ctrl-D.
+> cleaned up keywords
+
+writinit.f -> /pvcs.config/t3d/src/writinit.f_a
+New rev 1.18, previous rev 1.17
+Enter description of changes.  Then type ctrl-D.
+> changed banner and dates so smaller and easier to read
+
+lagrit.h -> /pvcs.config/t3d/src/lagrit.h_a
+New rev 1.22, previous rev 1.21
+Enter description of changes.  Then type ctrl-D.
+> added OSName with OSTAG and DATETAG as a way to control
+> variables at compile time
+
+
+initlagrit_nosb.f -> /pvcs.config/t3d/src/initlagrit_nosb.f_a
+New rev 1.7, previous rev 1.6
+Enter description of changes.  Then type ctrl-D.
+> removed extra args version and compiled from writinit call
+
+
+writinit.f -> /pvcs.config/t3d/src/writinit.f_a
+New rev 1.17, previous rev 1.16
+Enter description of changes.  Then type ctrl-D.
+> removed args Version and compiled, they are now construed
+> directly from lagrit.h and allows better control of date
+> and the look of the banner. Added copyright statement.
+
+
+initx3d.f -> /pvcs.config/t3d/src/initx3d.f_a
+New rev 1.15, previous rev 1.14
+Enter description of changes.  Then type ctrl-D.
+> removed extra args version and compiled from writinit call
+NOTE this routine is no longer part of the lagrit libs
+
+October 1, 2007 8:25:41 AM MDT
+
+voronoi% put copypts_nosb.f
+copypts_nosb.f -> /pvcs.config/t3d/src/copypts_nosb.f_a
+Workfile "copypts_nosb.f" unchanged, put anyway? (y/n) y
+New rev 1.3, previous rev 1.2
+
+voronoi% put extract_surfmesh.f
+extract_surfmesh.f -> /pvcs.config/t3d/src/extract_surfmesh.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+
+voronoi% put do_extract_nosb.f
+do_extract_nosb.f -> /pvcs.config/t3d/src/do_extract_nosb.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+
+voronoi% put pset_nosb.f
+pset_nosb.f -> /pvcs.config/t3d/src/pset_nosb.f_a
+New rev 1.33, previous rev 1.32
+Enter description of changes.  Then type ctrl-D.
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+
+voronoi% put cmo_command.f
+cmo_command.f -> /pvcs.config/t3d/src/cmo_command.f_a
+New rev 1.24, previous rev 1.23
+Enter description of changes.  Then type ctrl-D.
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+voronoi% put setsize_nosb.f
+setsize_nosb.f -> /pvcs.config/t3d/src/setsize_nosb.f_a
+New rev 1.18, previous rev 1.17
+
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+voronoi% put eset_nosb.f
+eset_nosb.f -> /pvcs.config/t3d/src/eset_nosb.f_a
+New rev 1.17, previous rev 1.16
+
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+voronoi% put rmpoint_nosb.f
+rmpoint_nosb.f -> /pvcs.config/t3d/src/rmpoint_nosb.f_a
+New rev 1.8, previous rev 1.7
+
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+voronoi% put cmo_command_nosb.f
+cmo_command_nosb.f -> /pvcs.config/t3d/src/cmo_command_nosb.f_a
+New rev 1.10, previous rev 1.9
+
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty.
+
+voronoi% put hextotet_hybrid_nosb.f
+hextotet_hybrid_nosb.f -> /pvcs.config/t3d/src/hextotet_hybrid_nosb.f_a
+New rev 1.18, previous rev 1.17
+
+> Modified to give warning and continue instead of crash when the MO
+> does not exist or is empty. Added a few debug flag output options. Fixed bug
+> that caused crash. Arrays of incompatible size were being compied into one another
+> when attempting to save element and node attributes.
+
+
+
+
+cmo_addatt_nosb.f->   /pvcs.config/t3d/src/cmo_addatt_nosb.f_a
+New Rev 1.18   07 Sep 2007 19:05:26   gable
+Add keyword option node_num_diff that computes the max. difference
+of node numbers connected to each node. This quantity impacts some
+solvers matrix bandwidth. Each node i is visited, and all connected
+edges, j1, j2, ... are computed. A node attribute is created that
+contains max(abs(i-j)).
+
+
+pntlimc_nosb.f -> /pvcs.config/t3d/src/pntlimc_nosb.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> format 9100 had a misplaced comma
+
+
+voronoi% put sortbins.f
+New rev 1.9, previous rev 1.8
+> Corrected spelling of keyword descending. Left in option of using misspelled
+> keyword decending.
+
+voronoi% put filter.f
+New rev 1.32, previous rev 1.31
+> Added option [min|max/attribute] and some additional error checking.
+
+sheet_nosb.f -> /pvcs.config/t3d/src/sheet_nosb.f_a
+New rev 1.11, previous rev 1.10
+Enter description of changes.  Then type ctrl-D.
+> Modified so that if the input sheet MO is empty, code continues without
+> a mmgetblk crash.
+
+voronoi% put shttstv_nosb.f
+t3d
+t3d
+shttstv_nosb.f -> /pvcs.config/t3d/src/shttstv_nosb.f_a
+New rev 1.6, previous rev 1.5
+Enter description of changes.  Then type ctrl-D.
+> Modified so that if the input region sheet MO is empty, code continues without> a mmgetblk crash.
+
+
+intrp_gtg.f -> /pvcs.config/t3d/src/intrp_gtg.f_a
+New rev 1.15, previous rev 1.14
+
+> Modified so that if source or sink MO exists but has zero nodes, command will
+> exit with no action instead of crashing when it tries to allocate a zero length array
+
+getedges.f -> /pvcs.config/t3d/src/getedges.f_a
+New rev 1.3, previous rev 1.2
+Enter description of changes.  Then type ctrl-D.
+> Added getedges_d subroutine to get all edges around each node.
+
+voronoi% put cmo_addatt_nosb.f
+
+cmo_addatt_nosb.f -> /pvcs.config/t3d/src/cmo_addatt_nosb.f_a
+New rev 1.17, previous rev 1.16
+Enter description of changes.  Then type ctrl-D.
+> Added edge_connections keyword option to create an integer attribute that contains the number of edge connections to each node.
+
+
+A control file that tests the new option:
+/home/cwg/src/lagrit/work/cmo_addatt/test_edgecon.lgi
+
+
+
+Jul2007-----------------------------------------------------------------------------
+
+/pvcs.config/t3d/src/sortbins.f_a
+Author id: gable     lines deleted/added/moved: 9/39/0
+Added option for user control of epsilon value in bins option.
+
+/pvcs.config/t3d/src/cmo_addatt_nosb.f_a
+Author id: gable     lines deleted/added/moved: 33/136/0
+Add xyz_rtp and xyz_rtz options.
+xyz_rtp computes coordinates in r,theta,phi coordinate system
+xyz_rtz computes coordinates in r,theta,z   coordinate system
+
+
+Jun2007-----------------------------------------------------------------------------
+
+
+New codes:
+/home/cwg/src/lagrit/work/crush_thin_tets
+
+msgtty_nosb.f -> /pvcs.config/t3d/src/msgtty_nosb.f_a
+New rev 1.35, previous rev 1.34
+Enter description of changes.  Then type ctrl-D.
+> added new command crush_thin_tets
+
+
+New archive /pvcs.config/t3d/src/crush_thin_tets.f_a
+Enter description of workfile.  Then type ctrl-D.
+> Initial revision
+
+New archive /pvcs.config/t3d/src/cmo_get_stdptrs.f_a
+Enter description of workfile.  Then type ctrl-D.
+> Initial revision.
+
+cmo_get_stdptrs.f -> /pvcs.config/t3d/src/cmo_get_stdptrs.f_a
+First revision, 1.0.
+voronoi% get -l cmo_get_stdptrs.f
+cmo_get_stdptrs.f <- /pvcs.config/t3d/src/cmo_get_stdptrs.f_a
+rev 1.0 locked
+
+
+-rw-r-----  1 gable pf 76722 Jun  4 07:11 crush_thin_tets.f
+-rw-r-----  1 gable pf  1894 May 24 09:26 cmo_get_stdptrs.f
+To call the module:
+      lenc=icharlnf(cmsgin(1))
+      elseif(cmsgin(1)(1:lenc).eq.'crush_thin_tets') then
+         call crush_thin_tets(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
+      else
+
+
+check out math_sum.f for addatt errors
+
+Build Version _070613
+Wed Jun 13 07:16:50 MDT 2007
+
+still locked: upscale.f
+Checked in but need testing:
+inside_lg.f needs more testing
+intrp_gtg.f needs more testing
+xsectelm.f needs more testing
+addmesh_append_nosb.f need to do testing for mismatched cmo attributes
+intersect_elements.f need general cleanup and testing, remove xyz trans stuff
+                     or make translation an option
+
+DONE:
+-r--r-----   1 pvcs        44417 Jun 13 07:13 upscale.f
+-r--r-----   1 pvcs         6454 Jun 13 07:20 cmo_delatt_cmo_nosb.f
+-r--r-----   1 pvcs         5363 Jun 13 07:26 cmo_delatt_def_nosb.f
+-r--r-----   1 pvcs        11477 Jun 13 07:34 cmo_delatt_nosb.f
+-r--r-----   1 pvcs        16035 Jun 13 07:47 kdtree_cmo.f
+
+
+C      Note: The reserved names for a mesh object are
+C      -def- is default argument, current mesh object is used
+C      -cmo- is the current mesh object
+C      -default- is the template object and is modified with cmo_delatt_def
+
+cmo_delatt_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_nosb.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> changes to argument handling now check for reserved keywords
+> -cmo- -def- -default- and handles them correctly
+> error reporting has been clarified with subroutine name
+> and type of error encounterd when using keyword arguments
+
+
+cmo_delatt_cmo_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_cmo_nosb.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> added subroutine name and cmo to clarify error reports
+
+cmo_delatt_def_nosb.f -> /pvcs.config/t3d/src/cmo_delatt_def_nosb.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> added  error reports to be clear that the -default- 
+> attribute is permanent and is not related to the           
+> parameter keyword -def- used in command syntax
+
+      subroutine cmo_delatt_def(att_name,ierror_return)
+C         This Routine Deletes an Attribute from the Default Mesh Object.
+C         This template mesh object is not part of the active cmo list
+C         and is named with the reserved word -default-
+
+kdtree_cmo.f -> /pvcs.config/t3d/src/kdtree_cmo.f_a
+New rev 1.3, previous rev 1.2
+Enter description of changes.  Then type ctrl-D.
+> before deleting attributes, check if they exist
+> this avoids excessive error reporting
+
+upscale.f -> /pvcs.config/t3d/src/upscale.f_a
+New rev 1.4, previous rev 1.3
+Enter description of changes.  Then type ctrl-D.
+> new version adds options sum, min, and max
+> syntax and code updated to mirror interpolate
+> debug and error checking added
+> option single added to conserve number of nodes used
+> so nodes sharing voronoi boundaries are used only once
+> this version is runs fine on test, but needs more work
+
+
+Jan2007-----------------------------------------------------------------------------
+
+-----------------------------------
+Rev 1.20
+Checked in:     05 Jan 2007 12:55:14
+Last modified:  05 Jan 2007 12:55:04
+Author id: tam     lines deleted/added/moved: 2/2/0
+made compile date 2007/01/05 and VMinor 107
+updated from 2005/07/14 and 103
+-----------------------------------
+
+grashof% vcs -u:dcg lagrit.h
+Revision 1.19 of archive "/pvcs.config/t3d/src/lagrit.h_a" is locked by
+    "dcg" for 1.20. Unlock anyway? (y/n) y
+Removed lock on "/pvcs.config/t3d/src/lagrit.h_a" rev 1.19 for 1.20 owned by "dcg".
+
+
+
+
+voronoi% put refine_nosb.f
+refine_nosb.f -> /pvcs.config/t3d/src/refine_nosb.f_a
+New rev 1.13, previous rev 1.12
+Enter description of changes.  Then type ctrl-D.
+> removed lines with integer idebug, already declared in
+> chydro.h which the mac does not like
+
+
+writedump_nosb.f -> /pvcs.config/t3d/src/writedump_nosb.f_a
+New rev 1.16, previous rev 1.15
+Enter description of changes.  Then type ctrl-D.
+Added Tecplot output option implementation by
+Daniel R Einstein, PNNL.
+
+Also recovered a version control problem because when I first
+checked in rev 1.15 is was missing rev 1.12, 1.13, 1.14. This
+fixes that glitch.
+
+
+grashof% vcs -u writedump_nosb.f
+Removed lock on "/pvcs.config/t3d/src/writedump_nosb.f_a" rev 1.15 for 1.16 owned by "tam".
+So Carl can put in his version with tecplot
+
+Status before building new libs from Makefile_lagrit (updated)---------------
+January 04 2007
+
+voronoi% vlog -bl *.f | grep gable
+/pvcs.config/t3d/src/cmo_setatt_nosb.f_a - gable : 1.15
+/pvcs.config/t3d/src/filter.f_a - gable : 1.31
+/pvcs.config/t3d/src/ltripedge.f_a - gable : 1.2
+/pvcs.config/t3d/src/perturb_lg.f_a - gable : 1.3
+/pvcs.config/t3d/src/readgmv_binary_nosb.f_a - gable : 1.9
+/pvcs.config/t3d/src/search_delaunay.f_a - gable : 1.0
+/pvcs.config/t3d/src/search_new.f_a - gable : 1.1
+/pvcs.config/t3d/src/xsectelementscmo.f_a - gable : 1.3
+
+
+voronoi% vlog -bl *.f | grep tam
+/pvcs.config/t3d/src/addmesh_append_nosb.f_a - tam : 1.4
+/pvcs.config/t3d/src/intersect_elements.f_a - tam : 1.10
+/pvcs.config/t3d/src/writedump_nosb.f_a - tam : 1.15
+/pvcs.config/t3d/src/dump_outside_list.f_a - tam : 1.11
+
+
+Checked in but need testing:
+inside_lg.f
+intrp_gtg.f
+xsectelm.f
+
+Unchanged but checked out for more work:
+addmesh_append_nosb.f need to do testing for mismatched cmo attributes
+intersect_elements.f need general cleanup and testing, remove xyz trans stuff
+
+
+
+DONE --------------------------------------------------------------------------------
+
+writinit.f -> /pvcs.config/t3d/src/writinit.f_a
+New rev 1.13, previous rev 1.12
+Enter description of changes.  Then type ctrl-D.
+> this is the automated and original version
+
+
+dumpavs_nosb.f -> /pvcs.config/t3d/src/dumpavs_nosb.f_a
+New rev 1.10, previous rev 1.9
+Enter description of changes.  Then type ctrl-D.
+> initialized ch_string with length to avoid compiler complaints
+
+inside_element.f - DIFF
+< C     implicit real*8 (a-h,o-z)
+<       implicit none
+---
+>       implicit real*8 (a-h,o-z)
+<          if (idebug.eq.1) itmp=0
+112,113c105,106
+<      &                     xtestpt,ytestpt,ztestpt,itmp)
+<          if(itmp.le.0) then
+---
+>      &                     xtestpt,ytestpt,ztestpt,iflag)
+>          if(iflag.le.0) then
+<       if (idebug.gt.0) then
+<          write(logmess,'(a,i5)')
+<      *   "Exit inside_element iflag: ",iflag
+inside_element.f -> /pvcs.config/t3d/src/inside_element.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> make implicit none, write value of iflag if debug
+> pass itmp instead of iflag to maintain iflag value
+
+inside_lg.f - DIFF
+< C     TAM - Mon Jul 17 15:03:49 MDT 2006
+< C     Adding comments to code here as things are figured out
+< C     tam - pass in itmp value instead of iflag
+< C     since it is supposed to be set by iflag_tet results
+< C     set itmp to idebug to pass in debug flag
+<       iflag2376=itmp
+<       itmp=idebug
+---
+>      *                 iflag2376)
+<       if (idebug.gt.0) then
+<          write(logmess,'(a,i5)')
+< C     xfac name changed to represent maxboxlen
+< C     which is the diagonal of the bounding box
+<       maxboxlen=sqrt((xmaxbox-xminbox)**2 +
+< C     Define object size and number size
+< C     Use bounding box size and position from origin
+<       eps_size = maxboxvol
+< C     Put a lower bound on epsilon adjustment
+< C     Put an upper bound on epsilon adjustment
+< C     epsilon checks eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeepsilon
+<       if (idebug.gt.0) then
+
+inside_lg.f -> /pvcs.config/t3d/src/inside_lg.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> pass in itmp instead of iflfag, use itmp for debug flag
+> add comments and debug and error statements
+> Set epsilon based on number size and distance from origin
+> Put a Lower and Upper bound on epsilon adjustment 
+
+
+need to check out again to fix Warnings for unused variables
+
+intrp_gtg.f - DIFFS
+< c     initialize to zero
+952c935
+<      >     'VINT/scalar/nelements//permanent/agfx/0 ; finish'
+---
+>      >     'VINT/scalar/nelements//permanent/agfx ; finish'
+< C     Make sink cmo current object
+< C     update epsilon and min max values
+< C     object values such as epsilon are taken from current cmo
+<       call cmo_select(cmosnk,ierr)
+<       call setsize()
+<             if(iisrc.gt.0) then
+---
+>             if(iisrc.ne.0) then
+1430d1360
+<               inelement = 1
+1433d1362
+<               inelement = -1
+< C         otherwise search through candidate elemements
+1438d1364
+<             inelement = -1
+<       if(if_elsearch.gt.0 .or. if_ptsearch.gt.0) then
+<           call cmo_select(cmosrc,ierr)
+<           cbuff = 'cmo kdtree release ; finish'
+<           call dotaskx3d(cbuff,ierr)
+<       endif
+>         if(if_elsearch.gt.0) then
+>           call cmo_select(cmosrc,ierr)
+>           cbuff = 'cmo kdtree release ; finish'
+>           call dotaskx3d(cbuff,ierr)
+>           call cmo_select(cmosnk,ierr)
+>         endif
+intrp_gtg.f -> /pvcs.config/t3d/src/intrp_gtg.f_a
+New rev 1.12, previous rev 1.11
+Enter description of changes.  Then type ctrl-D.
+> remove translation to origin, add better debug and error reports
+> make sink cmo current, call kdtree release at end of routine
+> set inelement correctly so extra searches are not done
+
+tritri.f -> /pvcs.config/t3d/src/tritri.f_a
+New rev 1.7, previous rev 1.6
+Enter description of changes.  Then type ctrl-D.
+> save iflag and pass itmp to routines instead
+
+xsectelm.f - DIFF
+< C     Get idebug set from iflag then intialize to zero
+< C     Restrict to idebug greater than 1 so a setting of 1
+< C     does not generate output from all the lower calls
+< C     which can really slow down program speed
+<       idebug = iflag
+> C     use coordinates close to middle so the max set of
+> C     coordinates are not out of range of precision
+> C     this also avoids subtracting numbers that are nearly equal 
+> C     avoid subtracting near zero from near zero
+<       maxdist = max(xdist,ydist)
+<       maxdist = max(zdist,maxdist)
+> C     elpsilonr is machine epsilon
+> C     local_epsilon is used locally in lower routines, use same here
+> C     eps_scale is the multiple of 10 to scale small numbers
+< C     Compare distance against size 
+< C     to see if translation is worth doing
+<       BS_ratio = 1.
+< C ----SCALE WORK (if needed for very small numbers)
+< C     elpsilonr is machine epsilon
+< C     local_epsilon is used locally in lower routines, use same here
+< C     eps_scale is the multiple of 10 to scale small numbers
+xsectelm.f -> /pvcs.config/t3d/src/xsectelm.f_a
+New rev 1.8, previous rev 1.7
+Enter description of changes.  Then type ctrl-D.
+> add debug using iflag value
+> Adjust coordinates only if numbers are very small
+> or if comparison of distance against size is large
+> This MAY not be needed since inside_element is better
+> these changes should not impact the called routines
+
+
+
+kdtree_cmo.f -> /pvcs.config/t3d/src/kdtree_cmo.f_a
+New rev 1.2, previous rev 1.1
+> Changed delatt to DELATT and added the current cmo name
+> to the call passed into dotaskx3d
+
+
+cmo_minmax_nosb.f <- /pvcs.config/t3d/src/cmo_minmax_nosb.f_a
+rev 1.3 locked
+grashof% put cmo_minmax_nosb.f
+cmo_minmax_nosb.f -> /pvcs.config/t3d/src/cmo_minmax_nosb.f_a
+New rev 1.4, previous rev 1.3
+Enter description of changes.  Then type ctrl-D.
+> initialize ics to eliminate unintended error reporting
+
+minmax failed for attribute fsetnames                                           
+ ics:   538976288  ierr_return:   0
+ ics:   0  ierr_return:   0
+
+
+
+AUGUST 2006 WORK ***********************************************************************
+
+
+update /pvcs.config/t3d/ref/tarnew.script to tar files needed for makefile_sun
+  need to have tar of the smallest needed set, this is the inclusive set of files
+  need to change make files to be general, compile *.f and build 
+
+build new library and executables
+  sun /home/tam/projects/lagrit/src and new src in newsrc 
+  mac /Users/tam/lagrit/src and new src in debug 
+
+put new tar of src at /home/ftp_new/tam/work/src
+
+********JUNE 23 2006 COMPILE ************************************************************
+
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*            *                                             *                    
+*            *     Program:  LaGriT                        *                    
+*            *     Version: 1.105x                         *                    
+*            *     Compiled: 2006/06/22                    *                    
+*            *                                             *                    
+*            *                                             *                    
+*            *     This run was processed                  *                    
+*            *      on day:       08/23 2006               *                    
+*            *      at time: 12:28:19                      *                    
+*            *                                             *                    
+*            * * * * * * * * * * * * * * * * * * * * * * * *                    
+*                                                                               
+*                                                                               
+               ***  This Demo code expires 01/01 2007 ***                       
+
+source and build in /pvcs.config/t3d/temp  src and bin
+
+PUT inside_lg.f
+calls all the inside_tri, inside_quad etc routines
+changed local epsilon xepsilon from 1.0d-08 to 1.0d-10
+added unique error flags of values less than than 0
+New rev 1.4, previous rev 1.3
+GET - need to add comments on flags and look at the area computations and checks
+inside_lg.f <- /pvcs.config/t3d/src/inside_lg.f_a
+rev 1.4 locked
+
+PUT addmesh_append_nosb.f
+error checking and reporting has been improved
+and is based on the sink cmo being the master
+loop through sink attributes, and find matching source attribute
+allows appending mixed VINT and VDOUBLE attribute types
+does not try to append scalar attributes
+New rev 1.4, previous rev 1.3
+GET - need to do testing for mismatched cmo attributes
+addmesh_append_nosb.f <- /pvcs.config/t3d/src/addmesh_append_nosb.f_a
+rev 1.4 locked
+
+PUT intersect_elements.f
+check for incoming attribute containing negative values
+GET - need general cleanup and testing, remove xyz trans stuff
+intersect_elements.f <- /pvcs.config/t3d/src/intersect_elements.f_a
+rev 1.10 locked
+
+PUT intrp_gtg.f
+use new routine adjust_element_pair to trans and scale
+before finding if point inside_element 
+add error catching and messeges for epsilon problems
+New rev 1.11, previous rev 1.10
+GET -needs testing
+intrp_gtg.f <- /pvcs.config/t3d/src/intrp_gtg.f_a
+rev 1.11 locked
+
+PUT xsectelm.f
+New rev 1.7, previous rev 1.6
+GET -needs testing
+get: rev 1.7 in archive "/pvcs.config/t3d/src/xsectelm.f_a" already locked by "tam"
+
+
+
+
+codes checked in and done:
+
+lineline.f -> /pvcs.config/t3d/src/lineline.f_a
+New rev 1.4, previous rev 1.3
+Enter description of changes.  Then type ctrl-D.
+> used implicit none
+> changed local_epsilon from 1.0d-08 to 1.0d-10
+> iflag returns neg values unique to place in code
+> where the error occurs, at end returns -1
+
+grashof% put tritri.f
+t3d
+t3d
+tritri.f -> /pvcs.config/t3d/src/tritri.f_a
+New rev 1.6, previous rev 1.5
+Enter description of changes.  Then type ctrl-D.
+> changed local_epsilon from 1.0d-08 to 1.0d-10
+> added error messeges for near zero areas
+
+
+cinterpolate_elem.f -> /pvcs.config/t3d/src/cinterpolate_elem.f_a
+New rev 1.2, previous rev 1.1
+Enter description of changes.  Then type ctrl-D.
+> changed volume checks to use epsilonv instead of epsilonl
+> added epsilonv to messege writing
+
+cmo_get_attparam_nosb.f
+connect_nosb.f
+
+
+
+********JUNE 2006 WORK ************************************************************
+==============
+/home/tam/projects/lagrit/pvcs
+grashof% get -l inside_element.f
+inside_element.f <- /pvcs.config/t3d/src/inside_element.f_a
+rev 1.1 locked
+
+put coordinate transformation routine into one file, one routine
+so it can be called from intrp_gtg and xsectelm 
+
+==============
+==============
+==============
+
+
+********APRIL 2006 WORK ************************************************************
+==============
+Work tritri.f
+ add warnings and error checking
+
+==============
+Work lineline.f
+ add warnings and error checking
+
+==============
+Work intersect_elements.f
+ add warnings and error checking
+
+==============
+Work xsectelm.f
+ skew part of line checking is not finding valid point
+ large numbers in coordinates creates epsilon problems
+ add code to move the two elements to zero coordinates
+
+==============
+Work addmesh_append_nosb.f
+ attribute values are not getting copied correctly from cmo2 to cmo1
+ needs much better error checking
+
+==============
+Work connect_nosb.f
+ compile errors require declaration for shift routines
+ there are also some lif_search_intrface code added and not checked in
+
+==============
+Work inside_lg.f 
+ epsilon error for interpolate (finding points outside)
+
+==============
+Done.
+cmo_get_attparam_nosb.f <- /pvcs.config/t3d/src/cmo_get_attparam_nosb.f_a
+rev 1.4 locked
+
+Error report not an error when checking if attribute exists 
+
+cmo_get_attparam_nosb.f -> /pvcs.config/t3d/src/cmo_get_attparam_nosb.f_a
+New rev 1.5, previous rev 1.4
+Enter description of changes.  Then type ctrl-D.
+> Illegal error messege removed and replaced with messege only if
+> idebug is greater than 1. This allows this routine to check for
+> existance of attribute without reporting an error all the time    
+==============
+
+********STATUS**************************************************************************
+
+/home/tam/projects/lagrit/pvcs
+voronoi% get -l connect_nosb.f
+get: rev 1.15 in archive "/pvcs.config/t3d/src/connect_nosb.f_a" already locked by "tam"
+voronoi% get connect_nosb.f
+connect_nosb.f <- /pvcs.config/t3d/src/connect_nosb.f_a
+rev 1.15
+voronoi% get inside_lg.f
+inside_lg.f <- /pvcs.config/t3d/src/inside_lg.f_a
+rev 1.3
+Archive:          /pvcs.config/t3d/src/inside_lg.f_a
+Workfile:         inside_lg.f
+Archive created:  05 Feb 1999 13:47:50
+Owner:            dcg
+Last trunk rev:   1.3
+Locks:            tam : 1.3
+voronoi% get -l xsectelm.f
+xsectelm.f <- /pvcs.config/t3d/src/xsectelm.f_a
+rev 1.6 locked
+voronoi% get -l addmesh_append_nosb.f
+addmesh_append_nosb.f <- /pvcs.config/t3d/src/addmesh_append_nosb.f_a
+rev 1.3 locked
+voronoi% get -l intersect_elements.f
+intersect_elements.f <- /pvcs.config/t3d/src/intersect_elements.f_a
+rev 1.9 locked
+voronoi% get -l lineline.f
+lineline.f <- /pvcs.config/t3d/src/lineline.f_a
+rev 1.3 locked
+voronoi% get -l tritri.f
+tritri.f <- /pvcs.config/t3d/src/tritri.f_a
+rev 1.5 locked
+
+END file Versions year 2007-2007

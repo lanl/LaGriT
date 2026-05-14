@@ -22,8 +22,8 @@ The following memory command options are recognized:
 
 verify the integerity of LaGriT memory manager storage by checking
  that the known blocks have not been overwritten. If corruption is
- detected, an array map will be printed. Nothing is printed if there
- memory is successfully verified.
+ detected, an array map will be printed. 
+ Nothing is printed if there memory is successfully verified.
 
 **`memory/print`**
 
@@ -54,13 +54,13 @@ Will be silent if no problems are detected.
 ```
 memory / print
 ```
-Sample output:
+Sample for 64 bit output showing sizes and allocated memory:
 <pre class="lg-output">
 
-MEMORY SIZES : 
-Sizeof char    (type 3) =  1 bytes      Sizeof long        =   4 bytes
-Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   4 bytes
-Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   4 bytes
+ MEMORY SIZES :
+ Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
+ Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
+ Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   8 bytes
 
 INDEX         LENGTH    TYPE       ADDRESS     NAME                  PARTITION
   29          40000000   2       -14248416     xic                   cmo1    
@@ -74,36 +74,20 @@ Total BYTES =    2.400E+09   Total MEGABYTES =    2.400E+03
 ```
 memory/maxmalloc
 ```
-Sample output:
-<pre class="lg-output">
-
-MMGETBLK ERROR: value exceeds sizeof:            4
-MAX ALLOC SIZE:    4294967296.0000000     
-ATTEMPTED SIZE:    6553600048.0000000     
-MMGETBLK: return early with error flag:        -21
-       
-Succeeded at     819.20000000000005      MEGABYTES
-Failed at        1638.4000000000001      MEGABYTES
-</pre>
-
-The 64 bit version for memory routines will look slightly different:
+Sample 64 bit output showing max allocation on Ubuntu Linux (this can take awhile before failure):
 
 <pre class="lg-output">
-
-MEMORY SIZES : 
-Sizeof char    (type 3) =  1 bytes      Sizeof long        =   8 bytes
-Sizeof real*8  (type 2) =  8 bytes      Sizeof pointer     =   8 bytes
-Sizeof integer (type 1) =  4 bytes      Sizeof INT_PTRSIZE =   8 bytes
-
-     ....
-
-util_malloc_: Out of memory, malloc return: (nil) 
-Requested value: 104857600000.000000 =       8 bit unsigned int 
-MMGETBLK FAILED: Array array_01 with bytes:  104857600096
-MMGETBLK: return ending with error flag:               -1
-       
-Succeeded at     52428.800000000003       MEGABYTES
-Failed at        104857.60000000001       MEGABYTES
+ Looking for malloc to fail, expect errors ....
+ Allocate blocks of                200000  real values and    1600000.0000000000       bytes
+ Max unsigned for 32 bit is              4,294,967,295
+ Max unsigned for 64 bit is 18,446,744,073,709,551,615
+ Stop test value for allocated bytes is    1.8000000404716257E+019
+           1  >>            1  number reals =    200000.00000000000       total bytes =    1600000.0000000000
+           2  >>            1  number reals =    400000.00000000000       total bytes =    3200000.0000000000
+           3  >>            1  number reals =    800000.00000000000       total bytes =    6400000.0000000000
+ ...
+           18  >>            1  number reals =    26214400000.000000       total bytes =    209715200000.00000
+Killed
 </pre>
 
 

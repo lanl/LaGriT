@@ -18,6 +18,7 @@ where integer=8bytes, real*8=8bytes, pointer=8bytes
 
 #include "lg_c_interface.h"
 #include "lg_f_interface.h"
+#include "type_sizes.h"
 #include <stdio.h>
 #include <cstring>
 

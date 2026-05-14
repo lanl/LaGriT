@@ -194,10 +194,10 @@ See also the command [**`QUALITY`**](../QUALITY.md) for adding attributes such a
 **ang_mind_solid** / `att_name` <br> create a scalar element attribute and fill it with the minimum solid angle (degrees) of the element
 
 <a name="ang_mind_solid"></a>
-**ang_maxd_solid** / `att_name` <br> create a scalar element attribute and fill it with the minimum solid angle (radian) of the element
+**ang_minr_solid** / `att_name` <br> create a scalar element attribute and fill it with the minimum solid angle (radian) of the element
 
 <a name="ang_mind_solid"></a>
-**ang_minr_solid** / `att_name` <br> create a scalar element attribute and fill it with the maximum solid angle (degrees) of the element
+**ang_maxd_solid** / `att_name` <br> create a scalar element attribute and fill it with the maximum solid angle (degrees) of the element
 
 <a name="ang_mind_solid"></a>
 **ang_maxr_solid** / `att_name` <br> create a scalar element attribute and fill it with the maximum solid angle (radian) of the element

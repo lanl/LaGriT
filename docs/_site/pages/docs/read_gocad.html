@@ -1,0 +1,318 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>read/gocad</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="readgocad">read/gocad</h1>
+
+<p>Read an ascii GOCAD TSurf triangle file (.ts) or a TSolid tet file (.so).</p>
+
+<p>GoCAD has a number of possible data types contained within files and may contain multiple data sets. LaGrit can read a limited set of these types that are commonly used by our applications. The data types contained in the GOCAD file are described in the HEADER area and KEYWORDS. Many KEWORDS are not needed for the mesh and are ignored. The following are supported:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">KEYWORD</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">GOCAD</td>
+      <td style="text-align: left">followed by mesh type TSolid or Tsurf</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">ZPOSITIVE</td>
+      <td style="text-align: left">indicates Z as Depth or Elevation (default)</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">PROPERTIES</td>
+      <td style="text-align: left">vertex property names for values listed after VRTX x y z, LaGriT will add as mesh node attributes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TETRA_PROPERTIES</td>
+      <td style="text-align: left">tet property names for values listed after TETRA id1 id2 id3 id4, LaGriT will add as mesh element attributes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TRGL_PROPERTIES</td>
+      <td style="text-align: left">tri property names for values listed after TRGL id1 id2 id3, LaGriT will add as mesh element attributes</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">VRTX or PVRTX</td>
+      <td style="text-align: left">vertex keyword followed by x y z and optional property values, node number is implied by order</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TETRA</td>
+      <td style="text-align: left">tet element keyword followed by node numbers and optional property values, element number is implied by order</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TRGL</td>
+      <td style="text-align: left">tri element keyword followed by node numbers and optional property values, element number is implied by order</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">TFACE</td>
+      <td style="text-align: left">triggers a new set of elements, attribute <strong>iblock</strong> will be incremented</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">END</td>
+      <td style="text-align: left">end of mesh set</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Some applications such as JewelSuite use a left-hand coordinate system and the header will include keywords <strong>ZPOSITIVE Depth</strong>. LaGriT will convert this to a right-hand coordinate system with elevations Z positive.</p>
+
+<p>See <em>LaGriT/test/level03/read_gocad</em> for example GOCAD files.</p>
+
+<p>See http://paulbourke.net/dataformats/gocad/ for further details on GoCad.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<p><strong>read</strong> / <strong>gocad</strong> / filename[.ts or .so] / cmoname</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read/gocad / JS_mesh.so /cmotet
+cmo/printatt/cmotet/ -all- minmax
+quality
+</code></pre></div></div>
+
+<p>read 3D TETRA into mesh object cmotet, check the min and max values of added attributes (created from GOCAD PROPERTY arrays). Check that read worked correctly by using <strong>quality</strong> command to report positive volumes.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read/gocad /input_3tri_all_props.ts / cmotri
+quality
+</code></pre></div></div>
+
+<p>read 2D triangulated surface (tsurf) file into mesh object cmotri. Check that read worked correctly by using <strong>quality</strong> command to report positive volumes.</p>
+
+<h2 id="example-gocad-3d-tetra-file-ex_2tetso">EXAMPLE GOCAD 3D TETRA FILE ex_2tet.so</h2>
+
+<p>This example has 2 tet elements, 0 node properties, and 1 cell property named “ZoneId”. This was written by JewelSuite which defines Z as Depth.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GOCAD TSolid 1
+HEADER {
+name:3D Mesh Structural Model SMALL
+*solid*color:0.498039 0.498039 0.498039 0.5
+}
+GOCAD_ORIGINAL_COORDINATE_SYSTEM
+NAME Default
+AXIS_NAME "X" "Y" "Z"
+AXIS_UNIT "m" "m" "m"
+ZPOSITIVE Depth
+END_ORIGINAL_COORDINATE_SYSTEM
+TETRA_PROPERTIES ZoneId
+TETRA_PROP_LEGAL_RANGES **none** **none**
+TETRA_NO_DATA_VALUES -999.25
+TETRA_PROPERTY_CLASSES ZoneId
+TETRA_PROPERTY_KINDS unknown
+TETRA_PROPERTY_SUBCLASSES QUANTITY Float
+TETRA_ESIZES 1
+TETRA_UNITS unitless
+TETRA_PROPERTY_CLASS_HEADER ZoneId{
+low_clip:1
+high_clip:2
+}
+TVOLUME
+VRTX 1 241542.64788705 3569942.9650014676 -684.72122323805638
+VRTX 2 241569.11887199868 3569823.3059474104 -701.15237792621951
+VRTX 3 241601.07618168893 3569932.2043372113 -750.27786898670399
+VRTX 4 241527.6427429766 3569878.153216748 -786.94401445577932
+VRTX 5 241630.376379692 3569879.0671290001 -814.42141248757616
+TETRA 1 2 3 4 1
+TETRA 3 4 2 5 1
+END
+</code></pre></div></div>
+
+<p>The screen output for reading this file will look like:</p>
+
+<pre>
+read gocad ex_2tet.so mo1                                                                                                         
+cmo/create/mo1///tet                                                                                                                                     
+...................................................                             
+SET VRTX properties:                                                            
+There are no VRTX properties.                                                   
+READ VRTX data with word count:     5                                           
+READ VRTX property with index:      0                                           
+...................................................                             
+SET CELL properties:                                                            
+cmo/addatt/mo1/ZoneId/VINT scalar/nelements/linear/permanent/gxaf/0.0/                                                                                  
+READ CELL data with word count:     6                                           
+READ CELL property with index:      1                                           
+geniee                                                                                                                                                
+--- READ GOCAD FINISHED --------                                                
+ Mesh Type:    TSolid                                                           
+ ZPOSITIVE:    Z Depth                                                          
+ Nodes:                5                                                        
+ Tets:                 2                                                        
+ Cells:                2                                                        
+ Cell properties:      1                                                        
+ LINES read:                 32                                                 
+                                                                
+The current-mesh-object(CMO) is: mo1                                            
+ 
+  1 Mesh Object name: mo1                                                       
+    number of nodes =             5        number of elements =            2    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active       
+</pre>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

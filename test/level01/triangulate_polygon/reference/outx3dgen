@@ -2,10 +2,10 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  9  15:50:21          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.3   Linux          *                 
+*               *    Date Compile: 2023/12/20                 *                 
+*               *    Run Time: 2023/Dec 20  13:23:49          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -53,6 +53,7 @@ copypts/mo_pts/mo_poly_work
 copypts added nodes          1 to          4                                    
 cmo/select/mo_pts                                                               
 triangulate/counterclockwise                                                    
+TRIANGULATE: Number of triangle cells =    2                                    
 filter/1,0,0                                                                    
 FILTER:Use internal epsilonl value =   0.116934898923E-10                       
 FILTER:Dudding duplicate points:           0                                    

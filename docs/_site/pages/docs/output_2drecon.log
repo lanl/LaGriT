@@ -1,0 +1,10 @@
+read/avs/input_avs.inp/cmo                                                      
+resetpts/itp                                                                    
+settets                                                                         
+dump/gmv/output_2drecon1.gmv/cmo                                                
+recon/1                                                                         
+dump/gmv/output_2drecon2.gmv/cmo                                                
+cmo/status                                                                      
+cmo/printatt/cmo/-all-/minmax                                                   
+quality                                                                         
+finish                                                                          

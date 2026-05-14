@@ -1,30 +1,127 @@
-# CMake Build System
+# LaGriT and ExodusII with cmake
 
-The CMake build system is a way of enabling LaGriT to
-be cross-platform, cross-architecture, and cross-compiler.
+The CMake build system is a way of enabling LaGriT to be cross-platform, cross-architecture, and cross-compiler. This page is a verbose description of building LaGriT and includes instructions for building the optional library for ExodusII.
 
-See Build and Install Instructions: https://github.com/lanl/LaGriT#readme
+The CMake build is controlled by CMakeLists.txt and files in directory /cmake
+
+The ExodusII libraries can be built using install-exodus.sh or MAC_install-exodus.sh
+For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
+**Note for Exodus with LaGriT, FORTRAN must be set to YES**
+
 
 There's a really good tutorial-overview on CMake here, it covers how to handle multiple build configurations: https://cliutils.gitlab.io/modern-cmake/
 
 
-## Code Development
+## Download LaGriT
 
-You can build as Debug (-g) or as Release with the CMake flag "-D CMAKE_BUILD_TYPE=[Debug|Release]".
-There's two stages in CMake; the 'configure' stage (where you run 'cmake ..') and the build stage (where you run 'make' using the Makefile created by cmake)
-      
-The build type can only be set in the configure stage. One way to handle building both Debug and release is to make two build directories. Here's a short guide: https://riptutorial.com/cmake/example/7357/switching-between-build-types--e-g--debug-and-release
+Download the repo as shown under the Code button on git.
+For developers, be sure to use SSH version to clone. 
 
-You can set cmake and make to show verbose screen reporting. These are run from your buld directory with the following options:
 ```
-cmake -D CMAKE_FIND_DEBUG_MODE=ON ..
-make VERBOSE=1
+$ git clone git@github.com:lanl/LaGriT.git 
+$ cd LaGriT/
 ```
 
-For LANL developers, you may need to generate a token to use as password. See instructions at https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+If SSH Key needed, generate a key for your machine.
+[See GitHub Docs for SSH Key](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+```
+Generate a SSH key (NOT RSA) in your .ssh directory.
+ssh-keygen -t ed25519 -C "email.lanl.gov"
+Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
+```
+
+## Build With ExodusII (optional)
+
+ 
+From the top directory run: ```./install-exodus.sh``` or for a mac use: ```./MAC_install-exodus.sh```
+The script will take some time to clone, configure, and build the necessary lib and include files.
+Read comments in the script for hints if things go wrong.
+For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
+
+LaGriT requires the following:
+```
+/seacas/lib/ libexodus.a  libexodus_for.a  libexoIIv2for32.a
+/seacas/include/ exodus_config.h  exodusII.h  exodusII.inc  exodusII_int.h  exodusII_par.h
+```
+
+Once the ExodusII is successful, build LaGriT as usual using the EXODUS flag:
+
+```
+mkdir build/ && cd build/
+cmake .. -DLAGRIT_BUILD_EXODUS=ON
+make
+```
+
+## Build Without ExodusII
+
+If you do not need to write an Exodus formatted file, you can build LaGriT without the ExodusII libraries.
+Create a directory for your lagrit executable, then use cmake to create the configuration files and directories.
+
+From the top directory in LaGriT:
+```
+mkdir build
+cd build
+cmake ..
+```
+
+Cmake will use settings defined in LaGriT/CMakeLists.txt and should look something like this:
+
+```
+-- ==========================================
+-- ============Configuring LaGriT============
+-- ===================v3.3.3=================
+-- Compile LaGriT as a static binary = ON
+-- Compile LaGriT with ExodusII = OFF
+LaGriT Compiling without ExodusII support.
+To include Exodus, use -DLAGRIT_BUILD_EXODUS=ON
+-- Detecting LaGriT build using local cmake files:
+--   Operating System: Linux
+--   Architecture: 64-bit
+--   Fortran compiler: GNU GFORTRAN
+--   C compiler: GNU GCC
+--   C++ compiler: GNU G++
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /project/eesdev/tam/clone/LaGriT/build
+```
+
+Once cmake has configured the directory files, type *make* to compile the lagrit executable:
+
+```
+make
+```
+
+This directory will create the **lagrit** executable using the files created by cmake.
+
+```
+Scanning dependencies of target liblagrit
+[  0%] Building Fortran object CMakeFiles/liblagrit.dir/src/ColoredGraphModule.f90.o
+...
+[100%] Built target liblagrit
+Scanning dependencies of target lagrit
+[100%] Building Fortran object CMakeFiles/lagrit.dir/src/lagrit_main.f.o
+[100%] Linking Fortran executable lagrit
+[100%] Built target lagrit
+```
+
+
+## Run LaGriT Test Suite
+
+Go to LaGriT/test and run the test script. See the README file for further instructions.
+
+```
+$ cd test
+$ python runtests.py
+```
 
 
 ## Create your build directory:
+
+By default, most the scripts will expect the lagrit executable to be in the "build" directory. But you build in directories with other names.
+You can build as Debug (-g) or as Release with the CMake flag "-D CMAKE_BUILD_TYPE=[Debug|Release]".
+There's two stages in CMake; the 'configure' stage (where you run 'cmake ..') and the build stage (where you run 'make' using the Makefile created by cmake)
+
+The build type can only be set in the configure stage (with cmake) and will apply to all files in your build directory. If you make a change to cmake, you will need to run in a new directory, or remove all the files and directories created with your previous cmake configuration.
 
 Setup a work directory for dev and debug work (example using name "debug").
 Use cmake to create Makefiles and build files. You will do this only once.
@@ -36,8 +133,14 @@ make
 ```
 
 Run ./lagrit and type command **test** which creates hex mesh and reports expected values.
+
+For debugging the build process, set cmake and make to show verbose screen reporting. These are run from your build directory with the following options:
+```
+cmake -D CMAKE_FIND_DEBUG_MODE=ON ..
+make VERBOSE=1
+```
       
-## Modify code
+## Modify code and update **lagrit** executable
 
 Modify code by working with lagrit source files in LaGriT/src
 Do not add any non-code develpment files in the /src directory, they may be detected and attempted to use during compile time.
@@ -55,7 +158,7 @@ make
 
 
       
-### Example Directory structure for development:
+### Example Directory structure for developers:
       
 ```
 LaGriT/
@@ -132,8 +235,11 @@ make[2]: Leaving directory '/project/eesdev/tam/LaGriT/build'
 [100%] Built target lagrit
 ```
 
+## Automatic Configurations
 
-## Header File configuration
+This is work performed by cmake and is usually not modified. Cmake is used to do some automatic file edits that depend on the machine or platform you are using. 
+
+### Header File configuration
 
 CMake automatically configures two header files:
 
@@ -163,3 +269,44 @@ configure_file(
 `${SRC_CORE}/lagrit.h.in` is the 'template' file, and `${SRC_CORE}/lagrit.h` is the output file. The `@ONLY` line means to **only** replace variables between the `@` symbol.
 
 The variable above - `@PROJECT_VERSION_MAJOR@` is an instrinsic CMake variable. You can define your own. For example, CMake code within `SetBitSize.cmake` configures the `lg_util/src/mm2000.h.in` file.
+
+### C-Fortran Compatibility
+
+LaGriT codes include both Fortran and C/C++ code files. The driver routines are Fortran, the C/C++ files use wrapper functions and definitions set by cmake before code is compiled. These are set during the configuration and should not need to be modified unless new routines are added.
+
+cmake writes fc_mangle.h for c-fortran routines. This file handles the symbol mangling for routines declared in src/lg_f_interface.h include file. For more information on this method visit https://www.netlib.org/lapack/lawnspdf/lawn270.pdf
+
+The C++ wrapper routines need to be listed in CMakeLists.txt:
+
+```
+FortranCInterface_HEADER(
+    ${SRC_CORE}/fc_mangle.h
+    SYMBOLS
+        INITLAGRIT # syntax: <subroutine>
+        DOTASK
+        CMO_GET_NAME
+        CMO_GET_INFO
+        CMO_GET_INTINFO
+        FC_CMO_GET_INT
+        FC_CMO_GET_VINT
+        FC_CMO_GET_DOUBLE
+        FC_CMO_GET_VDOUBLE
+        FPASS_TYPES
+        INSIDE_TET
+        LINESEG_TRI)
+```
+
+### LaGriT command TEST
+
+The following commands have been added as tests during execution. These are especially useful in testing and to debug the c-fortran codes on various machines.
+
+```
+test (no second word) - easy test using createpts to check executable
+test list - list available options
+cpp -  call dotask and c-fortran wrappers using get_info calls to get pointers from fortran
+fortran - call dotask and get_info pointers used by cpp
+dotask - call dotask_test which avoids global commands and just tests dotask parameters
+```
+
+
+

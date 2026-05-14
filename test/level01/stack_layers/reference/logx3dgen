@@ -1,0 +1,71 @@
+define/XMAX/9.5                                                                 
+define/YMAX/1.                                                                  
+define/NX/20                                                                    
+define/NY/5                                                                     
+define ZBOT 0.                                                                  
+define S1 2.                                                                    
+define S2 .8                                                                    
+define S3 1.5                                                                   
+cmo/create/mosurf///quad                                                        
+quadxy/NX NY/0. 0. 0./XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./1 1 1                  
+createpts/brick/xyz/NX,NY,1/1 0 0/connect                                       
+cmo/setatt/mosurf/imt/1 0 0/1                                                   
+cmo/setatt/mosurf/itetclr/1 0 0/1                                               
+resetpts/itp                                                                    
+cmo/printatt/mosurf/-xyz-/minmax                                                
+math/cos/mosurf/zic/1,0,0/mosurf/xic                                            
+cmo/printatt/mosurf/-xyz-/minmax                                                
+cmo select mosurf                                                               
+trans/1,0,0/0. 0. 0./0. 0. S1                                                   
+dump/out_surf_quad_low.inp/mosurf                                               
+cmo/copy/mosav/mosurf                                                           
+cmo/select/mosurf                                                               
+trans/1,0,0/0. 0. 0./0. 0. S2                                                   
+dump/out_surf_quad_high.inp/mosurf                                              
+trans/1,0,0/0. 0. 0./0. 0. S3                                                   
+dump/out_surf_quad_top.inp/mosurf                                               
+cmo/setatt/mosurf/zic/ZBOT                                                      
+dump/out_surf_quad_bot.inp/mosurf                                               
+cmo/create/mo_stack                                                             
+stack/layers/avs/out_surf_quad_bot.inp 1 out_surf_quad_low.inp 2 3 out_surf_quad
+_high.inp 3 1 out_surf_quad_top.inp 3 2                                         
+stack/fill/mohex/mo_stack                                                       
+cmo select mohex                                                                
+resetpts itp                                                                    
+cmo/printatt/mohex/-xyz- minmax                                                 
+quality                                                                         
+cmo/addatt/mohex/volume hex_vol                                                 
+cmo/printatt/mohex/hex_vol minmax                                               
+eltset/ebad/hex_vol/le 0.                                                       
+dump out_hex_stack.inp mohex                                                    
+cmo/delete/mosurf                                                               
+cmo/delete/mo_stack                                                             
+hextotet/2/mosurf/mosav                                                         
+cmo/delete/mosav                                                                
+cmo/select/mosurf                                                               
+resetpts/itp                                                                    
+dump/out_surf_tri_low.inp/mosurf                                                
+trans/1,0,0/0. 0. 0./0. 0. S2                                                   
+dump/out_surf_tri_high.inp/mosurf                                               
+trans/1,0,0/0. 0. 0./0. 0. S3                                                   
+dump/out_surf_tri_top.inp/mosurf                                                
+cmo/setatt/mosurf/zic/ZBOT                                                      
+dump/out_surf_tri_bot.inp/mosurf                                                
+cmo/create/mo_stack                                                             
+stack/layers/avs/out_surf_tri_bot.inp 1 out_surf_tri_low.inp 2 3 out_surf_tri_hi
+gh.inp 3 1 out_surf_tri_top.inp 3 2                                             
+stack/fill/moprism/mo_stack                                                     
+cmo select moprism                                                              
+resetpts itp                                                                    
+cmo/printatt/moprism/-xyz- minmax                                               
+quality                                                                         
+cmo/addatt/moprism/volume prism_vol                                             
+cmo/printatt/moprism/prism_vol minmax                                           
+eltset/ebad/prism_vol/le 0.                                                     
+dump out_prism_stack.inp moprism                                                
+cmo/delete/mosurf                                                               
+cmo/delete/mo_stack                                                             
+cmo/status                                                                      
+cmo/printatt/mohex/-all- minmax                                                 
+cmo/printatt/moprism/-all- minmax                                               
+finish                                                                          

@@ -1,0 +1,13 @@
+*TEST createpts/random (input_lagrit_createrandom)
+cmo/create/3dmesh
+surface/outer/reflect/box/0,0,0/1,1,1
+region/r1/ le outer /
+mregion/m1/ le outer /
+createpts/random/xyz/0.1/0,0,0/1,1,1
+setpts
+dump/gmv/output_createrandom.gmv
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

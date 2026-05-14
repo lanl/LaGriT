@@ -1,0 +1,77 @@
+# examples for quadxy
+
+# Example 1
+# XY flat
+
+cmo/create/moquad/ / / quad
+quadxy/ 3 5 /0. 0. 0./10. 0. 0./10. 20. 0./0. 20. 0. 
+createpts/brick/xyz/ 3 5 1 /1,0,0/connect
+cmo/setatt/moquad/imt/ 1
+  resetpts itp
+  quality
+
+dump/output_quadxy.gmv/moquad
+
+
+# Example 2
+# XZ off axis
+cmo delete moquad
+
+define X1 1.0
+define Y1 2.0
+define Z1 0.
+define X2 15.0
+define Y2 5.0
+define Z2 0.
+define X3 15.0
+define Y3 5.
+define Z3 25.
+define X4 1.0
+define Y4 2.
+define Z4 25.
+
+define / NX / 4
+define / NY / 1
+define / NZ / 10
+
+cmo/create/moquad/ / / quad
+quadxy/NX NZ/ X1 Y1 Z1 / X2 Y2 Z2 /X3 Y3 Z3 / X4 Y4 Z4
+createpts/brick/xyz/NX NY NZ /1,0,0/connect
+cmo/setatt/moquad/imt/ 1
+  resetpts itp
+  quality
+
+dump/output_quadxz.gmv/moquad
+
+
+# Example 3
+# XYZ twisted 
+cmo delete moquad
+
+define X1 2.0
+define Y1 40.0
+define Z1 4.0
+define X2 2.0
+define Y2 1.0
+define Z2 1.0
+define X3 50.
+define Y3 20.
+define Z3 40.
+define X4 55.
+define Y4 15.
+define Z4 1.
+
+define / NX / 6
+define / NY / 1
+define / NZ / 24
+
+cmo/create/moquad/ / / quad
+quadxy/NX NZ/ X1 Y1 Z1 / X2 Y2 Z2 /X3 Y3 Z3 / X4 Y4 Z4
+createpts/brick/xyz/NX NY NZ/1,0,0/connect
+cmo/setatt/moquad/imt/ 1
+  resetpts itp
+  quality
+
+dump/output_quadtwist.gmv/moquad
+
+finish

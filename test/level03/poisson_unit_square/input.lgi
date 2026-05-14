@@ -1,0 +1,46 @@
+# lagrit < input.lgi
+#
+# Required files:
+# input.lgi
+# input_unit_square.poly
+# input_h_field_att.mlgi
+#
+# Mesh a unit square with uniform and variable resolution tringles.
+#
+# Read polygon from a file.
+#
+read / avs / input_unit_square.poly / mo_polygon
+#
+# Uniform resolution, unit square polygon, vertex spacing 0.05:
+#
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+dump / avs / output01_unit_square_uniform.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+#
+# Variable resolution, unit square polygon, vertex spacing 0.01:
+#
+# WIDTH_FACTOR is used in input_h_field_att.mlgi
+#
+define / WIDTH_FACTOR / 10.0
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.01 / connect / input_h_field_att.mlgi
+dump / avs / output02_unit_square_var.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+
+define / WIDTH_FACTOR / 20.0
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.01 / connect / input_h_field_att.mlgi
+dump / avs / output03_unit_square_var.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+
+## commented out for test suite, users can uncomment and run
+## output04_unit_square_var.inp is included in the reference dir
+# define / WIDTH_FACTOR / 40.0
+# createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+#       / 0.01 / connect / input_h_field_att.mlgi
+# dump / avs / output04_unit_square_var.inp / mo_poisson_pts
+# cmo / delete / mo_poisson_pts
+
+finish
+

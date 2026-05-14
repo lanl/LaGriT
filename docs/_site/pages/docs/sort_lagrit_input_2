@@ -1,0 +1,83 @@
+*
+* This is a set of sort and reorder tests which are given
+* larger and larger point distributions. The largest one
+* is on the order of one million nodes.
+*
+* Carl Gable gable@lanl.gov
+*
+*
+* Define a random point distribution inside a unit cube.
+*
+define / distance / 0.1
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+cmo/set_id/ cmo1/ node / noden1
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo/set_id/ cmo1/ node / noden2
+dump / gmv / output_2_01.gmv / cmo1
+cmo / delete / cmo1
+
+define / distance / .05
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo / delete / cmo1
+
+define / distance / .04
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo / delete / cmo1
+
+define / distance / .03
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo / delete / cmo1
+
+define / distance / .02
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo / delete / cmo1
+
+define / distance / .015
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+cmo / delete / cmo1
+
+define / distance / .010
+
+cmo / create / cmo1
+createpts/random / xyz / distance / 0 0 0 / 1 1 1 / 
+*
+*begin compare here
+*
+cmo / printatt / cmo1 / xic / 90000 90010 1 
+
+sort / cmo1 / index / ascending / ikey / xic yic yic
+reorder / cmo1 / ikey
+
+cmo / printatt / cmo1 / xic / 90000 90010 1 
+cmo / printatt / cmo1 / ikey / 90000 90010 1 
+
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+
+cmo / delete / cmo1
+
+finish

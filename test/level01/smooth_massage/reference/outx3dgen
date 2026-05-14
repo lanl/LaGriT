@@ -2,10 +2,10 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  9  11:48:57          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.3   Linux          *                 
+*               *    Date Compile: 2023/12/20                 *                 
+*               *    Run Time: 2023/Dec 20  13:23:46          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -62,6 +62,7 @@ cmo select cmotri
 # RUN 00 triangulate                                                            
 # triangulate inside the polygon                                                
 triangulate/clockwise                                                           
+TRIANGULATE: Number of triangle cells =    5                                    
 filter/1,0,0                                                                    
 FILTER:Use internal epsilonl value =   0.496506830649E-08                       
 FILTER:Dudding duplicate points:           0                                    

@@ -1,0 +1,76 @@
+cmo / create / mohex / / / hex
+
+createpts / brick / xyz / 4 4 4 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+resetpts / itp
+cmo / setatt / mohex / itetclr / 1 0 0 / 1
+cmo / setatt / mohex / itetclr / 1 3 1 / 2
+cmo / setatt / mohex / itetclr / 10 15 1 / 3
+
+eltset / e1 / itetclr / eq / 1
+eltset / e2 / itetclr / eq / 2
+eltset / e3 / itetclr / eq / 3
+
+pset / p1 / eltset / e1
+pset / p2 / eltset / e2
+pset / p3 / eltset / e3
+
+eltset / / list
+pset / / list 
+dump / exo / out_3D_hex_pset_eltset.exo / mohex / psets / eltsets /
+dump / exo / out_3D_hex_pset.exo        / mohex / psets /  /
+dump / exo / out_3D_hex_eltset.exo      / mohex /       / eltsets /
+
+grid2grid / hextotet5 / motet / mohex
+cmo / delete / mohex
+
+cmo / setatt / motet / imt / 1 0 0 / 1
+resetpts / itp
+cmo / setatt / motet / itetclr / 1 0 0 / 1
+cmo / setatt / motet / itetclr / 1 3 1 / 2
+cmo / setatt / motet / itetclr / 10 15 1 / 3
+
+eltset / e1 / itetclr / eq / 1
+eltset / e2 / itetclr / eq / 2
+eltset / e3 / itetclr / eq / 3
+
+pset / p1 / eltset / e1
+pset / p2 / eltset / e2
+pset / p3 / eltset / e3
+
+eltset / / list
+pset / / list 
+
+dump / exo / out_3D_tet_pset_eltset.exo / motet / psets / eltsets /
+dump / exo / out_3D_tet_pset.exo        / motet / psets /  /
+dump / exo / out_3D_tet_eltset.exo      / motet /       / eltsets /
+cmo / delete / motet
+
+cmo / create / motri / / / triplane
+
+createpts / xyz / 4 4 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+connect
+
+resetpts / itp
+cmo / setatt / motri / itetclr / 1 0 0 / 1
+cmo / setatt / motri / itetclr / 1 3 1 / 2
+cmo / setatt / motri / itetclr / 10 15 1 / 3
+
+eltset / e1 / itetclr / eq / 1
+eltset / e2 / itetclr / eq / 2
+eltset / e3 / itetclr / eq / 3
+
+pset / p1 / eltset / e1
+pset / p2 / eltset / e2
+pset / p3 / eltset / e3
+
+eltset / / list
+pset / / list 
+
+dump / exo / out_2D_tri_pset_eltset.exo / motri / psets / eltsets /
+dump / exo / out_2D_tri_pset.exo        / motri / psets /  /
+dump / exo / out_2D_tri_eltset.exo      / motri /       / eltsets /
+
+finish
+

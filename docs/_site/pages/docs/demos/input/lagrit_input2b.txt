@@ -1,0 +1,13 @@
+ 
+Inputfile:
+ 
+*input.hex
+*createahexaheralgrid
+cmocreateabc///hex
+quadxyz5750.0.0.1.0.0.1.5.52..5.22.5-1.1.50.2.2.0.&
+2.11.92.4-.21.82.3/
+setpts
+creatpts/brick/xyz/575/1,0,0/connect/
+settets
+dump/gmv/gmv.hex
+finish

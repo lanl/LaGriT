@@ -1,0 +1,620 @@
+
+*** Create a basic mesh unit
+cmo/create/defect///tri
+cmo/modatt/defect/ndimensions_geom/default/2
+rz/xyz/13,8,1/-0.5,-0.5,0.0/0.5,0.5,0.0/1,1,0/
+rz/xyz/12,7,1/-0.5,-0.5,0.0/0.5,0.5,0.0/0,0,0/
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-0.5,-0.5,-1.0/0.5,0.5,1.0/
+region/r/le b/
+mregion/m/le b/
+setpts
+connect
+settets
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Create a basic mesh unit containing a dielectric pillar
+cmo/create/atom///tri
+cmo/modatt/atom/ndimensions_geom/default/2
+rz/xyz/13,8,1/-0.5,-0.5,0.0/0.5,0.5,0.0/1,1,0/
+rz/xyz/12,7,1/-0.5,-0.5,0.0/0.5,0.5,0.0/0,0,0/
+  define/R/ 2.833333333333333E-01
+rmsphere/0.0/R/0.0,0.0,0.0/
+  define/R/ 0.000000000000000E+00
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,1,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 5.000000000000000E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,7,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 1.000000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,13,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 1.500000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,19,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.000000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,25,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.500000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,31,1/R,T1,0.0/R,T2,0.0/1,1,0/
+filter/1,0,0
+rmpoint/compress
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-0.5,-0.5,-1.0/0.5,0.5,1.0/
+  define/R/ 2.000000000000000E-01
+surface/p/intrface/cylinder/0.0,0.0,-1.0/0.0,0.0,1.0/R
+region/r1/le b and gt p/
+mregion/m1/le b and gt p/
+region/r2/le p/
+mregion/m2/lt p/
+setpts
+connect
+settets
+cmo/geometry//-defaultgeom-
+geometry/release/g
+
+*** Create the final mesh by gluing together the basic mesh units
+cmo/copy/dig@t/atom
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/mesh/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.600000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.600000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/release/dig@t
+cmo/select/mesh
+cmo/copy/dig@t/mesh
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 2.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 4.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/mesh/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/release/dig@t
+cmo/select/mesh
+cmo/copy/m@sh2/mesh
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.500000000000000E+01
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/copy/dig@t/defect
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/block/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.600000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.600000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/release/dig@t
+cmo/select/block
+cmo/copy/m@sh2/block
+  define/X/ 0.000000000000000E+00
+  define/Y/ 8.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/copy/m@sh2/block
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.400000000000000E+01
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/copy/dig@t/atom
+cmo/copy/block/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/copy/m@sh2/dig@t
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 5.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/release/dig@t
+cmo/select/block
+cmo/copy/dig@t/atom
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/row/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/release/dig@t
+cmo/select/row
+cmo/copy/m@sh2/row
+  define/X/ 2.200000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/copy/dig@t/atom
+cmo/copy/row/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 2.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 1.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/copy/m@sh2/dig@t
+  define/X/ 4.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 8.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 5.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/release/dig@t
+cmo/select/row
+cmo/copy/m@sh2/row
+  define/X/ 2.700000000000000E+01
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/copy/dig@t/block
+cmo/copy/block/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 2.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/dig@t
+addmesh/glue/dig@t/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/dig@t
+cmo/copy/m@sh2/dig@t
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/block
+addmesh/glue/block/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/block
+cmo/release/dig@t
+cmo/select/block
+cmo/copy/m@sh2/block
+  define/X/ 0.000000000000000E+00
+  define/Y/ 9.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/create/atom1///tri
+cmo/modatt/atom1/ndimensions_geom/default/2
+rz/xyz/13,8,1/-0.5,-0.5,0.0/0.5,0.5,0.0/1,1,0/
+rz/xyz/12,7,1/-0.5,-0.5,0.0/0.5,0.5,0.0/0,0,0/
+  define/R/ 1.020833333333333E-01
+rmsphere/0.0/R/0.0,0.0,0.0/
+  define/R/ 0.000000000000000E+00
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,1,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.500000000000000E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,7,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 5.000000000000000E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,13,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 7.500000000000001E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,19,1/R,T1,0.0/R,T2,0.0/1,1,0/
+filter/1,0,0
+rmpoint/compress
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-0.5,-0.5,-1.0/0.5,0.5,1.0/
+  define/R/ 5.000000000000000E-02
+surface/p/intrface/cylinder/0.0,0.0,-1.0/0.0,0.0,1.0/R
+region/r1/le b and gt p/
+mregion/m1/le b and gt p/
+region/r2/le p/
+mregion/m2/lt p/
+setpts
+connect
+settets
+cmo/geometry//-defaultgeom-
+geometry/release/g
+pset/x/attribute/imt1/1,0,0/2/eq
+cmo/setatt//imt1/pset,get,x/3
+pset/x/release
+eltset/x/attribute/itetclr/1,0,0/2/eq
+cmo/setatt//itetclr/eltset,get,x/3
+eltset/x/release
+cmo/create/atom2///tri
+cmo/modatt/atom2/ndimensions_geom/default/2
+rz/xyz/13,8,1/-0.5,-0.5,0.0/0.5,0.5,0.0/1,1,0/
+rz/xyz/12,7,1/-0.5,-0.5,0.0/0.5,0.5,0.0/0,0,0/
+  define/R/ 2.570833333333333E-01
+rmsphere/0.0/R/0.0,0.0,0.0/
+  define/R/ 0.000000000000000E+00
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,1,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 4.500000000000000E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,7,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 9.000000000000000E-02
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,13,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 1.350000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,19,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 1.800000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,25,1/R,T1,0.0/R,T2,0.0/1,1,0/
+  define/R/ 2.250000000000000E-01
+  define/T1/ 0.000000000000000E+00
+  define/T2/ 3.600000000000000E+02
+createpts/rtz/1,31,1/R,T1,0.0/R,T2,0.0/1,1,0/
+filter/1,0,0
+rmpoint/compress
+geometry/create/g
+cmo/geometry//g
+surface/b/reflect/box/-0.5,-0.5,-1.0/0.5,0.5,1.0/
+  define/R/ 1.800000000000000E-01
+surface/p/intrface/cylinder/0.0,0.0,-1.0/0.0,0.0,1.0/R
+region/r1/le b and gt p/
+mregion/m1/le b and gt p/
+region/r2/le p/
+mregion/m2/lt p/
+setpts
+connect
+settets
+cmo/geometry//-defaultgeom-
+geometry/release/g
+pset/x/attribute/imt1/1,0,0/2/eq
+cmo/setatt//imt1/pset,get,x/4
+pset/x/release
+eltset/x/attribute/itetclr/1,0,0/2/eq
+cmo/setatt//itetclr/eltset,get,x/4
+eltset/x/release
+cmo/copy/row/atom2
+  define/X/ 0.000000000000000E+00
+  define/Y/ 0.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/copy/m@sh2/atom
+  define/X/ 0.000000000000000E+00
+  define/Y/ 1.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/copy/m@sh2/atom1
+  define/X/ 0.000000000000000E+00
+  define/Y/ 2.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/copy/m@sh2/atom
+  define/X/ 0.000000000000000E+00
+  define/Y/ 3.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/copy/m@sh2/atom2
+  define/X/ 0.000000000000000E+00
+  define/Y/ 4.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/row
+addmesh/glue/row/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/row
+cmo/copy/m@sh2/row
+  define/X/ 2.100000000000000E+01
+  define/Y/ 9.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+cmo/copy/m@sh2/row
+  define/X/ 2.600000000000000E+01
+  define/Y/ 9.000000000000000E+00
+scale/1,0,0/absolute/xyz/X,Y,0/
+cmo/move/m@sh1/mesh
+addmesh/glue/mesh/m@sh1/m@sh2/
+cmo/release/m@sh1
+cmo/release/m@sh2
+cmo/select/mesh
+
+*** Clean up mesh after all the gluing operations
+filter/1,0,0
+rmpoint/compress
+resetpts/itp
+recon/1
+
+*** That's all folks...
+finish

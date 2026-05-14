@@ -1,0 +1,323 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>SMOOTH</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="smooth">SMOOTH</h1>
+
+<hr />
+
+<p>Smooth a 2D or 3D mesh object.</p>
+
+<p>For adaptive smoothing see the <strong><a href="/pages/docs/commands/RADAPT.html">radapt</a></strong> command. <strong>smooth</strong> takes a 2D or 3D mesh object 
+and moves nodes, without changing the connectivity of the grid, in order to improve the aspect ratios and distribution of
+elements in the mesh.</p>
+
+<p>There are nine smoothing algorithms available:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"> <a href="#2d">2D</a> </th>
+      <th style="text-align: center"><a href="#2d3d">2D and 3D</a></th>
+      <th style="text-align: center"> <a href="#3d">3D</a> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="#esug">esug</a></td>
+      <td style="text-align: center"><a href="#laplace">laplace</a></td>
+      <td style="text-align: center"><a href="#mega">mega</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><a href="#elliptic">elliptic</a></td>
+      <td style="text-align: center"><a href="#aspect">aspect</a></td>
+      <td style="text-align: center"><a href="#network">network</a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><a href="#random">random</a></td>
+      <td style="text-align: center"><a href="#lpfilter">lpfilter</a></td>
+      <td style="text-align: center"><a href="#geometry">geometry</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<p>For all commands:</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">position</code></strong> results in the positions of nodes being changed. Other options have not been implemented.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ifirst,ilast,istride</code> is the selection of points designated by node numbers or <strong>pset</strong>,get,pname. 1,0,0 will select all.</p>
+
+<p>The internal variable <strong>maxiter_sm</strong> (default=25) controls the maximum number of iterations 
+and can be changed using the <strong><a href="/pages/docs/commands/ASSIGN.html">assign</a></strong> command. e.g.  (assign /// maxiter_sm/10).</p>
+
+<h2 id="syntax-2d--">SYNTAX 2D  <a name="2d"></a></h2>
+<pre>
+<b>smooth/position</b>/<b>esug elliptic  random</b>/ [ifirst,ilast,istride ]/[control] 
+</pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">esug</code></strong> <a name="esug"></a>
+ Elliptic Smoothing for Unstructured Grids with guards against folding. This is the default for 2D mesh objects. It can only be used on triangular 2D mesh objects.</p>
+
+<p><em>Ref.: Randolph E. Bank and R. Kent Smith, “Mesh Smoothing Using A Posteriori Error Estimates”, SIAM J. Num. Anal. Vol. 34, Issue 3, pp. 979-997, 1997.</em></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">elliptic</code></strong> <a name="elliptic"></a>
+similar to <strong>esug</strong> except the ‘guards’ which prevent a grid from folding are turned off. (Thus esug is preferred.)</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">random</code></strong> <a name="random"></a>
+ a node’s position is set to a randomly weighted average position of its neighbors. ‘Guards’ keep the elements from inverting.</p>
+
+<p><code class="language-plaintext highlighter-rouge">control</code> (default 0 )  from standard smoothing scheme to 1 which causes the scheme to be progressively more controlled, at 1 there is no mesh movement.</p>
+
+<h2 id="syntax-2d-and-3d-">SYNTAX 2D and 3D <a name="2d3d"></a></h2>
+<pre>
+<b>smooth/position/aspect</b>    // [ifirst,ilast,istride]/ [toldamage] 
+<b>smooth/position/lpfilter</b> // [ifirst,ilast,istride] /[filtdeg]/[k_pb]/<b>network</b>
+<b>smooth/position/laplace</b> / [ifisrt,ilast,istride]/[rlxwt]/[ntimes]/[nwtty]/[useisn]/[extrnbr] 
+</pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">aspect</code></strong>  <a name="aspect"></a>
+Adjusts node positions such that the aspect ratio of the elements is improved.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">toldamge</code> (default is infinity) is the damage tolerance, so it can be used as a general smooth which has the effect of improving worst aspect ratio.</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">lpfilter</code></strong>  <a name="lpfilter"></a>
+This smooths surface networks by a low-pass filtering of the coordinate data.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">fltdeg</code> (default 30)</li>
+  <li><code class="language-plaintext highlighter-rouge">k_pb</code> (default 0.1)</li>
+  <li><strong>network</strong> applies to a network of curves in 2D or 3D, or to a network of surfaces in 3D.  The cell materials are ignored.</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">laplace</code></strong>  <a name="laplace"></a>
+On a 3D tetahedral mesh moves a node to the average position of its neighbors where neighbor is defined as the set of nodes connected to the candidate node by an edge where the node types (itp1) and node constraints (icr1) are a ‘subset’ of the candidate node type and constraints.  A node will not be moved if the result is an inverted element. The following controls may be supplied:</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">rlxwt</code> (default 0.5 ) weight for underrelaxed  Laplacian smothing</li>
+  <li><code class="language-plaintext highlighter-rouge">ntimes</code> (default 5 )  number of smoothing iterations</li>
+  <li><code class="language-plaintext highlighter-rouge">nwttry</code> (default 3 )  number of attempts to not tangle the mesh by halving the  smoothing weight.</li>
+  <li><code class="language-plaintext highlighter-rouge">useisn</code> (default 1 )  means interface nodes are smoothed based along an edge with the same materials as the candidate node. 
+0 means interface nodes are smoothed based on all interface neighbors.</li>
+  <li><code class="language-plaintext highlighter-rouge">extrnbr</code> (default <strong>inclusive</strong>) means do not restrict neighbors.  <strong>exclusive</strong> means restrict neighbors to pset nodes.</li>
+</ul>
+
+<h2 id="syntax-3d--">SYNTAX 3D  <a name="3d"></a></h2>
+<pre>
+<b>smooth/position</b>/<b>mega geometry</b>/ [ifirst,ilast,istride ]/[control] 
+<b>smooth/position/network</b>/[ifisrt,ilast,istride]/[niter]/[weight]/[<b>check nocheck</b>]
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">control</code> (default 0 )  from standard smoothing scheme to 1 which causes the scheme to be progressively more controlled, at 1 there is no mesh movement.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">mega</code></strong>  <a name="mega"></a>
+Minimum Error Gradient Adaption. This option creates a smoothed grid which is adapted to the standard function with constant
+Hessian f(x,y,z)=x2+y2+z2. Can be used on hybrid 3D meshes and guards against mesh folding. 
+Adaption to this function creates a uniform isotropic mesh.</p>
+
+<p><em>Ref.: Randolph E. Bank and R. Kent Smith, “Mesh Smoothing Using A Posteriori Error Estimates”, SIAM J. Num.  Anal. tol. 34, Issue 3, pp. 9-9 (19)</em></p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">geometry</code></strong>  <a name="geometry"></a>
+Geometry (“plump element”) adaption. Default for 3D.
+Can be used on hybrid 3D meshes It uses the <strong>mega</strong> algorithm but retains only the leading geometry term; 
+the term containing the Hessian has been dropped. This algorithm guards against mesh folding.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">network</code></strong>  <a name="network"></a>
+This option smooths the surface network of a 3D tetrahedral grid.  Volume nodes are not moved.  
+The material volumes are conserved.  Combining this type of smooth with volume smoothing will help to avoid element inversions.</p>
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">niter</code> (default 10 ) number of iterations</li>
+  <li><code class="language-plaintext highlighter-rouge">weight</code> (default 1. ) controls the amount of movement (from 0. to 1.).</li>
+  <li><strong>check</strong> (default) By default a check is performed to verify that no elements are inverted.</li>
+  <li><strong>nocheck</strong> turns off check for inverted elements. This option will not work correctly (will not conserve volume)
+on grids which have two areas of a material connected at a single node or edge; each material region must have face connectivity. </li>
+</ul>
+
+<hr />
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>smooth
+</code></pre></div></div>
+<p>Smooth all nodes in the mesh using esug in 2D or geometry in 3D.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>smooth / / / 1,0,0 / 0.5
+</code></pre></div></div>
+<p>Smooth all nodes in the mesh, using controlled smoothing with control=0.5.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset/p2/attribute/itp1/1,0,0/0/eq
+smooth /position /network/1,0,0/3/1./check
+smooth/position/geometry/pset,get,p2
+smooth /position /network/1,0,0/3/1./check
+smooth/position/geometry/pset,get,p2
+</code></pre></div></div>
+<p>Smooth a 3D grid by combining network and volume smooths.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>compute/distance_field/CMO_SINK mobj_sm dfield
+pset/pin/attribute dfield/1,0,0/ le 120.
+
+assign///maxiter_sm/6                                                           
+smooth/position/esug/pset,get,pin
+</code></pre></div></div>
+<p>Smooth a 2D grid within 120 distance from mobj_sm and control the number of iterations by using the <strong>assign</strong> command.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

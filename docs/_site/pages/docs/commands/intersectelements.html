@@ -1,0 +1,308 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>INTERSECT_ELEMENTS</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="intersect_elements">INTERSECT_ELEMENTS</h1>
+
+<hr />
+
+<p>This command takes two meshes and creates an element-based attribute with the number of elements intersected.
+<br /> We define intersection as two elements sharing any common point.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>intersect_elements</b> / mesh1 / mesh2 / [attrib_name]
+</pre>
+
+<p><code class="language-plaintext highlighter-rouge">mesh1</code> has the added attribute containing the number of elements that were intersected.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mesh2</code> is the object used for the intersection.</p>
+
+<p><code class="language-plaintext highlighter-rouge">attrib_name</code> is the name of the element based attribute that is created by this command. The default name for this
+ attribute is <strong>in_</strong><code class="language-plaintext highlighter-rouge">mesh2</code> using the mesh name to form the new attribute name.
+ This attribute stores the number of intersections.  It is worth noting that some mesh viewers do not
+ take kindly to names that are longer than eight characters and may truncate them.</p>
+
+<h3 id="description">Description</h3>
+
+<p>This code has been slightly modified to work with AMR grids. This modification depends on an element based attribute called <strong>itetkid</strong>. If this attribute is not present, <strong>intersect_elements</strong> will <strong>NOT</strong> be able to recognize the AMR
+ grid, and will intersect all elements of the octree. With the <strong>itetkid</strong> attribute present, only leaves of the octree which intersect will be flagged.</p>
+
+<p>This table shows the available intersect capabilities. An <strong>X</strong> in the box means that the intersection is supported.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">element</th>
+      <th style="text-align: left">point</th>
+      <th style="text-align: left">line</th>
+      <th style="text-align: left">tri</th>
+      <th style="text-align: left">quad</th>
+      <th style="text-align: left">tet</th>
+      <th style="text-align: left">pyr</th>
+      <th style="text-align: left">hex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">point</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">line</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tri</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">quad</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">tet</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: left">pyr</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: left">hex</td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"><strong>X</strong></td>
+      <td style="text-align: left"> </td>
+      <td style="text-align: left"><strong>X</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>For example, this means that if you have a mesh that has hexes and tets in it, you could intersect it with a mesh that has anything but
+ pyramids in it.</p>
+
+<p>Note: <strong>intersect_elements</strong> is based on a k-D-R tree implementation to improve performance in many circumstances.
+ Unfortunately, there is no way to improve performance if the elements being intersected have many candidate elements in their bounding
+ boxes. As such, there are situations where running time may be improved by refining mesh2 such that its elements are of comparable
+ size with those of mesh1.</p>
+
+<h2 id="examples">EXAMPLES</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intersect_elements/cmo_grid/cmo_sphere/
+</code></pre></div></div>
+<p>Intersect grid with sphere and tag elements in default attribute in_cmo_sphere.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>intersect_elements/cmo_grid/cmo_well/obswell
+</code></pre></div></div>
+<p>Intersect grid with well and tag elements in default attribute in_obswell.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>read avs river_lines.inp moli
+
+intersect_elements / cmotri / moli / inriver
+  eltset / eriver / inriver / gt 0
+  pset/priver/ eltset / eriver
+  cmo/ setatt/ cmotri/ itetclr / eltset,get,eriver 1
+  cmo/ setatt/ cmotri/ imt / pset,get,priver 1
+</code></pre></div></div>
+<p>Intersect to find nodes and elements at river object, tagged elements are in attribute inriver.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

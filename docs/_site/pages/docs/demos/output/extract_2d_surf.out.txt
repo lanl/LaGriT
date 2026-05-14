@@ -1,0 +1,128 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2020/10/08 Static          *                 
+*               *    Run Time: 2020/Nov  3  16:55:41          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# Read chopped 3D sphere                                                        
+# create 2D grid on XY plane                                                    
+read hex_mesh_half.inp mo_sph                                                   
+read/avs/hex_mesh_half.inp/mo_sph                                               
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_sph                                         
+ 
+  1 Mesh Object name: mo_sph                                                    
+    number of nodes =          2173        number of elements =         1888    
+    dimensions geometry =         3        element type =                hex    
+    dimensions topology =         3        8 nodes      6 faces     12 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+finish                                                                          
+cmo setatt mo_sph imt 1                                                         
+      2173 values reset for attribute imt1                                      
+ 
+cmo setatt mo_sph itetclr 1                                                     
+      1888 values reset for attribute itetclr                                   
+ 
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+# extract outside surface and color by normals                                  
+extract/surfmesh/1,0,0/mos/mo_sph/external                                      
+cmo/addatt/mos/itetclr0/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/mos/itetclr1/vint/scalar/nelements////0                              
+finish                                                                          
+cmo/addatt/mos/idnode0/vint/scalar/nnodes////0                                  
+finish                                                                          
+cmo/addatt/mos/idelem0/vint/scalar/nelements////0                               
+finish                                                                          
+cmo/addatt/mos/idelem1/vint/scalar/nelements////0                               
+finish                                                                          
+cmo/addatt/mos/facecol/vint/scalar/nelements////0                               
+finish                                                                          
+cmo/addatt/mos/idface0/vint/scalar/nelements////0                               
+finish                                                                          
+cmo/addatt/mos/idface1/vint/scalar/nelements////0                               
+finish                                                                          
+cmo/addatt/mos/ncon50/int/scalar/scalar/constant/permanent/x/0                  
+finish                                                                          
+cmo/addatt/mos/nconbnd/int/scalar/scalar/constant/permanent/x/0                 
+finish                                                                          
+cmo/addatt/mos/icontab/vint/scalar/ncon50/constant/permanent/x/0                
+finish                                                                          
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+finish                                                                          
+settets/normal                                                                  
+assign_color_normal epsilon for zero:   1.0000000E-15                           
+       472 out of        512 element colors changed.                            
+ 
+dump avs surfmesh_shell.inp mos                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# remove elements not on front face                                             
+eltset/edel/itetclr ne 6                                                        
+ 
+ THE ELTSET edel                             HAS        224 ELEMENTS            
+rmpoint element eltset,get,edel                                                 
+ Dudded        209 points plus parents, and         224 elements removed.       
+rmpoint compress                                                                
+       209 points removed and          0 elements removed.                      
+RMPOINT: new point count is          305                                        
+RMPOINT: new element count is        288                                        
+# do some clean up to put on XY plane                                           
+cmo/setatt/mos/yic 0.                                                           
+       305 values reset for attribute yic                                       
+ 
+cmo/setatt/mos/imt 1                                                            
+       305 values reset for attribute imt1                                      
+ 
+cmo/setatt/mos/itetclr 1                                                        
+       288 values reset for attribute itetclr                                   
+ 
+resetpts itp                                                                    
+geniee                                                                          
+finish                                                                          
+# switch yic and zic                                                            
+cmo/copyatt/mos mos/yic zic                                                     
+       305 copied from mos zic to -> mos yic                                    
+ 
+cmo/setatt/mos/zic 0.                                                           
+       305 values reset for attribute zic                                       
+ 
+dump avs surface_xy.inp mos 1 1 0 0                                             
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

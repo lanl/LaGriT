@@ -1,0 +1,21 @@
+* TEST connect (3d) (lagrit_input_connect)
+* LaGriT input file to generate an orthogonal grid on
+* a unit cube. Just change nx,ny,nz to change the resolution.
+*
+define/nx/20
+define/ny/20
+define/nz/20
+ 
+cmo / create / cmo / / / tet
+rz / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / cmo / imt / 1 0 0 / 1
+dump/ gmv /output_conn1.gmv/cmo
+connect / noadd
+resetpts / itp
+ 
+dump / gmv / output_conn2.gmv/cmo
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

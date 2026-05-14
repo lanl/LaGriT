@@ -1,0 +1,21 @@
+*TEST sort (lagrit_input_sort)
+read  gmv input_sort.gmv mesh1
+*
+sort / xyz  / bins                                                                      
+cmo/printatt/mesh1/i_index//
+cmo/printatt/mesh1/j_index//
+*
+sort / xyz  / index                                                                      
+cmo/printatt/mesh1/i_index//
+cmo/printatt/mesh1/j_index//
+*
+sort / xyz  / rank                                                                      
+cmo/printatt/mesh1/i_index//
+cmo/printatt/mesh1/j_index//
+*
+* begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish
+

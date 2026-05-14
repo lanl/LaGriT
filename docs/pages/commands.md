@@ -17,7 +17,7 @@ tags: command list all options
 
 <br>
 <a name="a"></a><br>
-* [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes) 
+* [**`ADDMESH`**](docs/commands/ADDMESH.md) (join meshes, merge multiple meshes) 
 * [**`ASSIGN`**](docs/commands/ASSIGN.md) (set global mesh object variables)
 <br>
 <a name="b"></a><br>

@@ -760,7 +760,7 @@ C
       if(nlstptl.ne.0) then
          write(logmess,9930) nlstptl
  9930     format(' Dudding',i10,
-     $             ' points that have no associated tetrahedra.')
+     $             ' points that have no associated triangle.')
          call writloga(cdefault,1,logmess,0,ierr)
          if(idebug.ge.6) then
             iunit=-1

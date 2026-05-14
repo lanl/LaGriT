@@ -50,4 +50,45 @@ perturb/pset,get,mypset/0.001,0.001,0.001 
 ```
 add small offsets to all coordinates of the nodes in the pset named mypset
 
+## DEMO using FACTOR parameters
+
+```
+# For a unit cell divided into PTS**3 sub-cells,
+# delta-x = 0.01 = distance between sub-cell centers
+# x_p = delta-x / 100 = 0.0001 = 1% perturbations
+# eps_1 = sqrt(3*x_p) = 0.000173 = max dist. from origin
+
+define/XP/0.0001
+define/EPS1/0.00018
+define/PTS/101
+
+cmo/create/mo1
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/
+pset/po1/seq/0,0,0/
+cmo/setatt/mo1/imt/pset,get,po1/1
+
+cmo/create/mo2
+createpts/xyz/PTS,PTS,PTS/0.,0.,0./1.,1.,1./1,1,1/
+pset/po2/seq/0,0,0/
+cmo/setatt/mo2/imt/pset,get,po2/2
+perturb/pset,get,po2/XP,XP,XP/
+
+addmesh/merge/mfilter/mo1/mo2
+cmo/copy/mfilterkd/mfilter
+
+cmo/select/mfilter
+filter/1 0 0/EPS1
+
+cmo/printatt/mfilter/imt/minmax
+cmo/printatt/mfilter/-xyz-/minmax
+
+cmo/select/mfilter
+rmpoint/compress
+
+cmo/printatt/mfilter/imt/minmax
+cmo/printatt/mfilter/-xyz-/minmax
+
+finish
+```
+
 

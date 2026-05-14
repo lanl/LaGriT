@@ -1,0 +1,429 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Example LaGriT Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <style>
+/*
+Style taken from Github's Mastering Markdown document
+*/
+.markdown-example {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.075);
+}
+.markdown-example .source {
+  padding: 20px;
+  margin: 0;
+  font-size: 16px;
+  line-height: 28px;
+  white-space: pre-wrap;
+  background: #F8F8F8;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+}
+.markdown-example .rendered {
+  padding: 20px;
+}
+</style>
+
+<h1 id="lagrit-style-guide">LaGriT Style Guide</h1>
+
+<hr />
+
+<p>In an effort to maintain consistency across the GitHub Pages implementation of LaGriT documentation, this document is a style guide for readers and developers.</p>
+
+<p>This page uses HTML to format box sections to show raw text and the resulting format. Use</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;div class="markdown-example" id="example-text"&gt;
+&lt;pre class="source"&gt;sample format written to show the raw page text
+&lt;/pre&gt;
+&lt;div class="rendered"&gt;sample to show how format will appear on page
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre></div></div>
+<div class="markdown-example" id="example-text">
+<pre class="source">&lt;b&gt;sample&lt;/b&gt; format written to show the raw page text
+</pre>
+  <div class="rendered"><b>sample</b> to show how format will appear on page
+</div>
+</div>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ol>
+  <li><a href="#pagetitles">Page Titles and Headers</a></li>
+  <li><a href="#cmdformatting">Command Formatting</a></li>
+  <li><a href="#inlinecode">Inline Code, Examples, Demos</a></li>
+  <li><a href="#linking">Linking to Other Pages</a></li>
+  <li><a href="#longpagelists">Long Page Lists</a></li>
+  <li><a href="#embeddingimages">Embedding Images</a></li>
+  <li><a href="#resources">Further Resources</a></li>
+</ol>
+
+<h2 id="1-page-headers--titles-">1. Page Headers &amp; Titles <a name="pagetitles"></a></h2>
+
+<p>Each page should contain YAML-formatted metadata at the top of the document.
+See <a href="https://blog.github.com/2013-09-27-viewing-yaml-metadata-in-your-documents/">GitHub’s announcement</a> and a <a href="https://hackmd.io/s/yaml-metadata#tags">basic guide on supported tags</a>.</p>
+
+<p>In general, most metadata will do nothing.
+However, each document should contain at least these specifiers:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">title</code> - this renders as the browser page title, and renders in search</li>
+  <li><code class="language-plaintext highlighter-rouge">tags</code> - this benefits the search functionality as well</li>
+</ol>
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+---
+title: "Example LaGriT Page"
+author: My Name
+tags: example, quickstart, style
+---
+</pre>
+</div>
+
+<p>Page titles should use the <code class="language-plaintext highlighter-rouge">h1</code> header class followed by a page line, note the # character must not have spaces in front.
+Subsections should be marked with <code class="language-plaintext highlighter-rouge">h2</code>, subsubsections with <code class="language-plaintext highlighter-rouge">h3</code>, etc.</p>
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+
+# COMMAND or Page Title
+
+------------------------------------
+
+Page text
+
+## Section Header
+
+</pre>
+<div class="rendered">
+<h1>COMMAND or Page Title</h1>
+<hr />
+  
+Page text
+  
+<h2>Section Header</h2>
+</div>
+</div>
+
+<h2 id="3-command-syntax-and-descriptions-">3. Command Syntax and Descriptions <a name="cmdformatting"></a></h2>
+
+<p>The LaGriT command syntax section should be enclosed in the &lt;pre&gt; tags. Use the HTML bold formats for the command name and any literal keywords.</p>
+
+<div class="markdown-example" id="example-text">
+<!--
+GH Pages keeps trying to render this as HTML instead of raw code.
+So, we're going to have to escape the HTML tags to get them literally rendered...
+-->
+<pre class="source">
+&lt;pre&gt;
+&lt;b&gt;extract/surfmesh&lt;/b&gt;/1,0,0/cmo_out/ [cmo_in] [&lt;b&gt;external&lt;/b&gt;]
+&lt;/pre&gt;
+</pre>
+<div class="rendered">
+<pre>
+<b>extract/surfmesh</b>/1,0,0/cmo_out/ [cmo_in] [<b>external</b>]
+</pre>
+</div>
+</div>
+
+<p>In the sections describing words and behavior of the command, the following formats should be followed:</p>
+
+<p>In general, use <strong><code class="language-plaintext highlighter-rouge">bold monospaced font</code></strong> for commands and methods, <strong>bold</strong> for keywords or reserved words, and <code class="language-plaintext highlighter-rouge">unstyled monospace</code> for primary variable names. The italics  <em><code class="language-plaintext highlighter-rouge">italic variable</code></em> as needed for additional variables. The general <em>italic</em> is for use in text for notes or references.</p>
+
+<p>The following are used for a command syntax and description:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Appearance</th>
+      <th style="text-align: left">Markdown Text</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><a href=""><strong><code class="language-plaintext highlighter-rouge">COMMAND link</code></strong></a></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">[**`COMMAND`**](file.md)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong><code class="language-plaintext highlighter-rouge">COMMAND</code></strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">**`COMMAND`**</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong><code class="language-plaintext highlighter-rouge">method</code></strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">**`method`**</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">variable</code></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">`variable`</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>keyword</strong></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">**keyword**</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href=""><strong>keyword_link</strong></a></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">[**keyword_link**](file.md)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><a href="">plain link</a></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">[plain link](file.md)</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em><code class="language-plaintext highlighter-rouge">italic variable</code></em></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">*`italic variable`*</code></td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><em>italic text</em></td>
+      <td style="text-align: left"><code class="language-plaintext highlighter-rouge">*italic text*</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="3-inline-code-examples-demos-">3. Inline Code, Examples, Demos <a name="inlinecode"></a></h2>
+
+<p>Command pages may include additional sections. Any inline Code, Examples, or Demos use fenced code blocks and should be wrapped in three backticks. The backticks will format much the same way as the HTML &lt;pre&gt; tags.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>This is an inline code block with 3 backticks before and after.
+</code></pre></div></div>
+
+<p>To display screen output, use the tag &lt;pre class="lg-output"&gt; instead of backtics or other &lt;pre&gt; tags.</p>
+
+<pre class="lg-output">
+This is a block for screen output.
+</pre>
+
+<h2 id="4-linking-to-other-pages-">4. Linking to Other Pages <a name="linking"></a></h2>
+
+<p>You can link to other pages on this site by either using the literal URL, or (more appropriately) with a relative link to the corresponding Markdown file. It is better practice to use a relative link to a Markdown file, so that those attempting to read the documentation through a Markdown viewer (i.e. after cloning the LaGriT repo) will be able to easily access the referenced document.</p>
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+As an example, [this page](https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html)
+will take you to the same place as [clicking here](docs&#x2F;commands&#x2F;ADDMESH.md).
+</pre>
+<div class="rendered">
+<p>As an example, <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">this page</a> will take you to the same place as <a href="https://lanl.github.io/LaGriT/pages/docs/commands/ADDMESH.html">clicking here</a>.</p>
+</div>
+</div>
+
+<h2 id="5-long-page-lists-">5. Long Page Lists <a name="longpagelists"></a></h2>
+
+<p>For pages with a long list of command options, use a clickable table at the top.
+See examples at <a href="https://lanl.github.io/LaGriT/pages/docs/commands/DUMP2.html">dump</a></p>
+
+<p>Table format with page links. The colon on left will make cells left justified. Use colons on both sides to center.
+Add explicit spaces to avoid cell text running into adjacent cell text.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>|   |  |  |  |
+| :---- |  :----  | :---- |  :---- |
+|&amp;nbsp;&amp;nbsp; [**`chad`**](#chad) |&amp;nbsp;&amp;nbsp; [**`coord`**](#coord) |&amp;nbsp;&amp;nbsp; [**`datex`**](#datex) |&amp;nbsp;&amp;nbsp; [**`elem_adj_node`**](#elem_adj) |
+
+...
+
+### **`chad`** &lt;a name="chad"&gt;&lt;/a&gt;
+
+</code></pre></div></div>
+
+<h2 id="6-embedding-images-">6. Embedding Images <a name="embeddingimages"></a></h2>
+
+<div class="markdown-example" id="example-text">
+<pre class="source">
+
+Below are multiple ways to embed images in a Markdown file.
+Note that relative paths are relative to LaGriT/docs/pages/docs/commands/.
+Set Image sizes for a page between 250 and 500. 
+
+Embed with html 
+&lt;img width=&quot;500&quot; src=&quot;https://lanl.github.io/LaGriT/assets/images/cube.png"&gt;
+
+Using href will make a small image clickable to the full image:
+&lt;a href=&quot;cube.png"&gt;  &lt;img width=&quot;300&quot; src=&quot;cube.png"&gt;  &lt;/a&gt;
+
+Embed with markdown
+&#x0021;&#x005b;alternate text](https://lanl.github.io/LaGriT/assets/images/cube.png)
+
+&lt;img src=&quot;&#123;&#123;'assets/images/cube.png' | absolute_url&#125;&#125;&quot; width=&quot;500&quot;&gt;
+&#x0021;&#x005b;alternate text](../../../assets/images/cube.png)
+&#x0021;&#x005b;alternate text](&#123;&#123; site.baseurl }}/assets/images/cube.png)
+&#x0021;&#x005b;alternate text](&#123;&#123;'assets/images/cube.png' | absolute_url&#125;&#125;)
+</pre>
+<div class="rendered">
+<img width="200" src="https://lanl.github.io/LaGriT/assets/images/cube.png" />
+</div>
+</div>
+
+<h2 id="7-further-resources-">7. Further Resources <a name="resources"></a></h2>
+
+<p>Markdown supports tables, lists, embedded HTML/Javascript/CSS, images, and more.
+For syntax usage on embedding these elements, a few references can be found below:</p>
+
+<ul>
+  <li><a href="https://commonmark.org/help/">Markdown Quick Cheatsheet (Common Mark)</a></li>
+  <li><a href="https://guides.github.com/features/mastering-markdown/">Mastering Markdown (GitHub)</a> - basic Markdown syntax overview</li>
+  <li><a href="http://assemble.io/docs/Cheatsheet-Markdown.html">Markdown Cheatsheet (assemble.io)</a> - discusses the relationship between Markdown elements and HTML</li>
+</ul>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

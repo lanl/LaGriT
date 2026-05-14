@@ -1,0 +1,529 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Regions and Points to Tetrahedral Mesh</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="regions-and-points-to-tetrahedral-mesh">Regions and Points to Tetrahedral Mesh</h1>
+<hr />
+<h3 id="generating-initial-grids-using-the-lagrit-command-language"><strong>Generating Initial Grids Using the LaGriT Command Language</strong></h3>
+
+<p>The steps involved in generating three dimensional grids in the LaGriT command language are:</p>
+
+<ol>
+  <li><a href="definemo.md">Define mesh objects.</a></li>
+  <li><a href="defineev.md">Define an enclosing volume</a>.</li>
+  <li><a href="DEFINEII.md">Define interior interfaces.</a></li>
+  <li><a href="dividereg.md">Divide the enclosing volume into regions.</a></li>
+  <li><a href="assignmt.md">Assign material types to the regions.</a></li>
+  <li><a href="distributep.md">Distribute points within the volume.</a></li>
+  <li><a href="connecttet.md">Connect the points into tetrahedra</a></li>
+</ol>
+
+<p>Detailed descriptions of the LaGriT commands are given in Section II.
+This tutorial covers just the commands needed to generate a simple
+grid. The tutorial will explain how to generate a grid in a unit cube
+containing two materials separated by a plane. Lines that begin with
+an asterisk (*) are comments; keywords are in <strong>bold</strong>.</p>
+
+<hr />
+
+<h2 id="1-define-mesh-objects">1. Define mesh objects</h2>
+
+<p>Define all Mesh Objects to be used in this problem using the <a href="commands/cmo/cmo_create.md"><strong><code class="language-plaintext highlighter-rouge">cmo/create</code></strong></a> command. The <a href="commands/cmo/cmo_create.md"><strong><code class="language-plaintext highlighter-rouge">cmo/create</code></strong></a> command establishes an
+empty Mesh Object data structure (<a href="meshobject.md">see Section III.a</a> for a description).</p>
+
+<p>For this example we will need only a single 3D Mesh Object:</p>
+
+<p>Create a 3D tetrahedral mesh object and name it <code class="language-plaintext highlighter-rouge">3dmesh</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo/create/3dmesh/
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="2-define-an-enclosing-volume">2. Define an enclosing volume</h2>
+
+<p>Define an enclosing volume using the <a href="commands/SURFACE.md"><strong><code class="language-plaintext highlighter-rouge">surface</code></strong></a>
+ command. Since we are defining an exterior boundary, the boundary type
+is <code class="language-plaintext highlighter-rouge">reflect</code>. The next item of information needed is the geometry of
+the volume; some common geometry types are <code class="language-plaintext highlighter-rouge">box</code>, <code class="language-plaintext highlighter-rouge">cylinder</code>,
+and <code class="language-plaintext highlighter-rouge">sphere</code>. Geometry types <code class="language-plaintext highlighter-rouge">box</code> and <code class="language-plaintext highlighter-rouge">sphere</code> define closed
+volumes; whereas a <code class="language-plaintext highlighter-rouge">cylinder</code> is open on both ends and must be capped
+by planes.</p>
+
+<p>Along with the geometry type, the extent of the volume is
+defined by specifying for the box its corners, or for the cylinder its
+radius and end point of its axis of rotation. The enclosing volume must
+be convex. Complicated enclosing volumes can be described by their
+bounding surfaces including planes and sheets.</p>
+
+<p>Some simple examples of enclosing volumes are:</p>
+
+<h3 id="unit-cube">Unit cube:</h3>
+
+<pre>
+<b>surface/cube/reflect</b>/box/0.0,0.0,0.0/1.0,1.0,1.0
+</pre>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image219.gif" /></p>
+
+<h3 id="cylinder-whose-axis-is-the-x-axis-with-radius-1-and-height-1">Cylinder whose axis is the x axis with radius 1 and height 1:</h3>
+
+<pre>
+<b>surface/cyl_vol/reflect/cylinder</b>/0.,0.,0./1.,0.,0./1.
+<b>surface/end1/reflect/plane</b>/0.,0.,0./0.,0.,1./0.,1.,1.
+<b>surface/end2/reflect/plane</b>/1.,0.,0./1.,0.,1./1.,1.,1.
+</pre>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image220.gif" />
+<img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image221.gif" /></p>
+
+<hr />
+
+<h2 id="3-define-interior-interfaces">3. Define interior interfaces</h2>
+
+<p>Interfaces are defined with the <a href="commands/SURFACE.md"><code class="language-plaintext highlighter-rouge">surface</code></a>
+command. In this case the boundary type is <code class="language-plaintext highlighter-rouge">intrface</code>. If the command
+defines a volume (e.g. box, cylinder) then the interface is the surface
+of the volume defined. If the command defines a plane or sheet then the
+interface is the plane or sheet. It is important to remember that planes
+are infinite and that the order of points specifying the plane
+determines a normal to the plane in the usual right-hand-rule sense
+(<a href="conventions.md">see Section II.a.9</a>). This direction is important in
+determining regions. In order to divide the unit cube defined above in
+half vertically, define a plane by:</p>
+
+<pre>
+<b>surface/cutplane/intrface</b>/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5
+</pre>
+
+<p>The normal to this plane points in the positive z direction.</p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image222.gif" /></p>
+
+<p>Interfaces must not be coincident with reflective boundaries. For
+example to embed a rectangle inside a cube, it is necessary to extend
+the ends of the rectangle beyond the cube to avoid coincident reflective
+and interface surfaces:</p>
+
+<pre>
+<b>surface/cube/reflect</b>/box/0.0,0.0,0.0/1.0,1.0,1.0
+<b>surface/rect/intrface</b>/box/-0.1,0.5,0.2/1.1,0.6,0.5
+</pre>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image223.gif" /></p>
+
+<hr />
+
+<h2 id="4-divide-the-enclosing-volumes-into-regions">4. Divide the enclosing volumes into regions</h2>
+
+<p>The <a href="commands/REGION.md"><strong><code class="language-plaintext highlighter-rouge">region</code></strong></a> command is used to divide the
+enclosing volume into regions. The directional operators <code class="language-plaintext highlighter-rouge">lt</code>, <code class="language-plaintext highlighter-rouge">le</code>,
+<code class="language-plaintext highlighter-rouge">gt</code>, and <code class="language-plaintext highlighter-rouge">ge</code> are applied to previously defined surfaces
+according to the following rules.</p>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">lt</code> – if the surface following is a volume then <code class="language-plaintext highlighter-rouge">lt</code> means inside
+not including the surface of the volume. If the surface is a plane or a
+sheet <code class="language-plaintext highlighter-rouge">lt</code> means the space on the side of the plane or sheet opposite
+to the normal not including the plane or sheet itself.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">le</code> – if the surface following is a volume then <code class="language-plaintext highlighter-rouge">le</code> means inside
+including the surface of the volume. If the surface is a plane or a
+sheet <code class="language-plaintext highlighter-rouge">le</code> means the space on the side of the plane or sheet opposite
+to the normal including the plane or sheet itself.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">gt</code> – if the surface following is a volume then <code class="language-plaintext highlighter-rouge">gt</code> means outside
+not including the surface of the volume. If the surface is a plane or a
+sheet <strong>gt</strong> means the space on the same side of the plane or sheet as
+the normal not including the plane or sheet itself.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ge</code> – if the surface following is a volume then <code class="language-plaintext highlighter-rouge">ge</code> means outside
+including the surface of the volume. If the surface is a plane or a
+sheet <code class="language-plaintext highlighter-rouge">ge</code> means the space on the same side of the plane or sheet as
+the normal including the plane or sheet itself.</p>
+  </li>
+</ul>
+
+<p>In region comands, surface names must be preceeded by a directional
+operator. The logical operators <code class="language-plaintext highlighter-rouge">or</code>, <code class="language-plaintext highlighter-rouge">and</code>, and <code class="language-plaintext highlighter-rouge">not</code> mean union,
+intersection and complement respectively. Parentheses are operators and
+are used for nesting. Spaces are required as delimiters to separate
+operators and operands. To define the two regions created by the plane
+bisecting the unit cube:</p>
+
+<pre>
+<b>region/top</b>/ <b>le</b> cube <b>and gt</b> cutplane
+<b>region/bottom</b>/ <b>le</b> cube <b>and le</b> cutplane
+</pre>
+
+<p>The region <code class="language-plaintext highlighter-rouge">bottom</code> contains the interface <em>cutplane</em>; top contains none
+of the interface. Interior interfaces must be included in one and only
+one region.</p>
+
+<p>If a region touches an external boundary, include the surface that
+defines the enclosing volume in region and mregion commands. For
+example, the regions <code class="language-plaintext highlighter-rouge">top</code> and <code class="language-plaintext highlighter-rouge">bottom</code> are enclosed by the surface
+<em>cube</em></p>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image224.gif" /></p>
+
+<hr />
+
+<h3 id="5-assign-material-types-to-the-regions">5. Assign material types to the regions</h3>
+
+<p>Assign materials to regions using
+the <a href="commands/MREGION.md"><strong><code class="language-plaintext highlighter-rouge">mregion</code></strong></a> command. This command has
+similar syntax to the <a href="commands/REGION.md"><strong><code class="language-plaintext highlighter-rouge">region</code></strong></a> command except
+that the interface should not be assigned to any material region. To
+assign two materials, <code class="language-plaintext highlighter-rouge">mattop</code> and <code class="language-plaintext highlighter-rouge">matbot</code>, to the regions <code class="language-plaintext highlighter-rouge">top</code> and
+<em>bottom:</em></p>
+
+<pre>
+<b>mregion/ mattop/ le</b> cube <b>and gt</b> cutplane /
+<b>mregion/ matbot/ le</b> cube <b>and lt</b> cutplane /
+</pre>
+
+<hr />
+
+<h3 id="6-distribute-points-within-the-volume">6. Distribute points within the volume</h3>
+
+<p>There are many methods of distributing points within a volume.  For
+simple geometries refer to the <a href="createpts.md"><code class="language-plaintext highlighter-rouge">createpts</code></a> command. </p>
+
+<p>This example uses the regnpts command which, although more complicated,
+provides greate flexibility.  Points are distributed within regions
+using Cartesian, cylindrical or spherical coordinates by constructing
+rays that travel through regions and distributing points along these
+rays. For this example, points are distributed using Cartesian
+coordinates. The rays are specified by defining a set of points and a
+plane. For each point in the set, a ray is constructed normal to the
+plane passing through the point. In general rays are constructed in
+sets, each set is specified by a single plane and a set of points. The
+<strong><code class="language-plaintext highlighter-rouge">createpts</code></strong> command is used to create the points. The
+<a href="REGNPTS.md"><code class="language-plaintext highlighter-rouge">regnpts</code></a> command is used to specify the plane, to specify
+the region, and to specify the number of points to be distributed along
+the rays.</p>
+
+<p>The points and the plane should lie outside the enclosing
+volume and on opposite sides. The normal to the plane should point
+toward the point. As rays are created, if they do not pass through the
+specified region, no points are distributed. Points may be spaced evenly
+along the ray or they may be spaced according to a ratio.</p>
+
+<p>The following commands will place points in the unit cube.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create 25 points (5x5x1) in a plane above the unit cube
+# place points on the boundaries in the x and y directions (1,1,0)
+createpts/xyz/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/
+
+# give the points defined by the createpts command the name, rayend
+pset/rayend/seq/1,0,0/
+</code></pre></div></div>
+
+<p><img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image226.gif" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create rays between points in rayend and the plane below the cube
+# distribute 3 points along these rays in the region top
+# add one point at the upper external boundary for each ray
+regnpts/top/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
+</code></pre></div></div>
+
+<p><img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image227.gif" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># distribute 4 points along these rays in the region *bottom*
+# add one point at the lower external boundary for each ray
+# add one point at the material interface for each ray since
+# *bottom* contains the interface - a total of 5 points for each ray.
+# points will be distributed such that the ratio of distances between
+# any two consecutive pairs of points is 0.6 traveling from the source
+# of the ray (the plane) to the ray end.
+
+regnpts/bottom/4/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/
+</code></pre></div></div>
+
+<p><img height="300" width="300" src="https://lagrit.lanl.gov/docs/new_html/Image228.gif" /></p>
+
+<p>Other versions of the <strong><code class="language-plaintext highlighter-rouge">regnpts</code></strong> are appropriate for cylindrical and
+spherical geometries. For cylindrical geometries the <strong><code class="language-plaintext highlighter-rouge">createpts</code></strong>
+command specifies points in a cylindrical shell outside the volume.</p>
+
+<p>The <strong><code class="language-plaintext highlighter-rouge">regnpts</code></strong> command specifies a line (usually the cylinder axis), and
+the rays are constructed normal to this line and containing one of the
+<strong>createpts</strong> points. For spherical geometries the <strong><code class="language-plaintext highlighter-rouge">createpts</code></strong> command
+specifies points in a spherical shell outside the volume. The <strong>regnpts</strong>
+command specifies a point (usually the center of the sphere)
+from which rays are constructed to the <strong><code class="language-plaintext highlighter-rouge">createpts</code></strong> points.</p>
+
+<hr />
+
+<h3 id="7-connect-the-points-into-tetrahedra">7. Connect the points into tetrahedra</h3>
+
+<p>The mesh designer may use the following set of command to connect the
+points into a tetrahedral mesh:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># eliminate coincident or nearly coincident points
+# 1,0,0 means consider all points
+filter/1,0,0/
+
+# rayend points are set to invisible (21 is the code for invisible)
+# they were used as end points of the rays in the regnpts command
+cmo/setatt//itp/pset,get,rayend/21/
+
+# assign material colors to the points
+# identify points that are on material interfaces
+# identify constrained points
+setpts
+
+# connect the points into a Delaunay tetrahedral mesh
+# do not connect across material interfaces -
+# add points if necessary to resolve material interfaces
+connect
+
+# set element (tetrahedral) type
+settets
+
+# dump mesh to some output form
+dump/gmv/filename
+
+# terminate processing
+finish
+</code></pre></div></div>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image229.gif" /></p>
+
+<hr />
+
+<h3 id="full-tutorial-code">Full Tutorial Code:</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a 3D tetrahedral mesh object and name it *3dmesh*
+cmo/create/3dmesh/
+
+# unit cube
+surface/cube/reflect/box/0.0,0.0,0.0/1.0,1.0,1.0/
+
+# define z=.5 plane as interface
+surface/cutplane/intrface/plane/0.,0.,.5/1.,0.,.5/1.,1.,.5/
+
+# define geometric regions
+region/top/ le cube and gt cutplane/
+region/bottom/ le cube and le cutplane /
+
+# define material regions
+mregion/mattop/ le cube and gt cutplane /
+mregion/matbot/ le cube and lt cutplane /
+
+# create 25 points (5x5x1) in a plane above the unit cube
+# place points on the boundaries in the x and y directions (1,1,0)
+createpts/xyz/5,5,1/0.,0.,1.1/1.,1.,1.1/1,1,0/
+
+# give the points defined by the createpts command the name, rayend
+pset/rayend/seq/1,0,0/
+
+# create rays between points in rayend and the plane below the cube
+# distribute 3 points along these rays in the region top
+# add one point at the upper external boundary for each ray
+regnpts/top/3/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/0,0/
+
+# distribute 4 points along these rays in the region *bottom*
+# add one point at the lower external boundary for each ray
+# add one point at the material interface for each ray since
+# *bottom* contains the interface - a total of 5 points for each ray.
+# points will be distributed such that the ratio of distances between
+# any two consecutive pairs of points is 0.6 traveling from the source
+# of the ray (the plane) to the ray end.
+
+regnpts/bottom/4/pset,get,rayend/xyz/0.,0.,-.1/0.,1.,-.1/1.,1.,-.1/1,.6/
+
+# eliminate coincident or nearly coincident points
+# 1,0,0 means consider all points
+filter/1,0,0/
+
+# rayend points are set to invisible (21 is the code for invisible)
+# they were used as end points of the rays in the regnpts command
+cmo/setall//itp/pset,get,rayend/21/
+
+# assign material colors to the points
+# identify points that are on material interfaces
+# identify constrained points
+setpts
+
+# connect the points into a Delaunay tetrahedral mesh
+# do not connect across material interfaces -
+# add points if necessary to resolve material interfaces
+connect
+
+# set element (tetrahedral) type
+settets
+
+# dump mesh to some output form
+dump/gmv/filename
+
+# terminate processing
+finish
+</code></pre></div></div>
+
+<p><img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/Image225.gif" /></p>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

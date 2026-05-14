@@ -1,0 +1,12 @@
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: EddieHubCommunity/gh-action-community/src/welcome@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: "We appreciate your interest in LaGriT. While we do monitor Github issues, we are best able to help you by email at lagrit-dev@lanl.gov"

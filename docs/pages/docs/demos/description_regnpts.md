@@ -1,5 +1,5 @@
 ---
-title: Example 1: test using regnpts to create point distributions and meshes.
+title: "Example 1: test using regnpts to create point distributions and meshes."
 ---
 
 Example 1: test using regnpts to create point distributions and meshes.
@@ -15,12 +15,12 @@ Input
 
 Images of GMV input and output
 
-<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts1_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts1_tn.gif">
 
 Outer region and inner region edges and nodes
 
-<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts3_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts3_tn.gif">
 
 Inner region surface and outer region nodes
 
-<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts2_tn.gif"""
+<img  width="300" src="https://lanl.github.io/LaGriT/assets/images/regnpts2_tn.gif">

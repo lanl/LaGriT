@@ -1,0 +1,7 @@
+cmo/create/cmo1/
+surface/s3/reflect/sphere/0.,0.,0./1.,1.,1./
+region/r3/ lt s3 /
+mregion/mr3/ lt s3 /
+createpts/rtp/2,6,30/0,0,0/1,45,360/1,1,1
+dump/gmv/out3.gmv/
+finish

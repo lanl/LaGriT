@@ -1,0 +1,480 @@
+
+**********************************************************
+*TEST interpolate/map (lagrit_input_map)
+*
+* Test grid-to-grid interpolation 
+* map source element value to sink point
+*
+* This input deck starts with demo problems used for manual
+* Tests include various element to element types
+* and various interpolation settings valid for map method
+* Tests include the following sink <- source interpolations
+*
+* Demo 01_max TRI imt1 <- HEX itetclr  
+* Demo 01_min TRI imt1 <- HEX itetclr  with tiemin, min
+* Demo 02_plus1  TRI imt1 <- HEX itetclr with PLUS1 
+* Demo 02_nearest  TRI imt1 <- HEX itetclr with NEAREST 
+* 02_user TRI imt1 <- HEX itetclr with user value (not in man) 
+* Demo 03  TET itetclr <- HEX tet_id with element centroids
+* 04 TRI imtreal <- itetreal HEX with pset selection 
+* 05 TRI itetclr <- HEX itetclr 
+* 06 QUAD itetclr <- HEX itetclr 
+* 07 HEX itetclr <- HEX itetclr 
+* 08 TET itetclr <- HEX itetclr 
+* 09 TET itetreal <- HEX itetreal with eltset 
+* 10 TET itetclr <- HEX itetclr with pset
+* 11 TRI imt <- HEX itetclr create and keep pt_gtg and el_gtg
+* 12 TRI imtreal <- HEX imtreal reuse pt_gtg and el_gtg
+*
+* Terry Cherry 2/01/2001
+*
+**********************************************************
+
+*-----------------------------------------------------
+* Demo 01_max TRI imt1 <- HEX itetclr  
+* use default tiemax for tiebreaking
+
+* read the source grid 
+  read gmv input_3d_hex.gmv cmo_src 
+
+* read the sink grid
+* initialize imt to id possible errors
+  read gmv input_2d_hires.gmv    cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+* color imt from source itetlclr
+* 3 diagonal material colors, Y is top 
+* tiebreaker is the default tiemax
+* the top nodes that sit on element edges will have val 3
+* view merged grids with faces off to see both grids
+
+interpolate/map/cmo_sink imt1/1,0,0/cmo_src itetclr
+  dump gmv output_map01_max.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map01_max.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* Demo 01_min TRI imt1 <- HEX itetclr  with tiemin, min
+* use shorthand intrp instead of interpolation 
+* set tiebreaker to tiemin
+* set interpolation attribute for sink to function min
+* leave "min" off if using the attributes default function
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+cmo setatt cmo_sink imt1 5
+
+* color imt from source itetlclr
+* 3 diagonal material colors, Y is top
+* tiebreaker is set to tiemin
+* the top nodes that sit on element edges will have val 2
+* the interpolation attribute for imt is set to min
+* view merged grids with faces off to see both grids
+
+intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/tiemin, min
+  dump gmv output_map01_min.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map01_min.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* Demo 02_plus1  TRI imt1 <- HEX itetclr with PLUS1 
+* use flag option plus1  
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+  cmo select cmo_sink
+  trans 1,0,0 / 0. 0. 0. / 1.5 -1.75 0./
+  cmo setatt cmo_sink imt1 0
+
+* 3 diagonal material colors, color imt from itetclr
+* plus1 can be left off since it is the default setting
+* sink is not aligned to source so some points are outside
+* should assign plus1 value of 4 to points outside grid
+
+intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/ plus1
+  dump gmv output_map02_plus1.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map02_plus1.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* Demo 02_nearest  TRI imt1 <- HEX itetclr with NEAREST 
+* the keyword nearest must be followed by node attribute name
+* tiebreaker set to min
+* sink is not aligned to source so some points are outside
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+  cmo select cmo_sink
+  trans 1,0,0 / 0. 0. 0. / 1.5 -1.75 0./
+  cmo setatt cmo_sink imt1 0
+
+* 3 diagonal material colors, color imt from itetclr
+* sink is not aligned to source so some points are outside
+* should assign values from nearest node for points outside 
+* tiebreaker will assign min values along top of sink grid
+* this grid will have only 2 material colors
+
+intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/nearest,imt1/mintie
+  dump gmv output_map02_nearest.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map02_nearest.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 02_user  TRI imt1 <- HEX itetclr with user flag
+* this example is not in the manual
+* set flag option to user defined value
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+  cmo select cmo_sink
+  trans 1,0,0 / 0. 0. 0. / 1.5 -1.75 0./
+  cmo setatt cmo_sink imt1 0
+
+* 3 diagonal material colors, color imt from itetclr
+* sink is not aligned to source so some points are outside
+* should assign user value of 5 to points outside grid
+
+intrp/map/cmo_sink imt1/1,0,0/cmo_src itetclr/ 5
+  dump gmv output_map02_user.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map02_user.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+
+*-----------------------------------------------------
+* Demo 03  TET itetclr <- HEX tet_id with element centroids
+* The interpolations are all done on to a sink point
+* To color a sink element, centroids are used as sink points
+
+* read the hex grid and color materials by id number
+* create attribute tet_id which holds the element id
+read gmv input_3d_hex.gmv cmo_src
+  cmo set_id cmo_src element tet_id
+read gmv input_tet24.gmv cmo_sink
+  cmo setatt cmo_sink itetclr 99
+
+* 36 material colors in source, 9 materials in sink
+* sink tet grid is aligned on background hex source
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src tet_id/tiemin, min
+  dump gmv output_map03.gmv cmo_sink
+* copy tet_id to itetclr for easier viewing
+  cmo copyatt cmo_src cmo_src itetclr tet_id
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map03.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 04 TRI imtreal <- itetreal HEX with pset selection 
+
+read gmv input_3d_hex.gmv cmo_src
+read gmv input_2d_hires.gmv    cmo_sink
+  cmo select cmo_sink
+  cmo setatt cmo_sink imtreal 5.
+  pset/psmall/geom/xyz/1,0,0/3. 2. -1. / 6. 6. 6.
+
+* source imtreal has 3 colors
+* pset is the 2x2 upper right corner of sink grid
+* pset of sink grid should have values 2 and 3
+* the rest of sink grid should remain value 5
+
+intrp/map/cmo_sink imtreal/pset,get,psmall/cmo_src itetreal
+  dump gmv output_map04.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map04.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src imtreal minmax
+  cmo printatt cmo_sink imtreal minmax
+* end compare here
+
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 05 TRI itetclr <- HEX itetclr 
+
+read gmv input_3d_hex_small.gmv cmo_src
+  cmo set_id cmo_src element tet_id
+  cmo copyatt cmo_src cmo_src itetclr tet_id
+  cmo delatt cmo_src tet_id
+
+read gmv input_1row_tri.gmv    cmo_sink
+  cmo setatt cmo_sink itetclr 99
+
+* 9 hex source and 4 tri sink
+* sink should have materials 1 and 2
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
+  dump gmv output_map05.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map05.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+*-----------------------------------------------------
+* 06 QUAD itetclr <- HEX itetclr 
+* use sink cmo read in previous test
+
+cmo delete cmo_sink
+read gmv input_1row_quad.gmv    cmo_sink
+  cmo setatt cmo_sink itetclr 99
+
+* 9 hex source and 2 quad sink
+* sink should have materials 1 and 2
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
+  dump gmv output_map06.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map06.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+*-----------------------------------------------------
+* 07 HEX itetclr <- HEX itetclr 
+* use sink cmo read in previous test
+
+cmo delete cmo_sink
+read gmv input_1row_hex.gmv    cmo_sink
+  cmo setatt cmo_sink itetclr 99
+
+* 9 hex source and 2 hex sink
+* sink should have materials 1 and 2
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
+  dump gmv output_map07.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map07.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+*-----------------------------------------------------
+* 08 TET itetclr <- HEX itetclr 
+* use sink cmo read in previous test
+
+cmo delete cmo_sink
+read gmv input_1row_tet.gmv    cmo_sink
+  cmo setatt cmo_sink itetclr 99
+
+* 9 hex source and 12 tet sink
+* sink should have materials 1 and 2
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/
+  dump gmv output_map08.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map08.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+
+*-----------------------------------------------------
+* 09 TET itetreal <- HEX itetreal with eltset 
+* use sink cmo read in previous test
+
+cmo delete cmo_sink
+read gmv input_tet24.gmv cmo_sink
+  cmo setatt cmo_sink itetreal 99.
+  cmo copyatt cmo_src cmo_src itetreal itetclr
+  cmo select cmo_sink
+  eltset e1 itetclr eq 1
+
+* 9 hex source, sink is hex converted to tet 
+* element selection is max xy corner of grid
+* sink should have itetreal 99 in corner, 1 elsewhere 
+
+intrp/map/cmo_sink itetreal/eltset,get,e1/cmo_src itetreal
+  dump gmv output_map09.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map09.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetreal minmax
+  cmo printatt cmo_sink itetreal minmax
+* end compare here
+
+*-----------------------------------------------------
+* 10 TET itetclr <- HEX itetclr with pset
+* use sink cmo read in previous test
+* tiebreaker set to min, interpolate attribute set to min
+* sink not aligned to source
+
+cmo select cmo_sink
+  trans 1,0,0 / 0. 0. 0. / .25 0. 0./
+  cmo setatt cmo_sink itetclr 99
+
+* 9 hex source, sink is hex converted to tet
+* sink is translated to right, part outside the source grid
+* sink has 9 materials, same as source
+* flag 10 is along right edge with centroids outside source 
+
+intrp/map/cmo_sink itetclr/1,0,0/cmo_src itetclr/tiemin, min
+  dump gmv output_map10.gmv cmo_sink
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map10.gmv
+  cmo delete cmov
+
+* begin compare here
+  cmo status cmo_src
+  cmo status cmo_sink
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink itetclr minmax
+* end compare here
+
+* TEST added attributes and attribute types
+  cmo delete cmo_src
+  cmo delete cmo_sink
+
+*-----------------------------------------------------
+* 11 TRI imt <- HEX itetclr, keep pt_gtg and el_gtg
+* flag outside points with nearest imt, this creates pt_gtg
+* search source elements, this creates el_gtg
+
+read gmv input_3d_hex.gmv cmo_src
+  cmo setatt cmo_src itetclr 36,36,0 4
+read gmv input_2d_hires_trans.gmv    cmo_sink
+  cmo setatt cmo_sink imt1 5
+
+* 36 hex source grid with 4 materials
+* 4th material is the upper right corner
+* sink is high res tri grid partially outside source grid
+* sink imt has 3 values with val 4 in box shape
+* outside nodes have values of nearest source imt val 3 
+
+intrp/map/cmo_sink imt1/1,0,0/ &
+cmo_src itetclr/nearest imt1/keepatt
+  dump gmv output_map11.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map11.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo printatt cmo_src imt1 minmax
+  cmo printatt cmo_src itetclr minmax
+  cmo printatt cmo_sink imt1 minmax
+  cmo printatt cmo_sink pt_gtg minmax
+* end compare here
+
+* This is second call using same cmo_src and cmo_sink
+* The lookup attributes created during kdtree
+* searches for nearest point (pt_gtg)
+* and enclosing element (el_gtg) 
+* are used in this second call to intrp
+* 12  TRI imtreal <- HEX itetreal reuse pt_gtg and el_gtg
+* for points outside grid, nearest point is found and imtreal used
+* sink imtreal should be all val 3. except for ll corner val 2.
+* sink has attributes pt_gtg with source node id, and el_gtg elem id 
+
+cmo setatt cmo_sink imtreal 5.0
+
+intrp/map/cmo_sink imtreal/1,0,0/cmo_src itetreal/ &
+nearest imtreal/keepatt
+  dump gmv output_map12.gmv
+  addmesh merge cmov cmo_src cmo_sink
+  dump gmv output_view_map12.gmv cmov
+  cmo delete cmov
+
+* begin compare here
+  cmo printatt cmo_src imtreal minmax
+  cmo printatt cmo_src itetreal minmax
+  cmo printatt cmo_sink imtreal minmax
+  cmo printatt cmo_sink pt_gtg minmax
+* end compare here
+ 
+
+* DONE with map test
+finish
+

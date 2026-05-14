@@ -1,0 +1,221 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Mesh Design and Considerations</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="mesh-design-considerations">Mesh Design Considerations</h1>
+
+<p>LaGriT provides a variety of meshing tools with capabilities specific to geologic applications and Voronoi control volume solvers. These tools were developed to generate and modify meshes, and also to create meshes with control volume discretization such that the underlying control volumes are Voronoi tessellations as preferred by modeling applications such as FEHM.</p>
+
+<p>Some basic considerations include dimension, domain, and mesh size restrictions (number of degrees of freedom) versus mesh resolution needed for model features. What are the modeling application requirements?  Are mesh properties defined on the cell or the vertices? What element types do you need, hexahedral, tetrahedral? Choose a mesh design and meshing method that gives the best performance from the modeling application possible, with respect to the difficulty in generating the mesh.</p>
+
+<p>Choose a design and method to create a mesh that is appropriate for the constraints for accuracy and numerical stability imposed by the modeling application and the simulations being run. Consider the physics to be modeled, mesh size restrictions (number of degrees of freedom) versus mesh resolution needed for model features, and the mesh and model information needed by the model application.</p>
+
+<p>Some modeling applications can solve problems only on orthogonal regular structured meshes, while others can handle unstructured meshes that conform to complex geologic stratigraphy and geologic structures such as sloped layers, faults, erosion and deposition.</p>
+
+<p>The unstructured approach allows the creation of meshes that exactly conform to the geometric model, but requires some expertise in building the mesh such that it will also meet the Delaunay criteria if required.
+The easier method is to use a structured mesh with fine resolution, or a coarser mesh that uses octree refinement to increase resolution in user specified regions of interest. These result in stair-stepped geometries instead of smooth, but can be acceptable for where the geometry spacing is small relative to the full model domain. (Sentis and Gable, 2017).</p>
+
+<p>For modeling applications with complex stratigraphy, depending on the mesh, you can get a stable but inaccurate solution to the physics (Zyvoloski and Vesselinov, 2006). Choose a mesh design and meshing method that gives the best performance from the modeling application possible, with respect to the difficulty in generating the mesh.</p>
+
+<h2 id="structured-mesh-methods">Structured Mesh Methods</h2>
+
+<p>Although structured meshes are not as flexible as unstructured meshes in fitting complex geometry, tests have shown that they provide accurate solutions so long as there is adequate resolution to represent the geometry of the different materials in each hydrogeologic layer.  Moreover, there must be enough resolution to account for any large gradients.  The sufficiency of grid resolution is usually investigated by running a flow model using various grids of differing resolutions.</p>
+
+<p>Example <a href="https://lanl.github.io/LaGriT/pages/docs/commands/MREGION.html">mregion with surface command</a></p>
+
+<h2 id="structured-mesh-with-octree-refinement-methods">Structured Mesh with Octree Refinement Methods</h2>
+
+<p>For a model with intersecting internal surfaces a mesh that conforms with the material layers is more difficult, especially in 3 dimensions. Rather than using an unstructured mesh requiring careful design and discretization, you can create a structured mesh and use octree refinement to capture the material geometry. Start with a hexahedral mesh with coarse spacing. LaGriT is used to intersect the extracted interfaces with the coarse hex mesh, the intersected cells are refined with the octree method multiple times to achieve the desired resolution at these interfaces. This point distribution can be connected into a tetrahedral Delaunay mesh.</p>
+
+<p>Example <a href="https://meshing.lanl.gov/proj/examples/ex_octree_refine_intersect_object/index.html">Octree Refinement</a></p>
+
+<h2 id="stacked-unstructured-methods">Stacked Unstructured Methods</h2>
+
+<p>For a model with horizontal non-intersecting surfaces, you can create a computational mesh with conforming interfaces by using a stacked mesh method. This works well for modeling applications like Amanzi/ATS that can compute on hexahedral or prism elements. This method stacks quad or triangle surfaces and connects layers into a 2 ½ Dimension hex or prism mesh.</p>
+
+<p>Example <a href="https://lanl.github.io/LaGriT/pages/docs/demos/description2_connect.html">stack</a></p>
+
+<h2 id="unstructured-methods">Unstructured Methods</h2>
+
+<p>A fully unstructured mesh can be built using volume surfaces that represent a geometry. It is necessary that these surfaces are coincident where they share a boundary. There cannot be any gaps or intersections where surfaces cross each other. The interface nodes may need refinement or buffering to ensure elements conform at the boundary.</p>
+
+<p>For modeling applications that require the Delaunay criteria, this can be very difficult. The mesh elements will conform to the geometry, but the mesh quality will likely contain a poor topology and generate negative coupling coefficients. The solutions from simulations may be inaccurate. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tet elements (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.</p>
+
+<p>Example <a href="https://meshing.lanl.gov/proj/examples/ex_sphere_in_cube/index.html">sphere in box</a></p>
+
+<h2 id="examples">Examples</h2>
+
+<p><a href="https://lanl.github.io/LaGriT/pages/tutorial/"><strong>Manual Tutorial and Examples</strong></a></p>
+
+<p><a href="https://meshing.lanl.gov/proj/index.shtml"><strong>LANL Meshing Projects</strong></a></p>
+
+<p><a href="https://meshing.lanl.gov/proj/SFWD_models/images/index.html"><strong>GDSA Example with 4 Geologic Model Types</strong></a></p>
+
+<p><a href="/pages/docs/QUALITY_sliver_cap_needle_wedge.html"><strong>Tet Element Quality Measures with LaGriT</strong></a></p>
+
+<h2 id="references">References</h2>
+
+<p>2017 Sentis, M.L., Gable, C.W., Coupling LaGrit unstructured mesh generation and model setup with TOUGH2 flow and transport: A case study, Computers &amp; Geosciences, 2017, DOI:doi.org/10.1016/j.cageo.2017.06.012.</p>
+
+<p>2006 Zyvoloski, G. &amp; Vesselinov, Velimir. An Investigation of Numerical Grid Effects in Parameter Estimation. Ground water. 44. 814-25. 10.1111/j.1745-6584.2006.00203.x.</p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

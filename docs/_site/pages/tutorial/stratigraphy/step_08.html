@@ -1,0 +1,400 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <!-- Begin breadcrumb -->
+<ul class="uk-breadcrumb">
+    <li><a href="/pages/tutorial/index.html">Tutorials &amp; Examples</a></li>
+    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
+</ul>
+<!-- End breadcrumb -->
+
+<!-- Begin image slideshow -->
+<div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="">
+    <ul class="uk-slideshow-items">
+        <li>
+            <img data-src="/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells.png" width="1800" height="1200" alt="" uk-cover="" uk-img="target: !.uk-slideshow-items" />
+        </li>
+        <li>
+            <img data-src="/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_close_up.png" width="1800" height="1200" alt="" uk-cover="" uk-img="target: !.uk-slideshow-items" />
+        </li>
+        <li>
+            <img data-src="/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_dfield_wells.png" width="1800" height="1200" alt="" uk-cover="" uk-img="target: !.uk-slideshow-items" />
+        </li>
+    </ul>
+    <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous="" uk-slideshow-item="previous"></a>
+    <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next="" uk-slideshow-item="next"></a>
+</div>
+<!-- End image slideshow -->
+<p><br /></p>
+
+<h2 id="insert-well" class="uk-h3 uk-margin-remove">8. Insert Wells</h2>
+
+<p>In this step, we will generate two cylindrical ‘wells’, refine the mesh
+<code class="language-plaintext highlighter-rouge">MONAME</code> around them, and identify a line of nodes that will be the well
+source/sink for boundary conditions (ultimately writing these nodes
+to <code class="language-plaintext highlighter-rouge">zone</code> files).</p>
+
+<h3 id="81-generating-cylindrical-tetrahedral-wells">8.1 Generating Cylindrical Tetrahedral Wells</h3>
+
+<p>First, we define variables for the well’s position (<code class="language-plaintext highlighter-rouge">XWELL</code>,<code class="language-plaintext highlighter-rouge">YWELL</code>), radius (<code class="language-plaintext highlighter-rouge">RADIUS_WELL</code>), and number of nodes across the cylindrical radius
+(<code class="language-plaintext highlighter-rouge">NRADIUS</code>):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / XWELL1 / 1234.56
+define / YWELL1 / 1987.65
+
+define / XWELL2 / 2243.21
+define / YWELL2 / 1212.34
+
+define / RADIUS_WELL / 25.0
+define / NRADIUS / 2
+</code></pre></div></div>
+
+<p>Now, we create a cylindrical point cloud defining the first well using
+<code class="language-plaintext highlighter-rouge">createpts / rtz</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_well1 / / / tet
+createpts / rtz / NRADIUS 9 NZ / 0. 0. 3100. / RADIUS_WELL 360. 1500. / 1 1 1
+</code></pre></div></div>
+
+<p>This creates a point cloud centered around (0,0,0) with a radius of <code class="language-plaintext highlighter-rouge">RADIUS_WELL</code>, an angular component spanning a full 360 degrees (<code class="language-plaintext highlighter-rouge">φ = {0., 360.}</code>), and a Z range of <code class="language-plaintext highlighter-rouge">{3100.,1500.}</code>.</p>
+
+<p>Run <code class="language-plaintext highlighter-rouge">filter</code>, <code class="language-plaintext highlighter-rouge">rmpoint / compress</code>, and set <code class="language-plaintext highlighter-rouge">imt</code> to 1 for the well:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>filter / 1 0 0
+rmpoint / compress
+cmo / setatt / mo_well1 / imt / 1 0 0 / 1
+</code></pre></div></div>
+
+<p>Next, connect the point cloud into a tetrahedral mesh and translate the
+X and Y origin to <code class="language-plaintext highlighter-rouge">{XWELL1,YWELL1}</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect
+resetpts / itp
+cmo / printatt / mo_well1 / -xyz- / minmax
+trans / 1 0 0 / 0. 0. 0. / XWELL1 YWELL1 0.0
+cmo / printatt / mo_well1 / -xyz- / minmax
+</code></pre></div></div>
+
+<p>The first ‘well’ mesh object has been generated. Repeat this process with different parameters to create the second well:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_well2 / / / tet
+createpts / rtz / NRADIUS 9 NZ / 0. 0. 3100. / RADIUS_WELL 360. 2200. / 1 1 1
+filter / 1 0 0
+rmpoint / compress
+cmo / setatt / mo_well1 / imt / 1 0 0 / 1
+connect
+resetpts / itp
+cmo / printatt / mo_well2 / -xyz- / minmax
+trans / 1 0 0 / 0. 0. 0. / XWELL2 YWELL2 0.0
+cmo / printatt / mo_well2 / -xyz- / minmax
+</code></pre></div></div>
+
+<p>Finally, join the two distinct wells into a single mesh object with <code class="language-plaintext highlighter-rouge">addmesh / merge</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addmesh / merge / mo_wells / mo_well1 mo_well2
+</code></pre></div></div>
+
+<h3 id="82-refining-moname-around-the-wells">8.2 Refining <code class="language-plaintext highlighter-rouge">MONAME</code> around the wells</h3>
+
+<p>As we did for the fault in step 7, we refine the main mesh <code class="language-plaintext highlighter-rouge">MONAME</code> around the wells:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># First pass refinement
+cmo / select / MONAME
+intersect_elements / MONAME / mo_wells / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset get e_refine
+cmo / setatt / MONAME / if_inter / 1 0 0 / 0
+eltset / e_refine / delete
+
+# Second pass refinement
+cmo / select / MONAME
+intersect_elements / MONAME / mo_wells / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset get e_refine
+cmo / setatt / MONAME / if_inter / 1 0 0 / 0
+eltset / e_refine / delete
+
+# Third pass refinement
+cmo / select / MONAME
+intersect_elements / MONAME / mo_wells / if_inter
+eltset / e_refine / if_inter / gt / 0
+refine/ eltset / eltset get e_refine
+cmo / setatt / MONAME / if_inter / 1 0 0 / 0
+eltset / e_refine / delete
+</code></pre></div></div>
+
+<p>The refinement process returns a octree grid object, which stores information about parent-children relationships, among other properties. It’s important, as the prepare to finalize the mesh for exporting, to strip this information and convert the octree grid object to a standard mesh object.</p>
+
+<p>This conversion is done through the <code class="language-plaintext highlighter-rouge">grid2grid / tree_to_fe</code> command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>grid2grid / tree_to_fe / mohex_octree /  mohex
+define / MONAME / mohex_octree
+</code></pre></div></div>
+
+<!-- Lightbox -->
+<div class="uk-child-width-1-2@m" uk-grid="" uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_dfield_wells.png" data-caption="Node Euclidean distances to wells">
+            <img src="/pages/tutorial/stratigraphy/images/08_hex_01_insert_wells_dfield_wells.png" alt="" />
+        </a>
+    </div>
+</div>
+
+<h3 id="83-writing-zone-files-based-on-well-distances">8.3 Writing <code class="language-plaintext highlighter-rouge">zone</code> files based on well distances</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">zone</code> files are lists of node numbers in <a href="https://fehm.lanl.gov">FEHM</a> file format and used to identify materials, well source/sinks, and boundary conditions.</p>
+
+<p>In this subsection, we will generate <code class="language-plaintext highlighter-rouge">zone</code> files describing all nodes within 32, 16, 8, 4, 2 and 1 meters of the wells.</p>
+
+<p>To begin, we will compute the well point cloud again, as we did above. First, for well 1:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_pts1
+createpts / rtz / 2 2 1000 / 0. 0. 3100. / 0.0 360. 2200. / 1 1 1
+trans / 1 0 0 / 0. 0. 0. / XWELL1 YWELL1 0.0
+</code></pre></div></div>
+
+<p>Then for well 2:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mo_pts2
+createpts / rtz / 2 2 1000 / 0. 0. 3100. / 0.0 360. 2200. / 1 1 1
+trans / 1 0 0 / 0. 0. 0. / XWELL2 YWELL2 0.0
+</code></pre></div></div>
+
+<p>and joining them into a single mesh object, <code class="language-plaintext highlighter-rouge">mo_pts</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>addmesh / merge / mo_pts / mo_pts1 / mo_pts2
+cmo / select / mo_pts
+filter / 1 0 0
+rmpoint / compress
+</code></pre></div></div>
+
+<p>Next, we will compute a distance field attribute, <code class="language-plaintext highlighter-rouge">dfield_well</code>, which is a node-based attribute storing the Euclidean distance from <code class="language-plaintext highlighter-rouge">node_i</code> in one mesh to the closest node in another mesh. In other words, all nodes in <code class="language-plaintext highlighter-rouge">MONAME</code> store their distance to the closest well (<code class="language-plaintext highlighter-rouge">mo_pts</code>) node.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>compute / distance_field / MONAME / mo_pts / dfield_well
+</code></pre></div></div>
+
+<p>Clean up unneeded mesh objects:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / delete / mo_pts1
+cmo / delete / mo_pts2
+cmo / delete / mo_pts
+cmo / delete / mo_wells
+cmo / delete / mo_well1
+cmo / delete / mo_well2
+</code></pre></div></div>
+
+<p>And finally, for each mesh-to-well distance in {32,16,8,4,2,1} (which is stored in <code class="language-plaintext highlighter-rouge">dfield_well</code>), (i) create a pset object
+containing all nodes within that distance, and (ii) write those nodes to a <code class="language-plaintext highlighter-rouge">zone</code> file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / select / MONAME
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 1.0
+pset / pwell / zone / zone_radius_01.0.zone
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 2.0
+pset / pwell / zone / zone_radius_02.0.zone
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 4.0
+pset / pwell / zone / zone_radius_04.0.zone
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 8.0
+pset / pwell / zone / zone_radius_08.0.zone
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 16.0
+pset / pwell / zone / zone_radius_16.0.zone
+
+pset / pwell / attribute / dfield_well / 1 0 0 / le / 32.0
+pset / pwell / zone / zone_radius_32.0.zone
+</code></pre></div></div>
+
+<!-- Next / Prev -->
+<ul class="uk-pagination">
+    <li><a href="/pages/tutorial/stratigraphy/step_07.html"><span class="uk-margin-small-right" uk-pagination-previous=""></span> Previous</a></li>
+    <li class="uk-margin-auto-left"><a href="/pages/tutorial/stratigraphy/step_09.html">Next <span class="uk-margin-small-left" uk-pagination-next=""></span></a></li>
+</ul>
+
+<!-- Sidebar -->
+<div class="tm-sidebar-right uk-visible@l">
+    <div uk-sticky="offset: 160" class="uk-sticky uk-active uk-sticky-fixed" style="position: fixed; top: 160px; width: 200px;">
+        <ul uk-scrollspy-nav="closest: li; scroll: true; offset: 100" class="uk-nav uk-nav-default tm-nav uk-nav-parent-icon">
+            <li class=""><a href="/pages/tutorial/stratigraphy/index.html">Index</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_01.html">1. Building a Hex Mesh</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_02.html">2. Define Boundaries Using Point Sets</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_03.html">3. Constructing Stratigraphy</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_04.html">4. Map Surfaces to Mesh</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_05.html">5. Constructing a Fault</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_06.html">6. Truncate with Polyline</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_07.html">7. Refine Fault</a></li>
+            <li class="uk-active"><a href="#insert-well">8. Insert Wells</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_09.html">9. Convert Hex Mesh to Tet</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_fehm.html">10.1 Write FEHM Files</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_exo.html">10.2 Write ExodusII Files</a></li>
+            <li class="uk-nav-divider"></li>
+            <!---->
+            <li><a href="/pages/tutorial/stratigraphy/images/gallery.html" target="_blank"><span uk-icon="icon: image" class="uk-margin-small-right uk-icon"></span> <span class="uk-text-middle">Image Gallery</span></a></li>
+            <li><a href="https://github.com/lanl/LaGriT/issues" target="_blank"><span uk-icon="icon: warning" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="warning"><circle cx="10" cy="14" r="1"></circle><circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle><path d="M10.97,7.72 C10.85,9.54 10.56,11.29 10.56,11.29 C10.51,11.87 10.27,12 9.99,12 C9.69,12 9.49,11.87 9.43,11.29 C9.43,11.29 9.16,9.54 9.03,7.72 C8.96,6.54 9.03,6 9.03,6 C9.03,5.45 9.46,5.02 9.99,5 C10.53,5.01 10.97,5.44 10.97,6 C10.97,6 11.04,6.54 10.97,7.72 L10.97,7.72 Z"></path></svg></span> <span class="uk-text-middle">Report issue</span></a></li>
+            <li><a href="mailto:lagrit-dev@lanl.gov" target="_blank"><span uk-icon="icon: commenting" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="commenting"><polygon fill="none" stroke="#000" points="1.5,1.5 18.5,1.5 18.5,13.5 10.5,13.5 6.5,17.5 6.5,13.5 1.5,13.5"></polygon><circle cx="10" cy="8" r="1"></circle><circle cx="6" cy="8" r="1"></circle><circle cx="14" cy="8" r="1"></circle></svg></span> <span class="uk-text-middle">Get help</span></a></li>
+        </ul>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

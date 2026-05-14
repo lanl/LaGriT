@@ -50,8 +50,9 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 
 
 For 2D and connecting points on a planar surface, the mesh must have **ndimensions_topo**=2 and **ndimensions_geom**=2. This command will create a mesh object with settings appropriate for the connect command.
+*Note: the command will fail if you forget the spaced slashes acting a place holders for other options.*
 ```
-cmo/create/ cmotri / triplane
+cmo/create/ cmotri / / / triplane
 ```
 
 

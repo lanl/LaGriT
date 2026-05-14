@@ -1,0 +1,370 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>Building an executable with LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="building-an-executable-with-lagrit">Building an executable with LaGriT</h1>
+
+<hr />
+
+<p>The executable is built by linking a driver routine with the code and
+utility libraries. The driver routine must contain a call to initLaGriT
+and a call to control_command_lg and must contain a subroutine called
+user_sub. </p>
+
+<p>The input arguments to initLaGriT are:</p>
+
+<p><strong>mode</strong> - set to ‘noisy’ for output to be echoed to the screen - set to
+‘silent’ for no echo</p>
+
+<p><strong>log_file</strong> - name of log file (if ‘ ‘ or ‘-def-‘ use default name which
+is lagrit.log)  This file will contain a list of commands.</p>
+
+<p><strong>batch_file</strong> - name of batch file (if ‘ ‘ or ‘-def-‘ use default name
+which is lagrit.out). This file will contain a list of commands and the
+error, warning and informational messages generated by the command.
+User_sub is used to implement user commands, see <a href="/pages/docs/writing.html">User Commands</a>.</p>
+
+<p>A sample Fortran driver routine is listed below (C++ examples are in examples/liblagrit/):</p>
+
+<pre>
+program adrivgen
+
+C PURPOSE LaGriT driver
+
+     implicit none
+     integer ierror_return
+     
+     call initLaGriT('noisy',' ',' ')
+     
+     call control_command_lg(ierror_return)
+     
+     stop
+     end
+     
+C Subroutine user_sub
+C
+C PURPOSE 
+C      Process user supplied commands
+C
+C INPUT ARGUMENTS 
+C
+C      imsgin - integer array of tokens returned by parser
+C      xmsgin - real array of tokens returned by parser
+C      cmsgin - character array of tokens returned by parser
+C      msgtyp - int array of token types returned by parser
+C      nwds - number of tokens returned by parser
+C
+C OUTPUT ARGUMENTS 
+C
+C      ierr1 - 0 for successful completion - -1 otherwise
+     subroutine user_sub(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
+
+     character*32 cmsgin(nwds)
+     integer imsgin(nwds),msgtyp(nwds)
+     integer nwds,ierr1,lenc
+     real*8 xmsgin(nwds)
+     
+C    set default error return to fail
+     ierr1=-1
+     
+C    Insert code here to handle user coded subroutines
+C    For example
+
+     if(cmsgin(1).eq.'my_cmnd') then
+       call my_rtn(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
+     else
+       ierr1=-1
+     endif
+     
+     return
+     end    
+</pre>
+
+<h3 id="sample-build-scripts">Sample build scripts</h3>
+
+<p>LaGriT can be compiled on most modern machines including Linux, and Mac. WINDOWS is still under development, but pre-cmake versions were successful under Cygwin. LaGriT now uses cmake to build with or without external libraries such as Seacas Exodus.</p>
+
+<p>The most recent instructions can be found on the github pages.</p>
+
+<p>Simple install, build, and test: <a href="https://github.com/lanl/LaGriT/blob/master/README.md">LaGriT Github README</a></p>
+
+<p>Build options and instructions for developers: <a href="https://github.com/lanl/LaGriT/blob/master/cmake/README.md">LaGriT Github cmake README</a></p>
+
+<h3 id="running-lagrit">Running LaGriT</h3>
+
+<p>To execute, use standard unix file redirection for standard input and
+output. LaGriT will produce two additional files, lagrit.out and
+lagrit.log. The user can change the names of these files by supplying new
+names as arguments in the call to initLaGriT before compiling.  These files contain
+detailed output information and the list of commands respectively.
+LaGriT may also be run interactively in which case the user will be
+prompted to enter commands at the machine prompt.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lagrit &lt; lagrit_command_file
+</code></pre></div></div>
+
+<h3 id="the-following-are-examples-to-build-old-releases-pre-v32-but-may-be-helpful-on-older-machines">The following are examples to build old releases (pre V3.2) but may be helpful on older machines.</h3>
+
+<p><strong>Sun OS and Sun Solaris forte version 7 compiler:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 -O2 -lf77compat -o LaGriTgen adrivgen.f libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p>if the user wishes to link in user subroutines that contain CRAY type
+pointer statements, these routines must be compiled using the f77
+compiler and then the .o files linked in with f90:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f77 -c -O2 user_routines.f
+f90 -O2 -lf77compat -o LaGriTgen adrivgen.f user_routines.o
+libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p>older sun compilers:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 -O2 -o LaGriTgen adrivgen.f libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p><strong>IBM RISC</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xlf -g -o LaGriTgen -qintlog -qcharlen=500 -brename:.fdate,.fdate_
+adrivgen.f
+libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p><strong>SGI</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 -O2 -n32 -r10000 -o LaGriTgen adrivgen.f libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p>Compile for 64 bit I8 SGI:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 -O2 -64 -i8 -o LaGriTgen adrivgen.f  libLaGriT.a libutil.
+</code></pre></div></div>
+
+<p><strong>HP:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 +U77 -R8 -lm -o LaGriTgen adrivgen.f libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p><strong>DEC COMPAQ compiler</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>fort -i8 -O -fast -pipeline -transform_loops -o LaGriTgen 
+adrivgen.f  libLaGriT.a libutil.a
+</code></pre></div></div>
+
+<p><strong>ABSOFT compiler</strong>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>f90 -YTEXT_NAMES=LCS  -o LaGriTgen adrivgen.f fdate.f libLaGriT.a
+libutila. -lm -lu77
+</code></pre></div></div>
+
+<p>where fdate.f is</p>
+<pre>
+    subroutine fdate(string)
+    character*(*) string
+    call fdate_(string)
+    return
+    end
+</pre>
+
+<p><strong>LINUX</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if ($OSTYPE == 'Linux') then
+  set OSTAG = _lin
+  set F77FLAG = "-c -f -m32 -YEXT_NAMES=ASIS"
+  set F90FLAG = "-m32 -YEXT_NAMES=ASIS" 
+  set LINKFLAG = "-lm -lU77"
+  set F90DIR = /opt/absoft10.0/bin
+
+else if ($OSTYPE == 'Darwin') then
+  set OSTAG = _mac
+  set F77FLAG = "-c -f -N113 -N90 -B19 -q"
+  set F90FLAG = "" 
+  set LINKFLAG = " -lU77"
+  set F90DIR = /Applications/Absoft/bin
+
+else if ($OSTYPE == 'SunOS') then
+  set OSTAG = _sun
+  source /n/env/local.forte.7
+  set F77FLAG = -c
+  set F90FLAG = "-lf77compat " 
+  set LINKFLAG = " "
+  set F90DIR = /n/local_SunOS/forte7/SUNWspro/bin 
+
+else
+  echo 'OS $OSTYPE not recognized ' 
+  exit 1
+endif
+
+set FFILES = "lagrit_main.f lagrit_fdate.f" 
+set OFILES = "lagrit_main.o lagrit_fdate.o" 
+set binname = lagrit$OSTAG$COPT
+set binname_date = lagrit$OSTAG$COPT$DATETAG
+set liblagrit = lagrit$OSTAG$COPT.a
+set libutil = util$OSTAG$COPT.a
+'rm' -f *.o
+
+$F90DIR/f77 $CFLAG $F77FLAG $FFILES
+$F90DIR/f90 $CFLAG $F90FLAG -o $binname $OFILES $LAGRIT_LIBS/$liblagrit $UTIL_LIBS/$libutil $LINKFLAG
+</code></pre></div></div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

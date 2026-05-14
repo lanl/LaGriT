@@ -1,0 +1,590 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 9.4.0                  *                 
+*               *    Date Compile: 2024/05/06                 *                 
+*               *    Run Time: 2025/Apr  3  10:49:56          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# Tutorial LaGriT Introduction                                                  
+# Step 4. Write Mesh and FEHM setup files                                       
+# Uses commands dump/fehm and pset write                                        
+# -----------------------------------------                                     
+# Read tet mesh with materials from Example 3                                   
+read/avs/tet_interp_materials.inp/mo_tet                                        
+geniee                                                                          
+finish                                                                          
+cmo/status/brief                                                                
+ 
+The current-mesh-object(CMO) is: mo_tet                                         
+ 
+  1 Mesh Object name: mo_tet                                                    
+    number of nodes =          1122        number of elements =         4800    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+ 
+finish                                                                          
+# -----------------------------------------                                     
+# Check there are no negative volumes                                           
+# Check node materials are defined as expected                                  
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   3.0526086E-11  2.8445488E-32                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :        926                          
+elements with aspect ratio b/w .5  and 1. :       3874                          
+min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00                  
+ 
+epsilonvol:   8.8817842E-08                                                     
+---------------------------------------                                         
+All elements have volume  8.3333333E+01                                         
+-----------------------------------------------------------                     
+      4800 total elements evaluated.                                            
+ 
+cmo/printatt/mo_tet/imt minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                4               3      1122  
+ 
+# -----------------------------------------                                     
+# FEHM does not use element materials                                           
+# Set to 1 avoids algorithms using multi-material elements                      
+# Materials are changed so reset itp to be safe                                 
+cmo/select/mo_tet                                                               
+cmo/setatt/mo_tet itetclr 1                                                     
+      4800 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# Remove double-defined nodes and duplicates                                    
+# Good practice to include these commands with final mesh                       
+# Nothing will happen if not needed                                             
+cmo/select/mo_tet                                                               
+resetpts/parent                                                                 
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.305260862918E-10                       
+FILTER:Dudding duplicate points:           0                                    
+rmpoint/compress                                                                
+         0 points removed and          0 elements removed.                      
+RMPOINT: new point count is         1122                                        
+RMPOINT: new element count is       4800                                        
+# -----------------------------------------                                     
+# Write default FEHM files                                                      
+dump/fehm/tet/mo_tet/keepatt                                                    
+*** Write FEHMN GEOM AND ZONE FILES ***                                         
+*********dump_material_lists********                                            
+Minimum material ID value =      1                                              
+Maximum material ID value =      4                                              
+Total possible materials  =      4                                              
+Material           1 has       468 nodes. #nodes/nnodes is   0.417112290859     
+Material           2 has       270 nodes. #nodes/nnodes is   0.240641713142     
+Material           3 has       204 nodes. #nodes/nnodes is   0.181818187237     
+Material           4 has       180 nodes. #nodes/nnodes is   0.160427808762     
+*********dump_interface_list********                                            
+*********dump_multi_material_list********                                       
+Material         1 has       351 multi-material connections.                    
+Material         2 has       626 multi-material connections.                    
+Material         3 has       357 multi-material connections.                    
+Material         4 has       688 multi-material connections.                    
+log/tty/off                                                                     
+finish                                                                          
+*********dump_outside_list********                                              
+Voronoi Areas used for outside faces.                                           
+ 
+assign_quadrant_id epsilon for zero:   1.0000000E-15                            
+cmo/addatt/mo_tet/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
+finish                                                                          
+Face top           1 has        66 nodes.                                       
+top        Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.2500000E+03   0.5000000E+03   0.5000000E+04            
+cmo/addatt/mo_tet/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Face bottom        2 has        66 nodes.                                       
+bottom     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.2500000E+03   0.5000000E+03   0.5000000E+04            
+cmo/addatt/mo_tet/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Face left_w        3 has       102 nodes.                                       
+left_w     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.4000000E+04   0.8000000E+03   0.5000000E+03            
+cmo/addatt/mo_tet/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/        
+finish                                                                          
+Face right_e       5 has       102 nodes.                                       
+right_e    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.4000000E+04   0.8000000E+03   0.5000000E+03            
+cmo/addatt/mo_tet/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Face back_n        6 has       187 nodes.                                       
+back_n     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.8000000E+03   0.8000000E+04   0.1000000E+04            
+cmo/addatt/mo_tet/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/        
+finish                                                                          
+Face front_s       4 has       187 nodes.                                       
+front_s    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.8000000E+03   0.8000000E+04   0.1000000E+04            
+log/tty/on                                                                      
+finish                                                                          
+*********dump_parent_list********                                               
+ 
+*** Construct and Compress Sparse Matrix:3D ***                                 
+   *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1122  ncoefs =       7144                         
+AMatbld3d_stor: Number of unique coefs =         6                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
+AMatbld3d_stor: Volume min =   6.2500000E+01                                    
+AMatbld3d_stor: Volume max =   5.0000000E+02                                    
+AMatbld3d_stor: Total Volume:   4.0000000E+05                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   2.0000000E+01                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -2.0000000E+01                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
+ascii STOR file written with name tet.stor                                      
+ 
+*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name tet.stor                           
+ 
+# Write AVS file with attributes created for FEHM files                         
+dump/avs/tet_fehm.inp/mo_tet                                                    
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+# CHECK for neg ccoefs in the interior mesh                                     
+cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/                           
+cmo select mo_tet                                                               
+pset pin attribute itp 1,0,0 lt 10                                              
+ 
+ THE PSET  pin  HAS        540 POINTS                                           
+pset pneg attribute ccoef 1,0,0 lt -.0001                                       
+ 
+ THE PSET  pneg  HAS          0 POINTS                                          
+pset pBAD inter pin pneg                                                        
+ 
+ THE PSET  pBAD  HAS          0 POINTS                                          
+cmo printatt mo_tet ccoef minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ 
+cmo printatt mo_tet -all- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                        1122             1122               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     4800             4800               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                1               1      1122  
+ ialias                           0                0               0      1122  
+ imt1                             1                4               3      1122  
+ itp1                             0               10              10      1122  
+ icr1                             0                0               0      1122  
+ isn1                             0                0               0      1122  
+ xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122  
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      1122  
+ zic                0.000000000E+00  8.000000000E+01 8.000000000E+01      1122  
+ xtetwd                           0                0               0      4800  
+ itetclr                          1                1               0      4800  
+ itettyp                          5                5               0      4800  
+ itetoff                          0            19196           19196      4800  
+ jtetoff                          0            19196           19196      4800  
+ itet                             1             1122            1121      4800x4
+ jtet                             1         16000000        15999999      4800x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.052608629E-11  3.052608629E-11 0.000000000E+00         1  
+ epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
+ epsilonv           8.881784197E-08  8.881784197E-08 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                       1122             1122               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+02  1.000000000E+02 0.000000000E+00         1  
+ ymax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ zmax               8.000000000E+01  8.000000000E+01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  3                3               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ top                             -5                1               6      1122  
+ bottom                          -5                2               7      1122  
+ left_w                          -5                3               8      1122  
+ right_e                         -5                5              10      1122  
+ back_n                          -5                6              11      1122  
+ front_s                         -5                4               9      1122  
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ 
+# -----------------------------------------                                     
+# Create zone file for vertical well                                            
+# Use region defined by box surface                                             
+# vertical column at 50x 20y end at 20z                                         
+# surfaces and regions are assigned to current mesh object                      
+# make sure the one you want is selected                                        
+cmo/select/mo_tet                                                               
+surface/s_box/reflect/box/49.5 19.5 19./50.5 20.5 100.                          
+cmo/addatt//ncon50/INT/scalar/scalar/constant/permanent/l/0                     
+finish                                                                          
+cmo/addatt//nconbnd/INT/scalar/scalar/constant/permanent/l/0                    
+finish                                                                          
+cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0                 
+finish                                                                          
+region/r_box/le s_box                                                           
+pset/pwell/region/r_box                                                         
+ 
+ THE PSET  pwell  HAS         13 POINTS                                         
+# check extents of the well nodes                                               
+cmo/printatt/mo_tet/-xyz-/minmax/pset,get,pwell                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                5.000000000E+01  5.000000000E+01 0.000000000E+00      1122  
+ yic                2.000000000E+01  2.000000000E+01 0.000000000E+00      1122  
+ zic                2.000000000E+01  8.000000000E+01 6.000000000E+01      1122  
+ 
+# Write the list of nodes to a zone file                                        
+# Assign a zone number larger than max material                                 
+pset/pwell/zone/tet_well_nodes.zone/ascii/11                                    
+PSET: THERE ARE  4 PSETS DEFINED                                                
+  pin               pneg              pBAD              pwell                   
+PSET: OUTPUT pwell    1 PSETS TO FILE                                           
+# -----------------------------------------                                     
+# Add mesh object attributes for mesh views                                     
+cmo/addatt/mo_tet iwell/VINT/scalar/nnodes/linear/permanent//0                  
+cmo/setatt/mo_tet/iwell/pset,get,pwell/11                                       
+        13 values reset for attribute iwell                                     
+ 
+cmo/printatt/mo_tet/iwell/minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ iwell                            0               11              11      1122  
+ 
+# Add elevation attribute for mesh views                                        
+cmo/addatt/mo_tet elev/VDOUBLE/scalar/nnodes/                                   
+cmo/copyatt/mo_tet mo_tet/elev zic                                              
+      1122 copied from mo_tet zic to -> mo_tet elev                             
+ 
+# save node id to node attributes for visual checks                             
+cmo/set_id/mo_tet/node/id_node                                                  
+cmo/addatt/mo_tet id_node/VINT/scalar/nnodes/linear/permanent//0                
+finish                                                                          
+# Write the final tet mesh with all attributes                                  
+dump/avs/tet_attributes.inp/mo_tet                                              
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/printatt/mo_tet/-all- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                        1122             1122               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                     4800             4800               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           0                9               9      1122  
+ ialias                           0                0               0      1122  
+ imt1                             1                4               3      1122  
+ itp1                             0               10              10      1122  
+ icr1                             0                0               0      1122  
+ isn1                             0                0               0      1122  
+ xic                0.000000000E+00  1.000000000E+02 1.000000000E+02      1122  
+ yic                0.000000000E+00  5.000000000E+01 5.000000000E+01      1122  
+ zic                0.000000000E+00  8.000000000E+01 8.000000000E+01      1122  
+ xtetwd                           0                0               0      4800  
+ itetclr                          1                1               0      4800  
+ itettyp                          5                5               0      4800  
+ itetoff                          0            19196           19196      4800  
+ jtetoff                          0            19196           19196      4800  
+ itet                             1             1122            1121      4800x4
+ jtet                             1         16000000        15999999      4800x4
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.052608629E-11  3.052608629E-11 0.000000000E+00         1  
+ epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
+ epsilonv           8.881784197E-08  8.881784197E-08 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                       1122             1122               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+02  1.000000000E+02 0.000000000E+00         1  
+ ymax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ zmax               8.000000000E+01  8.000000000E+01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  4                4               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ top                             -5                1               6      1122  
+ bottom                          -5                2               7      1122  
+ left_w                          -5                3               8      1122  
+ right_e                         -5                5              10      1122  
+ back_n                          -5                6              11      1122  
+ front_s                         -5                4               9      1122  
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122  
+ ncon50                        2500             2500               0         1  
+ nconbnd                          1                1               0         1  
+ icontab                          0                2               2      2500  
+ iwell                            0               11              11      1122  
+ elev               0.000000000E+00  8.000000000E+01 8.000000000E+01      1122  
+ id_node                          1             1122            1121      1122  
+ 
+cmo/status/mo_tet                                                               
+ 
+The current-mesh-object(CMO) is: mo_tet                                         
+ 
+  1 Mesh Object name: mo_tet                                                    
+    number of nodes =          1122        number of elements =         4800    
+    dimensions geometry =         3        element type =                tet    
+    dimensions topology =         3        4 nodes      4 faces      6 edges    
+    boundary flag =        16000000        status =                   active    
+ 
+          NAME     TYPE     RANK        LENGTH      INTER PERSI IO   VALUE      
+ 
+  1           -def- VDOU     scalar          nnodes linea tempo   x  0.000E+00  
+  2          scalar  INT     scalar          scalar const perma   l  1.000E+00  
+  3          vector  INT     scalar          scalar const perma   l  3.000E+00  
+  4          nnodes  INT     scalar          scalar const perma   l  1.122E+03  
+  5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
+  6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
+  7       nelements  INT     scalar          scalar const perma   l  4.800E+03  
+  8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
+  9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
+ 10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
+ 11 nodes_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 12 edges_per_eleme  INT     scalar          scalar const perma   l  6.000E+00  
+ 13 faces_per_eleme  INT     scalar          scalar const perma   l  4.000E+00  
+ 14          isetwd VDOU     scalar          nnodes    or perma   l  0.000E+00  
+ 15          ialias VINT     scalar          nnodes seque perma   l  0.000E+00  
+ 16            imt1 VINT     scalar          nnodes   max perma gal  0.000E+00  
+ 17            itp1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 18            icr1 VINT     scalar          nnodes   min perma gal  0.000E+00  
+ 19            isn1 VINT     scalar          nnodes  user perma gal  0.000E+00  
+ 20             xic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 21             yic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 22             zic VDOU     scalar          nnodes linea perma   l  0.000E+00  
+ 23          xtetwd VDOU     scalar       nelements    or perma   l  0.000E+00  
+ 24         itetclr VINT     scalar       nelements  user perma   l  0.000E+00  
+ 25         itettyp VINT     scalar       nelements  user perma   l  0.000E+00  
+ 26         itetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 27         jtetoff VINT     scalar       nelements  user perma   l  0.000E+00  
+ 28            itet VINT nodes_per_       nelements  user perma   l  0.000E+00  
+ 29            jtet VINT faces_per_       nelements  user perma   l  0.000E+00  
+ 30        ipolydat CHAR     scalar          scalar const perma   l no          
+ 31           vor2d CHAR     scalar          scalar const perma   l yes         
+ 32           vor3d CHAR     scalar          scalar const perma   l no          
+ 33         epsilon REAL     scalar          scalar const perma   l  1.000E-15  
+ 34        epsilonl REAL     scalar          scalar const perma   l  3.053E-11  
+ 35        epsilona REAL     scalar          scalar const perma   l  4.197E-09  
+ 36        epsilonv REAL     scalar          scalar const perma   l  8.882E-08  
+ 37         ipointi  INT     scalar          scalar const perma   l  1.000E+00  
+ 38         ipointj  INT     scalar          scalar const perma   l  1.122E+03  
+ 39          idebug  INT     scalar          scalar const perma   l  0.000E+00  
+ 40     itypconv_sm  INT     scalar          scalar const perma   l  1.000E+00  
+ 41      maxiter_sm  INT     scalar          scalar const perma   l  2.500E+01  
+ 42      tolconv_sm REAL     scalar          scalar const perma   l  1.000E+00  
+ 43          nnfreq  INT     scalar          scalar const perma   l  1.000E+00  
+ 44        ivoronoi  INT     scalar          scalar const perma   l  1.000E+00  
+ 45        iopt2to2  INT     scalar          scalar const perma   l  2.000E+00  
+ 46        dumptype CHAR     scalar          scalar const perma   l binary      
+ 47         velname CHAR     scalar          scalar const perma   l vels        
+ 48        densname CHAR     scalar          scalar const perma   l ric         
+ 49        presname CHAR     scalar          scalar const perma   l pic         
+ 50        enername CHAR     scalar          scalar const perma   l eic         
+ 51            xmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 52            ymin REAL     scalar          scalar const perma   l  0.000E+00  
+ 53            zmin REAL     scalar          scalar const perma   l  0.000E+00  
+ 54            xmax REAL     scalar          scalar const perma   l  1.000E+02  
+ 55            ymax REAL     scalar          scalar const perma   l  5.000E+01  
+ 56            zmax REAL     scalar          scalar const perma   l  8.000E+01  
+ 57    kdtree_level  INT     scalar          scalar const perma   l  0.000E+00  
+ 58 max_number_sets  INT     scalar          scalar const perma   l  6.400E+01  
+ 59 number_of_psets  INT     scalar          scalar const perma   l  4.000E+00  
+ 60 number_of_eltse  INT     scalar          scalar const perma   l  0.000E+00  
+ 61       psetnames VCHA     scalar max_number_sets const perma   l             
+ 62     eltsetnames VCHA     scalar max_number_sets const perma   l             
+ 63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
+ 64       fsetnames VCHA     scalar max_number_sets const perma   l             
+ 65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
+ 66             top VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 67          bottom VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 68          left_w VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 69         right_e VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 70          back_n VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 71         front_s VINT     scalar          nnodes linea perma afg -5.000E+00  
+ 72           ccoef VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 73          ncon50  INT     scalar          scalar const perma   l  2.500E+03  
+ 74         nconbnd  INT     scalar          scalar const perma   l  1.000E+00  
+ 75         icontab VINT     scalar          ncon50 const perma   l  0.000E+00  
+ 76           iwell VINT     scalar          nnodes linea perma agl  0.000E+00  
+ 77            elev VDOU     scalar          nnodes linea tempo agl  0.000E+00  
+ 78         id_node VINT     scalar          nnodes linea perma agl  0.000E+00  
+# Create a mesh object with just nodes                                          
+# Remove all nodes not in the well zone                                         
+cmo/create/motmp                                                                
+copypts/motmp/mo_tet                                                            
+cmo/addatt/motmp/top/VINT/scalar/nnodes/linear/permanent/afgx/0.0               
+finish                                                                          
+cmo/addatt/motmp/bottom/VINT/scalar/nnodes/linear/permanent/afgx/0.0            
+finish                                                                          
+cmo/addatt/motmp/left_w/VINT/scalar/nnodes/linear/permanent/afgx/0.0            
+finish                                                                          
+cmo/addatt/motmp/right_e/VINT/scalar/nnodes/linear/permanent/afgx/0.0           
+finish                                                                          
+cmo/addatt/motmp/back_n/VINT/scalar/nnodes/linear/permanent/afgx/0.0            
+finish                                                                          
+cmo/addatt/motmp/front_s/VINT/scalar/nnodes/linear/permanent/afgx/0.0           
+finish                                                                          
+cmo/addatt/motmp/ccoef/VDOUBLE/scalar/nnodes/linear/temporary/agltn/0.0         
+finish                                                                          
+cmo/addatt/motmp/iwell/VINT/scalar/nnodes/linear/permanent/agltn/0.0            
+finish                                                                          
+cmo/addatt/motmp/elev/VDOUBLE/scalar/nnodes/linear/temporary/agltn/0.0          
+finish                                                                          
+cmo/addatt/motmp/id_node/VINT/scalar/nnodes/linear/permanent/agltn/0.0          
+finish                                                                          
+copypts added nodes          1 to       1122                                    
+cmo/select/motmp                                                                
+pset/pduds/attribute iwell/1,0,0/ne 11                                          
+ 
+ THE PSET  pduds  HAS       1109 POINTS                                         
+rmpoint/pset,get,pduds                                                          
+ Dudded       1109 points plus parents, there are no elements in mesh.          
+rmpoint/compress                                                                
+      1109 points removed and          0 elements removed.                      
+RMPOINT: new point count is           13                                        
+RMPOINT: new element count is          0                                        
+# Write well nodes with all attributes                                          
+# Use AVS UCD pnt format for paraview                                           
+dump/avs/tet_well_pnts.inp/motmp/1 3 1 0 0                                      
+Writing AVS UCD PT ELEMENTS.                                                    
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+cmo/printatt/motmp/-all- minmax                                                 
+Warning: nelements = 0                                                          
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00        13  
+ scalar                           1                1               0         1  
+ vector                           3                3               0         1  
+ nnodes                          13               13               0         1  
+ nedges                           0                0               0         1  
+ nfaces                           0                0               0         1  
+ nelements                        0                0               0         1  
+ mbndry                    16000000         16000000               0         1  
+ ndimensions_topo                 3                3               0         1  
+ ndimensions_geom                 3                3               0         1  
+ nodes_per_element                4                4               0         1  
+ edges_per_element                6                6               0         1  
+ faces_per_element                4                4               0         1  
+ isetwd                           8                8               0        13  
+ ialias                           0                0               0        13  
+ imt1                             1                4               3        13  
+ itp1                             0               10              10        13  
+ icr1                             0                0               0        13  
+ isn1                             0                0               0        13  
+ xic                5.000000000E+01  5.000000000E+01 0.000000000E+00        13  
+ yic                2.000000000E+01  2.000000000E+01 0.000000000E+00        13  
+ zic                2.000000000E+01  8.000000000E+01 6.000000000E+01        13  
+ 0 length attribute: xtetwd                                                     
+ 0 length attribute: itetclr                                                    
+ 0 length attribute: itettyp                                                    
+ 0 length attribute: itetoff                                                    
+ 0 length attribute: jtetoff                                                    
+ 0 length attribute: itet                                                       
+ 0 length attribute: jtet                                                       
+ epsilon            1.000000004E-15  1.000000004E-15 0.000000000E+00         1  
+ epsilonl           3.052608629E-11  3.052608629E-11 0.000000000E+00         1  
+ epsilona           4.196643033E-09  4.196643033E-09 0.000000000E+00         1  
+ epsilonv           8.881784197E-08  8.881784197E-08 0.000000000E+00         1  
+ ipointi                          1                1               0         1  
+ ipointj                         13               13               0         1  
+ idebug                           0                0               0         1  
+ itypconv_sm                      1                1               0         1  
+ maxiter_sm                      25               25               0         1  
+ tolconv_sm         1.000000000E+00  1.000000000E+00 0.000000000E+00         1  
+ nnfreq                           1                1               0         1  
+ ivoronoi                         1                1               0         1  
+ iopt2to2                         2                2               0         1  
+ xmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ ymin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ zmin               0.000000000E+00  0.000000000E+00 0.000000000E+00         1  
+ xmax               1.000000000E+02  1.000000000E+02 0.000000000E+00         1  
+ ymax               5.000000000E+01  5.000000000E+01 0.000000000E+00         1  
+ zmax               8.000000000E+01  8.000000000E+01 0.000000000E+00         1  
+ kdtree_level                     0                0               0         1  
+ max_number_sets                 64               64               0         1  
+ number_of_psets                  1                1               0         1  
+ number_of_eltsets                0                0               0         1  
+ number_of_fsets                  0                0               0         1  
+ top                             -5                1               6        13  
+ bottom                          -5               -5               0        13  
+ left_w                          -5               -5               0        13  
+ right_e                         -5               -5               0        13  
+ back_n                          -5               -5               0        13  
+ front_s                         -5               -5               0        13  
+ ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00        13  
+ iwell                           11               11               0        13  
+ elev               2.000000000E+01  8.000000000E+01 6.000000000E+01        13  
+ id_node                        292             1084             792        13  
+ 
+finish                                                                          
+LaGriT successfully completed                                                   

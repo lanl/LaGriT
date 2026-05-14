@@ -1,5 +1,8 @@
-=======================================================================
+This documentation is from web based pages before github and pre-2017
+See current version notes under docs/pages/release_notes
+Visit manual pages at https://lanl.github.io/LaGriT/pages/release.html
 
+=======================================================================
 Latest code in github is the dev version in Ubuntu 14 modules:
 module unload lagrit
 module load lagrit/3.2.0/dev/gcc-4.8.4

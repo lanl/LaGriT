@@ -1,0 +1,731 @@
+ 
+ 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+*               *                                             *                 
+*               *    Program:  LaGriT V3.320   Linux          *                 
+*               *    date_compile: 2019/04/15 Static          *                 
+*               *    Run Time: 2020/Aug  6  14:16:10          *                 
+*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *                                             *                 
+*               * * * * * * * * * * * * * * * * * * * * * * * *                 
+ 
+                               -----oOo-----                                    
+             LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+  Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
+  program was produced under U.S. Government contract 89233218CNA000001         
+  for Los Alamos National Laboratory (LANL), which is operated by Triad         
+  National Security, LLC for the U.S. Department of Energy/National Nuclear     
+  Security Administration.  All rights in the program are reserved by Triad     
+  National Security, LLC, and the U.S. Department of Energy/National Nuclear    
+  Security Administration. The Government is granted for itself and others      
+  acting on its behalf a nonexclusive, paid-up, irrevocable worldwide license   
+  in this material to reproduce, prepare derivative works, distribute copies    
+  to the public, perform publicly and display publicly, and to permit others to 
+  do so. This software is open source and available under the BSD-3 License.    
+                               -----oOo-----                                    
+ 
+ 
+Output log file: lagrit.out                                                     
+Command log file: lagrit.log                                                    
+ 
+# Regular Hex Mesh with Materials from surface regions                          
+# This mesh is truncated by the top surface                                     
+# This will result in stair-stepped geometries                                  
+# But will connect into a Delaunay tet mesh                                     
+#-------------------------------------------------                              
+# Create the hex mesh                                                           
+# This can be done with a single call to createpts                              
+# Or with multiple calls with various resolutions                               
+define/XMIN/0.                                                                  
+define/YMIN/0.                                                                  
+define/ZMIN/0.                                                                  
+define/XMAX/20.                                                                 
+define/YMAX/10.                                                                 
+define NX 21                                                                    
+define NY 11                                                                    
+# Vertical spacing                                                              
+define/ZMAX/18.                                                                 
+define/Z2/10.                                                                   
+define/Z1/5.                                                                    
+define/ZMIN/0.                                                                  
+cmo/create/cmohex///hex                                                         
+cmo/select/cmohex                                                               
+# Vertical spacing from middle to top                                           
+createpts/brick/xyz/NX NY 28/XMIN YMIN Z2/XMAX YMAX ZMAX                        
+          Number of nodes:        6468                                          
+          Number of elements:        5400                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.160000000000E+04                                  
+dump/tmp_hex01.inp/cmohex                                                       
+dump/avs/tmp_hex01.inp/cmohex                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Vertical spacing from middle 1 to middle 2                                    
+createpts/brick/xyz/NX NY 11/XMIN YMIN Z1/XMAX YMAX Z2                          
+          Number of nodes:        9009                                          
+          Number of elements:        7400                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+dump/tmp_hex0102.inp/cmohex                                                     
+dump/avs/tmp_hex0102.inp/cmohex                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# Vertical spacing bottom to middle                                             
+createpts/brick/xyz/NX NY 6/XMIN YMIN ZMIN/XMAX YMAX Z1                         
+          Number of nodes:       10395                                          
+          Number of elements:        8400                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.100000000000E+04                                  
+dump/tmp_hex010203.inp/cmohex                                                   
+dump/avs/tmp_hex010203.inp/cmohex                                               
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/printatt/cmohex/-xyz- minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  2.000000000E+01 2.000000000E+01     10395  
+ yic                0.000000000E+00  1.000000000E+01 1.000000000E+01     10395  
+ zic                0.000000000E+00  1.800000000E+01 1.800000000E+01     10395  
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   6.3738792E-12  2.5894736E-34                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :          0                          
+elements with aspect ratio b/w .5  and 1. :       8400                          
+min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   7.9936058E-10                                                     
+---------------------------------------                                         
+element volumes b/w  0.2963E+00 and  0.3779E+00:      5400                      
+element volumes b/w  0.3779E+00 and  0.4820E+00:         0                      
+element volumes b/w  0.4820E+00 and  0.6147E+00:      2000                      
+element volumes b/w  0.6147E+00 and  0.7841E+00:         0                      
+element volumes b/w  0.7841E+00 and  0.1000E+01:      1000                      
+min volume =   2.9629630E-01  max volume =   1.0000000E+00                      
+-----------------------------------------------------------                     
+      8400 total elements evaluated.                                            
+ 
+#-------------------------------------------------                              
+# Create wave surfaces for regions                                              
+# translate to make multiple surfaces                                           
+# make sure surfaces extend beyond boundaries of hex mesh                       
+# z(i)=sin(x(i))                                                                
+# x coordinates 1-10 gives 2 complete 2pi cycles (0 to 6.28)                    
+# x coordinates 1-20 gives 4 cycles                                             
+# Use x coordinates to compute z based on sin()                                 
+# y coordinate detirmines length of surface                                     
+define/XMAX/20.                                                                 
+define/NX/40                                                                    
+define/YMAX/10.                                                                 
+define/NY/10                                                                    
+define SCALE_VAL 2.                                                             
+cmo/create/mosurf///quad                                                        
+cmo select mosurf                                                               
+quadxy/NX NY/0. 0. 0./XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./1 1 1                  
+  QUADXY GENERATED POINTS         1 TO       400                                
+createpts/brick/xyz/NX,NY,1/1 0 0/connect                                       
+          Number of nodes:         400                                          
+          Number of elements:         351                                       
+          Number of negative volume elements:           0                       
+          Total volume:     0.200000000000E+03                                  
+math/sin/mosurf/zic/1,0,0/mosurf/xic                                            
+scale/1 0 0/relative/xyz/SCALE_VAL SCALE_VAL SCALE_VAL                          
+cmo/setatt/mosurf/imt/1 0 0/1                                                   
+       400 values reset for attribute imt1                                      
+ 
+cmo/setatt/mosurf/itetclr/1 0 0/1                                               
+       351 values reset for attribute itetclr                                   
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/printatt/mosurf/-xyz-/minmax                                                
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ xic                0.000000000E+00  4.000000000E+01 4.000000000E+01       400  
+ yic                0.000000000E+00  2.000000000E+01 2.000000000E+01       400  
+ zic               -1.990597530E+00  1.998954553E+00 3.989552082E+00       400  
+ 
+trans/1 0 0/0. 0. 0./-1. -1. 8.0                                                
+cmo/addatt/mosurf/transauto/VDOUBLE/scalar/vector/user/permanent/x/0.0          
+finish                                                                          
+dump/surf_sin_01.inp/mosurf                                                     
+dump/avs/surf_sin_01.inp/mosurf                                                 
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/printatt/mosurf/zic minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zic                6.009402470E+00  9.998954553E+00 3.989552082E+00       400  
+ 
+cmo/copy/mosurf2/mosurf                                                         
+cmo/select/mosurf2                                                              
+trans/1 0 0/0. 0. 0./-1. 0. 6.8                                                 
+dump/surf_sin_02.inp/mosurf2                                                    
+dump/avs/surf_sin_02.inp/mosurf2                                                
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+cmo/printatt/mosurf2/zic minmax                                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ zic                1.280940247E+01  1.679895455E+01 3.989552082E+00       400  
+ 
+#-------------------------------------------------                              
+# Define Geometry                                                               
+# Color Hex Mesh with regions defined by surfaces                               
+# Save this hex mesh for coloring tets into hex shapes                          
+cmo select cmohex                                                               
+surface/s1/intrface/sheet/mosurf                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/permanent//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//permanent/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/permanent//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/permanent/x/0.0                   
+finish                                                                          
+log/tty/off                                                                     
+finish                                                                          
+cmo/DELATT/s1 isetwd                                                            
+finish                                                                          
+cmo/DELATT/s1 ialias                                                            
+finish                                                                          
+cmo/DELATT/s1 imt1                                                              
+finish                                                                          
+cmo/DELATT/s1 itp1                                                              
+finish                                                                          
+cmo/DELATT/s1 icr1                                                              
+finish                                                                          
+cmo/DELATT/s1 isn1                                                              
+finish                                                                          
+cmo/DELATT/s1 xtetwd                                                            
+finish                                                                          
+cmo/DELATT/s1 itetclr                                                           
+finish                                                                          
+log/tty/on                                                                      
+finish                                                                          
+surface/s2/intrface/sheet/mosurf2                                               
+cmo/addatt//v2/INT/scalar/scalar/constant/permanent//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//permanent/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/permanent//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/permanent/x/0.0                   
+finish                                                                          
+log/tty/off                                                                     
+finish                                                                          
+cmo/DELATT/s2 isetwd                                                            
+finish                                                                          
+cmo/DELATT/s2 ialias                                                            
+finish                                                                          
+cmo/DELATT/s2 imt1                                                              
+finish                                                                          
+cmo/DELATT/s2 itp1                                                              
+finish                                                                          
+cmo/DELATT/s2 icr1                                                              
+finish                                                                          
+cmo/DELATT/s2 isn1                                                              
+finish                                                                          
+cmo/DELATT/s2 xtetwd                                                            
+finish                                                                          
+cmo/DELATT/s2 itetclr                                                           
+finish                                                                          
+log/tty/on                                                                      
+finish                                                                          
+# set interfaces equal to one surface                                           
+region/r1/lt s1 and le s2                                                       
+region/r2/gt s1 and lt s2                                                       
+region/r3/ge s2                                                                 
+# interfaces are not equal to surface                                           
+mregion/mr1/lt s1 and lt s2                                                     
+mregion/mr2/gt s1 and lt s2                                                     
+mregion/mr3/gt s2                                                               
+setpts                                                                          
+ FOR imt=   1 NAME= mr1      THERE ARE            2981 POINTS                   
+ FOR imt=   2 NAME= mr2      THERE ARE            4862 POINTS                   
+ FOR imt=   3 NAME= mr3      THERE ARE            2552 POINTS                   
+settets                                                                         
+ Multimaterial tet:       1807 itet=      2086      2087      2108      2107    
+                                              2317      2318      2339      2338
+ Multimaterial tet:       1808 itet=      2087      2088      2109      2108    
+                                              2318      2319      2340      2339
+ Multimaterial tet:       1809 itet=      2088      2089      2110      2109    
+                                              2319      2320      2341      2340
+ Multimaterial tet:       1820 itet=      2099      2100      2121      2120    
+                                              2330      2331      2352      2351
+ Multimaterial tet:       1827 itet=      2107      2108      2129      2128    
+                                              2338      2339      2360      2359
+ Multimaterial tet:       1828 itet=      2108      2109      2130      2129    
+                                              2339      2340      2361      2360
+ Multimaterial tet:       1829 itet=      2109      2110      2131      2130    
+                                              2340      2341      2362      2361
+ Multimaterial tet:       1840 itet=      2120      2121      2142      2141    
+                                              2351      2352      2373      2372
+ Multimaterial tet:       1847 itet=      2128      2129      2150      2149    
+                                              2359      2360      2381      2380
+ Multimaterial tet:       1848 itet=      2129      2130      2151      2150    
+                                              2360      2361      2382      2381
+ Multimaterial tet:       1849 itet=      2130      2131      2152      2151    
+                                              2361      2362      2383      2382
+ Multimaterial tet:       1860 itet=      2141      2142      2163      2162    
+                                              2372      2373      2394      2393
+ Multimaterial tet:       1867 itet=      2149      2150      2171      2170    
+                                              2380      2381      2402      2401
+ Multimaterial tet:       1868 itet=      2150      2151      2172      2171    
+                                              2381      2382      2403      2402
+ Multimaterial tet:       1869 itet=      2151      2152      2173      2172    
+                                              2382      2383      2404      2403
+ Multimaterial tet:       1880 itet=      2162      2163      2184      2183    
+                                              2393      2394      2415      2414
+ Multimaterial tet:       1887 itet=      2170      2171      2192      2191    
+                                              2401      2402      2423      2422
+ Multimaterial tet:       1888 itet=      2171      2172      2193      2192    
+                                              2402      2403      2424      2423
+ Multimaterial tet:       1889 itet=      2172      2173      2194      2193    
+                                              2403      2404      2425      2424
+ Multimaterial tet:       1900 itet=      2183      2184      2205      2204    
+                                              2414      2415      2436      2435
+ Multimaterial tet:       1907 itet=      2191      2192      2213      2212    
+                                              2422      2423      2444      2443
+ Multimaterial tet:       1908 itet=      2192      2193      2214      2213    
+                                              2423      2424      2445      2444
+ Multimaterial tet:       1909 itet=      2193      2194      2215      2214    
+                                              2424      2425      2446      2445
+ Multimaterial tet:       1920 itet=      2204      2205      2226      2225    
+                                              2435      2436      2457      2456
+ Multimaterial tet:       1927 itet=      2212      2213      2234      2233    
+                                              2443      2444      2465      2464
+ Multimaterial tet:       1928 itet=      2213      2214      2235      2234    
+                                              2444      2445      2466      2465
+ Multimaterial tet:       1929 itet=      2214      2215      2236      2235    
+                                              2445      2446      2467      2466
+ Multimaterial tet:       1940 itet=      2225      2226      2247      2246    
+                                              2456      2457      2478      2477
+ Multimaterial tet:       1947 itet=      2233      2234      2255      2254    
+                                              2464      2465      2486      2485
+ Multimaterial tet:       1948 itet=      2234      2235      2256      2255    
+                                              2465      2466      2487      2486
+ 
+There are   1030  multimaterial tets.                                           
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+# Write the colored hex mesh                                                    
+dump/hex.inp/cmohex                                                             
+dump/avs/hex.inp/cmohex                                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+#-------------------------------------------------                              
+# CREATE TET MESH                                                               
+# Connect point distribution into tet mesh                                      
+cmo/create/cmotet                                                               
+copypts/cmotet/cmohex                                                           
+copypts added nodes          1 to      10395                                    
+# remove duplicate points, reset attributes                                     
+filter/1,0,0                                                                    
+FILTER:Use internal epsilonl value =   0.637387924414E-11                       
+FILTER:Dudding duplicate points:         462                                    
+rmpoint/compress                                                                
+       462 points removed and          0 elements removed.                      
+RMPOINT: new point count is         9933                                        
+RMPOINT: new element count is          0                                        
+cmo/setatt/cmotet/imt/1 0 0/1                                                   
+Warning: nelements = 0                                                          
+      9933 values reset for attribute imt1                                      
+ 
+cmo/setatt/cmotet/itp/1 0 0/0                                                   
+Warning: nelements = 0                                                          
+      9933 values reset for attribute itp1                                      
+ 
+connect noadd                                                                   
+ Coordinates of enclosing tetrahedron are:                                      
+          -0.40000D+02   -0.75000D+01   -0.13500D+02                            
+           0.10000D+02   -0.75000D+01    0.76500D+02                            
+           0.60000D+02   -0.75000D+01   -0.13500D+02                            
+           0.10000D+02    0.42500D+02    0.90000D+01                            
+ ntets=     32198     node index=     5000     nlstfail=       0 %done=  54.00  
+ 
+ The mesh is now complete!                                                      
+ 
+LaGriT FINISH: connect                                                          
+ 
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   6.3738792E-12  2.5894736E-34                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :      32092                          
+elements with aspect ratio b/w .5  and 1. :      17766                          
+min aspect ratio =  0.2950E+00  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   7.9936058E-10                                                     
+---------------------------------------                                         
+element volumes b/w  0.4938E-01 and  0.7235E-01:     31716                      
+element volumes b/w  0.7235E-01 and  0.1060E+00:     12058                      
+element volumes b/w  0.1060E+00 and  0.1553E+00:         0                      
+element volumes b/w  0.1553E+00 and  0.2275E+00:      6026                      
+element volumes b/w  0.2275E+00 and  0.3333E+00:        58                      
+min volume =   4.9382716E-02  max volume =   3.3333333E-01                      
+-----------------------------------------------------------                     
+     49858 total elements evaluated.                                            
+ 
+#-------------------------------------------------                              
+# COLOR MATERIALS and TRUNCATE TOP                                              
+# Interpolate material colors from hex mesh                                     
+# Remove material above top surface                                             
+interpolate/map/cmotet itetclr/1,0,0/cmohex itetclr                             
+elements in indexed set  =      49858                                           
+ 
+INTRP METHOD:        map   FUNCTION:       user                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
+ 
+cmo select cmohex                                                               
+finish                                                                          
+cmo kdtree build                                                                
+cmo/addatt//v2/INT/scalar/scalar/constant/temporary//2.0                        
+finish                                                                          
+cmo/addatt//linkt/VINT/v2/nelements//temporary/x/0.0                            
+finish                                                                          
+cmo/addatt//v12/INT/scalar/scalar/constant/temporary//12.0                      
+finish                                                                          
+cmo/addatt//sbox/VDOUBLE/v12/nelements/linear/temporary/x/0.0                   
+finish                                                                          
+finish                                                                          
+cmo setatt cmohex idebug/0                                                      
+         1 values reset for attribute idebug                                    
+ 
+finish                                                                          
+ 
+Build kdtree done - assign the enclosing element for each.                      
+ 
+ 
+     Sink point   Elems Searched  Elements Found  Percent Done                  
+ 
+           2494             2494           2494        5 %                      
+           4987             4987           4987       10 %                      
+           7480             7480           7480       15 %                      
+           9973             9973           9973       20 %                      
+          12466            12466          12466       25 %                      
+          14959            14959          14959       30 %                      
+          17452            17452          17452       35 %                      
+          19945            19945          19945       40 %                      
+          22438            22438          22438       45 %                      
+          24931            24931          24931       50 %                      
+          27424            27424          27424       55 %                      
+          29917            29917          29917       60 %                      
+          32410            32410          32410       65 %                      
+          34903            34903          34903       70 %                      
+          37396            37396          37396       75 %                      
+          39889            39889          39889       80 %                      
+          42382            42382          42382       85 %                      
+          44875            44875          44875       90 %                      
+          47368            47368          47368       95 %                      
+          49858            49858          49858       100%                      
+ 
+Total Source Elements:                    8400                                  
+Total Sink   Centroids:                  49858                                  
+ 
+ 
+interpolate/map done.                                                           
+ 
+cmo select cmotet                                                               
+finish                                                                          
+cmo kdtree release                                                              
+cmo/DELATT/cmohex/sbox                                                          
+finish                                                                          
+cmo/DELATT/cmohex/v12                                                           
+finish                                                                          
+cmo/DELATT/cmohex/linkt                                                         
+finish                                                                          
+cmo/DELATT/cmohex/v2                                                            
+finish                                                                          
+finish                                                                          
+interpolate/voronoi/cmotet imt/1,0,0/cmohex imt                                 
+nodes in indexed point set  =       9933                                        
+ 
+INTRP METHOD:    voronoi   FUNCTION:        max                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.400000000000E+01             
+ 
+ 
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
+            498              498            498        5 %                      
+            995              995            995       10 %                      
+           1492             1492           1492       15 %                      
+           1989             1989           1989       20 %                      
+           2486             2486           2486       25 %                      
+           2983             2983           2983       30 %                      
+           3480             3480           3480       35 %                      
+           3977             3977           3977       40 %                      
+           4474             4474           4474       45 %                      
+           4971             4971           4971       50 %                      
+           5468             5468           5468       55 %                      
+           5965             5965           5965       60 %                      
+           6462             6462           6462       65 %                      
+           6959             6959           6959       70 %                      
+           7456             7456           7456       75 %                      
+           7953             7953           7953       80 %                      
+           8450             8584           8450       85 %                      
+           8947             9178           8947       90 %                      
+           9444             9675           9444       95 %                      
+           9933            10395           9933       100%                      
+ 
+Total Source Nodes:                   10395                                     
+Total Sink   Nodes:                    9933                                     
+ 
+ 
+interpolate/voronoi done.                                                       
+ 
+cmo select cmotet                                                               
+finish                                                                          
+cmo kdtree release                                                              
+finish                                                                          
+cmo/printatt/cmotet/itetclr minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                3               2     49858  
+ 
+dump/tet.inp/cmotet                                                             
+dump/avs/tet.inp/cmotet                                                         
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+# remove cells above material 2                                                 
+# check for material 3 nodes left behind                                        
+eltset/edel/itetclr/gt 2                                                        
+ 
+ THE ELTSET edel                             HAS      11523 ELEMENTS            
+rmpoint element eltset,get,edel                                                 
+ Dudded       2035 points plus parents, and       11523 elements removed.       
+rmpoint/compress                                                                
+      2035 points removed and          0 elements removed.                      
+RMPOINT: new point count is         7898                                        
+RMPOINT: new element count is      38335                                        
+resetpts/itp                                                                    
+geniee                                                                          
+finish                                                                          
+cmo/printatt/cmotet/itetclr minmax                                              
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                2               1     38335  
+ 
+cmo/printatt/cmotet/imt minmax                                                  
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                3               2      7898  
+ 
+# FIX imt of nodes left behind after removal of cells                           
+define CMO cmotet                                                               
+define MAX_MAT 2                                                                
+infile reset_truncated_nodes_imt.mlgi                                           
+# macro to fix node material values left over from truncated top                
+# must define CMO when calling this macro                                       
+# must define MAX_MAT                                                           
+# create set of points with good values                                         
+# fix using nearest interpolation from good set                                 
+cmo/create/cmotmp                                                               
+copypts/cmotmp/CMO                                                              
+copypts added nodes          1 to       7898                                    
+cmo/select/cmotmp                                                               
+pset/pbad/attribute imt/1,0,0/gt MAX_MAT                                        
+ 
+ THE PSET  pbad  HAS        517 POINTS                                          
+rmpoint/pset,get,pbad                                                           
+ Dudded        517 points plus parents, there are no elements in mesh.          
+rmpoint/compress                                                                
+       517 points removed and          0 elements removed.                      
+RMPOINT: new point count is         7381                                        
+RMPOINT: new element count is          0                                        
+cmo/select/CMO                                                                  
+pset/pfix/attribute imt/1,0,0/gt MAX_MAT                                        
+ 
+ THE PSET  pfix  HAS        517 POINTS                                          
+interpolate/voronoi/CMO imt/pset,get,pfix/cmotmp imt                            
+nodes in indexed point set  =        517                                        
+ 
+INTRP METHOD:    voronoi   FUNCTION:        max                                 
+      TIEBREAKER:     maxtie   FLAG:      plus1  0.300000000000E+01             
+ 
+ 
+Build kdtree0 done - assign nearest node for each.                              
+ 
+ 
+     Sink point   Points Searched   Points Found  Percent Done                  
+ 
+            130              130            130       25 %                      
+            259              259            259       50 %                      
+            388              388            388       75 %                      
+            517              517            517       100%                      
+ 
+Total Source Nodes:                    7381                                     
+Total Sink   Nodes:                    7898                                     
+ 
+Indexed sink points:             517 Total unchanged:            7381           
+ 
+ 
+interpolate/voronoi done.                                                       
+ 
+cmo select cmotet                                                               
+finish                                                                          
+cmo kdtree release                                                              
+finish                                                                          
+cmo/delete/cmotmp                                                               
+     Released Mesh Object: cmotmp                                               
+cmo/printatt/CMO/itetclr minmax                                                 
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ itetclr                          1                2               1     38335  
+ 
+cmo/printatt/CMO/imt minmax                                                     
+ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
+ imt1                             1                2               1      7898  
+ 
+finish                                                                          
+#-------------------------------------------------                              
+# SET OUTSIDE BOUNDARY NODES                                                    
+# tag outside nodes and save attributes                                         
+# we need to use the max node located in each xyz direction                     
+# normal zone_outside will tag stair-steps incorrectly                          
+dump/zone_outside_minmax/tet_max/cmotet/keepatt                                 
+*********dump_outside_list********                                              
+Voronoi Areas used for outside faces.                                           
+ 
+assign_quadrant_id epsilon for zero:   1.0000000E-15                            
+sort/xyz/bins                                                                   
+sort/-def-/bins/ascending/i_index/xic                                           
+cmo/addatt/cmotet/i_index/vint/scalar/nnodes///gax/0                            
+finish                                                                          
+ SORT: order key written to attribute: i_index                                  
+ 
+finish                                                                          
+sort/-def-/bins/ascending/j_index/yic                                           
+cmo/addatt/cmotet/j_index/vint/scalar/nnodes///gax/0                            
+finish                                                                          
+ SORT: order key written to attribute: j_index                                  
+ 
+finish                                                                          
+sort/-def-/bins/ascending/k_index/zic                                           
+cmo/addatt/cmotet/k_index/vint/scalar/nnodes///gax/0                            
+finish                                                                          
+ SORT: order key written to attribute: k_index                                  
+ 
+finish                                                                          
+finish                                                                          
+cmo/addatt/cmotet/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/            
+finish                                                                          
+ 
+MINMAX of outside option assumes regular rectangular grid.                      
+Total outside nodes:            407 Total minmax:            231                
+Face top           1 has       231 nodes.                                       
+top        Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.2666667E+02   0.3555556E+01   0.1200000E+03            
+cmo/addatt/cmotet/bottom/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Total outside nodes:            231 Total minmax:            231                
+Face bottom        2 has       231 nodes.                                       
+bottom     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1000000E+02   0.2000000E+02   0.2000000E+03            
+cmo/addatt/cmotet/left_w/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Total outside nodes:            638 Total minmax:            429                
+Face left_w        3 has       429 nodes.                                       
+left_w     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1666667E+03   0.1666667E+02   0.1500000E+02            
+cmo/addatt/cmotet/right_e/vint/scalar/nnodes/linear/permanent/afgx/-5.0/        
+finish                                                                          
+Total outside nodes:            682 Total minmax:            429                
+Face right_e       5 has       429 nodes.                                       
+right_e    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.1607407E+03   0.1607407E+02   0.3500000E+02            
+cmo/addatt/cmotet/back_n/vint/scalar/nnodes/linear/permanent/afgx/-5.0/         
+finish                                                                          
+Total outside nodes:            718 Total minmax:            718                
+Face back_n        6 has       718 nodes.                                       
+back_n     Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.2066667E+02   0.3025185E+03   0.2000000E+02            
+cmo/addatt/cmotet/front_s/vint/scalar/nnodes/linear/permanent/afgx/-5.0/        
+finish                                                                          
+Total outside nodes:            718 Total minmax:            718                
+Face front_s       4 has       718 nodes.                                       
+front_s    Sum Voronoi      Area_x          Area_y          Area_z              
+                       0.2066667E+02   0.3025185E+03   0.2000000E+02            
+dump/tet_trunc.inp/cmotet                                                       
+dump/avs/tet_trunc.inp/cmotet                                                   
+cmo/modatt/-def-/-def-/ioflag/x                                                 
+finish                                                                          
+finish                                                                          
+#-------------------------------------------------                              
+# check quality                                                                 
+# check geometric coefficients                                                  
+cmo/setatt/cmotet/imt 1	                                                        
+      7898 values reset for attribute imt1                                      
+ 
+dump/stor/tet_trunc/cmotet                                                      
+ 
+*** Construct and Compress Sparse Matrix:3D ***                                 
+   *** Compress Area Coefficient Values ***                                     
+ 
+AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
+AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     7898  ncoefs =      52244                         
+AMatbld3d_stor: Number of unique coefs =        16                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
+AMatbld3d_stor: Volume min =   3.7037037E-02                                    
+AMatbld3d_stor: Volume max =   1.0000000E+00                                    
+AMatbld3d_stor: Total Volume:   3.0251852E+03                                   
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
+AMatbld3d_stor: abs(Aij/xij) max =   3.3750000E+00                              
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
+AMatbld3d_stor: (Aij/xij) min =  -3.3750000E+00                                 
+AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+AMatbld3d_stor Matrix compression used for graph and coefficient values         
+ascii STOR file written with name tet_trunc.stor                                
+ 
+*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+ 
+3D Matrix Coefficient file written with name tet_trunc.stor                     
+ 
+quality                                                                         
+ 
+epsilonl, epsilonaspect:   6.2122430E-12  2.3974265E-34                         
+--------------------------------------------                                    
+elements with aspect ratio < .01:                    0                          
+elements with aspect ratio b/w .01 and .02:          0                          
+elements with aspect ratio b/w .02 and .05:          0                          
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :          0                          
+elements with aspect ratio b/w .2  and .5 :      20686                          
+elements with aspect ratio b/w .5  and 1. :      17649                          
+min aspect ratio =  0.2950E+00  max aspect ratio =  0.1000E+01                  
+ 
+epsilonvol:   7.4672778E-10                                                     
+---------------------------------------                                         
+element volumes b/w  0.4938E-01 and  0.7235E-01:     20310                      
+element volumes b/w  0.7235E-01 and  0.1060E+00:     11941                      
+element volumes b/w  0.1060E+00 and  0.1553E+00:         0                      
+element volumes b/w  0.1553E+00 and  0.2275E+00:      6026                      
+element volumes b/w  0.2275E+00 and  0.3333E+00:        58                      
+min volume =   4.9382716E-02  max volume =   3.3333333E-01                      
+-----------------------------------------------------------                     
+     38335 total elements evaluated.                                            
+ 
+# EXIT                                                                          
+finish                                                                          
+LaGriT successfully completed                                                   

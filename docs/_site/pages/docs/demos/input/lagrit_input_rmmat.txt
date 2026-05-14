@@ -1,0 +1,46 @@
+* TEST rmmat (lagrit_input_rmmat)
+*
+define/nx/15
+define/ny/15
+define/nz/2
+ 
+cmo / create / mesh_object / / / tet
+createpts / xyz / nx, ny, nz / 0. 0. 0. / 1. 1. 0.2 / 1 1 1
+cmo / setatt / mesh_object / imt / 1 0 0 / 1
+connect 
+*resetpts / itp
+cmo/printatt//-all-/minmax
+dump/ gmv /output_rmmat1.gmv/mesh_object
+*
+surface / cyl_surf / intrface / cylinder/0.5, 0.5, -1 /0.5, 0.5, 1.0/0.25
+mregion/mr1/ gt cyl_surf 
+mregion/mr2/ lt cyl_surf 
+setpts
+settets/geometry
+cmo/printatt//-all-/minmax
+dump / gmv / output_rmmat2.gmv/mesh_object
+*
+cmo   copy   mo3   mesh_object
+cmo   copy   mo4   mesh_object
+cmo   copy   mo5   mesh_object
+*
+cmo select mo3
+rmmat 2 /node
+rmpoint/compress
+dump / gmv / output_rmmat3.gmv/mo3
+*
+cmo select mo4
+rmmat 2 /element
+rmpoint/compress
+dump / gmv / output_rmmat4.gmv/mo4
+*
+cmo select mo5
+rmmat 2 /all
+rmpoint/compress
+dump / gmv / output_rmmat5.gmv/mo5
+*
+** begin validation output **
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

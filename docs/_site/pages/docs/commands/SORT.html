@@ -1,0 +1,366 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>sort</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="sort">SORT</h1>
+
+<hr />
+
+<p>The <strong>sort</strong> command creates a sort key for chosen node or element attributes. 
+Sort can be in ascending or descending order and will not alter current mesh object values.</p>
+
+<p>The mesh object is not re-ordered but a sort key is created. Use <a href="/pages/docs/commands/REORDER.html"><strong><code class="language-plaintext highlighter-rouge">REORDER</code></strong></a> to change the node or element ordering of the mesh object.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>sort</b>/mo_name/<b>bins</b> /[<b> ascending</b> or <b>descending</b>]/key_name/ sort_attribute / [epsilon_user]
+
+<b>sort</b>/mo_name/<b>index</b> or <b>rank</b>/[<b>ascending</b> or <b>descending</b>]/key_name/ in_att1, in_att2, in_att3 ...
+
+<b>sort</b>/mo_name/<b>line_graph</b> /[<b>ascending</b> or <b> descending</b>]/key_name/[<b>elements</b> or <b>nodes</b>]
+</pre>
+
+<p>For all commands:</p>
+
+<p><code class="language-plaintext highlighter-rouge">mo_name</code> is the name of a valid mesh object or <strong>-def-</strong> which selects the currently active mesh object.</p>
+
+<p><code class="language-plaintext highlighter-rouge">sort_type</code> sorting methods include <strong><code class="language-plaintext highlighter-rouge">bins</code></strong>, <strong><code class="language-plaintext highlighter-rouge">index</code></strong>, <strong><code class="language-plaintext highlighter-rouge">rank</code></strong> and <strong><code class="language-plaintext highlighter-rouge">line_graph</code></strong> See below.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">ascending</code></strong> or <strong><code class="language-plaintext highlighter-rouge">descending</code></strong> detirmines the ordering direction. Note this parameter is ignored by the <strong>line_graph</strong> method but must be present for consistency with other sort variations.</p>
+
+<p><code class="language-plaintext highlighter-rouge">key_name</code> is the name of the sort key attribute created. The <strong>reorder</strong> command uses this to reorder the mesh.
+This is an integer vector (VINT) which will hold the output sort key values. If no name is given for <code class="language-plaintext highlighter-rouge">key_name</code>, a name will be created which will be  <strong>ikey_</strong> and the first attribute name in sort_attributes. For the <strong><code class="language-plaintext highlighter-rouge">line_graph</code></strong> option, the default <code class="language-plaintext highlighter-rouge">key_name</code> will be called <strong>ikey_line_graph</strong>.</p>
+
+<p><em><code class="language-plaintext highlighter-rouge">sort_attributes</code></em> The name of one or more existing attribute names. Each attribute will be used as a node of element based array upon which the sorting routine will sort. Multi-key sorts can have an arbitrary number
+of input attributes. Attribute in_att1(n) has priority over in_att2(n) in breaking ties. Note: all attributes are put into a type real work array before being sent to the sort routine.
+Note the <strong>line_graph</strong> does not use attributes as it sorts line elements based on connectivity (see method below).</p>
+
+<h3 id="single-key-sort">Single-Key sort:</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">bins</code></strong> is a single-key sort which assigns each in_att1 value a bin
+ number. If in_att1 is an integer then bins each have a unique integer
+ value associated with them. If in_att1 is a real number, bins are
+ created with values which are within +-epsilon of each other, where
+ epsilon=1.e-10 x abs(real_bin_value). If all array values are unique,
+ then the maximum value of the index array will equal the number of
+ entries in the sorted list. Otherwise, the maximum value of the index
+ array will be less than the number of entries in the sorted list but
+ will equal the number of unique entries in the list. With the <strong><code class="language-plaintext highlighter-rouge">bins</code></strong> method, an optional user specified epsilon
+ multiplier, <em>epsilon_user</em>, will override the default value of 1.e-10.</p>
+
+<h3 id="multi-key-sort">Multi-Key sort:</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">index</code></strong> is a single or multi-key sort that constructs an index table such that
+ in_att1(ikey(1)) is the first entry in the sorted array, in_att1(ikey(2)) is the second, etc.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">rank</code></strong> is a single or multi-key sort that constructs a rank table such that the tables ith entry give the rank of the ith entry of the sorted arrays. The rank table is derived from the index table by:</p>
+<pre>
+ foreach j = 1,N
+   rank(index(j)) = j
+ end
+</pre>
+
+<h3 id="line-graph-sort">Line Graph sort:</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">line_graph</code></strong> is a sort for connected line segments for arranging into a reasonable order. The sorted order for components which are not polylines or polygons is unspecified, but it will usually be reasonable because the underlying
+ algorithm visits the edges via depth first search. In particular, it makes the following guarantees:</p>
+
+<ul>
+  <li>Each connected component will be arranged together.</li>
+  <li>Polylines (chains of line segments with no branching or loops)
+will be in order from one end to the other.</li>
+  <li>Polygons will be in order starting from one segment and looping
+back around to the same place.</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">line_graph</code></strong> with <strong><code class="language-plaintext highlighter-rouge">elements</code></strong> generates the following three integer element attributes:</p>
+
+<ul>
+  <li>cid: A component id for distinguishing separate connected
+components. Each connected component receives a unique positive
+integer starting from one. This allows you to identify all the
+edges in a particular component by selecting all elements with a
+particular component id.</li>
+  <li>
+    <p>ctype: The component type, represented as an integer from 1 to 5.</p>
+
+    <dl>
+      <dt>1 (Polyline)</dt>
+      <dd>A connected chain of segments with no branches or loops.</dd>
+      <dt>2 (Tree)</dt>
+      <dd>A connected acyclic component.</dd>
+      <dt>3 (Polygon)</dt>
+      <dd>A component consisting solely of a single loop.</dd>
+      <dt>4 (Shared Edges)</dt>
+      <dd>A component which has a pair of cycles with a shared edge.</dd>
+      <dt>5 (Other)</dt>
+      <dd>Anything which does not fit into the above categories.</dd>
+    </dl>
+  </li>
+  <li>loop_id: This is a unique positive integer assigned to each
+simple cycle. Edges that are not part of a cycle receive a default
+value of zero. If an edge is shared (i.e. part of more than one
+cycle) then it will be labeled with only one of its cycles. In
+this case, the cycle corresponding to the label is not fully
+specified because there is more than one right answer.</li>
+</ul>
+
+<p><strong><code class="language-plaintext highlighter-rouge">line_graph</code></strong> with <strong><code class="language-plaintext highlighter-rouge">nodes</code></strong> is based on the option for
+ elements, except that it does not create extra attributes. Based on
+ the sorted elements, the nodes will be reordered in the same sequence.
+ This is necessary for triangulation as “TRIANGULATE” routine requires
+ the nodes to be in either clockwise or counterclockwise order.</p>
+
+<hr />
+
+<h2 id="examples">EXAMPLES</h2>
+
+<pre>
+     sort / cmo / line_graph / ascending / ikey / elements
+</pre>
+
+<p>Sort the line segment elements into a reasonable order based on connectivity. This also creates attributes cid, ctype, and loop_id (see above).</p>
+
+<pre>
+ sort / cmo / index / ascending / ikey / imt zic yic xic
+</pre>
+<p>Multi-key sort first by imt then to break ties consider z coordinate, then if there are further ties, use y coordinate. Use x coordinate as final tie breaker.</p>
+
+<pre>
+     sort / cmo / rank / descending / ikey / yic
+</pre>
+<p>Produce ranking of nodes based on y coordinate in descending order.</p>
+
+<pre>
+     sort / cmo / index /-def-/-def-/ xic yic zic
+     </pre>
+
+<p>Produce index of noded coordinates. This would be like a line sweep
+ sort where the sweep is first along x coordinate then y then z.</p>
+
+<pre>
+     sort / cmo / bins / ascending / i_index / xic
+     sort/ cmo / bins / ascending / j_index / yic
+     sort / cmo / bins / ascending / k_index / zic
+     </pre>
+
+<p>If the cmo were a finite difference grid of points, the above three
+ commands would produce the finite difference indexing. All points with
+ the same x value would be in the same i_index bin, all points with
+ the same y value would be in the same j_index bin, etc.</p>
+
+<pre>
+define MOGOOD motet
+define MOSORT mopts
+
+cmo/addatt/MOSORT id_mesh1 /VINT/scalar/nnodes/linear/permanent//0      
+interpolate/voronoi/ MOSORT id_mesh1/1,0,0/ MOGOOD id_node
+
+cmo/addatt/MOSORT id_diff /VINT/scalar/nnodes/linear/permanent//0      
+math/sub/MOSORT id_diff/1,0,0/ MOSORT id_mesh1 /MOGOOD id_node
+cmo/printatt/MOSORT/ id_diff / minmax
+
+sort/ MOSORT/ index / ascending / ikey / id_mesh1
+reorder/MOSORT/ ikey
+</pre>
+
+<p>Sort and reorder a set of nodes based on a source mesh, based on node id and position xyz. Use <strong><code class="language-plaintext highlighter-rouge">interpolate/voronoi</code></strong> to associate each node with the good mesh node id’s. We check to see if the ordering for both mesh objects is different by subtracting the node id of one from the second. The result would be 0 for all nodes that match position and node id. Sort mesh object using the attribute with the interpolated node id’s, then reorder using the ikey values.</p>
+
+<h2 id="links">LINKS</h2>
+
+<p><a href="/pages/docs/demos/input/sort_lagrit_input_1.txt">LaGriT command file example 1 for sort and reorder</a></p>
+
+<p><a href="/pages/docs/demos/input/sort_lagrit_input_2.txt">LaGrit command file example 2 for sort and reorder</a></p>
+
+<h2 id="old-format---no-longer-supported-but-syntax-will-still-work">OLD FORMAT - No longer supported but syntax will still work.</h2>
+
+<pre>
+sort / xyz / [ index  bins  rank ]
+</pre>
+
+<p><strong><code class="language-plaintext highlighter-rouge">sort/xyz/index</code></strong> sorts the x,y,z coordinate integer arrays i_index,
+ j_index, k_index such that xic(i_index(i)) i=1,..nnodes lists the coordinate in ascending order.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">sort/xyz/bins</code></strong> sorts the x,y,z coordinates and assigns each i_index,
+ j_index, k_index values in ascending order of the bin number of the sorted list.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">sort/xyz/rank</code></strong>  sorts the x,y,z coordinates and assigns each i_index,
+ j_index, k_index values the ranking of the node in the sorted list.</p>
+
+<p>If all array values are unique, then the maximum value of the index
+ array will equal the number of entries in the sorted list. Otherwise,
+ the maximum value of the index array will be less than the number of
+ entries in the sorted list but will equal the number of unique entries
+ in the list.</p>
+
+<pre>
+ For example given x = 0, 1, 2, 1, 0
+
+ sort/xyz/index returns i_index = 5, 1, 4, 2, 3
+
+ sort/xyz/bins returns i_index = 1, 2, 3, 2, 1
+
+ sort/xyz/rank returns i_index = 2, 4, 5, 3, 1
+ </pre>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

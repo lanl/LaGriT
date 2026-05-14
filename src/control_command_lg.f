@@ -330,6 +330,83 @@ c
             enddo
          endif
       enddo
+
+      return
+      end
+      subroutine get_define_variable_lg
+     *           (cstring_in,msgtype,imsgout,xmsgout,cmsgout,ierror)
+C#######################################################################
+C
+C     PURPOSE -
+C
+C        For internal subroutine calls within LaGriT
+C        If a known character string is defined using the 'define' command, 
+C        the input is the know string, cstring_in. This subroutine will then
+C        return the type (integer=1,real=2,char=3) and value.
+C
+C        If the input string, cstring_in, does not exist, ierror will be returned
+C        as a non-zero value.
+C     INPUT
+C        cstring_in input string that matches a token defined in the 'define' command
+C     OUTPUT
+C        msgtype  type of input token
+C        imsgout  integer input tokens
+C        xmsgout  real input tokens
+C        cmsgout  character input tokens
+C        ierror -- error flag (ierror=0 means no errors)
+C
+C#######################################################################
+C
+      implicit none
+      include 'commands_lg.h'
+      integer ierror,msgtype,imsgout
+      character*32 cmsgout, cstring_in
+      integer i,j,len1,len2,icharlnf,icscode,i1
+      real*8 xmsgout,x1
+      logical isintgrvar, isrlvar
+c  access definitions list
+      call mmfindbk('definition',initname,ipdefinition,i,icscode)
+c
+
+c      print *, cstring_in
+c      print *, msgtype,imsgout,xmsgout,cmsgout
+
+c      do j=1,ndefinitions
+c         print *, j, definitions_name(j), definitions_off(j)
+c         print *, definition(definitions_off(j):definitions_off(j+1)-1)
+c      enddo
+
+      ierror=1
+      len1=icharlnf(cstring_in)
+        do j=1,ndefinitions
+           len2=icharlnf(definitions_name(j))
+           if (len1.eq.len2) then
+              if (definitions_name(j)(1:len1).eq.cstring_in(1:len1))then
+                 ierror=0
+                 cmsgout=definition(definitions_off(j):
+     *                              definitions_off(j+1)-1)
+                 len1=icharlnf(cmsgout)
+C
+c                change type if necessary
+c
+                 call isinteger_lg(cmsgout,len1,i1,isintgrvar)
+                 if(isintgrvar) then
+                    msgtype=1
+                    imsgout=i1
+                  else
+                     call isrl_lg(cmsgout,len1,x1,isrlvar)
+                     if(isrlvar) then
+                        msgtype=2
+                        xmsgout=x1
+                     endif
+                  endif
+               endif
+            endif
+         enddo
+
+c      print *, cstring_in
+c      print *, msgtype,imsgout,xmsgout,cmsgout
+
       return
       end
 c

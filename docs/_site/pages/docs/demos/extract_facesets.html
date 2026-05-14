@@ -1,0 +1,294 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>DEMO Write Face and Node Sets</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="demo-write-face-and-node-sets">DEMO Write Face and Node Sets</h1>
+
+<hr />
+
+<p>This example shows how extract/surfmesh can be used to write boundary face and node information. This is the method used to add facesets (side sets) that are added to an ExodusII mesh file. This information can also be read and parsed for used for modeling application for boundary conditions in FEHM and PFLOTRAN.</p>
+
+<p><em>Note it is very important that you use the master source mesh to extract node and element numbers. If you subset or change the master mesh, the node and element numbers might change and your face and node list will not be valid.</em></p>
+
+<p>This Demo shows how to</p>
+<ul>
+  <li>Create the tet mesh with 2 materials (one interface). See <a href="/pages/docs/commands/createpts/CRTPTBRICK.html"><strong><code class="language-plaintext highlighter-rouge">CREATEPTS/BRICK</code></strong></a>.</li>
+  <li>Write the mesh node sets as an FEHM zone file or as an AVS format file.  See <a href="/pages/docs/commands/PSET.html"><strong><code class="language-plaintext highlighter-rouge">PSET WRITE and ZONE</code></strong></a>.</li>
+  <li>Create a surface mesh consisting of faces on the boundary and interface. See <a href="/pages/docs/commands/dump/EXTRACT_SURFMESH.html"><strong><code class="language-plaintext highlighter-rouge">EXTRACT_SURFMESH</code></strong></a>.</li>
+  <li>Write the mesh face and node information to files that can be used define boundary conditions. See <a href="/pages/docs/commands/EXODUS.html"><strong><code class="language-plaintext highlighter-rouge">DUMP EXO</code></strong></a> and <a href="/pages/docs/commands/DUMP2.html"><strong><code class="language-plaintext highlighter-rouge">DUMP AVS</code></strong></a>.</li>
+</ul>
+
+<p><br /></p>
+
+<h2 id="images-for-this-demo">Images for this Demo</h2>
+
+<p>Click on images to enlarge.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Master Tet Mesh</th>
+      <th style="text-align: center">Extracted Surfmesh</th>
+      <th style="text-align: center">Colored Surfmesh</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="output/ex_faceset_tet_itp.png"> <img width="250" src="output/ex_faceset_tet_itp.png" /> </a></td>
+      <td style="text-align: center"><a href="output/ex_faceset_surf_itetclr0.png"> <img width="250" src="output/ex_faceset_surf_itetclr0.png" /></a></td>
+      <td style="text-align: center"><a href="output/ex_faceset_surf_mat3.png"> <img width="250" src="output/ex_faceset_surf_mat3.png" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Create hex mesh with 2 materials and one interface.<br />  Set mesh object itp array to tag boundary and interface nodes.</td>
+      <td style="text-align: center">Extract surface representing faces<br /> on the boundary and the interface. Surfmesh <strong>itetclr0</strong> is used to select the interface.</td>
+      <td style="text-align: center">Color the surfmesh with desired subsets, interface (blue) and top (green).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Output Face Sets</th>
+      <th style="text-align: center">Output Node Sets</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="output/ex_faceset_tet_faces.png"> <img width="300" src="output/ex_faceset_tet_faces.png" /></a></td>
+      <td style="text-align: center"><a href="output/ex_faceset_pset_nodes.png"> <img width="300" src="output/ex_faceset_pset_nodes.png" /></a></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">Output face sets for top and interface</td>
+      <td style="text-align: center">Output nodes for top and interface<br /> (node numbers shown in image)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h2 id="lagrit-command-files-for-demo">LaGriT Command Files for Demo</h2>
+
+<p>LaGriT command file for Demo: <a href="/pages/docs/demos/input/write_face_node_sets.lgi.txt">write_face_node_sets.lgi.txt</a></p>
+
+<p>LaGriT output report for Demo: <a href="/pages/docs/demos/output/write_face_node_sets.out.txt">write_face_node_sets.out.txt</a></p>
+
+<p><br /></p>
+
+<h2 id="demo-output-files">Demo Output Files</h2>
+
+<p>This Demo will write the following files:</p>
+
+<ul>
+  <li><strong>top_nodes.zonn</strong> and <strong>inter_nodes.zonn</strong>  list of nodes at top and interface of master mesh FEHM zonn format.</li>
+  <li><strong>top_nodes.vertexset</strong> and <strong>inter.vertexset</strong> list of nodes at top and interface of master mesh in pset format.</li>
+  <li><strong>top_nodes.dat</strong> and <strong>interface_nodes.dat</strong> master node attribute values for subset node id to master in AVS node attribute format.</li>
+  <li><strong>top.faceset</strong>  and  <strong>interface.faceset</strong> extract/surfmesh attributes with master element id to surface face id, readable for ExodusII files.</li>
+  <li><strong>mesh_facesets.exo</strong> master mesh with facesets (side sets) viewable with Paraview and GMV</li>
+  <li><strong>mesh_facesets.gmv</strong> master mesh with facesets (surfaces) viewable with GMV</li>
+</ul>
+
+<p>head <strong>ZONN</strong> file top_nodes.zonn:</p>
+<pre class="lg-output">
+zonn
+000001     TOP_NODES
+nnum
+    121
+    727        728        729        730        731        732        733        734        735        736
+    737        738        739        740        741        742        743        744        745        746
+</pre>
+
+<p>head <strong>PSET</strong> file top_nodes.vertexset:</p>
+<pre class="lg-output">
+pset ascii   1
+TOP_NODES    1        121
+    727        728        729        730        731        732        733        734        735        736
+    737        738        739        740        741        742        743        744        745        746
+</pre>
+
+<p>head <strong>AVS</strong> node attribute file top_nodes.dat:</p>
+<pre class="lg-output">
+    0     0     1     0     0    
+00001  1
+id_node, integer
+    1   486
+    2   496
+    3   485
+    4   497
+    5   487
+</pre>
+
+<p>head <strong>AVS</strong> element attribute file top.faceset:</p>
+<pre class="lg-output">
+    0     0     0     2     0    
+00002  1  1
+idelem1, integer
+idface1, integer
+  1503  2
+  1504  2
+  1508  2
+  1509  2
+</pre>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

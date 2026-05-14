@@ -1,0 +1,334 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <!-- Begin breadcrumb -->
+<ul class="uk-breadcrumb">
+    <li><a href="/pages/tutorial/index.html">Tutorials &amp; Examples</a></li>
+    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
+</ul>
+<!-- End breadcrumb -->
+
+<!-- Begin image -->
+<p><img data-src="/pages/tutorial/stratigraphy/images/02_hex_01_top_region.png" width="639" height="525" alt="" uk-img="" />
+<br />
+<!-- End image --></p>
+
+<h2 id="psets" class="uk-h3 uk-margin-remove">2. Define Boundaries Using Point Sets</h2>
+
+<p>In LaGriT, a pset (or <em>point-set</em>) is a collection of points (nodes) within a 
+mesh object. Similarly, an eltset (<em>element-set</em>) is a collection of mesh
+elements. By capturing points and elements, discrete manipulations can be
+performed on them, such as translation, removal, or attribute functions.</p>
+
+<p>In this example, point sets are used to create a boundary on the top surface of 
+the created hex mesh. The boundary will be the intersection of three circles on
+the top layer of the mesh.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Set vertices (imt) and cells (itetlcr) to 1
+cmo / setatt / mohex / imt / 1 0 0 / 1
+cmo / setatt / mohex / itetclr / 1 0 0 / 1
+
+resetpts / itp
+</code></pre></div></div>
+
+<p>Capturing a <code class="language-plaintext highlighter-rouge">pset</code> is done through the command</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / pset_name / select_type / select_type_options
+</code></pre></div></div>
+
+<p>where <code class="language-plaintext highlighter-rouge">pset_name</code> is an arbitrary variable name to store the pset into, 
+<code class="language-plaintext highlighter-rouge">select_type</code> is the method of pset selection, and <code class="language-plaintext highlighter-rouge">select_type_options</code> are
+parameters specific to the chosen <code class="language-plaintext highlighter-rouge">select_type</code> for configuring the subset
+selection (see the <a href="/pages/docs/commands/PSET.html">documentation</a> for more information).</p>
+
+<h3 id="21-pset-definitions">2.1 PSet Definitions</h3>
+
+<p>As the boundary will live only in the top layer, nodes belonging to the top 
+layer will be identified first.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / p_top / attribute / zic / 1 0 0 / ge / Z1
+</code></pre></div></div>
+
+<p>Here, a pset named <code class="language-plaintext highlighter-rouge">p_top</code> is created. This pset contains all nodes 
+(stride = <code class="language-plaintext highlighter-rouge">1 0 0</code>) where the node’s Z value (<code class="language-plaintext highlighter-rouge">zic</code>) is greater than or equal to
+(<code class="language-plaintext highlighter-rouge">ge</code>) the top of the mesh (<code class="language-plaintext highlighter-rouge">Z1</code>). Remember that we defined <code class="language-plaintext highlighter-rouge">Z1</code> above for the
+initial creation of the mesh - and that by simply changing <code class="language-plaintext highlighter-rouge">Z1</code> and re-running
+the script, this pset capture will still be valid for any value of <code class="language-plaintext highlighter-rouge">Z1</code>
+(where <code class="language-plaintext highlighter-rouge">Z1 &gt; Z0</code>).</p>
+
+<p>Now that the top is defined, we will move to defining three cylindrical
+objects.</p>
+
+<p>This is done through the command</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / pset_name / geom / rtz / ifirst,ilast,istride / r1,t1,z1 / r2,t2,z2 / xcen,ycen,zcen
+</code></pre></div></div>
+
+<p>which forms a pset of nodes within the cylinder or cylindrical shell given by 
+radius r1 to r2, angle theta t1 to t2 and height z1 to z2.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / p_circle1 / geom / rtz / 1 0 0 / 0. 0. -1.0 / &amp;
+       1100. 360. 1.e4 / 1500. 1500. 0.
+pset / p_circle2 / geom / rtz / 1 0 0 / 0. 0. -1.0 / &amp;
+       1100. 360. 1.e4 / 2500. 2500. 0.
+pset / p_circle3 / geom / rtz / 1 0 0 / 0. 0. -1.0 / &amp;
+       1100. 360. 1.e4 / 2500. 1500. 0.
+</code></pre></div></div>
+
+<p>Above, any points within a full circle (theta = <code class="language-plaintext highlighter-rouge">360</code>) of radius <code class="language-plaintext highlighter-rouge">1100.</code> and 
+within <code class="language-plaintext highlighter-rouge">Z={-1.0,1.e4}</code> are captured. Three different cylinders are created,
+where only the centroids change.</p>
+
+<p>Finally, all four psets are intersected such that all points belonging to the
+union of all given sets are preserved into the point seet <code class="language-plaintext highlighter-rouge">p_region</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / p_region / inter / p_top p_circle1 p_circle2 p_circle3
+</code></pre></div></div>
+
+<p>This creates a point-set where all points (i) live on the top layer, and (ii)
+live within the intersection of the three cylinders.</p>
+
+<h3 id="22-map-psets-to-an-attribute">2.2 Map PSets to an Attribute</h3>
+
+<p>As a simple sanity check during meshing, it can be helpful to map mesh
+operations to an attribute. These can be visualized at intermediate steps in
+the meshing process to provide a form of verification or debugging.</p>
+
+<p>First, create an attribute using the <code class="language-plaintext highlighter-rouge">cmo / addatt</code> command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / addatt / MONAME / id_top_region / vint / scalar / nnodes
+</code></pre></div></div>
+
+<p>Here, an attribute named <code class="language-plaintext highlighter-rouge">id_top_region</code> is created within the mesh <code class="language-plaintext highlighter-rouge">MONAME</code>,
+and has type integer (<code class="language-plaintext highlighter-rouge">vint</code>), is of scalar dimensions, and is a node-based
+attribute (<code class="language-plaintext highlighter-rouge">nnodes</code>).</p>
+
+<p>The attribute can be progressively filled in with different values based on
+the psets:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Fill the entire attribute with 1
+cmo / setatt / MONAME / id_top_region / 1 0 0 / 1
+
+# Color all nodes in the pset p_circle1 with the value 2
+cmo / setatt / MONAME / id_top_region / pset get p_circle1 / 2
+
+# Color all nodes in the pset p_circle2 with the value 2
+cmo / setatt / MONAME / id_top_region / pset get p_circle2 / 3
+
+# And so on...
+cmo / setatt / MONAME / id_top_region / pset get p_circle3 / 4
+cmo / setatt / MONAME / id_top_region / pset get p_region / 5
+</code></pre></div></div>
+
+<p>Finally, release the psets from memory:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pset / p_top / release
+pset / p_circle1 / release
+pset / p_circle2 / release
+pset / p_circle3 / release
+pset / p_region / release
+</code></pre></div></div>
+
+<p>Cutting through the mesh in ParaView, we can visualize <code class="language-plaintext highlighter-rouge">id_top_region</code> and
+validate that the mesh is being constructed as expected:</p>
+
+<!-- Lightbox image -->
+<div class="uk-child-width-1-2@m" uk-grid="" uk-lightbox="animation: slide">
+    <div>
+        <a class="uk-inline" href="/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" data-caption="Visualization of id_top_region">
+            <img src="/pages/tutorial/stratigraphy/images/ch2_transparent_cbar.png" alt="" />
+        </a>
+    </div>
+</div>
+
+<!-- Next / Prev -->
+<ul class="uk-pagination">
+    <li><a href="/pages/tutorial/stratigraphy/step_01.html"><span class="uk-margin-small-right" uk-pagination-previous=""></span> Previous</a></li>
+    <li class="uk-margin-auto-left"><a href="/pages/tutorial/stratigraphy/step_03.html">Next <span class="uk-margin-small-left" uk-pagination-next=""></span></a></li>
+</ul>
+
+<!-- Sidebar -->
+<div class="tm-sidebar-right uk-visible@l">
+    <div uk-sticky="offset: 160" class="uk-sticky uk-active uk-sticky-fixed" style="position: fixed; top: 160px; width: 200px;">
+        <ul uk-scrollspy-nav="closest: li; scroll: true; offset: 100" class="uk-nav uk-nav-default tm-nav uk-nav-parent-icon">
+            <li class=""><a href="/pages/tutorial/stratigraphy/index.html">Index</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_01.html">1. Building a Hex Mesh</a></li>
+            <li class="uk-active"><a href="#psets">2. Define Boundaries Using Point Sets</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_03.html">3. Constructing Stratigraphy</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_04.html">4. Map Surfaces to Mesh</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_05.html">5. Constructing a Fault</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_06.html">6. Truncate with Polyline</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_07.html">7. Refine Fault</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_08.html">8. Insert Wells</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_09.html">9. Convert Hex Mesh to Tet</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_fehm.html">10.1 Write FEHM Files</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_exo.html">10.2 Write ExodusII Files</a></li>
+            <li class="uk-nav-divider"></li>
+            <!---->
+            <li><a href="/pages/tutorial/stratigraphy/images/gallery.html" target="_blank"><span uk-icon="icon: image" class="uk-margin-small-right uk-icon"></span> <span class="uk-text-middle">Image Gallery</span></a></li>
+            <li><a href="https://github.com/lanl/LaGriT/issues" target="_blank"><span uk-icon="icon: warning" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="warning"><circle cx="10" cy="14" r="1"></circle><circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle><path d="M10.97,7.72 C10.85,9.54 10.56,11.29 10.56,11.29 C10.51,11.87 10.27,12 9.99,12 C9.69,12 9.49,11.87 9.43,11.29 C9.43,11.29 9.16,9.54 9.03,7.72 C8.96,6.54 9.03,6 9.03,6 C9.03,5.45 9.46,5.02 9.99,5 C10.53,5.01 10.97,5.44 10.97,6 C10.97,6 11.04,6.54 10.97,7.72 L10.97,7.72 Z"></path></svg></span> <span class="uk-text-middle">Report issue</span></a></li>
+            <li><a href="mailto:lagrit-dev@lanl.gov" target="_blank"><span uk-icon="icon: commenting" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="commenting"><polygon fill="none" stroke="#000" points="1.5,1.5 18.5,1.5 18.5,13.5 10.5,13.5 6.5,17.5 6.5,13.5 1.5,13.5"></polygon><circle cx="10" cy="8" r="1"></circle><circle cx="6" cy="8" r="1"></circle><circle cx="14" cy="8" r="1"></circle></svg></span> <span class="uk-text-middle">Get help</span></a></li>
+        </ul>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

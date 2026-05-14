@@ -13,12 +13,15 @@ if(UNIX)
     endif()
 
     set(LaGriT_STATIC_LINKER_FLAGS "-static-libgcc -static-libstdc++")
+
 elseif(WIN32)
     message(STATUS "  Operating System: Windows")
     add_definitions(-Dwin64)
+
 elseif(MINGW)
     message(STATUS "  Operating System: Windows (MinGW)")
     add_definitions(-Dwin64)
+
 else()
-    message("OPERATING SYSTEM COULD NOT BE DETECTED")
+    message("cmake/PlatformSettings.cmake OPERATING SYSTEM UNDEFINED")
 endif()

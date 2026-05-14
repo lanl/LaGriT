@@ -1,5 +1,5 @@
 ---
-title: Example 1: test using trans to modify two point distributions.
+title: "Example 1: test using trans to modify two point distributions."
 ---
 
 Example 1: test using trans to modify two point distributions.

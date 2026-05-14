@@ -1,0 +1,7 @@
+*TEST quality (lagrit_input_qual1skew)
+read / gmv / input_tet1_skew.gmv/cmo
+*begin compare here
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+finish

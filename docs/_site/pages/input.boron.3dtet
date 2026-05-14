@@ -1,0 +1,65 @@
+*--- Input deck for r-adaption of tetrahedral mesh, using
+*--- the boron doping profile provided by Kent Smith.
+*--- R-adaption entails moving the nodes in order to best represent
+*--- the boron density function.
+ 
+*--- Create tetrahedral mesh
+ 
+cmo create 3dmesh /// tet
+ 
+*--- Define six surfaces of a box.  The box contains Silicon and takes
+*--- up the region [-1.5,-.25] x [-1.5,1.5] x [-1.08,-.08].
+ 
+surface/bot/reflect/plane/-1.5,-1.5,-1.08/&
+1.5,-1.5,-1.08/1.5,1.5,-1.08/
+surface/top/reflect/plane/-1.5,-1.5,-.08/ &
+1.5,1.5,-.08/1.5,-1.5,-.08/
+surface/left/reflect/plane/-1.5,-1.5,-1.5/-1.5,1.5,-1.5/-1.5,1.5,1.5/
+surface/right/reflect/plane/1.5,-1.5,-1.5/1.5,1.5,-1.5/1.5,1.5,1.5/
+surface/front/reflect/plane/-1.5,-.25,1.5/1.5,-.25,1.5/1.5,-.25,-1.5/
+surface/back/reflect/plane/-1.5,1.5,1.5/1.5,1.5,1.5/1.5,1.5,-1.5/
+ 
+*--- Define Silicon region to be inside the box.
+ 
+region/Silicon/ ge left and le right and ge front and &
+le back and ge bot and ge top /
+mregion/mSilicon/ ge left and le right and ge front and &
+le back and ge bot and ge top /
+ 
+*--- Distribute points
+ 
+rz/xyz/15,7,11/-1.5,-.25,-1.08/1.5,1.5,-.08/1,1,1/0,0,1/1.,1.,0.9
+*rz/xyz/21,11,15/-1.5,-.25,-1.08/1.5,1.5,-.08/1,1,1/0,0,1/1.,1.,0.9
+*rz/xyz/31,15,21/-1.5,-.25,-1.08/1.5,1.5,-.08/1,1,1/0,0,1/1.,1.,0.9
+filter/1,0,0/
+zq/imt/1,0,0/1/
+setpts
+ 
+*--- Create tet mesh
+ 
+connect
+settets
+ 
+*--- add 'boron' field attribute
+ 
+cmo/select/3dmesh
+cmo/addatt/3dmesh/boron/vdouble/scalar/nnodes/linear/permanent//0.
+ 
+*--- dope the '3dmesh' density field with
+*--- user-supplied FADPT values at given time.
+ 
+assign///time/0.
+doping/user/boron/set/1,0,0
+dump gmv boron.3dtet.initial.gmv
+ 
+*--- Perform r-adaption on 3d tet mesh.
+ 
+assign///maxiter_sm/50
+radapt/position/mega/1,0,0/user
+ 
+*--- redope the '3dmesh' density field with
+*--- user-supplied FADPT values at given time.
+ 
+doping/user/boron/set/1,0,0
+dump gmv boron.3dtet.adapted.gmv
+finish

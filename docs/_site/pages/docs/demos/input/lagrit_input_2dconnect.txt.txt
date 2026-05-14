@@ -1,0 +1,29 @@
+Example LaGriT command file for 2D connect 
+
+
+# read the input points
+read / avs / input.inp / cmopts
+
+# create 2D mesh object and copy points
+cmo/create/cmotri/ / /triplane
+copypts/cmotri/ cmopts
+cmo/delete/cmopts
+
+# remove duplicate points if they exist
+cmo/select/cmotri
+filter/1,0,0
+rmpoint/compress
+
+# connect the points and set itp array
+connect
+resetpts/itp
+
+# write AVS format file of the tri plane
+dump / avs / output_2d_conn.inp / cmotri
+
+# report mesh information
+cmo/status
+cmo/printatt//-all-/minmax
+quality
+
+finish

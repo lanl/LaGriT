@@ -1,0 +1,98 @@
+#--* LAGriT Example Input file
+#--* Create a non-convex hex and use grid2grid 
+#----------------------------------------------
+# Use x coordinates to compute z based on cos()
+
+# spacing near .25
+define / XMAX / 9.5 
+define / YMAX / 1. 
+define / NX / 40
+define / NY / 5
+
+#-------------------------------------------------
+# Create the quad mesh with wave topology
+# this is the template used for all surfaces
+
+cmo / create / mosurf / / / quad
+quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1
+createpts/brick/xyz/NX,NY,1/1 0 0 / connect
+cmo / setatt / mosurf / imt / 1 0 0 / 1
+cmo / setatt / mosurf / itetclr / 1 0 0 / 1
+resetpts / itp
+
+math/cos/mosurf/zic/1,0,0/mosurf/xic
+
+dump / surf_wave.inp / mosurf
+dump / surf_wave.gmv / mosurf
+cmo / printatt / mosurf / -xyz- / minmax
+
+#-------------------------------------------------
+# make layers for for input into stack
+# top is wave, bottom is flat
+
+define ZBOT 0.
+
+# translate surfaces for vertical spacing
+define S1 2.
+define S2 .8 
+define S3 1.5 
+
+cmo select mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S1 
+dump / surf_wave_low.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S2 
+dump / surf_wave_high.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S3 
+dump / surf_wave_top.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZBOT 
+dump / surf_flat_bot.inp / mosurf
+
+
+#-------------------------------------------------
+# Stack layers from bottom to top wave
+cmo/create/mo_stack
+stack/layers/avs/ &
+  surf_flat_bot.inp 1 &
+  surf_wave_low.inp  2 3 &
+  surf_wave_high.inp 3 2 &
+  surf_wave_top.inp 3  3 
+
+dump gmv tmp_stack_layers.gmv mo_stack
+cmo/printatt/mo_stack/ -xyz- minmax
+
+# connect statcked surfaces into 3D elements
+stack/fill/mohex / mo_stack
+cmo select mohex
+resetpts itp
+
+# write information about this mesh object
+cmo/printatt/mohex/-xyz- minmax
+quality
+
+# check hex volumes
+cmo/addatt/mohex/volume hex_vol
+cmo/printatt/mohex/hex_vol minmax
+eltset/ ebad / hex_vol/le 0.
+
+dump hex_stack.inp mohex
+dump hex_stack.gmv mohex
+
+#-------------------------------------------------
+# convert each hex to 5 tetrahedrals
+
+cmo/select/mohex
+grid2grid/ hextotet5/ motet5 / mohex
+resetpts/itp
+cmo/select/motet5
+
+# report mesh statistics
+quality
+cmo/addatt/motet5/volume/tet_vol
+cmo/addatt/motet5/voronoi_volume/vor_vol
+cmo/printatt/motet5/ -all- minmax
+
+finish
+

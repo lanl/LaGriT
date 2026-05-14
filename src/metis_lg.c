@@ -68,6 +68,9 @@ All metis routines are concatenated below.
 */
 #include "metis.h"
 
+/* function declaration */
+SelectQueueOneWay();
+
 /*************************************************************************
 * This function is my wrapper around free, allows multiple pointers    
 **************************************************************************/

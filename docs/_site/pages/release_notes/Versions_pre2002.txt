@@ -1,0 +1,259 @@
+These are notes from Versions in years before 2002
+includes x3dgen (V0 1997) and lagritgen (V1 2002) 
+
+2001 Notes from /home/tamiller/src/x3d/newsrc
+-rw-r----- 1 tamiller sft  8930 Aug 10  2001 newcodes.txt
+
+******************************
+cmo/makatt/normal/ type / cmoname / x_attname, y_attname, z_attname /  
+type = (area or face or element) or (synth or average or node)
+
+tempgable.f---------------------------------------------------------
+c    Calculate the area normal to a triangle.
+c
+      x12 = x(1)-x(2)
+      y12 = y(1)-y(2)
+      z12 = z(1)-z(2)
+      x13 = x(1)-x(3)
+      y13 = y(1)-y(3)
+      z13 = z(1)-z(3)
+c
+c    Take the cross product of xyz12 and xyz13
+c
+      xnorm(1) = y12*z13 - y13*z12
+      ynorm(1) = z12*x13 - z13*x12
+      znorm(1) = x12*y13 - x13*y12
+
+      area(1) = 0.5d0*sqrt(xnorm(1)**2 + ynorm(1)**2 + znorm(1)**2)
+
+dihangle_face.f-----------------------------------------------------
+
+C  Compute the normals to the faces
+C  Use the more robust method of projecting to each axis and using
+C  all the points on the face to generate normal
+      a1=0
+      b1=0
+      c1=0
+      a2=0
+      b2=0
+      c2=0
+      do i=1,points1-1
+         a1 = a1 + (zic1(i) + zic1(i+1)) * (yic1(i) - yic1(i+1))
+         b1 = b1 + (xic1(i) + xic1(i+1)) * (zic1(i) - zic1(i+1))
+         c1 = c1 + (yic1(i) + yic1(i+1)) * (xic1(i) - xic1(i+1))
+      enddo
+      a1 = a1 + (zic1(points1) + zic1(1)) * (yic1(points1) - yic1(1))
+      b1 = b1 + (xic1(points1) + xic1(1)) * (zic1(points1) - zic1(1))
+      c1 = c1 + (yic1(points1) + yic1(1)) * (xic1(points1) - xic1(1))
+
+      norm1 = sqrt(a1*a1 + b1*b1 + c1*c1)
+      a1 = a1 / norm1
+      b1 = b1 / norm1
+      c1 = c1 / norm1
+
+      do i=1,points2-1
+         a2 = a2 + (zic2(i) + zic2(i+1)) * (yic2(i) - yic2(i+1))
+         b2 = b2 + (xic2(i) + xic2(i+1)) * (zic2(i) - zic2(i+1))
+         c2 = c2 + (yic2(i) + yic2(i+1)) * (xic2(i) - xic2(i+1))
+      enddo
+      a2 = a2 + (zic2(points2) + zic2(1)) * (yic2(points2) - yic2(1))
+      b2 = b2 + (xic2(points2) + xic2(1)) * (zic2(points2) - zic2(1))
+      c2 = c2 + (yic2(points2) + yic2(1)) * (xic2(points2) - xic2(1))
+
+      norm2 = sqrt(a2*a2 + b2*b2 + c2*c2)
+      a2 = a2 / norm2
+      b2 = b2 / norm2
+      c2 = c2 / norm2
+
+      dot = a1*a2 + b1*b2 + c1*c2
+
+
+sgd.f---------------------------------------------------------------
+
+c.... In the case of triangular grids, compute a synthetic normal at
+c.... NODE to be used to determine the orientation of triangles
+c.... incident upon NODE.
+            if (nsdtopo.eq.2) then
+               call synthnormal(node,nelt,ielts,iparent,itet,
+     &            itetoff,xic,yic,zic,eps,synthx,synthy,synthz
+     &            ,lsomereversed)
+            endif
+
+synthnormal.f-------------------------------------------------------
+
+      subroutine synthnormal(node,nelts,ielts,iparent,itet,itetoff,
+     &   xic,yic,zic,epsln,synthx,synthy,synthz,lsomereversed)
+
+C        This routine computes the (angle-weighted) synthetic normal
+C        around NODE in a triangular mesh.  It then checks if some
+C        of the triangles have a reversed orientation with respect
+C        to this normal.
+C
+C     INPUT ARGUMENTS -
+C
+C       NODE -- central node.
+C       NELTS -- number of surrounding triangles.
+C       IELTS -- array of triangle numbers.
+C       IPARENT -- parent node array.
+C       ITET -- triangle-node relation.
+C       ITETOFF -- offset array for triangle node relation.
+
+get_xcontab.f-------------------------------
+               if(coption(1:loption).eq.'area_vector'.or.
+     *            coption(1:loption).eq.'area_normal') then
+                  xfac=1.0d+00/ielmface0(i,itettyp(it))
+                  do j=1,ielmface0(i,itettyp(it))
+                     j1=itet1(ioff+ielmface1(j,i,itettyp(it)))
+                     xarea(j1)=xarea(j1)+xfac*xarea_tri
+                     yarea(j1)=yarea(j1)+xfac*yarea_tri
+                     zarea(j1)=zarea(j1)+xfac*zarea_tri
+                  enddo
+
+----
+      elseif(coption(1:loption).eq.'area_normal') then
+         xareamax=0.0d+00
+         do i1=1,nnodes
+            xareamag=xarea(i1)**2+yarea(i1)**2+zarea(i1)**2
+            xareamax=max(xareamax,xareamag)
+         enddo
+         xareamax=sqrt(xareamax)
+         do i1=1,nnodes
+            xareamag=sqrt(xarea(i1)**2+yarea(i1)**2+zarea(i1)**2)
+            if(xareamag.gt.1.0d-06*xareamax) then
+               xcontab_node(1+3*(i1-1))=-xarea(i1)/xareamag
+               xcontab_node(2+3*(i1-1))=-yarea(i1)/xareamag
+               xcontab_node(3+3*(i1-1))=-zarea(i1)/xareamag
+            else
+               xcontab_node(1+3*(i1-1))=0.0
+               xcontab_node(2+3*(i1-1))=0.0
+               xcontab_node(3+3*(i1-1))=0.0
+            endif
+         enddo
+
+
+extrude.f ----------------------------------------------------------
+uses normal to the reference plane or average normal
+C     If the user wants to check for a planar surface, or the average
+C     normal is to be used, check if that is feasiblie, and if so,
+C     calculate the normal for each element.
+
+            do i=1,nelmnen(itettyp(itri))
+               id1=nodeidx(mod(i,nelmnen(itettyp(itri)))+1)
+               id2=nodeidx(mod((i+1),nelmnen(itettyp(itri)))+1)
+               id3=nodeidx(mod((i+2),nelmnen(itettyp(itri)))+1)
+C
+C              Calculate out the normals, and make sure they point in
+C              the same direction.
+               xnorm_curr=dbarea(yic(id1),zic(id1),
+     &              yic(id2),zic(id2),yic(id3),zic(id3))
+               ynorm_curr=dbarea(zic(id1),xic(id1),
+     &              zic(id2),xic(id2),zic(id3),xic(id3))
+               znorm_curr=dbarea(xic(id1),yic(id1),
+     &              xic(id2),yic(id2),xic(id3),yic(id3))
+               anorm=sqrt(xnorm_curr*xnorm_curr+
+     &              ynorm_curr*ynorm_curr+
+     &              znorm_curr*znorm_curr)
+C
+C              If average was selected, go for it...
+               if((nwds.eq.6).OR.(cmsgin(7).eq.'norm')) then
+                  xvect = xvect+xnorm_curr
+                  yvect = yvect+ynorm_curr
+                  zvect = zvect+znorm_curr
+               endif
+
+-------------------------------
+C           Check the dotproduct of the elements pseudo normal vector
+C           and the extruding vector direction if it's >= 0, react
+C           accordingly.
+            dotproduct=xnorm_ref*xvect+
+     &           ynorm_ref*yvect+
+     &           znorm_ref*zvect
+C
+            if(dotproduct.gt.0) then
+               do idx=1,nelmnen(itettyp(itri))
+                  iteto(2*itetoff(itri)+idx)=itet(itetoff(itri)+idx)
+                  iteto(2*itetoff(itri)+idx+nelmnen(itettyp(itri)))=
+     &                 itet(itetoff(itri)+idx)+nnodes
+               enddo
+
+get_xcontab.f-------------------------------
+                  dx=x3-x2
+                  dy=y3-y2
+                  dz=z3-z2
+                  dxtri= ((y2-y1)*(z3-z1)-(y3-y1)*(z2-z1))
+                  dytri=-((x2-x1)*(z3-z1)-(x3-x1)*(z2-z1))
+                  dztri= ((x2-x1)*(y3-y1)-(x3-x1)*(y2-y1))
+                  xdir=-(dy*dztri-dytri*dz)
+                  ydir= (dx*dztri-dxtri*dz)
+                  zdir=-(dx*dytri-dxtri*dy)
+                  xmag_dir=sqrt(xdir**2+ydir**2+zdir**2)
+                  xmag=sqrt(dx**2+dy**2+dz**2)
+                  if(xmag_dir.gt.0.0) then
+                     xarea_tri=xmag*xdir/xmag_dir
+                     yarea_tri=xmag*ydir/xmag_dir
+                     zarea_tri=xmag*zdir/xmag_dir
+                  else
+                     xarea_tri=0.0
+                     yarea_tri=0.0
+                     zarea_tri=0.0
+                  endif
+----------------------------------
+
+
+
+
+
+
+******************************
+cmo/makatt/area/ cmoname / attname / [node] 
+
+******************************
+math/integrate/ cmosink/attsink/1,0,0/ cmosink/ Vector_field_name
+
+lineline.f------------------------------------------------------
+
+C     Unit vector 21
+      xu21 = x2-x1
+      yu21 = y2-y1
+      zu21 = z2-z1
+      mag21 = sqrt(xu21**2+yu21**2+zu21**2)
+      if (mag21.le.local_epsilon) then
+         write(logmess,'(a)')
+     &     'Error in subroutine line_line: line 21 is indeterminate!'
+         call writloga('default',0,logmess,0,ierror)
+         goto 9999
+      endif
+
+
+extrude.f ------------------------------------------------------
+extrude with volume option will create volumes from 2D shapes
+
+C     Make copies of the nodes the appropriate distance away.
+C
+      do i=1,nnodes
+         if(cmsgin(4).eq.'min') then
+            d=(refptx-xic(i))*(xvect)+
+     &           (refpty-yic(i))*(yvect)+
+     &           (refptz-zic(i))*(zvect)
+         endif
+         xico(i)=xic(i)
+         yico(i)=yic(i)
+         zico(i)=zic(i)
+         xico(i+nnodes)=xic(i)+d*xvect
+         yico(i+nnodes)=yic(i)+d*yvect
+         zico(i+nnodes)=zic(i)+d*zvect
+         imt1o(i)=imt1(i)
+         imt1o(i+nnodes)=imt1(i)
+         if(isn1(i).ne.0) then
+            isn1o(i)=isn1(i)
+            isn1o(i+nnodes)=isn1(i)+nnodes
+         endif
+      enddo
+
+--------------------------------------------------------------------
+
+******************************
+math/sum/ cmosink/attsink_scalar /1,0,0/ cmosrc/attsrc 
+
+
+END file versions_pre_2007

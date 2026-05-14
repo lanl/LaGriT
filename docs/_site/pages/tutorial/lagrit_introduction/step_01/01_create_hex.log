@@ -1,0 +1,21 @@
+cmo/create/3dmesh///hex                                                         
+cmo/status/3dmesh                                                               
+define/XMIN/0.                                                                  
+define/XMAX/100.                                                                
+define/YMIN/0.                                                                  
+define/YMAX/50.                                                                 
+define/ZMIN/0.                                                                  
+define/ZMAX/80.                                                                 
+define/NX/11                                                                    
+define/NY/6                                                                     
+define/NZ/9                                                                     
+define/NZ/17                                                                    
+createpts/brick/xyz/NX NY NZ/XMIN YMIN ZMIN/XMAX YMAX ZMAX/1,1,1                
+cmo/setatt/3dmesh/imt/1,0,0/1                                                   
+cmo/setatt/3dmesh/itetclr/1,0,0/1                                               
+resetpts/itp                                                                    
+cmo/status/3dmesh/brief                                                         
+cmo/printatt/3dmesh/-xyz- minmax                                                
+quality                                                                         
+dump/avs/01_hex_mesh.inp/3dmesh                                                 
+finish                                                                          

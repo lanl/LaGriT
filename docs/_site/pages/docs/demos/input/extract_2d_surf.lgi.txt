@@ -1,0 +1,31 @@
+# Read chopped 3D sphere
+# create 2D grid on XY plane
+
+read hex_mesh_half.inp mo_sph
+cmo setatt mo_sph imt 1
+cmo setatt mo_sph itetclr 1
+resetpts itp
+
+# extract outside surface and color by normals
+extract/surfmesh/1,0,0/mos/ mo_sph/external
+settets/normal
+dump avs surfmesh_shell.inp mos
+
+# remove elements not on front face
+eltset/edel/itetclr ne 6
+rmpoint element eltset,get,edel
+rmpoint compress
+
+# do some clean up to put on XY plane
+cmo/setatt/mos/yic 0.
+cmo/setatt/mos/imt 1
+cmo/setatt/mos/itetclr 1
+resetpts itp
+
+# switch yic and zic
+cmo/copyatt/mos mos /yic zic
+cmo/setatt/mos/ zic 0.
+dump avs surface_xy.inp mos 1 1 0 0
+
+
+finish

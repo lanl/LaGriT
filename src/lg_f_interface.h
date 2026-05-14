@@ -42,9 +42,10 @@ ie define DOTASK FortranCInterface_GLOBAL(dotask, DOTASK)
 */
 
 #include "fc_mangle.h"
+#include "type_sizes.h"
 #include <stddef.h>
 
-typedef int int_ptrsize;
+// typedef int int_ptrsize;
 typedef double real8;
 
 #ifdef __cplusplus

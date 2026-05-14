@@ -1,0 +1,263 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>LaGriT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <!-- Begin breadcrumb -->
+<ul class="uk-breadcrumb">
+    <li><a href="/pages/tutorial/index.html">Tutorials &amp; Examples</a></li>
+    <li><span>Stratigraphic Hex Mesh Tutorial</span></li>
+</ul>
+<!-- End breadcrumb -->
+
+<!-- Begin image -->
+<p><img data-src="/pages/tutorial/stratigraphy/images/01_hex_01.png" width="639" height="525" alt="" uk-img="" />
+<br />
+<!-- End image --></p>
+
+<h2 id="build-hex" class="uk-h3 uk-margin-remove">1. Building a Hex Mesh</h2>
+
+<p>First, we are going to construct a structured hex mesh. The hex mesh will span
+from 0 meters to 4000 m, 4000 m, and 3000 m, for the x/y/z coordinates
+respectively.</p>
+
+<p>For both consistency and rapid parameter manipulation, these can be stored in
+variables. In LaGriT, variables are assigned using the <code class="language-plaintext highlighter-rouge">define</code> keyword.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>define / X0 / 0.
+define / X1 / 4000.
+define / Y0 / 0.
+define / Y1 / 4000.
+define / Z0 / 0.
+define / Z1 / 3000.
+
+define / NX / 51
+define / NY / 51
+define / NZ / 26
+
+define / MONAME / mohex
+</code></pre></div></div>
+
+<p>Above, the spatial domain (<code class="language-plaintext highlighter-rouge">X0,X1,Y0,...</code>), element density (<code class="language-plaintext highlighter-rouge">NX/NY/NZ</code>), and
+mesh name (<code class="language-plaintext highlighter-rouge">MONAME</code>) have been defined.</p>
+
+<p>Next, we will create an empty mesh object, with element type <code class="language-plaintext highlighter-rouge">hex</code>, using the
+<a href="/pages/docs/commands/cmo/cmo_create.html"><code class="language-plaintext highlighter-rouge">cmo / create</code></a> command:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / MONAME / / / hex
+</code></pre></div></div>
+
+<p>Due to the variable assignment of <code class="language-plaintext highlighter-rouge">MONAME &lt;- mohex</code> above, this command is
+translated internally as:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmo / create / mohex / / / hex
+</code></pre></div></div>
+
+<p>This empty object can then be populated with nodes and elements. 
+The <a href="/pages/docs/commands/createpts/CRTPTBRICK.html"><code class="language-plaintext highlighter-rouge">createpts / brick</code></a> command will generate a defined number of
+hex elements across a defined domain.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>createpts / brick / xyz / NX NY NZ / X0 Y0 Z0 / X1 Y1 Z1 / 1 1 1
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">NX</code> number of hex elements, along with their corresponding vertices, have been
+created in the spatial domain spanning <code class="language-plaintext highlighter-rouge">X0-&gt;X1</code>, along with <code class="language-plaintext highlighter-rouge">NY</code> elements in
+the Y domain and <code class="language-plaintext highlighter-rouge">NZ</code> elements in the Z domain.</p>
+
+<p>Optionally, <a href="/pages/docs/commands/DUMP2.html">save the mesh object</a>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dump / avs / tmp_hex_01.inp / MONAME
+</code></pre></div></div>
+
+<p>This file can be rendered in certain scientific 3D visualization applications,
+such as <a href="https://www.paraview.org">ParaView</a>.</p>
+
+<!-- Page left / right -->
+<ul class="uk-pagination">
+    <li><a href="/pages/tutorial/stratigraphy/index.html"><span class="uk-margin-small-right" uk-pagination-previous=""></span> Previous</a></li>
+    <li class="uk-margin-auto-left"><a href="/pages/tutorial/stratigraphy/step_02.html">Next <span class="uk-margin-small-left" uk-pagination-next=""></span></a></li>
+</ul>
+
+<!-- Sidebar -->
+<div class="tm-sidebar-right uk-visible@l">
+    <div uk-sticky="offset: 160" class="uk-sticky uk-active uk-sticky-fixed" style="position: fixed; top: 160px; width: 200px;">
+        <ul uk-scrollspy-nav="closest: li; scroll: true; offset: 100" class="uk-nav uk-nav-default tm-nav uk-nav-parent-icon">
+            <li class=""><a href="/pages/tutorial/stratigraphy/index.html">Index</a></li>
+            <li class="uk-active"><a href="#build-hex">1. Building a Hex Mesh</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_02.html">2. Define Boundaries Using Point Sets</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_03.html">3. Constructing Stratigraphy</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_04.html">4. Map Surfaces to Mesh</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_05.html">5. Constructing a Fault</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_06.html">6. Truncate with Polyline</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_07.html">7. Refine Fault</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_08.html">8. Insert Wells</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_09.html">9. Convert Hex Mesh to Tet</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_fehm.html">10.1 Write FEHM Files</a></li>
+            <li class=""><a href="/pages/tutorial/stratigraphy/step_10_exo.html">10.2 Write ExodusII Files</a></li>
+            <li class="uk-nav-divider"></li>
+            <!---->
+            <li><a href="/pages/tutorial/stratigraphy/images/gallery.html" target="_blank"><span uk-icon="icon: image" class="uk-margin-small-right uk-icon"></span> <span class="uk-text-middle">Image Gallery</span></a></li>
+            <li><a href="https://github.com/lanl/LaGriT/issues" target="_blank"><span uk-icon="icon: warning" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="warning"><circle cx="10" cy="14" r="1"></circle><circle fill="none" stroke="#000" stroke-width="1.1" cx="10" cy="10" r="9"></circle><path d="M10.97,7.72 C10.85,9.54 10.56,11.29 10.56,11.29 C10.51,11.87 10.27,12 9.99,12 C9.69,12 9.49,11.87 9.43,11.29 C9.43,11.29 9.16,9.54 9.03,7.72 C8.96,6.54 9.03,6 9.03,6 C9.03,5.45 9.46,5.02 9.99,5 C10.53,5.01 10.97,5.44 10.97,6 C10.97,6 11.04,6.54 10.97,7.72 L10.97,7.72 Z"></path></svg></span> <span class="uk-text-middle">Report issue</span></a></li>
+            <li><a href="mailto:lagrit-dev@lanl.gov" target="_blank"><span uk-icon="icon: commenting" class="uk-margin-small-right uk-icon"><svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="commenting"><polygon fill="none" stroke="#000" points="1.5,1.5 18.5,1.5 18.5,13.5 10.5,13.5 6.5,17.5 6.5,13.5 1.5,13.5"></polygon><circle cx="10" cy="8" r="1"></circle><circle cx="6" cy="8" r="1"></circle><circle cx="14" cy="8" r="1"></circle></svg></span> <span class="uk-text-middle">Get help</span></a></li>
+        </ul>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>

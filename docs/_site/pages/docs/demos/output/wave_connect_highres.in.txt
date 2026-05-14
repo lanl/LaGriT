@@ -1,0 +1,122 @@
+*--* LAGriT Example Input file
+*--*
+*--* Create a mesh with wave interface and connect 
+*-------------------------------*
+#
+# Use x coordinates to compute z based on cos()
+# z(i)=cos(x(i))
+
+# EDIT Variables to define resolution and file names
+
+# spacing near .25
+define / XMAX / 9.5 
+define / YMAX / 1. 
+define / NX / 40
+define / NY / 5
+
+define HEX_MESH hex.gmv
+define TET_MESH tet.gmv
+
+# MODIFY Variables to fix popped tets on interface
+# ADD resolution so height to width ratio is near 1 to 2 
+define / NX / 80
+define / NY / 10
+define HEX_MESH hex2.gmv
+define TET_MESH tet2.gmv
+
+#-------------------------------------------------
+# Create the quad mesh with wave topology
+
+cmo / create / mosurf / / / quad
+quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1
+createpts/brick/xyz/NX,NY,1/1 0 0 / connect
+cmo / setatt / mosurf / imt / 1 0 0 / 1
+cmo / setatt / mosurf / itetclr / 1 0 0 / 1
+resetpts / itp
+
+cmo / printatt / mosurf / -xyz- / minmax
+math/cos/mosurf/zic/1,0,0/mosurf/xic
+cmo / printatt / mosurf / -xyz- / minmax
+dump / surf_wave.inp / mosurf
+
+#-------------------------------------------------
+# make primary surfaces for stack input files 
+
+# Make top and bottom surfaces flat
+define ZBOT 0.
+define ZTOP 4.
+
+# translate surfaces for vertical thickness
+define S1 2.
+define S2 .6 
+define S3 1.5 
+
+cmo select mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S1 
+dump / surf_wave_low.inp / mosurf
+
+trans /1,0,0/ 0. 0. 0./ 0. 0. S2 
+dump / surf_wave_high.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZBOT 
+dump / surf_flat_bot.inp / mosurf
+
+cmo/setatt/mosurf/ zic/ ZTOP 
+dump / surf_flat_top.inp / mosurf
+
+#-------------------------------------------------
+# Stack layers from bottom to top 
+# Define material id and add refine layers
+
+cmo/create/mo_stack
+stack/layers/avs/ &
+  surf_flat_bot.inp 1 &
+  surf_wave_low.inp  2 3 &
+  surf_wave_high.inp 3 3 &
+  surf_flat_top.inp  3 3 
+
+dump gmv tmp_stack_layers.gmv mo_stack
+
+# connect statcked surfaces into 3D elements
+stack/fill/mohex / mo_stack
+resetpts/itp
+
+# write information about this mesh object
+cmo/printatt/mohex/-xyz- minmax
+quality
+
+# check hex volumes
+cmo/addatt/mohex/volume hex_vol
+cmo/printatt/mohex/hex_vol minmax
+eltset/ ebad / hex_vol/le 0.
+dump HEX_MESH mohex
+
+#-------------------------------------------------
+# connect
+
+cmo/create/motet
+copypts/motet/mohex
+
+# set some defaults for the connect routine
+filter / 1 0 0
+rmpoint / compress
+cmo / setatt / motet / imt / 1 0 0 / 1
+cmo / setatt / motet / itp / 1 0 0 / 0
+
+# connect and ignore interface materials
+connect/ noadd
+
+# interpolate element materials from hex mesh
+interpolate/map/motet itetclr/1,0,0/mohex itetclr
+resetpts / itp
+
+# report mesh quality and check for neg ccoefs
+quality
+cmo/addatt/motet/volume/tet_vol
+cmo/addatt/motet/voronoi_volume/vor_vol
+cmo/printatt/motet/tet_vol/minmax
+cmo/printatt/motet/vor_vol/minmax
+dump TET_MESH motet
+
+finish
+# Exit

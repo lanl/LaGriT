@@ -8,7 +8,7 @@ tags: addmesh merge amr append glue excavate
 -------------------------------------
 
 This routine joins two meshes together at their common interface to
-produce a third mesh.
+produce a third mesh. The **merge** and **append** options are commonly used to create a single mesh object from many. This can make refinement based on ojects easier to manage.
 
 Some operations may only work with tet meshes.
 
@@ -104,6 +104,21 @@ operation. The user must often use the commands
  and then **connect**. This will produce a fully connected mesh with the surface
  (mesh2) inserted into the background (mesh1).
 
+
+## Examples
+
+```
+addmesh/merge/ moall / moall / mo_fault1
+addmesh/merge/ moall / moall / mo_fault2
+addmesh/merge/ moall / moall / mo_fault3
+cmo/printatt/ moall / itetclr / minmax
+cmo/printatt/ moall / imt / minmax
+```
+
+In this example, mo_fault1, mo_fault2, and mo_fault3 are all copied into the single mesh object named "moall". The values of itetclr and imt are not changed, so if itetclr values are 1, 2, and 3 respectively - then the itetclr minmax values will be 1 and 3. 
+As an alternative **addmesh/append** will increment itetclr and imt values based on *mesh2* and *mesh3* values. If all *mesh2* values are 1, the itetclr minmax value at end of calls will be 1 a 3.
+
+Once merged, a mesh can be intersected and refined based on moall instead of multiple calls using mo_fault1, mo_fault2, and mo_fault3. 
 
 
 [Click here for demos](../demos/index.md)

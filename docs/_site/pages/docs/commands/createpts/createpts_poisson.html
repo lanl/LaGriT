@@ -1,0 +1,333 @@
+<html lang="en-gb" dir="ltr">
+
+<head>
+    <title>CREATEPTS/POISSON_DISK</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="LaGriT : LaGriT is a library providing mesh generation and optimization for a variety of polyhedra and dimensions.">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Fira+Sans" rel="stylesheet">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Reg-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="preload" href="https://getuikit.com/fonts/ProximaNova-Light-webfont.woff2" as="font" type="font/woff2" crossorigin="">
+    <link rel="stylesheet" href="/assets/css/uikit_theme.css">
+    <link rel="icon" type="image/x-icon" href="https://www.lanl.gov/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/assets/css/footer.css">
+
+    <!-- load stylesheets -->
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.6.2/marked.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.min.js" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/uikit/dist/js/uikit-icons.min.js?1180" defer=""></script>
+    <script src="https://getuikit.com/assets/highlightjs/highlight.min.js" defer=""></script>
+    <script src="https://getuikit.com/app/main.min.js?1180" defer=""></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id=UA-42150424-1" async=""></script>
+
+    <!-- tipuesearch files -->
+    <link rel="stylesheet" href="/assets/tipuesearch/css/normalize.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch_content.js"></script>
+    <link rel="stylesheet" href="/assets/tipuesearch/css/tipuesearch.css">
+    <script src="/assets/tipuesearch/tipuesearch_set.js"></script>
+    <script src="/assets/tipuesearch/tipuesearch.min.js"></script>
+
+    <!-- Finally, load global style to overwrite template, tipuesearch, etc. -->
+    <!--<link rel="stylesheet" href="/assets/globalstyle.css">-->
+</head>
+
+<body>
+    <div>
+        <!-- Header -->
+        <div uk-sticky="media: 960" class="uk-navbar-container tm-navbar-container uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 100%; color: #212328;">
+            <div class="uk-container uk-container-expand">
+                <nav class="uk-navbar">
+                    <div class="uk-navbar-left">
+                        <a href="/" class="uk-navbar-item uk-logo" style="font-family: 'Do Hyeon', sans-serif; color: white;">
+                            <img uk-img src="/assets/img/logo.png" width="50" class="uk-margin-small-right" alt="LANL logo">
+                            LaGriT
+                        </a>
+                    </div>
+                    <div class="uk-navbar-right">
+                        <ul class="uk-navbar-nav uk-visible@m">
+                            <li><a href="/pages/commands">Commands</a></li>
+                            <li><a href="/pages/tutorial/index">Tutorials</a></li>
+                            <li><a href="/pages/release">Release Notes</a></li>
+                            <li><a href="/pages/publications">Publications</a></li>
+                            <li><a href="http://github.com/lanl/LaGriT"><span uk-icon="github"></span></a></li>
+
+                            <!-- Begin search bar -->
+                            <div class="nav-overlay uk-navbar-right">
+                                <a class="uk-navbar-toggle" uk-search-icon uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                                <div class="uk-navbar-item uk-width-expand">
+                                    <form class="uk-search uk-search-navbar uk-width-1-1" action="https://lanl.github.io/LaGriT/search/">
+                                        <input class="uk-search-input" name="q" type="search" id="tipue_search_input" placeholder="Search..." autofocus>
+                                    </form>
+                                </div>
+                                <a class="uk-navbar-toggle" uk-close uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+                            </div>
+
+                            <script>
+                                $(document).ready(function() {
+                                  $('#tipue_search_input').tipuesearch({
+                                        'show': 10,
+                                        'newWindow'  : true,
+                                        'showURL' : true,
+                                        'showTitleCount' : true,
+                                        'descriptiveWords' : 20,
+                                        'highlightTerms' : true,
+                                        'mode': 'static',
+                                  });
+                                });
+                            </script>
+                            <!-- End search bar -->
+
+                        </ul>
+                        
+                        <a uk-navbar-toggle-icon="" href="#offcanvas" uk-toggle="" class="uk-navbar-toggle uk-hidden@m uk-icon uk-navbar-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="navbar-toggle-icon">
+                                <rect y="9" width="20" height="2"></rect>
+                                <rect y="3" width="20" height="2"></rect>
+                                <rect y="15" width="20" height="2"></rect>
+                            </svg>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
+        <!-- End Header -->
+
+        <!-- Main Body text -->
+        <div class="tm-main uk-section uk-section-default">
+            <div class="uk-container uk-container-small uk-position-relative">
+
+                <h1 id="createptspoisson_disk">CREATEPTS/POISSON_DISK</h1>
+
+<hr />
+
+<p>Create a uniform or variable spaced points on/in a 2D planar polygon (convex or nonconvex) using Poisson Disk sampling. Optionally connect the vertices using Delaunay triangulation.</p>
+
+<p>This poisson_disk command is available for LaGriT versions V3.3.3 or greater.
+The 3D option for poisson_disk is under development and will be available in a future release.</p>
+
+<h2 id="syntax">SYNTAX</h2>
+
+<pre>
+<b>createpts</b> /<b>poisson_disk</b> / [<b>2d_polygon</b> | <b>3d_box</b>] / mo_out / mo_polygon / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
+ 
+</pre>
+
+<h3 id="argument-3-geometry-options">Argument 3. Geometry Options</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">2d_polygon</code></strong> character type indicating geometry for a 2D planar polygon, convex or nonconvex, in the XY plane. If the polygon you wish to distribute points in is not in XY plane, user must rotate it into XY plane.If the polygon is nonconvex, the algorithm may alter some small features depending on the details of the polygon and the user controlled input parameters. See examples below.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">3d_box</code></strong> character type indicating geometry for 3D orthogonal box defined by (x,y,z) minimum and (x,y,z) maximum. (Under Development)</p>
+
+<h3 id="argument-4-and-5-mesh-object-names">Argument 4. and 5. Mesh Object Names</h3>
+
+<p><code class="language-plaintext highlighter-rouge">mo_out</code> name of output mesh object.  This user defined mesh object will contain the vertex distribution or triangulation created by the poisson_disk algorithm.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mo_polygon</code> name of input mesh object that contains a 2D planar polygon in the XY plane.</p>
+
+<h3 id="argument-6-spacing">Argument 6. Spacing</h3>
+
+<p><code class="language-plaintext highlighter-rouge">h_spacing_scalar</code> of type real. In the case of uniform resolution, this user provided real number defines the target spacing between vertices created by the Poisson-Disk algorithm. If the mesh is connected, the triangle edges will be approximately equal to <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code>. In the case of variable resolution, <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code> is used as a multiplier in the function defined in <code class="language-plaintext highlighter-rouge">user_resolution.mlgi</code>.</p>
+
+<h3 id="argument-7-output-options">Argument 7. Output Options</h3>
+
+<p><strong><code class="language-plaintext highlighter-rouge">connect</code></strong>  will connect the vertices generated by Poisson disk algorithm connected. The output mesh object <code class="language-plaintext highlighter-rouge">mo_out</code>  will be a Delaunay triangulation.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">no_connect</code></strong> the output mesh object  <code class="language-plaintext highlighter-rouge">mo_out</code> will contain the  vertices generated by Poisson disk algorithm  without triangle connectivity.</p>
+
+<h3 id="optional-resolution-arguments">Optional Resolution Arguments</h3>
+
+<p>Default if this option is not used, the mesh will be uniform resolution defined by Argument 6 <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">user_resolution.mlgi</code> is the name of a LaGriT control file for user defined  resolution.
+The control file  defines a function h(x,y) that will be used to control vertex spacing in a variable resolution mesh. See examples below.</p>
+
+<p>When the variable  option is utilized, internal to the module a mesh object, ** mo_poi_h_field<strong>, with a real scalar attribute, **h_field_att</strong>, is created. By default for uniform resolution, <strong>h_field_att</strong>, is set to a constant value of <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code>, however, when this option is exercised, the user must fill <em>h_field_att</em> with their own scalar field h(x,y). In addition, internal to the code the command:
+<code class="language-plaintext highlighter-rouge">define / POI_H_FACTOR / h_spacing_scalar</code>
+so one can access the value of <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code> by using the variable <strong>POI_H_FACTOR</strong> in the LaGriT control file <code class="language-plaintext highlighter-rouge">user_resolution.mlgi</code> for setting variable resolution.</p>
+
+<h3 id="advanced-options">Advanced Options</h3>
+
+<p>There are three optional parameters that are for advanced users only. They are keyword driven and can come in any order beginning as token 8 or 9. The user can specify none, one, two, or all three keyword driven parameters.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">poisson_seed</code></strong>* (integer default 1)  is the seed for the random number generator. If once runs this module with the same input, by default each run will give the same result. However, if the user would like to produce multiple realizations with the same input (same input polygon, same resolution, etc.) but a different output mesh, then the user can change the value of poisson_seed for each realization.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">number_of_samples</code></strong> (integer default:10) Number of new candidate points that are sampled around an accepted node. Lower values reduce overall sampling time, but can lead to holes in the final point distribution. Higher value lead to better density and converge but takes more time.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">resample_sweeps</code></strong> (integer default:1) Number of additional sampling attempts in the domain. If there exists holes in the point distribution, increasing this value should fill in these holes.</p>
+
+<p>It is suggested that the user should have the minimum value of h(x,y)= <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code>, and then vary resolution by setting values greater than <code class="language-plaintext highlighter-rouge">h_spacing_scalar</code>. If one intends to have high resolution near objects and features and lower resolution away from the objects, then use of the compute/distance_field is a good way to define h(x,y).</p>
+
+<h4 id="advanced-option-examples">Advanced Option Examples</h4>
+
+<pre>
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.01 / connect / user_h_field_att.mlgi &amp;
+      poisson_seed 3 / resample_sweeps 4 / number_of_samples 20
+
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.01 / connect / user_h_field_att.mlgi &amp;
+      poisson_seed 3
+
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.01 / connect / poisson_seed 3
+</pre>
+
+<hr />
+
+<h2 id="examples-for-uniform-and-user-defined-resolutions">EXAMPLES for Uniform and User Defined Resolutions</h2>
+
+<p><strong>Polygon input file: unit_square.poly</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 0 0 0 0 
+1 -0.5 -0.5 0
+2  0.5 -0.5 0
+3  0.5  0.5 0
+4 -0.5  0.5 0
+</code></pre></div></div>
+
+<p><strong>LaGriT control file</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#
+# Mesh a unit square with uniform and variable resolution tringles.
+#
+# Read polygon from a file.
+#
+read / avs / unit_square.poly / mo_polygon
+#
+# Uniform resolution, unit square polygon, vertex spacing 0.05:
+#
+
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.05 / connect
+
+dump / avs / output01_unit_square_uniform.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+#
+# Variable resolution, unit square polygon, vertex spacing 0.01:
+#
+# WIDTH_FACTOR is used in user_h_field_att.mlgi
+#
+
+define / WIDTH_FACTOR / 10.0
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.01 / connect / user_h_field_att.mlgi
+
+dump / avs / output02_unit_square_var.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+
+define / WIDTH_FACTOR / 20.0
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &amp;
+      / 0.01 / connect / user_h_field_att.mlgi
+
+dump / avs / output03_unit_square_var.inp / mo_poisson_pts
+cmo / delete / mo_poisson_pts
+
+finish
+</code></pre></div></div>
+
+<p><strong>Variable resolution defined in LaGriT control file:  user_h_field_att.mlgi</strong></p>
+
+<p>Used in the example above, the resolution is set using the X coordinate (xic), the user defined POI_H_FACTOR = h_spacing_scalar = 0.01, and a floor function to ensure no values are below h_spacing_scalar.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#####################################################
+# User defined h field function assignment
+#####################################################
+#
+# h_field_att is already set to POI_H_FACTOR
+#
+define / MO_H_FIELD / mo_poi_h_field
+#
+# x**2
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / &amp;
+               MO_H_FIELD / xic / 2.0
+cmo/printatt/MO_H_FIELD/h_field_att/minmax
+# sqrt(x**2)
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / &amp;
+               MO_H_FIELD / h_field_att / 0.5
+cmo / printatt/MO_H_FIELD/h_field_att/minmax
+# POI_H_FACTOR*sqrt(x**2)
+math/multiply/MO_H_FIELD/h_field_att/1,0,0/ &amp;
+              MO_H_FIELD/h_field_att/ POI_H_FACTOR
+math/multiply/MO_H_FIELD/h_field_att/1,0,0/ &amp;
+              MO_H_FIELD/h_field_att/ WIDTH_FACTOR
+cmo / printatt/MO_H_FIELD/h_field_att/minmax
+math / floor / MO_H_FIELD/h_field_att/1,0,0/ &amp;
+               MO_H_FIELD/h_field_att/POI_H_FACTOR
+cmo/printatt/MO_H_FIELD/h_field_att/minmax
+cmo / status / brief
+#
+# As a diagnostic one can output MO_H_FIELD and view
+# the h(x,y) attribute that will be used to set resolution.
+#
+dump / avs / h_field_out.inp / MO_H_FIELD
+#
+finish
+
+</code></pre></div></div>
+
+<p> </p>
+
+
+
+            </div>
+        </div>
+
+        <!-- Begin footer -->
+        <footer class="footer-distributed">
+            <div class="footer-right">
+              <div><img src="/assets/img/lanl_logo_white.png" height="80"></div>
+            </div>
+
+            <div class="footer-left lg-background-color">
+                <p class="footer-links" style="font-family: 'Fira Sans', sans-serif; color: white;">
+                    <a href="/">Home</a>
+                    ·
+                    <a href="/pylagrit/original/index.html">PyLaGriT</a>
+                    ·
+                    <a href="https://int.lanl.gov/org/ddste/aldcels/ees/index.shtml">EES-16</a>
+                    ·
+                    <a href="/pages/licensing.html">License</a>
+                    ·
+                    <a href="https://lagrit.lanl.gov/">Contact</a>
+                </p>
+
+                <p>&copy; 2019 Los Alamos National Laboratory</p>
+                <p>EES-16 | Computational Earth Science</p>
+                <p>LA-CC-15-069</p>
+            </div>
+        </footer>
+
+        <!-- Begin Navigation Bar -->
+        <div id="offcanvas" uk-offcanvas="mode: push; overlay: true" class="uk-offcanvas">
+            <div class="uk-offcanvas-bar">
+                <div class="uk-panel">
+                    <ul class="uk-nav uk-nav-default tm-nav">
+                        <form class="uk-search uk-search-default" action="https://lanl.github.io/LaGriT/search/">
+                            <a href="" uk-search-icon></a>
+                            <input class="uk-search-input" type="search" placeholder="" name="q" id="tipue_search_input_mobile">
+                        </form>
+                        <li class="uk-nav-header">General</li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/pages/commands">Commands</a></li>
+                        <li><a href="/pages/release">Release Notes</a></li>
+                        <li><a href="/pages/publications">Publications</a></li>
+                        <li><a href="http://github.com/lanl/LaGriT">GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Navigation Bar -->
+
+    </div>
+
+</body>
+
+</html>
