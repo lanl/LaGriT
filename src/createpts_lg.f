@@ -52,7 +52,7 @@ C#######################################################################
       integer nwds,ierr, imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*(*) cmsgin(nwds)
-      integer lenopt2, lenopt3, ierror,icharlnf
+      integer lenopt2, ierror,icharlnf
       character*132 logmess
 c
       ierr=0
@@ -60,7 +60,6 @@ C
 C  test for verb and call appropriate routine
 c
       lenopt2=icharlnf(cmsgin(2))
-      lenopt3=icharlnf(cmsgin(3))
       if(cmsgin(2)(1:lenopt2).eq.'xyz'.or.
      *   cmsgin(2)(1:lenopt2).eq.'rtz'.or.
      *   cmsgin(2)(1:lenopt2).eq.'line'.or.
@@ -98,13 +97,8 @@ c
          call rzinterp
      *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
       elseif(cmsgin(2)(1:lenopt2).eq.'poisson_disk') then
-         if(cmsgin(3)(1:lenopt3).eq.'2d_polygon')then
-         call poisson_disk_2d
+         call poisson_disk
      *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
-         elseif(cmsgin(3)(1:lenopt3).eq.'3d_box')then
-         call poisson_disk_3d
-     *        (imsgin(2),xmsgin(2),cmsgin(2),msgtype(2),nwds-1,ierr)
-         endif
       else
          write(logmess,"('Illegal createpts option ',a10)") cmsgin(2)
          call writloga('default',0,logmess,0,ierror)
