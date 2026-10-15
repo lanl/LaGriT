@@ -42,7 +42,9 @@ C       Angles that cover the circle (rtz theta over 360 deg) or the
 C       sphere (rtp: theta or phi over 360, or both over 180) more than
 C       once give a WARNING: the points can repeat. (Oct 15: the first
 C       version warned for rtp theta over 180 alone, which also caught
-C       the valid theta 0-360 / phi 0-180 sphere of the LANL demo.)
+C       the valid theta 0-360 / phi 0-180 sphere of the LANL demo;
+C       and the brick checks refused createpts / brick / interp, which
+C       is handed to rzinterp: it is now let through unchecked.)
 C
 C   $Log: createpts_lg.f,v $
 C   Revision 2.00  2007/11/05 19:45:51  spchu
@@ -338,6 +340,11 @@ C     createpts / brick | hex / xyz | rtz | rtp / ni,nj,nk / ...
       integer ierror,icharlnf,i,n(3),imtype,ln
       logical connect
       ierr=0
+C     createpts / brick / interp / ... is handed to rzinterp, which
+C     reads its own tokens and writes into a new mesh object
+      if(nwds.ge.3) then
+         if(cmsgin(3)(1:6).eq.'interp') return
+      endif
       if(nwds.lt.6) then
          write(logmess,'(a,i0,a)') 'ERROR: createpts / brick: '//
      *      'incomplete command, ',nwds,' tokens:'
@@ -355,7 +362,7 @@ C     createpts / brick | hex / xyz | rtz | rtp / ni,nj,nk / ...
      *   cmsgin(3)(1:3).ne.'rtz' .and. cmsgin(3)(1:3).ne.'rtp')) then
          write(logmess,'(a,a,a)') 'ERROR: createpts / brick: ',
      *      cmsgin(3)(1:max(1,min(32,icharlnf(cmsgin(3))))),
-     *      ' is not a geometry: use xyz, rtz or rtp'
+     *      ' is not a geometry: use xyz, rtz, rtp or interp'
          call writloga('default',0,logmess,0,ierror)
          ierr=1
          return
