@@ -23,7 +23,7 @@ C       cmo / create before it) wrote points into arrays that were
 C       never allocated: segmentation fault. It now stops with an
 C       ERROR before calling any option except poisson_disk (which
 C       makes its own mesh object). Shown by the test_createpts
-C       suite, deck cp42_errors_no_mesh_object.
+C       suite, deck errors_no_mesh_object.
 C
 C     Oct 2026  FIX 2: input checking (test_createpts decks, syntax
 C       and errors groups). createpts read past the end of the
@@ -38,8 +38,11 @@ C       fewer than 2 points; brick with too few tokens, a count of
 C       0 or less, a single row not along x (ni,1,1), or a mesh
 C       object of another cell type (brick makes hexes, quads or
 C       lines: the mesh object must be hex, quad, line or hybrid).
-C       An angle range over 360 deg (rtz theta, rtp phi) or over 180
-C       deg (rtp theta) gives a WARNING: the points can repeat.
+C       Angles that cover the circle (rtz theta over 360 deg) or the
+C       sphere (rtp: theta or phi over 360, or both over 180) more than
+C       once give a WARNING: the points can repeat. (Oct 15: the first
+C       version warned for rtp theta over 180 alone, which also caught
+C       the valid theta 0-360 / phi 0-180 sphere of the LANL demo.)
 C
 C   $Log: createpts_lg.f,v $
 C   Revision 2.00  2007/11/05 19:45:51  spchu
@@ -291,25 +294,32 @@ C     createpts / xyz | rtz | rtp | line
             return
          endif
       enddo
-C     angle ranges (degrees): the points can repeat
-      if(copt(1:3).eq.'rtz' .or. copt(1:3).eq.'rtp') then
+C     angle ranges (degrees): WARN when the angles cover the circle
+C     (rtz) or the sphere (rtp) more than once. rtp covers the sphere
+C     once with theta 0-180 and phi 0-360, or theta 0-360 and phi
+C     0-180; only both over 180, or either over 360, covers it twice.
+      if(copt(1:3).eq.'rtz') then
          range=abs(createpts_real(imsgin,xmsgin,msgtype,nwds,10)-
      *             createpts_real(imsgin,xmsgin,msgtype,nwds,7))
-         alim=360.0d0
-         if(copt(1:3).eq.'rtp') alim=180.0d0
-         if(range.gt.alim) then
-            write(logmess,'(a,a,a,f0.1,a,i0,a)')
-     *         'WARNING: createpts / ',copt(1:3),': theta range ',range,
-     *         ' deg is over ',nint(alim),': points can repeat'
+         if(range.gt.360.0d0) then
+            write(logmess,'(a,f0.1,a)') 'WARNING: createpts / rtz:'//
+     *         ' theta range ',range,' deg is over 360: points can '//
+     *         'repeat'
             call writloga('default',0,logmess,0,ierror)
          endif
       endif
       if(copt(1:3).eq.'rtp') then
-         range=abs(createpts_real(imsgin,xmsgin,msgtype,nwds,11)-
-     *             createpts_real(imsgin,xmsgin,msgtype,nwds,8))
-         if(range.gt.360.0d0) then
-            write(logmess,'(a,f0.1,a)') 'WARNING: createpts / rtp:'//
-     *         ' phi range ',range,' deg is over 360: points can repeat'
+         range=abs(createpts_real(imsgin,xmsgin,msgtype,nwds,10)-
+     *             createpts_real(imsgin,xmsgin,msgtype,nwds,7))
+         alim=abs(createpts_real(imsgin,xmsgin,msgtype,nwds,11)-
+     *            createpts_real(imsgin,xmsgin,msgtype,nwds,8))
+         if(range.gt.360.0d0 .or. alim.gt.360.0d0 .or.
+     *      (range.gt.180.0d0 .and. alim.gt.180.0d0)) then
+            write(logmess,'(a,f0.1,a,f0.1,a)') 'WARNING: createpts / '//
+     *         'rtp: theta range ',range,' and phi range ',alim,' deg'
+            call writloga('default',0,logmess,0,ierror)
+            write(logmess,'(a)') 'WARNING:   cover the sphere more'//
+     *         ' than once: points can repeat'
             call writloga('default',0,logmess,0,ierror)
          endif
       endif
