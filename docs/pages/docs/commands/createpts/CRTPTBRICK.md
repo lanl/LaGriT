@@ -53,7 +53,12 @@ These commands require a hex or quad cmo type mesh object, use **cmo/create** to
 
 `xrz,yrz,zrz` are optional and are the ratio zoning value - distance is multiplied by the value for each subsequent point.
 
-`isym,jsym,ksym` symmetry flags - not documented
+`isym,jsym,ksym` are optional periodic (wrap-around) switches, default 0,0,0. They come after the ratio zoning tokens, so those must be given too, even if ratio zoning is off. With **`jsym`** = 1, the last layer of cells in the j direction is joined to the FIRST layer of vertices (j = 1) instead of the last (j = nj). **`isym`** does the same in i, and **`ksym`** in k. Use a switch only where the first and last vertices of that direction are at the same place, as in **`rtz`** with theta from 0 to 360 (`jsym`), or **`rtp`** with phi from 0 to 360 (`ksym`). The seam is then closed in the connectivity without **filter**. The vertices of the last layer (j = nj) are still created, but no cell uses them. In any other case the wrap makes cells that reach back across the whole mesh and overlap the others. For example, an **`xyz`** brick with `isym` = 1 reports a total volume larger than its box.
+
+When a switch is used:
+
+* the cells next to the axis of an **`rtz`** brick still use several vertices at the same place on the axis. Only **filter** merges those;
+* **filter / 1,0,0** followed by **rmpoint / compress** merges the unused seam vertices and the axis vertices together, and gives the same mesh as without the switch.
 
 `1,0,0` is the point set selection indicated by start,stride,stop or pset,get,pset_name where 1,0,0 are all points.
 
@@ -97,5 +102,13 @@ Use the **define** commands to set variables for making a cylinder mesh.
 This hex mesh has height of 20.
 There are 3 points from center to rim, there are 20 points around and 12 points vertical. 
 Width of radius from center is 2 and the cylinder is a full 360 degrees.
+
+```
+cmo/create/mo_cyl / / / hex
+createpts/brick/rtz/5,17,5/0.,0.,0./2.,360.,2./1,1,1/0,0,0/1.,1.,1./0,1,0
+```
+The same kind of cylinder, with `jsym` = 1: the cells from 337.5 to 360 degrees are joined to the vertices at 0 degrees, so the seam is closed without **filter**. The 25 vertices at 360 degrees (5 radii x 5 heights) are left unused. The ratio zoning tokens `0,0,0 / 1.,1.,1.` (off) are needed to reach the switches.
+
+*LaGriT reads only the first 80 characters of an input line. A line that reaches the symmetry switches is easily longer than that, and then the switches are silently lost. Write such a command without spaces, as above, or continue it on the next line with **&**.*
 
 
