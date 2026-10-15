@@ -45,6 +45,9 @@ C       version warned for rtp theta over 180 alone, which also caught
 C       the valid theta 0-360 / phi 0-180 sphere of the LANL demo;
 C       and the brick checks refused createpts / brick / interp, which
 C       is handed to rzinterp: it is now let through unchecked.)
+C       The switches iiz,ijz,ikz of xyz / rtz / rtp / line may be left
+C       out (11 tokens; rz.f then uses 1,1,1), as the documented
+C       createpts / interp example does; 12 or 13 tokens is an ERROR.
 C
 C   $Log: createpts_lg.f,v $
 C   Revision 2.00  2007/11/05 19:45:51  spchu
@@ -251,21 +254,21 @@ C     createpts / xyz | rtz | rtp | line
       real*8 createpts_real, range, alim
       ierr=0
       copt=cmsgin(2)(1:min(8,icharlnf(cmsgin(2))))
-      if(nwds.lt.14) then
+      if(nwds.lt.11 .or. nwds.eq.12 .or. nwds.eq.13) then
          write(logmess,'(a,a,a,i0,a)') 'ERROR: createpts / ',
      *      copt(1:icharlnf(copt)),': incomplete command, ',nwds,
-     *      ' tokens of 14:'
+     *      ' tokens (11 or 14):'
          call writloga('default',0,logmess,0,ierror)
          if(copt(1:4).eq.'line') then
             write(logmess,'(a)') 'ERROR:   createpts / line / n / / '//
-     *         '/ x0,y0,z0 / x1,y1,z1 / iiz,ijz,ikz'
+     *         '/ x0,y0,z0 / x1,y1,z1 [/ iiz,ijz,ikz]'
          else
             write(logmess,'(a,a,a)') 'ERROR:   createpts / ',
      *         copt(1:icharlnf(copt)),' / ni,nj,nk / min1,min2,min3'//
      *         ' / max1,max2,max3 /'
             call writloga('default',0,logmess,0,ierror)
-            write(logmess,'(a)') 'ERROR:     iiz,ijz,ikz'//
-     *         ' [/ irat,jrat,krat / rx,ry,rz]'
+            write(logmess,'(a)') 'ERROR:     [iiz,ijz,ikz'//
+     *         ' [/ irat,jrat,krat / rx,ry,rz]]  (switches: 1,1,1)'
          endif
          call writloga('default',0,logmess,0,ierror)
          ierr=1

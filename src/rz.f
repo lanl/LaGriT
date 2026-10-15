@@ -279,9 +279,18 @@ C
       xf=xmsgin(9)
       yf=xmsgin(10)
       zf=xmsgin(11)
-      ixz=imsgin(12)
-      iyz=imsgin(13)
-      izz=imsgin(14)
+C     Oct 2026: the switches iiz,ijz,ikz may be left out (11 tokens);
+C     they are then 1,1,1 (min and max are vertices), as for brick.
+C     Before, tokens past the end of the command were read.
+      if(nwds.ge.14) then
+         ixz=imsgin(12)
+         iyz=imsgin(13)
+         izz=imsgin(14)
+      else
+         ixz=1
+         iyz=1
+         izz=1
+      endif
       if(nwds.le.14) then
         ixratio=0
         iyratio=0
