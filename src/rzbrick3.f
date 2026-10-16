@@ -422,7 +422,10 @@ C
       endif
 C
 C
-      do 50 i1=1,nptsv
+C     Oct 2026 fix: reset the NEW vertices (ifpt1 on), not the first
+C     nptsv vertices of the mesh object (a brick added to existing
+C     vertices reset theirs)
+      do 50 i1=ifpt1,ifpt1+nptsv-1
          itp1(i1)=0
          icr1(i1)=0
  50   continue
@@ -678,6 +681,9 @@ C
 C
          do i=1,npoints
             idone(i)=0
+         enddo
+C        Oct 2026 fix: only this brick's vertices (ifpt1 on) get itp1 = 0
+         do i=ifpt1,npoints
             itp1(i)=0
          enddo
 C
@@ -909,12 +915,19 @@ C
      *  itype,ierr)
       call cmo_get_intinfo('faces_per_element',cmo,nef1,ilen,
      *  itype,ierr)
-      if(nsdtopo1.eq.3) then
-         write(logmess,9036) nsdtopo1
- 9036    format("Grid topology too high: ",i11)
+C     Oct 2026 fix: a mesh object of 3D topology was refused even when it
+C     held only points (the doc's point example in a tet mesh object);
+C     points are interpolated whatever the mesh type. 3D CELLS are an
+C     ERROR now (before: a message only, and the command succeeded).
+      if(nsdtopo1.eq.3 .and. nelements.gt.0) then
+         write(logmess,'(a)') 'ERROR: createpts / interp: the cells '//
+     *      'are 3D; interp needs points, lines, triangles or quads'
          call writloga('default',0,logmess,0,ier)
+         ierr2=1
          goto 9999
       endif
+C     points only (or no other match): the new mesh object takes points
+      cmesh_type = 'tet'
       if(nen1.eq.nelmnen(ifelmhyb) .and.
      *   nef1.eq.nelmnef(ifelmhyb)) then
          nsdgeom=3
@@ -950,7 +963,8 @@ C
      *         nef1.eq.nelmnef(ifelmlin)) then
                nen=nelmnen(ifelmqud)
                nef=nelmnef(ifelmqud)
-               cmesh_type = 'qud'
+C              Oct 2026 fix: the mesh type is 'quad' ('qud' is not one)
+               cmesh_type = 'quad'
             endif
          endif
       endif
@@ -1022,7 +1036,8 @@ C
       enddo
       if(ilayers.gt.0) then
          do l=2,(2+ilayers)-1
-            dsfac=real(l-1)/real(ilayers+1)
+C           Oct 2026 fix: double precision (real() lost ~1e-8)
+            dsfac=dble(l-1)/dble(ilayers+1)
             do i=1,mpno1
                i1=mpary1(i)
                dx1=xic2(nnodes2+nptsl*(2+ilayers-1)+i1)-xic2(nnodes2+i1)
