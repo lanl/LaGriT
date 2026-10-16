@@ -29,6 +29,11 @@ C        ierror - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C     CHANGE HISTORY -
 C
+C        Oct 2026 (FIX 1): a source mesh object with no vertices
+C        gives a WARNING and nothing is copied. Before, copypts wrote
+C        through an unset pointer (no memory for an empty point list)
+C        and added one made-up vertex, or crashed.
+C
 C        $Log: copypts.f,v $
 C        Revision 2.00  2007/11/05 19:45:51  spchu
 C        Import to CVS
@@ -293,6 +298,23 @@ C
 C
       call cmo_get_info('nnodes',cmo,npoints,length,icmotype,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
+C
+C     FIX 1: a source with no vertices: nothing to copy. Before, the
+C     point list got no memory (mmgetblk refuses length 0), pntlimn
+C     wrote through an unset pointer, and one made-up vertex was added
+C     (or LaGriT crashed, depending on what was in memory).
+      if(npoints.le.0) then
+         write(logmess,'(a)')
+     *     'WARNING: copypts: nothing copied: the source mesh object'
+         call writloga('default',0,logmess,0,ierrwrt)
+         write(logmess,'(a,a,a)') 'WARNING:   ',
+     *     cmo_source(1:icharlnf(cmo_source)),' has no vertices'
+         call writloga('default',0,logmess,0,ierrwrt)
+         cmo=cmo_sink
+         call cmo_select(cmo,icscode)
+         ierror=0
+         goto 9999
+      endif
 C
       call cmo_get_info('isetwd',cmo,ipisetwd,ilen,ityp,icscode)
          if (icscode .ne. 0) call x3d_error(isubname,'cmo_get_info')
