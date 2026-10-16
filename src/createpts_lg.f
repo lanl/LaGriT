@@ -49,6 +49,16 @@ C       The switches iiz,ijz,ikz of xyz / rtz / rtp / line are
 C       required: fewer than 14 tokens is an ERROR. (An Oct 15 version
 C       let them be left out, with a default; that was taken back.)
 C
+C     Oct 2026  FIX 3: createpts / brick in a mesh object of another
+C       cell type is refused only when that mesh object already has
+C       cells. FIX 2 refused any mesh object that was not hex, quad,
+C       line or hybrid, but brick (rzbrick3.f) sets the cell type of
+C       the mesh object itself: a brick in a new mesh object made with
+C       no cell type (tet by default) gives the same mesh as in a hex
+C       one. LaGriT's own tests level01/filter, quality and surface
+C       rely on it. Adding bricks to existing cells of another type
+C       still gives an ERROR.
+C
 C   $Log: createpts_lg.f,v $
 C   Revision 2.00  2007/11/05 19:45:51  spchu
 C   Import to CVS
@@ -340,7 +350,7 @@ C     createpts / brick | hex / xyz | rtz | rtp / ni,nj,nk / ...
       character*(*) cmsgin(nwds), cmo
       character*132 logmess
       character*32 mtype, cneed
-      integer ierror,icharlnf,i,n(3),imtype,ln
+      integer ierror,icharlnf,i,n(3),imtype,ln,nelem,ilen,ityp
       logical connect
       ierr=0
 C     createpts / brick / interp / ... is handed to rzinterp, which
@@ -407,17 +417,24 @@ C     the cells it makes, and the mesh object they must go in
          ierr=1
          return
       endif
+C     FIX 3: a mesh object with no cells is re-typed by brick
+C     (rzbrick3.f sets its cell type), as always; only cells of
+C     another type already there are refused.
+      call cmo_get_intinfo('nelements',cmo,nelem,ilen,ityp,ierror)
+      if(ierror.ne.0) nelem=0
+      if(nelem.le.0) return
       call cmo_get_mesh_type(cmo,mtype,imtype,ierror)
       ln=icharlnf(cneed)
       if(mtype(1:3).ne.'hyb' .and. mtype(1:ln).ne.cneed(1:ln)) then
-         write(logmess,'(a,a,a,a)') 'ERROR: createpts / brick makes ',
-     *      cneed(1:ln),' cells: the mesh object must be ',cneed(1:ln)
+         write(logmess,'(a,a,a)') 'ERROR: createpts / brick makes ',
+     *      cneed(1:ln),' cells, but the mesh object'
          call writloga('default',0,logmess,0,ierror)
-         write(logmess,'(a,a,a,a)') 'ERROR:   mesh object ',
-     *      cmo(1:icharlnf(cmo)),' is ',mtype(1:icharlnf(mtype))
+         write(logmess,'(a,a,a,i0,a,a,a)') 'ERROR:   ',
+     *      cmo(1:icharlnf(cmo)),' already has ',nelem,' ',
+     *      mtype(1:icharlnf(mtype)),' cells'
          call writloga('default',0,logmess,0,ierror)
-         write(logmess,'(a,a,a,a)') 'ERROR:   create it with cmo / '//
-     *      'create / ',cmo(1:icharlnf(cmo)),' / / / ',cneed(1:ln)
+         write(logmess,'(a,a,a)') 'ERROR:   add a brick to a mesh '//
+     *      'object with no cells or ',cneed(1:ln),' cells'
          call writloga('default',0,logmess,0,ierror)
          ierr=1
          return

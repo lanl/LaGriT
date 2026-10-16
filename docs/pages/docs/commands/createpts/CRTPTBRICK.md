@@ -13,8 +13,10 @@ Builds a set nodes (logically rectangular) and creates finite element connectivi
 The **brick** option specifies that a mesh is connected into elements. This command can be used to create finite element connectivity on a logically rectangular set of nodes created by another method. See  [**`quadxyz`**](../QUADXYZ1.md) or [**`createpts`**](CRTPTSRZ.md) command without the **brick** option.
 
 
-These commands require a hex or quad cmo type mesh object, use **cmo/create** to set the mesh element type. For instance,  
+Make the mesh object with the cell type the brick makes, using **cmo/create**. For instance,  
 ``` cmo/create/mo_name / / / hex``` or ``` cmo/create/mo_name / / / quad```.
+
+The brick sets the cell type of the mesh object itself: hex (ni,nj,nk all greater than 1), quad (one of them 1) or line (ni,1,1). A mesh object with no cells yet, of any type (for instance one made with ``` cmo/create/mo_name``` and no type, which is tet), becomes a hex, quad or line mesh object, and the result is the same as in a mesh object of that type. Adding a brick to a mesh object that already has cells of another type (tets, say, or hexes for a quad brick) is an ERROR: the two kinds of cells cannot share one mesh object.
 
 
 ## SYNTAX
