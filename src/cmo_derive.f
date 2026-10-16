@@ -18,6 +18,12 @@ C         ierror_return - Error Return Code (==0 ==> OK, <>0 ==> Error)
 C
 C      CHANGE HISTORY -
 C
+C         Oct 2026 (FIX 1): cmo_natts is found again before the
+C         number of attributes of the new mesh object is stored.
+C         The table grows (and moves) when the 11th mesh object is
+C         made, so the copy of a mesh object made then wrote to
+C         freed memory; later cmo commands crashed.
+C
 C         $Log: cmo_derive.f,v $
 C         Revision 2.00  2007/11/05 19:45:48  spchu
 C         Import to CVS
@@ -253,6 +259,12 @@ c..... set the number of attributes in new mesh object
 c      to the number in the old one
 c
              call cmo_get_index(cmo_name1,index,ierror)
+C            FIX 1: find cmo_natts again. cmo_create_dir grows the
+C            table when it is full (10 entries at start), which moves
+C            it; ipcmo_natts from the search above then points to
+C            freed memory.
+             call mmfindbk('cmo_natts','define_cmo_lg',ipcmo_natts,
+     *         ilen,icscode)
              cmo_natts(index)=natts
                call cmo_allocate(cmo_name1,ierror_return)
 C
