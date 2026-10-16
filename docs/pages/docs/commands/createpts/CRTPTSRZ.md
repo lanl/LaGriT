@@ -18,9 +18,9 @@ If you want a connected hex mesh object, use the [**createpts/brick**](CRTPTBRIC
 ## SYNTAX 
 
 <pre> 
-<b>createpts</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / [ iiz,ijz,ikz / [ iirat,ijrat,ikrat /xrz,yrz,zrz ] ]
+<b>createpts</b> / <b>xyz</b> or <b>rtz</b> or <b>rtp</b> / ni,nj,nk / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz / [ iirat,ijrat,ikrat /xrz,yrz,zrz ]
 
-<b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / [ iiz,ijz,ikz ]
+<b>createpts</b> / <b>line</b> / npoints / / / xmin,ymin,zmin / xmax,ymax,zmax / iiz,ijz,ikz /
 </pre>
 
 
@@ -53,7 +53,7 @@ The minimum and maximum coordinates are the triplets:
 
 `xmin,ymin,zmin` are the minimums and `xmax,ymax,zmax` are the maximums for coordinates as described above.
 
-`iiz,ijz,ikz` 0 or 1 switches (default 1,1,1: give all three or none)
+`iiz,ijz,ikz` 0 or 1 switches (required)
 - 0 = mins and maxs are used as cell centers
 - 1 = mins and maxs are used as cell vertices
 

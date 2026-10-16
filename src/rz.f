@@ -261,6 +261,18 @@ C     ******************************************************************
 C
 C     TRANSFORM POINTS AND VELOCITIES TO LOCAL COORD. SYSTEM
 C
+C     Oct 2026: the switches iiz,ijz,ikz are required (14 tokens or
+C     more). Before, a shorter command read them from past its end
+C     (where the parser leaves 0) and went on without a message.
+      if(nwds.lt.14) then
+         write(logmess,'(a,i0,a)') 'ERROR: rz: ',nwds,
+     *      ' tokens: the switches iiz,ijz,ikz (tokens 12-14)'//
+     *      ' are required'
+         call writloga('default',0,logmess,0,icscode)
+         ierr2=1
+         return
+      endif
+C
       if (normflgc .gt. 0) call chglocl(1,npoints,1)
 C
       icount=ipointj
@@ -279,18 +291,9 @@ C
       xf=xmsgin(9)
       yf=xmsgin(10)
       zf=xmsgin(11)
-C     Oct 2026: the switches iiz,ijz,ikz may be left out (11 tokens);
-C     they are then 1,1,1 (min and max are vertices), as for brick.
-C     Before, tokens past the end of the command were read.
-      if(nwds.ge.14) then
-         ixz=imsgin(12)
-         iyz=imsgin(13)
-         izz=imsgin(14)
-      else
-         ixz=1
-         iyz=1
-         izz=1
-      endif
+      ixz=imsgin(12)
+      iyz=imsgin(13)
+      izz=imsgin(14)
       if(nwds.le.14) then
         ixratio=0
         iyratio=0

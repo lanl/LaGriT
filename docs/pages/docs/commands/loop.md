@@ -75,7 +75,7 @@ loop/ do / NZ 6 7 1 / loop_end &
 
 loop/ foreach / X0 0 5.5 10.23678 / loop_end  &
 
-createpts/xyz/NX,NY,NZ/X0 0. 0. / 100. 100. 100.
+createpts/xyz/NX,NY,NZ/X0 0. 0. / 100. 100. 100. / 1,1,1
 ```
 Execute a set of commands in a LaGriT control file that utilize the
  variables NX,NY,NZ,X0.
