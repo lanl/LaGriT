@@ -94,6 +94,18 @@ time();
 #define SIZEOF_VOIDP 8
 #endif
 
+/**** macOS x64 (Oct 2026: was missing, so on a Mac int_ptrsize fell
+ **** back to a 4-byte int while LaGriT's Fortran integers are 8 bytes:
+ **** compressmatrixvalues then read and wrote only the first half of
+ **** the pointer array, and dump/stor/.../coefs wrote wrong pointers
+ **** for the second half of the connections) ****/
+#ifdef macx64
+#define FCV_UNDERSCORE
+#define SIZEOF_INT 4
+#define SIZEOF_LONG 8
+#define SIZEOF_VOIDP 8
+#endif
+
 #if SIZEOF_INT == SIZEOF_VOIDP
 #define int_ptrsize int
 #elif SIZEOF_LONG == SIZEOF_VOIDP
