@@ -2227,7 +2227,7 @@ C
       character*32 mo_poi_poly,mo_poi_pts_out
       logical if_convex
 C
-      call poi_sort_reorder_nodes(mo_poi_pts_out)
+      call poi_sort_reorder_nodes(ndim,mo_poi_pts_out)
 C
       if(if_connect .eq. 1)then
          call poi_connect_delaunay(mo_poi_pts_out)
@@ -2244,34 +2244,123 @@ C
       end
 C
 C SUBROUTINE BEGIN ####################################################
-      subroutine poi_sort_reorder_nodes(mo_poi_pts_out)
+      subroutine poi_sort_reorder_nodes(ndim,mo_poi_pts_out)
 C #####################################################################
 C
-C     PURPOSE - Sort and reorder vertices by x,y,z coordinate so the
-C     output ordering is reproducible from run to run.
+C     PURPOSE - Sort and reorder the vertices so that vertices close
+C     together in space are close together in the vertex list, which
+C     makes connect much faster, and so that the output ordering is
+C     reproducible from run to run.
+C
+C     A multi-key sort on binned coordinates (docs: SORT.md, the
+C     example after the x, y, z line sweep). The box of the vertices
+C     is cut into NBINS slabs in x (2D) or NBINS x NBINS columns in x
+C     and y (3D); the vertices run along y (2D) or z (3D) inside one
+C     slab or column, then the next:
+C        xs = xic * NBINS / (xmax - xmin)       (math/multiply, VDOUBLE)
+C        xb = xs without its fraction           (cmo/copyatt to VINT)
+C        sort / index on xb yic zic (2D) or xb yb zic (3D); reorder
+C     Only the bin size matters, not where the bins start, so the
+C     minimum is not subtracted.
+C
+C     Oct 2026: replaces sort on xic yic zic. With scattered points no
+C     two x are equal, so that was a sweep along x; connect was 2 to 3
+C     times slower on it (test suite test_connect_timing). The vertex
+C     order of the output changes; the vertices themselves do not.
+C
+C     INPUT ARGUMENTS -
+C        ndim           - 2 or 3
+C        mo_poi_pts_out - the mesh object of the sampled vertices
 C
 C #####################################################################
       implicit none
+      integer ndim
       character*32 mo_poi_pts_out
-      integer ilen,icharlnf
+C
+C     16 bins: the connect time changed by about 15% over 8 to 126
+C     bins (2D) and 4 to 32 (3D) at 256,000 vertices.
+      integer NBINS
+      parameter (NBINS = 16)
+C
+      pointer (ipxic,xic),(ipyic,yic)
+      real*8  xic(*),yic(*)
+      integer nnodes,i,ilen,ityp,ierr,icharlnf
+      real*8  xmin,xmax,ymin,ymax,scale
+      character*32 mo
+C
+      mo = mo_poi_pts_out
+      ilen = icharlnf(mo)
 C
 C     Select explicitly. This routine runs immediately after
 C     poisson_2d / poisson_3d, which are the C++ samplers, so "the
 C     current mesh object" here depends on what code on the other side
-C     of the language boundary happened to leave selected. The sort
-C     below uses -def-, so without this it could sort the wrong object
-C     and then reorder the output by a key that was never built on it.
+C     of the language boundary happened to leave selected.
 C
-      ilen = icharlnf(mo_poi_pts_out)
-      call poi_cmd('cmo / select / '//mo_poi_pts_out(1:ilen)//
-     &     ' ; finish')
+      call poi_cmd('cmo / select / '//mo(1:ilen)//' ; finish')
 C
-      call poi_cmd('sort/-def-/index/ascending/ikeyv/xic yic zic'//
-     &     ' ; finish')
-      ilen = icharlnf(mo_poi_pts_out)
-      call poi_cmd('reorder/'//mo_poi_pts_out(1:ilen)//
-     &     '/ikeyv ; finish')
-      call poi_cmd('cmo/DELATT/-def-/ikeyv ; finish ')
+      call cmo_get_info('nnodes',mo,nnodes,ilen,ityp,ierr)
+      if(ierr .ne. 0 .or. nnodes .le. 1) return
+      call cmo_get_info('xic',mo,ipxic,ilen,ityp,ierr)
+      call cmo_get_info('yic',mo,ipyic,ilen,ityp,ierr)
+      xmin = xic(1)
+      xmax = xic(1)
+      ymin = yic(1)
+      ymax = yic(1)
+      do i = 2, nnodes
+         xmin = min(xmin,xic(i))
+         xmax = max(xmax,xic(i))
+         ymin = min(ymin,yic(i))
+         ymax = max(ymax,yic(i))
+      enddo
+      ilen = icharlnf(mo)
+C
+C     x bins (a box of zero width: one bin)
+      scale = 0.d0
+      if(xmax .gt. xmin) scale = dble(NBINS)/(xmax-xmin)
+      call poi_define_real('POI_SORT_SCALE_X',scale)
+      call poi_cmd('cmo / addatt / '//mo(1:ilen)//
+     &     ' / poi_xs / VDOUBLE / scalar / nnodes ; finish')
+      call poi_cmd('cmo / addatt / '//mo(1:ilen)//
+     &     ' / poi_xb / VINT / scalar / nnodes ; finish')
+      call poi_cmd('math / multiply / '//mo(1:ilen)//
+     &     ' / poi_xs / 1,0,0 / '//mo(1:ilen)//
+     &     ' / xic / POI_SORT_SCALE_X ; finish')
+      call poi_cmd('cmo / copyatt / '//mo(1:ilen)//' '//mo(1:ilen)//
+     &     ' / poi_xb poi_xs ; finish')
+C
+      if(ndim .eq. 3)then
+C        y bins
+         scale = 0.d0
+         if(ymax .gt. ymin) scale = dble(NBINS)/(ymax-ymin)
+         call poi_define_real('POI_SORT_SCALE_Y',scale)
+         call poi_cmd('cmo / addatt / '//mo(1:ilen)//
+     &        ' / poi_ys / VDOUBLE / scalar / nnodes ; finish')
+         call poi_cmd('cmo / addatt / '//mo(1:ilen)//
+     &        ' / poi_yb / VINT / scalar / nnodes ; finish')
+         call poi_cmd('math / multiply / '//mo(1:ilen)//
+     &        ' / poi_ys / 1,0,0 / '//mo(1:ilen)//
+     &        ' / yic / POI_SORT_SCALE_Y ; finish')
+         call poi_cmd('cmo / copyatt / '//mo(1:ilen)//' '//
+     &        mo(1:ilen)//' / poi_yb poi_ys ; finish')
+         call poi_cmd('sort / '//mo(1:ilen)//
+     &        ' / index / ascending / ikeyv / poi_xb poi_yb zic'//
+     &        ' ; finish')
+      else
+         call poi_cmd('sort / '//mo(1:ilen)//
+     &        ' / index / ascending / ikeyv / poi_xb yic zic'//
+     &        ' ; finish')
+      endif
+C
+      call poi_cmd('reorder / '//mo(1:ilen)//'/ ikeyv ; finish')
+      call poi_cmd('cmo / DELATT / '//mo(1:ilen)//' / ikeyv ; finish')
+      call poi_cmd('cmo / DELATT / '//mo(1:ilen)//' / poi_xs ; finish')
+      call poi_cmd('cmo / DELATT / '//mo(1:ilen)//' / poi_xb ; finish')
+      if(ndim .eq. 3)then
+         call poi_cmd('cmo / DELATT / '//mo(1:ilen)//
+     &        ' / poi_ys ; finish')
+         call poi_cmd('cmo / DELATT / '//mo(1:ilen)//
+     &        ' / poi_yb ; finish')
+      endif
 C
       return
       end
