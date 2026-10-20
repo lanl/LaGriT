@@ -57,8 +57,8 @@ tags: CREATEPTS/interp
 ## EXAMPLES
 
 ```
-createpts/line/10///-1.,0.,0.,1.,0.,0.
-createpts/line/10///0.,-1.,1.,0.,1.,1.
+createpts/line/10///-1.,0.,0.,1.,0.,0./1,1,1
+createpts/line/10///0.,-1.,1.,0.,1.,1./1,1,1
 createpts/ interp / 10 / 1 0 0 / 1 0 0 / cmo_pts
 ```
 Creates a point distribution between the two point sets created by the createpts/line commands

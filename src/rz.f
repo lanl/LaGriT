@@ -37,13 +37,13 @@ C
 C
 C      nx -- IS THE NUMBER OF NODES (POINTS) IN THE X-DIRECTION.
 C               > 0 ==> GENERATE POINTS IN A LINED UP FASHION.
-C               < 0 ==> GENERARE POINTS IN A STAGGERED PATTEREN.
+C               < 0 ==> GENERATE POINTS IN A STAGGERED PATTERN.
 C      ny -- IS THE NUMBER OF NODES (POINTS) IN THE Y-DIRECTION.
 C               > 0 ==> GENERATE POINTS IN A LINED UP FASHION.
-C               < 0 ==> GENERARE POINTS IN A STAGGERED PATTEREN.
+C               < 0 ==> GENERATE POINTS IN A STAGGERED PATTERN.
 C      nz -- IS THE NUMBER OF NODES (POINTS) IN THE Z-DIRECTION.
 C               > 0 ==> GENERATE POINTS IN A LINED UP FASHION.
-C               < 0 ==> GENERARE POINTS IN A STAGGERED PATTEREN.
+C               < 0 ==> GENERATE POINTS IN A STAGGERED PATTERN.
 C
 C
 C                   cartesian  cylinderical       spherical
@@ -260,6 +260,18 @@ C
 C     ******************************************************************
 C
 C     TRANSFORM POINTS AND VELOCITIES TO LOCAL COORD. SYSTEM
+C
+C     Oct 2026: the switches iiz,ijz,ikz are required (14 tokens or
+C     more). Before, a shorter command read them from past its end
+C     (where the parser leaves 0) and went on without a message.
+      if(nwds.lt.14) then
+         write(logmess,'(a,i0,a)') 'ERROR: rz: ',nwds,
+     *      ' tokens: the switches iiz,ijz,ikz (tokens 12-14)'//
+     *      ' are required'
+         call writloga('default',0,logmess,0,icscode)
+         ierr2=1
+         return
+      endif
 C
       if (normflgc .gt. 0) call chglocl(1,npoints,1)
 C
@@ -810,30 +822,29 @@ C  get length of first space
                yic(icount)= yf
                zic(icount)= zf
            else
-C  cell centered
-               rsum=1.0
-               do i=1,nx1-2
+C  cell centered: n cells of length s, s r, ... s r^(n-1) fill the
+C  line; the points are their centres. Oct 2026 fix: the old sum
+C  0.5 + (1 + r + ... r^(n-2)) + r^(n-1) and centre-to-centre steps of
+C  s, s r, ... gave (n+1) points' worth of steps for n points and a
+C  full last gap (ratio 1: step L/(n+0.5) instead of L/n).
+               rsum=0.0
+               do i=0,nx1-1
                   rsum=rsum+xrz**float(i)
                enddo
-               rsum=0.5+rsum+xrz**float(nx1-1)
                dx1=(xf-xi)/rsum
                dy1=(yf-yi)/rsum
                dz1=(zf-zi)/rsum
-               icount=icount+1
-               xic(icount)= xi+0.5*dx1
-               yic(icount)= yi+0.5*dy1
-               zic(icount)= zi+0.5*dz1
-               x1=xi+0.5*dx1
-               y1=yi+0.5*dy1
-               z1=zi+0.5*dz1
-               do i=1,nx1-1
+               x1=xi
+               y1=yi
+               z1=zi
+               do i=1,nx1
                   icount=icount+1
-                  xic(icount)=x1+dx1
-                  yic(icount)=y1+dy1
-                  zic(icount)=z1+dz1
-                  x1=  xic(icount)
-                  y1=  yic(icount)
-                  z1=  zic(icount)
+                  xic(icount)=x1+0.5*dx1
+                  yic(icount)=y1+0.5*dy1
+                  zic(icount)=z1+0.5*dz1
+                  x1=x1+dx1
+                  y1=y1+dy1
+                  z1=z1+dz1
                   dx1=xrz*dx1
                   dy1=xrz*dy1
                   dz1=xrz*dz1

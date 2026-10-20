@@ -71,7 +71,15 @@ C get some initial info
       endif
  
       call cmo_get_intinfo('nelements',cmo,nelements,ilen,ityp,ierr)
-      if (ierr.ne.0.or.nelements.eq.0) then
+      if (ierr.ne.0) then
+         goto 9999
+      endif
+C     Oct 2026: no cells: say so (it returned without a word)
+      if (nelements.eq.0) then
+         write(logmess,'(a,a)') 'WARNING: createpts / median: no cells',
+     *      ' in the mesh object: nothing to do'
+         call writloga('default',0,logmess,0,ierr)
+         ierr=0
          goto 9999
       endif
 

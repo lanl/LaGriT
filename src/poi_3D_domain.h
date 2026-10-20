@@ -128,6 +128,10 @@ class Domain {
     // number of cells in y direction of distance field
     unsigned int dfNumCellsZ;
     std::vector<double> distanceField;
+    // FIX 1: lattice spacing per axis (dfCellSize above is x)
+    double dfCellSizeY;
+    double dfCellSizeZ;
+    double lookupH(double x, double y, double z);
     
     // Distance field -> distancefield.cpp
     void loadDistanceField();

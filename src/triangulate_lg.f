@@ -22,6 +22,38 @@ C
 C     CHANGE HISTORY -
 C
 C$Log: triangulate_lg.f,v $
+C
+C     Oct 2026  Fixes for failures with many collinear (or nearly
+C     collinear) boundary vertices. Each is reproduced by a case in
+C     the test_triangulate suite. See the comments marked FIX below.
+C       1 Tolerances were an ABSOLUTE 1e-8 compared with twice a
+C         triangle area, so the result depended on the units: dense
+C         boundaries (vertex spacing ~1e-4 in a unit square) had
+C         every corner classed collinear -> no ear -> "Unable to
+C         triangulate input"; near-touching geometry (gap ~1e-8) was
+C         misjudged. Now one LENGTH tolerance, TRI_REL_TOL times the
+C         polygon's bounding box diagonal, used consistently.
+C       2 area_tri used the expanded form x1*y2-y1*x2+..., which loses
+C         all precision far from the origin (UTM style coordinates).
+C         Now computed from coordinate differences (same value).
+C       3 A diagonal running along a straight run of boundary, through
+C         a polygon vertex, was accepted: the cone test counts "on" as
+C         inside and the crossing test skipped every edge touching the
+C         diagonal's ends. Result: a ZERO-AREA cell and a vertex lying
+C         on a cell edge, with no error or warning. isdiagonal_lg now
+C         rejects a diagonal that passes through any polygon vertex.
+C         This is GitHub issue 239 (perimeter_bug.inp: notch tip at
+C         (1,1) on the diagonal (0,0)-(2,2)); with the tip just off
+C         the diagonal the same flaw made OVERLAPPING cells instead.
+C       4 Only tips 2..npts-1 were ever tried as ears (the loop never
+C         reached the wrap-around branch), so tips 1 and npts never
+C         were. All tips are now tried.
+C       5 Guards: fewer than 3 vertices is an error (was a negative
+C         cell count); a final collinear triple is an error rather
+C         than a zero-area cell; the cell count prints with i10 (i4
+C         showed **** above 9999); an uninitialised x2,y2 read in
+C         isinteriordiagonal_lg removed; isinpoly_lg wrap test was
+C         "i.gt.npts" (never true), now "i.ge.npts".
 CRevision 2.00  2007/11/09 20:04:05  spchu
 CImport to CVS
 C
@@ -147,6 +179,17 @@ c
           call writloga('default',0,logmess,0,icscode)
       endif
 c
+c  FIX 5: a polygon needs at least 3 vertices
+      if(nlast.lt.3) then
+         write(logmess,"('ERROR: triangulate')")
+         call writloga('default',0,logmess,0,icscode)
+         write(logmess,'(a,i10,a)')
+     *      'ERROR: polygon has ',nlast,' vertices, at least 3 needed'
+         call writloga('default',0,logmess,0,icscode)
+         ierror=1
+         go to 9999
+      endif
+c
 c  make space for new triangles
 c 
       nelements=nlast-2
@@ -218,7 +261,7 @@ c
          jtetoff(it)=(it-1)*3
       enddo
 
-      write(logmess,'(a,i4)')
+      write(logmess,'(a,i10)')
      *   'TRIANGULATE: Number of triangle cells = ',nelements
       call writloga('default',0,logmess,0,icscode)
 
@@ -259,7 +302,14 @@ c variables
       integer npts,j,i,nptsave,iv1,iv2,iv3,inelts
       integer ip1,ip2,ip3,icscode
 
-      real*8 local_eps
+      real*8 local_eps,xmn,xmx,ymn,ymx
+c
+c  FIX 1: geometric tolerance, as a LENGTH relative to the polygon's
+c  size. Rounding error in the predicates below is about 1e-16 of the
+c  polygon size, so 1e-12 leaves a wide margin while letting features
+c  down to about 1e-11 of the polygon size be told apart.
+      real*8 TRI_REL_TOL
+      parameter (TRI_REL_TOL = 1.0d-12)
 
       logical isinteriordiagonal_lg,iscolinear_lg,found
 
@@ -301,34 +351,41 @@ c     Special case handling for 3-node mesh
         go to 9999
       endif
 
-      local_eps=1.d-8
+c  FIX 1: tolerance from the bounding box diagonal of this polygon
+      xmn=x(ipts(1))
+      xmx=xmn
+      ymn=y(ipts(1))
+      ymx=ymn
+      do j=2,npts
+         xmn=min(xmn,x(ipts(j)))
+         xmx=max(xmx,x(ipts(j)))
+         ymn=min(ymn,y(ipts(j)))
+         ymx=max(ymx,y(ipts(j)))
+      enddo
+      local_eps=TRI_REL_TOL*sqrt((xmx-xmn)**2+(ymx-ymn)**2)
 
 c
-c  loop through edges and try to lop off ears
+c  loop through vertices and try to lop off ears
+c  FIX 4: every vertex is tried as the ear tip ip2, with wrap-around.
+c  The original loop stopped at i = npts-2, so tips 1 and npts were
+c  never tried.
 c 
  10   i=i+1
-      if (i.gt.npts-2) then
+      if (i.gt.npts) then
           if(npts.le.3) go to 9999
           if(.not.found) then
             ierror=1
-c	    write(logmess,"('error in nodes, check orientation')")
-c            call writloga('default',0,logmess,0,icscode)
             go to 9999
           endif
           i=1
-           found=.false.
+          found=.false.
       endif
-      iv1=ipts(i)
-      iv2=ipts(i+1)
       ip1=i
-      ip2=i+1
-      if(i.ne.npts-1) then
-        iv3=ipts(i+2)
-        ip3=i+2
-      else
-        iv3=ipts(1)
-        ip3=1
-      endif
+      ip2=mod(i,npts)+1
+      ip3=mod(i+1,npts)+1
+      iv1=ipts(ip1)
+      iv2=ipts(ip2)
+      iv3=ipts(ip3)
       if(iscolinear_lg(x(iv1),y(iv1),x(iv2),y(iv2),x(iv3),
      *  y(iv3),local_eps)) go to 10
 
@@ -347,10 +404,19 @@ c check for orientation
         endif
         npts=npts-1
  
-        do j=i+1,npts
+c  remove the tip, at position ip2
+        do j=ip2,npts
            ipts(j)=ipts(j+1)
         enddo
+c  removing position 1 shifts every later position down by one
+        if(ip2.lt.ip1) i=i-1
         if(npts.eq.3) then
+c  FIX 5: never write a zero-area last cell
+            if(iscolinear_lg(x(ipts(1)),y(ipts(1)),x(ipts(2)),
+     *         y(ipts(2)),x(ipts(3)),y(ipts(3)),local_eps)) then
+               ierror=1
+               go to 9999
+            endif
             nelts=nelts+1
             ielts(1,nelts)=ipts(1)
             ielts(2,nelts)=ipts(2)
@@ -371,12 +437,15 @@ c check for orientation
       end
 
 c  function area_tri
-c  compute signed area of the triangle
+c  compute twice the signed area of the triangle
 c  positive if points 1,2,3 are oriented counter clockwise
+c  FIX 2: from coordinate differences. Algebraically identical to the
+c  old x1*y2-y1*x2+y1*x3-x1*y3+x2*y3-x3*y2, which cancels away all
+c  precision when the coordinates are large compared with the triangle.
       function area_tri(x1,y1,x2,y2,x3,y3)
       implicit none
       real*8 x1,y1,x2,y2,x3,y3,area_tri
-      area_tri=x1*y2-y1*x2+y1*x3-x1*y3+x2*y3-x3*y2
+      area_tri=(x2-x1)*(y3-y1)-(x3-x1)*(y2-y1)
       return
       end
 
@@ -434,19 +503,22 @@ c     Switch the second and third node pointer if counterclockwise
 
 c  function isleftoron_lg
 c  true if point 1 is to the left of or on line segment 2to3
+c  FIX 1: "on" means within local_eps (a length) of the line, so the
+c  area is compared with local_eps times the segment length.
 
       function isleftoron_lg(x1,y1,x2,y2,x3,y3,isccw,local_eps)
       implicit none
       logical isleftoron_lg,isccw
-      real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps
+      real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps,seglen
 
       isleftoron_lg =.false.
+      seglen=sqrt((x3-x2)**2+(y3-y2)**2)
 
       if(isccw) then
-        if (area_tri(x1,y1,x2,y2,x3,y3).gt.-local_eps )
+        if (area_tri(x1,y1,x2,y2,x3,y3).gt.-local_eps*seglen )
      *    isleftoron_lg=.true.
       else
-        if (area_tri(x1,y1,x3,y3,x2,y2).gt.-local_eps )
+        if (area_tri(x1,y1,x3,y3,x2,y2).gt.-local_eps*seglen )
      *    isleftoron_lg=.true.
       endif
       return
@@ -454,12 +526,18 @@ c  true if point 1 is to the left of or on line segment 2to3
 
 c function iscolinear_lg
 c  return true if points 1,2,3 are iscolinear
+c  FIX 1: collinear means the triangle's height over its LONGEST side
+c  is below local_eps (a length): area < local_eps * longest side.
+c  The old test compared the raw area with 1e-8, which depends on the
+c  units and on vertex spacing, not on shape.
       function iscolinear_lg(x1,y1,x2,y2,x3,y3,local_eps)
       implicit none
       logical iscolinear_lg
-      real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps
+      real*8 x1,y1,x2,y2,x3,y3,area_tri,local_eps,dmax
       iscolinear_lg=.false.
-      if (abs(area_tri(x1,y1,x2,y2,x3,y3)).lt.local_eps )
+      dmax=max((x2-x1)**2+(y2-y1)**2,(x3-x2)**2+(y3-y2)**2,
+     *         (x1-x3)**2+(y1-y3)**2)
+      if (abs(area_tri(x1,y1,x2,y2,x3,y3)).le.local_eps*sqrt(dmax))
      *    iscolinear_lg=.true.
       return
       end
@@ -548,7 +626,8 @@ c begin
       isinpoly_lg=.false.
       ipi=ipts(i)
       ipj=ipts(j)
-      if(i.gt.npts) then
+c  FIX 5: was i.gt.npts, which is never true
+      if(i.ge.npts) then
          ipp1=ipts(1)
       else
          ipp1=ipts(i+1)
@@ -597,23 +676,18 @@ c  return true if diagonal ij is an interior diagonal of the polygon
       implicit none
       integer i,j,npts,it
       integer ipts(*)
-      real*8  local_eps,x1,y1,x2,y2,x3,y3,x_leaf,y_leaf
+      real*8  local_eps,x1,y1,x2,y2,x3,y3
       real*8 x(*),y(*)
 
       logical isinteriordiagonal_lg,isdiagonal_lg,isinpoly_lg,isccw,
-     *   dup_point, point_on_same_side, t_lf, isleftoron_lg,
+     *   dup_point, point_on_same_side, isleftoron_lg,
      *   issamepoint_lg, isresult
 
       isinteriordiagonal_lg=.false.
       if (isinpoly_lg(i,j,npts,x,y,ipts,isccw,local_eps)) then
          x1 = x(ipts(i))
          y1 = y(ipts(i))
-         x_leaf = x(ipts(i+1))
-         y_leaf = y(ipts(i+1))
-         t_lf = isleftoron_lg(x_leaf,y_leaf,x1,y1,x2,y2,isccw,local_eps)
-
-c        print*, 'Leaf point on the left: ', t_lf
-
+c  FIX 5: an unused test here read x2,y2 before they were set
          x2 = x(ipts(j))
          y2 = y(ipts(j))
          dup_point = .false.
@@ -641,14 +715,36 @@ c  return true if the line from node i to node j is a diagonal
 c  of the polygon.
       function isdiagonal_lg(i,j,npts,x,y,ipts,local_eps)
       implicit none
-      logical isdiagonal_lg,isintersectortee_lg,issamepoint_lg
+      logical isdiagonal_lg,isintersectortee_lg,issamepoint_lg,
+     *   isbetween_lg
       logical test_pts1,test_pts2,test_pts3,test_pts4,cond
-      integer i,j,npts,iv1,iv2,ipts(*),ipi,ipj,l
+      integer i,j,npts,iv1,iv2,ipts(*),ipi,ipj,l,k
       real*8 x(*),y(*),local_eps
 
       ipi=ipts(i)
       ipj=ipts(j)
       isdiagonal_lg=.false.
+c  FIX 3: reject a diagonal that passes through a polygon vertex. The
+c  edge test below skips every edge touching i or j, so a neighbour of
+c  i or j lying ON the diagonal (a straight run of boundary) was never
+c  seen, and a zero-area cell resulted. Every other vertex has an edge
+c  that the test below does examine, so only the (up to four)
+c  neighbours of i and j need this extra check.
+      do k=1,4
+         if(k.eq.1) l=mod(i+npts-2,npts)+1
+         if(k.eq.2) l=mod(i,npts)+1
+         if(k.eq.3) l=mod(j+npts-2,npts)+1
+         if(k.eq.4) l=mod(j,npts)+1
+         iv1=ipts(l)
+         if(iv1.ne.ipi.and.iv1.ne.ipj) then
+            if(.not.issamepoint_lg(x(iv1),y(iv1),x(ipi),y(ipi),
+     *                             local_eps).and.
+     *         .not.issamepoint_lg(x(iv1),y(iv1),x(ipj),y(ipj),
+     *                             local_eps).and.
+     *         isbetween_lg(x(iv1),y(iv1),x(ipi),y(ipi),x(ipj),y(ipj),
+     *                      local_eps)) return
+         endif
+      enddo
 c  look at all edges that do not have i or j as endpoints
 c  and see if the diagonal ij intersects the edge
       do l=1,npts

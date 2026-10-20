@@ -1,3 +1,15 @@
+/* CHANGE LOG (test-suite fixes, Oct 2026; see LaGriT_TEST_SUITE_HANDOFF.md)
+ *  FIX 1  h lookup: lattice spacing per axis, L/(N-1); bilinear
+ *         interpolation of the 4 surrounding nodes; indices clamped.
+ *         Was: one cell size L_x/N_x for x AND y, lower-corner node,
+ *         no clamp (lookups drifted toward +y and wrapped past the end
+ *         of the array).
+ *  FIX 2  neighbour grid: one extra cell per axis (as in 3D) so a point
+ *         on the max edge has a cell; the search includes the last cell
+ *         on every side (was [i-n, i+n)); every loop stays inside the
+ *         grid (was: up to numCells + 1, aliasing into the next row and
+ *         reading/writing past the end of the array).
+ */
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -40,8 +52,10 @@ void Polygon::initializeNeighborGrid() {
     cellSize = h / sqrt(2);
     cout << "cellSize: " << cellSize << endl;
     iCellSize = 1.0 / cellSize;
-    numCellsX = int(ceil((xMax - xMin) * iCellSize));
-    numCellsY = int(ceil((yMax - yMin) * iCellSize));
+    // FIX 2: one extra cell per axis, as in 3D, so that a point on the
+    // max edge (index floor(L/cellSize)) still has a cell
+    numCellsX = int(ceil((xMax - xMin) * iCellSize)) + 1;
+    numCellsY = int(ceil((yMax - yMin) * iCellSize)) + 1;
     cout << "Num Cells X " << numCellsX << endl;
     cout << "Num Cells Y " << numCellsY << endl;
     cout << "Total Cells " << numCellsX*numCellsY << endl;
@@ -109,20 +123,22 @@ std::vector<int> Polygon::getNeighborCellsRadius(Point point) {
     // of the point
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
+    // FIX 2: include the last cell on every side (was [i-n, i+n)),
+    // clamped to the grid
     unsigned int iMin, iMax;
     // minimum x edge is the current x-index the numCells, or 0.
     iMin = std::max(0, int( point.ix - numCells));
     // maximum x edge is the current x-index plus the numCells, or the edge of the grid.
-    iMax = std::min(point.ix + numCells, numCellsX + 1);
+    iMax = std::min(point.ix + numCells, numCellsX - 1);
     unsigned int jMin, jMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     jMin = std::max(0, int( point.iy - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    jMax = std::min(point.iy + numCells, numCellsY + 1);
+    jMax = std::min(point.iy + numCells, numCellsY - 1);
     
     // walk through the box, and gather all non-zero entries
-    for (unsigned int i = iMin; i < iMax; i++) {
-        for (unsigned int j = jMin; j < jMax; j++) {
+    for (unsigned int i = iMin; i <= iMax; i++) {
+        for (unsigned int j = jMin; j <= jMax; j++) {
             //if (grid[i][j] > 0) {
             if (grid[i * numCellsY + j] > 0 && i * numCellsY + j < grid.size()) {
                 // nodeIDs.push_back(grid[i][j]);
@@ -151,12 +167,13 @@ void Polygon::tagNeighborCells(Point point) {
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
     // Get the range of x and y in the neighborgrid
+    // FIX 2: top bound numCells (was numCells + 1: past the grid)
     unsigned int iMin, iMax;
     iMin = std::max(0, int( point.ix - numCells));
-    iMax = std::min(point.ix + numCells, numCellsX + 1);
+    iMax = std::min(point.ix + numCells, numCellsX);
     unsigned int jMin, jMax;
     jMin = std::max(0, int( point.iy - numCells));
-    jMax = std::min(point.iy + numCells, numCellsY + 1);
+    jMax = std::min(point.iy + numCells, numCellsY);
     // check if the points are within the radius.
     Point tmpPoint;
     double dist;
@@ -190,8 +207,9 @@ void Polygon::findEmptyCells() {
     emptyCells.shrink_to_fit();
     Point tmpPoint;
     
-    for (unsigned int i = 0; i < numCellsX + 1; i++) {
-        for (unsigned int j = 0; j < numCellsY + 1; j++) {
+    // FIX 2: stay inside the grid (was numCellsX + 1, numCellsY + 1)
+    for (unsigned int i = 0; i < numCellsX; i++) {
+        for (unsigned int j = 0; j < numCellsY; j++) {
             // check if cell is occupied.
             //if (grid[i][j] == 0) {
             if (grid[i * numCellsY + j] == 0) {

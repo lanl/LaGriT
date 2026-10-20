@@ -119,6 +119,9 @@ class Polygon {
     // number of cells in y direction of distance field
     unsigned int dfNumCellsY;
     std::vector<double> distanceField;
+    // FIX 1: lattice spacing in y (dfCellSize above is x)
+    double dfCellSizeY;
+    double lookupH(double x, double y);
     
     // Distance field -> distancefield.cpp
     void loadDistanceField();

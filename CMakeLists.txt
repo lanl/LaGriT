@@ -150,7 +150,19 @@ else()
   set(BUILD_SHARED_LIBS TRUE)
 endif()
 
-# cmake variable to set DEBUG or RELEASE on command line 
+# cmake variable to set DEBUG or RELEASE on command line
+# With no build type, CMake adds no optimisation flag at all (and the
+# CompilerFlags-*.cmake files add none for GNU or Clang), so the plain
+# "cmake .. && make" of the README built an unoptimised LaGriT: the
+# Poisson disk sampler ran about 8 times slower. Default to Release.
+# A multi-config generator (Xcode, Visual Studio) chooses at build time.
+if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE Release CACHE STRING
+      "Build type: Debug, Release, RelWithDebInfo, MinSizeRel" FORCE)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+      Debug Release RelWithDebInfo MinSizeRel)
+  message("LaGriT compile type not given: using Release")
+endif()
 if (CMAKE_BUILD_TYPE)
   message("LaGriT compile type set to: ${CMAKE_BUILD_TYPE}")
 endif()

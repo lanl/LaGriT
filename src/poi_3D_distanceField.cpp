@@ -1,9 +1,20 @@
+/* CHANGE LOG (test-suite fixes, Oct 2026; see LaGriT_TEST_SUITE_HANDOFF.md)
+ *  FIX 1  h lookup: lattice spacing per axis, L/(N-1); trilinear
+ *         interpolation of the 8 surrounding nodes; indices clamped.
+ *         Was: one cell size L_x/N_x for x, y AND z, lower-corner node,
+ *         no clamp (lookups drifted toward +y/+z and wrapped past the
+ *         end of the array).
+ *  FIX 2  neighbour search: the cell range includes the last cell on
+ *         every side (was [i-n, i+n): a neighbour in cell i+n, i.e. on
+ *         the + side, was never checked), clamped to the grid.
+ */
 #include <iostream>
 #include <string>
 #include <fstream>
 #include <limits>
 #include <iomanip>
 #include <cmath>
+#include <algorithm>
 
 #include "poi_3D_domain.h"
 #include "poi_helperFunctions.h"
@@ -101,7 +112,11 @@ void Domain::loadDistanceField() {
     cout << "Distance Field lower Bounds. xMin " << dfXMin << " yMin " << dfYMin << " zMin " << dfZMin  << endl;
     cout << "Distance Field upper Bounds. xMax " << dfYMax << " yMax " << dfYMax << " zMax " << dfZMax << endl;
     double deltaX = dfXMax - dfXMin;
-    dfCellSize = deltaX / dfNumCellsX;
+    // FIX 1: the lattice has dfNumCellsX NODES, so dfNumCellsX - 1
+    // intervals, and each axis has its own spacing.
+    dfCellSize  = (dfNumCellsX > 1) ? deltaX / (dfNumCellsX - 1) : 1.0;
+    dfCellSizeY = (dfNumCellsY > 1) ? (dfYMax - dfYMin) / (dfNumCellsY - 1) : 1.0;
+    dfCellSizeZ = (dfNumCellsZ > 1) ? (dfZMax - dfZMin) / (dfNumCellsZ - 1) : 1.0;
     // compute inversece cell size
     idfCellSize = 1.0 / dfCellSize;
     cout << "Distance Field Cell Size: " << dfCellSize << endl;
@@ -137,6 +152,7 @@ void Domain::loadDistanceField() {
         }
     }
     
+    cout << "Distance Field Cell Size y, z: " << dfCellSizeY << " " << dfCellSizeZ << endl;
     cout << "Loading Distance Field Complete\n" << endl;
 }
 
@@ -242,16 +258,37 @@ void Domain::getExclusionRadius(Point &point) {
 #ifdef DEBUG
     cout << "running getExclusionRadius  " << endl;
 #endif
-    unsigned int i = getDFCellID(point.x, dfXMin);
-    unsigned int j = getDFCellID(point.y, dfYMin);
-    unsigned int k = getDFCellID(point.z, dfZMin);
-//#ifdef DEBUG
-    //cout << "x,y,z: " << point.x << " " << point.y << " " << point.z << endl;
-    //cout << "i,j,k: " << i << " " << j << " " << k << endl;
-//#endif
-    unsigned int linearIndex = getDFLinearIndex(i, j, k);
-    //cout << "linearIndex: " << linearIndex << "\n" << endl;
-    point.radius = distanceField[linearIndex];
-    // linear indexing is broken
-    // point.radius = h;
+    // FIX 1: interpolate instead of taking the lower-corner node
+    point.radius = lookupH(point.x, point.y, point.z);
+}
+
+/*! FIX 1: h at (x,y,z) by trilinear interpolation of the lookup lattice.
+Positions outside the lattice are clamped to its boundary. */
+static void dfLocate(double x, double xMin, double dx, unsigned int n,
+                     unsigned int &i, double &t) {
+    if (n < 2) { i = 0; t = 0.0; return; }
+    double f = (x - xMin) / dx;
+    if (f <= 0.0) { i = 0; t = 0.0; return; }
+    if (f >= n - 1) { i = n - 2; t = 1.0; return; }
+    i = (unsigned int) std::floor(f);
+    if (i > n - 2) i = n - 2;
+    t = f - i;
+}
+
+double Domain::lookupH(double x, double y, double z) {
+    unsigned int i, j, k;
+    double tx, ty, tz;
+    dfLocate(x, dfXMin, dfCellSize, dfNumCellsX, i, tx);
+    dfLocate(y, dfYMin, dfCellSizeY, dfNumCellsY, j, ty);
+    dfLocate(z, dfZMin, dfCellSizeZ, dfNumCellsZ, k, tz);
+    unsigned int i1 = (dfNumCellsX > 1) ? i + 1 : i;
+    unsigned int j1 = (dfNumCellsY > 1) ? j + 1 : j;
+    unsigned int k1 = (dfNumCellsZ > 1) ? k + 1 : k;
+    double c00 = distanceField[getDFLinearIndex(i, j, k)] * (1 - tx) + distanceField[getDFLinearIndex(i1, j, k)] * tx;
+    double c10 = distanceField[getDFLinearIndex(i, j1, k)] * (1 - tx) + distanceField[getDFLinearIndex(i1, j1, k)] * tx;
+    double c01 = distanceField[getDFLinearIndex(i, j, k1)] * (1 - tx) + distanceField[getDFLinearIndex(i1, j, k1)] * tx;
+    double c11 = distanceField[getDFLinearIndex(i, j1, k1)] * (1 - tx) + distanceField[getDFLinearIndex(i1, j1, k1)] * tx;
+    double c0 = c00 * (1 - ty) + c10 * ty;
+    double c1 = c01 * (1 - ty) + c11 * ty;
+    return c0 * (1 - tz) + c1 * tz;
 }

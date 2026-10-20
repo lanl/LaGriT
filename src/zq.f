@@ -575,24 +575,31 @@ c
            iprt2=1
            go to 9995
          endif
+C        Oct 2026 fix: the test below used ier and ier2, which were
+C        never set (and icscode from mmgetblk, not from the attribute
+C        lookup), so whether an added attribute (e.g. isetwd) was set
+C        depended on leftover memory. ier and ier1 are now the codes of
+C        mmgetpr and cmo_get_info, found once (j1 = 1) and kept; an
+C        unknown attribute stops the command.
          if(j1.eq.1) then
+            ier=1
+            ier1=1
             call  cmo_get_attparam(iword,cmo,iatt_index,ctype,crank,
      *      clen,cinter,cpers,cio,ierror_return)
-            if(icscode.eq.0) then
+            if(ierror_return.eq.0) then
 C   found existing attribute
                if(ctype(1:4).eq.'VINT') ityp=1
                if(ctype(1:7).eq.'VDOUBLE') ityp=2
-               call mmgetpr(iword(1:len),cmo,ipxfield,icscode)
+               call mmgetpr(iword(1:len),cmo,ipxfield,ier)
                call cmo_get_info(crank,cmo,irank,lin,itin,ier1)
             else
                write(logmess,9005) iword(1:len),cmo
                call writloga('default',0,logmess,0,ierrw)
-               go to 9998
+               go to 9997
             endif
          endif
          ierror=0
-         if((j1.eq.1.and.icscode.eq.0.and.ier.eq.0.and.ier1.eq.0.and.
-     *            ier2.eq.0).or.j1.ne.1) then
+         if(ier.eq.0.and.ier1.eq.0) then
             if(msgtype(6).eq.2) then
                do l=1,irank
                   xfield((i1-1)*irank+l)=xmsgin(6)
