@@ -74,7 +74,7 @@ define / NY / 51
 cmo/create/cmos
 surface/swtr/intrface/plane/x2 y1 lright/x2 y2 uright/x1 y2 uleft
 
-createpts/xyz/NX NY NZ / XMIN YMIN ZMAX / XMAX YMAX ZMAX 
+createpts/xyz/NX NY NZ / XMIN YMIN ZMAX / XMAX YMAX ZMAX / 1,1,1
 pset/rayend/seq/1 0 0
 
 * SURFPTS/CTYPE/INAME/IREGPT/IPFIRST,IPLAST,ISTRIDE/GEOM/RAY ORIGIN

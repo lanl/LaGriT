@@ -104,6 +104,14 @@ C
 C
 C      CHANGE HISTORY -
 C
+C     Oct 2026  FIX 3: a brick with one vertex in a direction and that
+C       direction's vertex switch on (e.g. createpts / brick / xyz /
+C       7,5,1 / ... / 1,1,1, the usual flags for a layer of quads)
+C       made 2 vertices in that direction where room for 1 was
+C       allocated: heap corruption (abort on Linux). One vertex is now
+C       the middle of min and max, as in rz.f. Shown by test_createpts
+C       decks cp23, cp25 and cp27 (quads in the xy, xz and yz planes).
+C
 C         HT0106AC-87, HT0404AB-87, JP0803AA-87, HT1023AA-87
 C         HT1117AA-87
 C
@@ -192,6 +200,10 @@ C
 C     SETUP THE STARTING VALUE AND DELTA FOR THE X-DIRECTION.
 C
       nx1=iabs(nx)
+C     FIX 3 (Oct 2026): one vertex in this direction is the middle
+C     (as in rz.f); the vertex branch below would make it 2 and write
+C     past the end of the arrays
+      if(nx1.lt.2.and.ixz.gt.0) ixz=0
       if(ixz.eq.0) then
          if(nx1.eq.1) then
             rsum=0.0
@@ -227,6 +239,10 @@ C
 C     SETUP THE STARTING VALUE AND DELTA FOR THE Y-DIRECTION.
 C
       ny1=iabs(ny)
+C     FIX 3 (Oct 2026): one vertex in this direction is the middle
+C     (as in rz.f); the vertex branch below would make it 2 and write
+C     past the end of the arrays
+      if(ny1.lt.2.and.iyz.gt.0) iyz=0
       if(iyz.eq.0) then
          if(ny1.eq.1) then
             rsum=0.0
@@ -262,6 +278,10 @@ C
 C     SETUP THE STARTING VALUE AND DELTA FOR THE Z-DIRECTION.
 C
       nz1=iabs(nz)
+C     FIX 3 (Oct 2026): one vertex in this direction is the middle
+C     (as in rz.f); the vertex branch below would make it 2 and write
+C     past the end of the arrays
+      if(nz1.lt.2.and.izz.gt.0) izz=0
       if(izz.eq.0) then
          if(nz1.eq.1) then
             rsum=0.0

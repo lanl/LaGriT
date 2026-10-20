@@ -1,4 +1,18 @@
+/* CHANGE LOG (test-suite fixes, Oct 2026; see LaGriT_TEST_SUITE_HANDOFF.md)
+ *  FIX 1  h lookup: lattice spacing per axis, L/(N-1); bilinear
+ *         interpolation of the 4 surrounding nodes; indices clamped.
+ *         Was: one cell size L_x/N_x for x AND y, lower-corner node,
+ *         no clamp (lookups drifted toward +y and wrapped past the end
+ *         of the array).
+ *  FIX 2  neighbour grid: one extra cell per axis (as in 3D) so a point
+ *         on the max edge has a cell; the search includes the last cell
+ *         on every side (was [i-n, i+n)); every loop stays inside the
+ *         grid (was: up to numCells + 1, aliasing into the next row and
+ *         reading/writing past the end of the array).
+ */
 #include <iostream>
+#include <cmath>
+#include <algorithm>
 #include <string>
 #include <fstream>
 #include <limits>
@@ -90,7 +104,9 @@ void Polygon::loadDistanceFieldCMO() {
     cout << "Distance Field lower Bounds. xMin " << dfXMin << " " << "yMin " << dfYMin  << endl;
     cout << "Distance Field upper Bounds. xMax " << dfYMax << " " << "yMax " << dfYMax  << endl;
     double deltaX = xMax - xMin;
-    dfCellSize = deltaX / dfNumCellsX;
+    // FIX 1: dfNumCellsX NODES -> dfNumCellsX - 1 intervals; y has its own
+    dfCellSize  = (dfNumCellsX > 1) ? deltaX / (dfNumCellsX - 1) : 1.0;
+    dfCellSizeY = (dfNumCellsY > 1) ? (yMax - yMin) / (dfNumCellsY - 1) : 1.0;
     // compute inversece cell size
     idfCellSize = 1.0 / dfCellSize;
     cout << "Distance Field Cell Size: " << dfCellSize << endl;
@@ -142,6 +158,7 @@ void Polygon::loadDistanceFieldCMO() {
         }
     }
     
+    cout << "Distance Field Cell Size y: " << dfCellSizeY << endl;
     // Use this to take a look at the dfield
     // dumpDistanceField();
     cout << "Loading Distance Field Complete\n" << endl;
@@ -238,12 +255,31 @@ unsigned int Polygon::getDFCellID(double x, double xMin) {
 distance field array.
 */
 void Polygon::getExclusionRadius(Point &point) {
-    unsigned int i = getDFCellID(point.x, dfXMin);
-    unsigned int j = getDFCellID(point.y, dfYMin);
-    // point.radius = distanceField[i][j];
-    point.radius = distanceField[i * dfNumCellsY + j];
-//    if (i > dfNumCellsX || j > dfNumCellsY){
-//        cout << i << " " << j << endl;
-//        printPoint(point);
-//    }
+    // FIX 1: interpolate instead of taking the lower-corner node
+    point.radius = lookupH(point.x, point.y);
+}
+
+/*! FIX 1: h at (x,y) by bilinear interpolation of the lookup lattice,
+clamped to its boundary. */
+static void dfLocate2(double x, double xMin, double dx, unsigned int n,
+                      unsigned int &i, double &t) {
+    if (n < 2) { i = 0; t = 0.0; return; }
+    double f = (x - xMin) / dx;
+    if (f <= 0.0) { i = 0; t = 0.0; return; }
+    if (f >= n - 1) { i = n - 2; t = 1.0; return; }
+    i = (unsigned int) std::floor(f);
+    if (i > n - 2) i = n - 2;
+    t = f - i;
+}
+
+double Polygon::lookupH(double x, double y) {
+    unsigned int i, j;
+    double tx, ty;
+    dfLocate2(x, dfXMin, dfCellSize, dfNumCellsX, i, tx);
+    dfLocate2(y, dfYMin, dfCellSizeY, dfNumCellsY, j, ty);
+    unsigned int i1 = (dfNumCellsX > 1) ? i + 1 : i;
+    unsigned int j1 = (dfNumCellsY > 1) ? j + 1 : j;
+    double c0 = distanceField[i * dfNumCellsY + j] * (1 - tx) + distanceField[i1 * dfNumCellsY + j] * tx;
+    double c1 = distanceField[i * dfNumCellsY + j1] * (1 - tx) + distanceField[i1 * dfNumCellsY + j1] * tx;
+    return c0 * (1 - ty) + c1 * ty;
 }

@@ -215,6 +215,10 @@ C
  200  continue
 C
  
- 9000 format(a7,3(i3,'/'),6(1pe15.7,'/'),' ; finish')
+C     Oct 2026: the switches 0,0,0 (cell centres) are given; rz now
+C     requires them. Before, they were left out and read as 0 from
+C     past the end of the command. Cell centres give 6 n**2 points on
+C     the cube, none shared at an edge or corner.
+ 9000 format(a7,3(i3,'/'),6(1pe15.7,'/'),'0,0,0/ ; finish')
  9999 return
       end

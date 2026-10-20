@@ -188,9 +188,14 @@ c
 C     SET THE REGION NAMES, OFFSETS, AND NUMBER OF ELEMENTS FOR ALL
 C     REGIONS.  ALSO GET SURFACE NAMES AND POINTERS
 C
+C     Oct 2026 fix: with no region (refine everything) ireg was never
+C     allocated and only ireg(1) was set: segmentation fault. It is now
+C     allocated and every node is in the region.
       if(regname.eq.'-all-') then
+         call mmgetblk('ireg',isubname,ipireg,nnodes,1,icscode)
+         call mmgetblk('isrf',isubname,ipisrf,nnodes,1,icscode)
          do i=1,nnodes
-            ireg(1)=1
+            ireg(i)=1
          enddo
       else
          call cmo_get_attinfo('geom_name',cmo,iout,rout,geom_name,
@@ -205,6 +210,12 @@ C
                go to 10
             endif
          enddo
+C        Oct 2026: a region name not found was used anyway (iregck unset)
+         write(buf,'(a,a)') 'ERROR: createpts / amr: no region named ',
+     *      regname(1:max(1,icharlnf(regname)))
+         call writloga('default',0,buf,0,icscode)
+         ierr=1
+         go to 9999
  10      call mmgetblk('ireg',isubname,ipireg,nnodes,1,icscode)
          call mmgetblk('isrf',isubname,ipisrf,nnodes,1,icscode)
          call getregv(xic,yic,
@@ -243,7 +254,13 @@ c
          nelements_new=0
          do nt=nt1,nt2
             itype=itettyp(nt)
-            if(itype.ne.ifelmhex) go to 9999
+            if(itype.ne.ifelmhex) then
+               write(buf,'(a,i0,a)') 'ERROR: createpts / amr: cell ',nt,
+     *            ' is not a hex: amr refines hex meshes only'
+               call writloga('default',0,buf,0,icscode)
+               ierr=1
+               go to 9999
+            endif
             do nn=1,nelmnen(itettyp(nt))
                if(ireg(itet(itetoff(nt)+nn)).ne.0) go to 20
             enddo
@@ -259,7 +276,9 @@ c
                call cmo_set_info('nnodes',cmo,nnodesmax,1,1,icscode)
                ic=1
             endif
-            if(nelements_save+nelements_new+1.gt.nelementsmax) then
+C           Oct 2026 fix: a refined hex adds 8 cells; room was checked
+C           for 1 (memory corrupted on meshes of more than one hex)
+            if(nelements_save+nelements_new+8.gt.nelementsmax) then
                nelementsmax=nelementsmax+1000
                call cmo_set_info('nelements',cmo,nelementsmax,1,1,
      *                          icscode)
@@ -450,8 +469,11 @@ c
          call cmo_set_info('nelements',cmo,nelements_save+
      *       nelements_new,1,1,icscode)
          call cmo_newlen(cmo,icscode)
-         write(buf,110) nnodes_save+1,nnodes_save+nnodes_new
- 110     format('filter/',i10,',',i10,',1;rmpoint/compress;finish')
+C        Oct 2026 fix: filter ALL the nodes, 1 to the last, so a new node
+C        on an old one is merged too (only the new nodes were compared
+C        before; 1,0,0 would mean only the last points created)
+         write(buf,110) nnodes_save+nnodes_new
+ 110     format('filter/1,',i10,',1;rmpoint/compress;finish')
          call dotask(buf,icscode)
 c
 c  restore size of mesh
@@ -469,11 +491,17 @@ c  find out region membership of new nodes
 c
          call mmnewlen('ireg',isubname,ipireg,nnodes,icscode)
          call mmnewlen('isrf',isubname,ipisrf,nnodes,icscode)
-         call getregv(xic,yic,
+         if(regname.eq.'-all-') then
+            do i=1,nnodes
+               ireg(i)=1
+            enddo
+         else
+            call getregv(xic,yic,
      $                     zic,nnodes,
      &                     epsln,cregion,iregck,
      $                     ireg,isrf,
      *                     icscode)
+         endif
          nt1=nelements_save+1
          nt2=nelements_save+nelements_new
 c
@@ -482,7 +510,7 @@ c  update imt,icr,itp for new nodes
          call cmo_get_info('icr',cmo,ipicr1,ilen,ityp,ierr)
          call cmo_get_info('imt',cmo,ipimt1,ilen,ityp,ierr)
          do i=1,nnodes
-            if(ireg(i).ne.0) imt1(i)=iregck
+            if(ireg(i).ne.0.and.regname.ne.'-all-') imt1(i)=iregck
             itp1(i)=0
             icr1(i)=0
          enddo

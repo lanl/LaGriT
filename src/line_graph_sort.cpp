@@ -353,7 +353,13 @@ static void handle_component(
     for (it = cycle_edges.begin(); it != cycle_edges.end(); ++it) {
         set<Node *> seen;
         found_shared_edge = false;
-        assert(find_path((*it)->src, (*it)->dest, seen, found_shared_edge));
+        /* find_path must run in every build: it sets found_shared_edge.
+         * It used to be called inside assert(), which a Release build
+         * (-DNDEBUG) removes, so shared edges were never detected. */
+        bool path_found = find_path((*it)->src, (*it)->dest, seen,
+                                    found_shared_edge);
+        assert(path_found);
+        (void) path_found;
         loop_id[*it - myedges] = current_loop_id;
 
         if (found_shared_edge) {

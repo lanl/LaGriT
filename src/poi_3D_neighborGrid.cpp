@@ -1,3 +1,13 @@
+/* CHANGE LOG (test-suite fixes, Oct 2026; see LaGriT_TEST_SUITE_HANDOFF.md)
+ *  FIX 1  h lookup: lattice spacing per axis, L/(N-1); trilinear
+ *         interpolation of the 8 surrounding nodes; indices clamped.
+ *         Was: one cell size L_x/N_x for x, y AND z, lower-corner node,
+ *         no clamp (lookups drifted toward +y/+z and wrapped past the
+ *         end of the array).
+ *  FIX 2  neighbour search: the cell range includes the last cell on
+ *         every side (was [i-n, i+n): a neighbour in cell i+n, i.e. on
+ *         the + side, was never checked), clamped to the grid.
+ */
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -127,26 +137,27 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
     // of the point
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
+    // FIX 2: include the last cell on every side (was [i-n, i+n))
     unsigned int iMin, iMax;
     // minimum x edge is the current x-index the numCells, or 0.
     iMin = std::max(0, int( point.ix - numCells));
     // maximum x edge is the current x-index plus the numCells, or the edge of the grid.
-    iMax = std::min(point.ix + numCells, numCellsX);
+    iMax = std::min(point.ix + numCells, numCellsX - 1);
     unsigned int jMin, jMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     jMin = std::max(0, int( point.iy - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    jMax = std::min(point.iy + numCells, numCellsY);
+    jMax = std::min(point.iy + numCells, numCellsY - 1);
     unsigned int kMin, kMax;
     // minimum y edge is the current y-index minus the numCells, or 0.
     kMin = std::max(0, int( point.iz - numCells));
     // maximum y edge is the current y-index plus the numCells, or 0.
-    kMax = std::min(point.iz + numCells, numCellsZ);
+    kMax = std::min(point.iz + numCells, numCellsZ - 1);
     
     // walk through the box, and gather all non-zero entries
-    for (unsigned int k = kMin; k < kMax; k++) {
-        for (unsigned int j = jMin; j < jMax; j++) {
-            for (unsigned int i = iMin; i < iMax; i++) {
+    for (unsigned int k = kMin; k <= kMax; k++) {
+        for (unsigned int j = jMin; j <= jMax; j++) {
+            for (unsigned int i = iMin; i <= iMax; i++) {
                 unsigned int linearIndex = getNGLinearIndex(i, j, k);
                 
                 if (grid[linearIndex] > 0) {
@@ -175,6 +186,7 @@ void Domain::tagNeighborCells(Point point) {
     unsigned int numCells;
     numCells = int( ceil(point.radius / cellSize) );
     // Get the range of x and y in the neighborgrid
+    // (tagging range as in the original: exclusive top)
     unsigned int iMin, iMax;
     iMin = std::max(0, int( point.ix - numCells));
     iMax = std::min(point.ix + numCells, numCellsX);

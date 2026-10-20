@@ -70,8 +70,17 @@ C get some initial info
       endif
  
       call cmo_get_intinfo('nelements',cmo,nelements,ilen,ityp,ierr)
-      if (ierr.ne.0.or.nelements.eq.0) then
+      if (ierr.ne.0) then
          goto 9999
+      endif
+C     Oct 2026: errors say why, and the command fails (ierr = 1); before,
+C     only "VORPTS ERROR -" was written and the command succeeded
+      if (nelements.eq.0) then
+         write(logmess,'(a,a)') 'ERROR: createpts / voronoi: no cells',
+     *      ' in the mesh object'
+         call writloga('default',0,logmess,0,icscode)
+         ierr=1
+         goto 9998
       endif
  
       call cmo_get_info('xic',cmo,ipxic,ilen,ityp,ierr)
@@ -126,16 +135,23 @@ c
      *        xic(itet(ioff+3)),yic(itet(ioff+3)),zic(itet(ioff+3)),
      *        xvor(it),yvor(it),zvor(it) )
           else
-             logmess='element not triangle or tetrahedron'
-             call writloga('default',0,logmess,0,ierr)
-             go to 9999
+             write(logmess,'(a,i0,a)') 'ERROR: createpts / voronoi: '//
+     *          'cell ',it,' is not a triangle or tetrahedron'
+             call writloga('default',0,logmess,0,icscode)
+             write(logmess,'(a)') 'ERROR:   voronoi points are '//
+     *          'defined only for tri and tet cells'
+             call writloga('default',0,logmess,0,icscode)
+             ierr=1
+             go to 9998
           endif
        enddo
        go to 9998
             
  9999 continue
-      write(logmess,*) '  VORPTS ERROR - '
+      write(logmess,'(a)') 'ERROR: createpts / voronoi: no mesh'//
+     *   ' object or no cell data'
       call writloga('default',0,logmess,0,icscode)
+      ierr=1
  9998 continue
       return
       end

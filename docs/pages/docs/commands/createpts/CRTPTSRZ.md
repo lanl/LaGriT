@@ -53,7 +53,7 @@ The minimum and maximum coordinates are the triplets:
 
 `xmin,ymin,zmin` are the minimums and `xmax,ymax,zmax` are the maximums for coordinates as described above.
 
-`iiz,ijz,ikz` 0 or 1 switches 
+`iiz,ijz,ikz` 0 or 1 switches (required)
 - 0 = mins and maxs are used as cell centers
 - 1 = mins and maxs are used as cell vertices
 
