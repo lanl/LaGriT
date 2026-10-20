@@ -1322,7 +1322,10 @@ c        preset work array in case of errors
  
 c        Get nearest point number iisrc from attribute pt_gtg
          if(if_ptsearch.eq.0) then
-            iisrc=pt_gtg(ipt)
+c           pt_gtg is stored by sink node number (iisnk), not by
+c           position in the point list (ipt): they differ when the
+c           list skips nodes, e.g. a dudded node (itp 21). Oct 2026.
+            iisrc=pt_gtg(iisnk)
             if(iisrc.ne.0) then
               mtfound = 1
               itfound(1) = iisrc
