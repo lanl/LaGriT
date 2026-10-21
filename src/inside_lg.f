@@ -1118,6 +1118,7 @@ C
       real*8 eps_len,eps_size,eps_pos,epstest,xdist
      
       real*8  xsum,ra,rb,rc
+      real*8  xtol
       real*8 extemp,extemp2,exa,exb,exc,exsum,exerr,exerr_tot
 C
       character*132 logmess
@@ -1476,6 +1477,35 @@ C         failed. The result will be the point will be reported to be
 C         outside, but not due to a any positive result from a test. One
 C         just arrives here because no tests worked.
 C
+C
+C         ON THE TRIANGLE WITHIN A RELATIVE TOLERANCE (Oct 2026)
+C         A point exactly on an edge or vertex can fail every test
+C         above by rounding alone: the edge areas are compared with
+C         xfac = epsilonr*|a4|, a fraction of machine precision of the
+C         triangle's size, and the rounding in the cross products is
+C         larger than that. Such a point was found in neither of the
+C         two triangles sharing the edge (interpolate / continuous
+C         gave it the flag value). xdot_i/|a4|**2 is minus the
+C         barycentric weight of the point opposite edge i, so accept
+C         the point as on the triangle when no weight is below -tau,
+C         and report the edge whose weight is nearest zero.
+C         tau is 1000 rounding units, scaled by how far the triangle
+C         is from the origin compared with its size (the rounding in
+C         the weights grows with that ratio). Do not use eps_pos
+C         here: it grows with the coordinates alone and made tau
+C         about 0.1 for coordinates near 1e10 (intrp_2D_sizes).
+          if (iflag.le.0 .and. itmp.eq.0) then
+             xtol = 1.0d3*epsilonr*
+     *              max(one, max(xdist,maxboxlen)/sqrt(xarea))
+             xtol = xtol*xarea*xarea
+             if (xdot1.le.xtol .and. xdot2.le.xtol .and.
+     *           xdot3.le.xtol) then
+                iflag = 1
+                if (xdot2.gt.xdot1 .and. xdot2.ge.xdot3) iflag = 2
+                if (xdot3.gt.xdot1 .and. xdot3.gt.xdot2) iflag = 3
+                itmp = 1
+             endif
+          endif
 C         check for failure - make sure iflag is to something other than 0 
 C         FAIL -5 : fell through all EDGE cases
           if (iflag.eq.0) then
