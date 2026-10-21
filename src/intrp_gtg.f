@@ -881,15 +881,9 @@ C     Do some error checking and final setup of commands
           goto 9000
         endif
  
-        if (itettyp_src(1).eq.ifelmhex) then
-          write(logmess,'(a,a)')
-     *'WARNING: interpolate/continuous may not work for hex: '
-     *     ,cmosrc(1:icharlnf(cmosrc))
-          call writloga('default',1,logmess,0,ierrw)
-          write(logmess,'(a)')
-     *     'Use hextotet to convert hex elements to tetrahedra. '
-          call writloga('default',0,logmess,1,ierrw)
-        endif
+C       (Oct 2026) hex sources are split into the 24 tets of
+C       hextotet / 24 in cinterpolate_elem; the warning that
+C       continuous may not work for hex was removed.
  
       endif
  

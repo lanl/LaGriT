@@ -17,9 +17,9 @@ C     detirmined by the POINT location. The method is applied only
 C     where it makes sense for the interpolation function. See min
 C     and max explanation below. 
 C
-C     WARNING: rotated or non-orthonagol hex elements can not be
-C     guaranteed to have positive summed volumes.
-C     It is reccommended that hextotet be used on these hex grids.
+C     Quads, pyramids, prisms and hexes are split around their
+C     median into triangles or tets (Oct 2026, see that branch); aby
+C     numbering and shape is handled, and a linear field is exact.
 C
 C     The interpolation function CINTERP is applied to the weighted 
 C     field values, this includes linear, log and asinh. The new field
@@ -113,6 +113,8 @@ C
      *       vol1,vol2,vol3,vol4,vol5,vol6,vol7,vol8
             
       real*8 cinterpolate
+      integer i,nen,ierr_wts
+      real*8 wts(mxnodes),sumf,sumw
 
       character*132 logmess
 C
@@ -139,8 +141,11 @@ C*****************************************************************
           xvalue=min(xfield(1),xfield(2),xfield(3),xfield(4))
 
         else
-          xvalue=min(xfield(1),xfield(2),xfield(3),xfield(4),
-     *               xfield(5),xfield(6),xfield(7),xfield(8))
+C         only the element's own vertices (a prism has 6, a pyramid 5)
+          xvalue=xfield(1)
+          do i = 2,nelmnen(ielmtyp)
+            xvalue=min(xvalue,xfield(i))
+          enddo
         endif
 
 C*****************************************************************
@@ -155,8 +160,11 @@ C*****************************************************************
           xvalue=max(xfield(1),xfield(2),xfield(3),xfield(4))
 
         else
-          xvalue=max(xfield(1),xfield(2),xfield(3),xfield(4),
-     *               xfield(5),xfield(6),xfield(7),xfield(8))
+C         only the element's own vertices (a prism has 6, a pyramid 5)
+          xvalue=xfield(1)
+          do i = 2,nelmnen(ielmtyp)
+            xvalue=max(xvalue,xfield(i))
+          enddo
 
         endif
 
@@ -294,78 +302,6 @@ C        Do the inverse function operation
          endif
 
 
-C     ***** INTERPOLATION ON QUAD *****
-      elseif(ielmtyp.eq.ifelmqud) then
-
-         if(abs(x2-x1).lt.epsilonl) then
-            x12=xp
-            y12=yp
-            z12=zp
-         else
-            x12=xp
-            y12=y1+(y2-y1)*(xp-x1)/(x2-x1)
-            z12=z1+(z2-z1)*(xp-x1)/(x2-x1)
-         endif
-         if(abs(y3-y2).lt.epsilonl) then
-            x23=xp
-            y23=yp
-            z23=zp
-         else
-            x23=x2+(x3-x2)*(yp-y2)/(y3-y2)
-            y23=yp
-            z23=z2+(z3-z2)*(yp-y2)/(y3-y2)
-         endif
-         if(abs(x4-x3).lt.epsilonl) then
-            x34=xp
-            y34=yp
-            z34=zp
-         else
-            x34=xp
-            y34=y3+(y4-y3)*(xp-x3)/(x4-x3)
-            z34=z3+(z4-z3)*(xp-x3)/(x4-x3)
-         endif
-         if(abs(y4-y1).lt.epsilonl) then
-            x41=xp
-            y41=yp
-            z41=zp
-         else
-            x41=x1+(x4-x1)*(yp-y1)/(y4-y1)
-            y41=yp
-            z41=z1+(z4-z1)*(yp-y1)/(y4-y1)
-         endif
-C
-        call volume_qud(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,volelm)
-C
-        call volume_qud(x1 ,y1 ,z1 ,x12,y12,z12,xp ,yp ,zp ,x41,y41,z41,
-     *                  vol3)
-        call volume_qud(x2 ,y2 ,z2 ,x23,y23,z23,xp ,yp ,zp ,x12,y12,z12,
-     *                  vol4)
-        call volume_qud(x3 ,y3 ,z3 ,x34,y34,z34,xp ,yp ,zp ,x23,y23,z23,
-     *                  vol1)
-        call volume_qud(x4 ,y4 ,z4 ,x41,y41,z41,xp ,yp ,zp ,x34,y34,z34,
-     *                  vol2)
-        volsum=vol1+vol2+vol3+vol4
-C
-         if (volsum .lt. epsilonvol) then
-           ierr_zero = 1
-         endif
-
-C        Transform the field values by the desired function.
-         fv1 = cinterpolate('function',cinterp,xfield(1))
-         fv2 = cinterpolate('function',cinterp,xfield(2))
-         fv3 = cinterpolate('function',cinterp,xfield(3))
-         fv4 = cinterpolate('function',cinterp,xfield(4))
-
-         xvalue = (fv1*vol1+fv2*vol2+fv3*vol3+fv4*vol4) / volsum
- 
-C        Do the inverse function operation
-         favg = (xfield(1)+xfield(2)+xfield(3)+xfield(4))/4.0d+00
-         xvalue=cinterpolate('inverse',cinterp,xvalue)
-         if(cinterp(1:3).eq.'log') then
-           xvalue = sign(xvalue,favg)
-         endif
-
-
 C     ***** INTERPOLATION ON TET *****
       elseif(ielmtyp.eq.ifelmtet) then
 
@@ -419,746 +355,62 @@ C        Do the inverse function operation
          endif
 
 
-C     ***** INTERPOLATION ON HEX *****
-      elseif(ielmtyp.eq.ifelmhex) then
+C     ***** INTERPOLATION ON QUAD, PYRAMID, PRISM, HEX *****
+C     (Oct 2026) The element is split around its median: a quad into
+C     4 triangles; a pyramid, prism or hex into tets, each face with 4
+C     vertices into 4 triangles around the face median (a hex gives
+C     the 24 tets of hextotet / 24 and of inside_hex). The median
+C     carries the mean of the element's vertex values and a face
+C     median the mean of the face's, so a linear field is exact, the
+C     result does not depend on how the vertices are numbered or
+C     whether the element is aligned with the axes, and two elements
+C     sharing a face split it the same way. The point is taken in the
+C     piece where its smallest barycentric weight is largest, so a
+C     point on or just outside a piece still gets a sensible value.
+C     The weights are folded back onto the element's own vertices.
+C     Replaces the split by the planes x=xp, y=yp, z=zp, which
+C     assumed edge 1-2 along x, 2-3 along y, 1-5 along z (aby other
+C     numbering gave zero volumes and values near 1e14), and a prism
+C     branch that read vertices 7 and 8.
+      elseif(ielmtyp.eq.ifelmqud .or. ielmtyp.eq.ifelmpyr .or.
+     *       ielmtyp.eq.ifelmpri .or. ielmtyp.eq.ifelmhex) then
 
-c     Break hex into 8 hexs including the query point xp,yp,zp
-c     the 8 hexs are propotional to full hex
-c     this depends on orthonogal hexs
+         nen = nelmnen(ielmtyp)
+         call cinterp_elem_wts(ielmtyp,xnodes,ynodes,znodes,
+     *                         xp,yp,zp,wts,volsum,ierr_wts)
 
-         if(abs(x2-x1).lt.epsilonl) then
-            x12=xp
-            y12=yp
-            z12=zp
+         sumf = 0.0d0
+         sumw = 0.0d0
+         favg = 0.0d0
+         do i = 1,nen
+            fv1 = cinterpolate('function',cinterp,xfield(i))
+            sumf = sumf + wts(i)*fv1
+            sumw = sumw + wts(i)
+            favg = favg + xfield(i)
+         enddo
+         favg = favg/dble(nen)
+         volelm = 0.0d0
+         vol1 = wts(1)
+         vol2 = wts(2)
+         vol3 = wts(3)
+         vol4 = wts(4)
+         vol5 = wts(5)
+         vol6 = wts(6)
+         vol7 = wts(7)
+         vol8 = wts(8)
+         if (ierr_wts.ne.0 .or. abs(sumw).lt.local_eps) then
+C           every piece has zero volume: report it, use the mean
+            ierr_zero = 1
+            sumf = 0.0d0
+            do i = 1,nen
+               sumf = sumf + cinterpolate('function',cinterp,xfield(i))
+            enddo
+            xvalue = sumf/dble(nen)
          else
-            x12=xp
-            y12=y1+(y2-y1)*(xp-x1)/(x2-x1)
-            z12=z1+(z2-z1)*(xp-x1)/(x2-x1)
+            xvalue = sumf/sumw
          endif
-
-         if(abs(y3-y2).lt.epsilonl) then
-            x23=xp
-            y23=yp
-            z23=zp
-         else
-            x23=x2+(x3-x2)*(yp-y2)/(y3-y2)
-            y23=yp
-            z23=z2+(z3-z2)*(yp-y2)/(y3-y2)
-         endif
-
-         if(abs(x4-x3).lt.epsilonl) then
-            x34=xp
-            y34=yp
-            z34=zp
-         else
-            x34=xp
-            y34=y3+(y4-y3)*(xp-x3)/(x4-x3)
-            z34=z3+(z4-z3)*(xp-x3)/(x4-x3)
-         endif
-
-         if(abs(y4-y1).lt.epsilonl) then
-            x41=xp
-            y41=yp
-            z41=zp
-         else
-            x41=x1+(x4-x1)*(yp-y1)/(y4-y1)
-            y41=yp
-            z41=z1+(z4-z1)*(yp-y1)/(y4-y1)
-         endif
-
-C
-         if(abs(x6-x5).lt.epsilonl) then
-            x56=xp
-            y56=yp
-            z56=zp
-         else
-            x56=xp
-            y56=y5+(y6-y5)*(xp-x5)/(x6-x5)
-            z56=z5+(z6-z5)*(xp-x5)/(x6-x5)
-         endif
-
-         if(abs(y7-y6).lt.epsilonl) then
-            x67=xp
-            y67=yp
-            z67=zp
-         else
-            x67=x6+(x7-x6)*(yp-y6)/(y7-y6)
-            y67=yp
-            z67=z6+(z7-z6)*(yp-y6)/(y7-y6)
-         endif
-
-         if(abs(x8-x7).lt.epsilonl) then
-            x78=xp
-            y78=yp
-            z78=zp
-         else
-            x78=xp
-            y78=y7+(y8-y7)*(xp-x7)/(x8-x7)
-            z78=z7+(z8-z7)*(xp-x7)/(x8-x7)
-         endif
-
-         if(abs(y8-y5).lt.epsilonl) then
-            x85=xp
-            y85=yp
-            z85=zp
-         else
-            x85=x5+(x8-x5)*(yp-y5)/(y8-y5)
-            y85=yp
-            z85=z5+(z8-z5)*(yp-y5)/(y8-y5)
-         endif
-
-C
-         if(abs(z5-z1).lt.epsilonl) then
-            x15=xp
-            y15=yp
-            z15=zp
-         else
-            x15=x1+(x5-x1)*(zp-z1)/(z5-z1)
-            y15=y1+(y5-y1)*(zp-z1)/(z5-z1)
-            z15=zp
-         endif
-
-         if(abs(z6-z2).lt.epsilonl) then
-            x26=xp
-            y26=yp
-            z26=zp
-         else
-            x26=x2+(x6-x2)*(zp-z2)/(z6-z2)
-            y26=y2+(y6-y2)*(zp-z2)/(z6-z2)
-            z26=zp
-         endif
-
-         if(abs(z7-z3).lt.epsilonl) then
-            x37=xp
-            y37=yp
-            z37=zp
-         else
-            x37=x3+(x7-x3)*(zp-z3)/(z7-z3)
-            y37=y3+(y7-y3)*(zp-z3)/(z7-z3)
-            z37=zp
-         endif
-
-         if(abs(z8-z4).lt.epsilonl) then
-            x48=xp
-            y48=yp
-            z48=zp
-         else
-            x48=x4+(x8-x4)*(zp-z4)/(z8-z4)
-            y48=y4+(y8-y4)*(zp-z4)/(z8-z4)
-            z48=zp
-         endif
-
-C
-         if(sqrt((x3-x1)**2+(y3-y1)**2).lt.epsilonl) then
-            x13=xp
-            y13=yp
-            z13=zp
-         else
-            x13=xp
-            y13=yp
-            z13=z1+(z3-z1)*sqrt(xp**2+yp**2)/sqrt((x3-x1)**2+(y3-y1)**2)
-         endif
-
-         if(sqrt((x6-x1)**2+(z6-z1)**2).lt.epsilonl) then
-            x16=xp
-            y16=yp
-            z16=zp
-         else
-            x16=xp
-            y16=y1+(y6-y1)*sqrt(xp**2+zp**2)/sqrt((x6-x1)**2+(z6-z1)**2)
-            z16=zp
-         endif
-
-         if(sqrt((y8-y1)**2+(z8-z1)**2).lt.epsilonl) then
-            x18=xp
-            y18=yp
-            z18=zp
-         else
-            x18=x1+(x8-x1)*sqrt(yp**2+zp**2)/sqrt((y8-y1)**2+(z8-z1)**2)
-            y18=yp
-            z18=zp
-         endif
-
-C
-         if((sqrt((y7-y2)**2+(z7-z2)**2)).lt.epsilonl) then
-           x72=xp
-           y72=yp
-           z72=zp
-         else
-           x72=x2+(x7-x2)*sqrt(yp**2+zp**2)/sqrt((y7-y2)**2+(z7-z2)**2)
-           y72=yp
-           z72=zp
-         endif
-
-         if(sqrt((x7-x4)**2+(z7-z4)**2).lt.epsilonl) then
-           x74=xp
-           y74=yp
-           z74=zp
-         else
-           x74=xp
-           y74=y4+(y7-y4)*sqrt(xp**2+zp**2)/sqrt((x7-x4)**2+(z7-z4)**2)
-           z74=zp
-         endif
-
-         if((sqrt((x7-x5)**2+(y7-y5)**2)).lt.epsilonl) then
-           x75=xp
-           y75=yp
-           z75=zp
-         else
-           x75=xp
-           y75=yp
-           z75=z5+(z7-z5)*sqrt(xp**2+yp**2)/sqrt((x7-x5)**2+(y7-y5)**2)
-         endif
-
-C
-         call volume_hex(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,
-     *                   x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,
-     *                   volelm)
-C
-        call volume_hex(x1 ,y1 ,z1 ,x12,y12,z12,x13,y13,z13,x41,y41,z41,
-     *                  x15,y15,z15,x16,y16,z16,xp ,yp ,zp ,x18,y18,z18,
-     *                  vol7)
-
-
-        call volume_hex(x2 ,y2 ,z2 ,x23,y23,z23,x13,y13,z13,x12,y12,z12,
-     *                  x26,y26,z26,x72,y72,z72,xp ,yp ,zp ,x16,y16,z16,
-     *                  vol8)
-
-        call volume_hex(x3 ,y3 ,z3 ,x34,y34,z34,x13,y13,z13,x23,y23,z23,
-     *                  x37,y37,z37,x74,y74,z74,xp ,yp ,zp ,x72,y72,z72,
-     *                  vol5)
-
-        call volume_hex(x4 ,y4 ,z4 ,x41,y41,z41,x13,y13,z13,x34,y34,z34,
-     *                  x48,y48,z48,x18,y18,z18,xp ,yp ,zp ,x74,y74,z74,
-     *                  vol6)
-
-        call volume_hex(x15,y15,z15,x16,y16,z16,xp ,yp ,zp, x18,y18,z18,
-     *                  x5 ,y5 ,z5 ,x56,y56,z56,x75,y75,z75,x85,y85,z85,
-     *                  vol3)
-
-        call volume_hex(x26,y26,z26,x72,y72,z72,xp ,yp ,zp, x16,y16,z16,
-     *                  x6 ,y6 ,z6 ,x67,y67,z67,x75,y75,z75,x56,y56,z56,
-     *                  vol4)
-
-        call volume_hex(x37,y37,z37,x74,y74,z74,xp ,yp ,zp, x72,y72,z72,
-     *                  x7 ,y7 ,z7 ,x78,y78,z78,x75,y75,z75,x67,y67,z67,
-     *                  vol1)
-
-        call volume_hex(x48,y48,z48,x18,y18,z18,xp ,yp ,zp, x74,y74,z74,
-     *                  x8 ,y8 ,z8 ,x85,y85,z85,x75,y75,z75,x78,y78,z78,
-     *                  vol2)
-
-
-         volsum=vol1+vol2+vol3+vol4+vol5+vol6+vol7+vol8
-
-         if (volsum .lt. epsilonvol) then
-           ierr_zero = 1
-         endif
-
-C        Transform the field values by the desired function
-         fv1 = cinterpolate('function',cinterp,xfield(1))
-         fv2 = cinterpolate('function',cinterp,xfield(2))
-         fv3 = cinterpolate('function',cinterp,xfield(3))
-         fv4 = cinterpolate('function',cinterp,xfield(4))
-         fv5 = cinterpolate('function',cinterp,xfield(5))
-         fv6 = cinterpolate('function',cinterp,xfield(6))
-         fv7 = cinterpolate('function',cinterp,xfield(7))
-         fv8 = cinterpolate('function',cinterp,xfield(8))
-
-         xvalue = (fv1*vol1+fv2*vol2+
-     &             fv3*vol3+fv4*vol4+
-     &             fv5*vol5+fv6*vol6+
-     &             fv7*vol7+fv8*vol8) / volsum
 
 C        Do the inverse function operation
-         favg = (xfield(1)+xfield(2)+xfield(3)+xfield(4)+
-     *           xfield(5)+xfield(6)+xfield(7)+
-     *           xfield(8))/8.0d+00
-         xvalue=cinterpolate('inverse',cinterp,xvalue)
-         if(cinterp(1:3).eq.'log') then
-           xvalue = sign(xvalue,favg)
-         endif
-
-
-
-C     ***** INTERPOLATION ON PYRAMID *****
-      elseif(ielmtyp.eq.ifelmpyr) then
-
-         if(abs(x2-x1).lt.epsilonl) then
-            x12=xp
-            y12=yp
-            z12=zp
-         else
-            x12=xp
-            y12=y1+(y2-y1)*(xp-x1)/(x2-x1)
-            z12=z1+(z2-z1)*(xp-x1)/(x2-x1)
-         endif
-         if(abs(y3-y2).lt.epsilonl) then
-            x23=xp
-            y23=yp
-            z23=zp
-         else
-            x23=x2+(x3-x2)*(yp-y2)/(y3-y2)
-            y23=yp
-            z23=z2+(z3-z2)*(yp-y2)/(y3-y2)
-         endif
-         if(abs(x4-x3).lt.epsilonl) then
-            x34=xp
-            y34=yp
-            z34=zp
-         else
-            x34=xp
-            y34=y3+(y4-y3)*(xp-x3)/(x4-x3)
-            z34=z3+(z4-z3)*(xp-x3)/(x4-x3)
-         endif
-         if(abs(y4-y1).lt.epsilonl) then
-            x41=xp
-            y41=yp
-            z41=zp
-         else
-            x41=x1+(x4-x1)*(yp-y1)/(y4-y1)
-            y41=yp
-            z41=z1+(z4-z1)*(yp-y1)/(y4-y1)
-         endif
-C
-         if(abs(x6-x5).lt.epsilonl) then
-            x56=xp
-            y56=yp
-            z56=zp
-         else
-            x56=xp
-            y56=y5+(y6-y5)*(xp-x5)/(x6-x5)
-            z56=z5+(z6-z5)*(xp-x5)/(x6-x5)
-         endif
-         if(abs(y7-y6).lt.epsilonl) then
-            x67=xp
-            y67=yp
-            z67=zp
-         else
-            x67=x6+(x7-x6)*(yp-y6)/(y7-y6)
-            y67=yp
-            z67=z6+(z7-z6)*(yp-y6)/(y7-y6)
-         endif
-         if(abs(x8-x7).lt.epsilonl) then
-            x78=xp
-            y78=yp
-            z78=zp
-         else
-            x78=xp
-            y78=y7+(y8-y7)*(xp-x7)/(x8-x7)
-            z78=z7+(z8-z7)*(xp-x7)/(x8-x7)
-         endif
-         if(abs(y8-y5).lt.epsilonl) then
-            x85=xp
-            y85=yp
-            z85=zp
-         else
-            x85=x5+(x8-x5)*(yp-y5)/(y8-y5)
-            y85=yp
-            z85=z5+(z8-z5)*(yp-y5)/(y8-y5)
-         endif
-C
-         if(abs(z5-z1).lt.epsilonl) then
-            x15=xp
-            y15=yp
-            z15=zp
-         else
-            x15=x1+(x5-x1)*(zp-z1)/(z5-z1)
-            y15=y1+(y5-y1)*(zp-z1)/(z5-z1)
-            z15=zp
-         endif
-         if(abs(z6-z2).lt.epsilonl) then
-            x26=xp
-            y26=yp
-            z26=zp
-         else
-            x26=x2+(x6-x2)*(zp-z2)/(z6-z2)
-            y26=y2+(y6-y2)*(zp-z2)/(z6-z2)
-            z26=zp
-         endif
-         if(abs(z7-z3).lt.epsilonl) then
-            x37=xp
-            y37=yp
-            z37=zp
-         else
-            x37=x3+(x7-x3)*(zp-z3)/(z7-z3)
-            y37=y3+(y7-y3)*(zp-z3)/(z7-z3)
-            z37=zp
-         endif
-         if(abs(z8-z4).lt.epsilonl) then
-            x48=xp
-            y48=yp
-            z48=zp
-         else
-            x48=x4+(x8-x4)*(zp-z4)/(z8-z4)
-            y48=y4+(y8-y4)*(zp-z4)/(z8-z4)
-            z48=zp
-         endif
-C
-         if(sqrt((x3-x1)**2+(y3-y1)**2).lt.epsilonl) then
-            x13=xp
-            y13=yp
-            z13=zp
-         else
-            x13=xp
-            y13=yp
-            z13=z1+(z3-z1)*sqrt(xp**2+yp**2)/
-     *                     sqrt((x3-x1)**2+(y3-y1)**2)
-         endif
-         if(sqrt((x6-x1)**2+(z6-z1)**2).lt.epsilonl) then
-            x16=xp
-            y16=yp
-            z16=zp
-         else
-            x16=xp
-            y16=y1+(y6-y1)*sqrt(xp**2+zp**2)/
-     *                     sqrt((x6-x1)**2+(z6-z1)**2)
-            z16=zp
-         endif
-         if(sqrt((y8-y1)**2+(z8-z1)**2).lt.epsilonl) then
-            x18=xp
-            y18=yp
-            z18=zp
-         else
-            x18=x1+(x8-x1)*sqrt(yp**2+zp**2)/
-     *                     sqrt((y8-y1)**2+(z8-z1)**2)
-            y18=yp
-            z18=zp
-         endif
-C
-         if(sqrt((y7-y2)**2+(z7-z2)**2).lt.epsilonl) then
-            x72=xp
-            y72=yp
-            z72=zp
-         else
-            x72=x2+(x7-x2)*sqrt(yp**2+zp**2)/
-     *                     sqrt((y7-y2)**2+(z7-z2)**2)
-            y72=yp
-            z72=zp
-         endif
-         if(sqrt((x7-x4)**2+(z7-z4)**2).lt.epsilonl) then
-            x74=xp
-            y74=yp
-            z74=zp
-         else
-            x74=xp
-            y74=y4+(y7-y4)*sqrt(xp**2+zp**2)/
-     *                     sqrt((x7-x4)**2+(z7-z4)**2)
-            z74=zp
-         endif
-         if(sqrt((x7-x5)**2+(y7-y5)**2).lt.epsilonl) then
-            x75=xp
-            y75=yp
-            z75=zp
-         else
-            x75=xp
-            y75=yp
-            z75=z5+(z7-z5)*sqrt(xp**2+yp**2)/
-     *                     sqrt((x7-x5)**2+(y7-y5)**2)
-         endif
-C
-         call volume_hex(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,
-     *                   x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,
-     *                   volelm)
-C
-         call volume_hex(x1 ,y1 ,z1 ,x12,y12,z12,x13,y13,z13,
-     *                   x41,y41,z41,x15,y15,z15,x16,y16,z16,
-     *                   xp ,yp ,zp ,x18,y18,z18,
-     *                   vol7)
-         call volume_hex(x2 ,y2 ,z2 ,x23,y23,z23,x13,y13,z13,
-     *                   x12,y12,z12,x26,y26,z26,x72,y72,z72,
-     *                   xp ,yp ,zp ,x16,y16,z16,
-     *                   vol8)
-         call volume_hex(x3 ,y3 ,z3 ,x34,y34,z34,x13,y13,z13,
-     *                   x23,y23,z23,x37,y37,z37,x74,y74,z74,
-     *                   xp ,yp ,zp ,x72,y72,z72,
-     *                   vol5)
-         call volume_hex(x4 ,y4 ,z4 ,x41,y41,z41,x13,y13,z13,
-     *                   x34,y34,z34,x48,y48,z48,x18,y18,z18,
-     *                   xp ,yp ,zp ,x74,y74,z74,
-     *                   vol6)
-         call volume_hex(x15,y15,z15,x16,y16,z16, xp ,yp ,zp,
-     *                   x18,y18,z18,x5 ,y5 ,z5 ,x56,y56,z56,
-     *                   x75,y75,z75,x85,y85,z85,
-     *                   vol3)
-         call volume_hex(x26,y26,z26,x72,y72,z72, xp ,yp ,zp,
-     *                   x16,y16,z16, x6 ,y6 ,z6 ,x67,y67,z67,
-     *                   x75,y75,z75,x56,y56,z56,
-     *                   vol4)
-         call volume_hex(x37,y37,z37,x74,y74,z74, xp ,yp ,zp,
-     *                   x72,y72,z72, x7 ,y7 ,z7 ,x78,y78,z78,
-     *                   x75,y75,z75,x67,y67,z67,
-     *                   vol1)
-         call volume_hex(x48,y48,z48,x18,y18,z18, xp ,yp ,zp,
-     *                   x74,y74,z74, x8 ,y8 ,z8 ,x85,y85,z85,
-     *                   x75,y75,z75,x78,y78,z78,
-     *                   vol2)
-         volsum =  vol1+vol2+vol3+vol4+vol5+vol6+vol7+vol8
-
-         if (volsum .lt. epsilonvol) then
-           ierr_zero = 1
-         endif
-
-C        Transform the field values by the desired function
-         fv1 = cinterpolate('function',cinterp,xfield(1))
-         fv2 = cinterpolate('function',cinterp,xfield(2))
-         fv3 = cinterpolate('function',cinterp,xfield(3))
-         fv4 = cinterpolate('function',cinterp,xfield(4))
-         fv5 = cinterpolate('function',cinterp,xfield(5))
-         fv6 = cinterpolate('function',cinterp,xfield(6))
-         fv7 = cinterpolate('function',cinterp,xfield(7))
-         fv8 = cinterpolate('function',cinterp,xfield(8))
-         xvalue = (fv1*vol1+fv2*vol2+
-     &             fv3*vol3+fv4*vol4+
-     &             fv5*vol5+fv6*vol6+
-     &             fv7*vol7+fv8*vol8) / volsum
-
-C        Do the inverse function operation
-         favg = (xfield(1)+xfield(2)+xfield(3)+xfield(4)+
-     *           xfield(5)+xfield(6)+xfield(7)+
-     *           xfield(8))/8.0d+00
-         xvalue = cinterpolate('inverse',cinterp,xvalue)
-         if(cinterp(1:3).eq.'log') then
-            xvalue = sign(xvalue,favg)
-         endif
-
-
-C     ***** INTERPOLATION ON PRISM *****
-      elseif(ielmtyp.eq.ifelmpri) then
-
-         if(abs(x2-x1).lt.epsilonl) then
-            x12=xp
-            y12=yp
-            z12=zp
-         else
-            x12=xp
-            y12=y1+(y2-y1)*(xp-x1)/(x2-x1)
-            z12=z1+(z2-z1)*(xp-x1)/(x2-x1)
-         endif
-         if(abs(y3-y2).lt.epsilonl) then
-            x23=xp
-            y23=yp
-            z23=zp
-         else
-            x23=x2+(x3-x2)*(yp-y2)/(y3-y2)
-            y23=yp
-            z23=z2+(z3-z2)*(yp-y2)/(y3-y2)
-         endif
-         if(abs(x4-x3).lt.epsilonl) then
-            x34=xp
-            y34=yp
-            z34=zp
-         else
-            x34=xp
-            y34=y3+(y4-y3)*(xp-x3)/(x4-x3)
-            z34=z3+(z4-z3)*(xp-x3)/(x4-x3)
-         endif
-         if(abs(y4-y1).lt.epsilonl) then
-            x41=xp
-            y41=yp
-            z41=zp
-         else
-            x41=x1+(x4-x1)*(yp-y1)/(y4-y1)
-            y41=yp
-            z41=z1+(z4-z1)*(yp-y1)/(y4-y1)
-         endif
-C
-         if(abs(x6-x5).lt.epsilonl) then
-            x56=xp
-            y56=yp
-            z56=zp
-         else
-            x56=xp
-            y56=y5+(y6-y5)*(xp-x5)/(x6-x5)
-            z56=z5+(z6-z5)*(xp-x5)/(x6-x5)
-         endif
-         if(abs(y7-y6).lt.epsilonl) then
-            x67=xp
-            y67=yp
-            z67=zp
-         else
-            x67=x6+(x7-x6)*(yp-y6)/(y7-y6)
-            y67=yp
-            z67=z6+(z7-z6)*(yp-y6)/(y7-y6)
-         endif
-         if(abs(x8-x7).lt.epsilonl) then
-            x78=xp
-            y78=yp
-            z78=zp
-         else
-            x78=xp
-            y78=y7+(y8-y7)*(xp-x7)/(x8-x7)
-            z78=z7+(z8-z7)*(xp-x7)/(x8-x7)
-         endif
-         if(abs(y8-y5).lt.epsilonl) then
-            x85=xp
-            y85=yp
-            z85=zp
-         else
-            x85=x5+(x8-x5)*(yp-y5)/(y8-y5)
-            y85=yp
-            z85=z5+(z8-z5)*(yp-y5)/(y8-y5)
-         endif
-C
-         if(abs(z5-z1).lt.epsilonl) then
-            x15=xp
-            y15=yp
-            z15=zp
-         else
-            x15=x1+(x5-x1)*(zp-z1)/(z5-z1)
-            y15=y1+(y5-y1)*(zp-z1)/(z5-z1)
-            z15=zp
-         endif
-         if(abs(z6-z2).lt.epsilonl) then
-            x26=xp
-            y26=yp
-            z26=zp
-         else
-            x26=x2+(x6-x2)*(zp-z2)/(z6-z2)
-            y26=y2+(y6-y2)*(zp-z2)/(z6-z2)
-            z26=zp
-         endif
-         if(abs(z7-z3).lt.epsilonl) then
-            x37=xp
-            y37=yp
-            z37=zp
-         else
-            x37=x3+(x7-x3)*(zp-z3)/(z7-z3)
-            y37=y3+(y7-y3)*(zp-z3)/(z7-z3)
-            z37=zp
-         endif
-         if(abs(z8-z4).lt.epsilonl) then
-            x48=xp
-            y48=yp
-            z48=zp
-         else
-            x48=x4+(x8-x4)*(zp-z4)/(z8-z4)
-            y48=y4+(y8-y4)*(zp-z4)/(z8-z4)
-            z48=zp
-         endif
-
-         if(sqrt((x3-x1)**2+(y3-y1)**2).lt.epsilonl) then
-            x13=xp
-            y13=yp
-            z13=zp
-         else
-            x13=xp
-            y13=yp
-            z13=z1+(z3-z1)*sqrt(xp**2+yp**2)/
-     *                      sqrt((x3-x1)**2+(y3-y1)**2)
-         endif
-         if(sqrt((x6-x1)**2+(z6-z1)**2).lt.epsilonl) then
-            x16=xp
-            y16=yp
-            z16=zp
-         else
-            x16=xp
-            y16=y1+(y6-y1)*sqrt(xp**2+zp**2)/
-     *                     sqrt((x6-x1)**2+(z6-z1)**2)
-            z16=zp
-         endif
-         if(sqrt((y8-y1)**2+(z8-z1)**2).lt.epsilonl) then
-            x18=xp
-            y18=yp
-            z18=zp
-         else
-            x18=x1+(x8-x1)*sqrt(yp**2+zp**2)/
-     *                     sqrt((y8-y1)**2+(z8-z1)**2)
-            y18=yp
-            z18=zp
-         endif
-C
-         if(sqrt((y7-y2)**2+(z7-z2)**2).lt.epsilonl) then
-            x72=xp
-            y72=yp
-            z72=zp
-         else
-            x72=x2+(x7-x2)*sqrt(yp**2+zp**2)/
-     *                     sqrt((y7-y2)**2+(z7-z2)**2)
-            y72=yp
-            z72=zp
-         endif
-         if(sqrt((x7-x4)**2+(z7-z4)**2).lt.epsilonl) then
-            x74=xp
-            y74=yp
-            z74=zp
-         else
-            x74=xp
-            y74=y4+(y7-y4)*sqrt(xp**2+zp**2)/
-     *                     sqrt((x7-x4)**2+(z7-z4)**2)
-            z74=zp
-         endif
-         if(sqrt((x7-x5)**2+(y7-y5)**2).lt.epsilonl) then
-            x75=xp
-            y75=yp
-            z75=zp
-         else
-            x75=xp
-            y75=yp
-            z75=z5+(z7-z5)*sqrt(xp**2+yp**2)/
-     *                     sqrt((x7-x5)**2+(y7-y5)**2)
-         endif
-
-         call volume_hex(x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,
-     *                   x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8,
-     *                   volelm)
-
-         call volume_hex(x1 ,y1 ,z1 ,x12,y12,z12,x13,y13,z13,
-     *                   x41,y41,z41,x15,y15,z15,x16,y16,z16,
-     *                   xp ,yp ,zp ,x18,y18,z18,
-     *                   vol7)
-         call volume_hex(x2 ,y2 ,z2 ,x23,y23,z23,x13,y13,z13,
-     *                   x12,y12,z12,x26,y26,z26,x72,y72,z72,
-     *                   xp ,yp ,zp ,x16,y16,z16,
-     *                   vol8)
-         call volume_hex(x3 ,y3 ,z3 ,x34,y34,z34,x13,y13,z13,
-     *                   x23,y23,z23,x37,y37,z37,x74,y74,z74,
-     *                   xp ,yp ,zp ,x72,y72,z72,
-     *                   vol5)
-         call volume_hex(x4 ,y4 ,z4 ,x41,y41,z41,x13,y13,z13,
-     *                   x34,y34,z34,x48,y48,z48,x18,y18,z18,
-     *                   xp ,yp ,zp ,x74,y74,z74,
-     *                   vol6)
-         call volume_hex(x15,y15,z15,x16,y16,z16, xp ,yp ,zp ,
-     *                   x18,y18,z18, x5 ,y5 ,z5 ,x56,y56,z56,
-     *                   x75,y75,z75,x85,y85,z85,
-     *                   vol3)
-         call volume_hex(x26,y26,z26,x72,y72,z72, xp ,yp ,zp ,
-     *                   x16,y16,z16, x6 ,y6 ,z6 ,x67,y67,z67,
-     *                   x75,y75,z75,x56,y56,z56,
-     *                   vol4)
-         call volume_hex(x37,y37,z37,x74,y74,z74, xp ,yp ,zp ,
-     *                   x72,y72,z72, x7 ,y7 ,z7 ,x78,y78,z78,
-     *                   x75,y75,z75,x67,y67,z67,
-     *                   vol1)
-         call volume_hex(x48,y48,z48,x18,y18,z18, xp ,yp ,zp ,
-     *                   x74,y74,z74, x8 ,y8 ,z8 ,x85,y85,z85,
-     *                   x75,y75,z75,x78,y78,z78,
-     *                   vol2)
-         volsum=vol1+vol2+vol3+vol4+vol5+vol6+vol7+vol8
-
-         if (volsum .lt. epsilonvol) then
-           ierr_zero = 1
-         endif
-
-C        Transform the field values by the desired function
-         fv1 = cinterpolate('function',cinterp,xfield(1))
-         fv2 = cinterpolate('function',cinterp,xfield(2))
-         fv3 = cinterpolate('function',cinterp,xfield(3))
-         fv4 = cinterpolate('function',cinterp,xfield(4))
-         fv5 = cinterpolate('function',cinterp,xfield(5))
-         fv6 = cinterpolate('function',cinterp,xfield(6))
-         fv7 = cinterpolate('function',cinterp,xfield(7))
-         fv8 = cinterpolate('function',cinterp,xfield(8))
-         xvalue = (fv1*vol1+fv2*vol2+
-     *             fv3*vol3+fv4*vol4+
-     *             fv5*vol5+fv6*vol6+
-     *             fv7*vol7+fv8*vol8) / volsum
-
-C        Do the inverse function operation
-         favg = (xfield(1)+xfield(2)+xfield(3)+xfield(4)+
-     *              xfield(5)+xfield(6)+xfield(7)+
-     *              xfield(8))/8.0d+00
          xvalue = cinterpolate('inverse',cinterp,xvalue)
          if(cinterp(1:3).eq.'log') then
             xvalue = sign(xvalue,favg)
@@ -1250,3 +502,199 @@ c       write coords
       return
       end
 
+*dk,cinterp_elem_wts
+      subroutine cinterp_elem_wts(ielmtyp,xn,yn,zn,xp,yp,zp,wts,
+     *                            bestmin,ierr)
+C
+C     PURPOSE - weights wts(1:nelmnen) of the vertices of a quad,
+C     pyramid, prism or hex for the point (xp,yp,zp): the element is
+C     split around its median (and the medians of its 4-vertex faces)
+C     into triangles (quad) or tets, the point's barycentric weights
+C     are found in the piece where the smallest weight is largest,
+C     and a median's weight is shared equally by the vertices it is
+C     the mean of. A linear field is reproduced exactly.
+C
+C     OUTPUT - wts, bestmin (the smallest barycentric weight in the
+C     chosen piece: >= 0 inside, slightly < 0 just outside), ierr
+C     (0, or 1 when every piece has zero size).
+C     Faces come from LaGriT's element tables (ielmface0/1), so the
+C     split is the same in two elements sharing a face.
+C     Oct 2026.
+C
+      implicit none
+      include "local_element.h"
+      integer ielmtyp,ierr
+      real*8 xn(8),yn(8),zn(8),xp,yp,zp,wts(8),bestmin
+
+      integer nen,nf,nfn,i,j,f,ia,ib,ic
+      integer kv(4)
+      real*8 xc,yc,zc,xm,ym,zm,scale,vmin
+      real*8 qx(4),qy(4),qz(4),lam(4),lmin,vol,dot
+      real*8 ux,uy,uz,vx,vy,vz,wx,wy,wz,abx,aby,abz
+      real*8 cie_det3
+
+      nen = nelmnen(ielmtyp)
+      ierr = 1
+      bestmin = -1.0d+300
+      do i = 1,8
+         wts(i) = 0.0d0
+      enddo
+
+C     element median and size
+      xc = 0.0d0
+      yc = 0.0d0
+      zc = 0.0d0
+      do i = 1,nen
+         xc = xc + xn(i)
+         yc = yc + yn(i)
+         zc = zc + zn(i)
+      enddo
+      xc = xc/dble(nen)
+      yc = yc/dble(nen)
+      zc = zc/dble(nen)
+      scale = 0.0d0
+      do i = 1,nen
+         scale = max(scale,abs(xn(i)-xc),abs(yn(i)-yc),abs(zn(i)-zc))
+      enddo
+      if (scale.le.0.0d0) return
+
+C     ----- QUAD: 4 triangles (vertex i, vertex i+1, median) -----
+      if (ielmtyp.eq.ifelmqud) then
+         vmin = 1.0d-14*scale*scale
+         do i = 1,4
+            ia = i
+            ib = mod(i,4)+1
+            qx(1) = xn(ia)
+            qy(1) = yn(ia)
+            qz(1) = zn(ia)
+            qx(2) = xn(ib)
+            qy(2) = yn(ib)
+            qz(2) = zn(ib)
+            qx(3) = xc
+            qy(3) = yc
+            qz(3) = zc
+C           normal of the triangle; weights from sub-areas along it
+            ux = qx(2)-qx(1)
+            uy = qy(2)-qy(1)
+            uz = qz(2)-qz(1)
+            vx = qx(3)-qx(1)
+            vy = qy(3)-qy(1)
+            vz = qz(3)-qz(1)
+            abx = uy*vz-uz*vy
+            aby = uz*vx-ux*vz
+            abz = ux*vy-uy*vx
+            dot = abx*abx+aby*aby+abz*abz
+            if (sqrt(dot).le.vmin) goto 100
+            do j = 1,3
+               ia = mod(j,3)+1
+               ib = mod(j+1,3)+1
+               ux = qx(ia)-xp
+               uy = qy(ia)-yp
+               uz = qz(ia)-zp
+               vx = qx(ib)-xp
+               vy = qy(ib)-yp
+               vz = qz(ib)-zp
+               lam(j) = (abx*(uy*vz-uz*vy)+aby*(uz*vx-ux*vz)
+     *                  +abz*(ux*vy-uy*vx))/dot
+            enddo
+            lmin = min(lam(1),lam(2),lam(3))
+            if (lmin.gt.bestmin) then
+               bestmin = lmin
+               ierr = 0
+               do j = 1,4
+                  wts(j) = lam(3)/4.0d0
+               enddo
+               wts(i) = wts(i) + lam(1)
+               wts(mod(i,4)+1) = wts(mod(i,4)+1) + lam(2)
+            endif
+ 100        continue
+         enddo
+         return
+      endif
+
+C     ----- PYRAMID, PRISM, HEX: tets on each face piece + median -----
+      vmin = 1.0d-14*scale*scale*scale
+      nf = nelmnef(ielmtyp)
+      do f = 1,nf
+         nfn = ielmface0(f,ielmtyp)
+         do i = 1,nfn
+            kv(i) = ielmface1(i,f,ielmtyp)
+         enddo
+         if (nfn.eq.4) then
+            xm = 0.25d0*(xn(kv(1))+xn(kv(2))+xn(kv(3))+xn(kv(4)))
+            ym = 0.25d0*(yn(kv(1))+yn(kv(2))+yn(kv(3))+yn(kv(4)))
+            zm = 0.25d0*(zn(kv(1))+zn(kv(2))+zn(kv(3))+zn(kv(4)))
+         endif
+C        pieces of this face: one triangle, or 4 around the median
+         do j = 1,nfn-2*(4-nfn)
+            if (nfn.eq.3) then
+               ia = kv(1)
+               ib = kv(2)
+               ic = kv(3)
+               qx(3) = xn(ic)
+               qy(3) = yn(ic)
+               qz(3) = zn(ic)
+            else
+               ia = kv(j)
+               ib = kv(mod(j,4)+1)
+               ic = 0
+               qx(3) = xm
+               qy(3) = ym
+               qz(3) = zm
+            endif
+            qx(1) = xn(ia)
+            qy(1) = yn(ia)
+            qz(1) = zn(ia)
+            qx(2) = xn(ib)
+            qy(2) = yn(ib)
+            qz(2) = zn(ib)
+            qx(4) = xc
+            qy(4) = yc
+            qz(4) = zc
+C           barycentric weights in the tet q1 q2 q3 q4 (signed volumes,
+C           so the orientation of the face does not matter)
+            vol = cie_det3(qx(2)-qx(1),qy(2)-qy(1),qz(2)-qz(1),
+     *                     qx(3)-qx(1),qy(3)-qy(1),qz(3)-qz(1),
+     *                     qx(4)-qx(1),qy(4)-qy(1),qz(4)-qz(1))
+            if (abs(vol).le.vmin) goto 200
+            lam(1) = cie_det3(qx(2)-xp,qy(2)-yp,qz(2)-zp,
+     *                        qx(3)-xp,qy(3)-yp,qz(3)-zp,
+     *                        qx(4)-xp,qy(4)-yp,qz(4)-zp)/vol
+            lam(2) = cie_det3(xp-qx(1),yp-qy(1),zp-qz(1),
+     *                        qx(3)-qx(1),qy(3)-qy(1),qz(3)-qz(1),
+     *                        qx(4)-qx(1),qy(4)-qy(1),qz(4)-qz(1))/vol
+            lam(3) = cie_det3(qx(2)-qx(1),qy(2)-qy(1),qz(2)-qz(1),
+     *                        xp-qx(1),yp-qy(1),zp-qz(1),
+     *                        qx(4)-qx(1),qy(4)-qy(1),qz(4)-qz(1))/vol
+            lam(4) = 1.0d0-lam(1)-lam(2)-lam(3)
+            lmin = min(lam(1),lam(2),lam(3),lam(4))
+            if (lmin.gt.bestmin) then
+               bestmin = lmin
+               ierr = 0
+               do i = 1,nen
+                  wts(i) = lam(4)/dble(nen)
+               enddo
+               wts(ia) = wts(ia) + lam(1)
+               wts(ib) = wts(ib) + lam(2)
+               if (ic.gt.0) then
+                  wts(ic) = wts(ic) + lam(3)
+               else
+                  do i = 1,4
+                     wts(kv(i)) = wts(kv(i)) + 0.25d0*lam(3)
+                  enddo
+               endif
+            endif
+ 200        continue
+         enddo
+      enddo
+      return
+      end
+
+*dk,cie_det3
+      function cie_det3(ax,ay,az,bx,by,bz,cx,cy,cz)
+C     determinant of the rows a, b, c: a . (b x c)
+      implicit none
+      real*8 cie_det3,ax,ay,az,bx,by,bz,cx,cy,cz
+      cie_det3 = ax*(by*cz-bz*cy)+ay*(bz*cx-bx*cz)+az*(bx*cy-by*cx)
+      return
+      end
