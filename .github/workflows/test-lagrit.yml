@@ -38,20 +38,14 @@ jobs:
       - name: Install GFortran macOS
         if: contains(matrix.os, 'macos')
         run: brew install gcc@${GCC_V} || brew upgrade gcc@${GCC_V} || true
-      - name: Compile Exodus
-        run: |
-          mkdir -p ~/TPLs/build/
-          mkdir -p ~/TPLs/install/
-          EXO_BUILD_DIR=$HOME/TPLs/build/ \
-          EXO_INSTALL_DIR=$HOME/TPLs/install/ \
-          ./install-exodus.sh
       - name: Build/test LaGriT
         run: |
           mkdir build/ && mkdir install/ && cd build/
           cmake .. \
-            -D LaGriT_BUILD_STATIC=ON \
+            -D LAGRIT_BUILD_STATIC=ON \
             -D CMAKE_BUILD_TYPE=Debug \
-            -D Exodus_ROOT=${EXO_INSTALL_DIR} \
+            -D LAGRIT_BUILD_EXODUS=ON \
+            -D LAGRIT_FETCH_EXODUS=ON \
             -D CMAKE_INSTALL_PREFIX=$(pwd)/../install/
           make && make install
       - name: Test PyLaGriT

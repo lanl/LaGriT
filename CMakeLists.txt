@@ -60,7 +60,7 @@ Leave empty to auto-detect or set LAGRIT_FETCH_EXODUS=ON to build automatically.
 if(NOT EXODUS_ROOT)
   foreach(_candidate
       "$ENV{SEACAS_ROOT}"                          # user environment variable
-      "${CMAKE_SOURCE_DIR}/TPLs/seacas"            # legacy: install-exodus.sh output
+      "${CMAKE_SOURCE_DIR}/TPLs/seacas"            # legacy TPLs/seacas location
       "${CMAKE_BINARY_DIR}/_deps/seacas"           # cmake fetch output
   )
     if(_candidate AND EXISTS "${_candidate}/include/exodusII.h")
@@ -86,9 +86,8 @@ if(NOT EXODUS_ROOT)
     message(FATAL_ERROR
       "ExodusII not found.  Options:\n"
       "  1. cmake -DLAGRIT_FETCH_EXODUS=ON        (auto-fetch + build, needs network)\n"
-      "  2. Run install-exodus.sh first, then cmake -DLAGRIT_BUILD_EXODUS=ON\n"
-      "  3. cmake -DEXODUS_ROOT=/path/to/seacas   (point to an existing install)\n"
-      "  4. Set env var SEACAS_ROOT=/path/to/seacas before running cmake")
+      "  2. cmake -DEXODUS_ROOT=/path/to/seacas   (point to an existing install)\n"
+      "  3. Set env var SEACAS_ROOT=/path/to/seacas before running cmake")
   endif()
 endif()
 
@@ -100,12 +99,12 @@ if(NOT _LAGRIT_EXODUS_FETCHED)
   if(NOT EXISTS "${Exodus_INCLUDE_DIR}/exodusII.h")
     message(FATAL_ERROR
       "exodusII.h not found in ${Exodus_INCLUDE_DIR}.\n"
-      "Check EXODUS_ROOT=${EXODUS_ROOT} or re-run install-exodus.sh.")
+      "Check EXODUS_ROOT=${EXODUS_ROOT} or use -DLAGRIT_FETCH_EXODUS=ON.")
   endif()
   if(NOT EXISTS "${Exodus_INCLUDE_DIR}/exodusII.inc")
     message(FATAL_ERROR
       "exodusII.inc not found in ${Exodus_INCLUDE_DIR}.\n"
-      "Check EXODUS_ROOT=${EXODUS_ROOT} or re-run install-exodus.sh.")
+      "Check EXODUS_ROOT=${EXODUS_ROOT} or use -DLAGRIT_FETCH_EXODUS=ON.")
   endif()
   message(STATUS "  Exodus include : ${Exodus_INCLUDE_DIR}")
   message(STATUS "  Exodus lib dir : ${Exodus_LIB_DIR}")

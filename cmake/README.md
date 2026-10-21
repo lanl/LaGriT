@@ -4,7 +4,7 @@ The CMake build system is a way of enabling LaGriT to be cross-platform, cross-a
 
 The CMake build is controlled by CMakeLists.txt and files in directory /cmake
 
-The ExodusII libraries can be built using install-exodus.sh or MAC_install-exodus.sh
+The ExodusII libraries can be fetched and built by cmake with `-DLAGRIT_FETCH_EXODUS=ON` (see cmake/FetchExodus.cmake and cmake/seacas_configure.cmake).
 For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
 **Note for Exodus with LaGriT, FORTRAN must be set to YES**
 
@@ -32,24 +32,49 @@ Copy contents of id_ed25519.pub into your SSH Keys on github (under settings).
 
 ## Build With ExodusII (optional)
 
- 
-From the top directory run: ```./install-exodus.sh``` or for a mac use: ```./MAC_install-exodus.sh```
-The script will take some time to clone, configure, and build the necessary lib and include files.
-Read comments in the script for hints if things go wrong.
-For additional help on ExodusII, see instructions at https://github.com/sandialabs/seacas
+### Fetch and build Exodus with cmake
+
+Requires network access, git, bash, make, and a Fortran compiler (gfortran).
+On macOS install gfortran with `brew install gcc` or MacPorts; cmake searches
+`/opt/homebrew/bin`, `/usr/local/bin`, and `/opt/local/bin` for gfortran-14, -13, -12, or gfortran.
+
+From the top directory:
+
+```
+mkdir build/ && cd build/
+cmake .. -DLAGRIT_BUILD_EXODUS=ON -DLAGRIT_FETCH_EXODUS=ON
+make
+```
+
+The Seacas build runs during `make`, before LaGriT is compiled, and takes several minutes. It:
+
+- clones https://github.com/sandialabs/seacas into `build/_deps/seacas` (branch `master`, or the tag given by `-DSEACAS_GIT_TAG=<tag>`)
+- patches the Seacas build scripts for LaGriT: NetCDF plugins and tests off, HDF5 SZIP off (needed on arm64 macOS), HDF5 fetched with git clone, `-lcurl` added on Linux
+- builds HDF5, NetCDF (and zlib on Linux) with `install-tpl.sh`, then Exodus with Fortran support
+- installs libraries and headers into `build/_deps/seacas/lib` and `build/_deps/seacas/include`
+
+Re-running `make` in the same build directory skips the steps already done.
+Status lines from this build start with `[seacas]`; check them first if something fails.
+
+HDF5 is fetched with `git clone` instead of the seacas default tarball download, which is reset partway on some VPNs and cannot be resumed.
+If HDF5 fails to configure with `"src" which is not an existing directory` or `HDF5_VERSION_MAJOR: .`, the HDF5 source is incomplete: remove `build/_deps/seacas/TPL/hdf5/hdf5-*` and re-run `make`.
+
+### Use an existing Exodus install
+
+Point cmake at the Seacas install prefix:
+
+```
+cmake .. -DLAGRIT_BUILD_EXODUS=ON -DEXODUS_ROOT=/path/to/seacas
+```
+
+If `EXODUS_ROOT` is not set, cmake looks for `include/exodusII.h` in, in order:
+`$SEACAS_ROOT`, `LaGriT/TPLs/seacas`, and `build/_deps/seacas`.
+A fetched build can be reused by another build directory with `-DEXODUS_ROOT=<old build>/_deps/seacas`.
 
 LaGriT requires the following:
 ```
 /seacas/lib/ libexodus.a  libexodus_for.a  libexoIIv2for32.a
 /seacas/include/ exodus_config.h  exodusII.h  exodusII.inc  exodusII_int.h  exodusII_par.h
-```
-
-Once the ExodusII is successful, build LaGriT as usual using the EXODUS flag:
-
-```
-mkdir build/ && cd build/
-cmake .. -DLAGRIT_BUILD_EXODUS=ON
-make
 ```
 
 ## Build Without ExodusII
@@ -119,6 +144,7 @@ $ python runtests.py
 
 By default, most the scripts will expect the lagrit executable to be in the "build" directory. But you build in directories with other names.
 You can build as Debug (-g) or as Release with the CMake flag "-D CMAKE_BUILD_TYPE=[Debug|Release]".
+If no build type is given, cmake uses Release (-O3).
 There's two stages in CMake; the 'configure' stage (where you run 'cmake ..') and the build stage (where you run 'make' using the Makefile created by cmake)
 
 The build type can only be set in the configure stage (with cmake) and will apply to all files in your build directory. If you make a change to cmake, you will need to run in a new directory, or remove all the files and directories created with your previous cmake configuration.
@@ -184,7 +210,7 @@ LaGriT/
 -- ===================v3.3.3=================
 -- Compile LaGriT as a static binary = ON
 -- Compile LaGriT with ExodusII = ON
--- ExodusII libraries      : /project/eesdev/tam/LaGriT/TPLs/seacas/lib
+-- ExodusII lib dir        : /project/eesdev/tam/LaGriT/TPLs/seacas/lib
 -- ExodusII include        : /project/eesdev/tam/LaGriT/TPLs/seacas/include
 -- Detected System:
 --   Operating System: Linux
