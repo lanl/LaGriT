@@ -86,9 +86,16 @@ jobs:
           BIG: ${{ inputs.big && '1' || '0' }}
         run: sh run_all.sh ../../build/lagrit
 
+      - name: Show the rows that did not pass
+        if: failure()
+        working-directory: test/suite
+        run: |
+          echo "Rows that did not pass (all output: run_all.log in the test-results artifact):"
+          grep -E " (FAIL|FIXED) " run_all.log | grep -v "^test_" | head -100 || true
+
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-results-${{ matrix.label }}
           path: |
@@ -99,7 +106,7 @@ jobs:
           retention-days: 14
 
       - name: Upload lagrit
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: lagrit-${{ matrix.label }}
           path: build/lagrit
