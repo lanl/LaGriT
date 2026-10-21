@@ -1,0 +1,11 @@
+{
+ "name": "letter_r",
+ "description": "letter r",
+ "vertices": 6,
+ "xmin": 12.0,
+ "xmax": 15.0,
+ "ymin": 0.0,
+ "ymax": 3.5,
+ "orientation": "counterclockwise",
+ "area": 5.5
+}

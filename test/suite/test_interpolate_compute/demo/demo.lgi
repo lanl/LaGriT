@@ -1,0 +1,37 @@
+# demo.lgi -- interpolate / compute demonstrations (not tests): each
+# result is drawn by make_demo_page.py. Inputs: make_demo_inputs.py.
+#
+# 1 voronoi: every pixel takes the value of the nearest of 25 points
+read / avs / vor_src.inp / mo_vsrc
+read / avs / grid_pts.inp / mo_v
+cmo / addatt / mo_v / vid / VDOUBLE / scalar / nnodes
+interpolate / voronoi / mo_v vid / 1,0,0 / mo_vsrc vid
+dump / avs / demo_voronoi.inp / mo_v
+#
+# 2 continuous: linear interpolation in each triangle of a coarse mesh
+read / avs / tri_src.inp / mo_tsrc
+read / avs / grid_pts.inp / mo_c
+cmo / addatt / mo_c / fbump / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_c fbump / 1,0,0 / mo_tsrc fbump
+dump / avs / demo_continuous.inp / mo_c
+#
+# 3 map: each fine quad takes the value of the turned coarse quad that
+#   contains its centre
+read / avs / quad_src.inp / mo_qsrc
+read / avs / grid_quads.inp / mo_m
+cmo / addatt / mo_m / check / VDOUBLE / scalar / nelements
+interpolate / map / mo_m check / 1,0,0 / mo_qsrc check
+dump / avs / demo_map.inp / mo_m
+#
+# 4 distance_field: distance from every pixel to the nearest curve point
+read / avs / curve_src.inp / mo_csrc
+read / avs / grid_pts.inp / mo_d
+compute / distance_field / mo_d / mo_csrc / dist
+dump / avs / demo_distance.inp / mo_d
+#
+# 5 signed_distance_field: a sphere surface, seen on the slice z = 0.5
+read / avs / sphere_tri.inp / mo_sph
+read / avs / slice_pts.inp / mo_s
+compute / signed_distance_field / mo_s / mo_sph / sdist
+dump / avs / demo_signed.inp / mo_s
+finish

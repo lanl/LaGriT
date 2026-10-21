@@ -1,0 +1,11 @@
+{
+ "name": "sq_k1",
+ "description": "unit square, 4 vertices",
+ "vertices": 4,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 1.0
+}

@@ -1,0 +1,11 @@
+# ic20_map_tet.lgi
+# interpolate / map of a CELL value (cval = the cell number) from
+# tets (750) onto squeezed tets: each sink cell takes the value of the source cell
+# that contains its centroid (found geometrically by check_ic.py).
+# check: map | out_ic20.inp | cv | src_tet_cval.inp
+read / avs / src_tet_cval.inp / mo_src
+read / avs / sink_tet_sq.inp / mo_snk
+cmo / addatt / mo_snk / cv / VDOUBLE / scalar / nelements
+interpolate / map / mo_snk cv / 1,0,0 / mo_src cval
+dump / avs / out_ic20.inp / mo_snk
+finish

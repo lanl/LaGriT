@@ -1,5 +1,13 @@
 This is the top directory for the LaGriT Test Suite. 
 
+NEW: suite/ holds the newer test suite (see suite/README.md): tests judged
+against independently computed answers, with a results page per suite. It
+also runs every level01 test (suite/test_lagrit_upstream). The level01-03
+tests and runtests.py below will be retired as their tests are converted
+into suite/; new tests should go into suite/.
+
+     cd suite && sh run_all.sh
+
 There are 3 directories each with subdirectories to test various LaGriT commands. These directories also provide good examples of methods to build or evaluate meshes using LaGriT.
 
 level01 - essential commands as part of LaGriT QA status

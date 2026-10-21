@@ -1,0 +1,13 @@
+# ic07_continuous_keepatt_dudded.lgi
+# ic06 with a dudded sink point (itp 21, point 50): every other point
+# must still be exact.
+# check: linear | out_ic07.inp | fc | skip_itp21
+read / avs / src_tet.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / setatt / mo_snk / itp / 50,50,1 / 21
+cmo / addatt / mo_snk / fx / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fx / 1,0,0 / mo_src xic / keepatt
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic07.inp / mo_snk
+finish

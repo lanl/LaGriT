@@ -1,0 +1,33 @@
+#####################################################################
+# nc14_edge_refuse.lgi
+#
+# polygon : saw_edge_refuse.poly
+# h       : 0.3
+# expect  : error
+# reason  : interior angle is too sharp
+#
+# EXPECT:
+#   ERROR block: polygon interior angle is too sharp.
+#   No mesh is produced.
+#
+# NOTE:
+#   ANGLE CUTOFF, REFUSE SIDE. Paired with nc13.
+#
+#   Minimum vertex angle 8.90 deg, 0.10 below POI_ANGLE_MIN_DEG
+#   = 9.0. Same shape as nc13 with the teeth 2% taller.
+#
+#   h = 0.3 is well inside the edge limit (h_max 0.85), so the
+#   angle is the ONLY fault. The reason line above makes the
+#   runner check the refusal was for the angle, not something
+#   else.
+#
+#   Together with nc13 this brackets the cutoff to +-0.1 deg.
+#####################################################################
+read / avs / saw_edge_refuse.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.3 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc14_edge_refuse.inp / mo_pts
+finish

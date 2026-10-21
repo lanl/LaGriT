@@ -1,0 +1,20 @@
+define / r1 / 1.0
+define / r2 / 2.0
+define / r3 / 3.0
+
+geometry / create / geom_sph_shells
+cmo / create / dummy
+cmo / geometry / dummy / geom_sph_shells
+
+surface/sphere_r1/intrface/sphere/0.0,0.0,0.0/r1/
+surface/sphere_r2/intrface/sphere/0.0,0.0,0.0/r2/
+surface/sphere_r3/reflect /sphere/0.0,0.0,0.0/r3/
+surface/boundbox/reflect /box/-4.,-4.,-4./4.,4.,4.
+
+region /r_r1   /lt sphere_r1/
+region /r_r1_r2/ge sphere_r1 and lt sphere_r2/
+region /r_r2_r3/ge sphere_r2 and le sphere_r3/
+
+mregion/m_r1   /lt sphere_r1/
+mregion/m_r1_r2/gt sphere_r1 and lt sphere_r2/
+mregion/m_r2_r3/gt sphere_r2 and le sphere_r3/

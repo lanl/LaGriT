@@ -1,0 +1,10 @@
+# field_linear_3d.mlgi - test L (3D): h = 0.03 + 0.12 y on the unit cube
+# (0.03 at y = 0, 0.15 at y = 1). See field_linear_2d.mlgi.
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / yic / 0.12
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.03
+math / floor / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.03
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+finish

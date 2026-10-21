@@ -1,0 +1,142 @@
+#
+# Test 3D Poisson Disk vertex distribution.
+# Without buffer: define / IF_POI_EDGE_BUFFER / 0
+# there is a high probability of negative coefficients in STOR file.
+# With buffer: define / IF_POI_EDGE_BUFFER / 0
+# the user should check for no negative coefficients
+#
+# Required input control files:
+# test_Poisson_3D.lgi
+#     test_run_createpts_poisson.mlgi
+#     test_run_poi_user_res.mlgi
+#          test_user_resolution.mlgi
+
+# Box x,y = [0.2, 0.8] (was [0, 1]) to cut run time to roughly 40 %.
+# Kept centred on x = y = 0.5, the axis of the h field that
+# test_user_resolution.mlgi hard-codes. z is unchanged.
+define / POI_XMIN / 0.2
+define / POI_YMIN / 0.2
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 0.8
+define / POI_YMAX / 0.8
+define / POI_ZMAX / 0.3
+
+#########################
+# No buffer on outside surfaces
+define / H_REFINE_SIZE / 0.025
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 0.4
+define / AVS_OUT /  test_3d_poi_01.inp
+define / STOR_OUT / test_3d_poi_01
+
+infile test_run_createpts_poisson.mlgi
+#########################
+# Buffer on outside surfaces, buffer = h
+# Buffer on outside surfaces, default POI_EDGE_BUFFER / 1.0
+define / H_REFINE_SIZE / 0.025
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 0.8
+define / AVS_OUT /  test_3d_poi_02.inp
+define / STOR_OUT / test_3d_poi_02
+
+infile test_run_createpts_poisson.mlgi
+#########################
+# Buffer on outside surfaces, buffer = h*0.5
+# Buffer on outside surfaces, POI_EDGE_BUFFER / 0.5
+define / H_REFINE_SIZE / 0.025
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 0.5
+
+define / Z_TRANSLATE / 1.2
+define / AVS_OUT /  test_3d_poi_03.inp
+define / STOR_OUT / test_3d_poi_03
+
+infile test_run_createpts_poisson.mlgi
+#########################
+# Buffer on outside surfaces, buffer = h*2.0
+# Buffer on outside surfaces, POI_EDGE_BUFFER / 2.0
+define / H_REFINE_SIZE / 0.0125
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 2.0
+
+define / Z_TRANSLATE / 1.6
+define / AVS_OUT /  test_3d_poi_04.inp
+define / STOR_OUT / test_3d_poi_04
+
+infile test_run_createpts_poisson.mlgi
+#########################
+# User defined resolution
+# Without buffer
+define /  H_REFINE_SIZE / 0.025
+define /  H_FLOOR / 0.025
+define /  H_CEILING / 0.075
+define / SLOPE / 0.1
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 2.0
+define / AVS_OUT /  test_3d_poi_05.inp
+define / STOR_OUT / test_3d_poi_05
+
+infile test_run_poi_user_res.mlgi
+#########################
+# User defined resolution
+# With buffer
+define /  H_REFINE_SIZE / 0.025
+define /  H_FLOOR / 0.025
+define /  H_CEILING / 0.075
+define / SLOPE / 0.1
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 2.4
+define / AVS_OUT /  test_3d_poi_06.inp
+define / STOR_OUT / test_3d_poi_06
+
+infile test_run_poi_user_res.mlgi
+#########################
+# User defined resolution
+# With buffer
+define /  H_REFINE_SIZE / 0.0125
+define /  H_FLOOR / 0.0125
+define /  H_CEILING / 0.075
+define / SLOPE / 0.1
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 2.8
+define / AVS_OUT /  test_3d_poi_07.inp
+define / STOR_OUT / test_3d_poi_07
+
+infile test_run_poi_user_res.mlgi
+#########################
+# User defined resolution
+# With buffer
+define /  H_REFINE_SIZE / 0.008
+define /  H_FLOOR / 0.008
+define /  H_CEILING / 0.075
+define / SLOPE / 0.1
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+
+define / Z_TRANSLATE / 3.2
+define / AVS_OUT /  test_3d_poi_08.inp
+define / STOR_OUT / test_3d_poi_08
+
+infile test_run_poi_user_res.mlgi
+#########################
+
+dump / avs / test_3d_poi_merge_all.inp / mo_merge
+
+finish
+
+
+

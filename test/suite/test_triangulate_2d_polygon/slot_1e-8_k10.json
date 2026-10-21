@@ -1,0 +1,11 @@
+{
+ "name": "slot_1e-8_k10",
+ "description": "slot, tip 1e-8 above the far wall, far wall split into 10 segments",
+ "vertices": 16,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 0.9500000005
+}

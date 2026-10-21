@@ -1,0 +1,33 @@
+#####################################################################
+# cp54_amr_region_brick.lgi
+#
+# group    : amr
+# expect   : valid
+# spec     : none
+# points   : out_cp54_pts.inp
+# lattice  : 0.25
+# same_set : out_out_cp54_pts.inp
+#
+# WHAT:
+#   amr with a region on a 2 x 2 x 2 hex brick (8 hexes, all in the
+#   region): every hex split once: the 5 x 5 x 5 points of the 1/4
+#   lattice, 125 vertices.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: MMVERIFY: PANIC! FATAL ERROR Array storage was corrupted;
+#   PROGRAM STOP (exit status 0). rzamr_lg.f checks room for
+#   nelements+1 but writes 8 hexes per refined hex.
+#####################################################################
+
+cmo/create/mo_hex///hex
+surface/s/reflect/box/-1,-1,-1/2,2,2
+region/r/ le s /
+mregion/m/ le s /
+createpts/brick/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+setpts
+createpts/amr/r/1
+dump / avs / out_cp54_pts.inp / mo_hex
+cmo / create / mo_ref / / / tet
+createpts/xyz/5,5,5/0.,0.,0./1.,1.,1./1,1,1
+dump / avs / out_out_cp54_pts.inp / mo_ref
+finish

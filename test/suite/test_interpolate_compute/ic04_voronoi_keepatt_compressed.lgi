@@ -1,0 +1,18 @@
+# ic04_voronoi_keepatt_compressed.lgi
+# ic03, but the dudded vertex is removed first (rmpoint / compress), as
+# a deck normally does: 215 sink vertices, none dudded.
+# check: voronoi | out_ic04.inp | fa,fb | fsrc
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+cmo / setatt / mo_snk / itp / 50,50,1 / 21
+cmo / select / mo_snk
+rmpoint / compress
+cmo / addatt / mo_snk / xa / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fa / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fb / VDOUBLE / scalar / nnodes
+interpolate / voronoi / mo_snk xa / 1,0,0 / mo_src xic / keepatt
+interpolate / voronoi / mo_snk fa / 1,0,0 / mo_src fsrc
+cmo / DELATT / mo_snk / pt_gtg
+interpolate / voronoi / mo_snk fb / 1,0,0 / mo_src fsrc
+dump / avs / out_ic04.inp / mo_snk
+finish

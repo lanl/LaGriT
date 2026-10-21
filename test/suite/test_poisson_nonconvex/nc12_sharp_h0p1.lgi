@@ -1,0 +1,48 @@
+#####################################################################
+# nc12_sharp_h0p1.lgi
+#
+# polygon : saw_sharp.poly
+# h       : 0.1
+# expect  : recovered
+# known    : element centroids outside the polygon
+# expected : 2 slivers at reflex corners after the binned vertex sort (00README finding 5)
+#
+# EXPECT:
+#   Nonconvex WARNING. Clip recovers the outline.
+#   Mesh area should match polygon area closely.
+#   Zero elements with centroid outside the polygon.
+#
+# NOTE:
+#   Same polygon as nc08, at the resolution of nc01.
+#   tooth half width / h = 4.17 (nc08: 1.39). Teeth are well
+#   resolved, so by the calibration from nc01-nc07 this should
+#   recover.
+#
+#   nc08 at h = 0.3 recovered within tolerance but was missing 4
+#   notch tip vertices, each bridged. This deck shows whether
+#   the missing notch tips go away at fine resolution or persist.
+#   If they persist, the cause is in the sampler, not in h.
+#
+#   KNOWN FAILURE since Oct 18 2026 (user accepted): the Poisson
+#   driver now sorts the vertices on binned coordinates before
+#   connect (poi_driver.f), not on xic yic zic. Same
+#   points, same areas to 4 digits, but two triangles now end with
+#   their centroids just outside the polygon, at the reflex corners
+#   (13.33, 1) and (22.5, 1), where the sampler places no vertex:
+#   2.7e-3 and 4.4e-4 outside (6e-3 and 1e-3 x the shortest polygon
+#   edge). Each has two vertices on the outline and one inside it
+#   (0.04, 0.08 from the outline), so the clip ran correctly and the
+#   smooth;recon passes AFTER the clip moved that vertex or flipped
+#   an edge across the corner (nc06's explanation 2). Those passes
+#   depend on the vertex order; the old order passed by chance.
+#   If this stops happening the result is FIXED: remove the known /
+#   expected lines then.
+#####################################################################
+read / avs / saw_sharp.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.1 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc12_sharp_h0p1.inp / mo_pts
+finish

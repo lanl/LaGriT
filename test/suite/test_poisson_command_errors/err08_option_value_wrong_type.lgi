@@ -1,0 +1,11 @@
+#####################################################################
+# err08_option_value_wrong_type.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Reports that the poisson_seed value must be type integer.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / poisson_seed / abc
+finish

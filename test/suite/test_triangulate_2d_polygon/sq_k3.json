@@ -1,0 +1,11 @@
+{
+ "name": "sq_k3",
+ "description": "unit square, 3 segments per side",
+ "vertices": 12,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 1.0
+}

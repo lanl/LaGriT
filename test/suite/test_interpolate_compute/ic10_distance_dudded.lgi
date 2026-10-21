@@ -1,0 +1,11 @@
+# ic10_distance_dudded.lgi
+# ic09 with a dudded sink vertex (itp 21, vertex 50): every other vertex
+# must still get the right distance (wrong at 1,933 of 8,521 vertices in
+# Jeffrey Hyman's DFM case before the Oct 20 2026 fix).
+# check: distance | out_ic10.inp | dfield | skip_itp21
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+cmo / setatt / mo_snk / itp / 50,50,1 / 21
+compute / distance_field / mo_snk / mo_src / dfield
+dump / avs / out_ic10.inp / mo_snk
+finish

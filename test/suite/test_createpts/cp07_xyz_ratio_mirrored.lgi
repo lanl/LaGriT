@@ -1,0 +1,40 @@
+#####################################################################
+# cp07_xyz_ratio_mirrored.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 11,5,5 0.,0.,0. 4.,2.,2. 1,1,1 ratio 1,0,0 1.2,1.,1. + xyz 11,5,5 -4.,0.,0. 0.,2.,2. 1,1,1 ratio 1,0,0 0.8333333333333334,1.,1.
+# points   : out_cp07_pts.inp
+# mesh     : out_cp07_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   two blocks mirrored about x = 0 (user, Oct 13): x = 0 to 4 with
+#   ratio 1.2, and x = -4 to 0 with ratio 1/1.2, so the cells are
+#   smallest at x = 0 and the two steps next to it are equal. The
+#   points are merged (addmesh / merge), the 25 shared at x = 0
+#   removed (filter, rmpoint / compress), and connect makes ONE mesh.
+#   The ratios are defined first: the second createpts line would
+#   be over 80 characters, and LaGriT reads only the first 80 of a line.
+#   Connecting each block first and merging the meshes does NOT work:
+#   each block picks its own diagonals on the x = 0 face, and 40 faces
+#   there do not match (sandbox, Oct 13).
+#####################################################################
+define / RATIO1 / 1.2
+define / RATIO2 / 0.8333333333333334
+cmo / create / mo_right / / / tet
+createpts / xyz / 11,5,5 / 0.,0.,0. / 4.,2.,2. / 1,1,1 / 1,0,0 / RATIO1,1.,1.
+cmo / create / mo_left / / / tet
+createpts / xyz / 11,5,5 / -4.,0.,0. / 0.,2.,2. / 1,1,1 / 1,0,0 / RATIO2,1.,1.
+addmesh / merge / mo_both / mo_right / mo_left
+cmo / select / mo_both
+dump / avs / out_cp07_pts.inp / mo_both
+cmo / setatt / mo_both / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_both / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp07_mesh.inp / mo_both
+finish

@@ -1,0 +1,18 @@
+#####################################################################
+# cp68_syntax_missing_tokens.lgi
+#
+# group    : syntax
+# expect   : error
+# reason   : incomplete command
+#
+# WHAT:
+#   the command stops after the counts: no box, no flags.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 2: 9 points from whatever was left in memory, no
+#   message. FIX 2: ERROR: createpts / xyz: incomplete command, 4
+#   tokens of 14, and the full form of the command.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 3,3
+finish

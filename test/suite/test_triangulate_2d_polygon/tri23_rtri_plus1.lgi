@@ -1,0 +1,21 @@
+#####################################################################
+# tri23_rtri_plus1.lgi
+#
+# polygon  : rtri_plus1.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   THE SMALLEST BAD CASE: a right triangle with one extra
+#   vertex on its vertical leg, 4 vertices in all.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   INVALID: one zero-area cell (three collinear vertices made
+#   into a cell), with NO error or warning.
+#   The other cell covers the whole triangle.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / rtri_plus1.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri23_rtri_plus1.inp / mo_tri
+finish

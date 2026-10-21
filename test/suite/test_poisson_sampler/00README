@@ -1,0 +1,119 @@
+=======================================================================
+ test_poisson_sampler - targeted tests of the Poisson disk sampler
+=======================================================================
+
+WHAT THIS IS
+
+  Six small decks that each aim at one fault found in the C++ Poisson
+  disk samplers (poi_2D_*.cpp, poi_3D_*.cpp), in 2D and 3D, three
+  seeds each: 18 point sets, judged against the EXACT h field.
+
+  These tests FAIL on the original sampler (16 of 18 rows) and PASS
+  with the fix, applied Oct 11 2026.
+  Part of run_all.sh since the fix went in.
+
+QUICK START
+
+  run_poisson_sampler_tests.sh                  about 40 seconds
+                                                 (LaGriT ~15 s, mostly
+                                                 samp_V3; the rest is
+                                                 the checker)
+
+  then open logs/summary.html.
+
+  Original sampler: 16 of 18 rows FAIL (U2 seeds 1 and 2 pass).
+  Fixed sampler: all 18 PASS (macOS, Oct 11; V3 seed 1 has 2 pairs at
+  0.994 h, within the 0.95 h allowance).
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+THE TESTS
+-----------------------------------------------------------------------
+
+  test  deck          field                          box
+  U2    samp_U2.lgi   uniform h 0.02                 unit square
+  U3    samp_U3.lgi   uniform h 0.05                 unit cube
+  L2    samp_L2.lgi   h = 0.01 + 0.04 y              unit square
+  L3    samp_L3.lgi   h = 0.03 + 0.12 y              unit cube
+  V2    samp_V2.lgi   fine band at y = 9 (see below)  0.205 x 10 strip
+  V3    samp_V3.lgi   fine band at y = 9              1 x 10 x 1 box
+
+  V: h = min(hmax, max(hmin, hmin + 0.5 |y - 9|)), hmin 0.01 / hmax
+  0.05 (2D), 0.03 / 0.15 (3D): a band about 0.2 wide where h is small,
+  in a box 10 long, so the original lookup has drifted far by y = 9.
+
+  What each catches:
+
+  U  the neighbour search stops one cell short on the + side of each
+     axis, so an accepted vertex there is never compared with a new
+     candidate: interior pairs closer than h even with uniform h.
+     (Weak in 2D: on some seeds no pair happens to fall there.)
+  L  the same with variable h, where it also shows the lookup's
+     off-by-one cell size.
+  V  the h lookup: one cell size for every axis, the lower-corner
+     node, no clamp. The fine band is read too far toward +y, so
+     vertices pack too close just below y = 9 and the band above it
+     is left with holes.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  One row per output (e.g. V3_s2 = test V3, seed 2): PASS or FAIL.
+  Exit status nonzero on any FAIL. Exact definitions are in the
+  opening comment of check_poisson_sampler.py.
+
+  HARD checks:
+    every row  written, vertices > 0, all inside the box, no duplicates;
+               LaGriT exit 0 and no POISSON DISK error block
+    U, L       no interior pair closer than max(h_p, h_q)
+               (exact: interpolating a uniform or linear field is exact)
+    V          no interior pair closer than 0.95 max(h_p, h_q), and no
+               gap wider than 2 h (probe points: distance to the
+               nearest vertex over h there)
+
+  Only INTERIOR pairs are judged: the sampler places box edge and face
+  vertices with smaller radii (0.81 h, 0.9 h) on purpose.
+
+  Sandbox results (the sampler compiled on its own; same logic as
+  LaGriT, see PROPOSAL.md):
+
+    original  16 of 18 FAIL (U2 seeds 1, 2 pass)
+              V3: 8 200-8 500 pairs < 0.95 h, closest 0.30 h, gap 2.7-2.9 h
+    fixed     18 of 18 PASS (V3 seed 1: 2 pairs at 0.994 h, allowed)
+
+  Your real numbers will differ point by point (float sin/cos differ
+  between macOS and Linux), not in the verdicts.
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  One picture per row, projected on (x, y); 3D shows a slab around
+  mid z. Grey dots: vertices (paler: on the boundary). Red lines:
+  interior pairs closer than the limit. Orange +: gaps wider than
+  1.5 h. V tests show the window y 8..10, with a dashed line where
+  the fine band belongs (y = 9): on the original sampler the red
+  band sits below the line and the orange holes just above it.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                      this file
+  run_poisson_sampler_tests.sh  runs the decks, checks, summary page
+  check_poisson_sampler.py      the checker (definitions at the top)
+  poisson_sampler.cases         one line per output: box, h, field,
+                                seed, kind of test
+  samp_U2.lgi ... samp_V3.lgi   the decks
+  field_linear_2d.mlgi, field_linear_3d.mlgi,
+  field_valley_2d.mlgi, field_valley_3d.mlgi
+                                the h fields, written with math on
+                                the driver's lookup mesh
+  rect_1x1.poly, rect_strip.poly  the 2D polygons
+
+  Written by a run (deleted first): out_*.inp (the point sets, no
+  cells), logs/ (stdout, lagrit.log, lagrit.out per deck, .keys and
+  .svg per row, table.txt, summary.html).
+=======================================================================

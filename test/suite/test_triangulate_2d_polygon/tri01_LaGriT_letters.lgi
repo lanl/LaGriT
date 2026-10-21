@@ -1,0 +1,134 @@
+#####################################################################
+# tri01_LaGriT_letters.lgi
+#
+# expect   : valid
+# picture  : large
+# boundary_angle: 90
+# min_angle: 22
+# check    : out_tri01_letters_tri.inp letter_L.poly,letter_a.poly,letter_G.poly,letter_r.poly,letter_i_stem.poly,letter_i_dot.poly,letter_T.poly
+# check    : refined out_tri01_letters_ref.inp letter_L.poly,letter_a.poly,letter_G.poly,letter_r.poly,letter_i_stem.poly,letter_i_dot.poly,letter_T.poly
+#
+# WHAT:
+#   Block letters spelling LaGriT, 7 polygons (the "a" has a hole,
+#   joined by a keyhole slit; the "i" is a stem and a dot).
+#   1. Each letter is triangulated on its own mesh object and merged
+#      into mo_lagrit: out_tri01_letters_tri.inp. Corners only, so the
+#      cells are long and thin.
+#   2. mo_lagrit is refined (rivara, edges longer than EDGELEN1, then EDGELEN2) and
+#      smoothed (esug, with recon), the same sequence as LaGriT's own
+#      test/level01/smooth_massage: out_tri01_letters_ref.inp.
+#   Both are checked: step 1 as a triangulation of the 7 polygons,
+#   step 2 as a mesh that still exactly fills them (check_triangulate.py
+#   --refined). Cell colour (itetclr) is the letter number, 1-6.
+#   min_angle 22: the smoothed mesh's smallest angle must be at least
+#   22 deg (HARD; was 20 until the Oct 12 run measured 23.9). First real run (Oct 11 2026): step 1 4.8 deg, 24 of
+#   40 cells under 20 deg; step 2 22.7 deg, none of 4756 under 20.
+#
+#   TWO PASSES (user, Oct 12 2026): refine to EDGELEN1 = 0.50, smooth
+#   and recon three times, then refine to EDGELEN2 = 0.25 and smooth
+#   again (last recon / 1). One pass straight to 0.25 left the long
+#   cells of the starting mesh visible (tri07 not isotropic).
+#
+#   MEASURED (user's Mac, Oct 12 2026, two passes + recon / 1):
+#   smallest angle 23.9 deg, no cell under 20 deg, every boundary angle
+#   under 90 deg. "# min_angle : 22" fails a later run that is worse.
+#
+#   CONTROL VOLUME CONDITION (user, Oct 12 2026): the LAST recon is
+#   recon / 1, which adds vertices on the boundary where needed so that
+#   no boundary cell faces the boundary with an angle over 90 deg (its
+#   circumcentre stays inside the domain, so each boundary vertex's
+#   Voronoi cell is closed by the boundary: needed for two point flux
+#   in a control volume solver; "A point-placement strategy for
+#   conforming Delaunay tetrahedralization", IJCGA 11(6) 669-682, and
+#   SODA 2000 pp. 67-74). "# boundary_angle : 90" makes that HARD. The
+#   filter and rmpoint / compress that used to follow were dropped: on
+#   a correct mesh they do nothing; the checker fails a mesh with
+#   coincident or unused vertices instead.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid (sandbox, step 1; step 2 needs LaGriT).
+#####################################################################
+define / EDGELEN1 / 0.50
+define / EDGELEN2 / 0.25
+# ---- L
+cmo / create / mo_L / / / triplane
+read / avs / letter_L.poly / mo_L
+triangulate / counterclockwise
+cmo / setatt / mo_L / imt / 1,0,0 / 1
+cmo / setatt / mo_L / itetclr / 1,0,0 / 1
+addmesh / merge / mo_lagrit / mo_lagrit / mo_L
+cmo / delete / mo_L
+# ---- a
+cmo / create / mo_a / / / triplane
+read / avs / letter_a.poly / mo_a
+triangulate / counterclockwise
+cmo / setatt / mo_a / imt / 1,0,0 / 2
+cmo / setatt / mo_a / itetclr / 1,0,0 / 2
+addmesh / merge / mo_lagrit / mo_lagrit / mo_a
+cmo / delete / mo_a
+# ---- G
+cmo / create / mo_G / / / triplane
+read / avs / letter_G.poly / mo_G
+triangulate / counterclockwise
+cmo / setatt / mo_G / imt / 1,0,0 / 3
+cmo / setatt / mo_G / itetclr / 1,0,0 / 3
+addmesh / merge / mo_lagrit / mo_lagrit / mo_G
+cmo / delete / mo_G
+# ---- r
+cmo / create / mo_r / / / triplane
+read / avs / letter_r.poly / mo_r
+triangulate / counterclockwise
+cmo / setatt / mo_r / imt / 1,0,0 / 4
+cmo / setatt / mo_r / itetclr / 1,0,0 / 4
+addmesh / merge / mo_lagrit / mo_lagrit / mo_r
+cmo / delete / mo_r
+# ---- i_stem
+cmo / create / mo_i_stem / / / triplane
+read / avs / letter_i_stem.poly / mo_i_stem
+triangulate / counterclockwise
+cmo / setatt / mo_i_stem / imt / 1,0,0 / 5
+cmo / setatt / mo_i_stem / itetclr / 1,0,0 / 5
+addmesh / merge / mo_lagrit / mo_lagrit / mo_i_stem
+cmo / delete / mo_i_stem
+# ---- i_dot
+cmo / create / mo_i_dot / / / triplane
+read / avs / letter_i_dot.poly / mo_i_dot
+triangulate / counterclockwise
+cmo / setatt / mo_i_dot / imt / 1,0,0 / 5
+cmo / setatt / mo_i_dot / itetclr / 1,0,0 / 5
+addmesh / merge / mo_lagrit / mo_lagrit / mo_i_dot
+cmo / delete / mo_i_dot
+# ---- T
+cmo / create / mo_T / / / triplane
+read / avs / letter_T.poly / mo_T
+triangulate / counterclockwise
+cmo / setatt / mo_T / imt / 1,0,0 / 6
+cmo / setatt / mo_T / itetclr / 1,0,0 / 6
+addmesh / merge / mo_lagrit / mo_lagrit / mo_T
+cmo / delete / mo_T
+# ---- step 1: the triangulated letters
+cmo / select / mo_lagrit
+resetpts / itp
+quality
+dump / avs / out_tri01_letters_tri.inp / mo_lagrit
+# ---- step 2: refine and smooth (as test/level01/smooth_massage)
+refine / rivara / / / edge / 1,0,0 / EDGELEN1 / / / inclusive
+quality
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+refine / rivara / / / edge / 1,0,0 / EDGELEN2 / / / inclusive
+quality
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 1
+resetpts / itp
+quality
+dump / avs / out_tri01_letters_ref.inp / mo_lagrit
+finish

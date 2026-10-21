@@ -1,0 +1,18 @@
+#####################################################################
+# tri03_comb_1000.lgi
+#
+# polygon  : comb_1000.poly
+# expect   : valid
+#
+# WHAT:
+#   COMB: 1000 teeth (4000 vertices). Speed: about 0.4 s in the
+#   sandbox.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / comb_1000.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri03_comb_1000.inp / mo_tri
+finish

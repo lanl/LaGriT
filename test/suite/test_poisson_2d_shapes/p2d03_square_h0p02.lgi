@@ -1,0 +1,39 @@
+#####################################################################
+# p2d03_square_h0p02.lgi
+#
+# polygon : unit_square.poly
+# h       : 0.02
+# expect  : valid
+#
+# EXPECT:
+#   No ERROR, no WARNING (convex polygon). Every raw point inside
+#   the polygon. No inverted elements.
+#
+# NOTE:
+#   Medium.
+#
+#   The sampler runs TWICE. The first run, with no_connect, gives
+#   the raw points used for spacing, containment and count. The
+#   second, with connect, gives the mesh used for element quality.
+#   The connected mesh cannot be used for spacing: it has been
+#   smoothed, and recon 1 has added boundary nodes.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+#
+# raw sampler points
+#
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_raw / mo_polygon &
+      / 0.02 / no_connect
+dump / avs / raw_p2d03_square_h0p02.inp / mo_raw
+cmo / delete / mo_raw
+#
+# connected mesh
+#
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.02 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_p2d03_square_h0p02.inp / mo_pts
+finish

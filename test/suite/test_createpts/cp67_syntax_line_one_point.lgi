@@ -1,0 +1,17 @@
+#####################################################################
+# cp67_syntax_line_one_point.lgi
+#
+# group    : syntax
+# expect   : error
+# reason   : a line needs 2 or more points
+#
+# WHAT:
+#   1 point on a line: an ERROR (user, Oct 13: something is wrong with
+#   the input; it should not be a feature).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 2: (0,0,0), the start (the middle if ratio is on).
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 1 / / / 0.,0.,0. / 1.,0.,0. / 1,1,1
+finish

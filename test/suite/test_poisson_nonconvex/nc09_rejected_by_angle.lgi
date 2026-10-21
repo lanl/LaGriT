@@ -1,0 +1,27 @@
+#####################################################################
+# nc09_rejected_by_angle.lgi
+#
+# polygon : saw_rejected.poly
+# h       : 0.5
+# expect  : error
+# reason  : interior angle is too sharp
+#
+# EXPECT:
+#   ERROR block: polygon interior angle is too sharp.
+#   No mesh is produced.
+#
+# NOTE:
+#   This is the dramatic 1 -> 25 sawtooth. Its apex angles are about
+#   5.4 deg, below POI_ANGLE_MIN_DEG = 9.0, so the driver refuses it
+#   before the sampler runs. Recorded deliberately: it documents that
+#   the angle threshold, not the clip algorithm, is what limits how
+#   exaggerated a sawtooth can be meshed at all.
+#####################################################################
+read / avs / saw_rejected.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.5 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc09_rejected_by_angle.inp / mo_pts
+finish

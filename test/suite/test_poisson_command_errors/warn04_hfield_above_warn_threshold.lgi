@@ -1,0 +1,17 @@
+#####################################################################
+# warn04_hfield_above_warn_threshold.lgi
+#
+# EXPECT:
+#   A WARNING block: h_field_att much larger than target h.
+#   NO error block. The run completes and writes a mesh.
+#
+# NOTE:
+#   Confirms a warning does not abort. Point count will be very low
+#   because the requested spacing is 200*h.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / hfield_too_large.mlgi
+cmo / status / brief
+dump / avs / out_warn04_hfield_large.inp / mo_poisson_pts
+finish

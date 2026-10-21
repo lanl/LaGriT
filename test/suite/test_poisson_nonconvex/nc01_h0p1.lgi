@@ -1,0 +1,23 @@
+#####################################################################
+# nc01_h0p1.lgi
+#
+# polygon : saw_safe.poly
+# h       : 0.1
+# expect  : recovered
+#
+# EXPECT:
+#   Nonconvex WARNING. Clip recovers the outline.
+#   Mesh area should match polygon area closely.
+#   Zero elements with centroid outside the polygon.
+#
+# NOTE:
+#   tooth half width / h = 6.25. Teeth are well resolved.
+#####################################################################
+read / avs / saw_safe.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.1 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc01_h0p1.inp / mo_pts
+finish

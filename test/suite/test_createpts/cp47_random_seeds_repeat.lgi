@@ -1,0 +1,30 @@
+#####################################################################
+# cp47_random_seeds_repeat.lgi
+#
+# group    : random
+# expect   : valid
+# spec     : none
+# points   : out_cp47_pts.inp
+# mesh     : out_cp47_mesh.inp tet
+# filter   : yes
+# same_as  : out_out_cp47_pts.inp
+#
+# WHAT:
+#   the same command twice with the same seeds, in two mesh objects:
+#   the doc says the points must be identical. The first set is then
+#   connected (user, Oct 16).
+#####################################################################
+
+cmo / create / mo_seed1 / / / tet
+createpts/random/xyz/0.25/0,0,0/1,1,1/0,0,0/0.125/98765,4321
+dump / avs / out_cp47_pts.inp / mo_seed1
+cmo / create / mo_seed2 / / / tet
+createpts/random/xyz/0.25/0,0,0/1,1,1/0,0,0/0.125/98765,4321
+dump / avs / out_out_cp47_pts.inp / mo_seed2
+cmo / select / mo_seed1
+connect
+cmo / setatt / mo_seed1 / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp47_mesh.inp / mo_seed1
+finish

@@ -1,0 +1,24 @@
+#####################################################################
+# 3D ONLY. Make h_field_att vary strongly in Z, and dip below the
+# allowed floor only AWAY from the first z layer.
+#
+# This is the case the old code could not see. It validated only
+# np_x*np_y values, i.e. one z layer of an np_x*np_y*np_z hex mesh,
+# so a field that was legal at the bottom and illegal higher up was
+# accepted silently.
+#
+# h_field_att = h * (0.1 + 2.0*zic)
+#   at zic = 0.0  ->  0.1*h   ILLEGAL, below 0.49*h
+#   at zic = 0.3  ->  0.7*h   legal
+# The illegal region is at the bottom. Flip the sign of the slope to
+# move it to the top; both directions are worth running.
+#####################################################################
+define / MO_H_FIELD / mo_poi_h_field
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / zic / 2.0
+math / add / MO_H_FIELD / h_field_att / 1,0,0 / &
+             MO_H_FIELD / h_field_att / 0.1
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / h_field_att / POI_H_FACTOR
+cmo / printatt / MO_H_FIELD / h_field_att / minmax
+finish

@@ -1,0 +1,16 @@
+{
+ "vertices": 43,
+ "area": 35.523450317448905,
+ "tooth_half_width": 0.625,
+ "width": 25.0,
+ "height": 4.0,
+ "valley": 1.0,
+ "teeth": 20,
+ "growth": "exp",
+ "param": 3.0,
+ "ccw": true,
+ "min_angle_deg": 25.413042401422544,
+ "min_edge": 0.6251198892543447,
+ "h_max": 1.2502397785086894,
+ "accepted_by_angle": true
+}

@@ -1,0 +1,11 @@
+#####################################################################
+# err03_h_wrong_type.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names token 6, says it must be real or integer.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / abc / connect
+finish

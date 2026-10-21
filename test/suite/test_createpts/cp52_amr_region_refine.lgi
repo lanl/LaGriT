@@ -1,0 +1,37 @@
+#####################################################################
+# cp52_amr_region_refine.lgi
+#
+# group    : amr
+# expect   : valid
+# spec     : none
+# points   : out_cp52_pts.inp
+# mesh     : out_cp52_mesh.inp tet
+# filter   : yes
+# volume   : 200.
+# lattice  : 0.25
+#
+# WHAT:
+#   amr in a box region (user, Oct 16): a 10 x 10 x 2 hex brick (11 x 11
+#   x 3 vertices, 1 apart); the hexes with a vertex in the box
+#   0-5.1 x 0-5.1 x 0-2.1 refined twice. The points are copied into a
+#   tet mesh object and connected. Every point on the 1/4 lattice,
+#   once; the tets fill the 10 x 10 x 2 box (volume 200). amr refines
+#   hex CELLS, so the vertices come from createpts / brick (createpts
+#   / xyz makes points only, which amr has nothing to refine).
+#####################################################################
+
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 11 11 3 / 0. 0. 0. / 10. 10. 2. / 1 1 1
+surface/s_refine/reflect/box/0.,0.,0./5.1,5.1,2.1
+region/r_refine/le s_refine
+createpts/amr/r_refine/2
+dump / avs / out_cp52_pts.inp / mo_hex
+cmo / create / mo_tet
+copypts / mo_tet / mo_hex
+cmo / select / mo_tet
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp52_mesh.inp / mo_tet
+finish

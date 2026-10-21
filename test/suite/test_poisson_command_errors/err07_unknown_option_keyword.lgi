@@ -1,0 +1,12 @@
+#####################################################################
+# err07_unknown_option_keyword.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names the keyword token, reports poison_seed as unknown,
+#   and lists the valid option keywords.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / poison_seed / 7
+finish

@@ -1,0 +1,19 @@
+#####################################################################
+# cp26_brick_quad_xz.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 7,1,5 0.,0.,0. 3.,0.,2. 1,0,1
+# points   : out_cp26_pts.inp
+# mesh     : out_cp26_pts.inp quad
+#
+# WHAT:
+#   quads in the xz plane (nj = 1), ijz = 0 (user, Oct 13: all three
+#   planes). The checker measures each quad in the xz plane and
+#   requires all of them to turn the same way.
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 7,1,5 / 0.,0.,0. / 3.,0.,2. / 1,0,1
+dump / avs / out_cp26_pts.inp / mo_quad
+quality
+finish

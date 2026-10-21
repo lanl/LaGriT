@@ -1,0 +1,10 @@
+#####################################################################
+# err11_polygon_two_vertices.lgi
+#
+# EXPECT:
+#   One ERROR block: polygon has fewer than 3 vertices.
+#####################################################################
+read / avs / two_point.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+finish

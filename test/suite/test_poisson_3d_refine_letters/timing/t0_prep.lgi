@@ -1,0 +1,15 @@
+#####################################################################
+# t0_prep.lgi - read the letters, extrude, triangulate, refine
+# Part of time_letters.sh (see its header). Not a test.
+#####################################################################
+read / avs / letters_vector.inp / mo_lagrit
+cmo / printatt / mo_lagrit / -xyz- / minmax
+extrude/mo_quad/mo_lagrit/const/0.1/volume/ 0. 0. 1.
+dump / avs / out_letters_quad.inp / mo_quad
+grid2grid / quadtotri2 / mo_LaGriT_refine / mo_quad
+cmo / status / brief
+cmo / select / mo_LaGriT_refine
+refine /rivara///edge/1 0 0/.2///inclusive
+cmo / status / brief
+dump / avs / out_letters_refine.inp / mo_LaGriT_refine
+finish

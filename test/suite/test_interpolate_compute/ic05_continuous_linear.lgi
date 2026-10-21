@@ -1,0 +1,12 @@
+# ic05_continuous_linear.lgi
+# interpolate / continuous of a LINEAR field (flin = 1 + 2x - 3y + 0.5z
+# on the vertices of a tet mesh of the unit cube) onto 400 random points
+# inside it: linear interpolation in a tet reproduces it exactly (to
+# rounding).
+# check: linear | out_ic05.inp | fc
+read / avs / src_tet.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic05.inp / mo_snk
+finish

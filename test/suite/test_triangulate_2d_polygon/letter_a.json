@@ -1,0 +1,11 @@
+{
+ "name": "letter_a",
+ "description": "letter a, with its hole joined by a keyhole slit",
+ "vertices": 14,
+ "xmin": 4.0,
+ "xmax": 7.0,
+ "ymin": 0.0,
+ "ymax": 3.5,
+ "orientation": "counterclockwise",
+ "area": 8.899999999999999
+}

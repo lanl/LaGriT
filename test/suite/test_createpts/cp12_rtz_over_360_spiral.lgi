@@ -1,0 +1,30 @@
+#####################################################################
+# cp12_rtz_over_360_spiral.lgi
+#
+# group    : rtz
+# expect   : valid
+# warns    : 360
+# spec     : rtz 5,30,5 0.,0.,0. 1.,720.,1. 1,1,1
+# points   : out_cp12_pts.inp
+# mesh     : out_cp12_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the user's question (Oct 13): 30 angles over 720 deg, a step of
+#   720/29 = 24.8 deg. The second turn falls exactly halfway between the
+#   first turn's angles, and only 720 lands on 0: 29 distinct angles,
+#   evenly spaced (360/29 deg), in a scrambled order. After filter the
+#   mesh is a valid cylinder. Still WARNS: the user may not mean it.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtz / 5,30,5 / 0.,0.,0. / 1.,720.,1. / 1,1,1
+dump / avs / out_cp12_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp12_mesh.inp / mo_tet
+finish

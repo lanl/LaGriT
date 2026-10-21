@@ -1,0 +1,26 @@
+#####################################################################
+# cp56_median_quad_doc.lgi
+#
+# group    : median
+# expect   : valid
+# spec     : none
+# points   : out_cp56_pts.inp
+# mesh     : out_cp56_mesh.inp quad
+# filter   : yes
+# cellattr : median
+#
+# WHAT:
+#   the doc's example: a 3 x 3 quad mesh; createpts / median makes
+#   cell attributes xmed, ymed, zmed: the average of each cell's
+#   vertices.
+# FROM THE DOCUMENTATION: createpts_median.md
+#####################################################################
+
+cmo/create/mo_quad///quad
+quadxy 3 3/0. 0. 0./1. 0. 0./1. 1. 0./0. 1. 0.
+rzbrick/xyz/3,3,1/1,0,0/connect
+cmo / select / mo_quad
+createpts / median
+dump / avs / out_cp56_pts.inp / mo_quad
+dump / avs / out_cp56_mesh.inp / mo_quad
+finish

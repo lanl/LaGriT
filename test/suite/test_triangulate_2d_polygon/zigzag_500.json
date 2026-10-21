@@ -1,0 +1,11 @@
+{
+ "name": "zigzag_500",
+ "description": "thin band with zig-zag top and bottom, 500 zigs (1002 vertices): the slowest shape per vertex",
+ "vertices": 1002,
+ "xmin": 0.0,
+ "xmax": 50.0,
+ "ymin": 0.0,
+ "ymax": 0.7,
+ "orientation": "counterclockwise",
+ "area": 10.000000000000002
+}

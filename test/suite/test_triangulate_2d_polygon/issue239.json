@@ -1,0 +1,11 @@
+{
+ "name": "issue239",
+ "description": "GitHub issue 239, perimeter_bug.inp: square with a notch whose tip (1,1) lies ON the diagonal (0,0)-(2,2); clockwise",
+ "vertices": 5,
+ "xmin": 0.0,
+ "xmax": 2.0,
+ "ymin": 0.0,
+ "ymax": 2.0,
+ "orientation": "clockwise",
+ "area": 3.0
+}

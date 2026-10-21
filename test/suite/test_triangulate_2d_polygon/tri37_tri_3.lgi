@@ -1,0 +1,18 @@
+#####################################################################
+# tri37_tri_3.lgi
+#
+# polygon  : tri_3.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   a single triangle, 3 vertices (a separate code path).
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / tri_3.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri37_tri_3.inp / mo_tri
+finish

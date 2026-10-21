@@ -1,0 +1,11 @@
+{
+ "name": "sq_cw",
+ "description": "unit square, 5 segments per side, CLOCKWISE",
+ "vertices": 20,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "clockwise",
+ "area": 1.0
+}

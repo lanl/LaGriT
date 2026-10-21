@@ -1,0 +1,17 @@
+#####################################################################
+# cp64_voronoi_no_cells.lgi
+#
+# group    : voronoi
+# expect   : error
+# reason   : ERROR: createpts / voronoi
+#
+# WHAT:
+#   points but no cells: REFUSED with an ERROR that says why.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: '  VORPTS ERROR -' only.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+createpts / voronoi
+finish

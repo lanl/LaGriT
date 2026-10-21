@@ -1,0 +1,11 @@
+{
+ "name": "spiral_sq25",
+ "description": "square spiral wall, 25 turns (202 vertices)",
+ "vertices": 202,
+ "xmin": -32.64999999999997,
+ "xmax": 32.64999999999997,
+ "ymin": -32.49999999999997,
+ "ymax": 32.64999999999997,
+ "orientation": "counterclockwise",
+ "area": 994.4999999999928
+}

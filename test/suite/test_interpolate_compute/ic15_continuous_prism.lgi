@@ -1,0 +1,14 @@
+# ic15_continuous_prism.lgi
+# interpolate / continuous of the LINEAR field flin = 1 + 2x - 3y +
+# 0.5z from a prism mesh (a 5 x 5 triangle grid through 4 layers).
+# Each prism is split into 14 tets around its median (cinterpolate_elem,
+# Oct 2026), so a linear field is exact. Before that, every value was
+# wrong (up to 106 off on a unit cube): the prism branch was a copy of
+# the hex branch and read vertices 7 and 8, which a prism does not have.
+# check: linear | out_ic15.inp | fc
+read / avs / src_prism.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic15.inp / mo_snk
+finish

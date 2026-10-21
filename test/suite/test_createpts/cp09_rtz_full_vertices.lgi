@@ -1,0 +1,26 @@
+#####################################################################
+# cp09_rtz_full_vertices.lgi
+#
+# group    : rtz
+# expect   : valid
+# spec     : rtz 5,17,5 0.,0.,0. 2.,360.,2. 1,1,1
+# points   : out_cp09_pts.inp
+# mesh     : out_cp09_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   a full circle with angles as vertices: 0, 22.5, ... 360 deg, so the
+#   0 and 360 deg points coincide (a seam), and r = 0 repeats on the axis.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtz / 5,17,5 / 0.,0.,0. / 2.,360.,2. / 1,1,1
+dump / avs / out_cp09_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp09_mesh.inp / mo_tet
+finish

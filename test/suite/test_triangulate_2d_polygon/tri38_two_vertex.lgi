@@ -1,0 +1,19 @@
+#####################################################################
+# tri38_two_vertex.lgi
+#
+# polygon  : two_vertex.poly
+# expect   : error
+# picture  : small
+# reason   : at least 3
+#
+# WHAT:
+#   2 vertices: not a polygon. Must be refused.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   NOT refused: no error, a mesh with 0 cells.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / two_vertex.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri38_two_vertex.inp / mo_tri
+finish

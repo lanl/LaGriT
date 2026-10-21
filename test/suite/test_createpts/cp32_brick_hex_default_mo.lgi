@@ -1,0 +1,25 @@
+#####################################################################
+# cp32_brick_hex_default_mo.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 9,5,9 0.,0.,0. 1.,1.,1. 1,1,1
+# points   : out_cp32_pts.inp
+# mesh     : out_cp32_pts.inp hex
+#
+# WHAT:
+#   the hex brick in a mesh object made with NO cell type (tet by
+#   default), as LaGriT's own tests do (level01 filter, quality,
+#   surface): brick sets the cell type itself (rzbrick3.f), so this is
+#   the same mesh as in a hex mesh object: 405 vertices, 256 hexes.
+#   Refused by FIX 2 (Oct 13); allowed again by FIX 3 (user, Oct 16).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIX 2 (Oct 13) to FIX 3 (Oct 16): ERROR 'the mesh object must
+#   be hex'. Original code: the same AVS file as a hex mesh object.
+#####################################################################
+cmo / create / mo_default
+createpts / brick / xyz / 9,5,9 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+dump / avs / out_cp32_pts.inp / mo_default
+quality
+finish

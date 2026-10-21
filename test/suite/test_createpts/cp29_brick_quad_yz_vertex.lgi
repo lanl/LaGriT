@@ -1,0 +1,17 @@
+#####################################################################
+# cp29_brick_quad_yz_vertex.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 1,5,7 0.,0.,0. 0.,2.,3. 1,1,1
+# points   : out_cp29_pts.inp
+# mesh     : out_cp29_pts.inp quad
+#
+# WHAT:
+#   the yz quads with iiz = 1. Before FIX 3 this overran the arrays.
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 1,5,7 / 0.,0.,0. / 0.,2.,3. / 1,1,1
+dump / avs / out_cp29_pts.inp / mo_quad
+quality
+finish

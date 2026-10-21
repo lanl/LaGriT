@@ -1,0 +1,26 @@
+#####################################################################
+# cp34_brick_append.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : none
+# points   : out_cp34_pts.inp
+# mesh     : out_cp34_pts.inp hex
+# attr     : itp1 1 8 12
+# unused_ok : yes
+#
+# WHAT:
+#   8 vertices already in the mesh object (itp1 set to 12), then a brick
+#   of 125 more. The first 8 must keep itp1 = 12.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: itp1 of vertices 1-8 is 0 after the brick. rzbrick3.f:
+#   do i1=1,nptsv: itp1(i1)=0 should run from ifpt1.
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts / xyz / 2,2,2 / 5.,5.,5. / 6.,6.,6. / 1,1,1
+cmo / setatt / mo_hex / itp1 / 1,0,0 / 12
+createpts / brick / xyz / 5,5,5 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+dump / avs / out_cp34_pts.inp / mo_hex
+quality
+finish

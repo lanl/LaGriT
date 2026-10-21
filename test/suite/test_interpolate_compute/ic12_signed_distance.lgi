@@ -1,0 +1,12 @@
+# ic12_signed_distance.lgi
+# compute / signed_distance_field to a plane of triangles at z = 0.4 that
+# extends past the sink in x and y. As COMPUTE.md defines it, the
+# distance is to the nearest source VERTEX (not to the surface); the
+# sign must be the same all along each side of the plane (which side is
+# positive is reported, not judged).
+# check: plane | out_ic12.inp | sdf | 0.4
+read / avs / plane_tri.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+compute / signed_distance_field / mo_snk / mo_src / sdf
+dump / avs / out_ic12.inp / mo_snk
+finish

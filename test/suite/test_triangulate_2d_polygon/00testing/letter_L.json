@@ -1,0 +1,11 @@
+{
+ "name": "letter_L",
+ "description": "letter L",
+ "vertices": 6,
+ "xmin": 0.0,
+ "xmax": 3.0,
+ "ymin": 0.0,
+ "ymax": 5.0,
+ "orientation": "counterclockwise",
+ "area": 7.0
+}

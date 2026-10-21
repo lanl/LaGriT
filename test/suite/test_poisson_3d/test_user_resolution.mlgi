@@ -1,0 +1,33 @@
+cmo / create / mo_dfield
+createpts/line/ 400 / / /0.5 0.5  POI_ZMIN /  0.5 0.5 POI_ZMAX /1 1 1/
+
+# -------------------------------------------------------
+# calculate the resolution field h(x,y)
+# and Y=ax+b linear variation
+# and floor and ceiling
+#
+
+compute / distance_field / mo_poi_h_field / mo_dfield / dfield
+math/multiply/mo_poi_h_field/h_field_att/1,0,0/mo_poi_h_field/dfield/SLOPE/
+cmo / printatt / mo_poi_h_field / dfield / minmax
+math/add/mo_poi_h_field/h_field_att/1,0,0/mo_poi_h_field/h_field_att/INTERCEPT/
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+math / floor   / mo_poi_h_field / h_field_att / 1 0 0 / &
+                 mo_poi_h_field / h_field_att / H_FLOOR
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+math / ceiling / mo_poi_h_field / h_field_att / 1 0 0 / &
+                 mo_poi_h_field / h_field_att / H_CEILING
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+
+# -------------------------------------------------------
+
+# In order to visualize the h(x,y) field, the user can output
+# mo_poi_h_field and look at the attribute h_field_att.
+# Output will slow things down so output should be commented out
+# in production runs.
+
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+# dump / avs / poisson_h_of_x_y.inp / mo_poi_h_field / 1 3 1 1
+cmo / delete / mo_dfield
+
+finish

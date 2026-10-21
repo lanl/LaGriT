@@ -1,0 +1,11 @@
+# ic13_continuous_tri.lgi
+# interpolate / continuous of the LINEAR field flin = 1 + 2x - 3y +
+# 0.5z from a 2D triangle mesh (7 x 7 vertices, z = 0) onto 300 random
+# points in the square: exact for a linear field.
+# check: linear | out_ic13.inp | fc
+read / avs / src_tri.inp / mo_src
+read / avs / sink2d_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic13.inp / mo_snk
+finish

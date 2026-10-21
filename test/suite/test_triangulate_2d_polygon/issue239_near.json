@@ -1,0 +1,11 @@
+{
+ "name": "issue239_near",
+ "description": "issue 239 shape with the tip 1e-11 above the diagonal; clockwise",
+ "vertices": 5,
+ "xmin": 0.0,
+ "xmax": 2.0,
+ "ymin": 0.0,
+ "ymax": 2.0,
+ "orientation": "clockwise",
+ "area": 2.99999999999
+}

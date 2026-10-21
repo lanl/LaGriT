@@ -1,0 +1,20 @@
+#####################################################################
+# tri04_zigzag_500.lgi
+#
+# polygon  : zigzag_500.poly
+# expect   : valid
+#
+# WHAT:
+#   ZIG-ZAG BAND: a thin band whose top and bottom are both
+#   zig-zags, 500 zigs (1002 vertices). The SLOWEST shape per vertex
+#   found: few ears per pass, so time grows as n^3 (sandbox: 502
+#   vertices 0.3 s, 1002 2.2 s, 2002 18 s, 4002 145 s).
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid (2.7 s in the sandbox).
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / zigzag_500.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri04_zigzag_500.inp / mo_tri
+finish

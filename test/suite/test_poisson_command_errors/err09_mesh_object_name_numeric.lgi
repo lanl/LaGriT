@@ -1,0 +1,11 @@
+#####################################################################
+# err09_mesh_object_name_numeric.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names token 4, says it must be type character.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / 99 / mo_polygon &
+      / 0.05 / connect
+finish

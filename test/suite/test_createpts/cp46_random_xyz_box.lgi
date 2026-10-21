@@ -1,0 +1,30 @@
+#####################################################################
+# cp46_random_xyz_box.lgi
+#
+# group    : random
+# expect   : valid
+# spec     : none
+# points   : out_cp46_pts.inp
+# mesh     : out_cp46_mesh.inp tet
+# filter   : yes
+# random   : xyz 0.1 0,0,0 1,1,1 0.05
+#
+# WHAT:
+#   random points, target spacing 0.1, in the unit cube, edge
+#   protection 0.05 (spacing/2), fixed seeds. The doc: points on the
+#   corners, edges and faces, interior points at least edgedist from
+#   the boundary. Then filter and connect.
+# FROM THE DOCUMENTATION: CRTPTRZRAN.md, first example (with seeds)
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/random/xyz/0.1/0,0,0/1,1,1/0,0,0/0.05/98765,4321
+dump / avs / out_cp46_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp46_mesh.inp / mo_tet
+finish

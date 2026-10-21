@@ -1,0 +1,11 @@
+{
+ "name": "sq_utm",
+ "description": "square of side 1000 at x=500000, y=4000000, 50 segments per side",
+ "vertices": 200,
+ "xmin": 500000.0,
+ "xmax": 501000.0,
+ "ymin": 4000000.0,
+ "ymax": 4001000.0,
+ "orientation": "counterclockwise",
+ "area": 1000000.0
+}

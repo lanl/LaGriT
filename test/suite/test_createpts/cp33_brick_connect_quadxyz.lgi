@@ -1,0 +1,21 @@
+#####################################################################
+# cp33_brick_connect_quadxyz.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : none
+# points   : out_cp33_pts.inp
+# mesh     : out_cp33_pts.inp hex
+#
+# WHAT:
+#   the doc's second example: vertices from quadxyz, hexes from
+#   createpts / brick / ... / connect. 175 vertices, 96 hexes.
+# FROM THE DOCUMENTATION: CRTPTBRICK.md, second example
+#####################################################################
+cmo / create / mo_hex / / / hex
+quadxyz / 5,7,5 / 0.,0.,0. / 1.,0.,0. / 1.5,0.5,2.0 / .5,.2,2.5 / &
+  -1.,1.5,0. / 2.0,0.,0.0 / 2.1,1.9,2.4 / -0.2,1.8,2.3
+createpts / brick / xyz / 5,7,5 / 1,0,0 / connect
+dump / avs / out_cp33_pts.inp / mo_hex
+quality
+finish

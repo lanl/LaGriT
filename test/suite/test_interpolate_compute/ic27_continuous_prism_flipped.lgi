@@ -1,0 +1,10 @@
+# ic27_continuous_prism_flipped.lgi
+# ic15 with the prisms numbered turned over (top and bottom triangles
+# swapped). The answer must not change.
+# check: linear | out_ic27.inp | fc
+read / avs / src_prism_flip.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic27.inp / mo_snk
+finish

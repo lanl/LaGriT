@@ -1,0 +1,24 @@
+#####################################################################
+# cp23_brick_hex_ratio.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 9,5,5 0.,0.,0. 4.,2.,2. 1,1,1 ratio 1,0,0 1.15,1.,1.
+# points   : out_cp23_pts.inp
+# mesh     : out_cp23_pts.inp hex
+#
+# WHAT:
+#   hexes with ratio zoning 1.15 in x. (The command is continued with &:
+#   on one line it was 82 characters, and LaGriT reads only 80.)
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   Oct 13: before the line was split, LaGriT read it as ending
+#   "1.15,1.": the third ratio was lost (it defaulted, so the deck
+#   passed by luck).
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 9,5,5 / 0.,0.,0. / 4.,2.,2. / 1,1,1 / 1,0,0 / &
+  1.15,1.,1.
+dump / avs / out_cp23_pts.inp / mo_hex
+quality
+finish

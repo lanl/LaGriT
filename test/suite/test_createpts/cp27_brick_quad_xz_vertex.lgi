@@ -1,0 +1,18 @@
+#####################################################################
+# cp27_brick_quad_xz_vertex.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 7,1,5 0.,0.,0. 3.,0.,2. 1,1,1
+# points   : out_cp27_pts.inp
+# mesh     : out_cp27_pts.inp quad
+#
+# WHAT:
+#   the xz quads with ijz = 1. Before FIX 3 this overran the arrays
+#   (the same cause as the xy deck with ikz = 1).
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 7,1,5 / 0.,0.,0. / 3.,0.,2. / 1,1,1
+dump / avs / out_cp27_pts.inp / mo_quad
+quality
+finish

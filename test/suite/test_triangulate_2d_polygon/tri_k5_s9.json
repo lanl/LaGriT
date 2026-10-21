@@ -1,0 +1,11 @@
+{
+ "name": "tri_k5_s9",
+ "description": "triangle, 5 segments per side, list starts at vertex 10",
+ "vertices": 15,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 0.5
+}

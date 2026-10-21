@@ -1,0 +1,19 @@
+# ic21_continuous_hex_rotated.lgi
+# ic16 with the same hexes numbered differently: the same element
+# turned 180 degrees about a horizontal axis (right-handed, positive
+# volume), so stored (internal) edge 1-2 runs along y instead of x.
+# Note read / avs swaps the two faces: AVS order 1..8 is stored as
+# 5 6 7 8 1 2 3 4 (readavs.f). The answer must not change.
+# main_interpolate.md lists hex sources as NOT supported for continuous.
+# Before the median split (cinterpolate_elem, Oct 2026) every value was
+# wrong (about 3e14, "Zero Volume Found"): the hex was split by the
+# planes x=xp, y=yp, z=zp assuming stored edge 1-2 along x, 2-3 along
+# y, 1-5 along z (as createpts / brick numbers it); here 1-2 runs along
+# y and the pieces collapsed.
+# check: linear | out_ic21.inp | fc
+read / avs / src_hex_rot.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic21.inp / mo_snk
+finish

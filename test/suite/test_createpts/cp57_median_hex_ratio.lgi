@@ -1,0 +1,22 @@
+#####################################################################
+# cp57_median_hex_ratio.lgi
+#
+# group    : median
+# expect   : valid
+# spec     : none
+# points   : out_cp57_pts.inp
+# mesh     : out_cp57_mesh.inp hex
+# filter   : yes
+# cellattr : median
+#
+# WHAT:
+#   hexes of unequal size (ratio zoning 1.3 in x): the median point
+#   of each is the average of its 8 vertices.
+#####################################################################
+
+cmo / create / mo_hex / / / hex
+createpts/brick/xyz/6,4,3/0.,0.,0./3.,2.,1./1,1,1/1,0,0/1.3,1.,1.
+createpts / median
+dump / avs / out_cp57_pts.inp / mo_hex
+dump / avs / out_cp57_mesh.inp / mo_hex
+finish

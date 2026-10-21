@@ -1,0 +1,58 @@
+# test_Poisson_3D.cases
+#
+# Facts about every output of test_Poisson_3D.lgi, kept here because the
+# deck itself must not be edited. Read by check_test_poisson_3d.py.
+# The checker's "deck" row re-reads the deck's define lines and fails if
+# anything below has drifted from it.
+#
+# Line types (blank lines and # comments ignored):
+#
+#   box   xmin xmax ymin ymax zmin zmax     POI_XMIN..POI_ZMAX in the deck
+#   deck  file                               the deck these facts describe
+#   case  id key=value ...                   one line per createpts call,
+#                                            in the order the deck runs them
+#   merge file                               the final merged dump
+#   field dump=file case=id                  optional h field dump; see below
+#
+# case keys:
+#   inp, stor   output files (AVS_OUT, STOR_OUT.stor)
+#   mlgi        which per-run script the deck runs (infile ...)
+#   h           H_REFINE_SIZE, the h_spacing_scalar token
+#   ifbuf, buf  IF_POI_EDGE_BUFFER, POI_EDGE_BUFFER
+#   ztrans      Z_TRANSLATE (applied AFTER the dumps, used by merge only)
+#   field       uniform | radial
+#               radial = test_user_resolution.mlgi:
+#               h = min(ceil, max(floor, slope*dist + icpt)), where dist is
+#               the distance to the nearest of `line_n` points spaced
+#               evenly on x=line_x, y=line_y, z from box zmin to zmax
+#   floor, ceil, slope, icpt, line_x, line_y, line_n   radial only
+#   stor_neg    0      = HARD: no positive (wrong sign) off-diagonal
+#                        area coefficients in the .stor file
+#               report = count them, do not judge
+#               The deck header says buffered runs should have none and
+#               unbuffered runs very likely have some. The first real run
+#               (lagrit.out, Oct 1 2026) agrees EXCEPT case 03, buffer
+#               0.5 h, which had 1646 - more than unbuffered case 01
+#               (371). So 03 is "report"; 02, 04, 06, 07, 08 had 0.
+
+# Box reduced from 1 x 1 x 0.3 on Oct 6 2026 (see 00README, THE BOX).
+# The stor_neg counts quoted above are from the original box.
+box   0.2 0.8  0.2 0.8  0.0 0.3
+deck  test_Poisson_3D.lgi
+
+case 01 inp=test_3d_poi_01.inp stor=test_3d_poi_01.stor mlgi=test_run_createpts_poisson.mlgi h=0.025  ifbuf=0 buf=1.0 ztrans=0.4 field=uniform stor_neg=report
+case 02 inp=test_3d_poi_02.inp stor=test_3d_poi_02.stor mlgi=test_run_createpts_poisson.mlgi h=0.025  ifbuf=1 buf=1.0 ztrans=0.8 field=uniform stor_neg=0
+case 03 inp=test_3d_poi_03.inp stor=test_3d_poi_03.stor mlgi=test_run_createpts_poisson.mlgi h=0.025  ifbuf=1 buf=0.5 ztrans=1.2 field=uniform stor_neg=report
+case 04 inp=test_3d_poi_04.inp stor=test_3d_poi_04.stor mlgi=test_run_createpts_poisson.mlgi h=0.0125 ifbuf=1 buf=2.0 ztrans=1.6 field=uniform stor_neg=0
+case 05 inp=test_3d_poi_05.inp stor=test_3d_poi_05.stor mlgi=test_run_poi_user_res.mlgi h=0.025  ifbuf=0 buf=1.0 ztrans=2.0 field=radial floor=0.025  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=report
+case 06 inp=test_3d_poi_06.inp stor=test_3d_poi_06.stor mlgi=test_run_poi_user_res.mlgi h=0.025  ifbuf=1 buf=1.0 ztrans=2.4 field=radial floor=0.025  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+case 07 inp=test_3d_poi_07.inp stor=test_3d_poi_07.stor mlgi=test_run_poi_user_res.mlgi h=0.0125 ifbuf=1 buf=1.0 ztrans=2.8 field=radial floor=0.0125 ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+case 08 inp=test_3d_poi_08.inp stor=test_3d_poi_08.stor mlgi=test_run_poi_user_res.mlgi h=0.008  ifbuf=1 buf=1.0 ztrans=3.2 field=radial floor=0.008  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+
+merge test_3d_poi_merge_all.inp
+
+# The dump line in test_user_resolution.mlgi is commented out, so by
+# default there is no field dump and the "field" row reports SKIP. If it
+# is uncommented, every radial run writes the same file name and only the
+# LAST one (case 08) survives - hence case=08.
+field dump=poisson_h_of_x_y.inp case=08

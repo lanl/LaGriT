@@ -1,0 +1,11 @@
+{
+ "name": "spiral_10x200",
+ "description": "smooth spiral band, 10 turns x 200 vertices (4002 vertices)",
+ "vertices": 4002,
+ "xmin": -10.150063606955381,
+ "xmax": 10.649928548822073,
+ "ymin": -10.400000438037832,
+ "ymax": 9.900187903171396,
+ "orientation": "counterclockwise",
+ "area": 103.74066762802495
+}

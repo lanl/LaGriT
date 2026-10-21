@@ -1,0 +1,11 @@
+{
+ "name": "sliver_1000",
+ "description": "sliver: 1 long, 1e-6 thick, 1000 segments on each long side",
+ "vertices": 2002,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1e-06,
+ "orientation": "counterclockwise",
+ "area": 1e-06
+}

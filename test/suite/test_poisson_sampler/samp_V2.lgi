@@ -1,0 +1,23 @@
+#####################################################################
+# samp_V2.lgi - test V, 2D: fine band at y = 9 in a 0.205 x 10 strip, seeds 1-3
+#
+# Checks the Poisson disk sampler (see 00README). The facts the
+# checker needs are in poisson_sampler.cases.
+#####################################################################
+read / avs / rect_strip.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_s1 / mo_polygon / 0.01 / no_connect &
+      / field_valley_2d.mlgi / poisson_seed / 1
+dump / avs / out_V2_s1.inp / mo_s1
+cmo / delete / mo_s1
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_s2 / mo_polygon / 0.01 / no_connect &
+      / field_valley_2d.mlgi / poisson_seed / 2
+dump / avs / out_V2_s2.inp / mo_s2
+cmo / delete / mo_s2
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_s3 / mo_polygon / 0.01 / no_connect &
+      / field_valley_2d.mlgi / poisson_seed / 3
+dump / avs / out_V2_s3.inp / mo_s3
+cmo / delete / mo_s3
+finish

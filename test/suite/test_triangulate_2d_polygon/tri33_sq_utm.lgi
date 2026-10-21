@@ -1,0 +1,20 @@
+#####################################################################
+# tri33_sq_utm.lgi
+#
+# polygon  : sq_utm.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   square of side 1000 at x = 500000, y = 4000000 (UTM-like
+#   coordinates), 50 segments per side.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   INVALID: one zero-area cell (three collinear vertices made
+#   into a cell), with NO error or warning.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_utm.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri33_sq_utm.inp / mo_tri
+finish

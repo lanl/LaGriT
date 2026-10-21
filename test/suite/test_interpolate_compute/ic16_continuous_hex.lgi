@@ -1,0 +1,11 @@
+# ic16_continuous_hex.lgi
+# interpolate / continuous of the LINEAR field flin = 1 + 2x - 3y +
+# 0.5z from a hex mesh (4 x 4 x 4). LaGriT splits each hex into tets,
+# so a linear field is exact.
+# check: linear | out_ic16.inp | fc
+read / avs / src_hex.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic16.inp / mo_snk
+finish

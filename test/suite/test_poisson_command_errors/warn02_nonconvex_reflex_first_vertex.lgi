@@ -1,0 +1,23 @@
+#####################################################################
+# warn02_nonconvex_reflex_first_vertex.lgi
+#
+# EXPECT:
+#   A WARNING block saying the polygon is nonconvex.
+#   The clipped mesh must NOT fill the concave notch.
+#
+# NOTE:
+#   REGRESSION TEST for the test_convex corner coverage bug.
+#   The loop ran i=1,nnode-2 and tested the turn at vertex i+1, so
+#   vertices 1 and nnode were never examined. This polygon is reflex
+#   at vertex 1, so the OLD code reported it CONVEX, skipped both the
+#   warning and the clipping pass, and produced a convex hull mesh
+#   that silently filled the notch.
+#   If no warning appears, the fix has regressed.
+#####################################################################
+read / avs / lshape_reflex_first.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+cmo / status / brief
+quality
+dump / avs / out_warn02_reflex_first.inp / mo_poisson_pts
+finish

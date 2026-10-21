@@ -1,0 +1,19 @@
+#####################################################################
+# tri10_annulus_thin.lgi
+#
+# polygon  : annulus_thin.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   THIN ANNULUS: radii 1 and 0.999, 1000 vertices on each
+#   circle: a ring 1e-3 wide with very thin cells.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / annulus_thin.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri10_annulus_thin.inp / mo_tri
+finish

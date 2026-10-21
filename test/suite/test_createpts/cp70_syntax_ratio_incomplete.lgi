@@ -1,0 +1,16 @@
+#####################################################################
+# cp70_syntax_ratio_incomplete.lgi
+#
+# group    : syntax
+# expect   : error
+# reason   : ratio zoning needs
+#
+# WHAT:
+#   ratio switches without the ratios.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 2: the ratios were read past the end of the command.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 3,3,3 / 0.,0.,0. / 1.,1.,1. / 1,1,1 / 1,0,0
+finish

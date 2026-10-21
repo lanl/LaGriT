@@ -1,0 +1,18 @@
+{
+ "vertices": 64,
+ "a": 1.0,
+ "b": 1.0,
+ "ratio": 1.0,
+ "polygon_area": 3.136548490064256,
+ "h": 0.025,
+ "spacing": 4.0,
+ "perimeter": 6.283185306941199,
+ "edge": 0.09817477042095624,
+ "ellipse_area": 3.141592653589793,
+ "min_angle_deg": 174.37499942294636,
+ "min_edge": 0.09813534826059955,
+ "h_max": 0.1962706965211991,
+ "convex": true,
+ "accepted_by_angle": true,
+ "accepted_by_edge": true
+}

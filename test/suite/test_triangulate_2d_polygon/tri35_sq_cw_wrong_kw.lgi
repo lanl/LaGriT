@@ -1,0 +1,21 @@
+#####################################################################
+# tri35_sq_cw_wrong_kw.lgi
+#
+# polygon  : sq_cw.poly
+# expect   : valid
+# picture  : small
+# warns    : Trying clockwise
+#
+# WHAT:
+#   the same clockwise square, but with the WRONG keyword,
+#   counterclockwise. triangulate fails that way, says so in a
+#   WARNING, and retries the other orientation, which works.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid, after the same WARNING.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_cw.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri35_sq_cw_wrong_kw.inp / mo_tri
+finish

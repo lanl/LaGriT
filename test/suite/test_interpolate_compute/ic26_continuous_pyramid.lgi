@@ -1,0 +1,11 @@
+# ic26_continuous_pyramid.lgi
+# interpolate / continuous of the LINEAR field flin from pyramids (each
+# of 3 x 3 x 3 cubes cut into 6, apex at its centre). Each pyramid is
+# split into 8 tets around its median, so a linear field is exact.
+# check: linear | out_ic26.inp | fc
+read / avs / src_pyr.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic26.inp / mo_snk
+finish
