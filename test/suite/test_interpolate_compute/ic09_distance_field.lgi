@@ -1,0 +1,10 @@
+# ic09_distance_field.lgi
+# compute / distance_field: the distance from each sink vertex to the
+# nearest source vertex. It reuses interpolate / voronoi's stored lookup
+# for its y and z passes.
+# check: distance | out_ic09.inp | dfield
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+compute / distance_field / mo_snk / mo_src / dfield
+dump / avs / out_ic09.inp / mo_snk
+finish

@@ -1,0 +1,51 @@
+# pictures.txt: what to draw for a test, beyond its own AVS mesh files
+# (read by pictures.py). LaGriT's decks are never edited: extra dumps
+# go into a SECOND run of the deck (work/_pic_<test>), which is drawn
+# but never judged. One directive per line, fields split by " | ":
+#
+#   TEST | color  | GLOB | COLOR          colour the test's own files
+#                                          matching GLOB (see below)
+#   TEST | hide   | GLOB                   do not draw these files
+#   TEST | insert | REGEX | COMMAND        in the picture run, put
+#                                          COMMAND after the first deck
+#                                          line matching REGEX
+#                                          (Python re, case-insensitive)
+#   TEST | draw   | FILE | COLOR | TITLE   draw FILE (from the picture
+#                                          run, or one of the test's
+#                                          input files)
+#   TEST | interp                          after each intrp/interpolate
+#                                          command, dump the source and
+#                                          the sink mesh objects; draw
+#                                          each pair, the source coloured
+#                                          by the source attribute, the
+#                                          sink by the sink attribute,
+#                                          on one scale; the test's own
+#                                          files are not drawn again
+#
+# COLOR: mat (the material, itetclr) | node:NAME | cell:NAME |
+#        attr:NAME (vertex attribute if there is one, else cell) |
+#        aspect (aspect ratio, as LaGriT's quality command); a range
+#        such as aspect[0,1] fixes the ends of the colour scale
+# User's comments, Oct 17 2026 (test_lagrit_upstream_comments.txt).
+
+interp_continuous | interp
+interp_map        | interp
+interp_voronoi    | interp
+
+pset | hide   | output_mesh_psets.inp
+pset | insert | ^\s*dump\s*/\s*avs\s*/\s*output_mesh_psets\.inp | dump / avs / zz_mesh_psets.inp / mo
+pset | draw   | zz_mesh_psets.inp | node:imt1 | imt: 2 pset1 (r<=5), 3 pset2 (box 7-10)
+
+smooth_massage | color | out_final.inp | aspect
+
+quad_quality | color | output_test0*.inp | cell:quality
+quad_quality | draw  | output_test04.inp | cell:qflag | output_test04.inp: qflag (0 good, 1 degenerate, 2 warped)
+quad_quality | draw  | output_test05.inp | cell:regularity | output_test05.inp: regularity (1 flat, 0 warped)
+quad_quality | draw  | output_test05.inp | cell:qflag | output_test05.inp: qflag (0 good, 1 degenerate, 2 warped)
+
+quality | draw | input_tet_equilateral.inp | aspect[0,1] | equilateral tet
+quality | draw | input_tet_sliver.inp      | aspect[0,1] | sliver
+quality | draw | input_tet_cap.inp         | aspect[0,1] | cap
+quality | draw | input_tet_needle.inp      | aspect[0,1] | needle
+quality | draw | input_tet_wedge.inp       | aspect[0,1] | wedge
+quality | draw | input_tet_right.inp       | aspect[0,1] | right-angle tet

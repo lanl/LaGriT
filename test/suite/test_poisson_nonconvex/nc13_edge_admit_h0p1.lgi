@@ -1,0 +1,34 @@
+#####################################################################
+# nc13_edge_admit_h0p1.lgi
+#
+# polygon : saw_edge_admit.poly
+# h       : 0.1
+# expect  : recovered
+#
+# EXPECT:
+#   Nonconvex WARNING. No ERROR. Clip recovers the outline.
+#
+# NOTE:
+#   ANGLE CUTOFF, ADMIT SIDE. Paired with nc14.
+#
+#   Minimum vertex angle 9.10 deg, 0.10 above POI_ANGLE_MIN_DEG
+#   = 9.0, measured from the written coordinates the same way
+#   the driver measures it. This is the sharpest tooth the suite
+#   asks the driver to mesh.
+#
+#   tooth half width / h = 4.17, the same resolution as nc12,
+#   so a degraded result here is caused by the sharp tooth, not
+#   by the sample spacing.
+#
+#   If this deck is REFUSED, the angle comparison in
+#   poi_2d_validate_polygon is on the wrong side of 9.0, or the
+#   driver measures angles differently from make_sawtooth.py.
+#####################################################################
+read / avs / saw_edge_admit.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.1 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc13_edge_admit_h0p1.inp / mo_pts
+finish

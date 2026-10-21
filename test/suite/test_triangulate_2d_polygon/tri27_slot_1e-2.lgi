@@ -1,0 +1,19 @@
+#####################################################################
+# tri27_slot_1e-2.lgi
+#
+# polygon  : slot_1e-2.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   control for tri28/29: a slot cut down from the top of the
+#   unit square; its sharp tip stops 0.01 above the bottom edge.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / slot_1e-2.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri27_slot_1e-2.inp / mo_tri
+finish

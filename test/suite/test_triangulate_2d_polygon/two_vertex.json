@@ -1,0 +1,11 @@
+{
+ "name": "two_vertex",
+ "description": "2 vertices: not a polygon",
+ "vertices": 2,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 0.0,
+ "orientation": "none",
+ "area": 0.0
+}

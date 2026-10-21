@@ -1,0 +1,11 @@
+{
+ "name": "sq_k1000",
+ "description": "unit square, 1000 segments per side",
+ "vertices": 4000,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 1.0
+}

@@ -1,0 +1,16 @@
+# ic28_continuous_hex_vs_hextotet24.lgi
+# A CURVED field g = xy + z^2 + sin 2x on the warped hexes of ic25
+# (LaGriT's numbering): interpolating from the hexes (gh) must equal
+# hextotet / 24 followed by interpolating from its tets (gt), since
+# interpolate splits each hex into those same 24 tets. (Neither equals
+# g exactly: the error is the mesh's.)
+# check: equal | out_ic28.inp | gh,gt
+read / avs / src_hex_warp_g.inp / mo_src
+read / avs / sink_warp.inp / mo_snk
+cmo / addatt / mo_snk / gh / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / gt / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk gh / 1,0,0 / mo_src g
+hextotet / 24 / mo_tet / mo_src
+interpolate / continuous / mo_snk gt / 1,0,0 / mo_tet g
+dump / avs / out_ic28.inp / mo_snk
+finish

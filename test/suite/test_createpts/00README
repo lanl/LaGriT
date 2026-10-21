@@ -1,0 +1,278 @@
+=======================================================================
+ test_createpts - the createpts command (point distributions)
+=======================================================================
+
+WHAT THIS IS
+
+  Tests of LaGriT's createpts, the options most used first:
+
+      createpts / xyz | rtz | rtp / ni,nj,nk / mins / maxs / iiz,ijz,ikz
+                [ / irat,jrat,krat / rx,ry,rz ]
+      createpts / line / n / / / start / end / iz ...
+      createpts / brick / xyz | rtz / ...            (vertices + hexes)
+
+  Each deck makes vertices, dumps them, and (where they span a volume or
+  a plane) connects them into a mesh: tets for 3D sets (filter, rmpoint
+  / compress, connect), triangles for a planar set (triplane), or the
+  brick's own hexes and quads. The checker compares the vertices with
+  where the DOCUMENTATION says they go (lanl.github.io/LaGriT, the
+  createpts pages), not with a copy of the code.
+
+  Not yet covered (planned, after these have run): sphere, random,
+  vector, interp, voronoi, median, amr. poisson_disk has its own suites.
+
+QUICK START
+
+  run_createpts_tests.sh                           about 12 seconds
+
+  then open logs/summary.html.
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+  Oct 13 2026, round 2 of the user's comments (42 decks, renumbered):
+    with FIX 1-3 (createpts_lg.f, rzbrickg.f):
+      58 PASS, 3 REPORTED, 14 REFUSED, 1 KNOWN, 0 FAIL (76 decks,
+      Oct 16; needs every createpts commit, the last one
+      the brick re-type fix)
+    without them (the original code): 17 FAIL, 4 of them crashes.
+  Build LaGriT with both fixed files BEFORE running this version.
+
+-----------------------------------------------------------------------
+THE TESTS (case groups, in this order on the page)
+-----------------------------------------------------------------------
+
+  xyz     cp01-07  vertices, cell centres, mixed; one layer (triangles);
+                   ratio zoning in x; ratio 1.5 in x, y and z; two blocks
+                   mirrored about x = 0 (ratio 1.2 and 1/1.2), merged
+                   with addmesh / merge, filter, then connected as one
+  rtz     cp08-12  the doc's example (264 vertices, 55 on the axis); full
+                   circle with a 0/360 seam; a quarter annulus; 720 deg
+                   with 5 angles (repeats) and with 30 angles (the
+                   user's example: 29 distinct, evenly spaced): both WARN
+  rtp     cp13-16  the user's LANL sphere demo, all of it (meshing.lanl.
+                   gov DEMO_sphere_mesh_generation; the decks as given
+                   are in demo_sphere/): hex icosahedral spheres (162,
+                   642), a tet sphere from a projected cube, a tet
+                   icosahedral sphere, the tet rtp shells (checked as a
+                   shell r 1-3 in two materials) and a hex sphere in a
+                   hex box cut to an octant; pictured as the six meshes
+                   side by side, the box octant top right; a full sphere
+                   (theta and phi doubled); an octant of a shell; theta
+                   and phi both 0-360 (a double cover: WARNS)
+  line    cp17-21  ends included; cell centres; ratio zoning (31 vertices,
+                   length 2); ratio 1.0 with cell centres (KNOWN)
+  brick   cp22-34  the doc's hex example x4; ratio; quads in the xy, xz
+                   and yz planes, each with the flat direction's switch
+                   0 and 1 (1 crashed before FIX 3); hex cylinder closed
+                   by filter / rmpoint / resetpts; the same with jsym
+                   (periodic in theta); the doc's quadxyz + connect
+                   example (cp32 since Oct 16: the hex brick in a mesh
+                   object made with no cell type, as LaGriT's own tests
+                   do); a brick added to existing vertices
+  interp  cp35-40  createpts / brick / interp between two quad surfaces;
+                   two quad surfaces, the upper turned 45 deg, -> twisted hexes; the doc's point-set example
+                   in a triplane, a tet and a line mesh object (KNOWN:
+                   single precision; tet refused; line: type 'qud');
+                   two lines of cells -> quads
+  vector  cp41-45  the doc's simple cubic, body centred cubic, hexagonal
+                   lattice and rtz spiral (checked against the documented
+                   meaning); the doc's fcc example as written (it says
+                   createpts/xyz: REPORTED)
+  random  cp46-51  a box (corners, edges, faces, interior offset by
+                   edgedist), the same seeds twice (identical), a
+                   cylinder, a sphere surface (each connected); the doc's rtz and rtp
+                   examples as written (REPORTED: they do not make what
+                   the doc says)
+  amr     cp52-55  a 10 x 10 x 2 hex brick refined twice in a box region,
+                   connected (user, Oct 16); the doc's whole demo (KNOWN:
+                   connect crashes, multi_material); a 2 x 2 x 2 brick
+                   with a region; no region
+  median  cp56-59  the doc's quads, ratio hexes, random tets (xmed etc.
+                   = the average of the cell's vertices); no cells
+                   (KNOWN: no message)
+  voronoi cp60-64  the doc's tets, random tets (equidistant from the 4
+                   vertices), triangles; hexes and no cells (KNOWN: no
+                   proper ERROR)
+  syntax  cp65-71  INPUT CHECKING (all ERRORs since FIX 2): negative
+                   count; count 0; a line of 1 point; command cut
+                   short; ratio switches without ratios; unknown option;
+                   no option
+  errors  cp72-76  a brick added to a mesh object that already has tets;
+                   a quad brick added to one that already has hexes; a
+                   brick row along y; no mesh object
+
+  Oct 15 2026: the sphere demo inserted as cp13 (user); every deck from
+  the old cp13 on moved up by one (cp13-42 -> cp14-43); old cp15 (rtp
+  theta over 180) replaced by cp16 (theta and phi over 180: the only
+  real double cover with theta 0-360). Later the same day: new group
+  interp (cp33) after brick; syntax and errors moved up by one
+  (cp33-43 -> cp34-44). Then the second batch (vector, random, amr,
+  median, voronoi; more interp): cp34-73, syntax and errors at the end.
+  Oct 16 2026: new cp32 brick_hex_default_mo; every deck from the old
+  cp32 on moved up by one (cp32-75 -> cp33-76). errors_brick_in_tet_mo
+  and errors_quad_brick_in_hex_mo became errors_brick_into_tets and
+  errors_quad_brick_into_hexes (createpts_lg.f FIX 3).
+
+  Renumbered Oct 13 2026, round 2 (old -> new):
+    cp01-05 -> cp01-05   cp06 (ratio + cell centres) removed (user)
+    cp07-10 -> cp08-11   cp11-12 -> cp13-14   cp13-16 -> cp16-19
+    cp17 (line, one point) -> cp34 (now an ERROR)
+    cp18-21 -> cp20-23   cp22-25 -> cp28-31   cp26-27 -> cp32-33
+    cp28 -> cp35   cp29-30 -> cp37-38   cp31 -> cp39   cp32 -> cp42
+    new: cp06, cp07, cp12, cp15, cp24-27, cp36, cp40, cp41
+  compare_results.py pairs this suite's rows by name without the
+  number, so old and new snapshots still line up.
+
+  Each deck's header says what it tests, what the documentation says,
+  and, for KNOWN, REPORTED and fixed rows, what was FOUND.
+
+  LaGriT reads only the first 80 columns of an input line; the rest
+  is dropped without a message. The runner FAILs any deck line over 80
+  characters: continue a long line with &, or define a value first.
+
+WHERE THE POINTS SHOULD BE (the checker's reading of the documentation)
+
+  Along each direction, n values from min to max:
+    iz = 1   min and max are the first and last values, equal steps;
+             with ratio zoning r the steps are s, s r, s r^2 ... ending
+             exactly at max
+    iz = 0   the centres of n equal cells between min and max
+    n = 1    the middle, (min + max) / 2
+  rtz: (r cos t, r sin t, z); rtp: (r sin t cos p, r sin t sin p,
+  r cos t), t and p in degrees, t from +z (rtp), from +x (rtz).
+  Exactly: see the opening comment of check_createpts.py.
+
+  Words (user, Oct 16): VERTEX for anything stored in a mesh object,
+  with or without cells; POINT only for a place in space that is not
+  stored (an expected position); NODE only in LaGriT's own names.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  PASS      the vertices are where documented, and the mesh is valid:
+            right cell type and count, no cell of volume <= 0, no
+            unused vertex, cells filling the vertices' convex hull
+            exactly (xyz, rtz), one mesh vertex per distinct point
+  REPORTED  it ran and nothing is wrong by the documentation, but the
+            documentation does not say what should happen (# open) or
+            the checker noted something (coincident mesh vertices):
+            read the row's check report. These need a decision.
+  REFUSED   expect error: the ERROR came, with the expected text
+  KNOWN     a documented failure ("# known" in the deck): still fails
+  FIXED     a KNOWN deck that now passes: update its header
+  FAIL      anything else (including any "error in command" in a
+            deck that should run cleanly)
+
+  The exit status is nonzero on any FAIL.
+
+-----------------------------------------------------------------------
+NO OPEN QUESTIONS (Oct 13: jsym documented)
+-----------------------------------------------------------------------
+
+KNOWN
+
+  cp53  the doc's amr demo crashes in connect (multi_material; not
+        createpts; also with filter first). PARKED (user, Oct 16:
+        leave multi_material.f and connect.f alone for now).
+        Where: invalid write at multi_material.f line 982,
+        icontab(1,nconbnd)=n (a new interface-type entry), called
+        from connect.f line 886 (valgrind, Debug build). Also
+        crashes with imt 1, with connect before setpts, and with or
+        without cmo/release mo_hex.
+        Way round it (user): set imt 1 on every vertex, connect,
+        then setpts / settets. It runs (volume 1, 2194 tets), but
+        connect sees one material, so the mesh does not follow the
+        interface: settets reports 249 multimaterial tets, which
+        cross the plane x = z.
+
+FIXED Oct 15 2026 (one commit)
+
+  amr: no region (segfault), more than one hex (memory corrupted),
+  coincident vertices, unknown region / non-hex cell (now ERRORs);
+  interp: single precision, vertices only in a 3D mesh object, 'qud';
+  brick appended to existing vertices (itp1); line cell centres with
+  ratio zoning (new deck line_centres_ratio); median with no cells
+  (WARNING); voronoi on non-tri/tet cells or no cells (ERROR)
+
+FIXED Oct 13 2026
+
+  FIX 1 createpts_lg.f  no mesh object: an ERROR, not a crash (cp44)
+  FIX 2 createpts_lg.f  ERRORs for bad input (cp34-43), WARNINGs for
+                        angles covering the circle or the sphere
+                        more than once (cp11, 12, 16)
+  FIX 3 rzbrickg.f      one vertex in a direction with its switch on:
+                        no more heap overrun (cp24, cp26, cp28)
+  zq.f (Oct 15)         zq on an added attribute (e.g. isetwd) tested
+                        two error codes it never set: whether the
+                        values were set depended on leftover memory
+                        (cp33)
+
+FIXED Oct 16 2026 (brick re-type)
+
+  createpts_lg.f FIX 3  a brick in a mesh object of another cell type
+                        is refused only when that mesh object already
+                        has cells (cp73, cp74); an empty one is re-typed
+                        by brick, as the original code did (cp32).
+                        FIX 2 had refused any non-hex/quad/line mesh
+                        object, which broke LaGriT's own tests filter,
+                        quality and surface (test_lagrit_upstream).
+
+-----------------------------------------------------------------------
+COMMENTING ON THE PAGE (user, Oct 12 2026)
+-----------------------------------------------------------------------
+
+  Every row of logs/summary.html has a comment box. Type under any row
+  (an empty box means no change); a box with text turns amber, and the
+  bar at the top counts them. Comments stay in the browser (per suite)
+  until "Clear all", so the page can be closed and reopened, and they
+  survive a rerun of the suite.
+    Copy all comments   copies them as text, to paste into the chat
+    Save as file        writes test_createpts_comments.txt to Downloads
+  Each comment is written with its row's name and result, so it can be
+  matched to its deck.
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  Left: the vertices createpts wrote, seen from the +x, -y side with z
+  up (a flat set from above); darker = nearer. A RED RING marks
+  vertices at the same place, with their count (x6 on the axis, x2 on
+  a seam). Right: the mesh, its outer faces shaded. A flat mesh in the
+  xz or yz plane is drawn in the same 3D view.
+
+OUTPUT
+
+  logs/summary.html     EVERYTHING ON ONE PAGE, grouped
+  logs/table.txt        the results table
+  logs/<deck>.check     the check report
+  logs/<deck>_pts.svg, logs/<deck>_mesh.svg   the two pictures
+  logs/<deck>.stdout, .lagrit.log, .lagrit.out, .all
+  out_cpNN_pts.inp      the vertices, straight after createpts
+  out_cpNN_mesh.inp     the connected mesh
+
+-----------------------------------------------------------------------
+OLD DECKS
+
+  DECKS.txt (written by make_decks.py) lists this suite's decks. Any
+  other cp*.lgi, e.g. an old deck left behind when a newer archive was
+  unpacked over an older one (tar adds and replaces files, it never
+  deletes), is not run; the runner names it and prints the rm command.
+
+ADDING A TEST
+
+  The decks are written by make_decks.py (one case() per deck; numbers
+  follow the group order). Add or change a case() there and run
+  python3 make_decks.py, rather than editing a cpNN deck by hand.
+
+  Copy a deck of the same group, change the createpts line and its
+  "# spec" (the same numbers, in the checker's words: see
+  check_createpts.py), keep every name within 32 characters and every
+  line within 80. For
+  behaviour the documentation does not settle, add "# open : ...";
+  for a bug, "# known : ..." and a FOUND note.
+
+SEE ALSO
+  ../00README                  index of all the suites
+=======================================================================

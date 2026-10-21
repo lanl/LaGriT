@@ -1,0 +1,23 @@
+#####################################################################
+# cp73_errors_brick_into_tets.lgi
+#
+# group    : errors
+# expect   : error
+# reason   : already has
+#
+# WHAT:
+#   a brick added to a mesh object that already HAS tets: hexes cannot
+#   join tets in one mesh object. REFUSED (user, Oct 16; FIX 3). An
+#   EMPTY mesh object of any type is re-typed by brick instead (deck
+#   brick_hex_default_mo).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   original code: accepted. The 48 tets and 64 hexes end up in one mesh
+#   object whose cell type brick set to hex: 112 cells, the tets read
+#   as 8-vertex cells. FIX 2 to FIX 3: refused for any tet mesh object.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 3,3,3 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+connect
+createpts / brick / xyz / 5,5,5 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+finish

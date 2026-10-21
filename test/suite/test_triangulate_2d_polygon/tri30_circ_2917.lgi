@@ -1,0 +1,20 @@
+#####################################################################
+# tri30_circ_2917.lgi
+#
+# polygon  : circ_2917.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   circle of radius 1 with 2917 vertices. The old code worked
+#   up to 2916 and failed from 2917: there, every consecutive vertex
+#   triple fell under the fixed 1e-8 tolerance.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   FAILS: "ERROR: Unable to triangulate input".
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / circ_2917.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri30_circ_2917.inp / mo_tri
+finish

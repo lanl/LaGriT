@@ -1,70 +1,117 @@
-name: LaGriT Build Status
+name: LaGriT build and test
 
-on: [push, pull_request]
+# Builds LaGriT (Release, without Exodus) on Linux with GCC 13 (Ubuntu
+# 24.04's own) and GCC 14, and on macOS (Apple clang + Homebrew gfortran),
+# and runs the test suite in test/suite (see test/suite/README.md), which
+# also runs every test/level01 test. The result pages of each run, and the
+# lagrit it built, can be downloaded from the run's Summary page (Artifacts).
+#
+# Runs on pushes to master, on every pull request, and by hand from the
+# Actions tab ("Run workflow"; tick "big" for the slow parts as well:
+# tri21 and the connect timing suite, about 10 minutes more).
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      big:
+        description: "Also run the slow parts (BIG=1)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# a newer push to the same branch or pull request cancels the older run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    #name: ${{ matrix.config.name }}
+  build-and-test:
+    name: ${{ matrix.label }}
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macOS-latest]
-        gcc_v: [9] # Version of GFortran we want to use.
-    env:
-      FC: gfortran-${{ matrix.gcc_v }}
-      GCC_V: ${{ matrix.gcc_v }}
+        include:
+          - { label: linux-gcc13, os: ubuntu-24.04, gcc: 13 }
+          # gcc14 also turns on the C++ library's bounds checks
+          # (_GLIBCXX_ASSERTIONS): an out-of-range std::vector index aborts
+          # instead of silently reading or writing memory
+          - { label: linux-gcc14, os: ubuntu-24.04, gcc: 14, cxxflags: -D_GLIBCXX_ASSERTIONS }
+          - { label: macos,       os: macos-15 }
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: lukka/get-cmake@latest
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
+      - uses: actions/checkout@v5
+
+      - name: Install compilers (Linux)
+        if: runner.os == 'Linux'
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade coverage
-          python -m pip install --upgrade cmake
-      - name: Install GFortran Linux
-        if: contains(matrix.os, 'ubuntu')
-        run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
-          sudo apt-get install -y gcc-${GCC_V} gfortran-${GCC_V}
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-${GCC_V} 100 \
-          --slave /usr/bin/gfortran gfortran /usr/bin/gfortran-${GCC_V} \
-          --slave /usr/bingcov gcov /usr/bin/gcov-${GCC_V}
-      - name: Install GFortran macOS
-        if: contains(matrix.os, 'macos')
-        run: brew install gcc@${GCC_V} || brew upgrade gcc@${GCC_V} || true
-      - name: Compile Exodus
+          sudo apt-get install -y gcc-${{ matrix.gcc }} g++-${{ matrix.gcc }} gfortran-${{ matrix.gcc }}
+          echo "CC=gcc-${{ matrix.gcc }}"       >> "$GITHUB_ENV"
+          echo "CXX=g++-${{ matrix.gcc }}"      >> "$GITHUB_ENV"
+          echo "FC=gfortran-${{ matrix.gcc }}"  >> "$GITHUB_ENV"
+
+      - name: Install gfortran (macOS)
+        if: runner.os == 'macOS'
         run: |
-          mkdir -p ~/TPLs/build/
-          mkdir -p ~/TPLs/install/
-          EXO_BUILD_DIR=$HOME/TPLs/build/ \
-          EXO_INSTALL_DIR=$HOME/TPLs/install/ \
-          ./install-exodus.sh
-      - name: Build/test LaGriT
+          brew list gcc > /dev/null 2>&1 || brew install gcc
+          fc="$(brew --prefix)/bin/gfortran"
+          [ -x "$fc" ] || fc=$(ls "$(brew --prefix)"/bin/gfortran-[0-9]* | sort -V | tail -1)
+          echo "FC=$fc" >> "$GITHUB_ENV"
+
+      - name: Show compilers
         run: |
-          mkdir build/ && mkdir install/ && cd build/
-          cmake .. \
-            -D LaGriT_BUILD_STATIC=ON \
-            -D CMAKE_BUILD_TYPE=Debug \
-            -D Exodus_ROOT=${EXO_INSTALL_DIR} \
-            -D CMAKE_INSTALL_PREFIX=$(pwd)/../install/
-          make && make install
-      - name: Test PyLaGriT
+          "$FC" --version | head -1
+          ${CC:-cc} --version | head -1
+          cmake --version | head -1
+          python3 --version
+
+      - name: Configure
+        run: cmake -S . -B build -D CMAKE_BUILD_TYPE=Release -D "CMAKE_CXX_FLAGS=${{ matrix.cxxflags }}"
+
+      - name: Build
+        run: cmake --build build --parallel 4
+
+      - name: Smoke test
         run: |
-          echo "lagrit_exe : '$(pwd)/install/bin/lagrit'" >> ~/.pylagritrc
-          cat ~/.pylagritrc
-          cd PyLaGriT/
-          python3 setup.py install
-          python3 -c "from pylagrit import PyLaGriT; lg = PyLaGriT(); lg.sendline('cmo/status')"
-      - name: Upload compiled LaGriT
-        uses: actions/upload-artifact@v2.2.4
+          echo "finish" | ./build/lagrit -log smoke.log -out smoke.out > smoke.txt 2>&1 || true
+          grep -q "LaGriT successfully completed" smoke.txt || { cat smoke.txt; exit 1; }
+
+      - name: Test suite
+        working-directory: test/suite
+        env:
+          BIG: ${{ inputs.big && '1' || '0' }}
+        run: sh run_all.sh ../../build/lagrit
+
+      - name: Show the rows that did not pass
+        if: failure()
+        working-directory: test/suite
+        run: |
+          echo "Rows that did not pass (all output: run_all.log in the test-results artifact):"
+          grep -E " (FAIL|FIXED) " run_all.log | grep -v "^test_" | head -100 || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v6
         with:
-          name: lagrit-${{ matrix.os }}
-          path: ./install/bin/lagrit
+          name: test-results-${{ matrix.label }}
+          path: |
+            test/suite/summary.html
+            test/suite/run_all.log
+            test/suite/*/logs/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload lagrit
+        uses: actions/upload-artifact@v6
+        with:
+          name: lagrit-${{ matrix.label }}
+          path: build/lagrit
           if-no-files-found: error
           retention-days: 30

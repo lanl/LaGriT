@@ -1,0 +1,20 @@
+#####################################################################
+# tri41_issue239_near.lgi
+#
+# polygon  : issue239_near.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   the issue 239 shape with the tip only 1e-11 ABOVE the
+#   diagonal, i.e. just inside the big upper-left cell.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   INVALID: the same three cells, which now OVERLAP (the tip
+#   pokes 1e-11 into cell (1,2,3)). No error or warning.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / issue239_near.poly / mo_tri
+triangulate / clockwise
+dump / avs / out_tri41_issue239_near.inp / mo_tri
+finish

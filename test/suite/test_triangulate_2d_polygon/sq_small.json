@@ -1,0 +1,11 @@
+{
+ "name": "sq_small",
+ "description": "square of side 0.01, 101 segments per side",
+ "vertices": 404,
+ "xmin": 0.0,
+ "xmax": 0.01,
+ "ymin": 0.0,
+ "ymax": 0.01,
+ "orientation": "counterclockwise",
+ "area": 0.0001
+}

@@ -1,0 +1,19 @@
+#####################################################################
+# tri13_star_500.lgi
+#
+# polygon  : star_500.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   STARBURST: 500 sharp spikes, inner radius 0.001: the inner
+#   vertices crowd together near the centre. Precision.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   FAILS: "ERROR: Unable to triangulate input".
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / star_500.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri13_star_500.inp / mo_tri
+finish

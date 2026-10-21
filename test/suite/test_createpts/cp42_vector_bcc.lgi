@@ -1,0 +1,27 @@
+#####################################################################
+# cp42_vector_bcc.lgi
+#
+# group    : vector
+# expect   : valid
+# spec     : vector xyz 2,2,2 .5,.5,.5 .5,.5,-.5 .5,-.5,-.5
+# points   : out_cp42_pts.inp
+# mesh     : out_cp42_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the doc's body centred cubic example: 3 x 3 x 3 = 27 points along
+#   three vectors to cube centres.
+# FROM THE DOCUMENTATION: CRTPTRZV_LG.md, body centred cubic
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/vector/xyz/2,2,2/.5,.5,.5/.5,.5,-.5/.5,-.5,-.5/
+dump / avs / out_cp42_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp42_mesh.inp / mo_tet
+finish

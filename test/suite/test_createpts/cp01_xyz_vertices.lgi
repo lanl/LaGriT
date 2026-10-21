@@ -1,0 +1,26 @@
+#####################################################################
+# cp01_xyz_vertices.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 9,5,7 0.,2.,0. 5.,6.,2. 1,1,1
+# points   : out_cp01_pts.inp
+# mesh     : out_cp01_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   9 x 5 x 7 points; min and max are the first and last points (1,1,1).
+# FROM THE DOCUMENTATION: the doc's first example (box 5 x 4 x 2), finer
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 9,5,7 / 0.,2.,0. / 5.,6.,2. / 1,1,1
+dump / avs / out_cp01_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp01_mesh.inp / mo_tet
+finish

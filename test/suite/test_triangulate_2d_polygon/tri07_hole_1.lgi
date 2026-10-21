@@ -1,0 +1,75 @@
+#####################################################################
+# tri07_hole_1.lgi
+#
+# polygon  : hole_1.poly
+# expect   : valid
+# boundary_angle: 90
+# min_angle: 22
+# check    : out_tri07_hole_1.inp hole_1.poly
+# check    : refined out_tri07_hole_1_ref.inp hole_1.poly
+#
+# WHAT:
+#   HOLE: a square with one square hole. triangulate has no
+#   holes; the hole is joined to the outside by a zero-width slit
+#   travelled both ways (a "keyhole"), so the slit's two end
+#   vertices are listed twice. filter then merges them.
+#
+#   Step 2 (added Oct 12 2026): the mesh is refined (rivara, edges
+#   longer than EDGELEN1 = 0.5, then EDGELEN2 = 0.25) and smoothed
+#   (esug + recon, three times after each), then checked again as
+#   a refined mesh: out_tri07_hole_1_ref.inp.
+#
+#   TWO PASSES (user, Oct 12 2026): refine to EDGELEN1 = 0.50, smooth
+#   and recon three times, then refine to EDGELEN2 = 0.25 and smooth
+#   again (last recon / 1). One pass straight to 0.25 left the long
+#   cells of the starting mesh visible (tri07 not isotropic).
+#
+#   MEASURED (user's Mac, Oct 12 2026, two passes + recon / 1):
+#   smallest angle 24.76 deg, no cell under 20 deg, every boundary angle
+#   under 90 deg. "# min_angle : 22" fails a later run that is worse.
+#
+#   CONTROL VOLUME CONDITION (user, Oct 12 2026): the LAST recon is
+#   recon / 1, which adds vertices on the boundary where needed so that
+#   no boundary cell faces the boundary with an angle over 90 deg (its
+#   circumcentre stays inside the domain, so each boundary vertex's
+#   Voronoi cell is closed by the boundary: needed for two point flux
+#   in a control volume solver; "A point-placement strategy for
+#   conforming Delaunay tetrahedralization", IJCGA 11(6) 669-682, and
+#   SODA 2000 pp. 67-74). "# boundary_angle : 90" makes that HARD. The
+#   filter and rmpoint / compress that used to follow were dropped: on
+#   a correct mesh they do nothing; the checker fails a mesh with
+#   coincident or unused vertices instead.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / hole_1.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri07_hole_1.inp / mo_tri
+# ---- step 2: refine and smooth (as tri01 and LaGriT's own
+#      test/level01/smooth_massage)
+define / EDGELEN1 / 0.50
+define / EDGELEN2 / 0.25
+cmo / select / mo_tri
+quality
+refine / rivara / / / edge / 1,0,0 / EDGELEN1 / / / inclusive
+quality
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+refine / rivara / / / edge / 1,0,0 / EDGELEN2 / / / inclusive
+quality
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 0
+smooth / position / esug / 1 0 0
+recon / 1
+resetpts / itp
+quality
+dump / avs / out_tri07_hole_1_ref.inp / mo_tri
+finish

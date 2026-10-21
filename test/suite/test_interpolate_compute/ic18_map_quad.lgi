@@ -1,0 +1,11 @@
+# ic18_map_quad.lgi
+# interpolate / map of a CELL value (cval = the cell number) from
+# quads (36) onto a squeezed triangle mesh: each sink cell takes the value of the source cell
+# that contains its centroid (found geometrically by check_ic.py).
+# check: map | out_ic18.inp | cv | src_quad.inp
+read / avs / src_quad.inp / mo_src
+read / avs / sink2d_tri.inp / mo_snk
+cmo / addatt / mo_snk / cv / VDOUBLE / scalar / nelements
+interpolate / map / mo_snk cv / 1,0,0 / mo_src cval
+dump / avs / out_ic18.inp / mo_snk
+finish

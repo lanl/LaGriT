@@ -1,0 +1,10 @@
+#####################################################################
+# err05_h_negative.lgi
+#
+# EXPECT:
+#   One ERROR block, same as err04.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / -0.05 / connect
+finish

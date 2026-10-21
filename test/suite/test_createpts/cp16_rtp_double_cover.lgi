@@ -1,0 +1,22 @@
+#####################################################################
+# cp16_rtp_double_cover.lgi
+#
+# group    : rtp
+# expect   : valid
+# warns    : more than once
+# spec     : rtp 3,9,9 0.,0.,0. 1.,360.,360. 1,1,1
+# points   : out_cp16_pts.inp
+#
+# WHAT:
+#   theta AND phi both 0 to 360 deg: every point of the sphere is made
+#   at least twice. Must WARN. (theta 0-360 with phi 0-180, as in the
+#   user's sphere demo, covers the sphere once and must NOT warn.)
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   first FIX 2 (Oct 13) warned for theta over 180 alone, which
+#   also caught the demo's valid theta 0-360 / phi 0-180 (Oct 15).
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtp / 3,9,9 / 0.,0.,0. / 1.,360.,360. / 1,1,1
+dump / avs / out_cp16_pts.inp / mo_tet
+finish

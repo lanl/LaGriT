@@ -1,0 +1,22 @@
+#####################################################################
+# nc04_h0p6.lgi
+#
+# polygon : saw_safe.poly
+# h       : 0.6
+# expect  : recovered
+#
+# EXPECT:
+#   Nonconvex WARNING. Recovery should still be good,
+#   but this is the transition region.
+#
+# NOTE:
+#   tooth half width / h = 1.04. Approaching the limit.
+#####################################################################
+read / avs / saw_safe.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.6 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc04_h0p6.inp / mo_pts
+finish

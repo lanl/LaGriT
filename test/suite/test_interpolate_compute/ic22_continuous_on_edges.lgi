@@ -1,0 +1,15 @@
+# ic22_continuous_on_edges.lgi
+# interpolate / continuous from the 2D triangle mesh of ic13 onto a
+# 101 x 101 grid of points, many of which lie EXACTLY on an edge shared
+# by two source triangles (found by the demonstration page, Oct 20
+# 2026). Every point must get the exact linear value.
+# Before the inside_tri2d fix of Oct 2026, 109 of the 10,201 points
+# (on interior diagonal edges) were found in neither triangle and got
+# the flag value (max + 1).
+# check: linear | out_ic22.inp | fc
+read / avs / src_tri.inp / mo_src
+read / avs / sink2d_grid.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic22.inp / mo_snk
+finish

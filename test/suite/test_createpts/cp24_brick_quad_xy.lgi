@@ -1,0 +1,21 @@
+#####################################################################
+# cp24_brick_quad_xy.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 7,5,1 0.,0.,0. 3.,2.,0. 1,1,0
+# points   : out_cp24_pts.inp
+# mesh     : out_cp24_pts.inp quad
+#
+# WHAT:
+#   one layer of quads in the xy plane (nk = 1), with ikz = 0: 35
+#   vertices, 24 quads. rzbrick3.f has a branch for each plane (nk = 1,
+#   nj = 1, ni = 1). The other way to the same quads: quadxy, then
+#   createpts / brick / xyz / 7,5,1 / 1,0,0 / connect (see the
+#   connect deck).
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 7,5,1 / 0.,0.,0. / 3.,2.,0. / 1,1,0
+dump / avs / out_cp24_pts.inp / mo_quad
+quality
+finish

@@ -1,0 +1,18 @@
+#####################################################################
+# tri32_sq_small.lgi
+#
+# polygon  : sq_small.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   square of side 0.01, 101 segments per side.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   FAILS: "ERROR: Unable to triangulate input".
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_small.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri32_sq_small.inp / mo_tri
+finish

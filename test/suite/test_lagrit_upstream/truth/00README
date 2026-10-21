@@ -1,0 +1,12 @@
+truth/ -- truth files of our own (test_lagrit_upstream)
+
+compare_outputs.py compares every output file a LaGriT test writes with
+the copy kept in that test's reference/ folder. Where the reference copy
+is out of date for LaGriT itself (unchanged upstream would fail it), put
+the file to compare against here instead, as truth/<test>/<file>, taken
+from a run whose result is known to be correct, and say here where it
+came from.
+
+Oct 17 2026: none needed. The .stor files whose reference copies date
+from 2017 differ only in their date line (skipped) and in numbers within
+the tolerance, so they pass against reference/.

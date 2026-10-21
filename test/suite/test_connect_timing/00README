@@ -1,0 +1,120 @@
+test_connect_timing -- how connect's time grows with the number of
+vertices, and whether vertex order matters (user, Oct 17 2026)
+=======================================================================
+
+QUICK START
+
+  BIG=1 run_connect_timing.sh             1000 to 256000 vertices,
+                                            about 5 minutes
+  run_connect_timing.sh                    1000 to 16000, about 25 s
+  open logs/summary.html
+
+  run_all.sh SKIPS this suite; BIG=1 run_all.sh runs it.
+
+WHAT IT DOES
+
+  Points: the corners of the unit square (2D) or cube (3D), then
+  uniformly random points inside (seed 1; the same set for every
+  order). The corners make the convex hull the unit box, as in
+  LaGriT's connect documentation.
+
+  Meshes: 2D in a triplane mesh object (triangles), 3D in a tet mesh
+  object; imt = 1, itp = 0 first (with imt = 0, connect runs its
+  multi-material step and prints a line per "interface").
+
+  Orders, the same points each time:
+    random    as generated
+    xyz       LaGriT's multi-key sort, then reorder:
+                sort / mo_pts / index / ascending / ikey / xic yic zic
+                reorder / mo_pts / ikey
+              y breaks ties in x and z ties in y, but random
+              coordinates never tie, so this is the order of x alone:
+              a sweep along x (see the path picture on the page)
+    xyz_bins  the same multi-key sort on binned coordinates, all in
+              LaGriT commands (3D shown; 2D bins x only and sorts on
+              xbin yic zic):
+                cmo / addatt / mo_pts / xs / VDOUBLE / scalar / nnodes
+                cmo / addatt / mo_pts / xbin / VINT / scalar / nnodes
+                math / multiply / mo_pts / xs / 1,0,0 / mo_pts / xic / K
+                cmo / copyatt / mo_pts mo_pts / xbin xs
+                (the same for y)
+                sort / mo_pts / index / ascending / ikey / xbin ybin zic
+                reorder / mo_pts / ikey
+              K = 0.25 N^(1/dim) rounded (2D 126 slabs at 256000; 3D 16 x
+              16 columns): copyatt from real to integer truncates, so
+              xbin = floor(K x). The vertices run along y (z) in one slab
+              (column), then the next.
+              (Not math / multiply straight into the VINT: that gives a
+              wrong value silently, see the handoff parking lot.)
+    morton    a Z-order (Morton) curve, computed in Python
+              (time_connect.py, morton_key): each coordinate becomes a
+              20-bit integer, the key interleaves their bits from the
+              top (x19 y19 z19 x18 y18 z18 ...), and the points are
+              sorted by the key: the box is visited quadrant (octant)
+              by quadrant, recursively, in a Z pattern
+
+  Timing: only connect. The same deck without connect (read, imt, sort)
+  is run too and its time subtracted. The fastest of 3 runs up to 32000
+  vertices, 1 run above. Times below about 0.05 s are mostly noise.
+
+  Pictures (on the page; not checked): for each order, the path from
+  each vertex to the next (2D, 1000 vertices), and the connected mesh
+  with the vertices coloured by their number (cmo / set_id / mo_pts /
+  node / vnum): 2D 1000 vertices; 3D 3000 vertices, cut open (only the
+  tets with centre y > 0.5). Drawn with test_lagrit_upstream/draw_meshes.py.
+
+FILES
+
+  run_connect_timing.sh  runner (POSIX sh)
+  time_connect.py        writes the points and decks, runs and times
+                         LaGriT (work/d<dim>_n<N>_<order>/: decks, logs;
+                         work/pic_d<dim>_<order>/: the picture meshes)
+  check_connect.py       checks, growth fits, pictures, logs/table.txt
+                         and logs/summary.html. Its opening comment
+                         defines every check.
+  logs/results.txt       one line per case (times, cells, volumes)
+
+THE CHECKS (a timing is never a failure)
+
+  HARD   connect finished; it made cells; no inverted cell
+         (quality / volume / lt 0.)
+  HARD   up to 32000 vertices (2D) or 8000 (3D), the mesh is dumped
+         and checked: every vertex in a cell; Delaunay: for each pair
+         of neighbouring cells, the far vertex is not inside the
+         circumcircle (circumsphere), the determinant scaled by the cell
+         size at most 1e-5
+  REPORTED  the connect time; the growth exponent p (t = a N^p, a least
+         squares fit of log t on log N over the times of 0.05 s or
+         more); the slope between successive sizes; the coverage (the
+         total area or volume of the cells, 1 = the whole box); the
+         cell counts of the orders
+
+RESULTS (sandbox, Oct 17 2026, Release, gfortran 14, Linux; 4 min 44 s)
+
+            random    xyz       xyz_bins  morton    at 256000 vertices
+  2D        N^1.65    N^1.31    N^1.10    N^1.10    20.3, 4.9, 2.1, 2.0 s
+  3D        N^1.28    N^1.19    N^1.07    N^1.06    13.7, 8.4, 4.8, 4.5 s
+
+  connect is worse than linear, and the vertex order matters, most in
+  2D: random order is close to quadratic at the large sizes, the plain
+  xyz sort (a sweep along x) is in between, and the binned multi-key
+  sort is as good as the Z-order curve in 2D and close in 3D: about 10
+  times faster than random at 256000 vertices in 2D, 3 times in 3D.
+  So sorting spatially before connect pays, with LaGriT's own commands.
+
+  Found along the way (REPORTED, not failures):
+  - connect does not reach the convex hull: the cells cover 0.987 of
+    the square at 1000 vertices, 0.9996 at 256000; 0.955 to 0.9965 of
+    the cube (visible on the 3D pictures: tets missing along the box
+    edges). LaGriT's documentation: "A convex geometry is not
+    guaranteed".
+  - In 3D the orders give slightly different tet counts (e.g. 1719805
+    to 1719811 at 256000). Each mesh is Delaunay within LaGriT's
+    tolerance (worst in-sphere value about 1e-7 at 32000):
+    near-cospherical points can be split either way.
+
+ADDING A SIZE OR AN ORDER
+
+  QUICK, BIG and ORDERS at the top of time_connect.py; a new order needs
+  its points (or its sort commands) in main() and deck(), and a colour
+  in check_connect.py (ORDERS and COL).

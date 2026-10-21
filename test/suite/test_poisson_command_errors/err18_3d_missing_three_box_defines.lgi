@@ -1,0 +1,18 @@
+#####################################################################
+# err18_3d_missing_three_box_defines.lgi
+#
+# blocks   : 1
+# contains : POI_XMAX | POI_YMAX | POI_ZMAX
+#
+# EXPECT:
+#   ONE ERROR block listing ALL THREE missing defines:
+#   POI_XMAX, POI_YMAX, POI_ZMAX.
+#
+# NOTE:
+#   Second accumulator test, in the geometry phase rather than parsing.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.025 / connect
+finish

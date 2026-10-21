@@ -1,0 +1,11 @@
+{
+ "name": "U_k20",
+ "description": "U shape, 20 segments per side",
+ "vertices": 160,
+ "xmin": 0.0,
+ "xmax": 3.0,
+ "ymin": 0.0,
+ "ymax": 2.0,
+ "orientation": "counterclockwise",
+ "area": 5.0
+}

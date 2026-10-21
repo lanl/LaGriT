@@ -1,0 +1,67 @@
+#####################################################################
+# cp53_amr_doc_demo_connect.lgi
+#
+# group    : amr
+# expect   : valid
+# known    : the doc's amr demo crashes in connect (multi_material)
+# spec     : none
+# points   : out_cp53_pts.inp
+# mesh     : out_cp53_mesh.inp tet
+# filter   : yes
+# coincident_ok : yes
+# parents_ok : yes
+# volume   : 1.
+#
+# WHAT:
+#   the doc's whole demo: the amr points copied into a tet mesh object,
+#   setpts, connect (two materials, split by the plane x = z), settets.
+#   The tets must fill the unit cube (volume 1).
+# FROM THE DOCUMENTATION: CREATEPTSAMR.md, demo
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   segmentation fault in connect, in multi_material (valgrind:
+#   invalid write); also on the original code. Not createpts.
+#   Oct 16: valgrind (Debug build): invalid write at
+#   multi_material.f:982 icontab(1,nconbnd)=n, called from
+#   connect.f:886, as icontab gets a new interface-type entry.
+#   Also crashes with imt 1, with connect before setpts, with or
+#   without cmo/release. PARKED (user, Oct 16: do not modify
+#   multi_material.f / connect.f for now).
+#   The user's way round it: imt 1 for every vertex, connect,
+#   then setpts and settets. It runs, but connect then sees one
+#   material: settets reports 249 multimaterial tets (cross the
+#   plane x = z). Not a conforming two-material mesh.
+#####################################################################
+
+cmo/create/mo_hex///hex
+surface/inside/reflect/box/0,0,0/1,1,1
+surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1
+region/lin/ le inside and ge diag /
+region/rin/ le inside and lt diag /
+mregion/mlin/ le inside and gt diag /
+mregion/mrin/ le inside and lt diag /
+quadxyz/2,2,2/0.,0.,0./1.,0.,0./1.,1.,0./0.,1.,0./ &
+       0.,0.,1./1.,0.,1./1.,1.,1./0.,1.,1./
+setpts
+createpts/brick/xyz/2,2,2/1,0,0/connect
+createpts/amr/lin/1
+createpts/amr/rin/3
+dump / avs / out_cp53_pts.inp / mo_hex
+cmo/create/mo_tet///tet
+surface/inside/reflect/box/0,0,0/1,1,1
+surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1
+region/lin/ le inside and ge diag /
+region/rin/ le inside and lt diag /
+mregion/mlin/ le inside and gt diag /
+mregion/mrin/ le inside and lt diag /
+copypts/mo_tet/mo_hex
+cmo/select/mo_tet
+cmo/release/mo_hex
+cmo/setatt/mo_tet/itp/1,0,0/0
+cmo/setatt/mo_tet/imt/1,0,0/0
+setpts
+connect
+settets
+quality
+dump / avs / out_cp53_mesh.inp / mo_tet
+finish

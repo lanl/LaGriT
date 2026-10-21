@@ -1,0 +1,36 @@
+#####################################################################
+# t1_field.lgi - t0 + the h field on the lookup lattice, as the driver builds it
+# Part of time_letters.sh (see its header). Not a test.
+#####################################################################
+read / avs / letters_vector.inp / mo_lagrit
+cmo / printatt / mo_lagrit / -xyz- / minmax
+extrude/mo_quad/mo_lagrit/const/0.1/volume/ 0. 0. 1.
+dump / avs / out_letters_quad.inp / mo_quad
+grid2grid / quadtotri2 / mo_LaGriT_refine / mo_quad
+cmo / status / brief
+cmo / select / mo_LaGriT_refine
+refine /rivara///edge/1 0 0/.2///inclusive
+cmo / status / brief
+dump / avs / out_letters_refine.inp / mo_LaGriT_refine
+define / POI_XMIN / -4.0
+define / POI_YMIN / -4.0
+define / POI_ZMIN / -2.0
+define / POI_XMAX /  50.0
+define / POI_YMAX /  14.0
+define / POI_ZMAX /  2.0
+define /  H_REFINE_SIZE / 0.16
+define /  H_FLOOR / 0.16
+define /  H_CEILING / 1.0
+define / SLOPE / 0.35
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+define / AVS_OUT /  out_letters_tet.inp
+# The driver's lookup lattice for h 0.16 (poi_lattice_size:
+# 1.5 x ceiling(L/h) points per axis over the box grown by h).
+cmo / create / mo_poi_h_field / / / hex
+createpts / xyz / 510 172 40 / -4.16 -4.16 -2.16 / 50.16 14.16 2.16 / 1 1 1
+cmo / addatt / mo_poi_h_field / h_field_att / vdouble / scalar / nnodes
+cmo / setatt / mo_poi_h_field / h_field_att / 1 0 0 / 0.16
+infile / letters_h_field.mlgi
+finish

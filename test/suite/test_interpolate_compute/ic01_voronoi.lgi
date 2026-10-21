@@ -1,0 +1,11 @@
+# ic01_voronoi.lgi
+# interpolate / voronoi: each sink vertex takes the value of the nearest
+# source vertex. Sink: the 216 grid vertices of src_tet.inp; source:
+# 300 random points (src_points.inp) carrying fsrc.
+# check: voronoi | out_ic01.inp | fa | fsrc
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+cmo / addatt / mo_snk / fa / VDOUBLE / scalar / nnodes
+interpolate / voronoi / mo_snk fa / 1,0,0 / mo_src fsrc
+dump / avs / out_ic01.inp / mo_snk
+finish

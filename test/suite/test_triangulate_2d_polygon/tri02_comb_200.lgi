@@ -1,0 +1,18 @@
+#####################################################################
+# tri02_comb_200.lgi
+#
+# polygon  : comb_200.poly
+# expect   : valid
+#
+# WHAT:
+#   COMB: a base with 200 narrow teeth 4 units deep
+#   (800 vertices); long chains of reflex corners at the gap bottoms.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / comb_200.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri02_comb_200.inp / mo_tri
+finish

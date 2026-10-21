@@ -1,0 +1,17 @@
+#####################################################################
+# err01_bad_dimension_token.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names token 3, reports invalid value 3d_bx,
+#   lists valid values 2d_polygon | 3d_box.
+#
+# NOTE:
+#   Before the createpts_lg.f dispatcher change this command produced
+#   NO output at all: neither inner branch matched, the outer else was
+#   skipped, and ierr was never assigned. Silent no-op.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 3d_bx / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+finish

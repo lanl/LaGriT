@@ -1,0 +1,28 @@
+#####################################################################
+# cp14_rtp_sphere.lgi
+#
+# group    : rtp
+# expect   : valid
+# spec     : rtp 5,17,33 0.,0.,0. 2.,180.,360. 1,1,1
+# points   : out_cp14_pts.inp
+# mesh     : out_cp14_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   a full sphere: r = 0, 0.5, ... 2; theta (from +z) 0, 11.25, ... 180;
+#   phi (from +x) 0, 11.25, ... 360 (theta and phi doubled, user Oct 13).
+#   2805 points: the centre, the poles and the phi = 0 / 360 seam
+#   repeat.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtp / 5,17,33 / 0.,0.,0. / 2.,180.,360. / 1,1,1
+dump / avs / out_cp14_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp14_mesh.inp / mo_tet
+finish

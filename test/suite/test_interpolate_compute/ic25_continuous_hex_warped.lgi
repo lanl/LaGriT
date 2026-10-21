@@ -1,0 +1,13 @@
+# ic25_continuous_hex_warped.lgi
+# interpolate / continuous of the LINEAR field flin from hexes that are
+# sheared, have non-planar faces (interior vertices moved) and are
+# numbered turned over (stored edge 1-2 along y). Each hex is split
+# into the 24 tets of hextotet / 24, so a linear field is exact for
+# any shape and numbering (cinterpolate_elem, Oct 2026).
+# check: linear | out_ic25.inp | fc
+read / avs / src_hex_warp.inp / mo_src
+read / avs / sink_warp.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic25.inp / mo_snk
+finish

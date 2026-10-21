@@ -1,0 +1,23 @@
+#####################################################################
+# cp40_interp_points_line_mo.lgi
+#
+# group    : interp
+# expect   : valid
+# spec     : interp 10 || line 10 -1.,0.,0. 1.,0.,0. 1 || line 10 0.,-1.,1. 0.,1.,1. 1
+# points   : out_cp40_pts.inp
+#
+# WHAT:
+#   the doc's point example in a LINE mesh object (points, no cells):
+#   the same 120 points expected.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: ERROR: Illegal Mesh Type: qud (rzbrick3.f rzinterp sets
+#   cmesh_type = 'qud' for a 1D source); cmo_pts empty.
+#####################################################################
+cmo / create / mo_line / / / line
+createpts/line/10///-1.,0.,0.,1.,0.,0./1,1,1
+createpts/line/10///0.,-1.,1.,0.,1.,1./1,1,1
+createpts/ interp / 10 / 1 0 0 / 1 0 0 / mo_pts
+cmo / select / mo_pts
+dump / avs / out_cp40_pts.inp / mo_pts
+finish

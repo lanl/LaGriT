@@ -1,0 +1,29 @@
+#####################################################################
+# cp30_brick_cylinder.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick rtz 5,17,5 0.,0.,0. 2.,360.,2. 1,1,1
+# points   : out_cp30_pts.inp
+# mesh     : out_cp30_mesh.inp hex
+# filter   : yes
+#
+# WHAT:
+#   a hex cylinder (as the doc's example, smaller): radii 0, 0.5 ... 2;
+#   angles 0, 22.5, ... 360; z = 0, 0.5, ... 2. The 0 / 360 deg seam and
+#   the axis are vertices at the same place, so the brick is NOT closed
+#   there: filter / rmpoint / compress / resetpts / itp (user, Oct 13)
+#   merge them. The result is one connected mesh with valid topology;
+#   the 64 hexes on the axis then list the axis vertices twice (their
+#   axis face has area 0): reported as degenerate_cells (user, Oct 13).
+# FROM THE DOCUMENTATION: CRTPTBRICK.md, last example
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts / brick / rtz / 5,17,5 / 0.,0.,0. / 2.,360.,2. / 1,1,1
+dump / avs / out_cp30_pts.inp / mo_hex
+filter / 1,0,0
+rmpoint / compress
+resetpts / itp
+quality
+dump / avs / out_cp30_mesh.inp / mo_hex
+finish

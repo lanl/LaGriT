@@ -1,0 +1,20 @@
+#####################################################################
+# err10_multiple_parse_faults.lgi
+#
+# blocks   : 1
+# contains : must be real or integer | invalid value: conect | unknown option keyword: badkeyword
+#
+# EXPECT:
+#   ONE ERROR block containing THREE faults:
+#     token 6 wrong type, token 7 invalid value, unknown keyword.
+#   All three must appear between a single pair of banners.
+#
+# NOTE:
+#   THIS IS THE KEY ACCUMULATOR TEST.
+#   The old code aborted on the first fault, so diagnosing a command
+#   with three mistakes took three edit-and-rerun cycles.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / abc / conect / badkeyword / 7
+finish

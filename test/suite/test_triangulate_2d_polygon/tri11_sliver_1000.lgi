@@ -1,0 +1,19 @@
+#####################################################################
+# tri11_sliver_1000.lgi
+#
+# polygon  : sliver_1000.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   SLIVER: a rectangle 1 long and 1e-6 thick, 1000 segments on
+#   each long side. Precision.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   FAILS: "ERROR: Unable to triangulate input".
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sliver_1000.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri11_sliver_1000.inp / mo_tri
+finish

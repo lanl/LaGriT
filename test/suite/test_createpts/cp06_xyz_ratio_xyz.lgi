@@ -1,0 +1,28 @@
+#####################################################################
+# cp06_xyz_ratio_xyz.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 7,7,7 0.,0.,0. 1.,1.,1. 1,1,1 ratio 1,1,1 1.5,1.5,1.5
+# points   : out_cp06_pts.inp
+# mesh     : out_cp06_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   ratio zoning 1.5 in x, y AND z in the unit cube, 7 x 7 x 7 (user,
+#   Oct 13): each step is 1.5 x the one before, so the cells grow from
+#   the corner (0,0,0) to the corner (1,1,1); last step / first =
+#   1.5^5 = 7.6.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 7,7,7 / 0.,0.,0. / 1.,1.,1. / 1,1,1 / 1,1,1 / 1.5,1.5,1.5
+dump / avs / out_cp06_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp06_mesh.inp / mo_tet
+finish

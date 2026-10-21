@@ -1,0 +1,11 @@
+{
+ "name": "letter_G",
+ "description": "letter G",
+ "vertices": 12,
+ "xmin": 8.0,
+ "xmax": 11.0,
+ "ymin": 0.0,
+ "ymax": 5.0,
+ "orientation": "counterclockwise",
+ "area": 10.875
+}

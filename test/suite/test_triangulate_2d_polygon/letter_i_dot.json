@@ -1,0 +1,11 @@
+{
+ "name": "letter_i_dot",
+ "description": "letter i, the dot",
+ "vertices": 4,
+ "xmin": 16.0,
+ "xmax": 17.0,
+ "ymin": 4.2,
+ "ymax": 5.0,
+ "orientation": "counterclockwise",
+ "area": 0.7999999999999972
+}

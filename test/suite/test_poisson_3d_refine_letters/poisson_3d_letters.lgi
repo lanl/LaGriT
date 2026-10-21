@@ -1,0 +1,81 @@
+#
+# Build a 3D tet mesh using Poisson-Disk sampling to generate a variable
+# resolution mesh that is refined based on distance from a vector representation
+# of the letters in LaGriT.
+#
+# This file (letters_vector.inp) contains a vector (piecewise linear line segments) representation of the word LaGriT.
+#
+# Test suite copy of the user's 3D_LaGriT_poi.lgi (Feb 19 2026). Changes:
+#   file names   LaGriT.vector.inp            -> letters_vector.inp
+#                demo_user_resolution_01.mlgi -> letters_h_field.mlgi
+#                tmp_quad.inp                 -> out_letters_quad.inp
+#                LaGriT.vector_refine.inp     -> out_letters_refine.inp
+#                demo_LaGriT.inp              -> out_letters_tet.inp
+#                (poisson_h_of_x_y.inp -> out_letters_h_field.inp, in the .mlgi,
+#                where that dump is now commented out: size and speed)
+#   resolution   H_REFINE_SIZE and H_FLOOR 0.08 -> 0.16 (run time; the
+#                original took about 66 minutes)
+#   comments     spelling, and the mesh object and .mlgi names they cite
+#
+read / avs / letters_vector.inp / mo_lagrit
+cmo / printatt / mo_lagrit / -xyz- / minmax
+#  xic                0.000000000E+00  4.460000000E+01 4.460000000E+01        29
+#  yic                0.000000000E+00  1.000000000E+01 1.000000000E+01        29
+#  zic                0.000000000E+00  0.000000000E+00 0.000000000E+00        29
+# Since a distance field will be used to define mesh resolution
+# the vertices need to be high density. Distance field is only based on
+# vertices.
+#
+# Extrude the line, that is in the XY plane, in the Z direction to create a quad mesh.
+extrude/mo_quad/mo_lagrit/const/0.1/volume/ 0. 0. 1.
+dump / avs / out_letters_quad.inp / mo_quad
+grid2grid / quadtotri2 / mo_LaGriT_refine / mo_quad
+cmo / status / brief
+cmo / select / mo_LaGriT_refine
+#
+# Refine the triangle mesh. Edges longer than 0.2 are refined.
+#
+refine /rivara///edge/1 0 0/.2///inclusive
+cmo / status / brief
+dump / avs / out_letters_refine.inp / mo_LaGriT_refine
+#
+# Define the 3D bounding box of the mesh.
+#
+define / POI_XMIN / -4.0
+define / POI_YMIN / -4.0
+define / POI_ZMIN / -2.0
+define / POI_XMAX /  50.0
+define / POI_YMAX /  14.0
+define / POI_ZMAX /  2.0
+#
+# User defined variable resolution
+# Without buffer
+define /  H_REFINE_SIZE / 0.16
+define /  H_FLOOR / 0.16
+define /  H_CEILING / 1.0
+define / SLOPE / 0.35
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+define / AVS_OUT /  out_letters_tet.inp
+#
+# Call Poisson-Disk sampling to generate vertices and connect to
+# create a tet mesh in mo_box_poi
+#
+# See letters_h_field.mlgi for creation of a size function h(x,y,z) where
+# the value of h(x,y,z) defines the target edge length at (x,y,z).
+#
+createpts / poisson_disk / 3d_box / mo_box_poi / H_REFINE_SIZE / &
+     connect / letters_h_field.mlgi
+#
+# Add a few diagnostic quality measures.
+#
+cmo / addatt / mo_box_poi / volume / e_vol
+quality / edge_min / y
+quality / edge_max / y
+#
+# Output tet mesh
+#
+dump / avs / AVS_OUT / mo_box_poi
+
+finish

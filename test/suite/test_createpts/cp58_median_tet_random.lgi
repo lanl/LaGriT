@@ -1,0 +1,25 @@
+#####################################################################
+# cp58_median_tet_random.lgi
+#
+# group    : median
+# expect   : valid
+# spec     : none
+# points   : out_cp58_pts.inp
+# mesh     : out_cp58_mesh.inp tet
+# filter   : yes
+# cellattr : median
+#
+# WHAT:
+#   tets from random points (seeded), connected: the median point of
+#   each tet is the average of its 4 vertices.
+#####################################################################
+
+cmo / create / mo_tet / / / tet
+createpts/random/xyz/0.25/0,0,0/1,1,1/0,0,0/0.125/98765,4321
+filter / 1,0,0
+rmpoint / compress
+connect
+createpts / median
+dump / avs / out_cp58_pts.inp / mo_tet
+dump / avs / out_cp58_mesh.inp / mo_tet
+finish

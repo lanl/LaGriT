@@ -1,0 +1,17 @@
+#####################################################################
+# err14_polygon_not_planar.lgi
+#
+# EXPECT:
+#   ERROR block reporting the polygon is not planar in X,Y.
+#
+# NOTE:
+#   The planarity fault makes poi_2d_get_polygon_geom return early with
+#   nnodes_poly=0, so the vertex-count fault is recorded too and BOTH
+#   appear in the one block. That is the accumulator behaving as
+#   designed, but if the second message is judged noise the driver
+#   could skip validation when geometry already failed.
+#####################################################################
+read / avs / tilted_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+finish

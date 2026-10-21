@@ -1,0 +1,11 @@
+#####################################################################
+# err15_hfield_below_floor.lgi
+#
+# EXPECT:
+#   One ERROR block: h_field_att smaller than target edge length,
+#   with h and the measured h_field minimum.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / hfield_too_small.mlgi
+finish

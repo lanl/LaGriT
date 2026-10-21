@@ -1,0 +1,13 @@
+# field_linear_2d.mlgi - test L (2D): h = 0.01 + 0.04 y on the unit
+# square (0.01 at y = 0, 0.05 at y = 1). Linear, so interpolating the
+# lookup lattice reproduces it exactly: a correct sampler leaves NO pair
+# closer than max(h_p, h_q). The floor only affects lattice nodes below
+# y = 0 (outside the square), where it keeps h >= 0.01.
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / yic / 0.04
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.01
+math / floor / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.01
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+finish

@@ -1,0 +1,26 @@
+#####################################################################
+# cp04_xyz_plane.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 7,5,1 0.,0.,0. 3.,2.,0. 1,1,1
+# points   : out_cp04_pts.inp
+# mesh     : out_cp04_mesh.inp tri
+# filter   : yes
+#
+# WHAT:
+#   one layer (nk = 1, zmin = zmax): a 7 x 5 grid in the xy plane,
+#   connected into triangles in a triplane mesh object.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 7,5,1 / 0.,0.,0. / 3.,2.,0. / 1,1,1
+dump / avs / out_cp04_pts.inp / mo_tri
+cmo / setatt / mo_tri / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tri / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp04_mesh.inp / mo_tri
+finish

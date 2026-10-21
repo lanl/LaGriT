@@ -1,0 +1,14 @@
+#####################################################################
+# err02_command_too_short.lgi
+#
+# EXPECT:
+#   One ERROR block reporting missing tokens.
+#   Must NOT crash or read past the end of the token array.
+#
+# NOTE:
+#   The old code indexed msgtyp(itok) before checking nwds.
+#   createpts_lg.f also read cmsgin(3) unconditionally.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon
+finish

@@ -1,0 +1,24 @@
+*
+* Create a tet sphere mesh with projection of a cube point distribution
+*
+* npts is of the form 6*i**2
+define / npts / 486
+
+cmo/create/cmo1/ / / tet
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+
+createpts/sphere/1/2/ npts /0./r1/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/1/2/ npts /r1/r2/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/1/2/ npts /r2/r3/0.0,0.0,0.0/1,0,0.0/
+
+filter / 1 0 0
+rmpoint / compress
+setpts
+connect
+settets
+rmregion / r_r1
+rmpoint / compress
+dump/gmv/cube_tet.gmv/cmo1/
+cmo / status / cmo1
+cmo / delete / cmo1

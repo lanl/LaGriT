@@ -1,0 +1,21 @@
+#####################################################################
+# cp21_line_centres_ratio1.lgi
+#
+# group    : line
+# expect   : valid
+# spec     : line 10 0.,0.,0. 1.,0.,0. 0 ratio 1.0
+# points   : out_cp21_pts.inp
+#
+# WHAT:
+#   cell centres with ratio zoning ON but ratio 1.0: must be the same
+#   points as the cell-centre line deck (0.05, 0.15, ... 0.95).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: (5 points) 0.0909, 0.2727, ... 0.8182: the step is 1/5.5, the first gap
+#   half a step, the last gap a FULL step. rz.f line branch: rsum =
+#   0.5 + (1 + sum r^i) + r^(n-1) should end with 0.5 r^(n-1).
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 10 / / / 0.,0.,0. / 1.,0.,0. / 0,0,0 / 1,1,1 / 1.,1.,1.
+dump / avs / out_cp21_pts.inp / mo_tet
+finish

@@ -1,0 +1,15 @@
+#####################################################################
+# cp17_line_vertices.lgi
+#
+# group    : line
+# expect   : valid
+# spec     : line 21 0.,0.,0. 1.,2.,3. 1
+# points   : out_cp17_pts.inp
+#
+# WHAT:
+#   21 points from (0,0,0) to (1,2,3), ends included.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 21 / / / 0.,0.,0. / 1.,2.,3. / 1,1,1
+dump / avs / out_cp17_pts.inp / mo_tet
+finish

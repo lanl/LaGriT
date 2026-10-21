@@ -1,0 +1,18 @@
+#####################################################################
+# tri14_sq_k1.lgi
+#
+# polygon  : sq_k1.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   control: the plain unit square, 4 vertices.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_k1.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri14_sq_k1.inp / mo_tri
+finish

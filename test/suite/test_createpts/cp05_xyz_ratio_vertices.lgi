@@ -1,0 +1,26 @@
+#####################################################################
+# cp05_xyz_ratio_vertices.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 11,5,5 0.,0.,0. 4.,2.,2. 1,1,1 ratio 1,0,0 1.2,1.,1.
+# points   : out_cp05_pts.inp
+# mesh     : out_cp05_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   ratio zoning in x (1.2): each x step is 1.2 times the one before,
+#   first point at x = 0, last at x = 4.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 11,5,5 / 0.,0.,0. / 4.,2.,2. / 1,1,1 / 1,0,0 / 1.2,1.,1.
+dump / avs / out_cp05_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp05_mesh.inp / mo_tet
+finish

@@ -1,0 +1,11 @@
+{
+ "name": "tri_3",
+ "description": "triangle, 3 vertices",
+ "vertices": 3,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 0.5
+}

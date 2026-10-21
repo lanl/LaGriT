@@ -1,0 +1,14 @@
+createpts / poisson_disk / 3d_box / mo_box_poi / H_REFINE_SIZE / connect
+cmo / addatt / mo_box_poi / volume / e_vol
+quality/pcc
+quality / edge_min / y
+quality / edge_max / y
+dump / avs / AVS_OUT / mo_box_poi
+dump / stor / STOR_OUT / mo_box_poi
+
+trans / 1 0 0 / 0. 0. 0. / 0. 0. Z_TRANSLATE
+addmesh / merge / mo_merge / mo_merge / mo_box_poi
+
+cmo / delete / mo_box_poi
+
+finish

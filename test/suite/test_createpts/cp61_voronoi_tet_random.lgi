@@ -1,0 +1,25 @@
+#####################################################################
+# cp61_voronoi_tet_random.lgi
+#
+# group    : voronoi
+# expect   : valid
+# spec     : none
+# points   : out_cp61_pts.inp
+# mesh     : out_cp61_mesh.inp tet
+# filter   : yes
+# cellattr : voronoi
+#
+# WHAT:
+#   tets from random points (seeded): each voronoi point must be
+#   equally far from the tet's 4 vertices.
+#####################################################################
+
+cmo / create / mo_tet / / / tet
+createpts/random/xyz/0.25/0,0,0/1,1,1/0,0,0/0.125/98765,4321
+filter / 1,0,0
+rmpoint / compress
+connect
+createpts / voronoi
+dump / avs / out_cp61_pts.inp / mo_tet
+dump / avs / out_cp61_mesh.inp / mo_tet
+finish

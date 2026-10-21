@@ -1,0 +1,19 @@
+#####################################################################
+# tri34_sq_cw.lgi
+#
+# polygon  : sq_cw.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   unit square, 5 segments per side, given CLOCKWISE with
+#   the clockwise keyword.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_cw.poly / mo_tri
+triangulate / clockwise
+dump / avs / out_tri34_sq_cw.inp / mo_tri
+finish

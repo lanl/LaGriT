@@ -1,0 +1,39 @@
+# poisson_3d_letters.cases
+#
+# Facts about the output of poisson_3d_letters.lgi, read by the shared
+# checker ../test_poisson_3d/check_test_poisson_3d.py (its opening
+# comment defines every measure). The checker's "deck" row re-reads the
+# deck's defines and fails if anything below has drifted from it.
+#
+# Line types (blank lines and # comments ignored):
+#
+#   box   xmin xmax ymin ymax zmin zmax     POI_XMIN..POI_ZMAX in the deck
+#   deck  file                               the deck these facts describe
+#   case  id key=value ...                   one line per createpts call
+#   field dump=file case=id                  the h field dump: checked if
+#                                            present, SKIP if absent. Its
+#                                            dump line in letters_h_field.mlgi
+#                                            is commented out (size, speed).
+#                                            Add required=1 to make a
+#                                            missing dump FAIL.
+#
+# case keys:
+#   inp         output tet mesh (AVS_OUT)
+#   mlgi        the field script named on the createpts line
+#   h           H_REFINE_SIZE, the h_spacing_scalar token
+#   ifbuf, buf  IF_POI_EDGE_BUFFER, POI_EDGE_BUFFER
+#   field       distance = letters_h_field.mlgi:
+#               d = distance to the nearest VERTEX of src
+#               h = min(ceil, max(floor, slope*d + icpt))
+#   src         the source mesh of compute/distance_field, as the deck
+#               dumps it (the deck row checks the name)
+#   floor, ceil, slope, icpt   H_FLOOR, H_CEILING, SLOPE, INTERCEPT
+#
+# No .stor (the deck writes none) and no merge.
+
+box   -4.0 50.0  -4.0 14.0  -2.0 2.0
+deck  poisson_3d_letters.lgi
+
+case 01 inp=out_letters_tet.inp mlgi=letters_h_field.mlgi h=0.16 ifbuf=0 buf=1.0 field=distance src=out_letters_refine.inp floor=0.16 ceil=1.0 slope=0.35 icpt=0.0
+
+field dump=out_letters_h_field.inp case=01

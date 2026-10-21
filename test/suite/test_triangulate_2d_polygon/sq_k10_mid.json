@@ -1,0 +1,11 @@
+{
+ "name": "sq_k10_mid",
+ "description": "unit square, 10 segments per side, list starts mid side",
+ "vertices": 40,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 1.0
+}

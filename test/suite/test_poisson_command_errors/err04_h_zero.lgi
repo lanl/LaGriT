@@ -1,0 +1,14 @@
+#####################################################################
+# err04_h_zero.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names token 6, says it must be greater than zero.
+#
+# NOTE:
+#   New check. h=0 would divide by zero in poi_lattice_size.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.0 / connect
+finish

@@ -1,0 +1,27 @@
+#####################################################################
+# cp41_vector_simple_cubic.lgi
+#
+# group    : vector
+# expect   : valid
+# spec     : vector xyz 3,3,3 1,0,0 0,1,0 0,0,1
+# points   : out_cp41_pts.inp
+# mesh     : out_cp41_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the doc's simple cubic example: 4 x 4 x 4 points 0..3 (n + 1 per
+#   direction, as rz/xyz/n1+1,n2+1,n3+1/...).
+# FROM THE DOCUMENTATION: CRTPTRZV_LG.md, simple cubic
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/vector/xyz/3,3,3/1,0,0/0,1,0/0,0,1
+dump / avs / out_cp41_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp41_mesh.inp / mo_tet
+finish

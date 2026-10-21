@@ -1,0 +1,23 @@
+#####################################################################
+# cp62_voronoi_tri.lgi
+#
+# group    : voronoi
+# expect   : valid
+# spec     : none
+# points   : out_cp62_pts.inp
+# mesh     : out_cp62_mesh.inp tri
+# filter   : yes
+# cellattr : voronoi
+#
+# WHAT:
+#   triangles in the xy plane: each voronoi point is the centre of
+#   the triangle's circumscribed circle, in its plane.
+#####################################################################
+
+cmo / create / mo_tri / / / triplane
+createpts/xyz/6,4,1/0.,0.,0./3.,1.5,0./1,1,1
+connect
+createpts / voronoi
+dump / avs / out_cp62_pts.inp / mo_tri
+dump / avs / out_cp62_mesh.inp / mo_tri
+finish

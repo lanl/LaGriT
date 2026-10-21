@@ -1,0 +1,23 @@
+#####################################################################
+# cp25_brick_quad_xy_vertex.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 7,5,1 0.,0.,0. 3.,2.,0. 1,1,1
+# points   : out_cp25_pts.inp
+# mesh     : out_cp25_pts.inp quad
+#
+# WHAT:
+#   the same quads with ikz = 1 (the doc's usual 1,1,1).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 3: abort (Linux), heap corruption: rzbrickg.f, vertex
+#   mode, if(nz1.lt.2) nz1=2 wrote 7 x 5 x 2 vertices into room for
+#   7 x 5 x 1. FIX 3 (rzbrickg.f, Oct 13): one vertex in a direction
+#   is the middle of min and max, as in rz.f.
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 7,5,1 / 0.,0.,0. / 3.,2.,0. / 1,1,1
+dump / avs / out_cp25_pts.inp / mo_quad
+quality
+finish

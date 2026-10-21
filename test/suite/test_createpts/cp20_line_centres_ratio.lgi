@@ -1,0 +1,16 @@
+#####################################################################
+# cp20_line_centres_ratio.lgi
+#
+# group    : line
+# expect   : valid
+# spec     : line 10 0.,0.,0. 1.,0.,0. 0 ratio 1.2
+# points   : out_cp20_pts.inp
+#
+# WHAT:
+#   cell centres with ratio zoning 1.2: 10 cells of length s, 1.2 s,
+#   ... fill x = 0 to 1; the points are their centres.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 10 / / / 0.,0.,0. / 1.,0.,0. / 0,0,0 / 1,1,1 / 1.2,1.2,1.2
+dump / avs / out_cp20_pts.inp / mo_tet
+finish

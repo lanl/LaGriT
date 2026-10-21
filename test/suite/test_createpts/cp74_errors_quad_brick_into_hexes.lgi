@@ -1,0 +1,19 @@
+#####################################################################
+# cp74_errors_quad_brick_into_hexes.lgi
+#
+# group    : errors
+# expect   : error
+# reason   : already has
+#
+# WHAT:
+#   a brick of one layer (quads) added to a mesh object that already
+#   has hexes: REFUSED, by the same rule.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   original code: accepted: 8 hexes + 24 quads = 32 cells in one
+#   mesh object, then 'ERROR IN ROUTine geniee_cmo: ABORTING'.
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 3,3,3 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+createpts / brick / xyz / 7,5,1 / 0.,0.,0. / 3.,2.,0. / 1,1,0
+finish

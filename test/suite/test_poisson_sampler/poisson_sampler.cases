@@ -1,0 +1,32 @@
+# poisson_sampler.cases - facts the checker needs, one line per output.
+# Read by check_poisson_sampler.py; see 00README.
+#
+#   case ID dim=2d|3d box=xmin,xmax,ymin,ymax[,zmin,zmax] h=H seed=N
+#        kind=U|L|V inp=FILE deck=FILE field=SPEC
+#   field: uniform                       h everywhere
+#          linear y h0 s                 h0 + s*y (floored at h0 below y=0)
+#          valley y c hmin s hmax        min(hmax, max(hmin, hmin + s|y-c|))
+#   kind decides the HARD checks (see check_poisson_sampler.py):
+#     U, L  no interior pair closer than max(h_p, h_q)
+#     V     no interior pair closer than 0.95 max(h_p, h_q), and no gap
+#           wider than 2 h (largest distance from a probe point to the
+#           nearest vertex, over h at the probe)
+
+case U2_s1 dim=2d box=0.0,1.0,0.0,1.0 h=0.02 seed=1 kind=U inp=out_U2_s1.inp deck=samp_U2.lgi field=uniform
+case U2_s2 dim=2d box=0.0,1.0,0.0,1.0 h=0.02 seed=2 kind=U inp=out_U2_s2.inp deck=samp_U2.lgi field=uniform
+case U2_s3 dim=2d box=0.0,1.0,0.0,1.0 h=0.02 seed=3 kind=U inp=out_U2_s3.inp deck=samp_U2.lgi field=uniform
+case U3_s1 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.05 seed=1 kind=U inp=out_U3_s1.inp deck=samp_U3.lgi field=uniform
+case U3_s2 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.05 seed=2 kind=U inp=out_U3_s2.inp deck=samp_U3.lgi field=uniform
+case U3_s3 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.05 seed=3 kind=U inp=out_U3_s3.inp deck=samp_U3.lgi field=uniform
+case L2_s1 dim=2d box=0.0,1.0,0.0,1.0 h=0.01 seed=1 kind=L inp=out_L2_s1.inp deck=samp_L2.lgi field=linear:y:0.01:0.04
+case L2_s2 dim=2d box=0.0,1.0,0.0,1.0 h=0.01 seed=2 kind=L inp=out_L2_s2.inp deck=samp_L2.lgi field=linear:y:0.01:0.04
+case L2_s3 dim=2d box=0.0,1.0,0.0,1.0 h=0.01 seed=3 kind=L inp=out_L2_s3.inp deck=samp_L2.lgi field=linear:y:0.01:0.04
+case L3_s1 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.03 seed=1 kind=L inp=out_L3_s1.inp deck=samp_L3.lgi field=linear:y:0.03:0.12
+case L3_s2 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.03 seed=2 kind=L inp=out_L3_s2.inp deck=samp_L3.lgi field=linear:y:0.03:0.12
+case L3_s3 dim=3d box=0.0,1.0,0.0,1.0,0.0,1.0 h=0.03 seed=3 kind=L inp=out_L3_s3.inp deck=samp_L3.lgi field=linear:y:0.03:0.12
+case V2_s1 dim=2d box=0.0,0.205,0.0,10.0 h=0.01 seed=1 kind=V inp=out_V2_s1.inp deck=samp_V2.lgi field=valley:y:9:0.01:0.5:0.05
+case V2_s2 dim=2d box=0.0,0.205,0.0,10.0 h=0.01 seed=2 kind=V inp=out_V2_s2.inp deck=samp_V2.lgi field=valley:y:9:0.01:0.5:0.05
+case V2_s3 dim=2d box=0.0,0.205,0.0,10.0 h=0.01 seed=3 kind=V inp=out_V2_s3.inp deck=samp_V2.lgi field=valley:y:9:0.01:0.5:0.05
+case V3_s1 dim=3d box=0.0,1.0,0.0,10.0,0.0,1.0 h=0.03 seed=1 kind=V inp=out_V3_s1.inp deck=samp_V3.lgi field=valley:y:9:0.03:0.5:0.15
+case V3_s2 dim=3d box=0.0,1.0,0.0,10.0,0.0,1.0 h=0.03 seed=2 kind=V inp=out_V3_s2.inp deck=samp_V3.lgi field=valley:y:9:0.03:0.5:0.15
+case V3_s3 dim=3d box=0.0,1.0,0.0,10.0,0.0,1.0 h=0.03 seed=3 kind=V inp=out_V3_s3.inp deck=samp_V3.lgi field=valley:y:9:0.03:0.5:0.15
