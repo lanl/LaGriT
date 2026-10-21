@@ -39,7 +39,10 @@ jobs:
       matrix:
         include:
           - { label: linux-gcc13, os: ubuntu-24.04, gcc: 13 }
-          - { label: linux-gcc14, os: ubuntu-24.04, gcc: 14 }
+          # gcc14 also turns on the C++ library's bounds checks
+          # (_GLIBCXX_ASSERTIONS): an out-of-range std::vector index aborts
+          # instead of silently reading or writing memory
+          - { label: linux-gcc14, os: ubuntu-24.04, gcc: 14, cxxflags: -D_GLIBCXX_ASSERTIONS }
           - { label: macos,       os: macos-15 }
 
     steps:
@@ -70,7 +73,7 @@ jobs:
           python3 --version
 
       - name: Configure
-        run: cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
+        run: cmake -S . -B build -D CMAKE_BUILD_TYPE=Release -D "CMAKE_CXX_FLAGS=${{ matrix.cxxflags }}"
 
       - name: Build
         run: cmake --build build --parallel 4
