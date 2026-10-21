@@ -427,7 +427,11 @@ C
      *                   icmotype,   ierror)
       endif
 C
-      length=npoints
+C     iparent is grown below only when xic must grow, so it must start
+C     as long as xic's memory, not npoints: after an earlier refine the
+C     mesh object has room past npoints and new vertices were written
+C     past the end of iparent (GitHub issue #165, Oct 2026).
+      call mmfindbk('xic',cmo,ipxic,length,icscode)
       call mmgetblk('iparent',isubname,ipiparent,length,1,icscode)
       call unpackpc(npoints,itp1,isn1,iparent)
 C
@@ -1255,7 +1259,11 @@ C
       endif
  
 C
-      length=npoints
+C     iparent is grown below only when xic must grow, so it must start
+C     as long as xic's memory, not npoints: after an earlier refine the
+C     mesh object has room past npoints and new vertices were written
+C     past the end of iparent (GitHub issue #165, Oct 2026).
+      call mmfindbk('xic',cmo,ipxic,length,icscode)
       call mmgetblk('iparent',isubname,ipiparent,length,1,icscode)
       call unpackpc(npoints,itp1,isn1,iparent)
 C
