@@ -671,10 +671,6 @@ cmo setatt cmo_sink xval 99.
 intrp/continuous/cmo_sink xval/1,0,0/cmo_src xval                               
 nodes in indexed point set  =          8                                        
  
-WARNING: interpolate/continuous may not work for hex: cmo_src                   
-Use hextotet to convert hex elements to tetrahedra.                             
- 
- 
 INTRP METHOD: continuous   FUNCTION:     linear                                 
       TIEBREAKER:     maxtie   FLAG:      plus1  0.110000000000E+02             
  
