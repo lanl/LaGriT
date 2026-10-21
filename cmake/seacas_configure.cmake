@@ -5,9 +5,11 @@
 #
 # This script is responsible for:
 #   1. Patching TPL/netcdf/runcmake.sh  (disable netcdf plugins/tests)
-#   2. Patching cmake-exodus            (add -lcurl on Linux)
-#   3. Running seacas/install-tpl.sh    (builds HDF5, NetCDF, zlib)
-#   4. Running seacas/cmake-exodus      (configures the Exodus cmake build)
+#   2. Patching TPL/hdf5/runcmake.sh    (disable SZIP)
+#   3. Patching install-tpl.sh          (git clone HDF5 instead of tarball)
+#   4. Patching cmake-exodus            (add -lcurl on Linux)
+#   5. Running seacas/install-tpl.sh    (builds HDF5, NetCDF, zlib)
+#   6. Running seacas/cmake-exodus      (configures the Exodus cmake build)
 #
 # The seacas convention is that ACCESS=SOURCE_DIR acts as both source root and
 # install prefix.  All TPLs and Exodus install into ${SOURCE_DIR}/lib and
@@ -91,6 +93,41 @@ else()
 endif()
 
 # ---------------------------------------------------------------------------
+# 3. Patch install-tpl.sh to fetch HDF5 with git clone instead of a tarball
+#    The GitHub archive download (codeload.github.com) is reset partway on
+#    some VPNs/proxies and cannot be resumed, leaving a truncated tarball and
+#    a half-extracted source tree (HDF5 cmake then fails: "src" not found).
+#    A shallow git clone into the same directory works, and matches how
+#    seacas already fetches netcdf.
+# ---------------------------------------------------------------------------
+set(_install_tpl "${SOURCE_DIR}/install-tpl.sh")
+if(EXISTS "${_install_tpl}")
+  file(READ "${_install_tpl}" _it)
+  set(_it_marker [=[HDFGroup/hdf5.git hdf5-${hdf_version}]=])
+  string(FIND "${_it}" "${_it_marker}" _it_done)
+  if(_it_done EQUAL -1)
+    set(_it_curl_search  [=[curl -O -L --insecure https://github.com/HDFGroup/hdf5/archive/refs/tags/${hdf_version}.tar.gz]=])
+    set(_it_curl_replace [=[git clone --depth 1 --branch ${hdf_version} https://github.com/HDFGroup/hdf5.git hdf5-${hdf_version}]=])
+    set(_it_tar_search   [=[tar -zxf ${hdf_version}.tar.gz]=])
+    set(_it_tar_replace  [=[:  # cloned with git, nothing to extract]=])
+    string(REPLACE "${_it_curl_search}" "${_it_curl_replace}" _it_patched "${_it}")
+    string(REPLACE "${_it_tar_search}"  "${_it_tar_replace}"  _it_patched "${_it_patched}")
+    if(_it_patched STREQUAL _it)
+      message(WARNING
+        "[seacas] Could not patch install-tpl.sh to git clone HDF5 "
+        "(search string not found). HDF5 will be downloaded as a tarball.")
+    else()
+      file(WRITE "${_install_tpl}" "${_it_patched}")
+      message(STATUS "[seacas] Patched install-tpl.sh (git clone HDF5)")
+    endif()
+  else()
+    message(STATUS "[seacas] install-tpl.sh already patched")
+  endif()
+else()
+  message(WARNING "[seacas] install-tpl.sh not found — skipping HDF5 git clone patch")
+endif()
+
+# ---------------------------------------------------------------------------
 # 4. Patch cmake-exodus to add -lcurl (Linux only)
 #    netcdf static libraries on Linux need curl at link time.
 # ---------------------------------------------------------------------------
@@ -162,6 +199,7 @@ else()
     message(FATAL_ERROR
       "[seacas] install-tpl.sh failed (exit ${_tpl_rc}).\n"
       "Check output above.  Common causes:\n"
+      "  network — download interrupted; remove ${SOURCE_DIR}/TPL/<pkg>/<pkg>-* and re-run make\n"
       "  Linux  — missing: wget/curl, make, cmake\n"
       "  macOS  — gfortran not on PATH; try: brew install gcc")
   endif()
