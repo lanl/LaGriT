@@ -20,8 +20,10 @@ elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU")
   # GCC 14 turned these old-C diagnostics into errors (the lg_util C
   # code declares functions without types and passes mismatched
   # pointers); -w does not silence them. Keep them as warnings.
+  # GCC 15 defaults to C23, where f() means "no arguments" and the
+  # old declarations no longer match their calls: stay on C17.
   if (CMAKE_C_COMPILER_VERSION VERSION_GREATER_EQUAL 14)
-      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=implicit-int -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu17 -Wno-error=implicit-int -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types -Wno-error=int-conversion")
   endif()
 
 elseif ("${CMAKE_C_COMPILER_ID}" STREQUAL "Intel")
