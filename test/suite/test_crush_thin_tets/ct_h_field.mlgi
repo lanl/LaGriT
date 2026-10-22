@@ -2,13 +2,18 @@
 # the vertical line x = y = 0.5), kept between H_FLOOR and H_CEILING.
 # Called by createpts / poisson_disk with the h-field mesh object
 # mo_poi_h_field (attribute h_field_att), as test_poisson_3d does.
+# LaGriT reads 80 columns of a line: longer commands are continued with &.
 cmo / create / mo_dfield
 createpts / line / 400 / / / 0.5 0.5 POI_ZMIN / 0.5 0.5 POI_ZMAX / 1 1 1 /
 compute / distance_field / mo_poi_h_field / mo_dfield / dfield
-math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / mo_poi_h_field / dfield / SLOPE /
-math / add / mo_poi_h_field / h_field_att / 1,0,0 / mo_poi_h_field / h_field_att / INTERCEPT /
-math / floor   / mo_poi_h_field / h_field_att / 1 0 0 / mo_poi_h_field / h_field_att / H_FLOOR
-math / ceiling / mo_poi_h_field / h_field_att / 1 0 0 / mo_poi_h_field / h_field_att / H_CEILING
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / dfield / SLOPE /
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / INTERCEPT /
+math / floor / mo_poi_h_field / h_field_att / 1 0 0 / &
+       mo_poi_h_field / h_field_att / H_FLOOR
+math / ceiling / mo_poi_h_field / h_field_att / 1 0 0 / &
+       mo_poi_h_field / h_field_att / H_CEILING
 cmo / printatt / mo_poi_h_field / h_field_att / minmax
 cmo / delete / mo_dfield
 finish

@@ -7,6 +7,8 @@ did (Python 3, standard library only). Prints "key value" lines (the
 
 HARD checks (decide PASS / FAIL):
   finished       LaGriT printed "LaGriT successfully completed"
+  clean          no "Illegal option" message (a command LaGriT could not
+                 parse, e.g. a line longer than 80 columns cut short)
   valid          every tet after crush has positive volume
   volume         total volume unchanged (relative 1e-9)
   expectation    "# expect: removed": no tet left below TOLCRUSH
@@ -282,6 +284,12 @@ def main(deck, work, logdir):
     why_fail = []
     if not finished:
         why_fail.append("LaGriT did not finish")
+    nill = text.count("Illegal option")
+    res["illegal"] = nill
+    print("illegal_option_messages %d" % nill)
+    if nill:
+        ok = False
+        why_fail.append("LaGriT printed %d 'Illegal option' messages" % nill)
     for i, t in enumerate(tols):
         base = "%s_after_%s" % (tag, spec[3].split(",")[i])
         try:
