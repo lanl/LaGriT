@@ -10,6 +10,9 @@ test_interpolate_compute/work/
 test_crush_thin_tets/work/
 test_crush_thin_tets/work_*/
 test_crush_thin_tets/logs_*/
+test_element_angles/work/
+test_element_angles/work_*/
+test_element_angles/logs_*/
 logs/
 out_*
 lagrit.out

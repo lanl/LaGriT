@@ -7,7 +7,7 @@ poor quality cells remain"; "examples that use the 3D Poisson Disk code")
 
 QUICK START
 
-  sh run_crush_tests.sh [path-to-lagrit]     11 decks, about 15 s
+  sh run_crush_tests.sh [path-to-lagrit]     12 decks, about 15 s
   open logs/summary.html
 
   Default lagrit: build/lagrit of this LaGriT checkout.
@@ -28,11 +28,15 @@ WORDS
   crush's view: crush_thin_tets works on every tet whose RELATIVE WIDTH
   (smallest altitude / sqrt(sum of squared edge lengths / 9); 1 regular,
   0 flat) is below TOLCRUSH (default 0.1), and sorts it by what comes
-  close, in this order: NEEDLE (two vertices: a short edge, merged),
-  WEDGE (a vertex near an edge: a point added on the edge, the vertex
-  merged onto it), CAP (a vertex near the opposite face: SWITCHED OFF in
-  the code), SLIVER (two opposite edges nearly crossing: a point added on
-  each, the two merged). A thin tet that matches none is UNMATCHED.
+  close, in this order: NEEDLE (two vertices: a short edge, merged;
+  tested at 1.2 x TOLCRUSH), WEDGE (a vertex near an edge: a point added
+  on the edge, the vertex merged onto it; 1.1 x TOLCRUSH), CAP (a vertex
+  near the opposite face: a point added on the face, the vertex merged
+  onto it or it into the vertex; switched off before Oct 2026), SLIVER
+  (two opposite edges nearly crossing: a point added on each, the two
+  merged). A thin tet that matches none is UNMATCHED. With a pset crush
+  works only on tets whose vertices are all in the pset or were added by
+  crush itself.
   crush acts only if the worst tet around the change gets at least 1%
   better, and repeats in trips (at most 10) until a trip changes nothing.
 
@@ -51,6 +55,9 @@ THE DECKS
              (ct_h_field.mlgi; 5,630 vertices, 30,080 tets)
   ct10 and ct11 are crushed at TOLCRUSH 0.1, 0.2 and 0.3, each from the
   same mesh.
+  ct12       the ct10 mesh crushed at 0.3 with a pset (vertices below
+             z = 0.5): every tet with no vertex in the pset must be left
+             as it was
 
   Moving one vertex to make a CAP always leaves another thin tet beside
   it (a sliver); crush collapses that and the cap goes with it. A cap on
@@ -67,41 +74,70 @@ WHAT IS MEASURED (check_crush.py; definitions in its opening comment)
 
   Every tet still below TOLCRUSH afterwards is explained by replaying
   crush's own decisions on the final mesh (crushlib.Mesh.replay, the
-  same steps as find_00, find_01, find_11 in src/crush_thin_tets.f):
-    CAP case switched off; every possible collapse leaves a neighbour no
-    better (not 1% better); boundary or material point types forbid the
-    merge; matched no case (no distance below TOLCRUSH x scale length).
+  same steps as find_00, find_01, find_02, find_11 in
+  src/crush_thin_tets.f): every possible collapse leaves a neighbour no
+  better (not 1% better); boundary or material point types forbid the
+  merge; matched no case (no distance below TOLCRUSH x scale length);
+  outside the pset; and, for a LaGriT from before Oct 2026, CAP case
+  switched off. The checker picks the version of crush (the replay
+  models the current one and the older ones) under which crush would
+  do nothing more, since crush stops only then.
 
   PASS / FAIL: LaGriT finished; every tet has positive volume; the total
   volume is unchanged (1e-9); for "expect: removed", no tet is left
-  below TOLCRUSH. Everything else is measured, not judged.
+  below TOLCRUSH; with "# pset:", no tet outside the pset changed.
+  Everything else is measured, not judged.
 
-FOUND (Oct 21 2026)
+FOUND (Oct 21-22 2026)
 
-  1. BUG, FIXED in src/crush_thin_tets.f: the length every distance
-     test is compared with (TOLCRUSH x scale length) was the scale
-     length of mesh vertices 1-4 for EVERY tet, not of the tet itself
-     (local vertex numbers 1-4 used as global ones). In ct11 it was
-     0.044 for tets near 0.07: real slivers were passed over ("matched
-     no case": 3 of 3 left at TOLCRUSH 0.1, 197 of 301 at 0.3). In ct10
-     it happened to be larger than the tets (0.13), so crush acted more
-     freely. Fixed: ct11 leaves 0 / 24 / 242 at TOLCRUSH 0.1 / 0.2 / 0.3
-     (was 3 / 36 / 301); ct10 0 / 2 / 36 (was 0 / 1 / 27); after the fix
-     the replay and crush agree on every tet.
-  2. The CAP case is switched off (if (.false.) around find_02; the face
-     refinement it needs is half disabled). In the fixed build the caps
-     are the largest group left (ct11 at 0.3: 169 of 242).
-  3. crush MAKES caps: its edge splits and merges create tets with one
-     vertex just over a face. Carl's CAP count goes from 0 to 65 - 80
-     in ct11 (0.2 - 0.3) and from 0 to 5 - 9 in ct10.
-  4. The 1% rule leaves tets where every collapse would make a neighbour
-     worse (ct11 at 0.3: 70; the boundary sliver ct08).
-  5. TOLCRUSH 0.1 (the default) is weaker than a 10 degree dihedral
+  Tets left below TOLCRUSH 0.1 / 0.2 / 0.3 (ct11 graded, ct10 uniform):
+
+                         ct11            ct10
+    before the fixes     3 / 36 / 301    0 / 1 / 27
+    1. scale fixed       0 / 24 / 242    0 / 2 / 36
+    2. + CAP case on     0 / 15 / 188    0 / 1 / 32
+    3. + ladder (now)    0 / 15 / 164    0 / 1 / 25
+
+  1. BUG, FIXED: the length every distance test is compared with
+     (TOLCRUSH x scale length) was the scale length of mesh vertices 1-4
+     for EVERY tet, not of the tet itself (local vertex numbers 1-4 used
+     as global ones). In ct11 it was 0.044 for tets near 0.07: real
+     slivers were passed over ("matched no case": 3 of 3 left at 0.1,
+     197 of 301 at 0.3). In ct10 it happened to be larger than the tets
+     (0.13), so crush acted more freely there.
+  2. FIXED: the CAP case was switched off (if (.false.) around find_02;
+     the face refinement it needs was half disabled). find_02 is
+     rewritten: the vertex nearest its opposite face (foot inside the
+     face, distance below TOLCRUSH x scale length) gets a point on that
+     face, and is merged onto it (or it into the vertex) if that makes
+     the worst tet around 1% better. Caps were the largest group left
+     (ct11 at 0.3: 169 of 242); now 80 of 164.
+  3. BUG, FIXED: len_iadd_tr was never set, so a second crush_thin_tets
+     in one run could write past the end of iadd_tr (a crash in a
+     Release build once the CAP case is on).
+  4. FIXED: the looser tolerances for NEEDLE (1.2 x) and WEDGE (1.1 x)
+     documented in the code were commented out; restored (ct11 at 0.3:
+     188 to 164; ct10: 32 to 25; nothing worse).
+  5. BUG, FIXED: the pset was ignored (its test commented out): crush
+     changed tets anywhere (ct12 on the old code: 253 tets outside the
+     pset changed). Now only tets whose vertices are all in the pset or
+     were added by crush.
+  6. What is left is the 1% rule: every tet still below TOLCRUSH is one
+     where each possible collapse would leave a neighbour no better
+     (ct11 at 0.3: 164 tets, 80 of them caps whose face merge would not
+     help; ct10: 25, 6 of them caps; the boundary sliver ct08).
+  7. crush MAKES caps: its edge splits and merges create tets with one
+     vertex just over a face. Carl's CAP count in ct11 goes from 0 to
+     56 at 0.2 and 31 at 0.3 (65 and 80 before the CAP case was on).
+  8. TOLCRUSH 0.1 (the default) is weaker than a 10 degree dihedral
      rule: relative width 0.1 is about 5 degrees. ct11: Carl's "poor"
      283 before, 185 after 0.1, 6 after 0.2, 2 after 0.3.
-  6. crush adds vertices (ct11: +2% at 0.1, +16% at 0.3) and never
-     smooths or reconnects (recon is commented out).
-  7. pset is ignored (the test is commented out); maxtrip is fixed at 10.
+  9. crush adds vertices (ct11: +2% at 0.1, +16% at 0.3) and never
+     smooths or reconnects (recon is commented out); maxtrip is fixed at
+     10 (the most any deck here used is 9: ct11 at 0.3).
+
+  The angle attributes this suite uses (ang_mind, ang_maxd, solid
+  angles) were themselves checked in ../test_element_angles.
 
 FILES
 
@@ -112,4 +148,4 @@ FILES
   make_page.py         logs/summary.html
   ct_measure.mlgi      Carl's attributes on a copy of the mesh
   ct_h_field.mlgi      the graded h field for ct11
-  ct01-ct11 *.lgi      the decks
+  ct01-ct12 *.lgi      the decks

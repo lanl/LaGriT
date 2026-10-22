@@ -1,0 +1,20 @@
+# ea02_thin.lgi
+# 24 slivers of height 1e-4 to 1e-14: angles near 0 and 180, solid
+# angles near 0; none may be lost to rounding
+# check: ea_thin
+read / avs / ea_thin.inp / mo
+cmo / addatt / mo / ang_mind / ang_mind
+cmo / addatt / mo / ang_minr / ang_minr
+cmo / addatt / mo / ang_maxd / ang_maxd
+cmo / addatt / mo / ang_maxr / ang_maxr
+cmo / addatt / mo / ang_mind_solid / s_mind
+cmo / addatt / mo / ang_minr_solid / s_minr
+cmo / addatt / mo / ang_maxd_solid / s_maxd
+cmo / addatt / mo / ang_maxr_solid / s_maxr
+cmo / addatt / mo / volume / vol
+quality / aspect / y
+quality / edge_ratio / y
+quality / edge_min / y
+quality / edge_max / y
+dump / avs / ea_thin_out.inp / mo
+finish

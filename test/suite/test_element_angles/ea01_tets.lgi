@@ -1,0 +1,20 @@
+# ea01_tets.lgi
+# 213 tets of known shape (see make_angle_inputs.py): every attribute
+# compared with an independent computation (check_angles.py)
+# check: ea_tets
+read / avs / ea_tets.inp / mo
+cmo / addatt / mo / ang_mind / ang_mind
+cmo / addatt / mo / ang_minr / ang_minr
+cmo / addatt / mo / ang_maxd / ang_maxd
+cmo / addatt / mo / ang_maxr / ang_maxr
+cmo / addatt / mo / ang_mind_solid / s_mind
+cmo / addatt / mo / ang_minr_solid / s_minr
+cmo / addatt / mo / ang_maxd_solid / s_maxd
+cmo / addatt / mo / ang_maxr_solid / s_maxr
+cmo / addatt / mo / volume / vol
+quality / aspect / y
+quality / edge_ratio / y
+quality / edge_min / y
+quality / edge_max / y
+dump / avs / ea_tets_out.inp / mo
+finish

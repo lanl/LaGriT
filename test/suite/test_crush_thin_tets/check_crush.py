@@ -10,6 +10,8 @@ HARD checks (decide PASS / FAIL):
   valid          every tet after crush has positive volume
   volume         total volume unchanged (relative 1e-9)
   expectation    "# expect: removed": no tet left below TOLCRUSH
+  pset           "# pset: z < 0.5" (the deck crushes with that pset):
+                 every tet with no vertex in the pset is left as it was
 
 MEASURED (reported, not judged):
   vertices, tets; relative width (crush's own measure: smallest altitude
@@ -174,6 +176,8 @@ def reason_category(action, why):
     w = " ".join(why)
     if "switched off" in w and all(("CAP" in x) for x in why):
         return "CAP: the CAP case is switched off"
+    if "CAP:" in w and "not 1% better" in w and all(("CAP" in x) for x in why):
+        return "CAP: merging it with its face would leave a neighbour no better (not 1% better)"
     if "no case matched" in w:
         return "matched no case (distances not below TOLCRUSH, or feet outside)"
     if "not allowed by point types" in w or "neither end may merge" in w:
@@ -238,9 +242,13 @@ def subset_avs(path, V, C, rw, lim, box, all_in_box=False):
 
 def main(deck, work, logdir):
     name = os.path.basename(deck)[:-4]
-    spec = expect = None
+    spec = expect = pset = None
     cont = False
     for l in open(deck):
+        if l.startswith("# pset:"):
+            ax, op, val = l.split(":", 1)[1].split()
+            assert op == "<", "only '<' is supported in # pset:"
+            pset = ("xyz".index(ax), float(val))
         if l.startswith("# check:"):
             spec = [s.strip() for s in l.split(":", 1)[1].split("|")]
         if cont and l.startswith("#   "):
@@ -302,20 +310,62 @@ def main(deck, work, logdir):
         old_scale = cl.Mesh(Vb, Cb, vab.get("itp1", [0] * len(Vb))).scale_v1234()
         tr = calls[i] if i < len(calls) else {}
         stopped_early = tr.get("ntrips", 10) < 10
-        would = [k for k, r in enumerate(rwa) if r < t and mesh.replay(k, t)[0]]
-        a["scale_model"] = "vertices 1-4 (old LaGriT)" if (stopped_early and would) else "own tet (fixed)"
-        sc = old_scale if (stopped_early and would) else None
+        # Which crush_thin_tets is this? crush stops only when a trip does
+        # nothing, so when it stopped early the right model is one under
+        # which it would do nothing more. Newest first.
+        models = [("tet scale, CAP case on, tolerance ladder (Oct 2026)", None, True, True),
+                  ("tet scale, CAP case on, no ladder", None, True, False),
+                  ("tet scale, CAP case off, no ladder", None, False, False),
+                  ("scale of vertices 1-4, CAP case off (before Oct 2026)", old_scale, False, False)]
+        # With a pset crush works only on tets whose vertices are all in
+        # it, or were added by crush (not in the mesh before).
+        if pset:
+            old_pts = set(tuple(round(c, 9) for c in p) for p in Vb)
+            inside = [tuple(round(c, 9) for c in p) not in old_pts or p[pset[0]] < pset[1]
+                      for p in Va]
+            def processed(k):
+                return all(inside[q] for q in Ca[k])
+            # every tet with no vertex in the pset is left as it was
+            def key(V, c):
+                return tuple(sorted(tuple(round(x, 9) for x in V[q]) for q in c))
+            after_set = set(key(Va, c) for c in Ca)
+            outside_b = [c for c in Cb if all(Vb[q][pset[0]] >= pset[1] for q in c)]
+            moved = sum(1 for c in outside_b if key(Vb, c) not in after_set)
+            a["pset_outside"] = len(outside_b)
+            a["pset_changed"] = moved
+            print("tol_%g_pset_outside_tets %d changed %d" % (t, len(outside_b), moved))
+            if moved:
+                ok = False
+                why_fail.append("TOLCRUSH %g: %d tets with no vertex in the pset changed"
+                                % (t, moved))
+        else:
+            def processed(k):
+                return True
+        thin = [k for k, r in enumerate(rwa) if r < t and processed(k)]
+        chosen = models[0]
+        if stopped_early:
+            for mdl in models:
+                if not any(mesh.replay(k, t, mdl[1], mdl[2], mdl[3])[0] for k in thin):
+                    chosen = mdl
+                    break
+        a["scale_model"] = chosen[0]
+        sc, capon, lad = chosen[1], chosen[2], chosen[3]
         a["old_scale"] = old_scale
         surv = []
         cats = {}
         for k, r in enumerate(rwa):
             if r < t:
-                act, why = mesh.replay(k, t, sc)
-                cat = reason_category(act, why)
+                if processed(k):
+                    act, why = mesh.replay(k, t, sc, capon, lad)
+                    cat = reason_category(act, why)
+                else:
+                    act, why = None, ["a vertex is not in the pset"]
+                    cat = "outside the pset (not processed)"
                 cats[cat] = cats.get(cat, 0) + 1
                 nb = sum(1 for q in Ca[k] if mesh.itp[q] >= 10)
                 surv.append({"tet": k + 1, "relwidth": r,
-                             "kind": cl.classify([Va[q] for q in Ca[k]], t),
+                             "kind": cl.classify([Va[q] for q in Ca[k]], t,
+                                             cl.LADDER if lad else cl.NO_LADDER),
                              "boundary_vertices": nb, "action": act, "why": why, "category": cat})
         surv.sort(key=lambda s: s["relwidth"])
         a["survivors"] = surv[:60]

@@ -187,7 +187,13 @@ def closeness(P):
     return out
 
 
-def classify(P, tol=0.1):
+# the factor on TOLCRUSH for each case: since Oct 2026 crush_thin_tets
+# uses its documented ladder again, NEEDLE at 1.2 x and WEDGE at 1.1 x
+LADDER = {"NEEDLE": 1.2, "WEDGE": 1.1, "CAP": 1.0, "SLIVER": 1.0}
+NO_LADDER = {"NEEDLE": 1.0, "WEDGE": 1.0, "CAP": 1.0, "SLIVER": 1.0}
+
+
+def classify(P, tol=0.1, factor=LADDER):
     """the first kind that matches in crush_thin_tets' own order, each
     relative distance tested against tol (TOLCRUSH): NEEDLE (short edge),
     WEDGE (vertex near an edge), CAP (vertex near the opposite face),
@@ -195,7 +201,7 @@ def classify(P, tol=0.1):
     thin but none of the four distances is below tol"""
     c = closeness(P)
     for k in TYPES:
-        if c[k] is not None and c[k] < tol:
+        if c[k] is not None and c[k] < factor[k] * tol:
             return k
     return "UNMATCHED"
 
@@ -284,12 +290,25 @@ class Mesh:
         """min relwidth over a list of vertex lists; -1 stands for x0"""
         return min(relwidth([x0 if k == -1 else self.V[k] for k in t]) for t in lst)
 
-    def replay(self, t, tol, scale=None):
+    def face_neighbour(self, t, f):
+        """the tet across face f (local, opposite vertex f) of tet t, or None"""
+        fv = set(self.C[t][k] for k in FACES[f])
+        a = self.C[t][FACES[f][0]]
+        for u in self.around[a]:
+            if u != t and fv <= set(self.C[u]):
+                return u
+        return None
+
+    def replay(self, t, tol, scale=None, cap=True, ladder=True):
         """what crush_thin_tets would do with tet t at TOLCRUSH tol.
         scale: the length the distance tests are compared with; None =
         the tet's own scale length (as intended). LaGriT before the Oct
         2026 fix used the scale length of mesh vertices 1-4 for every
         tet (pass Mesh.scale_v1234()).
+        cap: the CAP case (find_02) as rewritten in Oct 2026; False = as
+        before, switched off.
+        ladder: NEEDLE tested at 1.2 x tol and WEDGE at 1.1 x tol (Oct
+        2026); False = all at tol, as before.
         Returns (action or None, list of reasons tried)."""
         c = self.C[t]
         P = self.P(t)
@@ -299,7 +318,7 @@ class Mesh:
         for a, b in EDGES:
             i1, i2 = c[a], c[b]
             d = norm(sub(self.V[i1], self.V[i2]))
-            if d >= tol * s:
+            if d >= (1.2 if ladder else 1.0) * tol * s:
                 continue
             old = sorted(set(self.around[i1]) | set(self.around[i2]))
             new = []
@@ -327,7 +346,7 @@ class Mesh:
             for e in ((f[0], f[1]), (f[0], f[2]), (f[1], f[2])):
                 v = [k for k in f if k not in e][0]
                 r = _vertex_edge(P, v, *e)
-                if not r or r[0] > tol * s:
+                if not r or r[0] > (1.1 if ladder else 1.0) * tol * s:
                     continue
                 i0, i1, i2 = c[v], c[e[0]], c[e[1]]
                 foot = r[1]
@@ -362,13 +381,46 @@ class Mesh:
                     why.append("WEDGE: vertex %d onto edge %d-%d would leave the worst "
                                "nearby tet at %.3f (now %.3f): not 1%% better"
                                % (i0 + 1, i1 + 1, i2 + 1, best, orig))
-        # ---- 02 CAP: disabled in LaGriT (if (.false.) around find_02)
+        # ---- 02 CAP: a vertex close to the opposite face
+        best = None
         for v in range(4):
             r = _vertex_face(P, v, FACES[v])
-            if r and r[0] <= tol * s:
+            if r and (best is None or r[0] < best[0]):
+                best = (r[0], v, r[1])
+        if best and best[0] <= tol * s:
+            d, v, foot = best
+            i0 = c[v]
+            if not cap:
                 why.append("CAP: vertex %d is close to its opposite face, but the CAP "
-                           "case is switched off in crush_thin_tets.f" % (c[v] + 1))
-                break
+                           "case is switched off in crush_thin_tets.f" % (i0 + 1))
+            else:
+                nb = self.face_neighbour(t, v)
+                fverts = [c[k] for k in FACES[v]]
+                itpf = 0 if nb is not None else 10
+                old = [self.C[u] for u in self.around[i0]] + ([self.C[nb]] if nb is not None else [])
+                new0 = [[-1 if k == i0 else k for k in self.C[u]] for u in self.around[i0] if u != t]
+                newp = [list(self.C[u]) for u in self.around[i0] if u != t]
+                if nb is not None:
+                    for fvk in fverts:
+                        piece = [-1 if k == fvk else k for k in self.C[nb]]
+                        new0.append(piece)
+                        newp.append(piece)
+                orig = self.minwidth(old)
+                m0 = self.minwidth(new0, foot) if _mergeable(itpf, self.itp[i0]) else None
+                mp = (self.minwidth(newp, self.V[i0])
+                      if nb is not None and _mergeable(self.itp[i0], itpf) else None)
+                if m0 is not None and m0 > 1.01 * orig:
+                    return ("CAP: vertex merged onto the face", why)
+                if mp is not None and mp > 1.01 * orig:
+                    return ("CAP: new face point merged into the vertex", why)
+                if m0 is None and mp is None:
+                    why.append("CAP: vertex %d near its opposite face, but the merge is "
+                               "not allowed by point types" % (i0 + 1))
+                else:
+                    bestm = max(m for m in (m0, mp) if m is not None)
+                    why.append("CAP: merging vertex %d with its opposite face would leave "
+                               "the worst nearby tet at %.3f (now %.3f): not 1%% better"
+                               % (i0 + 1, bestm, orig))
         # ---- 11 SLIVER: two opposite edges nearly crossing
         for i in range(3):
             r = _edge_edge(P, i)
