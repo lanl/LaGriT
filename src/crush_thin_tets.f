@@ -493,10 +493,14 @@ c$$$            if (relwidth(i).gt.1.2d0*tolcrush) goto 1001
             endif
 c Get scale length for tet.
 c Scale length is sqrt of (sum of squares of edge lengths/9)
+c (Oct 2026) The edge ends are this tet's vertices: ielmedge1 gives
+c local vertex numbers 1-4, which were used directly as global vertex
+c numbers, so every tet got the scale length of mesh vertices 1-4 and
+c every TOLCRUSH distance test compared against that unrelated length.
             ssq=0.d0
             do k=1,nelmnee(ifelmtet)
-               i1=ielmedge1(1,k,ifelmtet)
-               i2=ielmedge1(2,k,ifelmtet)
+               i1=itet(itetoff(i)+ielmedge1(1,k,ifelmtet))
+               i2=itet(itetoff(i)+ielmedge1(2,k,ifelmtet))
                ssq=ssq+(xic(i1)-xic(i2))**2+(yic(i1)-yic(i2))**2
      &            +(zic(i1)-zic(i2))**2
             enddo
