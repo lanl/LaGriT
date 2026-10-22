@@ -1,0 +1,23 @@
+# ct04_sliver_interior.lgi
+# A SLIVER (two opposite edges nearly crossing) inside the mesh: one
+# vertex of a regular lattice tet mesh (6 x 6 x 6 vertices, 750 tets,
+# relative width 0.41 everywhere) moved by make_inputs.py; every tet
+# stays valid. crush_thin_tets at its default TOLCRUSH 0.1. Each
+# written mesh is also measured (ct_measure.mlgi: Carl Gable's
+# dihedral, solid angle and edge ratio attributes) into <name>_m.inp.
+# expect: removed
+# check: crush | ct04 | sliver_interior.inp | 0.1
+read / avs / sliver_interior.inp / mo_tet
+resetpts / itp
+dump / avs / ct04_before.inp / mo_tet
+define / MO / mo_tet
+define / AVS_OUT / ct04_before_m.inp
+infile ct_measure.mlgi
+crush_thin_tets / mo_tet / 0.1
+rmpoint / compress
+resetpts / itp
+dump / avs / ct04_after_0.1.inp / mo_tet
+define / MO / mo_tet
+define / AVS_OUT / ct04_after_0.1_m.inp
+infile ct_measure.mlgi
+finish
