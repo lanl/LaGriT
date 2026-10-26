@@ -1,0 +1,25 @@
+# field_valley_2d.mlgi - test V: a narrow fine band at y = 9 in a box 10 long.
+#   h = min(0.05, max(0.01, 0.01 + 0.5 |y - 9|))
+# written as max(A, B), A = 0.01 + 0.5 (y - 9), B = 0.01 - 0.5 (y - 9).
+# The original sampler reads h from the wrong place along y (one cell
+# size for every axis, lower-corner node, no clamp): the fine band is
+# shifted toward -y, vertices pack too close just below y = 9 and the
+# band above it is missing (holes).
+cmo / addatt / mo_poi_h_field / hv_tmp / VDOUBLE / scalar / nnodes
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / yic / 0.5
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / -4.49
+math / multiply / mo_poi_h_field / hv_tmp / 1,0,0 / &
+       mo_poi_h_field / yic / -0.5
+math / add / mo_poi_h_field / hv_tmp / 1,0,0 / &
+       mo_poi_h_field / hv_tmp / 4.51
+math / max / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / mo_poi_h_field / hv_tmp
+math / floor / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.01
+math / ceiling / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.05
+cmo / delatt / mo_poi_h_field / hv_tmp
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+finish

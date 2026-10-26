@@ -1,0 +1,11 @@
+{
+ "name": "circ_r0.01_1000",
+ "description": "circle radius 0.01, 1000 vertices",
+ "vertices": 1000,
+ "xmin": -0.01,
+ "xmax": 0.01,
+ "ymin": -0.01,
+ "ymax": 0.01,
+ "orientation": "counterclockwise",
+ "area": 0.0003141571982779476
+}

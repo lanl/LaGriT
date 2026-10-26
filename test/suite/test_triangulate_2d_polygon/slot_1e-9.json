@@ -1,0 +1,11 @@
+{
+ "name": "slot_1e-9",
+ "description": "slot whose tip stops 1e-9 above the far wall",
+ "vertices": 7,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 0.95000000005
+}

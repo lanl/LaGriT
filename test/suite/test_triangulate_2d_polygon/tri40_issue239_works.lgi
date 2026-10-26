@@ -1,0 +1,19 @@
+#####################################################################
+# tri40_issue239_works.lgi
+#
+# polygon  : issue239_works.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   GitHub issue 239 (perimeter_works.inp): the same, with the
+#   tip at (1, 1.000001), off the diagonal.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / issue239_works.poly / mo_tri
+triangulate / clockwise
+dump / avs / out_tri40_issue239_works.inp / mo_tri
+finish

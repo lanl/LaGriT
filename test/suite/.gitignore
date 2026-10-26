@@ -1,0 +1,46 @@
+# test/suite - files git must NOT track.
+# Everything here is written by a run (every runner deletes and
+# rewrites it), a build product or Mac metadata. Inputs, decks,
+# runners, checkers and READMEs ARE tracked.
+
+# ---- written by every run
+test_lagrit_upstream/work/
+test_connect_timing/work/
+test_interpolate_compute/work/
+logs/
+out_*
+lagrit.out
+lagrit.log
+run_all.log
+run_all_times.txt
+/summary.html
+
+# ---- outputs named by a deck (not out_*)
+test_poisson_2d/output0*.inp
+test_poisson_2d/h_field_out.inp
+test_poisson_2d_shapes/raw_p2d*.inp
+test_poisson_3d/test_3d_poi_*.inp
+test_poisson_3d/test_3d_poi_*.stor
+test_poisson_3d/poisson_h_of_x_y.inp
+*.stor
+
+# ---- letters timing (timing/time_letters.sh writes these)
+test_poisson_3d_refine_letters/timing/*.stdout
+test_poisson_3d_refine_letters/timing/full_deck.lgi*
+test_poisson_3d_refine_letters/timing/last_timing.txt
+
+# ---- before/after records a developer may keep beside the suite
+results_archive/
+before_after.html
+
+# ---- standalone builds
+test_triangulate_2d_polygon/standalone/tri_core.f
+test_triangulate_2d_polygon/standalone/tri_driver
+*.o
+
+# ---- Python, Mac
+__pycache__/
+*.pyc
+.DS_Store
+._*
+run_all_usual.txt

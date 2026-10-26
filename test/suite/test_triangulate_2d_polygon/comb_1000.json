@@ -1,0 +1,11 @@
+{
+ "name": "comb_1000",
+ "description": "comb: 1000 narrow teeth (4000 vertices)",
+ "vertices": 4000,
+ "xmin": 0.0,
+ "xmax": 399.8,
+ "ymin": 0.0,
+ "ymax": 5.0,
+ "orientation": "counterclockwise",
+ "area": 1199.799999999993
+}

@@ -1,0 +1,51 @@
+# -------------------------------------------------------
+# calculate the resolution field h(x,y)
+# and h=ax+b linear variation with distance dfield(x,y,z)
+#
+# The floor and ceiling functions set the minimum value of h (floor)
+# and maximum value of h (ceiling)
+#
+#              ceiling
+#            /--------
+#           /
+#          / h=ax+b
+#         /
+# -------/
+# floor
+#
+# Test suite copy of the user's demo_user_resolution_01.mlgi. Changes:
+# the dump name poisson_h_of_x_y.inp -> out_letters_h_field.inp, and
+# that dump is commented out (see below).
+#
+compute / distance_field / mo_poi_h_field / mo_LaGriT_refine / dfield
+math/multiply/mo_poi_h_field/h_field_att/1,0,0/mo_poi_h_field/dfield/SLOPE/
+cmo / printatt / mo_poi_h_field / dfield / minmax
+math/add/mo_poi_h_field/h_field_att/1,0,0/mo_poi_h_field/h_field_att/INTERCEPT/
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+math / floor   / mo_poi_h_field / h_field_att / 1 0 0 / &
+                 mo_poi_h_field / h_field_att / H_FLOOR
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+math / ceiling / mo_poi_h_field / h_field_att / 1 0 0 / &
+                 mo_poi_h_field / h_field_att / H_CEILING
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+#
+# -------------------------------------------------------
+#
+# In order to visualize the h(x,y) field, the user can output
+# mo_poi_h_field and look at the attribute h_field_att.
+# Output will slow things down so output should be commented out
+# in production runs.
+#
+# COMMENTED OUT in the test suite (Oct 10 2026): the field lives on the
+# driver's lookup grid, 3.5 million points at h 0.16 (about 0.5 GB of
+# AVS text, more as h gets finer), so writing it and checking it is
+# big and slow. The suite does not test AVS output, and the h field is
+# not needed to judge the mesh: the checker computes h itself from
+# out_letters_refine.inp. Uncomment the dump line to look at the field
+# in ParaView; the checker's field row then checks it too (it reports
+# SKIP while the line is commented out).
+
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+# dump / avs / out_letters_h_field.inp / mo_poi_h_field / 1 3 1 1
+
+finish

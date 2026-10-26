@@ -1,0 +1,26 @@
+#####################################################################
+# cp60_voronoi_tet_doc.lgi
+#
+# group    : voronoi
+# expect   : valid
+# spec     : none
+# points   : out_cp60_pts.inp
+# mesh     : out_cp60_mesh.inp tet
+# filter   : yes
+# cellattr : voronoi
+#
+# WHAT:
+#   the doc's example: a 3 x 3 x 3 hex brick cut into tets
+#   (hextotet / 6); createpts / voronoi makes xvor, yvor, zvor: the
+#   centre of each tet's circumscribed sphere.
+# FROM THE DOCUMENTATION: createpts_voronoi.md
+#####################################################################
+
+cmo/create/mo_hex ///hex
+createpts/brick/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+hextotet / 6 / mo_tet / mo_hex
+cmo / select / mo_tet
+createpts / voronoi
+dump / avs / out_cp60_pts.inp / mo_tet
+dump / avs / out_cp60_mesh.inp / mo_tet
+finish

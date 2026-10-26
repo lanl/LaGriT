@@ -1,0 +1,11 @@
+{
+ "name": "letter_T",
+ "description": "letter T",
+ "vertices": 8,
+ "xmin": 18.0,
+ "xmax": 21.0,
+ "ymin": 0.0,
+ "ymax": 5.0,
+ "orientation": "counterclockwise",
+ "area": 7.0
+}

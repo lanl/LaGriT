@@ -1,0 +1,16 @@
+#####################################################################
+# err12_polygon_edge_too_short.lgi
+#
+# EXPECT:
+#   One ERROR block: polygon edge smaller than target edge length,
+#   followed by a line giving h and the polygon minimum edge.
+#
+# NOTE:
+#   Unit square edge is 1.0; h=5.0 makes the h/2 floor 2.5.
+#   The 90 degree corners still pass the angle check, so this
+#   isolates the edge-length fault.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 5.0 / connect
+finish

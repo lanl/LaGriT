@@ -1,0 +1,19 @@
+#####################################################################
+# tri31_circ_r0p01_1000.lgi
+#
+# polygon  : circ_r0.01_1000.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   circle of radius 0.01 with 1000 vertices: the same shape
+#   at a smaller scale failed with far fewer vertices (from 136).
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   FAILS: "ERROR: Unable to triangulate input".
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / circ_r0.01_1000.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri31_circ_r0p01_1000.inp / mo_tri
+finish

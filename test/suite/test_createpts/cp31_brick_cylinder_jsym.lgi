@@ -1,0 +1,31 @@
+#####################################################################
+# cp31_brick_cylinder_jsym.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick rtz 5,17,5 0.,0.,0. 2.,360.,2. 1,1,1
+# points   : out_cp31_pts.inp
+# mesh     : out_cp31_pts.inp hex
+# unused_ok : yes
+# coincident_ok : yes
+#
+# WHAT:
+#   the same cylinder with jsym = 1, the 22nd token ("symmetry flags" in
+#   the code; documented Oct 13, user). jsym = 1 makes the j direction (theta)
+#   PERIODIC: the last row of cells (from 337.5 to 360 deg) is joined to
+#   the FIRST row of vertices (0 deg) instead of the last (360 deg), so
+#   the seam closes without filter. The 25 vertices at 360 deg (5 radii
+#   x 5 heights) are made but no cell uses them. isym / ksym do the same in i / k.
+#   The axis is not merged (that needs filter). Written without spaces:
+#   with them the line is 91 characters, and LaGriT reads only 80.
+# FROM THE DOCUMENTATION: CRTPTBRICK.md (jsym, Oct 13 2026)
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   Oct 13: until now this line had spaces, was 91 characters, and
+#   LaGriT never saw the jsym flag.
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts/brick/rtz/5,17,5/0.,0.,0./2.,360.,2./1,1,1/0,0,0/1.,1.,1./0,1,0
+dump / avs / out_cp31_pts.inp / mo_hex
+quality
+finish

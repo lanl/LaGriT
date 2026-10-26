@@ -1,0 +1,160 @@
+#######################################################################
+#
+# Suite A - Poisson disk error handling and reporting
+#
+# These tests feed deliberately BAD commands to
+# createpts / poisson_disk and check that the failure is reported
+# properly. Nothing here checks mesh numerics; that is Suite B.
+#
+#   sh run_error_tests.sh [path-to-lagrit]
+#
+# Logs land in logs/. Exit status 0 means every test passed.
+# Index of all the test suites: ../00README
+#
+#######################################################################
+#
+# WHY THERE ARE NO REFERENCE FILES
+#
+# The assertions are structural, not textual:
+#
+#   err*   at least one ERROR block, no crash
+#   warn*  a WARNING block, no ERROR block, mesh still produced
+#   all    every opened banner has a matching closing banner
+#
+# That means the suite keeps working when message wording changes,
+# which matters because the wording is expected to keep improving.
+# If you later want exact-text regression, capture logs/ as reference
+# output once the messages settle.
+#
+# The balanced-banner check is the important one. In the ORIGINAL code
+# five of seven error blocks and both warning blocks never emitted a
+# closing banner, because each site hand rolled its own writloga
+# sequence. Everything now routes through poi_log_block, which owns
+# the format. If someone adds a message without going through it, this
+# check fails.
+#
+#######################################################################
+#
+# FILES
+#
+# Polygon inputs, AVS UCD point sets:
+#   unit_square.poly            convex baseline, 4 vertices
+#   two_point.poly              2 vertices, too few
+#   needle.poly                 min interior angle about 0.46 degrees
+#   tilted_square.poly          not planar in X,Y
+#   lshape_mid.poly             reflex corner at vertex 4
+#   lshape_reflex_first.poly    reflex corner at vertex 1
+#   lshape_reflex_last.poly     reflex corner at vertex 6
+#
+# The three L shapes are THE SAME SHAPE with the vertex list rotated.
+# They must all behave identically. See warn02 below.
+#
+# h field control files:
+#   hfield_too_small.mlgi       field at 0.1*h, below the 0.49*h floor
+#   hfield_too_large.mlgi       field at 200*h, above the 100*h warn
+#   hfield_vary_in_z.mlgi       3D, illegal values only away from the
+#                               first z layer
+#
+#######################################################################
+#
+# TEST INDEX
+#
+# Parse phase
+#   err01  bad dimension token            3d_bx
+#   err02  command too short              missing tokens
+#   err03  h wrong type                   token 5 is character
+#   err04  h is zero
+#   err05  h is negative
+#   err06  bad connect token              2D, reported as token 7
+#   err07  unknown option keyword         poison_seed
+#   err08  option value wrong type        poisson_seed abc
+#   err09  mesh object name numeric       token 3 is an integer
+#   err10  THREE parse faults at once     accumulator test
+#
+# Geometry phase, 2D
+#   err11  polygon has 2 vertices
+#   err12  polygon edge shorter than h/2
+#   err13  polygon angle below 9 degrees
+#   err14  polygon not planar in X,Y
+#   err15  h field below the 0.49*h floor
+#
+# 3D
+#   err16  bad connect token              reported as token 6, not 7
+#   err17  one missing POI_ box define
+#   err18  THREE missing box defines      accumulator test
+#   err19  h field illegal away from the first z layer
+#
+# Warnings, must NOT abort
+#   warn01 nonconvex, reflex at vertex 4
+#   warn02 nonconvex, reflex at vertex 1
+#   warn03 nonconvex, reflex at vertex 6
+#   warn04 h field above the 100*h warning threshold
+#
+#######################################################################
+#
+# TOKEN NUMBERS IN MESSAGES
+#
+# createpts_lg.f calls the drivers with imsgin(2), so the array the
+# driver sees starts at the user's SECOND token. Messages add
+# POI_TOKEN_OFFSET so the number printed matches what the user typed:
+#
+#     createpts / poisson_disk / 3d_box / mo_out / ...
+#          1            2           3        4
+#
+# A bad dimension keyword is reported as token 3, not the internal 2.
+#
+#######################################################################
+#
+# THE FOUR TESTS THAT MATTER MOST
+#
+# err10 and err18
+#   One command, several mistakes, ONE error block listing all of
+#   them. The old code stopped at the first fault, so a command with
+#   three mistakes took three edit-and-rerun cycles to diagnose. If
+#   these ever report only one fault, the accumulator has regressed to
+#   fail-fast.
+#
+#   Both decks carry two header lines the runner enforces:
+#       # blocks   : 1
+#       # contains : <text> | <text> | <text>
+#   exactly one ERROR block, and every listed text inside it. Counted
+#   on the deck's stdout only: stdout and lagrit.out carry the same
+#   text, so the combined .all file shows every block twice (which is
+#   why the other err* decks report "2 block/s"). Any deck may use
+#   these two lines.
+#
+# warn02 and warn03
+#   Regression tests for the test_convex corner coverage bug. The loop
+#   ran i = 1, nnode-2 and each pass tested the turn at vertex i+1, so
+#   the turns at vertex 1 and vertex nnode were never examined. A
+#   polygon reflex at either of those vertices was reported CONVEX,
+#   which skipped the warning AND the clipping pass and produced a
+#   convex hull mesh that silently filled the concave notch.
+#
+#   warn01, warn02 and warn03 are the same L shape with the vertex
+#   list rotated, so all three must warn and all three must produce
+#   the same clipped outline. Under the old code warn01 warned and the
+#   other two did not.
+#
+#######################################################################
+#
+# NOT COVERED HERE, AND WHY
+#
+# Dimension token mismatch against the driver actually called
+#   poisson_disk_2d and poisson_disk_3d each verify that token 2
+#   agrees with the driver. Going through createpts this is
+#   unreachable, because the poisson_disk dispatcher routes on that
+#   same token. The check exists for callers that invoke a driver
+#   directly. Testable only by calling the drivers from Fortran.
+#
+# Error accumulator overflow
+#   poi_err_report reports "and N further problems not shown" past
+#   POI_ERR_MAX. Reaching 40 faults in one command needs about 20 bad
+#   keyword pairs. Worth adding if the limit is ever lowered.
+#
+# dotaskx3d status
+#   Still discarded at the single call site in poi_cmd, as it was at
+#   all 65 original sites. A failing LaGriT command inside the driver
+#   is not detected. Making those checked is its own change.
+#
+#######################################################################

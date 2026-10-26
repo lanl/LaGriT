@@ -1,0 +1,21 @@
+#####################################################################
+# err19_3d_hfield_below_floor_in_z.lgi
+#
+# EXPECT:
+#   One ERROR block: h_field_att below the floor.
+#   The illegal values are NOT in the first z layer.
+#
+# NOTE:
+#   REGRESSION TEST for the 3D h-field scan-count bug. The old code
+#   checked only np_x*np_y values, one z layer of an np_x*np_y*np_z
+#   hex mesh, so this field was accepted silently.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.025 / connect &
+      / hfield_vary_in_z.mlgi
+finish

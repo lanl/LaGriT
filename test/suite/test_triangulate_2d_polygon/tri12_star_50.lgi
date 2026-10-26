@@ -1,0 +1,18 @@
+#####################################################################
+# tri12_star_50.lgi
+#
+# polygon  : star_50.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   STARBURST: 50 spikes, outer radius 1, inner radius 0.01.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / star_50.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri12_star_50.inp / mo_tri
+finish

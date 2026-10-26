@@ -1,0 +1,19 @@
+#####################################################################
+# cp69_syntax_no_switches.lgi
+#
+# group    : syntax
+# expect   : error
+# reason   : incomplete command
+#
+# WHAT:
+#   the switches iiz,ijz,ikz left out (11 tokens): they are required.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before: cell centres without a message (the parser leaves 0
+#   past the end of a command). Oct 15-16: optional, then taken
+#   back (user: required). Now: ERROR: incomplete command, 11
+#   tokens of 14.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 3,3,3 / 0.,0.,0. / 1.,1.,1.
+finish

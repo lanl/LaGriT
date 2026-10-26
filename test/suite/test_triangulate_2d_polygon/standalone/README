@@ -1,0 +1,27 @@
+standalone/ - maketriangles_lg without LaGriT
+
+  For trying a change to the ear-clipping algorithm in seconds, before
+  rebuilding LaGriT. Not part of the suite run.
+
+    ./build.sh path/to/triangulate_lg.f        builds tri_driver
+    python3 run_one.py ../rtri_plus1.poly     (or any .poly; add
+                                                        "cw" if clockwise)
+
+  build.sh copies maketriangles_lg and every routine after it from the
+  given triangulate_lg.f into tri_core.f, and links it with:
+
+    tri_driver.f   does what triangulate_lg does around the call: drop
+                   a repeated last vertex, try the requested
+                   orientation, on failure retry the other one
+    mm_stub.c      stands in for LaGriT's mmgetblk / mmrelprt
+
+  run_one.py then checks the cells with ../check_triangulate.py, the
+  same checker the suite uses on LaGriT's own output.
+
+  NOT covered here: the triangulate_lg wrapper itself (the vertex
+  count guard, the messages, filter / rmpoint / resetpts). Only the
+  full suite tests those.
+
+  This is how the Oct 2026 fix was developed: the original and fixed
+  routines, built this way, agree cell for cell with LaGriT's output
+  on GitHub issue 239.

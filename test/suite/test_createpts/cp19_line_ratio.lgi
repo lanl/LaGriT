@@ -1,0 +1,16 @@
+#####################################################################
+# cp19_line_ratio.lgi
+#
+# group    : line
+# expect   : valid
+# spec     : line 31 0.,0.,0. 2.,0.,0. 1 ratio 1.2
+# points   : out_cp19_pts.inp
+#
+# WHAT:
+#   31 points from x = 0 to 2 (3 x the points, 2 x the length, user
+#   Oct 13), ends included, each step 1.2 x the one before.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 31 / / / 0.,0.,0. / 2.,0.,0. / 1,1,1 / 1,1,1 / 1.2,1.2,1.2
+dump / avs / out_cp19_pts.inp / mo_tet
+finish

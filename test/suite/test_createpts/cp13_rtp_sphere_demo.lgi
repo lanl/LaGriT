@@ -1,0 +1,355 @@
+#####################################################################
+# cp13_rtp_sphere_demo.lgi
+#
+# group    : rtp
+# expect   : valid
+# spec     : rtp 3,19,10 0.,0.,0. 1.,360.,180. 1,1,1 + rtp 3,19,10 1.,0.,0. 2.,360.,180. 1,1,1 + rtp 3,37,19 2.,0.,0. 3.,360.,180. 1,1,1
+# points   : out_cp13_pts.inp
+# mesh     : out_cp13_mesh.inp tet
+# coincident_ok : yes
+# parents_ok : yes
+# shells   : 1.,2.,3. 2,3
+# picture  : panels out_cp13_icos_642_tet.inp tet green, out_cp13_cube.inp tet yellowgreen, out_cp13_sphere_in_box.inp hex red inside, out_cp13_icos_162.inp hex blue, out_cp13_icos_642.inp hex cyan, out_cp13_mesh.inp tet orange
+#
+# WHAT:
+#   the user's LANL sphere demo (meshing.lanl.gov/proj/DEMO_sphere_
+#   mesh_generation, Oct 15), every deck its driver runs, as given
+#   (demo_sphere/): the shells geometry, hex icosahedral spheres with
+#   162 and 642 vertices per shell (createpts/sphere type 8), a tet
+#   sphere from a projected cube (type 1), a tet icosahedral sphere
+#   (type 2), the tet rtp shells (this deck's points and mesh), and a
+#   hex sphere set into a hex box, cut to one octant. Only the dumps
+#   are changed (AVS for the checker). The picture is the six meshes
+#   side by side, as on the demo page (the missing lagrit.input_merge
+#   made that layout); top right, the box octant (the cutaway).
+#   The rtp mesh is checked as a shell r 1-3 in materials 2 and 3;
+#   every mesh: cell type, no cell of volume <= 0, no unused vertex
+#   (settets' interface parents, itp1 = 41, excepted).
+# FROM THE DOCUMENTATION: meshing.lanl.gov/proj/DEMO_sphere_mesh_generation
+#####################################################################
+
+*------------------------------------------------------------
+* lagrit.input_geom
+*------------------------------------------------------------
+define / r1 / 1.0
+define / r2 / 2.0
+define / r3 / 3.0
+
+geometry / create / geom_sph_shells
+cmo / create / dummy
+cmo / geometry / dummy / geom_sph_shells
+
+surface/sphere_r1/intrface/sphere/0.0,0.0,0.0/r1/
+surface/sphere_r2/intrface/sphere/0.0,0.0,0.0/r2/
+surface/sphere_r3/reflect /sphere/0.0,0.0,0.0/r3/
+surface/boundbox/reflect /box/-4.,-4.,-4./4.,4.,4.
+
+region /r_r1   /lt sphere_r1/
+region /r_r1_r2/ge sphere_r1 and lt sphere_r2/
+region /r_r2_r3/ge sphere_r2 and le sphere_r3/
+
+mregion/m_r1   /lt sphere_r1/
+mregion/m_r1_r2/gt sphere_r1 and lt sphere_r2/
+mregion/m_r2_r3/gt sphere_r2 and le sphere_r3/
+*------------------------------------------------------------
+* lagrit.input_icos_162
+*------------------------------------------------------------
+*
+* Create a hexahedral icosahedral sphere mesh
+* Number of nodes per shell is 162
+*
+cmo/create/cmo1/ / / hex
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+
+define / n_icos / 162
+
+createpts/sphere/8/4/n_icos/r1/r2/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/8/4/n_icos/r2/r3/0.0,0.0,0.0/1,0,0.0/
+filter / 1 0 0
+rmpoint / compress
+setpts
+settets
+dump / avs / out_cp13_icos_162.inp / cmo1
+cmo / status / cmo1
+cmo / delete / cmo1
+*------------------------------------------------------------
+* lagrit.input_icos_642
+*------------------------------------------------------------
+*
+* Create a hexahedral icosahedral sphere mesh
+* Number of nodes per shell is 642
+*
+define / n_icos / 642
+
+cmo/create/cmo1/ / / hex
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+createpts/sphere/8/2/n_icos/r1/r2/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/8/3/n_icos/r2/r3/0.0,0.0,0.0/1,0,0.0/
+filter / 1 0 0
+rmpoint / compress
+setpts
+settets
+dump / avs / out_cp13_icos_642.inp / cmo1
+cmo / status / cmo1
+cmo / delete / cmo1
+*------------------------------------------------------------
+* lagrit.input_cube
+*------------------------------------------------------------
+*
+* Create a tet sphere mesh with projection of a cube point distribution
+*
+* npts is of the form 6*i**2
+define / npts / 486
+
+cmo/create/cmo1/ / / tet
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+
+createpts/sphere/1/2/ npts /0./r1/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/1/2/ npts /r1/r2/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/1/2/ npts /r2/r3/0.0,0.0,0.0/1,0,0.0/
+
+filter / 1 0 0
+rmpoint / compress
+setpts
+connect
+settets
+rmregion / r_r1
+rmpoint / compress
+dump / avs / out_cp13_cube.inp / cmo1
+cmo / status / cmo1
+cmo / delete / cmo1
+*------------------------------------------------------------
+* lagrit.input_icos_642_tet
+*------------------------------------------------------------
+*
+* Create a tet sphere mesh with icosahedral point distribution
+* Number of nodes per shell is 642
+*
+
+cmo/create/cmo1/ / / tet
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+createpts/sphere/2/3/162/0./r1/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/2/3/162/r1/r2/0.0,0.0,0.0/1,0,0.0/
+createpts/sphere/2/3/642/r2/r3/0.0,0.0,0.0/1,0,0.0/
+filter / 1 0 0
+rmpoint / compress
+setpts
+
+connect
+settets
+rmregion / r_r1
+rmpoint / compress
+dump / avs / out_cp13_icos_642_tet.inp / cmo1
+cmo / status / cmo1
+cmo / delete / cmo1
+*------------------------------------------------------------
+* lagrit.input_rtp
+*------------------------------------------------------------
+*
+* Create a tet sphere mesh with r,theta,phi point distribution
+* Remove the central sphere after mesh is connected.
+*
+cmo/create/cmo1/ / / tet
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+createpts/rtp/3,19,10/0.,0.,0./r1,360.,180./1,1,1/
+createpts/rtp/3,19,10/r1,0.,0./r2,360.,180./1,1,1/
+createpts/rtp/3,37,19/r2,0.,0./r3,360.,180./1,1,1/
+dump / avs / out_cp13_pts.inp / cmo1
+filter / 1 0 0
+rmpoint / compress
+setpts
+connect
+settets
+rmregion / r_r1
+rmpoint / compress
+resetpts / itp
+dump / avs / out_cp13_mesh.inp / cmo1
+cmo / status / cmo1
+cmo / delete / cmo1
+*------------------------------------------------------------
+* lagrit.input_sphere_in_box
+*------------------------------------------------------------
+cmo / create / cmo_box / / / hex
+cmo / geometry / cmo1 / geom_sph_box
+cmo / constraint / cmo1 / dummy
+*
+* This input file inserts a spherical hex grid inside a background
+* hex grid.
+*
+define / nx / 11
+define / ny / 11
+define / nz / 21
+define / nrad_in / 3
+define / nrad_out / 11
+*
+* The following are the coordinates of the external
+* box that the mesh sphere mesh will be inserted into.
+* It is up to the user to have the xcen,ycen,zcen values
+* in the center of them minmax values. If you get the center
+* off, that could cause problems.
+*
+define / xmin / -3.0
+define / xmax /  3.0
+define / ymin / -3.0
+define / ymax /  3.0
+define / zmin / -3.0
+define / zmax /  3.0
+define / xcen /  0.0
+define / ycen /  0.0
+define / zcen /  0.0
+*
+* The next set of coordinates define the size of
+* the hole that will be cut out of the background
+* mesh. These values must be smaller that the bounding
+* box defined above. Also, the hole will not have the
+* exact size of the numbers below. It will be the size
+* of the nearest larger set of coordinates.
+*
+define / xmin_h / -1.5
+define / xmax_h /  1.5
+define / ymin_h / -1.5
+define / ymax_h /  1.5
+define / zmin_h / -1.5
+define / zmax_h /  1.5
+*
+* This is the radius of the sphere. Again, this better be
+* smaller than the the hole cut out above.
+*
+* This is an absolute value.
+*
+define / rad_sph /  0.55
+*
+* This is an relative scale value.
+*
+define / rad_box /  0.10
+*
+* These are the material ID's of the box and sphere.
+*
+
+define / box_mat / 1
+define / sph_mat / 2
+*
+*
+* All the stuff below puts the sphere in the box.
+* Do not change below this line.
+*
+*------------------------------------------------
+*------------------------------------------------
+*
+
+createpts/brick/xyz/nx ny nz / xmin ymin zmin / xmax ymax zmax / 1 1 1
+*
+* make a copy of the main grid volume
+cmo/copy/cmo1/cmo_box
+*
+cmo/select/cmo_box
+* coordinates are box that will contain the source region
+pset/p_hole/geom/xyz/1,0,0/xmin_h ymin_h zmin_h / xmax_h ymax_h zmax_h
+* remove box from main grid volume
+rmpoint/pset,get,p_hole/inclusive
+rmpoint/compress/
+*
+cmo/select/cmo1/
+* define elements that are IN the source box
+pset/p_hole/geom/xyz/1,0,0/xmin_h ymin_h zmin_h / xmax_h ymax_h zmax_h
+eltset/e_hole/inclusive/pset get p_hole
+eltset/e_not_hole/not e_hole/
+
+rmpoint/elements/eltset,get,e_not_hole/
+rmpoint/compress/
+
+* dump / gmv / box_w_hole.gmv / cmo_box
+* dump / gmv / hole.gmv / cmo1
+*
+* set material/color for sphere
+cmo / setatt / cmo1 / imt     / 1 0 0 / sph_mat
+cmo / setatt / cmo1 / itetclr / 1 0 0 / sph_mat
+*
+*extracts boundary of cube
+extract/surfmesh/1 0 0/cmo2d/cmo1/
+rmpoint/compress/
+* dump/gmv/surface_box.gmv/cmo2d
+*
+*inside box
+cmo/status
+pset/p1/seq/1,0,0/
+copypts/cmo2d/cmo2d/0,0/1,0,0/
+zq/isetwd/0,0,0/0/
+pset/p2/seq/0,0,0/
+scale/pset,get,p2/radius/rtp/rad_sph rad_sph rad_sph/ xcen, ycen, zcen
+zq/imt/1,0,0/1/
+settets/
+* dump/gmv/inside_box.gmv/cmo2d
+*4th argument is number lines in outer box
+*
+*  relative argument not implemented in lagrit version
+*
+* cmo / create / cmo1_3da / / / hex
+createpts/brick/interp/nrad_out/pset,get,p1/pset,get,p2/cmo1_3da/
+*
+*sphere
+cmo/delete/cmo2d/
+cmo/select/cmo1/
+*sets size of inside box
+scale/1,0,0/relative/xyz/rad_box,rad_box,rad_box/ xcen, ycen, zcen
+extract/surfmesh/1,0,0/cmo2d/cmo1/
+rmpoint/compress/
+pset/p1/seq/1,0,0/
+copypts/-def-/-def-/0,0/1,0,0/
+zq/isetwd/0,0,0/0/
+pset/p2/seq/0,0,0/
+scale/pset,get,p2/radius/rtp/rad_sph rad_sph rad_sph/ xcen, ycen, zcen
+zq/imt/1,0,0/2/
+settets/
+*4th argument is number lines in sphere
+* cmo / create / cmo1_3db / / / hex
+rzbrick/interp/nrad_in/pset,get,p1/pset,get,p2/cmo1_3db/
+*
+* dump/gmv/sphere_all.gmv/cmo1_3db
+
+addmesh/merge/cmo1_3da/cmo1_3da/cmo1_3db/
+dump / avs / out_cp13_merged1.inp / cmo1_3da
+cmo / delete / cmo1_3da
+read / avs / out_cp13_merged1.inp / cmptmp
+
+dump / avs / out_cp13_cmo_box.inp / cmo_box
+read / avs / out_cp13_cmo_box.inp / cmo_boxa
+
+addmesh/merge/cmptmp/cmptmp/cmo_boxa/
+cmo / delete / cmo_boxa
+
+dump / avs / out_cp13_merged2.inp / cmptmp
+cmo / delete / cmotmp
+
+read / avs / out_cp13_merged2.inp / cmo1_3daaa
+
+
+filter/1,0,0/
+rmpoint/compress/
+geniee
+
+
+* remove sphere
+rmmat / sph_mat / element
+rmpoint/compress
+geniee
+
+* dump / gmv / box_w_no_sphere.gmv / cmo1_3daaa
+*
+* Get rid of everything but a single octant.
+*
+pset / pkeep / geom / xyz / 1 0 0 / xcen, ycen, zcen, xmax, ymax, zmax
+pset / premove / not pkeep
+
+rmpoint/pset,get,premove/inclusive
+rmpoint / compress
+geniee
+
+* dump / gmv / octant.gmv / cmo1_3daaa
+dump / avs / out_cp13_sphere_in_box.inp / cmo1_3daaa
+finish

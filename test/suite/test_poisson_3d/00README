@@ -1,0 +1,285 @@
+=======================================================================
+ test_poisson_3d - harness around test_Poisson_3D.lgi
+=======================================================================
+
+WHAT THIS IS
+
+  Checks for the 3D Poisson disk sampler in LaGriT,
+
+      createpts / poisson_disk / 3d_box / ...
+
+  built around the existing deck test_Poisson_3D.lgi; its three .mlgi
+  files are used UNCHANGED. The deck makes eight meshes of the box
+  [0.2,0.8] x [0.2,0.8] x [0,0.3] (reduced from 1 x 1 x 0.3 on Oct 6
+  2026 to cut run time; see THE BOX below): four with a uniform h,
+  four with an h field that grows with distance from a vertical axis,
+  with and without the edge buffer. Each is dumped as .inp and .stor.
+
+  The harness runs the deck once and checks every output: properties
+  any correct result must have are HARD checks; spacing, tet quality
+  and .stor coefficients are MEASURED and reported so a change in the
+  sampler shows up as a change in the numbers.
+
+QUICK START
+
+  ./run_test_poisson_3d.sh  [path-to-lagrit]       about 1 minute
+                                  (LaGriT 44 s, checks ~25 s, picture 11 s)
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  To re-check outputs already in this directory without running LaGriT:
+
+  ./run_test_poisson_3d.sh --check-only
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                        this file
+  run_test_poisson_3d.sh          runs the deck, checks every output,
+                                  builds the summary page
+  check_test_poisson_3d.py        does the measuring and draws the
+                                  per-case pictures. Its opening comment
+                                  defines every measure and HARD check.
+                                  Also used by ../test_poisson_3d_refine_letters
+                                  (field=distance); keep both suites
+                                  passing when editing it.
+  render_test_poisson_3d.py       the overview picture of all eight
+                                  meshes cut open (see READING THE
+                                  PICTURE). Needs check_test_poisson_3d.py
+                                  beside it. With --cut z it draws the
+                                  letters suite's top view instead.
+  test_Poisson_3D.cases           facts about each output (h, buffer,
+                                  field, expectations), one line per
+                                  run. The deck must not be edited, so
+                                  they live here instead.
+
+  The user's files, used unchanged:
+
+  test_Poisson_3D.lgi             the deck
+  test_run_createpts_poisson.mlgi one uniform-h run (cases 01-04)
+  test_run_poi_user_res.mlgi      one variable-h run (cases 05-08)
+  test_user_resolution.mlgi       the h field for 05-08
+
+  Written by a run (deleted first, so a stale file cannot pass):
+
+  test_3d_poi_0[1-8].inp/.stor    the eight meshes
+  test_3d_poi_merge_all.inp       all eight, stacked in z (~200 MB)
+  lagrit.log, lagrit.out
+  logs/                           see OUTPUT below
+
+-----------------------------------------------------------------------
+THE EIGHT CASES
+-----------------------------------------------------------------------
+
+  case  h       field    edge buffer   .stor wrong-sign coefs
+  01    0.025   uniform  off           reported
+  02    0.025   uniform  1.0 h         HARD: none
+  03    0.025   uniform  0.5 h         reported (see FINDINGS)
+  04    0.0125  uniform  2.0 h         HARD: none
+  05    0.025   radial   off           reported
+  06    0.025   radial   1.0 h         HARD: none
+  07    0.0125  radial   1.0 h         HARD: none
+  08    0.008   radial   1.0 h         HARD: none
+
+  radial: h = max(floor, 0.1 x distance from the axis x = y = 0.5),
+  floor = H_REFINE_SIZE. In the reduced box r reaches 0.42, so h tops
+  out at 0.042; the ceiling (0.075) is never reached. The checker
+  carries its own copy of this formula
+  (make_field), because the driver releases the field mesh.
+
+  Edge buffer on: the sampler fills the box shrunk by buf x h, then the
+  driver adds a regular lattice of points on the six faces.
+
+-----------------------------------------------------------------------
+THE BOX
+-----------------------------------------------------------------------
+
+  The only edit made to the deck: POI_XMIN..POI_YMAX changed from
+  [0, 1] to [0.2, 0.8] (Oct 6 2026). Run time scales with the box
+  volume through the lookup mesh, the face brick and the point count,
+  so this cuts it to roughly 40 %.
+
+  Kept: z = [0, 0.3] (a thinner box would leave the 2 h buffer case
+  almost no interior), and the box centred on x = y = 0.5, where
+  test_user_resolution.mlgi hard-codes the h field axis.
+
+  Lost: the radial cases grade over a smaller range (h up to 0.042,
+  was 0.071). To restore it, raise SLOPE from 0.1 to about 0.17 in
+  the deck AND every slope= entry in test_Poisson_3D.cases.
+
+  Measured Oct 6: LaGriT 128 s -> 44 s; 251 008 -> 117 157 nodes.
+  Every row still PASSes and the original box's findings all still
+  show: wrong-sign .stor pairs 01 165, 03 1082, 05 149, others 0
+  (buffer 0.5 h still the worst); interior pairs down to 0.65-0.82 h;
+  slivers in every case (smallest dihedral 0.095 deg, case 08).
+
+  Side effect: in floating point 0.8 - 0.2 = 0.6000000000000001, so
+  ceiling(L/h) gains one point and the face lattice is exactly h apart
+  in x and y. The off-by-one of finding 2 now shows along z only.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  Rows: run, deck, case_01 .. case_08, merge, field.
+
+  PASS   every HARD check holds
+  SKIP   field row only: no field dump to check (the default)
+  FAIL   anything else. The exit status is nonzero on any FAIL.
+
+  HARD checks (exact definitions in check_test_poisson_3d.py):
+
+  run     lagrit exit status 0; one createpts echo and one driver exit
+          line per case in lagrit.out; no bare ERROR/WARNING line; on
+          stdout, no POISSON DISK error/warning block and a clean
+          "poisson_disk_3d exit" per case
+  deck    every line of test_Poisson_3D.cases matches the defines the
+          deck has in effect at that infile (catches drift)
+  case    .inp and .stor written and readable; tets only; .stor has
+          one row per node; every node inside the box; no duplicate
+          nodes; no inverted or zero-volume tet; no unused node; no
+          triangle shared by more than 2 tets; e_vol > 0.
+          Buffered cases also: every interior node inside the shrunk
+          sampler box; mesh boundary = the box (every boundary triangle
+          on a box face, total volume = box volume).
+          Cases marked "none" above: no significant wrong-sign
+          coefficient in the .stor.
+  merge   node and element counts = sums over the eight cases
+  field   (only if a field dump exists) max relative error vs the
+          checker's formula below 1e-8
+
+  MEASURED, NOT JUDGED (in each case's block on the summary page):
+
+    sep_II/FI/FF_min    smallest d / max(h_p, h_q) over pairs:
+                        interior-interior, face-interior, face-face
+    ..._pairs_lt1       pairs closer than that, lt0.9 closer than 0.9
+    nn_interior_...     nearest-neighbour distance / h, interior nodes
+    track_band*         same, median per band of h (radial cases);
+                        track_spread = largest / smallest band median
+    face_nn_over_h      spacing of face nodes / h of the FIELD there
+    face_lattice_d?     spacing along the box edges / h, measured and
+                        as predicted from the driver's brick
+    wall_gap_min        closest interior node to a wall, / h
+    radius_ratio, dihedral   tet shape; dihedral < 5 deg = sliver
+    stor_*              wrong-sign coefficient pairs, Voronoi volumes
+    log ...             LaGriT's own lines for this run (its negative
+                        coefficient count should equal stor_positive)
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  OVERVIEW (top of the summary page, also logs/mesh_overview.png)
+
+  All eight meshes side by side, as in a ParaView crinkle clip: every
+  tet whose centroid lies past the box's mid x is removed, so the cut
+  face is made of whole tets and the interior shows. Each case is
+  shifted along z by its Z_TRANSLATE, as in the merged dump; case 01
+  is front left. Dense blue faces are face lattices (buffered runs).
+  The second copy colours every tet by its smallest dihedral angle:
+  red < 5 deg (sliver), orange 5-10 deg. Pure Python, about 10 s;
+  NO_RENDER=1 skips it, and a failure never fails the run.
+
+  PER CASE: one picture per case, up to six panels.
+
+  TOP LEFT    top view of a thin slab through mid-height. BLUE =
+              interior node, GREY = node on a box face (taken from the
+              face lattice layer nearest the slab). Black = the box,
+              dashed red = the shrunk sampler box when buffered.
+  TOP RIGHT   side view, slab through y = 0.5. The buffer gap between
+              the face lattice and the interior shows here.
+  MIDDLE L    nearest-neighbour spacing: blue = interior d / h, orange
+              = each face node's nearest interior node / max(h). The
+              orange sits near the buffer size by design.
+  MIDDLE R    smallest dihedral angle of every tet. Dashed: 5 deg
+              (sliver) and 10 deg.
+  BOTTOM L    radial cases: each interior node's nearest-neighbour
+              distance against distance from the axis, with the field
+              h(r) in red. Good tracking = dots just above the line.
+  BOTTOM R    face nodes: spacing / h of the field. On radial cases
+              with a buffer this is far below 1 (see FINDINGS).
+
+OUTPUT
+
+  logs/summary.html                EVERYTHING ON ONE PAGE
+  logs/<row>.keys                  one row's full report
+  logs/case_NN.svg                 one case's picture
+  logs/mesh_overview.png           overview picture, grey
+  logs/mesh_overview_quality.png   overview, coloured by dihedral
+  logs/render.out                  the overview renderer's report
+  logs/test_poisson_3d.stdout      LaGriT stdout (full message text)
+  logs/table.txt                   the results table, as printed
+  logs/lagrit.log, lagrit.out      copies; LaGriT overwrites these
+  logs/lagrit.status               exit status, for --check-only
+
+-----------------------------------------------------------------------
+FINDINGS - all numbers below are from the ORIGINAL 1 x 1 x 0.3 box
+(lagrit.out of Oct 1 2026 and case 05; full harness run of Oct 6 2026)
+-----------------------------------------------------------------------
+
+  1. The Oct 1 lagrit.out had every driver message cut at its first
+     blank and right-justified (Begin banner "===", exit line
+     "poisson_disk_3d"). That was an older build: the Oct 6 run's
+     lagrit.out has all 8 full "poisson_disk_3d exit" lines. The
+     harness splits the log on the echoed createpts command and
+     accepts either form of exit line.
+
+  2. Face lattice spacing is not h. The driver builds the face brick
+     with n = ceiling(L/h) POINTS per axis, so spacing L/(n-1): 1.026 h
+     along x and y and 1.091 h along z at h = 0.025. Confirmed by the
+     brick sizes in lagrit.out (40x40x12, 80x80x24, 125x125x38).
+
+  3. The face lattice ignores the h field. It always uses H_REFINE_SIZE
+     (the field's floor). In case 08 that puts 49 106 of the 67 958
+     nodes (72 %) on the faces, spaced 0.008 where the field asks for
+     up to 0.07.
+
+  4. Buffer 0.5 h (case 03) gives 1646 wrong-sign coefficients, more
+     than no buffer at all (case 01, 371). Buffers of 1 h and 2 h give
+     none. Case 03 is therefore "reported", not judged.
+
+  5. Without a buffer (case 05) the sampler itself puts 1545 nodes on
+     the faces, corners included, and the mesh fills the box exactly.
+     Face-face pairs come as close as 0.67 h (94 pairs under 0.9 h);
+     interior pairs as close as 0.82 h. Slivers: smallest dihedral
+     0.35 deg, 80 tets under 5 deg.
+
+  6. Oct 6 harness run: every HARD check passes on all eight cases,
+     including the buffered ones (mesh boundary = the box, no
+     zero-volume tets). Wrong-sign .stor pairs: 01 371, 03 1646,
+     05 180, all others 0.
+
+  7. Interior pairs closer than h in EVERY case: smallest
+     d / max(h_p, h_q) between interior nodes is 0.63 - 0.82
+     (01 0.816, 02 0.687, 04 0.655, 08 0.631). The 2D sampler's
+     uniform case was 0.991. Slivers in every case; smallest dihedral
+     0.049 deg (case 08). Reported, not judged.
+
+  8. The field row SKIPs: the dump line in test_user_resolution.mlgi
+     is commented out. The field varies in x and y only, so these
+     cases do not exercise the bug-5 fix (all z layers checked) with
+     a z-varying field.
+
+-----------------------------------------------------------------------
+WHAT TO EDIT WHEN SOMETHING CHANGES
+-----------------------------------------------------------------------
+
+  Deck defines changed     edit the matching case line in
+                           test_Poisson_3D.cases; the deck row FAILS
+                           until they agree
+  Case added to the deck   add a case line, in deck order
+  h field formula changed  make_field() in check_test_poisson_3d.py
+  Want the field checked   uncomment the dump line in
+                           test_user_resolution.mlgi; only the last
+                           radial run's dump survives (case 08)
+  A wrong-sign expectation stor_neg=0 or stor_neg=report per case
+-----------------------------------------------------------------------
+SEE ALSO
+
+  ../00README                     index of all the test suites
+=======================================================================

@@ -1,0 +1,23 @@
+#####################################################################
+# nc08_sharp_angle.lgi
+#
+# polygon : saw_sharp.poly
+# h       : 0.3
+# expect  : recovered
+#
+# EXPECT:
+#   Nonconvex WARNING, run completes.
+#
+# NOTE:
+#   Minimum interior angle is 9.69 deg, just above the 9.0 threshold
+#   (9.86 before saw_sharp.poly was regenerated).
+#   Documents the edge of what POI_ANGLE_MIN_DEG admits.
+#####################################################################
+read / avs / saw_sharp.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.3 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc08_sharp_angle.inp / mo_pts
+finish

@@ -1,0 +1,11 @@
+{
+ "name": "sq_repeat",
+ "description": "unit square, 4 vertices, first vertex repeated at the end",
+ "vertices": 5,
+ "xmin": 0.0,
+ "xmax": 1.0,
+ "ymin": 0.0,
+ "ymax": 1.0,
+ "orientation": "counterclockwise",
+ "area": 1.0
+}

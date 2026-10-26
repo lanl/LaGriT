@@ -1,0 +1,17 @@
+# ic02_voronoi_keepatt.lgi
+# interpolate / voronoi with keepatt: the first call stores each sink
+# vertex's nearest source vertex (pt_gtg), the second reuses it, a third
+# searches afresh after pt_gtg is deleted. No dudded vertices. fa
+# (stored lookup) and fb (fresh search) must both be the nearest value.
+# check: voronoi | out_ic02.inp | fa,fb | fsrc
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+cmo / addatt / mo_snk / xa / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fa / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fb / VDOUBLE / scalar / nnodes
+interpolate / voronoi / mo_snk xa / 1,0,0 / mo_src xic / keepatt
+interpolate / voronoi / mo_snk fa / 1,0,0 / mo_src fsrc
+cmo / DELATT / mo_snk / pt_gtg
+interpolate / voronoi / mo_snk fb / 1,0,0 / mo_src fsrc
+dump / avs / out_ic02.inp / mo_snk
+finish

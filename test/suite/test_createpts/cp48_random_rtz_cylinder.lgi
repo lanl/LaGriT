@@ -1,0 +1,28 @@
+#####################################################################
+# cp48_random_rtz_cylinder.lgi
+#
+# group    : random
+# expect   : valid
+# spec     : none
+# points   : out_cp48_pts.inp
+# mesh     : out_cp48_mesh.inp tet
+# filter   : yes
+# random   : rtz 0.1 0,0,0 1,360,1 0.05 2,3,4
+#
+# WHAT:
+#   random points in a cylinder r 1, theta 0-360, z 0-1, centred at
+#   (2,3,4), edge protection 0.05 (the doc's second example with the
+#   angle and height in their places, and seeds). Then connect.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/random/rtz/0.1/0,0,0/1,360,1/2,3,4/0.05/98765,4321
+dump / avs / out_cp48_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp48_mesh.inp / mo_tet
+finish

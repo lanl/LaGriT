@@ -1,0 +1,20 @@
+#####################################################################
+# warn03_nonconvex_reflex_last_vertex.lgi
+#
+# EXPECT:
+#   A WARNING block saying the polygon is nonconvex.
+#   The clipped mesh must NOT fill the concave notch.
+#
+# NOTE:
+#   Same bug, reflex at the LAST vertex. The same L-shape as warn01
+#   and warn02, only the vertex list is rotated, so all three must
+#   produce the same shape. If warn01 warns and these two do not,
+#   the corner coverage is still incomplete.
+#####################################################################
+read / avs / lshape_reflex_last.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+cmo / status / brief
+quality
+dump / avs / out_warn03_reflex_last.inp / mo_poisson_pts
+finish

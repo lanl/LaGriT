@@ -1,0 +1,160 @@
+=======================================================================
+ test_Poisson_2D harness - checks around the original 2D test deck
+=======================================================================
+
+WHAT THIS IS
+
+  A test harness around test_Poisson_2D.lgi, the original test of the
+  2D Poisson disk sampler in LaGriT. The deck meshes a unit square
+  three times:
+
+    output01_unit_square_uniform.inp   uniform h = 0.05
+    output02_unit_square_var.inp       variable h, WIDTH_FACTOR 10
+    output03_unit_square_var.inp       variable h, WIDTH_FACTOR 20
+
+  The variable h field comes from user_h_field_att.mlgi:
+
+      h(x) = max(h0, h0 * WIDTH_FACTOR * |x|)        h0 = 0.01
+
+  fine along the centre line x = 0, coarsening toward the sides.
+
+  The harness runs the deck UNCHANGED, then checks every mesh it
+  wrote: that the points are inside the square and the mesh is valid,
+  and it MEASURES spacing, how well the spacing follows the h field,
+  and triangle quality.
+
+QUICK START
+
+  ./run_test_poisson_2d.sh  [path-to-lagrit]
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  That one page has the results table, the deck, and for every output
+  its full measurement report and a picture.
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                  this file
+
+  The test (not edited by the harness):
+  test_Poisson_2D.lgi       the deck
+  unit_square.poly          the polygon
+  user_h_field_att.mlgi     builds the variable h field
+
+  The harness:
+  run_test_poisson_2d.sh    runs the deck once and checks each output
+  check_test_poisson_2d.py  does the measuring and draws the pictures.
+                            Its opening comment defines every measure
+                            exactly.
+  test_Poisson_2D.cases     says what each output is: its polygon, h0,
+                            field and WIDTH_FACTOR. The deck itself
+                            carries no such annotations.
+
+  Written by a run (deleted first, so an old file can never pass as
+  a new result):
+
+  output0*.inp              the three meshes
+  h_field_out.inp           the h field, dumped by the .mlgi
+  logs/                     everything else, see OUTPUT below
+
+-----------------------------------------------------------------------
+IF YOU CHANGE THE DECK OR THE .mlgi
+-----------------------------------------------------------------------
+
+  The deck: edit test_Poisson_2D.cases to match. One line per output
+  file the deck dumps.
+
+  The .mlgi: edit make_field() in check_test_poisson_2d.py to match.
+  The checker cannot read the field the sampler used (the driver
+  deletes it before returning), so it carries its own copy of the
+  formula. The "field" row of the results compares that copy with
+  h_field_out.inp on every run, so a mismatch is reported as a FAIL
+  rather than silently measuring against the wrong field.
+
+  Only the LAST variable run's h_field_out.inp survives, because
+  every run dumps to the same file name, so only that case is checked
+  against it directly.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  Each row is PASS or FAIL. The exit status is nonzero on any FAIL.
+
+  run       the deck ran: no crash, no ERROR, no WARNING
+  output0*  the file was written, and the HARD checks pass:
+              - every mesh point inside or on the square
+              - no inverted triangles
+              - no triangle naming a point that does not exist
+  field     the checker's copy of h(x) matches h_field_out.inp
+
+  Everything else in the table is MEASURED, NOT JUDGED. Thresholds
+  have not been calibrated yet, so these are for comparing runs and
+  spotting change:
+
+    nodes     points in the mesh
+    density   points / integral of 1/h^2 over the square. Near 0.7
+              for a well filled sample, for uniform and variable h
+              alike.
+    int min   smallest spacing between INTERIOR points, as a fraction
+              of h. Each pair is judged against the larger of its two
+              target spacings: d / max(h_p, h_q).
+    close     interior points with a neighbour closer than that
+    bnd med   typical spacing between points on the square's edges.
+              The sampler places boundary points closer than h by
+              design, so they are measured separately.
+    tracking  how evenly the spacing follows the h field: 1.0 means
+              the spacing is the same multiple of h everywhere.
+    ang min   smallest angle of any triangle, degrees
+    poor%     share of triangles with smallest angle below 20 deg
+
+  NOTE: the deck connects every point set, so spacing is measured on
+  the FINISHED mesh, after the driver has smoothed it. It is close to,
+  but not exactly, what the sampler produced.
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  Each output has a picture in three panels.
+
+  LEFT     the mesh points (dark dots). A RED line joins two points
+           closer than h (pairs where both are on the boundary are
+           not marked). A MAGENTA ring marks a point outside the
+           square; there should be none.
+
+  MIDDLE   the mesh, each triangle coloured by its smallest angle:
+           dark red < 10, red < 20, orange < 30, light green < 40,
+           green >= 40 degrees. A BLACK triangle is inverted (a FAIL).
+
+  RIGHT    top: each point's distance to its nearest neighbour,
+           plotted against x, with h(x) drawn in red. Blue dots are
+           interior points, orange are boundary points. If spacing
+           follows the field, the blue dots hug the red curve all the
+           way across.
+           middle and bottom: histograms of interior spacing / h and
+           of smallest triangle angle. The red dashed lines mark d = h
+           and the 20 degree "poor" threshold.
+
+OUTPUT
+
+  logs/summary.html           EVERYTHING ON ONE PAGE
+  logs/<output>.svg           one output's picture
+  logs/<output>.check         its full measurement report
+  logs/field_<output>.check   the field comparison
+  logs/run.all                all LaGriT output from the run
+
+-----------------------------------------------------------------------
+SEE ALSO
+
+  ../00README                  index of all the test suites
+  ../test_poisson_2d_shapes    more shapes (square, hexagon, circle,
+                               ellipses), measured on the sampler's raw
+                               points before smoothing
+=======================================================================

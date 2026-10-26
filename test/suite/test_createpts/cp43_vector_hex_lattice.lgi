@@ -1,0 +1,26 @@
+#####################################################################
+# cp43_vector_hex_lattice.lgi
+#
+# group    : vector
+# expect   : valid
+# spec     : vector xyz 4,4,1 1,0,0 .5,0.866,0 0,0,1
+# points   : out_cp43_pts.inp
+# mesh     : out_cp43_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the doc's hexagonal lattice in the xy plane, two layers in z.
+# FROM THE DOCUMENTATION: CRTPTRZV_LG.md, hexagonal lattice
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/vector/xyz/4,4,1/1,0,0/.5,0.866,0/0,0,1
+dump / avs / out_cp43_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp43_mesh.inp / mo_tet
+finish

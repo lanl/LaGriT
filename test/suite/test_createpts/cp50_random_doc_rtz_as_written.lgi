@@ -1,0 +1,18 @@
+#####################################################################
+# cp50_random_doc_rtz_as_written.lgi
+#
+# group    : random
+# expect   : valid
+# spec     : none
+# points   : out_cp50_pts.inp
+# open     : the doc's rtz example puts 360 in z: a 360 high strip, 36000 points
+#
+# WHAT:
+#   the doc's second example AS WRITTEN ('a cylinder of radius 1'):
+#   rmax = 1,,360 is r = 1, theta = (default) 0, z = 360, so the
+#   points fill a half-disc strip 360 high, not a cylinder.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / random / rtz / .1 /  0,0,0 / 1,,360 / 2,3,4 / 0.2
+dump / avs / out_cp50_pts.inp / mo_tet
+finish

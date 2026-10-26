@@ -1,0 +1,18 @@
+#####################################################################
+# warn01_nonconvex_reflex_middle.lgi
+#
+# EXPECT:
+#   A WARNING block saying the polygon is nonconvex.
+#   NO error block. A valid clipped mesh is written.
+#
+# NOTE:
+#   Reflex corner is at vertex 4, which the OLD test_convex did
+#   examine. This case should behave the same before and after.
+#####################################################################
+read / avs / lshape_mid.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+cmo / status / brief
+quality
+dump / avs / out_warn01_lshape_mid.inp / mo_poisson_pts
+finish

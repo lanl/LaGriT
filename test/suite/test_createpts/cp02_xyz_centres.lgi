@@ -1,0 +1,26 @@
+#####################################################################
+# cp02_xyz_centres.lgi
+#
+# group    : xyz
+# expect   : valid
+# spec     : xyz 10,6,8 0.,2.,0. 5.,6.,2. 0,0,0
+# points   : out_cp02_pts.inp
+# mesh     : out_cp02_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the same box with 0,0,0: the points are the centres of 10 x 6 x 8
+#   equal cells (x = 0.25, 0.75, ... 4.75).
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / xyz / 10,6,8 / 0.,2.,0. / 5.,6.,2. / 0,0,0
+dump / avs / out_cp02_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp02_mesh.inp / mo_tet
+finish

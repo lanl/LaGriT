@@ -1,0 +1,353 @@
+=======================================================================
+ test_triangulate_2d_polygon - the triangulate command (2D polygons)
+=======================================================================
+
+WHAT THIS IS
+
+  Tests of LaGriT's
+
+      triangulate / counterclockwise | clockwise
+
+  which fills a polygon, given as an ordered list of vertices, with
+  triangle cells by ear clipping (src/triangulate_lg.f).
+
+  Every test checks that the result is a VALID triangulation of the
+  polygon: n - 2 cells for n vertices, no zero-area cell, no inverted
+  cell, cells exactly covering the polygon, every polygon edge used by
+  one cell. The polygons concentrate on what broke the original code:
+  many collinear vertices along a side, very dense boundaries, sharp
+  vertices that come very close to a far part of the boundary, and
+  coordinates far from the origin.
+
+  Terms: a polygon has VERTICES; triangulate makes triangle CELLS.
+
+QUICK START
+
+  run_triangulate_tests.sh  [path-to-lagrit]        about 20 s
+  BIG=1 run_triangulate_tests.sh  [path-to-lagrit]  also tri21, the
+                                                    40 004-vertex
+                                                    square: + ~34 s
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+  WITH THE ORIGINAL triangulate_lg.f: 22 of the 41 decks FAIL. That is
+  the bug report, in test form. WITH THE FIXED triangulate_lg.f (Oct
+  2026): all PASS, and tri38 is REFUSED as intended. See THE BUGS.
+
+  tri01 spells LaGriT in block letters, triangulates them, then
+  refines and smooths them into a good mesh; tri02-13 are STRESS tests
+  (combs, spirals, holes, slivers, starbursts); tri14-41 target the
+  bugs. (Renumbered Oct 12 2026: the old tri41 is tri01, old tri29-40
+  are tri02-13, old tri01-28 are tri14-41.)
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                  this file
+  run_triangulate_tests.sh  runs every tri*.lgi deck and judges it
+  check_triangulate.py      checks one mesh against its polygon and
+                            draws the picture. Its opening comment
+                            defines every check exactly.
+  make_polygons.py          writes every *.poly and *.json from the
+                            recipes in its RECIPES table
+
+  tri14 .. tri01 *.lgi      the decks (see THE TESTS)
+  *.poly                    the polygons, as AVS vertex sets, in order
+  *.json                    each polygon's recipe, vertex count,
+                            bounding box, orientation and area
+
+  standalone/               maketriangles_lg without LaGriT: a driver
+                            and a memory-manager stub, for checking a
+                            change to the algorithm in seconds. See
+                            standalone/README.
+
+  Written by a run (deleted and rewritten every time):
+
+  out_tri*.inp              the meshes
+  logs/                     everything else, see OUTPUT below
+
+-----------------------------------------------------------------------
+THE TESTS
+-----------------------------------------------------------------------
+
+  Every deck is
+
+      cmo / create / mo_tri / / / triplane
+      read / avs / <polygon>.poly / mo_tri
+      triangulate / <orientation>
+      dump / avs / out_<deck>.inp / mo_tri
+
+  deck   polygon           vertices  what                  original
+
+  THE LETTERS
+  tri01  letter_*.poly    7 polygons  "LaGriT"             valid
+         (two checks: the triangulation, and the refined and smoothed
+         mesh; see below)
+
+  STRESS TESTS
+  tri02  comb_200              800   comb, 200 deep teeth  valid
+  tri03  comb_1000            4000   comb, 1000 teeth      valid
+  tri04  zigzag_500           1002   zig-zag band (speed)  valid
+  tri05  spiral_sq25           202   square spiral wall    valid
+  tri06  spiral_10x200        4002   smooth spiral band    valid
+  tri07  hole_1                 10   square, 1 hole        valid
+  tri08  hole_3                 42   3 holes               valid
+  tri09  annulus_64             98   annulus               valid
+         (tri07-09 also refine and smooth, as tri01: two checks each)
+  tri10  annulus_thin         2002   ring 1e-3 wide        valid
+  tri11  sliver_1000          2002   1 x 1e-6 sliver       FAILS (1)
+  tri12  star_50               100   starburst             valid
+  tri13  star_500             1000   500 sharp spikes      FAILS (1)
+
+  BUG CASES (GitHub #239 and #57, and what the fix found)
+  tri14  sq_k1                   4   unit square           valid
+  tri15  sq_k2                   8   2 segments per side   valid
+  tri16  sq_k3                  12   3 per side            zero-area cell
+  tri17  sq_k5                  20   5 per side            zero-area cell
+  tri18  sq_k10                 40   10 per side           zero-area cell
+  tri19  sq_k100               400   100 per side          zero-area cell
+  tri20  sq_k1000             4000   1000 per side         zero-area cell
+  tri21  sq_k10001           40004   10001 per side        FAILS (1)
+         (slow: SKIPPED unless BIG=1; tri32 fails the old code the
+         same way in under a second)
+  tri22  sq_k10_mid             40   list starts mid side  zero-area cell
+  tri23  rtri_plus1              4   smallest bad case     zero-area cell
+  tri24  tri_k5_s9              15   sloping sides         zero-area cell
+  tri25  L_k20                 120   nonconvex L           zero-area cell
+  tri26  U_k20                 160   nonconvex U           zero-area cell
+  tri27  slot_1e-2               7   slot tip 0.01 from    valid
+                                     the far wall
+  tri28  slot_1e-9               7   slot tip 1e-9 away    FAILS (1)
+  tri29  slot_1e-8_k10          16   tip 1e-8, wall split  FAILS (1)
+  tri30  circ_2917            2917   circle, radius 1      FAILS (1)
+  tri31  circ_r0.01_1000      1000   circle, radius 0.01   FAILS (1)
+  tri32  sq_small              404   side 0.01             FAILS (1)
+  tri33  sq_utm                200   side 1000 at          zero-area cell
+                                     (5e5, 4e6)
+  tri34  sq_cw                  20   clockwise             valid
+  tri35  sq_cw                  20   clockwise polygon,    valid, retries
+                                     counterclockwise
+                                     keyword
+  tri36  sq_repeat               5   first vertex          valid
+                                     repeated at the end
+  tri37  tri_3                   3   one triangle          valid
+  tri38  two_vertex              2   not a polygon:        NOT refused
+                                     must be REFUSED
+  tri39  issue239                5   GitHub issue 239,     zero-area cell
+                                     exactly as reported
+  tri40  issue239_works          5   issue 239, tip at     valid
+                                     (1, 1.000001)
+  tri41  issue239_near           5   issue 239, tip 1e-11  OVERLAPPING
+                                     above the diagonal    cells
+
+  (1) "ERROR: Unable to triangulate input"
+
+  Every "zero-area cell" and "overlapping cells" result above came
+  with NO error and NO warning. Each deck's header says what the
+  original code did with it.
+
+  HOLES. triangulate takes one ordered vertex list and has no holes.
+  A polygon with holes is given as a "keyhole": each hole is joined to
+  the outside by a zero-width slit, travelled both ways, so the slit's
+  two end vertices are listed twice. triangulate's filter then merges
+  each repeated vertex and the slit becomes an ordinary interior edge,
+  used by two cells. make_polygons.py builds keyholes (keyhole()).
+  This happens inside triangulate: it always ends with filter / 1,0,0,
+  rmpoint / compress and resetpts / itp (in the original code too).
+
+  The checker PROVES each hole is a real hole (Oct 12 2026), on the
+  mesh's own vertex numbers: no two mesh vertices at the same place
+  (duplicate_vertices 0), one closed boundary loop per outline and per
+  hole (boundary_loops), and Euler number V - E + F = 1 - holes per
+  polygon (0 for an annulus). A slit left doubled would join the hole
+  to the outside: one loop, Euler 1, and the deck FAILS. The table line
+  says "N hole(s) real: L boundary loops". Before this, vertices were
+  matched by coordinates only, which could not tell two unmerged
+  copies of a slit vertex from one.
+
+  SPEED. The time is printed, not judged. Most shapes take about n^2;
+  the zig-zag band takes n^3 (sandbox: 502 vertices 0.3 s, 1002 2.2 s,
+  2002 18 s, 4002 145 s), because only a few ears are found on each
+  pass over the polygon. That is the original algorithm, not the fix.
+
+  THE LETTERS (tri01). Seven polygons spell LaGriT; the "a" has a hole
+  (keyhole), the "i" is a stem and a dot. Each letter is triangulated
+  on its own mesh object and merged into one (addmesh / merge), then:
+    out_tri01_letters_tri.inp   the triangulated letters: few, long,
+                                thin cells (smallest angle about 5 deg)
+    out_tri01_letters_ref.inp   after two passes of refine / rivara
+                                (edges longer than EDGELEN1 = 0.5,
+                                then EDGELEN2 = 0.25), each followed by
+                                smooth / esug + recon three times (the
+                                very last recon is recon / 1), then
+                                resetpts / itp. Two passes (user, Oct
+                                12) because one straight to 0.25 left
+                                the starting mesh's long cells visible.
+  The second is checked with check_triangulate.py --refined: new
+  vertices allowed, but the mesh must still fill the seven polygons
+  exactly, with its boundary on theirs and every corner kept. Its
+  smallest angle must be at least 22 deg ("# min_angle : 22", HARD).
+  Oct 11 2026 (one pass, recon / 0): 4.8 deg after step 1 (24 of 40
+  cells under 20 deg), 22.7 deg after step 2. Oct 12 (two passes,
+  recon / 1): 23.9 deg, no cell under 20, largest boundary angle
+  89.85 deg. The
+  table line shows "min angle A -> B deg" for every deck with a
+  refined check.
+
+  CONTROL VOLUME CONDITION (tri01, tri07-09; user, Oct 12 2026). The
+  meshes feed a control volume solver that uses the Voronoi cells of
+  the vertices (two point flux). So no cell on the boundary may face
+  the boundary with an angle over 90 deg: its circumcentre must not be
+  outside the domain. The LAST recon is recon / 1, which adds vertices
+  on the boundary where needed to get this ("A point-placement strategy
+  for conforming Delaunay tetrahedralization", IJCGA 11(6) 669-682,
+  2001; SODA 2000 pp. 67-74). "# boundary_angle : 90" makes it a HARD
+  check; offending boundary edges are drawn THICK MAGENTA. With recon/0
+  only (the Oct 11 run), tri01's smoothed mesh had 163 such boundary
+  edges (largest facing angle 122.5 deg). The filter and rmpoint /
+  compress that used to end step 2 are gone: on a correct mesh they do
+  nothing; the checker fails coincident or unused vertices instead.
+
+  THE HOLES REFINED (tri07-09, added Oct 12 2026). The same step 2
+  (EDGELEN1 = 0.5 then EDGELEN2 = 0.25) on the three keyhole polygons, so the mesh around
+  each hole and slit can be seen after smoothing. Oct 12 (user's Mac):
+  smallest angle tri07 24.76, tri08 23.97, tri09 30.55 deg; largest
+  boundary angle 89.81, 89.59, 87.99 deg; no cell under 20 deg. Limits
+  set a little under: "# min_angle" 22, 22, 28.
+
+-----------------------------------------------------------------------
+THE BUGS (all fixed in triangulate_lg.f, Oct 2026)
+-----------------------------------------------------------------------
+
+  1. TOLERANCE IN ABSOLUTE UNITS. Collinearity was decided by
+     comparing twice a triangle's area with a fixed 1e-8, whatever the
+     units. On a dense boundary every vertex triple falls under it:
+     a unit square with more than 10 000 vertices per side, or a
+     circle of radius 1 with 2917 or more (radius 0.01: from 136),
+     has NO ear left, and triangulate gives up. The thresholds were
+     predicted from the formula and confirmed to the exact vertex.
+     Near-touching geometry was misjudged the same way (tri28, tri29).
+     Fix: one length tolerance, 1e-12 x the polygon's bounding box
+     diagonal, used by every geometric test.
+
+  2. A DIAGONAL ALONG THE BOUNDARY. The test for a valid ear diagonal
+     counted "on the line" as inside, and the crossing test skipped
+     every polygon edge touching the diagonal's two ends. So a
+     diagonal running along a straight side, THROUGH a vertex, was
+     accepted. The result is a zero-area cell, or, with the vertex
+     just off the line, overlapping cells. This is GitHub issue 239
+     (tri39, tri41) and the "many collinear vertices" failure (tri16
+     .. tri26). Fix: a diagonal through any polygon vertex is
+     rejected.
+
+  3. TWO VERTICES NEVER TRIED AS EARS. The loop stopped one short, so
+     the first and last vertex in the list could never be an ear tip.
+     Fix: every vertex is tried.
+
+  4. LARGE COORDINATES. Areas were computed as x1*y2 - y1*x2 + ...,
+     which cancels away all precision far from the origin (tri33).
+     Fix: computed from coordinate differences (the same value).
+
+  5. SMALLER ONES. Fewer than 3 vertices gave no error (tri38); the
+     cell count printed as **** above 9999 cells; an uninitialised
+     variable was read; a wrap-around test could never be true.
+
+  Unchanged on purpose: every cell is written CLOCKWISE, whichever
+  keyword is given (seen in the real issue 239 output and in every
+  sandbox run). The checker reports it (cell_orientation) but does not
+  judge it.
+
+  LIMIT OF THE FIX: features closer than about 1e-12 of the polygon's
+  size cannot be told apart. Such a polygon now FAILS with "Unable to
+  triangulate input"; it does not produce a bad mesh.
+
+  SPEED: ear clipping here is O(n^2). tri21, 40 004 vertices, takes
+  about 34 s, so it runs only with BIG=1. The time is printed for
+  every deck but not judged.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  PASS      expect valid: no ERROR, the mesh was written, every HARD
+            check in check_triangulate.py passes, and the deck's
+            "# warns :" text (if any) was printed
+  REFUSED   expect error: an ERROR containing the deck's "# reason :"
+            text, and no cells written
+  SKIP      a "# big : yes" deck (tri21) in a run without BIG=1
+  FAIL      anything else
+
+  The exit status is nonzero on any FAIL.
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  black line    the polygon outline
+  grey          cells
+  RED line      a zero-area cell (three collinear vertices)
+  BLACK cell    an inverted cell (orientation opposite to the rest)
+  ORANGE edge   a polygon edge not used by exactly one cell
+  AMBER cell    a poor cell: its smallest angle is under 20 degrees
+  MAGENTA edge  a boundary edge faced by an angle over 90 degrees
+                (circumcentre outside: breaks the control volume rule);
+                drawn only on meshes judged for it (after recon / 1)
+  DASHED BLUE   a keyhole slit: listed twice in the polygon, an
+                INTERIOR edge of the mesh (not boundary)
+
+  A deck with two meshes (tri07-09) shows them SIDE BY SIDE:
+  triangulated on the left, refined and smoothed on the right. Deck
+  header "# picture : large" (tri01) puts them one over the other at
+  full width; "# picture : small" (tri05, tri06, tri10-41) draws at
+  half width (user, Oct 12).
+
+  Above 6000 cells only the bad cells are drawn.
+
+OUTPUT
+
+  logs/summary.html     EVERYTHING ON ONE PAGE
+  logs/table.txt        the results table, as printed
+  logs/<deck>.check     one deck's full check report
+  logs/<deck>.svg       its picture
+  logs/<deck>_2.check   the second check, when a deck has two (tri01,
+                        tri07-09: the refined and smoothed mesh)
+  logs/<deck>_2.svg
+  logs/<deck>.all       all LaGriT output for one deck (stdout,
+                        lagrit.log and lagrit.out, also kept apart)
+
+-----------------------------------------------------------------------
+ADDING A TEST
+-----------------------------------------------------------------------
+
+  1. Add a recipe to RECIPES in make_polygons.py, then
+         python3 make_polygons.py <name>
+  2. Copy a deck, point it at <name>.poly, set the orientation and
+     the header lines:
+         # polygon  : <name>.poly
+         # expect   : valid | error
+         # reason   : <text the ERROR must contain>     (error only)
+         # warns    : <text a WARNING must contain>     (optional)
+         # check    : [refined] <mesh file> <poly>[,<poly>...]
+                                                        (optional)
+         # min_angle: <deg>   smallest angle every refined mesh must
+                              reach (optional; else only reported)
+         # boundary_angle: <deg>  largest angle facing a boundary edge
+                              in a refined mesh (90 for control volumes)
+         # picture  : small | large   picture size on the page
+     A deck with no expect line FAILS. With no "# check" line the deck
+     must dump its mesh to out_<deck>.inp and is checked against its
+     "# polygon". "# check" lines (one or more) name each mesh to check
+     and its polygons instead; "refined" allows new vertices.
+  3. Keep every name in the deck to 32 characters or fewer: LaGriT
+     truncates longer tokens (the runner FAILs such a deck).
+
+-----------------------------------------------------------------------
+SEE ALSO
+
+  ../00README                  index of all the suites
+=======================================================================

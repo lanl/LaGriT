@@ -1,0 +1,40 @@
+#####################################################################
+# cp35_interp_brick_two_surfaces.lgi
+#
+# group    : interp
+# expect   : valid
+# spec     : none
+# points   : out_cp35_pts.inp
+# mesh     : out_cp35_mesh.inp hex
+# filter   : yes
+# volume   : 12.
+#
+# WHAT:
+#   hexes between two copies of a quad surface (the method of the
+#   user's sphere_in_box demo): a 4 x 3 quad layer at z = 0, a copy
+#   moved to z = 2, then createpts / brick / interp fills the space
+#   between them into a NEW mesh object, mo_hex. Two bugs found by
+#   this (Oct 15): FIX 2 refused brick / interp ('interp is not a
+#   geometry'); and zq / isetwd did not reliably clear the point-set
+#   bits copypts had copied (zq.f tested two error codes it never
+#   set), so p1 held both surfaces: 'Number of nodes in FROM not
+#   equal TO'. The cells must fill the 3 x 2 x 2 box exactly.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   original code: ERROR:rzinterp, FROM 24 not equal TO 12 (zq).
+#   FIX 2 as first committed: ERROR, interp is not a geometry.
+#   With both fixes: 84 vertices, 36 hexes, volume 12.
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 4,3,1 / 0.,0.,0. / 3.,2.,0. / 1,1,0
+pset / p1 / seq / 1,0,0
+copypts / mo_quad / mo_quad / 0,0 / 1,0,0
+zq / isetwd / 0,0,0 / 0
+pset / p2 / seq / 0,0,0
+trans / pset,get,p2 / 0.,0.,0. / 0.,0.,2.
+createpts / brick / interp / 5 / pset,get,p1 / pset,get,p2 / mo_hex
+cmo / select / mo_hex
+dump / avs / out_cp35_pts.inp / mo_hex
+quality
+dump / avs / out_cp35_mesh.inp / mo_hex
+finish

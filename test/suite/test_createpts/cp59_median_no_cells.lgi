@@ -1,0 +1,21 @@
+#####################################################################
+# cp59_median_no_cells.lgi
+#
+# group    : median
+# expect   : valid
+# warns    : WARNING
+# spec     : none
+# points   : out_cp59_pts.inp
+#
+# WHAT:
+#   points but no cells: there is nothing to do; it should say so
+#   (a WARNING).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: no message; xmed, ymed, zmed made with length 0.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+createpts / median
+dump / avs / out_cp59_pts.inp / mo_tet
+finish

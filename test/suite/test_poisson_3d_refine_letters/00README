@@ -1,0 +1,232 @@
+=======================================================================
+ test_poisson_3d_refine_letters - 3D Poisson disk demo: the word LaGriT
+=======================================================================
+
+WHAT THIS IS
+
+  A 3D demo of the Poisson disk sampler with a variable resolution
+  field:
+
+      createpts / poisson_disk / 3d_box / mo_box_poi / H_REFINE_SIZE / &
+           connect / letters_h_field.mlgi
+
+  The box [-4, 50] x [-4, 14] x [-2, 2] is filled with tets whose size
+  h grows with distance from a line drawing of the word "LaGriT":
+  h = 0.16 at the letters, rising with slope 0.35 to 1.0 about 2.9
+  units away. The deck first turns the line drawing into a dense set of
+  vertices (extrude to a thin quad strip, split to triangles, refine
+  to edges <= 0.2), because compute/distance_field measures the
+  distance to VERTICES only.
+
+  It is the user's demo deck 3D_LaGriT_poi.lgi (Feb 19 2026), renamed
+  and run at HALF THE ORIGINAL RESOLUTION for speed (see RUN TIME).
+  The checker and picture code are shared with ../test_poisson_3d.
+
+QUICK START
+
+  ./run_poisson_3d_letters.sh  [path-to-lagrit]
+
+  Default: build/lagrit of this checkout. Or give a path or a program on PATH; the
+  runner is sh, which cannot see a bash alias or function.
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  To re-check outputs already in this directory without running LaGriT:
+
+  ./run_poisson_3d_letters.sh --check-only
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                    this file
+  poisson_3d_letters.lgi      the deck (was 3D_LaGriT_poi.lgi)
+  letters_h_field.mlgi        the h field script the createpts line
+                              names (was demo_user_resolution_01.mlgi)
+  letters_vector.inp          the line drawing of LaGriT: 29 vertices,
+                              20 line cells in z = 0 (was
+                              LaGriT.vector.inp; unchanged)
+  poisson_3d_letters.cases    facts the checker needs (box, h, field
+                              parameters, file names). The deck row
+                              fails if they drift from the deck.
+  run_poisson_3d_letters.sh   runs the deck, checks, draws, builds the
+                              summary page
+
+  Shared, in ../test_poisson_3d:
+  check_test_poisson_3d.py    the checker; its opening comment defines
+                              every measure and HARD check
+  render_test_poisson_3d.py   the cut-open picture (--cut z)
+
+  Written by a run (deleted first, so a stale file cannot pass):
+
+  out_letters_quad.inp        the extruded strip (not checked)
+  out_letters_refine.inp      the refined triangles: the SOURCE of the
+                              distance field (6794 vertices)
+  out_letters_h_field.inp     the h field on the driver's lookup grid
+                              (h_field_att, dfield). NOT written by
+                              default: its dump line in
+                              letters_h_field.mlgi is commented out
+  out_letters_tet.inp         the tet mesh, with e_vol, edgemin, edgemax
+  lagrit.log, lagrit.out
+  logs/                       see OUTPUT below
+
+-----------------------------------------------------------------------
+CHANGES FROM THE USER'S DECK
+-----------------------------------------------------------------------
+
+  file names    LaGriT.vector.inp            -> letters_vector.inp
+                demo_user_resolution_01.mlgi -> letters_h_field.mlgi
+                tmp_quad.inp                 -> out_letters_quad.inp
+                LaGriT.vector_refine.inp     -> out_letters_refine.inp
+                poisson_h_of_x_y.inp         -> out_letters_h_field.inp
+                demo_LaGriT.inp              -> out_letters_tet.inp
+  resolution    H_REFINE_SIZE and H_FLOOR 0.08 -> 0.16
+  comments      spelling; the mesh object (mo_box_poi) and .mlgi names
+                they cite.
+  field dump    commented out in letters_h_field.mlgi (Oct 10 2026):
+                3.5 million points, about 0.5 GB at h 0.16. The suite
+                does not test AVS output, and the checker computes h
+                itself, so the dump is only size and time. Uncomment it
+                to see the field in ParaView; the field row then checks
+                it.
+
+  Everything else (box, slope 0.35, ceiling 1.0, no edge buffer, the
+  refine step) is as the user wrote it.
+
+-----------------------------------------------------------------------
+RUN TIME
+-----------------------------------------------------------------------
+
+  The original deck (h 0.08) took about 66 minutes on the user's Mac
+  with the OLD build (LaGriT 3.3.4, Dec 2025): the h field dump is
+  stamped 15:13 and the mesh 16:19, so nearly all of it went into
+  sampling ~49 000 vertices. (The 3D suite samples 117 000 in 44 s.)
+  First real run at h 0.16 on the refactored build (Oct 10 2026):
+  LaGriT 177 s. The build AND h both changed, so the two cannot yet
+  be separated.
+
+  The h field lookup grid now dominates the file sizes: the driver
+  sizes it 1.5 x ceiling(L/h) per axis over the box grown by h, so at
+  h 0.16 it is 510 x 172 x 40 = 3 508 800 points (spacing 0.107 =
+  0.67 h). The old build used 270 x 90 x 20 at h 0.08 (spacing 0.20 =
+  2.5 h). out_letters_h_field.inp is therefore several hundred MB.
+
+  The whole suite took 151 s on Oct 10 2026 without the field dump
+  (225 s with it). The checks take about 15 s (case 10 s, picture 4 s). With the field
+  dump uncommented, add its write time in LaGriT and 29 s to check it.
+
+  RELEASE BUILD (Oct 11 2026): the build above had no C++ or Fortran
+  optimisation (CMAKE_BUILD_TYPE empty). Rebuilt with
+  -DCMAKE_BUILD_TYPE=Release: this suite 155 s -> 38 s; time_letters.sh
+  gives prep 1 s, h field 2 s, sampling 17 s (was 131 s), connect and
+  output 2 s. Build Release (lagclean does).
+
+  WHERE THE TIME GOES: timing/time_letters.sh [lagrit] runs the deck
+  in four stages (prep; + h field; + sampling; + connect) and prints
+  the cost of each. Not a test; nothing is judged. Takes about 3 times
+  as long as the suite.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  Rows: run, deck, case_01, field.
+
+  PASS   every HARD check holds
+  SKIP   field row only: no field dump (the default, see FILES)
+  FAIL   anything else. The exit status is nonzero on any FAIL.
+
+  HARD checks (exact definitions in check_test_poisson_3d.py):
+
+  run     lagrit exit status 0; one createpts echo and one
+          "poisson_disk_3d exit" line; no POISSON DISK error or warning
+          block on stdout
+  deck    the .cases line matches the defines in effect at the
+          createpts line, its .mlgi, and the file the field's source
+          mesh object is dumped to
+  case    mesh written, tets only, every vertex in the box, no
+          duplicate vertex, no inverted or zero-volume tet, no unused
+          vertex, no triangle in more than 2 tets, e_vol > 0
+  field   only if the dump line is uncommented: h_field_att =
+          min(1.0, max(0.16, 0.35 dfield)) at every point, and equal
+          to the checker's own distance-based h at a sample of 20 000
+          points (relative error < 1e-8)
+
+  MEASURED, NOT JUDGED (in the case block of the summary page):
+  spacing d / max(h_p, h_q) by pair class, nearest-neighbour d / h,
+  tracking of h by band, wall gap, hull faces off the box, missing
+  volume, radius ratio, dihedral angles, and LaGriT's own e_vol /
+  edgemin / edgemax ranges.
+
+  Two runner warnings in lagrit.out are LaGriT's own and expected:
+  grid2grid (hextotet) on the flat extruded strip reports "Volumes le
+  zero not removed" and "Duplicate points not removed". They are
+  listed, not judged.
+
+  Baseline: the user's original run (h 0.08, old build), measured
+  with this checker:
+    48 958 vertices, 306 701 tets, every HARD check met;
+    interior pairs down to 0.42 h (11 276 below 0.9 h), most just below
+    the letters' top bars; nearest-neighbour d/h median 1.05;
+    smallest dihedral 0.084 deg, 1 302 tets under 5 deg;
+    6 interior vertices within 0.003 of a box face, so 34 hull faces
+    lie off the box (3.6e-6 of the volume missing).
+  These are for the quality round; nothing here judges them yet.
+
+  First real run, h 0.16, refactored build (Oct 10 2026), all PASS:
+    24 830 vertices, 150 603 tets, LaGriT 177 s;
+    hull = the box exactly (0 faces off it), closest interior vertex
+    0.86 h from a face;
+    interior pairs down to 0.77 h (53 below 0.9 h); nearest-neighbour
+    d/h p05 0.98, median 1.06; tracking spread 1.04;
+    face-face pairs down to 0.80 h (167 below 0.9 h);
+    smallest dihedral 0.27 deg, 395 tets under 5 deg (0.26 %).
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  TOP OF THE PAGE: the mesh cut normal to z at z = 0.05 (mid-thickness
+  of the letter strip), seen from +z, as in ParaView: every tet whose
+  centroid has z > 0.05 is removed, so the cut is made of whole tets.
+  Each tet is coloured by edgemax (its longest edge, from
+  quality/edge_max/y), blue = short, red = long; shading by facet
+  direction shows the jagged cut. The letters should stand out in
+  blue with a smooth blue-to-red grading away from them.
+
+  CASE PICTURE (below the case block):
+  TOP         top view: vertices in a slab |z| < h through the letters.
+              Blue = interior vertex, grey = on a box face.
+  SIDE        side view, slab through y = 5.
+  MIDDLE L    nearest-neighbour spacing / h (should peak just above 1).
+  MIDDLE R    smallest dihedral angle per tet; dashed lines 5 and 10 deg.
+  BOTTOM L    each interior vertex's nearest-neighbour distance against
+              its distance to the letters, with h(d) in red. Good
+              tracking = dots just above the red line.
+  BOTTOM R    box-face vertices: spacing / h of the field there.
+
+-----------------------------------------------------------------------
+OUTPUT
+-----------------------------------------------------------------------
+
+  logs/summary.html          everything on one page
+  logs/table.txt             the results table
+  logs/<row>.keys            every number each row printed
+  logs/case_01.svg           the case picture
+  logs/mesh_cut_z.png/.svg   the cut picture
+  logs/test_poisson_3d_refine_letters.stdout, logs/lagrit.log,
+  logs/lagrit.out            what LaGriT printed
+
+-----------------------------------------------------------------------
+CHANGING THE TEST
+-----------------------------------------------------------------------
+
+  Change a define in the deck, then the matching key in
+  poisson_3d_letters.cases (the deck row fails until both agree). To
+  run the user's full resolution, set H_REFINE_SIZE and H_FLOOR to
+  0.08 in both (about an hour on the old build).
+=======================================================================

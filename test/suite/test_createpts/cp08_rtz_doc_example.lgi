@@ -1,0 +1,28 @@
+#####################################################################
+# cp08_rtz_doc_example.lgi
+#
+# group    : rtz
+# expect   : valid
+# spec     : rtz 4,6,11 0.,0.,0. 3.,360.,10. 1,0,1
+# points   : out_cp08_pts.inp
+# mesh     : out_cp08_mesh.inp tet
+# filter   : yes
+#
+# WHAT:
+#   the doc's example: radii 0, 1, 2, 3; 6 angles at cell centres
+#   (30, 90, ... 330 deg); z = 0 to 10. 264 points, 6 on the axis at
+#   each of 11 heights: 55 duplicates, 209 distinct.
+# FROM THE DOCUMENTATION: CRTPTSRZ.md, second example
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtz / 4,6,11 / 0.,0.,0. / 3.,360.,10. / 1,0,1
+dump / avs / out_cp08_pts.inp / mo_tet
+cmo / setatt / mo_tet / imt / 1,0,0 / 1
+filter / 1,0,0
+rmpoint / compress
+connect
+cmo / setatt / mo_tet / itetclr / 1,0,0 / 1
+resetpts / itp
+quality
+dump / avs / out_cp08_mesh.inp / mo_tet
+finish

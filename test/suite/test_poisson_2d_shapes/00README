@@ -1,0 +1,182 @@
+=======================================================================
+ test_poisson_2d_shapes - 2D point set and mesh checks on simple shapes
+=======================================================================
+
+WHAT THIS IS
+
+  Tests of the 2D Poisson disk sampler in LaGriT,
+
+      createpts / poisson_disk / 2d_polygon / ...
+
+  on convex polygons: a square, a hexagon, a circle and two ellipses.
+  Each test checks that the sampled points stay inside the polygon and
+  that the mesh built from them is valid, and MEASURES how the points
+  are spaced and how good the triangles are.
+
+  There are no reference output files. The checks are properties any
+  correct result must have, and the measurements are reported so that
+  a change in the sampler shows up as a change in the numbers.
+
+QUICK START
+
+  ./run_poisson_2d_tests.sh  [path-to-lagrit]
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  That one page has the results table and, for every test, its notes,
+  the full measurement report and a picture.
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                  this file
+  run_poisson_2d_tests.sh   runs every p2d*.lgi deck and checks it
+  check_poisson_2d.py       does the measuring and draws the pictures.
+                            Its opening comment defines every measure
+                            exactly.
+  make_ellipse.py           regenerates the circle and ellipse polygons
+
+  p2d01_square_h0p1.lgi     unit square,    h = 0.1
+  p2d02_square_h0p05.lgi    unit square,    h = 0.05
+  p2d03_square_h0p02.lgi    unit square,    h = 0.02
+  p2d04_square_h0p01.lgi    unit square,    h = 0.01
+  p2d05_hexagon_h0p05.lgi   hexagon,        h = 0.05
+  p2d06_circle_h0p025.lgi   circle r = 1,   h = 0.025
+  p2d07_ellipse2_h0p025.lgi ellipse 2:1,    h = 0.025
+  p2d08_ellipse6_h0p025.lgi ellipse 6:1,    h = 0.025  (stress case)
+
+  unit_square.poly          the polygons, as AVS point sets
+  hexagon.poly
+  circle_r1.poly            ...with a .json beside each generated one,
+  ellipse_2to1.poly            recording how it was made and the
+  ellipse_6to1.poly            driver's angle and edge limits for it
+
+  Written by a run (deleted and rewritten every time):
+
+  raw_p2d*.inp              sampled points, before any connecting
+  out_p2d*.inp              the connected mesh
+  logs/                     everything else, see OUTPUT below
+
+-----------------------------------------------------------------------
+HOW EACH TEST WORKS
+-----------------------------------------------------------------------
+
+  Every deck runs the sampler TWICE on the same polygon:
+
+    1. with no_connect   -> raw_<deck>.inp   the sampler's own points
+    2. with connect      -> out_<deck>.inp   the finished mesh
+
+  Spacing is measured on the RAW points. The finished mesh cannot be
+  used for that: after connecting, the driver smooths it (moving
+  interior points) and recon adds points on the boundary, so it no
+  longer shows what the sampler produced.
+
+  Element quality is measured on the finished mesh.
+
+  The connect/no_connect token is REQUIRED on the createpts line.
+  Leaving it off is an input error.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  PASS      no crash, no ERROR, no WARNING (the polygons are convex),
+            both output files written, and the HARD checks pass:
+              - every sampled point inside or on the polygon
+              - no inverted triangles
+              - no triangle naming a point that does not exist
+  REFUSED   a deck marked "expect : error" was refused, as intended
+  FAIL      anything else
+
+  The exit status is nonzero on any FAIL.
+
+  Everything else in the table is MEASURED, NOT JUDGED. Thresholds
+  have not been calibrated yet, so these are for comparing runs and
+  spotting change:
+
+    points    number of sampled points
+    density   points x h^2 / area. Near 0.7 for a well filled sample.
+    sep min   smallest spacing between INTERIOR points, as a fraction
+              of h. Each pair is judged against the larger of its two
+              target spacings: d / max(h_p, h_q).
+    close     interior points with a neighbour closer than h
+    bnd cl    the same, for points on the polygon boundary. The
+              sampler places boundary points closer than h by design,
+              so these are counted separately rather than mixed in.
+    verts     polygon corners that appear among the sampled points
+    ang min   smallest angle of any triangle, degrees
+    poor%     share of triangles with smallest angle below 20 deg
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  Each test has a picture in three panels.
+
+  LEFT     the raw sampled points (dark dots) inside the polygon.
+           A RED line joins two points closer than h (pairs where
+           both are on the boundary are not marked). A MAGENTA ring
+           marks a point outside the polygon; there should be none.
+
+  MIDDLE   the finished mesh, each triangle coloured by its smallest
+           angle: dark red < 10, red < 20, orange < 30, light green
+           < 40, green >= 40 degrees. A BLACK triangle is inverted
+           (a FAIL). The BLUE dashed circle is the largest empty
+           circle in the mesh: the biggest gap between points.
+
+  RIGHT    histograms of interior spacing / h and of smallest
+           triangle angle. The red dashed lines mark d = h and the
+           20 degree "poor" threshold.
+
+OUTPUT
+
+  logs/summary.html   EVERYTHING ON ONE PAGE
+  logs/<deck>.svg     one test's picture
+  logs/<deck>.check   one test's full measurement report
+  logs/<deck>.all     all LaGriT output for one test
+
+-----------------------------------------------------------------------
+ADDING A TEST
+-----------------------------------------------------------------------
+
+  Copy a p2d*.lgi deck and give it a new name starting with p2d. The
+  runner reads three lines from its header:
+
+      # polygon : <file>.poly
+      # h       : <value>
+      # expect  : valid | error
+
+  and a deck expecting an error may add
+
+      # reason  : <text that must appear in the ERROR message>
+
+  A deck with no expect line FAILS, so a new test cannot go unjudged.
+  The deck must dump raw_<deck>.inp and out_<deck>.inp.
+
+  New circles and ellipses:
+
+      python3 make_ellipse.py --out <name> --a <x semi-axis> \
+              --b <y semi-axis> --h <h> --spacing 4
+
+  --spacing sets the polygon edge length as a multiple of h. The
+  existing ones use 4, so the sampler chooses most boundary points
+  itself instead of having them fixed by the outline. The script
+  prints the polygon's sharpest corner and largest usable h; the
+  driver refuses corners under 9 degrees and h over twice the
+  shortest edge.
+
+  h is uniform in every deck so far. For a variable h field, put its
+  formula in h_at() in check_poisson_2d.py.
+
+-----------------------------------------------------------------------
+SEE ALSO
+
+  ../00README           index of all the test suites
+  ../test_poisson_2d    the harness around the original 2D test deck,
+                        test_Poisson_2D.lgi, with a variable h field
+=======================================================================

@@ -1,0 +1,26 @@
+#####################################################################
+# samp_U3.lgi - test U, 3D: uniform h 0.05 in the unit cube, seeds 1-3
+#
+# Checks the Poisson disk sampler (see 00README). The facts the
+# checker needs are in poisson_sampler.cases.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMIN / 0.0
+define / POI_YMAX / 1.0
+define / POI_ZMIN / 0.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+createpts / poisson_disk / 3d_box / mo_s1 / 0.05 / no_connect &
+      / poisson_seed / 1
+dump / avs / out_U3_s1.inp / mo_s1
+cmo / delete / mo_s1
+createpts / poisson_disk / 3d_box / mo_s2 / 0.05 / no_connect &
+      / poisson_seed / 2
+dump / avs / out_U3_s2.inp / mo_s2
+cmo / delete / mo_s2
+createpts / poisson_disk / 3d_box / mo_s3 / 0.05 / no_connect &
+      / poisson_seed / 3
+dump / avs / out_U3_s3.inp / mo_s3
+cmo / delete / mo_s3
+finish

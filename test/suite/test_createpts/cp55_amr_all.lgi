@@ -1,0 +1,29 @@
+#####################################################################
+# cp55_amr_all.lgi
+#
+# group    : amr
+# expect   : valid
+# spec     : none
+# points   : out_cp55_pts.inp
+# lattice  : 0.25
+# same_set : out_out_cp55_pts.inp
+#
+# WHAT:
+#   amr with no region (the doc's 'refine the entire mesh') on the same
+#   brick: the same 125 points expected.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: segmentation fault in rzamr_lg: with no region it writes
+#   ireg(1) = 1 through a pointer never allocated (and only ever
+#   element 1); the region test later reads the same array.
+#####################################################################
+
+cmo/create/mo_hex///hex
+createpts/brick/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+setpts
+createpts/amr
+dump / avs / out_cp55_pts.inp / mo_hex
+cmo / create / mo_ref / / / tet
+createpts/xyz/5,5,5/0.,0.,0./1.,1.,1./1,1,1
+dump / avs / out_out_cp55_pts.inp / mo_ref
+finish

@@ -1,0 +1,19 @@
+#####################################################################
+# cp22_brick_hex.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 9,5,9 0.,0.,0. 1.,1.,1. 1,1,1
+# points   : out_cp22_pts.inp
+# mesh     : out_cp22_pts.inp hex
+#
+# WHAT:
+#   the doc's example (3,2,3: 4 hexes) at 4 times the resolution:
+#   405 vertices, 8 x 4 x 8 = 256 hexes, volume 1.
+# FROM THE DOCUMENTATION: CRTPTBRICK.md, first example, 4 x finer
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 9,5,9 / 0.,0.,0. / 1.,1.,1. / 1,1,1
+dump / avs / out_cp22_pts.inp / mo_hex
+quality
+finish

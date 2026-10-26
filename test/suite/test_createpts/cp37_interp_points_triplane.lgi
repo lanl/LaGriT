@@ -1,0 +1,25 @@
+#####################################################################
+# cp37_interp_points_triplane.lgi
+#
+# group    : interp
+# expect   : valid
+# spec     : interp 10 || line 10 -1.,0.,0. 1.,0.,0. 1 || line 10 0.,-1.,1. 0.,1.,1. 1
+# points   : out_cp37_pts.inp
+#
+# WHAT:
+#   the doc's point example (two lines of 10 points, no cells; the
+#   doc left out the required switches: 1,1,1 added), TRIPLANE mesh
+#   object: 10 points between each pair, 12 x 10 = 120 points.
+# FROM THE DOCUMENTATION: createpts_interp.md, first example
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: 96 of 120 points off by up to 4.7e-8: rzinterp computes the
+#   fraction as real(l-1)/real(ilayers+1) (single precision).
+#####################################################################
+cmo / create / mo_tri / / / triplane
+createpts/line/10///-1.,0.,0.,1.,0.,0./1,1,1
+createpts/line/10///0.,-1.,1.,0.,1.,1./1,1,1
+createpts/ interp / 10 / 1 0 0 / 1 0 0 / mo_pts
+cmo / select / mo_pts
+dump / avs / out_cp37_pts.inp / mo_pts
+finish

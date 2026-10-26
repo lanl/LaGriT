@@ -1,0 +1,12 @@
+#####################################################################
+# Deliberately set h_field_att well below the allowed floor.
+#
+# poi_check_h_field rejects any value below h*POI_HFIELD_MIN_FACTOR
+# (0.49*h). h_field_att arrives set to POI_H_FACTOR, so scaling it by
+# 0.1 puts the whole field at 0.1*h and the check must fail.
+#####################################################################
+define / MO_H_FIELD / mo_poi_h_field
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / h_field_att / 0.1
+cmo / printatt / MO_H_FIELD / h_field_att / minmax
+finish

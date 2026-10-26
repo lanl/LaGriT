@@ -1,0 +1,19 @@
+#####################################################################
+# err16_3d_bad_connect_token.lgi
+#
+# EXPECT:
+#   One ERROR block naming token 6, not token 7.
+#   Compare against err06 which reports token 7 for the 2D command.
+#
+# NOTE:
+#   Confirms the token position is reported relative to the command
+#   form, which the old hand written messages did not do at all.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.025 / conect
+finish

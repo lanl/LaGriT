@@ -1,0 +1,69 @@
+# notes.txt: a short explanation per test, shown on its row of
+# logs/summary.html (check_upstream.py). "== test" starts a note; a
+# blank line starts a new paragraph. User's comments, Oct 17 2026.
+
+== interp_continuous
+interpolate / continuous: each sink vertex gets the value interpolated (linearly) from the source cell that contains it, from that cell's vertex values. Real attributes vary smoothly; whole-number ones (imt) take the value the interpolation rounds to.
+
+Pictures: one pair per interpolate command (the command is printed above it): the SOURCE mesh coloured by the source attribute, then the SINK mesh after the command, coloured by the sink attribute, on one colour scale. A vertex attribute (imt, xval, numreal, ...) is shown AT THE VERTICES, as coloured dots on grey cells; only a cell attribute (itetclr, itetreal, ...) colours the cells (user, Oct 17). A flat sink is drawn at the source's scale so the two line up; a sink that covers less than half of that frame in both directions is drawn at its own, full size instead, and a red dashed box on the source shows where it lies. Where the meshes overlap, the sink should repeat the source's pattern. They come from a second run of the deck that dumps both mesh objects after each command; the judged run is the deck unchanged.
+
+== interp_map
+interpolate / map: each sink vertex (or cell) gets the value of the source CELL that contains it: piecewise constant, so the source's colour regions are copied onto the sink. Options tested: tiemin / tiemax (which value wins on a shared face or vertex), plus1 (outside the source: the largest value + 1), nearest (outside: the nearest source value), a user value for outside points (5), and pset / eltset ranges (only those sink vertices or cells change).
+
+Pictures: as interp_continuous: source by its attribute (here mostly itetclr, the cell material), sink by its attribute (mostly imt1), one pair per command. imt and imt1 are the same attribute in LaGriT (imt1 is the stored name); the pictures use the name the command used.
+
+== interp_voronoi
+interpolate / voronoi: each sink vertex gets the value of the NEAREST source vertex (the source vertex whose Voronoi cell contains it), so the sink shows the source's vertex values as patches. Includes 2D and 3D sources, sinks of other cell types, tiemin, a pset range, and attributes of other types (ialias, numreal).
+
+Pictures: as interp_continuous. ialias (pairs 12 and 14) is a LaGriT system attribute that dump / avs does not write by default; the picture run sets its output flag (cmo / modatt / ... / ioflag / agl) before the dump, so it is drawn too.
+
+== quality
+quality measures, for each cell (cmo / addatt and quality / ... / y make them attributes; quality alone prints binned counts):
+
+aratio (quality / aspect): the aspect ratio, 3 r / R for a tet (2 r / R for a triangle), r the radius of the inscribed sphere, R of the circumscribed one. 1 = regular (equilateral); towards 0 = flat or degenerate. LaGriT bins it on a log scale: < .01, .01-.02, .02-.05, .05-.1, .1-.2, .2-.5, .5-1.
+a_mind, a_maxd (ang_mind, ang_maxd): the smallest and largest DIHEDRAL angle, the angle between two faces along their shared edge, in degrees (a_minr, a_maxr in radians). Regular tet: 70.53 for both. Near 0 or near 180 is bad.
+s_mind, s_maxd (ang_mind_solid, ...): the smallest and largest SOLID angle at a vertex (the opening of the corner). Regular tet: 31.59. Near 0 is bad.
+eratio (quality / edge_ratio): shortest edge / longest edge. 1 = all edges equal.
+edgemin, edgemax (quality / edge_min, edge_max): shortest and longest edge of each cell.
+quality / volume: cell volumes in bins; with itetclr, totals per material; with lt / gt / eq / ne, the cells below / above a value (e.g. lt 0: inverted cells). quality / angle / lt 20 (gt 90): the number of cells with a dihedral angle below 20 (above 90) degrees.
+quality / pcc: neg_coup_coeff per cell: 1 = its coupling coefficients are fine, below 1 = a negative coefficient (bad for control-volume solvers such as FEHM). The deck moves one vertex to make some.
+
+The six single tets (pictures, coloured by aspect ratio on one 0-1 scale), with the values the deck expects: equilateral (aratio 1, a_mind 70.5); SLIVER: four vertices nearly in one plane, no short edge (aratio 0.29, a_maxd 157); CAP: one vertex close to the opposite face (aratio 0.074, a_maxd 150); NEEDLE: one vertex far from the other three (aratio 0.34, eratio 0.20); WEDGE: one short edge (aratio 0.26, a_maxd 90, eratio 0.1); and a right-angle corner tet. The first picture: the two cubes cut into tets, materials 1 and 2, used for the volume and pcc checks.
+
+== quad_quality
+cmo / addatt / ... / quad_quality and quality / quad give each quad three measures (quad_quality.c):
+quality: 0 to 1, from Frey and George (18.2.4), inverted: S_min / (alpha h_max h_s), S_min the smallest of the four triangles' areas made by the quad's vertices, h_max the longest edge or diagonal, h_s the quadrature sum of the edges, alpha = sqrt(2)/8. 1 = a square; it falls as the quad gets long, skewed or close to degenerate.
+regularity: (1 + P) / 2, P the smaller planarity (the cosine between the normals of the two triangles a diagonal makes, for each diagonal). 1 = flat; 0 = folded over.
+qflag: 0 good; 1 degenerate (a zero-area triangle); 2 warped (a negative planarity: folded, or for a flat quad, self-intersecting or with its vertices in the wrong order).
+
+What the test checks: an empty quad mesh and a hex mesh (not quads) must be handled without failing; a perfect 10 x 10 grid (test03) must have quality 1, regularity 1, qflag 0; a grid with its vertices moved in x and y (test04, still flat) gets poor quads, some of them self-intersecting (qflag 2); moved in x, y and z (test05), many warped quads. Pictures: each output coloured by quality; then test04 by qflag, test05 by regularity and by qflag.
+
+== pset
+The deck makes a 10 x 10 x 10 hex brick, two vertex sets (pset1: within radius 5 of the origin; pset2: the box 7 to 10), and writes them with every naming and format option of pset / ... / write.
+
+Our own check (below) reads every written file back, the binary one included, and compares its vertices with the sets' definitions applied to the mesh: all 13 files are correct (pset1 99 vertices, pset2 64). The files are also identical to LaGriT's reference copies. Picture: the mesh with its vertices coloured by imt, which the deck sets to 2 in pset1 and 3 in pset2 (a second run dumps the mesh with its attributes; the deck's own dump writes none).
+
+== pset_readwrite
+Vertex and cell sets written in ASCII and binary, read back, and written again as zone files. Judged by comparing every written file with LaGriT's reference copies (the stored "truth", reference/ of this test): 22 files, all identical.
+
+== pflotran_stor
+dump / pflotran (and .stor coefficient files) for hex, tet and triangle meshes. Judged by comparing every written file with LaGriT's reference copies (the stored truth): 14 files, all equal. The .stor files are equal except for their date line (line 2, skipped).
+
+== smooth_massage
+A polygon triangulated, refined, smoothed and massaged. The picture is coloured by aspect ratio (2 r / R; 1 = equilateral), from the worst triangle (0.43) to 1.
+
+Since the triangulate fix (Oct 11 2026) the final mesh lists its first two triangles in the other order; the vertices and the 3238 triangles are the same as LaGriT's reference, so the output comparison passes ("cells in another order"). Its reference/ folder also keeps nine older files (out_tri00.inp ... out_tri04b.inp) that the deck no longer writes (those dump lines are commented out): listed as "not written", not a failure.
+
+== io_agf_simple
+Writes FEHM, .stor, zone and LaGriT (ASCII and binary) files of a unit tet and a small hex mesh; all equal to the reference copies.
+
+About NaN (user's question): the NaN part of this deck ("This file has NaN that some compilers allow", read avs input_tet24.inp) comes AFTER the deck's first finish, so LaGriT never runs it, and input_tet24.inp is not in the folder: nothing is tested. Tried by hand (Oct 17 2026): LaGriT reads an AVS file with NaN as a coordinate with no message; cmo / printatt minmax then reports 0 to 1 as if the NaN were not there, and quality puts the cell in the < .01 bin, with only the Fortran runtime's IEEE_INVALID_FLAG note. Bad input passes silently: parked for the user (handoff, parking lot).
+
+== recon1
+Pictures of flat meshes are seen straight down the plane's normal (here a tilted fracture plane, output_dfn_recon1).
+
+== refine_octree
+Octree refinement keeps every level in the mesh (a refined hex stays, with its 8 children); the picture shows only the leaves.
+
+== refine_octree_prd
+refine with a principal refinement direction (amr 123: x, y and z; amr 12: x and y only). The picture: the end state, a flat quad mesh, seen straight down its normal, leaves only.

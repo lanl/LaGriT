@@ -1,0 +1,11 @@
+# ic11_distance_compressed.lgi
+# ic10, but the dudded vertex is removed first (rmpoint / compress).
+# check: distance | out_ic11.inp | dfield
+read / avs / src_points.inp / mo_src
+read / avs / src_tet.inp / mo_snk
+cmo / setatt / mo_snk / itp / 50,50,1 / 21
+cmo / select / mo_snk
+rmpoint / compress
+compute / distance_field / mo_snk / mo_src / dfield
+dump / avs / out_ic11.inp / mo_snk
+finish

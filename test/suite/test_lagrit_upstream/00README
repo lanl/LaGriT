@@ -1,0 +1,192 @@
+test_lagrit_upstream -- LaGriT's OWN test suite, run from this suite
+=======================================================================
+
+WHAT IT IS (Oct 16 2026)
+
+  LaGriT ships its own tests in its source tree: test/level01 (43
+  tests, the ones GitHub runs on every pull request), test/level02
+  (Exodus) and test/level03 (development, never run automatically).
+  Each test is a folder with input.lgi and reference/outx3dgen, the
+  log a correct run writes. This suite runs those tests on the build
+  under test and judges them, so LaGriT's own tests are part of every
+  run_all.sh. It is the check a pull request into lanl/LaGriT will get.
+
+  The tests are NOT copied into this suite (about 105 MB, and they
+  change with LaGriT): they are read from ../../level01 in this checkout.
+
+QUICK START
+
+  run_upstream_tests.sh                    (about 30 s with the pictures)
+  LEVEL2=1 run_upstream_tests.sh           (also the Exodus tests;
+                                             needs a build with Exodus)
+  open logs/summary.html
+
+  The tests come from (first that exists; printed at the start):
+    $LAGRIT_TESTS            a test/ folder given by hand
+    ../..                    test/ of this checkout (usual case)
+    $LAGDEV/test             another LaGriT source tree
+    <lagrit's folder>/../test
+
+FILES
+
+  run_upstream_tests.sh  runner (POSIX sh): copies each test folder
+                         (inputs only) into work/<test>, runs
+                         lagrit -log logx3dgen -out outx3dgen < input.lgi
+                         there (as LaGriT's runtests.py does), then
+                         calls the checker. The source tree is never
+                         written to.
+  check_upstream.py      checker (Python 3, standard library): judges
+                         every test; writes logs/table.txt and
+                         logs/summary.html. Its opening comment defines
+                         every check exactly.
+  draw_meshes.py         the pictures: one SVG per AVS mesh file
+                         (outer faces shaded; coloured by material, a
+                         vertex or cell attribute, or aspect ratio,
+                         with a legend; planar meshes seen down their
+                         normal; octrees: leaves only)
+  pictures.py            the picture run (extra dumps) and the list of
+                         pictures of a test; pictures.txt says what to
+                         draw for which test
+  compare_outputs.py     every output file against the stored truth
+  extra_checks.py        checks of our own for some tests (pset)
+  notes.txt              the explanation shown on a test's row
+  truth/                 truth files of our own, where LaGriT's
+                         reference/ copy is out of date (none needed
+                         yet; see compare_outputs.py)
+  known.txt              documented failures: "test | why"
+  work/                  where the tests ran (outputs; deleted and
+                         remade by every run)
+  logs/                  per test: <test>.stdout, <test>.outx3dgen;
+                         tests.txt (exit status, seconds), run_info.txt,
+                         table.txt, summary.html
+
+THE CHECKS
+
+  PASS needs all five:
+  same      the log equals reference/outx3dgen by LaGriT's own rules,
+            with LaGriT's own code (testlagrit/diff.py from the source
+            tree): blank lines, comment lines and the banner skipped;
+            lines compared word by word; numbers within an ABSOLUTE
+            0.001; anything else exactly. Two corrections of ours:
+            1. LaGriT's diff.py MISSES every isolated one-line
+               difference. It asks for a unified diff with no context;
+               a block of one changed line then has the header
+               "@@ -39 +39 @@" (one line each), which diff.py reads as
+               0 lines, so it compares nothing. Found Oct 16 2026: a
+               reference total volume changed from 1.0 to 1.1 passed
+               LaGriT's own runtests.py. This checker finds the blocks
+               itself and still records diff.py's verdict; a test
+               diff.py would have passed is marked "LaGriT's diff.py
+               misses it". (Worth reporting upstream.)
+            2. A negative zero equals zero ("-0.0000000j" against
+               "0.0000000j"): the sign of a printed zero depends on the
+               compiler and platform. Five tests differ only in this
+               (addmesh_doublemesh, refine_recon_quality, setpts,
+               smooth, surface: the unit vectors of planes).
+  exit      lagrit's exit status is 0 (a crash is 139)
+  finished  the log has "LaGriT successfully completed" (every
+            reference has it)
+  files     every output file the test's reference/ folder keeps (the
+            stored truth: LaGriT keeps it there but its runtests.py
+            never compares it; user, Oct 17 2026) equals the file the
+            test wrote: meshes as meshes (vertices within 1e-6 of the
+            mesh size, the same cells in any order, attributes within
+            a relative 1e-6), text word by word (numbers within a
+            relative 1e-6; date lines such as a .stor header skipped),
+            anything else byte for byte. truth/<test>/<file> overrides
+            reference/ where that copy is out of date. Reference files
+            the deck no longer writes are listed as "not written" (not
+            a failure). Oct 17: 157 files compared, all equal.
+  own       our own check, for a test in extra_checks.py (pset: every
+            written vertex set file read back, ASCII and binary, and
+            compared with the sets' definitions on the mesh)
+  LaGriT's runtests.py makes none of the last four checks.
+
+  KNOWN  a test in known.txt that fails, as documented there
+  FIXED  a test in known.txt that now passes: remove its line
+  FAIL   anything else. The runner exits nonzero on any FAIL.
+
+RESULTS (sandbox, Oct 16 2026, Release, gfortran 14)
+
+  unchanged upstream (ace1e7f8)        43 PASS
+  your branch with the Oct 16 fixes    43 PASS
+  Before createpts FIX 3 (Oct 16) three failed: filter, quality and
+  surface make a mesh object with no cell type (cmo/create/NAME, tet)
+  and fill it with createpts / brick, which re-types it (rzbrick3.f);
+  createpts FIX 2 (Oct 13) had made that an ERROR. FIX 3 refuses a
+  brick only when the mesh object already has cells of another type
+  (the brick re-type fix).
+
+  Found by this suite (Oct 16): copypts from a mesh object with no
+  vertices wrote through an unset pointer and added one made-up vertex
+  (crash on some builds); fixed in copypts.f.
+
+PICTURES (user, Oct 16 2026; more Oct 17, from the user's comments)
+
+  Every AVS mesh file a test writes (*.inp that is not one of its
+  inputs) is drawn: logs/pics/<test>__NN.svg, shown on the test's row
+  (click one to open it full size). A test that writes no mesh file
+  (filter, quality, surface, grid2grid, ... about 15 of them) is run a
+  SECOND time in work/_pic_<test>, with one line added before its
+  first finish: "dump / avs / zz_final_mesh.inp" (the current mesh
+  object), and that end state is drawn. The judged run is always the
+  test's own deck, unchanged. Files of more than 250 000 cells or
+  400 000 vertices are not drawn (createpts_filter's end state has a
+  million vertices). Point and cell sets, .stor and zone files are not
+  meshes and are not drawn.
+  OCTREE meshes (refine / amr keeps every level: a refined hex stays in
+  the mesh with its 8 children): only the LEAVES are drawn (user, Oct
+  16). With the cell attribute itetkid in the file (dump / avs / f /
+  mo / 1 1 1 1) a cell with itetkid > 0 is a parent; without it, a hex
+  is a parent when a hex that shares one of its vertices is less than
+  half its size and has its centre inside it. Checked on refine_octree:
+  both ways give the same 1034 parents of 8322 cells, and the 7288
+  leaves fill the box exactly (volume 0.05; all levels together 0.119).
+  The picture says how many parent cells were left out. Same camera as test_createpts
+  (right-handed: x cross y shows as z), axis icon bottom left.
+
+COMMENTING ON THE PAGE (user, Oct 16 2026)
+
+  Every test has a comment box (as on the test_createpts page): type
+  what to implement or change for that test; an empty box means no
+  change. Comments stay in this browser (per suite) until "Clear all".
+  "Copy all comments" puts them on the clipboard; "Save as file" writes
+  test_lagrit_upstream_comments.txt to Downloads: attach it in the chat.
+  Each comment is listed with its test and that test's result.
+
+  Oct 17 (user's comments): the interpolate tests (interp_continuous,
+  interp_map, interp_voronoi) show one pair per interpolate command,
+  the command above it: the SOURCE coloured by the source attribute,
+  the SINK after the command coloured by the sink attribute, on one
+  colour scale; when the sink is a horizontal plane, the source is
+  seen from above too, at the same scale and position, so the two
+  patterns line up. pset: vertices by imt; smooth_massage: aspect
+  ratio; quad_quality: quality, qflag, regularity; quality: the six
+  single test tets on one aspect-ratio scale. All set in pictures.txt.
+
+EXPLANATIONS
+
+  notes.txt holds a short explanation per test (what it does, what the
+  pictures show, what each measure means); it is shown on the test's
+  row. Written for: interp_continuous, interp_map, interp_voronoi,
+  quality, quad_quality, pset, pset_readwrite, pflotran_stor,
+  smooth_massage, io_agf_simple (the NaN question), recon1,
+  refine_octree, refine_octree_prd.
+
+READING THE PAGE
+
+  A link at the top goes back to the top-level summary (all suites).
+  The top lists every test that does not PASS, with a link to its row.
+  Each row: a comment box, the pictures, the note, then fold-outs:
+  "output files against the truth" (opened when one differs), "our
+  own check", "LaGriT's diff" (when the log differs) and "LaGriT
+  control file".
+  Each row: result, time, and fold-outs: "LaGriT's diff" (the lines
+  that differ, reference line first, "-" reference, "+" output) and
+  "LaGriT control file" (the test's input.lgi).
+
+ADDING A TEST
+
+  Add it to LaGriT's own test/level01 (a folder with input.lgi and
+  reference/outx3dgen made by a trusted build); this suite picks it up.
+  Tests of our own go in our other suites.

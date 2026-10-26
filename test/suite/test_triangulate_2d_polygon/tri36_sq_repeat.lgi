@@ -1,0 +1,20 @@
+#####################################################################
+# tri36_sq_repeat.lgi
+#
+# polygon  : sq_repeat.poly
+# expect   : valid
+# picture  : small
+# warns    : first point is the same as last point
+#
+# WHAT:
+#   unit square with its first vertex repeated at the end.
+#   triangulate drops the repeat, with a WARNING.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid, after the same WARNING.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_repeat.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri36_sq_repeat.inp / mo_tri
+finish

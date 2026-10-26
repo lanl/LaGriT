@@ -1,0 +1,22 @@
+#####################################################################
+# diag_triangulate.lgi    (a diagnostic, NOT part of the suite: the
+#                          runner only runs nc*.lgi)
+#
+# Runs the SAME commands the driver's nonconvex clip uses to
+# triangulate the polygon (poi_2d_clip_nonconvex in poi_driver.f),
+# on saw_safe.poly alone, and dumps the result. Then
+#
+#   python3 check_recovery.py saw_safe.poly diag_triangulate.inp
+#
+# compares that triangulation with the polygon. Any overhang means the
+# polygon's own triangulation covers part of a notch, so mesh elements
+# whose centroids lie there are marked "inside" and survive the clip.
+# Zero overhang rules that out (see nc06 and 00README finding 3).
+#####################################################################
+read / avs / saw_safe.poly / mo_polygon
+cmo / create / mo_poi_poly_triangulate / / / tri
+copypts / mo_poi_poly_triangulate / mo_polygon
+cmo / select / mo_poi_poly_triangulate
+triangulate / counterclockwise
+dump / avs / diag_triangulate.inp / mo_poi_poly_triangulate
+finish

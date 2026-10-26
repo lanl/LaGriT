@@ -1,0 +1,11 @@
+{
+ "name": "L_k20",
+ "description": "L shape, 20 segments per side",
+ "vertices": 120,
+ "xmin": 0.0,
+ "xmax": 2.0,
+ "ymin": 0.0,
+ "ymax": 2.0,
+ "orientation": "counterclockwise",
+ "area": 3.0
+}

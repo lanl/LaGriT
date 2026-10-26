@@ -1,0 +1,244 @@
+=======================================================================
+ test_poisson_nonconvex - recovering a nonconvex polygon outline
+=======================================================================
+
+WHAT THIS IS
+
+  A stress test of how the 2D driver recovers a NONCONVEX outline.
+
+  The driver connects the Poisson points into a convex hull Delaunay
+  mesh, then clips it: it triangulates the polygon, interpolates a
+  marker onto the mesh and deletes every element whose centroid falls
+  outside. A notch narrower than the sample spacing h gets no sample
+  points inside it, so the clip cannot reproduce it.
+
+  These tests locate where that happens and measure what it looks
+  like. They push the algorithm past the point where it works ON
+  PURPOSE, so a degraded mesh is an expected result, not a failure.
+
+QUICK START
+
+  ./run_nonconvex_tests.sh  [path-to-lagrit]
+
+  then open, in a web browser,
+
+      logs/summary.html
+
+  That one page has the tally, the results table and, for every deck,
+  its notes, its full report and a picture.
+
+  Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
+
+-----------------------------------------------------------------------
+FILES
+-----------------------------------------------------------------------
+
+  00README                  this file
+  run_nonconvex_tests.sh    runs every nc*.lgi deck and judges it
+  check_recovery.py         measures one mesh against its polygon and
+                            draws the picture. Its opening comment
+                            defines every measure exactly; the
+                            calibration of the tolerance is above
+                            MISMATCH_TOL_PCT.
+  make_sawtooth.py          builds the sawtooth polygons
+  diag_triangulate.lgi      a diagnostic, not a test: runs the clip's
+                            own polygon triangulation alone (finding 3)
+
+  nc01 .. nc14 *.lgi        the decks (see THE TESTS)
+  saw_*.poly                the polygons, as AVS point sets, each with
+  saw_*.json                a sidecar recording how it was made and
+                            its smallest angle, shortest edge and
+                            largest usable h
+
+  Written by a run (deleted and rewritten every time):
+
+  out_nc*.inp               the meshes
+  logs/                     everything else, see OUTPUT below
+
+-----------------------------------------------------------------------
+THE SHAPE, AND WHY h IS THE KNOB
+-----------------------------------------------------------------------
+
+  make_sawtooth.py builds a long box with a sawtooth top: valleys at a
+  fixed height, peaks growing left to right under a linear, power or
+  exponential envelope, valleys at both ends. Vertices run
+  counter-clockwise, as the driver requires.
+
+  Recovery depends on the ratio
+
+      tooth half width / h
+
+  The obvious experiment, narrower and taller teeth, does not work: a
+  tall thin tooth has a sharp apex, and the driver refuses any polygon
+  with a vertex angle under 9 degrees before the sampler runs (nc09
+  keeps one such polygon on purpose). So the geometry is held fixed at
+  safe angles and h is varied instead.
+
+  Regenerate any polygon exactly from its sidecar:
+
+      python3 make_sawtooth.py --out saw_safe --from-json saw_safe.json
+
+-----------------------------------------------------------------------
+THE TESTS
+-----------------------------------------------------------------------
+
+  deck   polygon          h     half width/h   expect
+  nc01   saw_safe         0.1      6.25        recovered
+  nc02   saw_safe         0.2      3.12        recovered
+  nc03   saw_safe         0.4      1.56        recovered
+  nc04   saw_safe         0.6      1.04        recovered
+  nc05   saw_safe         0.8      0.78        degraded
+  nc06   saw_safe         1.0      0.62        degraded
+  nc07   saw_safe         1.2      0.52        degraded
+  nc08   saw_sharp        0.3      1.39        recovered  (9.69 deg)
+  nc09   saw_rejected     0.5        -         error: angle 5.19 deg
+  nc10   saw_power2       0.3      2.08        recovered
+  nc11   saw_exp3         0.3      2.08        recovered
+  nc12   saw_sharp        0.1      4.17        recovered
+  nc13   saw_edge_admit   0.1      4.17        recovered  (9.10 deg)
+  nc14   saw_edge_refuse  0.3        -         error: angle 8.90 deg
+
+  saw_safe: smallest angle 24.1 deg. nc13 and nc14 bracket the 9 degree
+  cutoff to 0.1 deg either side.
+
+-----------------------------------------------------------------------
+RESULTS
+-----------------------------------------------------------------------
+
+  Every deck gets one of these results:
+
+  PASS        expected to recover, and did
+  DEGRADED    expected to degrade, and did. A known, documented
+              failure of the algorithm; its picture shows what it
+              looks like.
+  REFUSED     expected to be refused by input validation, and was,
+              for the reason in its "# reason :" line
+  KNOWN       a DOCUMENTED failure, as described by the deck's
+              "# expected :" line. Not a fault in the test, and nothing
+              to fix to keep the suite green; the deck notes explain it.
+  UNEXPECTED  expected to degrade, but recovered: the failure boundary
+              has moved. Investigate, then update the deck.
+  FIXED       a known failure that did NOT happen. Good news, but the
+              deck now misdescribes the code: remove its "# known" and
+              "# expected" lines.
+  FAIL        anything else: a crash, a missing nonconvex warning, a
+              HARD check broken, a recovered deck over tolerance, a
+              deck refused for the wrong reason or not refused
+
+  The exit status is nonzero on any FAIL, UNEXPECTED or FIXED. It answers
+  "does the suite still describe the algorithm correctly", not "did
+  every mesh come out right".
+
+  HARD checks (any h): no element centroid outside the polygon (the
+  clip deletes exactly those), no inverted elements, no element naming
+  a missing node.
+
+  Recovery is judged on MISMATCH: the area of the mesh outside the
+  polygon (overhang) plus the polygon area the mesh does not cover
+  (uncovered), from exact polygon/triangle clipping. Recovered means
+  mismatch <= 0.5 % of the polygon area. Net area is also reported but
+  is not used: overhang and uncovered cancel in it.
+
+  Also reported: polygon vertices that are not mesh nodes. A notch tip
+  that is not a node cannot be reproduced at any resolution.
+
+-----------------------------------------------------------------------
+READING THE PICTURE
+-----------------------------------------------------------------------
+
+  orange      polygon area NOT covered by the mesh       (uncovered)
+  red         mesh area reaching OUTSIDE the polygon     (overhang)
+  grey        elements wholly inside the polygon
+  black line  the true outline
+  blue ring   a polygon vertex that is not a mesh node
+
+OUTPUT
+
+  logs/summary.html     EVERYTHING ON ONE PAGE
+  logs/table.txt        the results table, as printed
+  logs/<deck>.svg       one deck's picture
+  logs/<deck>.recovery  its full measurement report
+  logs/<deck>.all       all LaGriT output for one deck (stdout,
+                        lagrit.log and lagrit.out, also kept apart)
+
+-----------------------------------------------------------------------
+FINDINGS (latest run, regenerated polygons)
+-----------------------------------------------------------------------
+
+  1. Recovery holds while tooth half width / h >= 1 (nc01-nc04: 0.00 %
+     mismatch) and degrades below it (nc05 0.67 %, nc06 2.48 %, nc07
+     6.06 %). 0.5 % still separates the two, with less margin than in
+     the first run.
+
+  2. Degradation now ADDS area where triangles bridge the notches as
+     well as losing some from the teeth (nc05: all overhang). On the
+     old polygons it mostly lost area. The deck notes have both runs.
+
+  3. nc06 is a KNOWN failure (documented in its deck; nothing to fix
+     to keep the suite green). One triangle with its centroid outside
+     the polygon survives the clip, which the driver's nonconvex
+     warning says cannot happen. Measured Oct 6: centroid (18.79,
+     1.78), 0.167 outside the polygon = 0.26 x its shortest edge, so a
+     real clip miss, not rounding: a triangle bridging the notch above
+     the valley at x = 18.75.
+
+     Not interpolate/map: it tags a centroid outside the polygon's
+     triangulation with max+1 = 2, and the clip deletes "gt 1". The
+     two causes left, and how to tell them apart:
+       a) triangulate/counterclockwise covers the notch, so the
+          centroid counts as inside. Run diag_triangulate.lgi, then
+            python3 check_recovery.py saw_safe.poly diag_triangulate.inp
+          Any overhang confirms it.
+       b) smooth;recon AFTER the clip moved nodes or flipped edges.
+          logs/nc06_h1p0.recovery lists the triangle's three nodes and
+          whether each is on the outline; a node off it points here.
+
+  4. Notch tips go missing at FINER h, not coarser: saw_sharp has
+     58/63 vertices as mesh nodes at h 0.3 (nc08) but 55/63 at h 0.1
+     (nc12); saw_edge_admit 51/63 at h 0.1. The area cost is tiny
+     (<= 0.04 %), but it points at the sampler, not at h.
+
+  5. nc12 is a KNOWN failure since Oct 18 2026 (user accepted), after
+     the Poisson driver switched to a binned vertex sort before
+     connect (poi_driver.f): 2 triangles with centroids
+     just outside the polygon (<= 6e-3 x the shortest edge) at the
+     reflex corners (13.33, 1) and (22.5, 1), where no vertex was
+     placed. Each has one vertex off the outline: the smooth;recon
+     passes after the clip, which depend on vertex order, made them.
+     Same cause as nc06's explanation 2. Possible follow-up (offered,
+     not started): run the clip again after the smoothing, or clip
+     last.
+
+-----------------------------------------------------------------------
+ADDING A TEST
+-----------------------------------------------------------------------
+
+  Copy an nc*.lgi deck. The runner reads three header lines:
+
+      # polygon : <file>.poly
+      # h       : <value>
+      # expect  : recovered | degraded | error
+
+  and a deck expecting an error may add
+
+      # reason  : <text that must appear in the ERROR message>
+
+  A deck with a documented failure adds
+
+      # known    : <text from the HARD line it fails with>
+      # expected : <one line: what happens, and where it is explained>
+
+  It then reports KNOWN instead of FAIL, but only if EVERY hard check
+  that failed contains that text, so a new, different fault still
+  FAILs.
+
+  A deck with no expect line FAILS, so a new test cannot go unjudged.
+  The deck must dump its mesh to out_<deck>.inp.
+
+-----------------------------------------------------------------------
+SEE ALSO
+
+  ../00README                 index of all the test suites
+  ../test_poisson_command_errors  warn01-03: the same L shape with its
+                              reflex corner at different vertices
+=======================================================================

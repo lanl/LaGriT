@@ -1,0 +1,36 @@
+#####################################################################
+# nc05_h0p8.lgi
+#
+# polygon : saw_safe.poly
+# h       : 0.8
+# expect  : degraded
+#
+# EXPECT:
+#   Nonconvex WARNING. Recovery DEGRADES. Mismatch area is
+#   reported but not judged.
+#
+# NOTE:
+#   tooth half width / h = 0.78. Below 1, recovery degrades.
+#
+#   Latest run (regenerated saw_safe.poly, valleys at both ends):
+#
+#      overhang 0.67 %   uncovered 0.00 %   mismatch 0.67 %
+#
+#   Degradation now ADDS area where triangles bridge the notches
+#   (overhang) as well as losing some from the teeth (uncovered).
+#   The first run, on the old polygon, mostly LOST area:
+#      overhang 0.53 %   uncovered 1.10 %   mismatch 1.63 %
+#   so the share of each depends on the polygon's ends, and only
+#   mismatch (their sum) is comparable between the two.
+#
+#   This is a real limitation of clip-after-convex-hull, not a
+#   bug. The test documents where it begins.
+#####################################################################
+read / avs / saw_safe.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.8 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc05_h0p8.inp / mo_pts
+finish

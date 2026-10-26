@@ -1,0 +1,19 @@
+#####################################################################
+# tri05_spiral_sq25.lgi
+#
+# polygon  : spiral_sq25.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   SQUARE SPIRAL: a wall 0.3 thick wound 25 turns (202
+#   vertices): long runs of reflex corners.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / spiral_sq25.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri05_spiral_sq25.inp / mo_tri
+finish

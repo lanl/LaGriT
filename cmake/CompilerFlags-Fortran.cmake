@@ -7,6 +7,13 @@ include(CheckFortranCompilerFlag)
 if ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "GNU")
   message(STATUS "  Fortran compiler: GNU GFORTRAN")
   set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -fcray-pointer -fdefault-integer-8 -std=legacy -fno-sign-zero -fno-range-check")
+  # Do not fuse a*b+c into one fused multiply-add. gfortran does that by
+  # default where the hardware has it (Apple Silicon, ARM, and x86 with
+  # -march=native), which rounds differently from Intel without it:
+  # recon1, smooth and smooth_massage gave different meshes and
+  # coefficients on Apple Silicon. Same results on every machine; no
+  # measurable cost in the test suite.
+  set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -ffp-contract=off")
 
 elseif ("${CMAKE_Fortran_COMPILER_ID}" MATCHES "Intel")
   message(STATUS "  Fortran compiler: Intel Fortran")

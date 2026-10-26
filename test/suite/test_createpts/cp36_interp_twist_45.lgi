@@ -1,0 +1,40 @@
+#####################################################################
+# cp36_interp_twist_45.lgi
+#
+# group    : interp
+# expect   : valid
+# spec     : interp 6 || xyz 5,5,1 -10.,-10.,0. 10.,10.,0. 1,1,1 || rotz 45 xyz 5,5,1 -10.,-10.,20. 10.,10.,20. 1,1,1
+# points   : out_cp36_pts.inp
+# mesh     : out_cp36_mesh.inp hex
+# filter   : yes
+# picture  : layers 16 tilt 45
+# vertices : 200
+# cells    : 112
+#
+# WHAT:
+#   the doc's quads -> hexes, as a twist (user, Oct 16): two 20 x 20
+#   quad surfaces of 4 x 4 cells in xy planes, z = 0 and z = 20, the
+#   upper one turned 45 deg about the z axis (its corners are the lower
+#   one's, rotated). 6 layers of vertices between vertex i below and
+#   vertex i above: (6 + 2) x 25 = 200 vertices, 7 x 16 = 112 hexes,
+#   each layer turned a little more. Every vertex must lie on the
+#   straight line between its pair, at k/7 of the way. Picture: the 7
+#   layers coloured blue (bottom) to red (top), seen from 45 deg above.
+# FROM THE DOCUMENTATION: createpts_interp.md, quads to hex (as a twist)
+#####################################################################
+define / R45 / 14.142135623730951
+define / R45N / -14.142135623730951
+cmo / create / mo_quad1 / / / quad
+quadxy / 5 5 / -10. -10. 0. / 10. -10. 0. / 10. 10. 0. / -10. 10. 0.
+createpts / brick / xyz / 5,5,1 / 1,0,0 / connect
+cmo / create / mo_quad2 / / / quad
+quadxy / 5 5 / 0. R45N 20. / R45 0. 20. / 0. R45 20. / R45N 0. 20.
+createpts / brick / xyz / 5,5,1 / 1,0,0 / connect
+addmesh / merge / mo_quads / mo_quad1 / mo_quad2
+cmo / select / mo_quads
+createpts / interp / 6 / 1 0 0 / 1 0 0 / mo_hex
+cmo / select / mo_hex
+dump / avs / out_cp36_pts.inp / mo_hex
+quality
+dump / avs / out_cp36_mesh.inp / mo_hex
+finish

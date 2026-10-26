@@ -52,11 +52,16 @@ do not apply for this method, even if a sink point is outside the source, a near
 The interpolation is the sum of vertice values multiplied by the relative volume of elements formed by the sink point 
 location on or inside the found element. The element is divided into volumes as determined by the sink point location 
 and its relationship to the vertices of the enclosing element. A triangle becomes three triangles each with a vertices 
-on the sink point. A quad becomes four quads.  A tet becomes four tets. The assigned sink point value is the sum of 
+on the sink point. A tet becomes four tets. The assigned sink point value is the sum of 
 these values divided by the number of element vertices. The interpolation function belonging to the attribute is applied 
 to the vertice values before being summed. See also the `interp_function` option.
-**WARNING** A hex becomes 8 hexs which depends on orthogonal hexs and so is not currently supported. 
-Use hextotet to convert hex elements to tets. 
+
+Other element types are first split around their median point, and the triangle or tet holding the sink point is used: 
+a quad becomes 4 triangles, a pyramid 8 tets, a prism 14 tets, and a hex the same 24 tets as `hextotet / 24` 
+(each face with 4 vertices is split into 4 triangles around the face median). The element median carries the mean 
+of the element's vertex values and a face median the mean of the face's vertex values. A linear field is reproduced 
+exactly for any element shape or vertex numbering, and interpolating from hexes gives the same values as 
+`hextotet / 24` followed by interpolating from the tets.
 
 **`default`** - If source attribute is element type then use `map`. If source attribute is node type then use `continuous`.
 
@@ -157,7 +162,7 @@ NOT indicates Not Supported
 
 |       OPTIONS                |             **MAP**            |         **CONTINUOUS**         |         **VORONOI**            |
 | :---------------------------| :--------------------------- | :-------------------------- | :---------------------------- |
-| **source element type**      | tri, quad, hex, tet, (pyr), (pri), (line)        | tri, quad, NOT hex, tet, (pyr), (pri), (line)    | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
+| **source element type**      | tri, quad, hex, tet, (pyr), (pri), (line)        | tri, quad, hex, tet, pyr, pri, (line)           | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
 | **sink element type**        | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt) | tri, quad, hex, tet, (pyr), (pri), (line), (pnt)  |
 | **source attribute**         | element                                          | nodes (on element)                                           | node                                  |
 | **sink attribute**           | node or element (centroid)                       | node or element (centroid)                       | node or element (centroid)                        |

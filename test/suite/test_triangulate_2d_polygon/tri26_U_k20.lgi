@@ -1,0 +1,19 @@
+#####################################################################
+# tri26_U_k20.lgi
+#
+# polygon  : U_k20.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   nonconvex U shape, 20 segments per side.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   INVALID: one zero-area cell (three collinear vertices made
+#   into a cell), with NO error or warning.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / U_k20.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri26_U_k20.inp / mo_tri
+finish

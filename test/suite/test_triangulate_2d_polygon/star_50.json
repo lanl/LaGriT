@@ -1,0 +1,11 @@
+{
+ "name": "star_50",
+ "description": "starburst: 50 spikes, inner radius 0.01",
+ "vertices": 100,
+ "xmin": -1.0,
+ "xmax": 1.0,
+ "ymin": -0.9980267284282716,
+ "ymax": 0.9980267284282716,
+ "orientation": "counterclockwise",
+ "area": 0.03139525976465669
+}

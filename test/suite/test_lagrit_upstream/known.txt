@@ -1,0 +1,8 @@
+# Documented failures of LaGriT's own tests on the build under test.
+# One line per test:  test | why it fails (and where that is written up)
+# A listed test that fails is KNOWN; one that passes is FIXED (then
+# remove its line). Anything else that fails is a FAIL.
+#
+# Oct 16 2026: filter, quality and surface were listed here (createpts
+# FIX 2 refused createpts/brick in an empty tet mesh object). Fixed the
+# same day by createpts FIX 3: they pass. No documented failures now.

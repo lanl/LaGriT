@@ -1,0 +1,18 @@
+#####################################################################
+# err17_3d_missing_one_box_define.lgi
+#
+# EXPECT:
+#   One ERROR block: the 3d_box option requires define / POI_ZMAX /.
+#
+# NOTE:
+#   The old code printed a message for each missing define but never
+#   set ierror, then used an uninitialized rstring_out as the limit.
+#   The run continued with a garbage box.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.025 / connect
+finish

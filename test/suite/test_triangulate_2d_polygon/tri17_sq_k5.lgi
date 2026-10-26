@@ -1,0 +1,19 @@
+#####################################################################
+# tri17_sq_k5.lgi
+#
+# polygon  : sq_k5.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   unit square, 5 segments per side.
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   INVALID: one zero-area cell (three collinear vertices made
+#   into a cell), with NO error or warning.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / sq_k5.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri17_sq_k5.inp / mo_tri
+finish

@@ -1,0 +1,19 @@
+#####################################################################
+# tri06_spiral_10x200.lgi
+#
+# polygon  : spiral_10x200.poly
+# expect   : valid
+# picture  : small
+#
+# WHAT:
+#   SMOOTH SPIRAL: an Archimedean band, 10 turns, 200 vertices
+#   per turn (4002 vertices).
+#
+# THE ORIGINAL CODE (before the Oct 2026 fix):
+#   valid.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / spiral_10x200.poly / mo_tri
+triangulate / counterclockwise
+dump / avs / out_tri06_spiral_10x200.inp / mo_tri
+finish

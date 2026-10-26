@@ -1,0 +1,13 @@
+# ic06_continuous_keepatt.lgi
+# interpolate / continuous with keepatt (stores each sink point's
+# enclosing tet, el_gtg), then a call that reuses it; no dudded points.
+# fc (stored lookup) must be exact like ic05.
+# check: linear | out_ic06.inp | fc
+read / avs / src_tet.inp / mo_src
+read / avs / sink_points.inp / mo_snk
+cmo / addatt / mo_snk / fx / VDOUBLE / scalar / nnodes
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fx / 1,0,0 / mo_src xic / keepatt
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic06.inp / mo_snk
+finish

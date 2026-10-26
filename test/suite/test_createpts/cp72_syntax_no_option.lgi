@@ -1,0 +1,17 @@
+#####################################################################
+# cp72_syntax_no_option.lgi
+#
+# group    : syntax
+# expect   : error
+# reason   : no option given
+#
+# WHAT:
+#   createpts with nothing after it.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 2: "Illegal createpts option create" (a garbage
+#   word read past the end of the command).
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts
+finish

@@ -1,0 +1,12 @@
+#####################################################################
+# Deliberately set h_field_att far above the warning threshold.
+#
+# poi_check_h_field WARNS, but does not fail, above
+# h*POI_HFIELD_WARN_FACTOR (100*h). Scaling by 200 must produce a
+# warning block AND still complete, producing a valid mesh object.
+#####################################################################
+define / MO_H_FIELD / mo_poi_h_field
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / h_field_att / 200.0
+cmo / printatt / MO_H_FIELD / h_field_att / minmax
+finish

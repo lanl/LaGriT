@@ -1,0 +1,15 @@
+#####################################################################
+# err06_bad_connect_token.lgi
+#
+# EXPECT:
+#   One ERROR block.
+#   Names token 7, lists valid values connect | no_connect.
+#
+# NOTE:
+#   In the 3D command this same fault is at token 6, not 7.
+#   Compare with err16 to confirm the position is reported per command.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / conect
+finish

@@ -1,0 +1,14 @@
+# ic24_continuous_quad_boundary.lgi
+# interpolate / continuous from the 2D quad mesh of ic14 (each quad is split into 4 triangles) onto points
+# on and just outside its exterior edges and corners. A point within
+# rounding of the boundary (offset 0, 1e-15, 1e-14 on a unit square)
+# must be found in a quad and get the exact linear value; a point
+# 1e-9 or more outside must get the flag value (max + 1 = 4). Before the
+# inside_tri2d fix of Oct 2026 the offsets 1e-15 and 1e-14 were flagged.
+# check: boundary | out_ic24.inp | fc | 4.0
+read / avs / src_quad.inp / mo_src
+read / avs / sink2d_boundary.inp / mo_snk
+cmo / addatt / mo_snk / fc / VDOUBLE / scalar / nnodes
+interpolate / continuous / mo_snk fc / 1,0,0 / mo_src flin
+dump / avs / out_ic24.inp / mo_snk
+finish

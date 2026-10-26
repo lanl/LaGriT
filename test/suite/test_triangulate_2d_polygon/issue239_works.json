@@ -1,0 +1,11 @@
+{
+ "name": "issue239_works",
+ "description": "GitHub issue 239, perimeter_works.inp: the same, tip at (1, 1.000001); clockwise",
+ "vertices": 5,
+ "xmin": 0.0,
+ "xmax": 2.0,
+ "ymin": 0.0,
+ "ymax": 2.0,
+ "orientation": "clockwise",
+ "area": 2.999999
+}

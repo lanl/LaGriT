@@ -1,0 +1,17 @@
+#####################################################################
+# cp28_brick_quad_yz.lgi
+#
+# group    : brick
+# expect   : valid
+# spec     : brick xyz 1,5,7 0.,0.,0. 0.,2.,3. 0,1,1
+# points   : out_cp28_pts.inp
+# mesh     : out_cp28_pts.inp quad
+#
+# WHAT:
+#   quads in the yz plane (ni = 1), iiz = 0.
+#####################################################################
+cmo / create / mo_quad / / / quad
+createpts / brick / xyz / 1,5,7 / 0.,0.,0. / 0.,2.,3. / 0,1,1
+dump / avs / out_cp28_pts.inp / mo_quad
+quality
+finish

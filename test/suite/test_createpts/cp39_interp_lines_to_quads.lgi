@@ -1,0 +1,28 @@
+#####################################################################
+# cp39_interp_lines_to_quads.lgi
+#
+# group    : interp
+# expect   : valid
+# spec     : none
+# points   : out_cp39_pts.inp
+# mesh     : out_cp39_mesh.inp quad
+# filter   : yes
+# vertices : 25
+# cells    : 16
+#
+# WHAT:
+#   two lines of 4 line cells, merged; 3 layers between: the doc's
+#   'line -> quad'. 5 x 5 = 25 vertices, 4 x 4 = 16 quads.
+#####################################################################
+cmo / create / mo_line1 / / / line
+createpts / brick / xyz / 5,1,1 / 0.,0.,0. / 4.,0.,0. / 1,1,1
+cmo / create / mo_line2 / / / line
+createpts / brick / xyz / 5,1,1 / 0.,2.,0. / 4.,2.,0. / 1,1,1
+addmesh / merge / mo_lines / mo_line1 / mo_line2
+cmo / select / mo_lines
+createpts / interp / 3 / 1 0 0 / 1 0 0 / mo_quad
+cmo / select / mo_quad
+dump / avs / out_cp39_pts.inp / mo_quad
+quality
+dump / avs / out_cp39_mesh.inp / mo_quad
+finish

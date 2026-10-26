@@ -1,0 +1,21 @@
+*
+* Create a tet sphere mesh with r,theta,phi point distribution
+* Remove the central sphere after mesh is connected.
+*
+cmo/create/cmo1/ / / tet
+cmo / geometry / cmo1 / geom_sph_shells
+cmo / constraint / cmo1 / dummy
+createpts/rtp/3,19,10/0.,0.,0./r1,360.,180./1,1,1/
+createpts/rtp/3,19,10/r1,0.,0./r2,360.,180./1,1,1/
+createpts/rtp/3,37,19/r2,0.,0./r3,360.,180./1,1,1/ 
+filter / 1 0 0
+rmpoint / compress
+setpts
+connect
+settets
+rmregion / r_r1
+rmpoint / compress
+resetpts / itp
+dump/gmv/sphere_rtp_tet.gmv/cmo1/
+cmo / status / cmo1
+cmo / delete / cmo1

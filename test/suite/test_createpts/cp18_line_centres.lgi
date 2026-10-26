@@ -1,0 +1,15 @@
+#####################################################################
+# cp18_line_centres.lgi
+#
+# group    : line
+# expect   : valid
+# spec     : line 10 0.,0.,0. 1.,0.,0. 0
+# points   : out_cp18_pts.inp
+#
+# WHAT:
+#   10 cell centres between x = 0 and 1: 0.05, 0.15, ... 0.95.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / line / 10 / / / 0.,0.,0. / 1.,0.,0. / 0,0,0
+dump / avs / out_cp18_pts.inp / mo_tet
+finish

@@ -1,0 +1,15 @@
+#####################################################################
+# err13_polygon_angle_too_sharp.lgi
+#
+# EXPECT:
+#   One ERROR block: polygon interior angle too sharp,
+#   plus the threshold and the measured min/max angles.
+#
+# NOTE:
+#   Apex angles are about 0.46 degrees against a 9.0 degree floor.
+#   Edges are ~0.5 so the edge check passes and does not mask this.
+#####################################################################
+read / avs / needle.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect
+finish

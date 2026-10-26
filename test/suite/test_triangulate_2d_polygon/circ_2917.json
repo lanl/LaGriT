@@ -1,0 +1,11 @@
+{
+ "name": "circ_2917",
+ "description": "circle radius 1, 2917 vertices",
+ "vertices": 2917,
+ "xmin": -0.9999994200415914,
+ "xmax": 1.0,
+ "ymin": -0.9999998550103874,
+ "ymax": 0.9999998550103874,
+ "orientation": "counterclockwise",
+ "area": 3.141590224266021
+}

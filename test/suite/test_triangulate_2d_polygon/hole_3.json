@@ -1,0 +1,11 @@
+{
+ "name": "hole_3",
+ "description": "rectangle with three holes: two squares and a 24-vertex circle (keyhole)",
+ "vertices": 42,
+ "xmin": 0,
+ "xmax": 10,
+ "ymin": 0,
+ "ymax": 4,
+ "orientation": "counterclockwise",
+ "area": 32.89417145876975
+}

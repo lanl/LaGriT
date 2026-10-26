@@ -1,0 +1,17 @@
+#####################################################################
+# cp51_random_doc_rtp_as_written.lgi
+#
+# group    : random
+# expect   : valid
+# spec     : none
+# points   : out_cp51_pts.inp
+# open     : the doc's rtp example leaves theta at 0: 1 point, not a sphere
+#
+# WHAT:
+#   the doc's third example AS WRITTEN ('the surface of a sphere of
+#   radius 5'): rmax = 5,,360 leaves theta at 0, so it makes 1 point.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / random / rtp / .5 /  5,0,0 / 5,,360 /  , ,  /  / 98765 4321/
+dump / avs / out_cp51_pts.inp / mo_tet
+finish

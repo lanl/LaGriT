@@ -1,0 +1,19 @@
+#####################################################################
+# cp63_voronoi_hex.lgi
+#
+# group    : voronoi
+# expect   : error
+# reason   : ERROR: createpts / voronoi
+#
+# WHAT:
+#   a hex mesh: voronoi points are defined only for triangles and
+#   tets, so it must be REFUSED with an ERROR that says why.
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   FIXED Oct 15 2026 (createpts fixes); before: 'element not triangle or tetrahedron' then '  VORPTS ERROR -';
+#   the command is not marked as failed (vorpts_lg.f).
+#####################################################################
+cmo / create / mo_hex / / / hex
+createpts/brick/xyz/3,3,3/0.,0.,0./1.,1.,1./1,1,1
+createpts / voronoi
+finish

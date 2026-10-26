@@ -1,0 +1,11 @@
+{
+ "name": "annulus_64",
+ "description": "annulus: 64-vertex circle radius 2, 32-vertex hole radius 1 (keyhole)",
+ "vertices": 98,
+ "xmin": -2.0,
+ "xmax": 2.0,
+ "ymin": -2.0,
+ "ymax": 2.0,
+ "orientation": "counterclockwise",
+ "area": 9.424748809925704
+}

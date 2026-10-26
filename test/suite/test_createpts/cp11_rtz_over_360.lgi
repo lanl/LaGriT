@@ -1,0 +1,24 @@
+#####################################################################
+# cp11_rtz_over_360.lgi
+#
+# group    : rtz
+# expect   : valid
+# warns    : 360
+# spec     : rtz 3,5,2 0.,0.,0. 1.,720.,1. 1,1,1
+# points   : out_cp11_pts.inp
+#
+# WHAT:
+#   an arc of 720 deg (two turns) with 5 angles: 0, 180, 360, 540, 720,
+#   so the second turn lands on the first (red rings in the picture).
+#   The points are where the documentation puts them: not a failure of
+#   createpts, but a point set that needs filter before connect. It
+#   must WARN (user, Oct 13).
+#
+# FOUND (sandbox build; FIX 1-3 = createpts_lg.f, rzbrickg.f):
+#   before FIX 2: no message. FIX 2 (createpts_lg.f, Oct 13):
+#   WARNING: createpts / rtz: theta range 720.0 deg is over 360.
+#####################################################################
+cmo / create / mo_tet / / / tet
+createpts / rtz / 3,5,2 / 0.,0.,0. / 1.,720.,1. / 1,1,1
+dump / avs / out_cp11_pts.inp / mo_tet
+finish

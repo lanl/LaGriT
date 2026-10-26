@@ -1,0 +1,21 @@
+#####################################################################
+# nc11_exp3.lgi
+#
+# polygon : saw_exp3.poly
+# h       : 0.3
+# expect  : recovered
+#
+# EXPECT:
+#   Nonconvex WARNING. Clip recovers the outline.
+#
+# NOTE:
+#   Nonlinear peak growth, same tooth width as the h sweep.
+#####################################################################
+read / avs / saw_exp3.poly / mo_polygon
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.3 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_nc11_exp3.inp / mo_pts
+finish

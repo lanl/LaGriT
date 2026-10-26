@@ -881,15 +881,9 @@ C     Do some error checking and final setup of commands
           goto 9000
         endif
  
-        if (itettyp_src(1).eq.ifelmhex) then
-          write(logmess,'(a,a)')
-     *'WARNING: interpolate/continuous may not work for hex: '
-     *     ,cmosrc(1:icharlnf(cmosrc))
-          call writloga('default',1,logmess,0,ierrw)
-          write(logmess,'(a)')
-     *     'Use hextotet to convert hex elements to tetrahedra. '
-          call writloga('default',0,logmess,1,ierrw)
-        endif
+C       (Oct 2026) hex sources are split into the 24 tets of
+C       hextotet / 24 in cinterpolate_elem; the warning that
+C       continuous may not work for hex was removed.
  
       endif
  
@@ -1322,7 +1316,10 @@ c        preset work array in case of errors
  
 c        Get nearest point number iisrc from attribute pt_gtg
          if(if_ptsearch.eq.0) then
-            iisrc=pt_gtg(ipt)
+c           pt_gtg is stored by sink node number (iisnk), not by
+c           position in the point list (ipt): they differ when the
+c           list skips nodes, e.g. a dudded node (itp 21). Oct 2026.
+            iisrc=pt_gtg(iisnk)
             if(iisrc.ne.0) then
               mtfound = 1
               itfound(1) = iisrc

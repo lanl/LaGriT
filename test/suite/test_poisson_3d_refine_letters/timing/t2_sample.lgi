@@ -1,0 +1,31 @@
+#####################################################################
+# t2_sample.lgi - t0 + createpts with no_connect (field + sampling)
+# Part of time_letters.sh (see its header). Not a test.
+#####################################################################
+read / avs / letters_vector.inp / mo_lagrit
+cmo / printatt / mo_lagrit / -xyz- / minmax
+extrude/mo_quad/mo_lagrit/const/0.1/volume/ 0. 0. 1.
+dump / avs / out_letters_quad.inp / mo_quad
+grid2grid / quadtotri2 / mo_LaGriT_refine / mo_quad
+cmo / status / brief
+cmo / select / mo_LaGriT_refine
+refine /rivara///edge/1 0 0/.2///inclusive
+cmo / status / brief
+dump / avs / out_letters_refine.inp / mo_LaGriT_refine
+define / POI_XMIN / -4.0
+define / POI_YMIN / -4.0
+define / POI_ZMIN / -2.0
+define / POI_XMAX /  50.0
+define / POI_YMAX /  14.0
+define / POI_ZMAX /  2.0
+define /  H_REFINE_SIZE / 0.16
+define /  H_FLOOR / 0.16
+define /  H_CEILING / 1.0
+define / SLOPE / 0.35
+define / INTERCEPT / 0.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+define / AVS_OUT /  out_letters_tet.inp
+createpts / poisson_disk / 3d_box / mo_box_poi / H_REFINE_SIZE / &
+     no_connect / letters_h_field.mlgi
+finish

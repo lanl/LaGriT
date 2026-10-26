@@ -1,0 +1,26 @@
+#######################################################################
+# test_Poisson_2D.cases
+#
+# What each output of test_Poisson_2D.lgi is, so that
+# run_test_poisson_2d.sh can check it. The deck itself is not edited.
+#
+# One line per output file written by the deck:
+#
+#   output    the file the deck dumps
+#   polygon   the polygon it was meshed from
+#   h0        the h given on the createpts line (POI_H_FACTOR)
+#   field     uniform | absx      (see check_test_poisson_2d.py)
+#   width     WIDTH_FACTOR for absx, - for uniform
+#   verify    a field file dumped by user_h_field_att.mlgi to check
+#             this case's formula against, or -
+#
+# Only the LAST variable run's h_field_out.inp survives, because the
+# .mlgi dumps every run to the same file name, so only that case
+# carries a verify file.
+#
+# If the deck changes, change this file to match.
+#######################################################################
+# output                          polygon           h0    field   width verify
+output01_unit_square_uniform.inp  unit_square.poly  0.05  uniform -     -
+output02_unit_square_var.inp      unit_square.poly  0.01  absx    10    -
+output03_unit_square_var.inp      unit_square.poly  0.01  absx    20    h_field_out.inp

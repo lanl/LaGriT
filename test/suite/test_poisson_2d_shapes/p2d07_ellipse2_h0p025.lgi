@@ -1,0 +1,43 @@
+#####################################################################
+# p2d07_ellipse2_h0p025.lgi
+#
+# polygon : ellipse_2to1.poly
+# h       : 0.025
+# expect  : valid
+#
+# EXPECT:
+#   No ERROR, no WARNING (convex polygon). Every raw point inside
+#   the polygon. No inverted elements.
+#
+# NOTE:
+#   Ellipse, semi-axes 1 and 0.5 (2:1), 48 vertices spaced
+#   evenly along the arc. Edges are about 4h long (0.101), so
+#   the sampler chooses most boundary points itself. Curvature
+#   varies around the boundary by a factor of 8; sharpest
+#   corner 157.5 deg.
+#
+#   The sampler runs TWICE. The first run, with no_connect, gives
+#   the raw points used for spacing, containment and count. The
+#   second, with connect, gives the mesh used for element quality.
+#   The connected mesh cannot be used for spacing: it has been
+#   smoothed, and recon 1 has added boundary nodes.
+#####################################################################
+read / avs / ellipse_2to1.poly / mo_polygon
+#
+# raw sampler points
+#
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_raw / mo_polygon &
+      / 0.025 / no_connect
+dump / avs / raw_p2d07_ellipse2_h0p025.inp / mo_raw
+cmo / delete / mo_raw
+#
+# connected mesh
+#
+cmo / select / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon &
+      / 0.025 / connect
+cmo / select / mo_pts
+quality
+dump / avs / out_p2d07_ellipse2_h0p025.inp / mo_pts
+finish

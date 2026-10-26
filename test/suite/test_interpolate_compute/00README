@@ -1,0 +1,152 @@
+test_interpolate_compute -- interpolate and compute against independent
+answers (user, Oct 20 2026: "add to the test suite some testing of
+compute and interpolate"; "test keepatt with and without dudded
+vertices; rmpoint/compress removes them")
+=======================================================================
+
+QUICK START
+
+  run_interpolate_tests.sh                 28 decks, about 10 s
+  open logs/demo.html                       what each method does (pictures)
+  open logs/summary.html
+
+RUN A DECK YOURSELF
+
+  The input meshes are NOT stored in this folder: make_inputs.py
+  writes them (fixed seeds, the same every time) into work/ at the
+  start of each run, and each deck is copied there and run there.
+  work/ is emptied when the next run starts. After a run:
+
+    cd work
+    ../../../../build/lagrit < ic25_continuous_hex_warped.lgi
+    ls                                              # src_*.inp, sink_*.inp, out_*.inp
+
+  Or make the inputs anywhere, without running the suite:
+
+    python3 make_inputs.py ~/somewhere              # writes all *.inp there
+    python3 demo/make_demo_inputs.py ~/somewhere    # the demo inputs
+
+WHAT IT TESTS
+
+  make_inputs.py writes small meshes into work/ (fixed seeds): 300
+  random source points carrying fsrc = 1 + 2x - 3y + 0.5z, a 6 x 6 x 6
+  tet mesh of the unit cube carrying the same linear field, the tets
+  shrunk into [0.015, 0.985]^3, a 4 x 4 x 4 hex mesh with a cell value
+  per hex, 400 random points inside the cube, and a plane of triangles
+  at z = 0.4. check_ic.py computes every expected value itself (brute
+  force nearest point, the linear formula, the hex containing each
+  centroid) and compares within 1e-9.
+
+  ic01  interpolate / voronoi
+  ic02  voronoi, keepatt: stored lookup (pt_gtg) reused, then a fresh
+        search; no dudded vertex
+  ic03  ic02 with a dudded sink vertex (itp 21)        REGRESSION TEST
+  ic04  ic02 after the dudded vertex is removed (rmpoint / compress)
+  ic05  interpolate / continuous of a linear field (exact)
+  ic06  continuous, keepatt: stored enclosing tets (el_gtg) reused
+  ic07  ic06 with a dudded sink point
+  ic08  interpolate / map of a cell attribute (hex -> tets)
+  ic09  compute / distance_field
+  ic10  ic09 with a dudded sink vertex                 REGRESSION TEST
+  ic11  ic09 after rmpoint / compress
+  ic12  compute / signed_distance_field to a plane: magnitude and a
+        consistent sign on each side
+
+  Every SOURCE cell type (user, Oct 20 2026: "the source should be tri,
+  quad, prism, tet, and hex"; LaGriT splits quads into 4 triangles and
+  prisms and hexes into tets, so a linear field must come out exact):
+  ic13  continuous from triangles (2D)        ic17  map from triangles
+  ic14  continuous from quads (2D)            ic18  map from quads
+  ic15  continuous from prisms                ic19  map from prisms
+  ic16  continuous from hexes                 ic20  map from tets
+  ic21  continuous from the same hexes, numbered differently
+  ic22  continuous onto points lying exactly on source edges
+  ic23  continuous from triangles onto points on and just outside the
+        exterior edges and corners (within 1e-14: the value; 1e-9 or
+        more outside: the flag)
+  ic24  the same from quads
+  (ic22-ic24 need the inside_tri2d fix of Oct 21 2026; without it they
+  FAIL: 109, 24 and 18 points get the flag value.)
+  ic25  continuous from sheared, warped (non-planar faces) hexes,
+        numbered turned over
+  ic26  continuous from pyramids
+  ic27  continuous from the prisms of ic15, numbered turned over
+  ic28  a curved field from the warped hexes: interpolating from the
+        hexes must equal hextotet / 24 then interpolating from the tets
+  (ic15, ic21, ic25-ic28 need the median split in cinterpolate_elem of
+  Oct 21 2026; without it ic15, ic21, ic25 and ic27 FAIL.)
+  (ic05 is continuous from tets, ic08 map from hexes.)
+
+  Dudded vertices are not judged (interpolate skips them by design).
+
+  A deck with "# known:" lines is a documented failure: KNOWN when it
+  fails as documented, FIXED (the run fails: update the deck) when it
+  passes.
+
+DEMONSTRATIONS (demo/, user Oct 20 2026: "a result that is intuitive
+and visible to someone looking at the graphic")
+
+  demo/demo.lgi runs five small cases and demo/make_demo_page.py draws
+  them in logs/demo.html (not judged): voronoi cells of 25 points;
+  continuous from a coarse triangle mesh beside the exact field;
+  map from turned coarse cells onto fine cells; distance to points on
+  a curve; signed distance to a sphere on a slice through it.
+
+FOUND (Oct 20 2026, not fixed; for the user to decide)
+
+  - FIXED Oct 21 2026 (inside_lg.f, inside_tri2d): sink points lying
+    exactly on an edge shared by two source triangles were sometimes
+    found in neither and got the flag value (bright streaks on the
+    demo page; ic22: 109 of 10,201 grid points), and points within
+    rounding outside an exterior edge were flagged (ic23, ic24). The
+    edge test compared areas with a fraction of machine precision of
+    the triangle size, smaller than the rounding in the cross
+    products. inside_tri2d now accepts a point as on the triangle
+    when no barycentric weight is below -tau, tau = 1000 machine
+    epsilons times max(1, distance from origin / triangle size).
+
+  - FIXED Oct 21 2026 (cinterpolate_elem.f; user's suggestion): the
+    value for quads, pyramids, prisms and hexes did NOT come from a
+    split into triangles / tets (those were only used by the inside
+    test). Hexes and quads were split by the planes x=xp, y=yp (z=zp)
+    through the point, assuming stored edge 1-2 along x, 2-3 along y,
+    1-5 along z (as createpts / brick numbers it): any other numbering
+    (ic21, quads rotated by one vertex) gave every value wrong (hexes
+    about 1e14, "Zero Volume Found"); face-diagonal points were scaled
+    by the distance from the ORIGIN. The prism (and pyramid) branch
+    was a copy of the hex branch reading vertices 7 and 8 (ic15: up to
+    106 off). Now each element is split around its median: quad into
+    4 triangles, hex into the 24 tets of hextotet / 24 and inside_hex,
+    prism into 14, pyramid into 8; a median carries the mean of its
+    vertices. Linear fields are exact for any numbering and shape
+    (ic15, ic21, ic25-ic27); a curved field equals hextotet / 24
+    (ic28). Behaviour change: for axis-aligned bricks the old method
+    was trilinear; for a curved field values move by about 0.1 x the
+    interpolation error (test: max 0.004, mesh error 0.03).
+    Note read / avs stores a hex's AVS vertices 1..8 as 5 6 7 8 1 2 3 4
+    and a prism's 1..6 as 4 5 6 1 2 3 (readavs.f).
+  - A source mesh with 0 cells (e.g. read / avs of an unknown cell
+    keyword such as "pri": "Bad element type") makes interpolate /
+    continuous crash (segmentation fault after "kdtree build -1" and a
+    zero-length mmgetblk) instead of an ERROR.
+
+  REGRESSION: ic03 and ic10 FAIL on LaGriT before the Oct 20 2026 fix
+  of intrp_gtg.f (the stored lookup was read by list position instead
+  of vertex number: 156 of 215 vertices wrong here; Jeffrey Hyman's
+  DFM case, 1,936 of 8,521). All 12 PASS with the fix.
+
+  compute / signed_distance_field (and distance_field) measure the
+  distance to the nearest source VERTEX, not to the surface, as
+  COMPUTE.md says ("the minimum distance from any node in mo_source").
+  By design (user, Oct 20 2026): the true distance to a surface is much
+  more complex; the source surface should be refined finely enough for
+  the use. ic12 checks that definition.
+
+FILES
+
+  run_interpolate_tests.sh  runner (POSIX sh)
+  make_inputs.py            input meshes (written into work/)
+  check_ic.py               the checks; its opening comment defines them
+  make_page.py              logs/summary.html
+  demo/                     the demonstrations (logs/demo.html)
+  ic*.lgi                   decks; the "# check:" line says what to check
