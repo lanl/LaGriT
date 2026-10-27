@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """check_angles.py WORKDIR LOGDIR
 
-Checks LaGriT's element angle and quality attributes (Python 3,
+Checks LaGriT's cell angle and quality attributes (Python 3,
 standard library only) against values computed here independently:
 
   cmo/addatt ... ang_mind ang_minr ang_maxd ang_maxr   dihedral angles
-                 (between faces of 3D elements, between edges of 2D
-                 elements), degrees / radians
+                 (between faces of 3D cells, between edges of 2D
+                 cells), degrees / radians
   cmo/addatt ... ang_mind_solid ang_minr_solid ang_maxd_solid
                  ang_maxr_solid                         solid angles at
                  the vertices of a tet, in steradians (r) and in
@@ -15,10 +15,12 @@ standard library only) against values computed here independently:
   quality / aspect / y       aratio   tet 3 r_in / R_circ, tri
                              2 r_in / R_circ, quad and hex shortest /
                              longest diagonal (1 is best); 0 for other
-                             element types
+                             cell types
   quality / edge_ratio / y   eratio   shortest / longest edge
   quality / edge_min / y     edgemin  shortest edge
   quality / edge_max / y     edgemax  longest edge
+  quality / minsine / y      minsine  smallest sine of the dihedral angles
+                             (tets; 0 for other cell types)
   cmo/addatt ... volume      vol
 
 Reference: dihedral angle from the two other vertices projected onto
@@ -72,8 +74,8 @@ def angle(a, b):
 
 
 def read_avs(path):
-    """vertices, element vertex lists (0-based), element types and the
-    element attributes {name: [values]} of an AVS file LaGriT wrote"""
+    """vertices, cell vertex lists (0-based), cell types and the
+    cell attributes {name: [values]} of an AVS file LaGriT wrote"""
     L = open(path).read().split("\n")
     nn, ne, nva, nea, _ = (int(x) for x in L[0].split())
     V = [tuple(float(x) for x in L[1 + i].split()[1:4]) for i in range(nn)]
@@ -129,7 +131,8 @@ def tet_reference(P):
             "s_minr": min(sol), "s_maxr": max(sol),
             "s_mind": min(sol) * DEG, "s_maxd": max(sol) * DEG,
             "aratio": asp, "eratio": min(el) / max(el), "edgemin": min(el),
-            "edgemax": max(el), "vol": -six_v / 6.0}
+            "edgemax": max(el), "vol": -six_v / 6.0,
+            "minsine": min(math.sin(min(dih)), math.sin(max(dih)))}
 
 
 def close(x, y):
@@ -151,24 +154,24 @@ def consistency(A, i):
 
 
 NAMES = ["ang_mind", "ang_minr", "ang_maxd", "ang_maxr", "s_mind", "s_minr",
-         "s_maxd", "s_maxr", "aratio", "eratio", "edgemin", "edgemax"]
+         "s_maxd", "s_maxr", "aratio", "eratio", "edgemin", "edgemax", "minsine"]
 
 # known values of the deck ea_solid and ea_2d (in AVS order of the file)
 R2, R3, R5 = math.sqrt(2), math.sqrt(3), math.sqrt(5)
 KNOWN = {
     "ea_solid": [
         ("hex", {"ang_mind": 90, "ang_maxd": 90, "aratio": 1, "eratio": 1,
-                 "edgemin": 1, "edgemax": 1}),
+                 "edgemin": 1, "edgemax": 1, "minsine": 0}),
         ("prism", {"ang_mind": 45, "ang_maxd": 90, "aratio": 0, "eratio": 1 / R2,
-                   "edgemin": 1, "edgemax": R2}),
+                   "edgemin": 1, "edgemax": R2, "minsine": 0}),
         ("pyramid", {"ang_mind": 45, "ang_maxd": 120, "aratio": 0, "eratio": R3 / 2,
-                     "edgemin": R3 / 2, "edgemax": 1})],
+                     "edgemin": R3 / 2, "edgemax": 1, "minsine": 0})],
     "ea_2d": [
         ("triangle", {"ang_mind": math.degrees(math.atan(0.5)), "ang_maxd": 90,
                       "aratio": 2 * (2 / (3 + R5)) / (R5 / 2), "eratio": 1 / R5,
-                      "edgemin": 1, "edgemax": R5}),
+                      "edgemin": 1, "edgemax": R5, "minsine": 0}),
         ("quad", {"ang_mind": 45, "ang_maxd": 135, "aratio": R2 / R5, "eratio": 0.5,
-                  "edgemin": 1, "edgemax": 2})]}
+                  "edgemin": 1, "edgemax": 2, "minsine": 0})]}
 
 
 def check(name, work):

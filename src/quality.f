@@ -12,6 +12,7 @@ C        quality [{aspect/y|n}|
 C                 {edge_ratio/y|n}|
 C                 {edge_min/y|n}|
 C                 {edge_max/y|n}|
+C                 {minsine/y|n}|
 C                 {volume/number-of-bins}|
 C                 {angle/gt|lt/value}
 C                 {taylor/fieldname/value}]^4
@@ -241,6 +242,7 @@ c      pointer (ipbadedges,badedges)
 C  End of Taylor vars
       real*8 epsilonvol,epsilonaspect
       logical ifaspect,ifedge_ratio,ifedge_min,ifedge_max
+      logical ifminsine
       logical ifvolume,ifattrib,ifangle,iftaylor, ifquad
       real*8 epsilon,volumelt
       logical ifdebug, iflogs, iftrace
@@ -349,6 +351,7 @@ c
 C     Set defaults
       ifedge_min = .false.
       ifedge_max = .false.
+      ifminsine = .false.
       ifbyclr = .false.
       ifbins = .true.
       nbins = 5
@@ -438,6 +441,22 @@ c........edge_max command
               endif
             endif
  
+c........minsine command (Oct 2026): smallest sine of the dihedral angles
+         elseif (cmsgin(i)(1:icharlnf(cmsgin(i))) .eq. 'minsine') then
+            ifaspseen = .true.
+            ifminsine = .true.
+            ifnormalized = .false.
+            i = i + 1
+            if (nwds.ge.i .and. msgtyp(i).eq.3) then
+              if (cmsgin(i)(1:icharlnf(cmsgin(i))).eq.'y') then
+                 ifattrib=.true.
+                 i = i + 1
+              elseif (cmsgin(i)(1:icharlnf(cmsgin(i))).eq.'n') then
+                 ifattrib=.false.
+                 i = i + 1
+              endif
+            endif
+
 c........positive coeff command
          elseif (cmsgin(i)(1:6) .eq. 'pcc') then
             call pcc_test(imsgin,xmsgin,cmsgin,msgtyp,nwds,ierr1)
@@ -734,7 +753,7 @@ c
 c.....options aspect and edge_ratio and edge_min and edge_max
 
       if ((ifaspect).or.(ifedge_ratio).or.
-     *    (ifedge_min).or.(ifedge_max)) then
+     *    (ifedge_min).or.(ifedge_max).or.(ifminsine)) then
 
 C    aspect (aspect ratio) 
 C    Computes the ratio of the radius of the circumsphere to
@@ -779,6 +798,11 @@ c.....option aspect
      *     ' ; finish'
          call dotaskx3d(cbuff,ierror)
          call mmgetpr('edgemax',cmo,iparatio,icscode)
+        elseif(ifminsine)then
+         cbuff='cmo/addatt//minsine/VDOUBLE/scalar/nelements' //
+     *     ' ; finish'
+         call dotaskx3d(cbuff,ierror)
+         call mmgetpr('minsine',cmo,iparatio,icscode)
         else
 C        Use a temporary array
          call mmgetblk('aratio',isubname,iparatio,nelements,2,ier)
@@ -850,6 +874,17 @@ c.....option edge_ratio and edge_min and edge_max
             srat = edge_min
          elseif(ifedge_max) then
             srat = edge_max
+         endif
+
+c.....option minsine (tets only; other cell types get 0)
+      elseif(ifminsine)then
+
+         if (ielmtyp.eq.ifelmtet) then
+            call minsine_tet(xica,yica,zica,srat)
+         else
+            srat = 0.0
+            nelm_invalid = nelm_invalid + 1
+            ielm_invalid = ielmtyp
          endif
       endif
 C
@@ -1091,9 +1126,43 @@ C
       write(lgms ,"('min max edge length = ',e11.4,
      *  '  max max edge length = ',e11.4)") sratmin,sratmax
       call writloga('default',0,lgms ,0,ierrw)
+C
+C     min sine Output (Oct 2026)
+C
+      elseif(ifminsine)then
+
+      write(lgms ,'(a)')
+     * 'Min sine: smallest sine of the 6 dihedral angles of a tet'
+      call writloga('default',0,lgms ,0,ierrw)
+      write(lgms ,"('cells with min sine < ',a3,
+     *     ':           ',i10)") arbinchars(1), arbincnts(1)
+      call writloga('default',0,lgms ,0,ierrw)
+      do i=2,numarbins
+         write(lgms ,"('cells with min sine b/w ',a3,
+     *        ' and ',a3,': ',i10)") arbinchars(i-1),
+     *        arbinchars(i), arbincnts(i)
+         call writloga('default',0,lgms ,0,ierrw)
+      enddo
+      if (nneg .gt. 0) then
+        write(lgms ,"('cells with min sine < 0.: ',i10)") nneg
+        call writloga('default',0,lgms ,0,ierrw)
+      endif
+      write(lgms ,"('min min sine = ',e11.4,
+     *  '  max min sine = ',e11.4)") sratmin,sratmax
+      call writloga('default',0,lgms ,0,ierrw)
+      if (nelm_invalid .gt. 0) then
+         write (lgms ,'(a,a)')
+     >    "Warning: No min sine for cell type: ",
+     >   badcountname(ielm_invalid)
+         call writloga('default',0,lgms ,0,ierrw)
+         write(lgms ,'(a,i14)')
+     >   "Warning: Number of non-tet cells (min sine 0): ",
+     >   nelm_invalid
+         call writloga('default',0,lgms ,0,ierrw)
       endif
       endif
-C     END aspect END edge_ratio
+      endif
+C     END aspect END edge_ratio END minsine
  
 c.....option volume distribution of elements
       if (ifvolume) then

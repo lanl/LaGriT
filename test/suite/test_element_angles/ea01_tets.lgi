@@ -16,5 +16,6 @@ quality / aspect / y
 quality / edge_ratio / y
 quality / edge_min / y
 quality / edge_max / y
+quality / minsine / y
 dump / avs / ea_tets_out.inp / mo
 finish

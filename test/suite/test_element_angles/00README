@@ -1,4 +1,4 @@
-test_element_angles -- LaGriT's element angle and quality attributes,
+test_element_angles -- LaGriT's cell angle and quality attributes,
 checked against an independent computation (user, Oct 22 2026: "check
 for any inconsistency or bugs in the code that computes" the ang_*,
 solid angle, aspect, edge_ratio, edge_min and edge_max attributes)
@@ -34,7 +34,7 @@ WHAT IS CHECKED (check_angles.py; definitions in its opening comment)
 
 FOUND (Oct 22 2026)
 
-  1. BUG, FIXED: in a flat or nearly flat element rounding put the
+  1. BUG, FIXED: in a flat or nearly flat cell rounding put the
      cosine of an angle just outside [-1, 1] (for example
      1.0000000000000002); acos gave NaN and the angle was silently
      skipped. A flat tet then had ang_mind = 458.4 and ang_maxd =
@@ -56,7 +56,7 @@ FOUND (Oct 22 2026)
        degrees): a regular tet 31.59, a full sphere 720, the largest
        possible value (a vertex lying in the opposite face) 360. Carl's
        CAP rule s_maxd >= 170 is in these units.
-     - On elements that are not tets the solid angle attributes hold a
+     - On cells that are not tets the solid angle attributes hold a
        special value, 99999 / -99999 radians; in the degree attributes
        that becomes 5.7e6 / -5.7e6 (the warning prints the radian
        value).
