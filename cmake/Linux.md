@@ -7,29 +7,18 @@ This platform is very stable and should not require any special changes to cmake
 
 No known issues.
 
-### LaGriT V3.3.3 build with Exodus
+### LaGriT build with Exodus
 
-**install-exodus.sh**
+Use `cmake .. -DLAGRIT_BUILD_EXODUS=ON -DLAGRIT_FETCH_EXODUS=ON`; see [README.md](README.md) for details.
 
-Modifications for Exodus install, cmake, build were suggested by Greg at Seacas.
-
-```
-# FIX TPL/netcdf/runcmake.sh and cmake-exodus as described above
-sed -i '69i \         -DENABLE_PLUGINS:BOOL=OFF \\\n         -DENABLE_MULTIFILTERS:BOOL=NO \\\n         -DENABLE_NCZARR_FILTERS:BOOL=OFF \\\n         -DENABLE_TESTS:BOOL=OFF \\' TPL/netcdf/runcmake.sh
-sed -ie 's/DSeacas_EXTRA_LINK_FLAGS=z;dl/DSeacas_EXTRA_LINK_FLAGS=curl;z;dl/g' cmake-exodus
-```
-
-**CMakeLists.txt**
+The Seacas build fixes suggested by Greg at Seacas are applied automatically by cmake/seacas_configure.cmake:
+TPL/netcdf/runcmake.sh gets plugins, multifilters, nczarr filters, and tests turned off,
+and cmake-exodus gets `curl` added to `Seacas_EXTRA_LINK_FLAGS` (static NetCDF needs -lcurl on Linux).
+LaGriT links with `-lcurl -static-libgfortran -static-libgcc` on Linux.
 
 Exodus for LaGriT requires Exodus Fortran libraries, not always installed on systems.
-For this reason we recommend installing Exodus in the local directory "TPLs".
-CMakeLists.txt will look for needed libraries locally rather than system versions that may not work.
-
-```
-set(EXODUS_ROOT "${CMAKE_SOURCE_DIR}/TPLs/seacas")
-set(Exodus_INCLUDE_DIR "${EXODUS_ROOT}/include")
-set(Exodus_LIBRARIES "${EXODUS_ROOT}/lib")
-```
+For this reason cmake builds Exodus locally in `build/_deps/seacas` rather than using system versions that may not work.
+Use `-DEXODUS_ROOT=/path/to/seacas` to use a different install.
 
 See detailed instructions at https://github.com/sandialabs/seacas
 Seacas Contact Gregory Sjaardema gsjaardema@gmail.com
