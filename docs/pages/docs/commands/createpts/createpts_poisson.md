@@ -40,7 +40,7 @@ For 2D, a second mesh object for `mo_polygon` name of input mesh object that con
 
 ### Argument 5. Spacing
 
-`h_spacing_scalar` of type real. In the case of uniform resolution, this user provided real number defines the target spacing between vertices created by the Poisson-Disk algorithm. If the mesh is connected, the triangle edges will be approximately equal to `h_spacing_scalar`. In the case of variable resolution, `h_spacing_scalar` is used as a multiplier in the function defined in `user_resolution.mlgi`.
+`h_spacing_scalar` of type real. In the case of uniform resolution, this user provided real number defines the target spacing between vertices created by the Poisson-Disk algorithm. `h_spacing_scalar` is the smallest distance allowed between two vertices, so the spacing you get is a little larger: the nearest neighbour of a vertex is typically 1.0 to 1.2 times h away, and the edges of the connected triangles are typically 1.1 to 1.8 times h long (median about 1.4 h). In the case of variable resolution, `h_spacing_scalar` is used as a multiplier in the function defined in `user_resolution.mlgi`.
 
 ### Argument 6. Output Options
 
@@ -68,6 +68,8 @@ The algorithm looks for an attribute named **h_field_att** within a temporary me
 1. **Distance Fields:** Using compute/distance_field to scale resolution based on distance from a reference feature (e.g., a well, fault, or specific geometry).
 2. **Analytical Functions:** Using the math command to define $h$ based on coordinates (e.g., $h(x, y, z) \= 0.2z \+ 0.1$).
 3. **Discrete Mapping:** Assigning resolution based on material regions or predefined tables.
+
+For a worked 2D example with a piecewise linear h(x), a plot of h(x) against the vertex spacing it gives, and rules of thumb for how fast h may change, see [EXAMPLE 2D Piecewise Linear Resolution](#example-2d-piecewise-linear-resolution).
 
 
 ### 3D Box and Edge Buffer
@@ -232,6 +234,108 @@ finish
 
 ```
 
+
+## EXAMPLE 2D Piecewise Linear Resolution
+
+A simple way to vary the resolution is to make h a function of one coordinate, built from a few straight segments h = a x + b. Here a 10 x 4 rectangle is fine (h = 0.05) for x < 2, coarsens at slope a = 0.1 to h = 0.25 at x = 4, stays at 0.25 to x = 6, coarsens again at slope 0.2 to h = 0.65 at x = 8, and stays at 0.65 to the end.
+
+| segment | x | h = a x + b | a | b |
+|---|---|---|---|---|
+| 1 | x < 2 | 0.05 | 0 | 0.05 |
+| 2 | 2 &le; x < 4 | 0.1 x &minus; 0.15 | 0.1 | &minus;0.15 |
+| 3 | 4 &le; x < 6 | 0.25 | 0 | 0.25 |
+| 4 | 6 &le; x < 8 | 0.2 x &minus; 0.95 | 0.2 | &minus;0.95 |
+| 5 | x &ge; 8 | 0.65 | 0 | 0.65 |
+
+Choose b so the segments meet: at each breakpoint X the two formulas must give the same h (a jump is an infinite slope, see below).
+
+<a href="https://lanl.github.io/LaGriT/pages/docs/demos/output/poisson_piecewise_h.png"><img width="800" src="https://lanl.github.io/LaGriT/pages/docs/demos/output/poisson_piecewise_h.png"></a>
+
+Top: h(x) as set (blue) and, for every vertex, the distance to its nearest neighbour (orange): the vertices follow h(x) through both slopes, about 1.0 to 1.2 times h apart. Bottom: the triangulation (2330 vertices, 4428 triangles; smallest aspect ratio 0.40).
+
+**Polygon: rect.poly**
+```
+4 0 0 0 0
+1  0.0 0.0 0.0
+2 10.0 0.0 0.0
+3 10.0 4.0 0.0
+4  0.0 4.0 0.0
+```
+
+**LaGriT control file**
+```
+read / avs / rect.poly / mo_poly
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_poly &
+      / 0.05 / connect / h_piecewise.mlgi
+quality
+dump / avs / piecewise_tri.inp / mo_pts
+finish
+```
+
+**Resolution control file: h_piecewise.mlgi**
+
+Each segment k is a pset of the lookup vertices with x &ge; X<sub>k</sub>, set to a x + b with `math / multiply` and `math / add`. The segments are applied from left to right, so each one overwrites everything to its right and the last one written wins.
+
+```
+define / MOH / mo_poi_h_field
+# segment 1: everywhere
+math / multiply / MOH / h_field_att / 1,0,0 / MOH / xic / 0.0
+math / add / MOH / h_field_att / 1,0,0 / MOH / h_field_att / 0.05
+# segment 2: x >= 2, h = 0.1 x - 0.15
+pset / ps2 / attribute / xic / 1,0,0 / ge 2.0
+math / multiply / MOH / h_field_att / pset,get,ps2 / MOH / xic / 0.1
+math / add / MOH / h_field_att / pset,get,ps2 / &
+       MOH / h_field_att / -0.15
+# segment 3: x >= 4, h = 0.25
+pset / ps3 / attribute / xic / 1,0,0 / ge 4.0
+math / multiply / MOH / h_field_att / pset,get,ps3 / MOH / xic / 0.0
+math / add / MOH / h_field_att / pset,get,ps3 / &
+       MOH / h_field_att / 0.25
+# segment 4: x >= 6, h = 0.2 x - 0.95
+pset / ps4 / attribute / xic / 1,0,0 / ge 6.0
+math / multiply / MOH / h_field_att / pset,get,ps4 / MOH / xic / 0.2
+math / add / MOH / h_field_att / pset,get,ps4 / &
+       MOH / h_field_att / -0.95
+# segment 5: x >= 8, h = 0.65
+pset / ps5 / attribute / xic / 1,0,0 / ge 8.0
+math / multiply / MOH / h_field_att / pset,get,ps5 / MOH / xic / 0.0
+math / add / MOH / h_field_att / pset,get,ps5 / &
+       MOH / h_field_att / 0.65
+pset / ps2 / delete
+pset / ps3 / delete
+pset / ps4 / delete
+pset / ps5 / delete
+cmo / printatt / MOH / h_field_att / minmax
+# a picture of h(x, y), to check the field before sampling
+dump / avs / h_field_out.inp / MOH
+finish
+```
+
+Keep every line of a control file within 80 columns and continue long commands with `&`. LaGriT drops the characters past column 80 without a warning; a file name cut off this way is read as a different, shorter name.
+
+### How fast may h change? Rules of thumb
+
+The slope a = dh/dx has no units. Over one spacing h, the spacing changes by a h, so each "layer" of vertices is about (1 + a) times as far apart as the one before: a = 0.2 means each layer about 20% larger. That ratio is what the triangles see, so the same rules hold at every scale.
+
+<a href="https://lanl.github.io/LaGriT/pages/docs/demos/output/poisson_slope_rules.png"><img width="800" src="https://lanl.github.io/LaGriT/pages/docs/demos/output/poisson_slope_rules.png"></a>
+
+Measured in 2D on a 6 high strip, h = 0.05 + a (x &minus; 1) capped at 0.5 (a tenfold change), connected, three random seeds per slope, counting only the triangles in the graded zone at least two coarse spacings from the long sides:
+
+| slope a | smallest angle | triangles with an angle under 30&deg; | under 20&deg; | do the vertices follow h(x)? |
+|---|---|---|---|---|
+| 0.1 or less | 28 to 32&deg;, as for uniform h | 0.2% or fewer | none | yes |
+| 0.15 to 0.2 | 24 to 27&deg; | 0.5 to 2% | none | yes |
+| 0.3 | 21 to 23&deg; | 7 to 9% | none | yes |
+| 0.4 to 0.5 | 15 to 20&deg; | 12 to 25% | 0.5 to 3% | mostly: the shortest 5% of edges under 0.9 h |
+| 0.75 and more | 7 to 13&deg; | 31 to 47% | 12 to 22% | no: the shortest 5% of edges at 0.4 to 0.9 h |
+
+* **Keep |a| &le; 0.2** for a mesh as good as a uniform one; up to **0.3** is acceptable. Avoid more than 0.5: the sampler can no longer place vertices at the requested spacing, and the triangles in the transition get thin.
+* **Size and slope go together.** Going from h<sub>min</sub> to h<sub>max</sub> at slope a takes a distance L = (h<sub>max</sub> &minus; h<sub>min</sub>) / a, about ln(h<sub>max</sub> / h<sub>min</sub>) / ln(1 + a) vertex spacings. From 0.05 to 0.5: L = 2.25 (about 13 spacings) at a = 0.2, and L = 4.5 (about 24) at a = 0.1. If the room you have is shorter than L, make the ratio h<sub>max</sub> / h<sub>min</sub> smaller rather than the slope steeper.
+* **No jumps.** A step in h is an infinite slope; join segments continuously. A change of slope at a breakpoint is fine.
+* **h_spacing_scalar is the smallest h.** Set `h_spacing_scalar` to the minimum of h(x). The command stops with an error if `h_field_att` falls below 0.49 times `h_spacing_scalar` anywhere, and warns if it rises above 100 times.
+* **Leave room for h<sub>max</sub>.** Keep at least 4 to 6 coarse spacings across the narrowest part of the domain (here 4 / 0.65, about 6); otherwise the boundary vertices decide the mesh, not h.
+* **Detail finer than h is lost.** h is read from a lookup mesh with a spacing of about `h_spacing_scalar` / 1.5, so a breakpoint is placed to that accuracy and a narrower feature in h is not seen.
+* **3D:** these numbers are measured in 2D. Start 3D meshes at |a| &le; 0.2 and check them with `quality`.
 
 ## EXAMPLE 3D Box
 
