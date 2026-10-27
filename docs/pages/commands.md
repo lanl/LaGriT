@@ -68,6 +68,7 @@ tags: command list all options
 * [**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
 <br>
 <a name="i"></a><br>
+* [**`IMPROVE_TETS`**](docs/commands/IMPROVE_TETS.md) (improve the worst tet quality, vertex set kept)
 * [**`INFILE`**](docs/commands/INPUT.md) (read commands from a file, also input)
 * [**`INPUT`**](docs/commands/INPUT.md) (read commands from a file, also infile)
 * [**`INTERSECT`**](docs/commands/INTERSECT.md) (intersect 2D meshes to get line)
