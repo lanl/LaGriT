@@ -155,6 +155,8 @@ grid)
 
 [HEXTOTET](docs/commands/HEXTOTE.md) (convert element types)
 
+[IMPROVE_TETS](docs/commands/IMPROVE_TETS.md) (improve the worst tet quality, vertex set kept)
+
 [MASSAGE](docs/commands/MASSAGE.md)(optimize the grid)
 
 [MASSAGE2](docs/commands/MASSAGE.md)(optimize the grid)

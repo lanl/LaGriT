@@ -1,0 +1,63 @@
+# ct13_poisson_fine.lgi
+# 3D Poisson disk vertices in the unit cube, uniform spacing h = 0.05,
+# connected (createpts / poisson_disk / 3d_box / ... / connect). Then
+# crush_thin_tets at TOLCRUSH 0.1 (the default), 0.2 and 0.3, each
+# starting from the same mesh. Each written mesh is also measured
+# (ct_measure.mlgi: Carl Gable's dihedral, solid angle and edge ratio
+# attributes) into <name>_m.inp.
+# expect: measured
+# check: crush | ct13 | poisson | 0.1,0.2,0.3
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_box / 0.05 / connect
+resetpts / itp
+dump / avs / ct13_before.inp / mo_box
+define / MO / mo_box
+define / AVS_OUT / ct13_before_m.inp
+infile ct_measure.mlgi
+
+# ---- crush at TOLCRUSH 0.1, starting from the same mesh
+cmo / copy / mo_c / mo_box
+cmo / select / mo_c
+crush_thin_tets / mo_c / 0.1
+rmpoint / compress
+resetpts / itp
+dump / avs / ct13_after_0.1.inp / mo_c
+define / MO / mo_c
+define / AVS_OUT / ct13_after_0.1_m.inp
+infile ct_measure.mlgi
+cmo / delete / mo_c
+cmo / select / mo_box
+
+# ---- crush at TOLCRUSH 0.2, starting from the same mesh
+cmo / copy / mo_c / mo_box
+cmo / select / mo_c
+crush_thin_tets / mo_c / 0.2
+rmpoint / compress
+resetpts / itp
+dump / avs / ct13_after_0.2.inp / mo_c
+define / MO / mo_c
+define / AVS_OUT / ct13_after_0.2_m.inp
+infile ct_measure.mlgi
+cmo / delete / mo_c
+cmo / select / mo_box
+
+# ---- crush at TOLCRUSH 0.3, starting from the same mesh
+cmo / copy / mo_c / mo_box
+cmo / select / mo_c
+crush_thin_tets / mo_c / 0.3
+rmpoint / compress
+resetpts / itp
+dump / avs / ct13_after_0.3.inp / mo_c
+define / MO / mo_c
+define / AVS_OUT / ct13_after_0.3_m.inp
+infile ct_measure.mlgi
+cmo / delete / mo_c
+cmo / select / mo_box
+finish

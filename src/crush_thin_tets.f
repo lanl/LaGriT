@@ -285,6 +285,9 @@ c     Initialize local array length counters to zero.
       len_zadd_tr=0
       len_ifadd=0
       len_itadd_tr=0
+c     (Oct 2026) len_iadd_tr was never set: a second call kept the old
+c     length and iadd_tr, released by the first call, was not allocated.
+      len_iadd_tr=0
       len_nodeadd_tr=0
       len_itpadd=0
       len_icradd=0
@@ -493,10 +496,14 @@ c$$$            if (relwidth(i).gt.1.2d0*tolcrush) goto 1001
             endif
 c Get scale length for tet.
 c Scale length is sqrt of (sum of squares of edge lengths/9)
+c (Oct 2026) The edge ends are this tet's vertices: ielmedge1 gives
+c local vertex numbers 1-4, which were used directly as global vertex
+c numbers, so every tet got the scale length of mesh vertices 1-4 and
+c every TOLCRUSH distance test compared against that unrelated length.
             ssq=0.d0
             do k=1,nelmnee(ifelmtet)
-               i1=ielmedge1(1,k,ifelmtet)
-               i2=ielmedge1(2,k,ifelmtet)
+               i1=itet(itetoff(i)+ielmedge1(1,k,ifelmtet))
+               i2=itet(itetoff(i)+ielmedge1(2,k,ifelmtet))
                ssq=ssq+(xic(i1)-xic(i2))**2+(yic(i1)-yic(i2))**2
      &            +(zic(i1)-zic(i2))**2
             enddo
@@ -541,7 +548,10 @@ c...  We process this element only if all 4 nodes are in pset
             process=.true.
             do j=1,4
                par(j)=iparent(itet(itetoff(i)+j))
-c$$$               process=process.and.(invmpary(par(j)).ne.0)
+c     (Oct 2026) pset restored: every vertex in the pset, or created
+c     by this command (the pset cannot name those).
+               process=process.and.((invmpary(par(j)).ne.0).or.
+     &            (par(j).gt.nodes_save))
             enddo
 c...  We process this element only if no node is `changed'
             do j=1,4
@@ -593,39 +603,21 @@ c     point).
 c     This is a '02': a projection from a zero dimensional entity
 c     (a point) onto a two dimensional entity (face).  
             
-            if (.false.) then
-            call find_02(tolcrush,scalelen,i,itet,itetoff,xic,yic
-     &         ,zic,ntrisect,xadd_tr,yadd_tr,zadd_tr,ifadd
-     &         ,itadd_tr,did02)
-            
+c     (Oct 2026) Switched back on. It had been disabled (if (.false.))
+c     because the face point it adds got no point type or constraint
+c     (refine_fix_faceadd was commented out) and merges were scheduled
+c     in both directions without checking the result. find_02 now
+c     checks, as find_01 and find_11 do, that the merge makes the worst
+c     nearby tet at least 1% better and that point types allow it;
+c     crush_face_types gives the face point its type and constraint.
+            call find_02(tolcrush,scalelen,i,ipelts1,ipitetoff
+     &         ,ipjtetoff,ipitet,ipjtet,itp1,ipitettyp,ipitetclr
+     &         ,ipiparent,nef,mbndry,xic,yic,zic,ntrisect,xadd_tr
+     &         ,yadd_tr,zadd_tr,ifadd,itadd_tr,iadd_tr,nodeadd_tr
+     &         ,imerge,nmrg,nnodes_actual,changed,did02)
             if (did02) then
                n02=n02+1
-               i1=iparent(itet(itetoff(i)+ielmface1(1,ifadd(ntrisect)
-     &            ,itettyp(i))))
-               i2=iparent(itet(itetoff(i)+ielmface1(2,ifadd(ntrisect)
-     &            ,itettyp(i))))
-               i3=iparent(itet(itetoff(i)+ielmface1(3,ifadd(ntrisect)
-     &            ,itettyp(i))))
-               nnodes_actual=nnodes_actual+1
-               idies=nnodes_actual
-               ilives=itet(itetoff(i)+ifadd(ntrisect))
-               iadd_tr(ntrisect)=-nnodes_actual
-               do j=1,ielmface0(ifadd(ntrisect),ifelmtet)
-                  nodeadd_tr(j,ntrisect)=iparent(itet(itetoff(i)
-     &               +ielmface1(j,ifadd(ntrisect),ifelmtet)))
-               enddo
-               call mark_facenbd(changed,nef,itet,itetoff,jtet
-     &            ,jtetoff,itettyp,iparent,mbndry,i,ifadd(ntrisect))
-c We'll now schedule a merge
-               nmrg=nmrg+1
-               imerge(1,nmrg)=ilives
-               imerge(2,nmrg)=idies
-c We'll now schedule a merge
-               nmrg=nmrg+1
-               imerge(1,nmrg)=idies
-               imerge(2,nmrg)=ilives
                goto 1000
-            endif
             endif
 
 c     Check if we can project a tet edge normally onto a diagonally
@@ -725,15 +717,24 @@ c
          endif
 
          if (ntrisect.gt.0) then
+c...  (Oct 2026) Get the mesh pointers again: the edge refinement above
+c     can move the arrays, and itet / itetoff are read below.
+            call cmo_get_stdptrs(cmo,ipimt1,ipitp1,ipicr1,ipisn1,ipxic
+     &         ,ipyic,ipzic,ipitetclr,ipitettyp,ipitetoff,ipjtetoff
+     &         ,ipitet,ipjtet,ierror)
 c...  Check these are really the right faces, because edge bisection
 c     could have in principle changed tet ordering.
             ntrisect_used=0
             do j=1,ntrisect
                match=.true.
                do k=1,ielmface0(ifadd(j),ifelmtet)
-                  if (nodeadd_tr(k,j).ne
-     &               .iparent(itet(itetoff(itadd_tr(j))+ielmface1(k
-     &               ,ifadd(j),ifelmtet)))) match=.false. 
+                  node=itet(itetoff(itadd_tr(j))+ielmface1(k
+     &               ,ifadd(j),ifelmtet))
+                  if (node.gt.len_iparent) then
+                     match=.false.
+                  elseif (nodeadd_tr(k,j).ne.iparent(node)) then
+                     match=.false.
+                  endif
                enddo
                if (match) then
                   ntrisect_used=ntrisect_used+1
@@ -745,6 +746,18 @@ c     could have in principle changed tet ordering.
                   zadd_tr(ntrisect_used)=zadd_tr(j)
                else
                   print*,'Face on tet ',itadd_tr(j), 'not refined.'
+c...  (Oct 2026) The face point will not exist: drop its merge.
+                  node=iabs(iadd_tr(j))
+                  k=0
+                  do jj=1,nmrg
+                     if (imerge(1,jj).ne.node.and.imerge(2,jj).ne.node)
+     &                  then
+                        k=k+1
+                        imerge(1,k)=imerge(1,jj)
+                        imerge(2,k)=imerge(2,jj)
+                     endif
+                  enddo
+                  nmrg=k
                endif
             enddo
             if (ntrisect_used.gt.0) then 
@@ -756,8 +769,10 @@ c     could have in principle changed tet ordering.
      &            ,len_icradd,1,icscode)
 C CWG               call refine_fix_faceadd(cmo,ntrisect_used,ipitadd_tr
 C CWG     &            ,ipifadd,ipiadd_tr,ipitpadd,ipicradd)
-               print *, 'Commented out call refine_fix_faceadd'
-               print *, 'Should never get here.'
+c...  (Oct 2026) Point type and constraint of each face point, from the
+c     face (interior, interface or boundary) and its three vertices.
+               call crush_face_types(cmo,ntrisect_used,itadd_tr,ifadd
+     &            ,itpadd,icradd)
                call refine_face_add_tet(cmo,ntrisect_used,ipitadd_tr
      &            ,ipifadd,ipiadd_tr,xadd_tr,yadd_tr,zadd_tr)
                call cmo_newlen(cmo,icscode)
@@ -932,8 +947,8 @@ c     (We anticipate that this edge will be merged later by agd3d.)
 
 c... We inflate tolerance here to avoid cases where barely avoiding a 
 c... merge leads to insertion of a point close to a vertex or edge.
-c$$$         if (d.lt.1.2d0*tolcrush*scalelen) then
-         if (d.lt.tolcrush*scalelen) then
+c     (Oct 2026) The documented, looser tolerance restored.
+         if (d.lt.1.2d0*tolcrush*scalelen) then
             call get_00_tets(it,j,nold,oldlist,nnew,newlist,ipelts1
      &         ,ipelts2,itet,itetoff,jtet,jtetoff,itettyp,iparent,nef
      &         ,mbndry)
@@ -1144,8 +1159,8 @@ c...  Projection must be in interior of segment
 c...  Distance to projected point must be less than tolerance.  We
 c...  change tolerance a bit to avoid case that projected point is too
 c...  close to one of the endpoints of the edge.
-c$$$            if (distproj.le.1.1d0*tolcrush*scalelen) then
-            if (distproj.le.tolcrush*scalelen) then
+c     (Oct 2026) The documented, looser tolerance restored.
+            if (distproj.le.1.1d0*tolcrush*scalelen) then
 
                call get_01_tets(it,loc0,jedge,ipelts1,ipeltse1,ipedges1
      &            ,ipitetoff,ipjtetoff,ipitet,ipjtet,ipitettyp,ipiparent
@@ -1238,27 +1253,65 @@ c     Mark nodes in old list
       return
       end
 
-      subroutine find_02(tolcrush,scalelen,it,itet,itetoff,xic,yic,zic
-     &   ,nadd,xadd,yadd,zadd,ifadd,itadd,did02)
-      
+c     Check if we can project a point onto a face with distance less
+c     than tolcrush.  If so, schedule a trisection of the face (at the
+c     proj. point) and a merge of the point with the new face point.
+c     This is a '02' (a CAP): a projection from a zero dimensional
+c     entity (a point) onto a two dimensional entity (face).
+c     (Oct 2026) Rewritten in the manner of find_01: the merge is
+c     scheduled only if point types allow it and it makes the worst
+c     tet around it at least 1% better, preferring to merge the vertex
+c     away onto the face; the face point merged into the vertex (a
+c     2-3 flip) is the alternative.
+
+      subroutine find_02(tolcrush,scalelen,it,ipelts1,ipitetoff
+     &   ,ipjtetoff,ipitet,ipjtet,itp1,ipitettyp,ipitetclr,ipiparent
+     &   ,nef,mbndry,xic,yic,zic,nadd,xadd,yadd,zadd,ifadd,itadd,iadd
+     &   ,nodeadd,imerge,nmrg,nnodes_actual,changed,did02)
+
       implicit none
 
       include 'local_element.h'
 
       real*8 tolcrush,scalelen,xadd(*),yadd(*),zadd(*),xic(*),yic(*)
      &   ,zic(*)
-      integer it,itet(*),itetoff(*),nadd,ifadd(*),itadd(*)
-      logical did02
+      integer it,nadd,ifadd(*),itadd(*),iadd(*),nodeadd(3,*)
+     &   ,imerge(2,*),nmrg,nnodes_actual,itp1(*),nef,mbndry
+      logical did02,changed(*)
 
-      real*8 dmin,ax,ay,az,norm,nx,ny,nz,vx,vy,vz,sdistproj,projx,projy
-     $     ,projz,weight1,weight2,weight3,projxmin,projymin,projzmin
-      integer i,i0,i1,i2,i3,fmin
-                  
+      pointer (ipelts1,elts1)
+      integer elts1(*)
+      pointer (ipitetoff,itetoff)
+      integer itetoff(*)
+      pointer (ipjtetoff,jtetoff)
+      integer jtetoff(*)
+      pointer (ipitet,itet)
+      integer itet(*)
+      pointer (ipjtet,jtet)
+      integer jtet(*)
+      pointer (ipitettyp,itettyp)
+      integer itettyp(*)
+      pointer (ipitetclr,itetclr)
+      integer itetclr(*)
+      pointer (ipiparent,iparent)
+      integer iparent(*)
+
+      logical mergeable
+      real*8 min_over_tetlist
+      real*8 dmin,ax,ay,az,norm,nx,ny,nz,vx,vy,vz,sdistproj,projx
+     &   ,projy,projz,weight1,weight2,weight3,projxmin,projymin
+     &   ,projzmin,orig_minwidth,mrg0_minwidth,mrgproj_minwidth,x0,y0
+     &   ,z0
+      integer i,i0,i1,i2,i3,fmin,nold,nnew0,nnewp,jt,nb,nbf,itpface
+     &   ,k,j,jj,nod
+      integer oldlist(4,2000),new0(4,2000),newp(4,2000)
+
       include 'consts.h'
       include 'statementfunctions.h'
 
       did02=.false.
       dmin=1.d50
+      fmin=0
       do i=1,nelmnef(ifelmtet)
          i1=itet(itetoff(it)+ielmface1(1,i,ifelmtet))
          i2=itet(itetoff(it)+ielmface1(2,i,ifelmtet))
@@ -1305,8 +1358,8 @@ C...  ={1,2,3,4} (in some order).
      &      ,projx,projy,projz)
          weight3=(nx*ax+ny*ay+nz*az)/safe(norm)
          if ((weight1.gt.0.d0).and.(weight2.gt.0.d0).and.(weight3.gt.0
-     &      .d0).and.(sdistproj.lt.dmin)) then         
-            dmin=sdistproj
+     &      .d0).and.(abs(sdistproj).lt.dmin)) then
+            dmin=abs(sdistproj)
             fmin=i
             projxmin=projx
             projymin=projy
@@ -1314,15 +1367,289 @@ C...  ={1,2,3,4} (in some order).
          endif
       enddo
 c...  Distance to projected point must be less than tolerance.
-      if (dmin.le.tolcrush*scalelen) then
-         did02=.true.
-         nadd=nadd+1
-         xadd(nadd)=projxmin
-         yadd(nadd)=projymin
-         zadd(nadd)=projzmin
-         ifadd(nadd)=fmin
-         itadd(nadd)=it
+      if (fmin.eq.0) return
+      if (dmin.gt.tolcrush*scalelen) return
+
+c...  The vertex, the face across from it, and the tet beyond the face
+c     (none on the outer boundary).
+      i0=itet(itetoff(it)+fmin)
+      jt=jtet(jtetoff(it)+fmin)
+      nb=0
+      if (jt.lt.mbndry.and.jt.gt.0) then
+         nb=1+(jt-1)/nef
+         nbf=jt-nef*(nb-1)
+         itpface=0
+      elseif (jt.gt.mbndry) then
+         nb=1+(jt-mbndry-1)/nef
+         nbf=jt-mbndry-nef*(nb-1)
+         itpface=2
+      else
+         itpface=10
       endif
+
+      call get_02_tets(it,fmin,nb,ipelts1,ipitetoff,ipjtetoff,ipitet
+     &   ,ipjtet,ipitettyp,ipiparent,nef,mbndry,nold,oldlist,nnew0,new0
+     &   ,nnewp,newp)
+      if (nold.eq.0) return
+
+      x0=0.d0
+      y0=0.d0
+      z0=0.d0
+      orig_minwidth=min_over_tetlist(nold,oldlist,xic,yic,zic,x0,y0
+     &   ,z0)
+c...  What happens when vertex i0 merges onto the new face point?
+      if (mergeable(itpface,itp1(i0))) then
+         mrg0_minwidth=min_over_tetlist(nnew0,new0,xic,yic,zic
+     &      ,projxmin,projymin,projzmin)
+      else
+         mrg0_minwidth=-1.d50
+      endif
+c...  What happens when the new face point merges into vertex i0?
+      if (nb.gt.0.and.mergeable(itp1(i0),itpface)) then
+         mrgproj_minwidth=min_over_tetlist(nnewp,newp,xic,yic,zic
+     &      ,xic(i0),yic(i0),zic(i0))
+      else
+         mrgproj_minwidth=-1.d50
+      endif
+
+      if (mrg0_minwidth.gt.1.01d0*orig_minwidth) then
+         did02=.true.
+      elseif (mrgproj_minwidth.gt.1.01d0*orig_minwidth) then
+         did02=.true.
+      endif
+      if (.not.did02) return
+
+      nadd=nadd+1
+      xadd(nadd)=projxmin
+      yadd(nadd)=projymin
+      zadd(nadd)=projzmin
+      ifadd(nadd)=fmin
+      itadd(nadd)=it
+      nnodes_actual=nnodes_actual+1
+      iadd(nadd)=-nnodes_actual
+      do j=1,3
+         nodeadd(j,nadd)=iparent(itet(itetoff(it)+ielmface1(j,fmin
+     &      ,ifelmtet)))
+      enddo
+      nmrg=nmrg+1
+      if (mrg0_minwidth.gt.1.01d0*orig_minwidth) then
+         imerge(1,nmrg)=nnodes_actual
+         imerge(2,nmrg)=i0
+      else
+         imerge(1,nmrg)=i0
+         imerge(2,nmrg)=nnodes_actual
+      endif
+c     Mark vertices of every tet involved
+      do jj=1,nold
+         do k=1,4
+            nod=oldlist(k,jj)
+            changed(iparent(nod))=.true.
+         enddo
+      enddo
+      return
+      end
+
+      subroutine get_02_tets(it,iv,nb,ipelts1,ipitetoff,ipjtetoff
+     &   ,ipitet,ipjtet,ipitettyp,ipiparent,nef,mbndry,nold,oldlist
+     &   ,nnew0,new0,nnewp,newp)
+
+c     (Oct 2026) The tets a CAP collapse touches, for find_02. Tet it
+c     has vertex iv (local) close to the opposite face; nb is the tet
+c     across that face (0 on the outer boundary). A point is added on
+c     the face, splitting it and nb into three each, and then either
+c       new0: the vertex merges onto the face point: the pieces of it
+c             vanish, the other tets around the vertex take the face
+c             point in its place (label 0), the pieces of nb stay;
+c       newp: the face point merges into the vertex: the pieces of it
+c             vanish, the pieces of nb take the vertex in place of the
+c             face point (label 0 at the vertex), the other tets
+c             around the vertex are unchanged.
+c     oldlist: the tets around the vertex, and nb.
+
+      implicit none
+      include 'local_element.h'
+      integer it,iv,nb,nef,mbndry,nold,oldlist(4,*),nnew0,new0(4,*)
+     &   ,nnewp,newp(4,*)
+      pointer (ipelts1,elts1)
+      integer elts1(*)
+      pointer (ipitetoff,itetoff)
+      integer itetoff(*)
+      pointer (ipjtetoff,jtetoff)
+      integer jtetoff(*)
+      pointer (ipitet,itet)
+      integer itet(*)
+      pointer (ipjtet,jtet)
+      integer jtet(*)
+      pointer (ipitettyp,itettyp)
+      integer itettyp(*)
+      pointer (ipiparent,iparent)
+      integer iparent(*)
+      integer nelts,i,j,k,nod,par0,pf(3),ierrw
+      character*132 logmess
+
+      nold=0
+      nnew0=0
+      nnewp=0
+      par0=iparent(itet(itetoff(it)+iv))
+      do k=1,3
+         pf(k)=iparent(itet(itetoff(it)+ielmface1(k,iv,ifelmtet)))
+      enddo
+      call get_elements_around_node(it,iv,nelts,ipelts1,itetoff
+     &   ,jtetoff,itet,jtet,itettyp,iparent,nef,mbndry)
+      if (nelts.gt.1000) then
+         write(logmess,'(a)')
+     &      'GET_02_TETS:  >1000 incident elts... skipping'
+         call writloga('default',0,logmess,0,ierrw)
+         return
+      endif
+      do i=1,nelts
+         nold=nold+1
+         do j=1,4
+            oldlist(j,nold)=itet(itetoff(elts1(i))+j)
+         enddo
+         if (elts1(i).ne.it) then
+            nnew0=nnew0+1
+            nnewp=nnewp+1
+            do j=1,4
+               nod=itet(itetoff(elts1(i))+j)
+               newp(j,nnewp)=nod
+               if (iparent(nod).eq.par0) then
+                  new0(j,nnew0)=0
+               else
+                  new0(j,nnew0)=nod
+               endif
+            enddo
+         endif
+      enddo
+      if (nb.gt.0) then
+         nold=nold+1
+         do j=1,4
+            oldlist(j,nold)=itet(itetoff(nb)+j)
+         enddo
+c        the three pieces of nb: each face vertex in turn replaced
+         do k=1,3
+            nnew0=nnew0+1
+            nnewp=nnewp+1
+            do j=1,4
+               nod=itet(itetoff(nb)+j)
+               if (iparent(nod).eq.pf(k)) then
+                  new0(j,nnew0)=0
+                  newp(j,nnewp)=0
+               else
+                  new0(j,nnew0)=nod
+                  newp(j,nnewp)=nod
+               endif
+            enddo
+         enddo
+      endif
+      return
+      end
+
+      subroutine crush_face_types(cmo,nadd,itadd,ifadd,itpnew,icrnew)
+
+c     (Oct 2026) Point type and constraint for points added on tet faces
+c     by crush_thin_tets (the job refine_fix_add does for edge points):
+c     an interior face gives itp 0, a face between materials itp 2, a
+c     face on the outer boundary itp 10 (11 if all three face vertices
+c     are free, 14 if free and reflective); the constraint is the one
+c     shared by all three face vertices (0 if none).
+
+      implicit none
+      include 'local_element.h'
+      character*(*) cmo
+      integer nadd,itadd(*),ifadd(*),itpnew(*),icrnew(*)
+      pointer (ipitet,itet)
+      integer itet(*)
+      pointer (ipjtet,jtet)
+      integer jtet(*)
+      pointer (ipitetoff,itetoff)
+      integer itetoff(*)
+      pointer (ipjtetoff,jtetoff)
+      integer jtetoff(*)
+      pointer (ipitp1,itp1)
+      integer itp1(*)
+      pointer (ipicr1,icr1)
+      integer icr1(*)
+      pointer (ipicontab,icontab)
+      integer icontab(50,*)
+      integer i,it,f,jt,k,n,m,ns,nsc,nconbnd,mbndry,ilen,itype,ics
+     &   ,nod(3),icr(3),ic(50),icnt,a,b
+      logical itsttp,ifre,irfl,found
+
+      call cmo_get_info('itet',cmo,ipitet,ilen,itype,ics)
+      call cmo_get_info('jtet',cmo,ipjtet,ilen,itype,ics)
+      call cmo_get_info('itetoff',cmo,ipitetoff,ilen,itype,ics)
+      call cmo_get_info('jtetoff',cmo,ipjtetoff,ilen,itype,ics)
+      call cmo_get_info('itp1',cmo,ipitp1,ilen,itype,ics)
+      call cmo_get_info('icr1',cmo,ipicr1,ilen,itype,ics)
+      call cmo_get_info('mbndry',cmo,mbndry,ilen,itype,ics)
+      call cmo_get_info('nconbnd',cmo,nconbnd,ilen,itype,ics)
+      if (ics.ne.0) nconbnd=0
+      if (nconbnd.gt.0) then
+         call cmo_get_info('icontab',cmo,ipicontab,ilen,itype,ics)
+         if (ics.ne.0) nconbnd=0
+      endif
+      do i=1,nadd
+         it=itadd(i)
+         f=ifadd(i)
+         do k=1,3
+            nod(k)=itet(itetoff(it)+ielmface1(k,f,ifelmtet))
+            icr(k)=icr1(nod(k))
+         enddo
+         jt=jtet(jtetoff(it)+f)
+         icrnew(i)=0
+         if (jt.lt.mbndry) then
+            itpnew(i)=0
+            goto 100
+         elseif (jt.gt.mbndry) then
+            itpnew(i)=2
+         else
+            itpnew(i)=10
+            ifre=.true.
+            irfl=.true.
+            do k=1,3
+               ifre=ifre.and.itsttp('free',itp1(nod(k)))
+               irfl=irfl.and.itsttp('reflect',itp1(nod(k)))
+            enddo
+            if (ifre.and.irfl) itpnew(i)=14
+            if (ifre.and..not.irfl) itpnew(i)=11
+         endif
+c        constraint: the surfaces shared by all three vertices
+         if (nconbnd.eq.0.or.icr(1).eq.0.or.icr(2).eq.0.or.icr(3).eq.0)
+     &      goto 100
+         nsc=0
+         do a=1,icontab(1,icr(1))
+            ns=icontab(2+a,icr(1))
+            found=.true.
+            do k=2,3
+               icnt=0
+               do b=1,icontab(1,icr(k))
+                  if (icontab(2+b,icr(k)).eq.ns) icnt=1
+               enddo
+               if (icnt.eq.0) found=.false.
+            enddo
+            if (found.and.nsc.lt.50) then
+               nsc=nsc+1
+               ic(nsc)=ns
+            endif
+         enddo
+         if (nsc.eq.0) goto 100
+         do n=1,nconbnd
+            if (icontab(1,n).eq.nsc) then
+               icnt=0
+               do a=1,nsc
+                  do m=1,nsc
+                     if (ic(a).eq.icontab(2+m,n)) icnt=icnt+1
+                  enddo
+               enddo
+               if (icnt.eq.nsc) then
+                  icrnew(i)=n
+                  goto 100
+               endif
+            endif
+         enddo
+ 100     continue
+      enddo
       return
       end
 

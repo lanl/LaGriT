@@ -90,6 +90,9 @@ C  all the points on the face to generate normal
  
       dot = a1*a2 + b1*b2 + c1*c2
 C  Negate because want angle between faces, not normals.
+c     (Oct 2026) In a nearly flat element rounding can put dot just
+c     outside [-1,1]; acos then gives NaN and the caller skips the angle.
+      dot = max(-1.0d0, min(1.0d0, dot))
       angle = acos(-dot)
  
       return

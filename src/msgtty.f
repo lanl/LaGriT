@@ -1552,6 +1552,15 @@ C
             call crush_thin_tets(imsgout,xmsgout,cmsgout,msgtype,
      *         nwds,ierr2)
 C
+         elseif(idsb(1:lenidsb).eq.'improve_tets') then
+C
+C           ************************************************************
+C           improve_tets : RAISE THE WORST TET QUALITY (SMOOTHING AND
+C           FLIPS), KEEPING THE VERTEX SET (Oct 2026)
+C
+            call improve_tets(imsgout,xmsgout,cmsgout,msgtype,
+     *         nwds,ierr2)
+C
          elseif(idsb(1:lenidsb).eq.'copypts') then
 
 C

@@ -1,0 +1,26 @@
+# it02_poisson_graded.lgi
+# 3D Poisson disk vertices graded away from the plane x = 0.5 (a
+# stand-in for a fracture): h = 0.03 + 0.16 x distance, up to 0.1
+# (it_plane_field.mlgi), connected; then improve_tets. Every tet between
+# 10 and 170 degrees; the mean edge length in each band of distance from
+# the plane must stay within 5% of the input (the gradient is kept).
+# check: valid nopoor resolution gradient_x_0.5
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+define / H_FLOOR / 0.03
+define / H_CEILING / 0.1
+define / SLOPE / 0.16
+define / INTERCEPT / 0.03
+createpts / poisson_disk / 3d_box / mo / 0.03 / connect / &
+       it_plane_field.mlgi
+resetpts / itp
+dump / avs / it02_before.inp / mo
+improve_tets / mo
+dump / avs / it02_after.inp / mo
+finish
