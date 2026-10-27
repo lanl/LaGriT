@@ -7,6 +7,9 @@
 test_lagrit_upstream/work/
 test_connect_timing/work/
 test_interpolate_compute/work/
+test_hextotet/work/
+test_hextotet/work_*/
+test_hextotet/logs_*/
 logs/
 out_*
 lagrit.out

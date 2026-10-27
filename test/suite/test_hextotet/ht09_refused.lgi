@@ -1,0 +1,28 @@
+#####################################################################
+# ht09_refused.lgi
+#
+# Options that do not fit the cells must be refused, with nothing
+# made, and LaGriT must carry on. hextotet / 14 on hexes corrupted
+# memory (MMVERIFY PANIC, abort); hextotet / 3 on hexes made 3
+# meaningless tets per hex. The last command is a valid split, which
+# must still work.
+#
+# refused : option   3 needs prism cells
+# refused : option  14 needs prism cells
+# refused : option  18 needs prism cells
+# refused : option  24 needs hex cells
+# refused : option   5 needs hex cells
+# refused : No valid second argument found
+# split : ht09_after.inp hex_2mat.inp 6
+#####################################################################
+read / avs / hex_2mat.inp / mohex
+read / avs / prism_2mat.inp / mopri
+hextotet / 3 / mbad1 / mohex
+hextotet / 14 / mbad2 / mohex
+grid2grid / prismtotet18 / mbad3 / mohex
+hextotet / 24 / mbad4 / mopri
+grid2grid / hextotet5 / mbad5 / mopri
+grid2grid / hex_to_tet / mbad6 / mohex
+hextotet / 6 / mtok / mohex
+dump / avs / ht09_after.inp / mtok
+finish

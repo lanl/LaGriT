@@ -1,0 +1,31 @@
+#####################################################################
+# ht05_prism_stack.lgi
+#
+# The prism part of the deck in issue #214: a triangle mesh stacked
+# into one layer of prisms, then prism to 3, 18 and 14 tets, in the
+# issue's order (14 last; it crashed, and 3 then 18 in one run
+# aborted too, from the heap damage).
+#
+# split : ht05_t3.inp  ht05_src.inp 3
+# split : ht05_t18.inp ht05_src.inp 18
+# split : ht05_t14.inp ht05_src.inp 14
+#####################################################################
+cmo / create / motri / / / triplane
+createpts / xyz / 3 3 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+connect
+cmo / copy / motri2 / motri
+cmo / select / motri2
+trans / 1 0 0 / 0. 0. 0. / 0. 0. 1.
+dump / avs / ht05_s1_tri.inp / motri
+dump / avs / ht05_s2_tri.inp / motri2
+cmo / create / mostack
+stack / layers / avs / ht05_s1_tri.inp 1 / ht05_s2_tri.inp
+stack / fill / moprism / mostack
+dump / avs / ht05_src.inp / moprism
+hextotet / 3 / mopri3 / moprism
+dump / avs / ht05_t3.inp / mopri3
+hextotet / 18 / mopri18 / moprism
+dump / avs / ht05_t18.inp / mopri18
+hextotet / 14 / mopri14 / moprism
+dump / avs / ht05_t14.inp / mopri14
+finish

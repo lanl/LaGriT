@@ -35,7 +35,7 @@ must be specified.
 
 *  **quadtotri2**   quad to 2 triangles, no new points.  
 *  **prismtotet3**   prism to 3 tets, no new points.  
-*  **quattotri4**   quad to 4 triangles, with one new point.  
+*  **quadtotri4**   quad to 4 triangles, with one new point.  
 *  **pyrtotet4**   pyramid to 4 tets, with one new point.  
 *  **hextotet5**   hex to 5 tets, no new points.  
 *  **hextotet6**   hex to 6 tets, no new points.  
@@ -44,6 +44,8 @@ must be specified.
 *  **hextotet24**   hex to 24 tets, seven new points (1 + 6 faces).  
 *  **tree_to_fe**   quadtree or octree grid to grid with no parent-type elements to clean amr or octree structures. 
 
+
+Each option needs the matching cell type in the source mesh (quad, prism, pyramid or hex). If any cell of the source mesh does not fit the option (for example **prismtotet14** on a hex mesh), the command stops with an error and nothing is made.
 
 `[ cmo_snk / cmo_src ]` are the mesh_object names for the new mesh to create and the source mesh object. `cmo_src` is the original grid. `cmo_snk` is the name for the new tet or triangle grid. These may be the same grid, if so desired. If both are left blank, the current mesh object will be used. If only one mesh name
 is given, it will be used at the sink mesh, and the current mesh object will be used as the source.

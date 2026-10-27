@@ -1,0 +1,28 @@
+#####################################################################
+# ht02_hex_2mat.lgi
+#
+# 2 x 2 x 2 hexes with two materials and a linear vertex field f,
+# split by hextotet and by grid2grid: the two commands must write the
+# same mesh.
+#
+# split : ht02_t5.inp  hex_2mat.inp 5
+# split : ht02_t6.inp  hex_2mat.inp 6
+# split : ht02_t24.inp hex_2mat.inp 24
+# same  : ht02_t5.inp  ht02_g5.inp
+# same  : ht02_t6.inp  ht02_g6.inp
+# same  : ht02_t24.inp ht02_g24.inp
+#####################################################################
+read / avs / hex_2mat.inp / mohex
+hextotet / 5 / mt5 / mohex
+dump / avs / ht02_t5.inp / mt5
+hextotet / 6 / mt6 / mohex
+dump / avs / ht02_t6.inp / mt6
+hextotet / 24 / mt24 / mohex
+dump / avs / ht02_t24.inp / mt24
+grid2grid / hextotet5 / mg5 / mohex
+dump / avs / ht02_g5.inp / mg5
+grid2grid / hextotet6 / mg6 / mohex
+dump / avs / ht02_g6.inp / mg6
+grid2grid / hextotet24 / mg24 / mohex
+dump / avs / ht02_g24.inp / mg24
+finish

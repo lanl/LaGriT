@@ -1,0 +1,19 @@
+#####################################################################
+# ht03_hex_jitter.lgi
+#
+# 3 x 3 x 3 hexes whose 8 interior vertices are moved, so the inner
+# faces are not planar. Neighbouring hexes must still be cut the same
+# way across every shared face (no gaps, no overlaps).
+#
+# split : ht03_t5.inp  hex_jitter.inp 5
+# split : ht03_t6.inp  hex_jitter.inp 6
+# split : ht03_t24.inp hex_jitter.inp 24
+#####################################################################
+read / avs / hex_jitter.inp / mohex
+hextotet / 5 / mt5 / mohex
+dump / avs / ht03_t5.inp / mt5
+hextotet / 6 / mt6 / mohex
+dump / avs / ht03_t6.inp / mt6
+hextotet / 24 / mt24 / mohex
+dump / avs / ht03_t24.inp / mt24
+finish

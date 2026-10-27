@@ -1,0 +1,20 @@
+#####################################################################
+# ht01_hex_brick.lgi
+#
+# The hex part of the deck in issue #214: a 2 x 2 x 2 brick made by
+# createpts, split by hextotet into 5, 6 and 24 tets per hex.
+#
+# split : ht01_t5.inp  ht01_src.inp 5
+# split : ht01_t6.inp  ht01_src.inp 6
+# split : ht01_t24.inp ht01_src.inp 24
+#####################################################################
+cmo / create / mohex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / avs / ht01_src.inp / mohex
+hextotet / 5 / mt5 / mohex
+dump / avs / ht01_t5.inp / mt5
+hextotet / 6 / mt6 / mohex
+dump / avs / ht01_t6.inp / mt6
+hextotet / 24 / mt24 / mohex
+dump / avs / ht01_t24.inp / mt24
+finish
