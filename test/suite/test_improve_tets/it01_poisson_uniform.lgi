@@ -1,0 +1,20 @@
+# it01_poisson_uniform.lgi
+# 3D Poisson disk vertices in the unit cube, h = 0.1, connected; then
+# improve_tets with its defaults. Every tet must end between 10 and 170
+# degrees, the vertex count and the box must be kept.
+# check: valid nopoor resolution
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo / 0.1 / connect
+resetpts / itp
+dump / avs / it01_before.inp / mo
+improve_tets / mo
+quality / minsine / y
+dump / avs / it01_after.inp / mo
+finish

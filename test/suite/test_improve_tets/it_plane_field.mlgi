@@ -1,0 +1,19 @@
+# it_plane_field.mlgi - h field graded away from the plane x = 0.5 (a
+# stand-in for a fracture): h = INTERCEPT + SLOPE * (distance to the
+# plane), kept between H_FLOOR and H_CEILING. Called by createpts /
+# poisson_disk with the h-field mesh object mo_poi_h_field.
+cmo / create / mo_dfield
+createpts / xyz / 1 101 101 / 0.5 POI_YMIN POI_ZMIN / &
+       0.5 POI_YMAX POI_ZMAX / 1 1 1
+compute / distance_field / mo_poi_h_field / mo_dfield / dfield
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / dfield / SLOPE /
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / INTERCEPT /
+math / floor / mo_poi_h_field / h_field_att / 1 0 0 / &
+       mo_poi_h_field / h_field_att / H_FLOOR
+math / ceiling / mo_poi_h_field / h_field_att / 1 0 0 / &
+       mo_poi_h_field / h_field_att / H_CEILING
+cmo / printatt / mo_poi_h_field / h_field_att / minmax
+cmo / delete / mo_dfield
+finish

@@ -13,6 +13,9 @@ test_crush_thin_tets/logs_*/
 test_element_angles/work/
 test_element_angles/work_*/
 test_element_angles/logs_*/
+test_improve_tets/work/
+test_improve_tets/work_*/
+test_improve_tets/logs_*/
 logs/
 out_*
 lagrit.out

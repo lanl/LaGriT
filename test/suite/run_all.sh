@@ -80,6 +80,7 @@ test_lagrit_upstream:run_upstream_tests.sh:30
 test_interpolate_compute:run_interpolate_tests.sh:10
 test_crush_thin_tets:run_crush_tests.sh:15
 test_element_angles:run_angle_tests.sh:2
+test_improve_tets:run_improve_tests.sh:15
 test_connect_timing:run_connect_timing.sh:290:big
 "
 
