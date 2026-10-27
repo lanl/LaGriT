@@ -1,0 +1,26 @@
+#####################################################################
+# err20_3d_output_mo_exists.lgi
+#
+# blocks   : 1
+# contains : output mesh object mo_box_poi already exists | cmo / delete / mo_box_poi
+#
+# EXPECT:
+#   One ERROR block: the output mesh object already exists.
+#   No crash, and the existing mesh object is left as it was.
+#
+# NOTE:
+#   Before the fix, cmo/create on the existing object did nothing,
+#   so it kept 0 vertices; "get xic returns length 1" was printed and
+#   the sampled coordinates were written past the end of xic, yic,
+#   zic: free(): invalid size, then an abort.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+cmo / create / mo_box_poi / / / tet
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.1 / no_connect
+cmo / status / mo_box_poi / brief
+finish

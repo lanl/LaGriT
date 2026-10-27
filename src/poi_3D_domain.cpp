@@ -211,6 +211,7 @@ void Domain::addNodesToMeshObject() {
     int ierror = 0;
     long nlen = 0;
     long ierr = 0;
+    bool fits = true;
     // get length of mesh object name
     icmolen = strlen(mo_poi_pts_out);
     // What are these?
@@ -220,20 +221,31 @@ void Domain::addNodesToMeshObject() {
     
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get xic returns length " << nlen << " error: " << ierr << endl;
+        fits = false;
     }
     
     fc_cmo_get_vdouble_(mo_poi_pts_out, "yic", &yptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get yic returns length " << nlen << " error: " << ierr << endl;
+        fits = false;
     }
     
     fc_cmo_get_vdouble_(mo_poi_pts_out, "zic", &zptr, &nlen, &ierr, icmolen, iattlen);
     
     if (ierr != 0 || nlen != numNodes) {
         cout << "Error: get zic returns length " << nlen << " error: " << ierr << endl;
+        fits = false;
     }
     
+    // Writing numNodes values into shorter arrays corrupts the heap
+    // (an existing mesh object keeps its old length), so stop here.
+    if (!fits) {
+        cout << "ERROR: " << mo_poi_pts_out << " does not hold " << numNodes
+             << " vertices; no vertices written" << endl;
+        return;
+    }
+
     // // Copy coordinates from polygon object into the mesh object
     for (unsigned int i = 0; i < numNodes; i++) {
         *(xptr + i) = nodes[i].x;
