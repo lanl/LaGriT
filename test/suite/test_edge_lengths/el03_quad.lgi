@@ -1,0 +1,14 @@
+#####################################################################
+# el03_quad.lgi
+#
+# The same grid as quads: only the quad sides are edges (1 and 2),
+# not the diagonals.
+#
+# check : el03_out.inp
+#####################################################################
+read / avs / el_quad.inp / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el03_out.inp / mo
+finish

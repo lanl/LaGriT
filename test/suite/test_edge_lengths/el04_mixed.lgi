@@ -1,0 +1,13 @@
+#####################################################################
+# el04_mixed.lgi
+#
+# Quads and triangles in one mesh.
+#
+# check : el04_out.inp
+#####################################################################
+read / avs / el_mixed.inp / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el04_out.inp / mo
+finish

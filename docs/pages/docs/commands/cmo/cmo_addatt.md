@@ -25,6 +25,7 @@ If the named attribute already exists, values in the attribute will be overwritt
 | :-------        |  :-------      |  :-------     |   :-------     |   
 |&nbsp;&nbsp; [scalar](#scalar)  |&nbsp;&nbsp;  [vector](#vector)    |&nbsp;&nbsp; [median](#median)   |     |
 |&nbsp;&nbsp; [edge_connections](#edge_connections) | &nbsp;&nbsp; [num_node_diff](#num_node_diff) |&nbsp;&nbsp;  [xyz_rtp](#xyz_rtp)  |&nbsp;&nbsp;  [xyz_rtz](#xyz_rtz)    | 
+|&nbsp;&nbsp; [edge_lengths_min](#edge_lengths) |&nbsp;&nbsp; [edge_lengths_max](#edge_lengths) |&nbsp;&nbsp; [edge_lengths_mean](#edge_lengths) |     |
 |&nbsp;&nbsp; [volume](#volume)  |&nbsp;&nbsp; [voronoi](#voronoi)  |&nbsp;&nbsp;  [voronoi_volume](#voronoi_volume)    |&nbsp;&nbsp;  [hybrid_volume](#hybrid_volume)   | 
 |&nbsp;&nbsp; [sumnode](#sumnode)   |&nbsp;&nbsp;  [avgnode](#avgnode)   |&nbsp;&nbsp; [minnode](#minnode)   |&nbsp;&nbsp;  [maxnode](#maxnode)   |
 |&nbsp;&nbsp; [ang_mind](#ang_mind)   |&nbsp;&nbsp;  [ang_minr](#ang_minr)   |&nbsp;&nbsp; [ang_maxd](#ang_maxd)   |&nbsp;&nbsp;  [ang_maxr](#ang_maxr)   |
@@ -84,6 +85,14 @@ compute the normals to the surface mesh.
 
 <a name="edge_connections"></a>
 **edge_connections** / `att_sink`<br> creates an integer node attribute with the number of edge connections to each node. 
+
+
+<a name="edge_lengths"></a>
+**edge_lengths_min**, **edge_lengths_max**, **edge_lengths_mean** / `att_sink`<br> creates a real (VDOUBLE) node attribute and fills it with the shortest, longest or mean length of the edges at each node. The edges are the sides of the cells (all 6 vertex pairs of a tet; the diagonals of a quad are not edges); an edge shared by several cells counts once. A node in no cell gets 0. The attribute name is required. Any cell type can be used, so a triangle surface mesh can set a resolution for a volume mesh, for example the `h_field_att` of [createpts / poisson_disk](../createpts/createpts_poisson.md).
+```
+cmo / addatt / mo_dfn / edge_lengths_mean / h_dfn
+cmo / addatt / mo_dfn / edge_lengths_min  / h_dfn_min
+```
 
 
 <a name="node_num_diff"></a>

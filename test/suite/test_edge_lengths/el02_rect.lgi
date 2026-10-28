@@ -1,0 +1,13 @@
+#####################################################################
+# el02_rect.lgi
+#
+# 1 x 2 rectangles cut into triangles: edges 1, 2 and sqrt(5).
+#
+# check : el02_out.inp
+#####################################################################
+read / avs / el_rect.inp / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el02_out.inp / mo
+finish
