@@ -93,6 +93,7 @@ C
       include "cmerge.h"
       include "copyrite.h"
       include 'commands_lg.h'
+      include 'input_lines_lg.h'
 C
 C
 C#######################################################################
@@ -198,6 +199,7 @@ c
       nlevels=1
       jlevels(nlevels)=5
       clevels(nlevels)='interactive_lg'
+      nline_lg(nlevels)=0
 c
 c  get memory for the definition_stack
 c

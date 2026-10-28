@@ -50,6 +50,7 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_triangulate_2d_polygon` | `triangulate` on 41 polygons: collinear runs, dense boundaries, near-touching geometry, far-from-origin coordinates, combs, spirals, holes | 20 s |
 | `test_lagrit_upstream` | all 43 `test/level01` tests, judged as `runtests.py` does, plus crash and one-line-difference checks (`LEVEL2=1`: the Exodus tests too) | 30 s |
 | `test_interpolate_compute` | `interpolate` voronoi / continuous / map and `compute` distance fields against independent answers, for every source cell type; keepatt with dudded vertices; points on edges and faces | 10 s |
+| `test_input_lines` | how input lines are read: up to 80 characters as always, 81 to 1024 used with a NOTE, longer lines and joined commands over 16384 refused with an ERROR (never cut or run in part) with their continuation lines, word tokens over 32 characters cut with a WARNING; infile, comments, CRLF | 2 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
 
 Times are for a Release build on a recent Mac.
