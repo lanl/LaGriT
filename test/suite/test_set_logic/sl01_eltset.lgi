@@ -1,0 +1,84 @@
+* test_set_logic: eltset union / inter / not with 1 to 4 sets
+* (see 00README). Membership is set by ranges of cell numbers:
+*   a = cells 1-12, b = 7-18, c = odd cells, d = 1,4,7,... (24 cells)
+cmo / create / mo / / / hex
+createpts / brick / xyz / 5 4 3 / 0. 0. 0. / 4. 3. 2. / 1 1 1
+cmo / select / mo
+cmo / addatt / mo / ma / vint / scalar / nelements
+cmo / setatt / mo / ma / 1 0 0 / 0
+cmo / setatt / mo / ma / 1,12,1 / 1
+eltset / a / ma / eq / 1
+cmo / addatt / mo / mb / vint / scalar / nelements
+cmo / setatt / mo / mb / 1 0 0 / 0
+cmo / setatt / mo / mb / 7,18,1 / 1
+eltset / b / mb / eq / 1
+cmo / addatt / mo / mc / vint / scalar / nelements
+cmo / setatt / mo / mc / 1 0 0 / 0
+cmo / setatt / mo / mc / 1,24,2 / 1
+eltset / c / mc / eq / 1
+cmo / addatt / mo / md / vint / scalar / nelements
+cmo / setatt / mo / md / 1 0 0 / 0
+cmo / setatt / mo / md / 1,24,3 / 1
+eltset / d / md / eq / 1
+eltset / u2 / union / a b
+eltset / u3 / union / a b c
+eltset / u4 / union / a b c d
+eltset / i2 / inter / a b
+eltset / i3 / inter / a b c
+eltset / i4 / inter / a b c d
+eltset / ic / inter / a,b,c
+eltset / n1 / not / a
+eltset / n2 / not / a b
+eltset / n3 / not / a b c
+eltset / n4 / not / a b c d
+cmo / addatt / mo / r_a / vint / scalar / nelements
+cmo / setatt / mo / r_a / 1 0 0 / 0
+cmo / setatt / mo / r_a / eltset,get,a / 1
+cmo / addatt / mo / r_b / vint / scalar / nelements
+cmo / setatt / mo / r_b / 1 0 0 / 0
+cmo / setatt / mo / r_b / eltset,get,b / 1
+cmo / addatt / mo / r_c / vint / scalar / nelements
+cmo / setatt / mo / r_c / 1 0 0 / 0
+cmo / setatt / mo / r_c / eltset,get,c / 1
+cmo / addatt / mo / r_d / vint / scalar / nelements
+cmo / setatt / mo / r_d / 1 0 0 / 0
+cmo / setatt / mo / r_d / eltset,get,d / 1
+cmo / addatt / mo / r_u2 / vint / scalar / nelements
+cmo / setatt / mo / r_u2 / 1 0 0 / 0
+cmo / setatt / mo / r_u2 / eltset,get,u2 / 1
+cmo / addatt / mo / r_u3 / vint / scalar / nelements
+cmo / setatt / mo / r_u3 / 1 0 0 / 0
+cmo / setatt / mo / r_u3 / eltset,get,u3 / 1
+cmo / addatt / mo / r_u4 / vint / scalar / nelements
+cmo / setatt / mo / r_u4 / 1 0 0 / 0
+cmo / setatt / mo / r_u4 / eltset,get,u4 / 1
+cmo / addatt / mo / r_i2 / vint / scalar / nelements
+cmo / setatt / mo / r_i2 / 1 0 0 / 0
+cmo / setatt / mo / r_i2 / eltset,get,i2 / 1
+cmo / addatt / mo / r_i3 / vint / scalar / nelements
+cmo / setatt / mo / r_i3 / 1 0 0 / 0
+cmo / setatt / mo / r_i3 / eltset,get,i3 / 1
+cmo / addatt / mo / r_i4 / vint / scalar / nelements
+cmo / setatt / mo / r_i4 / 1 0 0 / 0
+cmo / setatt / mo / r_i4 / eltset,get,i4 / 1
+cmo / addatt / mo / r_ic / vint / scalar / nelements
+cmo / setatt / mo / r_ic / 1 0 0 / 0
+cmo / setatt / mo / r_ic / eltset,get,ic / 1
+cmo / addatt / mo / r_n1 / vint / scalar / nelements
+cmo / setatt / mo / r_n1 / 1 0 0 / 0
+cmo / setatt / mo / r_n1 / eltset,get,n1 / 1
+cmo / addatt / mo / r_n2 / vint / scalar / nelements
+cmo / setatt / mo / r_n2 / 1 0 0 / 0
+cmo / setatt / mo / r_n2 / eltset,get,n2 / 1
+cmo / addatt / mo / r_n3 / vint / scalar / nelements
+cmo / setatt / mo / r_n3 / 1 0 0 / 0
+cmo / setatt / mo / r_n3 / eltset,get,n3 / 1
+cmo / addatt / mo / r_n4 / vint / scalar / nelements
+cmo / setatt / mo / r_n4 / 1 0 0 / 0
+cmo / setatt / mo / r_n4 / eltset,get,n4 / 1
+cmo / modatt / mo / ma / ioflag / l
+cmo / modatt / mo / mb / ioflag / l
+cmo / modatt / mo / mc / ioflag / l
+cmo / modatt / mo / md / ioflag / l
+dump / avs / sl01_eltset.table / mo / 0 0 0 1
+finish

@@ -78,6 +78,7 @@ test_createpts:run_createpts_tests.sh:26
 test_triangulate_2d_polygon:run_triangulate_tests.sh:22
 test_lagrit_upstream:run_upstream_tests.sh:30
 test_interpolate_compute:run_interpolate_tests.sh:10
+test_set_logic:run_set_logic_tests.sh:1
 test_connect_timing:run_connect_timing.sh:290:big
 "
 

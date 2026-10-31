@@ -1,0 +1,44 @@
+test_set_logic -- eltset and pset union / inter / not (Oct 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_set_logic_tests.sh [path-to-lagrit]     2 decks, about 1 s
+  open logs/summary.html
+
+WHAT IS TESTED
+
+  eltset / name / union | inter | not / set1 [set2 ...]
+  pset   / name / union | inter | not / set1 [set2 ...]
+  with 1 to 4 sets, blank- or comma-separated:
+    union  members of at least one set
+    inter  members of every set
+    not    one set: everything else; more: in set1 and in none of the
+           others
+  Every member of every result is compared with the answer computed by
+  the checker, and so is the count LaGriT prints for each set.
+
+THE DECKS
+
+  sl01_eltset   a hex brick of 24 cells; a = cells 1-12, b = 7-18,
+                c = odd cells, d = 1, 4, 7, ...; 11 combinations
+  sl02_pset     the same brick's 60 vertices; a = 1-30, b = 21-45,
+                c = odd, d = 1, 4, 7, ...; the same 11 combinations
+  Each result is written to a 0/1 attribute r_<name> and dumped as an
+  attribute-only AVS table (sl01_eltset.table, sl02_pset.table).
+
+WHY
+
+  In LaGriT V3.3.4 and earlier, eltset inter and not with three or more
+  sets gave wrong results without a message (inter gave an empty set):
+  src/eset.f read the running result from the stored set bits instead of
+  the work array (inter), and garbled the shift and the and (not). pset
+  (src/pset.F) was right. On such a LaGriT, sl01_eltset fails 5 checks
+  (i3, i4, ic, n3, n4); with the fix every check passes.
+
+FILES
+
+  run_set_logic_tests.sh   runner (work/, logs/)
+  sl01_eltset.lgi          eltset deck
+  sl02_pset.lgi            pset deck
+  check_set_logic.py       checks, logs/summary.html, logs/table.txt
