@@ -19,6 +19,7 @@
  * arrive here as long.
  */
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <string>
