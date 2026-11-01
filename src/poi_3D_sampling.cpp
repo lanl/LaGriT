@@ -407,6 +407,11 @@ bool Domain::testCandidate(Point &newPoint, double radiusScaleFactor) {
     cout << "checking for filled grid space " << endl;
     
 #endif
+    // h_lookup octree: reject if inside the disk of a point in the same
+    // sub-cell of the octree's neighbour grid
+    if (octree) {
+        if (octOwnCellRejects(newPoint)) return false;
+    } else {
     newPoint.ix = getNeighborGridCellID(newPoint.x, xMin);
     
     newPoint.iy = getNeighborGridCellID(newPoint.y, yMin);
@@ -420,6 +425,7 @@ bool Domain::testCandidate(Point &newPoint, double radiusScaleFactor) {
         cout << "grid space filled" << endl;
 #endif
         return false;
+    }
     }
     
     // Now that we know the point is inside the domain and in an empty-cell
@@ -554,6 +560,7 @@ then directly check the distance between those points to ensure that the new poi
 does not reside within the disk of the already accepted points.
 */
 bool Domain::emptyDiskProperty(Point newPoint) {
+    if (octree) return octDiskFree(newPoint);
 #ifdef DEBUG
     cout << "checking emptyDiskProperty  " << endl;
 #endif

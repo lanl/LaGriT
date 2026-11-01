@@ -1,0 +1,74 @@
+test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
+=======================================================================
+
+QUICK START
+
+  sh run_poisson_octree_tests.sh [path-to-lagrit]    8 decks, about 15 s
+  open logs/summary.html
+
+  The page explains each deck and check, and shows:
+    - a slice of po01's octree through the point source, coloured by
+      level, with the vertices near that plane
+    - po01's spacing: nearest-neighbour distance / h, and the nearest-
+      neighbour distance against distance from the source, with h
+    - octree (po01) against hex_grid (po07) on the same field: time,
+      peak memory, points h is looked up at, vertices, tets, and the
+      smallest and largest dihedral angles of the tets
+    - constant h (po06), octree against hex_grid: spacing, and the
+      vertices near the plane z = 0.5 side by side
+    - po01's octree in numbers (leaves per level, passes, batches,
+      memory) and its maximality report
+  Each deck's time and peak memory are recorded by the checker's
+  "run" step (work/<deck>.rusage).
+
+WHAT IS TESTED
+
+  h_lookup octree looks h up in an octree adapted to h, instead of a
+  uniform lattice over the box, and samples on a neighbour grid made
+  of the octree's leaves, with a maximal fill. The checks are rules and
+  ranges, not reference meshes: random numbers differ between C++
+  libraries, so exact coordinates differ between Linux and macOS.
+
+  Every deck: LaGriT finishes, and no ERROR in its output.
+
+THE DECKS
+
+  The unit box, edge buffer off, h_spacing_scalar 0.02, and the h field
+  h_point.mlgi: h = 0.02 + 0.2 * distance to (0.3, 0.6, 0.45), at most
+  0.2 (po01 to po04, po07).
+
+  po01_point_source   700 to 1000 vertices; interior vertices at least
+                      max(h) apart (h computed here from the formula,
+                      not looked up); vertices on the box faces at
+                      least 0.6 max(h) from any other (faces are
+                      sampled with 0.9 h, box edges with 0.81 h); the
+                      maximality report leaves under 1e-3 of the
+                      volume; octree_dump writes as many cells and
+                      vertices as the run reports
+  po02_small_batch    octree_batch 50: the h field runs on more than 50
+                      batches, and the vertices are the same as po01's
+  po03_other_seed     poisson_seed 2: other vertices, a count within 5%
+  po04_k_factor       octree_k_factor 1.5: more leaves than po01; count
+                      within 5%; interior vertices at least max(h) apart
+  po05_read_octree    reads po01's octree file back: every hex cell has
+                      a positive volume; h_field_att at least 0.02
+  po07_point_hex_grid po01 with h_lookup hex_grid: interior vertices at
+                      least max(h) apart; po01 makes at least 0.95 times
+                      its vertices, with less peak memory
+  po06_constant_h_*   h = 0.1 everywhere, no h field file, with
+                      h_lookup octree and with hex_grid: interior
+                      vertices at least h apart in both; the octree
+                      makes 1.0 to 1.45 times hex_grid's vertices (its
+                      fill is maximal; hex_grid's cheap cell test
+                      rejects more than its rule says)
+
+  The error and warning cases of the new keywords are in
+  test_poisson_command_errors (err26 to err31, warn06).
+
+FILES
+
+  h_point.mlgi              the h field of po01 to po04 and po07
+  po*.lgi                   the decks
+  check_poisson_octree.py   the checker (Python 3, standard library)
+  run_poisson_octree_tests.sh
+  work/, logs/              written by each run (not tracked)

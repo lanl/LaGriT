@@ -1,0 +1,10 @@
+#####################################################################
+# err30_2d_octree_keyword_refused.lgi
+#
+# EXPECT:
+#   One ERROR block: the h lookup keywords are for 3d_box only.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / h_lookup / octree
+finish
