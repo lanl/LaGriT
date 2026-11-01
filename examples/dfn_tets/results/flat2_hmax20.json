@@ -1,0 +1,639 @@
+[
+ {
+  "name": "4_user_rects_nonuniform",
+  "status": "done",
+  "notes": [],
+  "time": 4.853725910186768,
+  "peak": 13713408,
+  "plan": {
+   "box": [
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ]
+   ],
+   "Ls": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "bbox": [
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ]
+   ],
+   "nv_dfn": 557,
+   "ntri": 1033,
+   "hmin": 0.03654796641432656,
+   "hscalar": 0.07309593282865312,
+   "hmax": 0.2,
+   "lattice": 13824,
+   "est": 1943.921539683769,
+   "mem_pred": 6694556.773019684,
+   "time_pred": 3.499058771430784,
+   "hmax_by": "min_cells",
+   "h_reach": 0.13696731288192565
+  },
+  "res": {
+   "nv": 2243,
+   "ntet": 10656,
+   "min_after": 38.7003579455,
+   "max_after": 122.635351097,
+   "ratio_p05": 0.8339702424855864,
+   "ratio_median": 0.9963427829053492,
+   "ratio_p95": 1.1759615348014012,
+   "eh_median": 1.3440979073701425,
+   "eh_p05": 1.0804133782858518,
+   "eh_p95": 1.608037386201688,
+   "frac_hmax": 0.0,
+   "d_far": 0.425532595189,
+   "ntet_before": 11637,
+   "min_before": 0.466699515524,
+   "max_before": 179.176445799
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/4_user_rects_nonuniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/4_user_rects_nonuniform/metadata.json",
+   "box": null,
+   "name": "4_user_rects_nonuniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "4_user_rects_uniform",
+  "status": "done",
+  "notes": [],
+  "time": 7.770681858062744,
+  "peak": 21254144,
+  "plan": {
+   "box": [
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ]
+   ],
+   "Ls": [
+    1.0,
+    1.0,
+    1.0
+   ],
+   "bbox": [
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ],
+    [
+     -0.5,
+     0.5
+    ]
+   ],
+   "nv_dfn": 771,
+   "ntri": 1386,
+   "hmin": 0.03599431337154399,
+   "hscalar": 0.07198862674308798,
+   "hmax": 0.2,
+   "lattice": 13824,
+   "est": 3380.700935005781,
+   "mem_pred": 11405372.898517922,
+   "time_pred": 6.085261683010406,
+   "hmax_by": "min_cells",
+   "h_reach": 0.12554964936636215
+  },
+  "res": {
+   "nv": 3842,
+   "ntet": 18345,
+   "min_after": 32.5659010268,
+   "max_after": 132.311157938,
+   "ratio_p05": 0.8147991168965786,
+   "ratio_median": 0.9847520990609722,
+   "ratio_p95": 1.1914809853842174,
+   "eh_median": 1.3311900428521994,
+   "eh_p05": 1.0865753519821988,
+   "eh_p95": 1.6279908711579327,
+   "frac_hmax": 0.0,
+   "d_far": 0.424899617222,
+   "ntet_before": 20093,
+   "min_before": 0.506714152876,
+   "max_before": 179.114005971
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/4_user_rects_uniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/4_user_rects_uniform/metadata.json",
+   "box": null,
+   "name": "4_user_rects_uniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "TPL_nonuniform",
+  "status": "done",
+  "notes": [],
+  "time": 708.7462038993835,
+  "peak": 1116004352,
+  "plan": {
+   "box": [
+    [
+     -7.5,
+     7.5
+    ],
+    [
+     -7.5,
+     7.5
+    ],
+    [
+     -7.5,
+     7.5
+    ]
+   ],
+   "Ls": [
+    15.0,
+    15.0,
+    15.0
+   ],
+   "bbox": [
+    [
+     -7.500000000003,
+     7.500000000005
+    ],
+    [
+     -7.500000000004,
+     7.500000000006
+    ],
+    [
+     -7.500000000004,
+     7.500000000005
+    ]
+   ],
+   "nv_dfn": 57257,
+   "ntri": 114739,
+   "hmin": 0.03099127847570562,
+   "hscalar": 0.06198255695141124,
+   "hmax": 0.6198255695141124,
+   "lattice": 49430863,
+   "est": 275197.0156508551,
+   "mem_pred": 921819148.5176507,
+   "time_pred": 495.35462817153916,
+   "hmax_by": "hmax_factor",
+   "h_reach": 0.6198255695141124
+  },
+  "res": {
+   "nv": 252044,
+   "ntet": 1443102,
+   "min_after": 33.3952427366,
+   "max_after": 131.603301467,
+   "ratio_p05": 0.8878461556361829,
+   "ratio_median": 1.05511439533986,
+   "ratio_p95": 1.249733434959003,
+   "eh_median": 1.384318251881964,
+   "eh_p05": 1.1737910774192981,
+   "eh_p95": 1.6163634455077527,
+   "frac_hmax": 0.00828030026503309,
+   "d_far": 6.46879236544,
+   "ntet_before": 1583331,
+   "min_before": 0.116204268064,
+   "max_before": 179.77951871
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/TPL_nonuniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/TPL_nonuniform/metadata.json",
+   "box": null,
+   "name": "TPL_nonuniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "ade_example_nonuniform",
+  "status": "done",
+  "notes": [],
+  "time": 268.8492839336395,
+  "peak": 471388160,
+  "plan": {
+   "box": [
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ]
+   ],
+   "Ls": [
+    10.0,
+    10.0,
+    10.0
+   ],
+   "bbox": [
+    [
+     -5.000000000003,
+     5.000000000006
+    ],
+    [
+     -5.000000000006,
+     5.000000000004
+    ],
+    [
+     -5.000000000001,
+     5.000000000005
+    ]
+   ],
+   "nv_dfn": 23701,
+   "ntri": 47744,
+   "hmin": 0.03461810843039731,
+   "hscalar": 0.06923621686079462,
+   "hmax": 0.6923621686079462,
+   "lattice": 10648000,
+   "est": 107459.91011392255,
+   "mem_pred": 361566921.3531599,
+   "time_pred": 193.4278382050606,
+   "hmax_by": "hmax_factor",
+   "h_reach": 0.6923621686079462
+  },
+  "res": {
+   "nv": 101014,
+   "ntet": 571371,
+   "min_after": 35.9822346801,
+   "max_after": 128.298826515,
+   "ratio_p05": 0.8760275971175694,
+   "ratio_median": 1.041652073365029,
+   "ratio_p95": 1.2385186864581108,
+   "eh_median": 1.3785154000759403,
+   "eh_p05": 1.1644460142879596,
+   "eh_p95": 1.6118545265750075,
+   "frac_hmax": 0.002534302175936009,
+   "d_far": 4.85607425414,
+   "ntet_before": 626868,
+   "min_before": 0.0743072138278,
+   "max_before": 179.858819897
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/ade_example_nonuniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/ade_example_nonuniform/metadata.json",
+   "box": null,
+   "name": "ade_example_nonuniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "ade_example_uniform",
+  "status": "done",
+  "notes": [],
+  "time": 1681.4584567546844,
+  "peak": 2373046272,
+  "plan": {
+   "box": [
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ]
+   ],
+   "Ls": [
+    10.0,
+    10.0,
+    10.0
+   ],
+   "bbox": [
+    [
+     -5.000000000003,
+     5.000000000006
+    ],
+    [
+     -5.000000000006,
+     5.000000000004
+    ],
+    [
+     -5.000000000001,
+     5.000000000005
+    ]
+   ],
+   "nv_dfn": 99208,
+   "ntri": 194579,
+   "hmin": 0.026529547409605933,
+   "hscalar": 0.053059094819211866,
+   "hmax": 0.5305909481921187,
+   "lattice": 23393656,
+   "est": 685127.2739147476,
+   "mem_pred": 2242944149.1357174,
+   "time_pred": 1233.2290930465458,
+   "hmax_by": "hmax_factor",
+   "h_reach": 0.5305909481921187
+  },
+  "res": {
+   "nv": 646306,
+   "ntet": 3700395,
+   "min_after": 32.7450671012,
+   "max_after": 133.328547602,
+   "ratio_p05": 0.8651123905799735,
+   "ratio_median": 1.0096658471164992,
+   "ratio_p95": 1.1708575341325533,
+   "eh_median": 1.374012974060644,
+   "eh_p05": 1.1776695757676812,
+   "eh_p95": 1.5863927143790801,
+   "frac_hmax": 0.0005492754206211919,
+   "d_far": 4.83910490502,
+   "ntet_before": 4057534,
+   "min_before": 0.0201654865105,
+   "max_before": 179.968788339
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/ade_example_uniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/ade_example_uniform/metadata.json",
+   "box": null,
+   "name": "ade_example_uniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "constant_nonuniform",
+  "status": "done",
+  "notes": [],
+  "time": 168.7598078250885,
+  "peak": 317685760,
+  "plan": {
+   "box": [
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ]
+   ],
+   "Ls": [
+    10.0,
+    10.0,
+    10.0
+   ],
+   "bbox": [
+    [
+     -5.000000000003,
+     5.000000000004
+    ],
+    [
+     -5.000000000003,
+     4.44874270226
+    ],
+    [
+     -5.000000000004,
+     0.4611605616159
+    ]
+   ],
+   "nv_dfn": 13173,
+   "ntri": 26081,
+   "hmin": 0.04070615851032609,
+   "hscalar": 0.08141231702065219,
+   "hmax": 0.8141231702065219,
+   "lattice": 6644672,
+   "est": 69460.12304201582,
+   "mem_pred": 231133981.43024907,
+   "time_pred": 125.02822147562848,
+   "hmax_by": "hmax_factor",
+   "h_reach": 0.8141231702065219
+  },
+  "res": {
+   "nv": 67682,
+   "ntet": 384240,
+   "min_after": 35.9683471114,
+   "max_after": 125.897282524,
+   "ratio_p05": 0.8666696623591329,
+   "ratio_median": 1.0247758749210747,
+   "ratio_p95": 1.2111738338483862,
+   "eh_median": 1.3754025004061743,
+   "eh_p05": 1.1645152563278036,
+   "eh_p95": 1.6092556021796707,
+   "frac_hmax": 0.01013563428976685,
+   "d_far": 8.7433157685,
+   "ntet_before": 421604,
+   "min_before": 0.0582337806735,
+   "max_before": 179.91475945
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/constant_nonuniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/constant_nonuniform/metadata.json",
+   "box": null,
+   "name": "constant_nonuniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ },
+ {
+  "name": "constant_uniform",
+  "status": "done",
+  "notes": [],
+  "time": 640.0648851394653,
+  "peak": 1180020736,
+  "plan": {
+   "box": [
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ],
+    [
+     -5.0,
+     5.0
+    ]
+   ],
+   "Ls": [
+    10.0,
+    10.0,
+    10.0
+   ],
+   "bbox": [
+    [
+     -5.000000000003,
+     5.000000000004
+    ],
+    [
+     -5.000000000003,
+     4.44874270226
+    ],
+    [
+     -5.000000000004,
+     0.4611605616159
+    ]
+   ],
+   "nv_dfn": 41398,
+   "ntri": 80123,
+   "hmin": 0.030805511155025934,
+   "hscalar": 0.06161102231005187,
+   "hmax": 0.6161102231005187,
+   "lattice": 15069223,
+   "est": 316347.6156033418,
+   "mem_pred": 1030355208.3703595,
+   "time_pred": 569.4257080860152,
+   "hmax_by": "hmax_factor",
+   "h_reach": 0.6161102231005187
+  },
+  "res": {
+   "nv": 302621,
+   "ntet": 1739894,
+   "min_after": 35.0416357158,
+   "max_after": 130.042982609,
+   "ratio_p05": 0.857021414566326,
+   "ratio_median": 1.006735590510584,
+   "ratio_p95": 1.178138234688843,
+   "eh_median": 1.3767464776568743,
+   "eh_p05": 1.172243724621284,
+   "eh_p95": 1.6074679154016374,
+   "frac_hmax": 0.005495322532144167,
+   "d_far": 8.7541613185,
+   "ntet_before": 1906818,
+   "min_before": 0.0184604227026,
+   "max_before": 179.968006231
+  },
+  "settings": {
+   "dfn": "dfn_mesh_suite/constant_uniform/full_mesh.inp",
+   "json": "dfn_mesh_suite/constant_uniform/metadata.json",
+   "box": null,
+   "name": "constant_uniform",
+   "stat": "mean",
+   "c": 0.74,
+   "slope": 0.2,
+   "flat": 2.0,
+   "hmax_factor": 20.0,
+   "min_cells": 5.0,
+   "hscalar_factor": 2.0,
+   "seed": 1,
+   "h_lookup": "octree",
+   "octree_k_factor": 0.75,
+   "octree_dump": false,
+   "improve": true,
+   "lagrit": "lagrit (branch poisson-octree, PR #303)",
+   "max_memory_gb": 10.3,
+   "keep_hfield": false
+  }
+ }
+]
