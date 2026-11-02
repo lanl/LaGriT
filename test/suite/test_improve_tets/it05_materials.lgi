@@ -1,0 +1,25 @@
+# it05_materials.lgi
+# As it01, with two materials: the tets whose vertices all have z >= 0.5
+# get itetclr 2 (a staircase interface). Faces between materials are
+# never flipped and interface vertices only slide within their plane, so
+# the volume of each material must be kept exactly. Runs with
+# progress / off: no progress lines may appear.
+# check: valid materials
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo / 0.1 / connect
+resetpts / itp
+cmo / setatt / mo / itetclr / 1 0 0 / 1
+pset / p_top / attribute / zic / 1 0 0 / ge / 0.5
+eltset / e_top / exclusive / pset,get,p_top
+cmo / setatt / mo / itetclr / eltset,get,e_top / 2
+dump / avs / it05_before.inp / mo
+improve_tets / mo / progress / off
+dump / avs / it05_after.inp / mo
+finish

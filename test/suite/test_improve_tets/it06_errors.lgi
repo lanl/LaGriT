@@ -1,0 +1,25 @@
+# it06_errors.lgi
+# Commands improve_tets must refuse, each leaving the mesh unchanged: a
+# hex mesh, an unknown keyword, a target out of range, a keyword with no
+# value, a word where a number belongs, a value that is not on / off.
+# check: messages
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+improve_tets / mo_hex
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo / 0.2 / connect
+dump / avs / it06_before.inp / mo
+improve_tets / mo / bogus / 1
+improve_tets / mo / target / 1.5
+improve_tets / mo / passes
+improve_tets / mo / target / high
+improve_tets / mo / smooth / maybe
+dump / avs / it06_after.inp / mo
+finish
