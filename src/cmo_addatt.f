@@ -94,6 +94,10 @@ C                     and fills it with the number of edges connected to a node.
 C  node_num_diff    - creates one scalar attribute
 C                     and fills it with the maximum node number difference between the node number
 C                     and all connected nodes.
+C  edge_lengths_min - creates one scalar VDOUBLE node attribute and
+C  edge_lengths_max   fills it with the shortest, longest or mean
+C  edge_lengths_mean  length of the edges at each node
+C                     (edge_lengths_lg.f)
 C
 C                     conversion_factor = 180.0d+00/acos(-1.0d+00) to convert to degrees
 C
@@ -965,6 +969,31 @@ C
          endif
          att_name  = cmsgin(5)
          cmsgin(5) = 'VINT'
+         cmsgin(6) = 'scalar'
+         cmsgin(7) = 'nnodes'
+         cmsgin(8) = cinterp
+         cmsgin(9) = cpersistence
+         cmsgin(10)= cioflag
+         xmsgin(11)= zero
+C
+C     Shortest, longest or mean length of the edges at each node
+C     (edge_lengths_lg.f)
+C
+      elseif((att_name(1:icharlnf(att_name)).eq.'edge_lengths_min').or.
+     1       (att_name(1:icharlnf(att_name)).eq.'edge_lengths_max').or.
+     2       (att_name(1:icharlnf(att_name)).eq.'edge_lengths_mean'))
+     3       then
+         fill_type = att_name
+         flen = icharlnf(fill_type)
+         if(nwds.lt.5 .or. cmsgin(5)(1:5).eq.'-def-') then
+            write(logmess,'(a,a,a)') 'ADDATT error: ',
+     *        fill_type(1:flen),' needs an attribute name'
+            call writloga('default',1,logmess,0,ierr)
+            ierror_return = 1
+            goto 9999
+         endif
+         att_name  = cmsgin(5)
+         cmsgin(5) = 'VDOUBLE'
          cmsgin(6) = 'scalar'
          cmsgin(7) = 'nnodes'
          cmsgin(8) = cinterp
@@ -2010,7 +2039,10 @@ C
 C     Fill node attribtue with number of edge connections to each node.
 C
       elseif((fill_type(1:flen) .eq. 'edge_connections') .or.
-     1       (fill_type(1:flen) .eq. 'node_num_diff'))then
+     1       (fill_type(1:flen) .eq. 'node_num_diff') .or.
+     2       (fill_type(1:flen) .eq. 'edge_lengths_min') .or.
+     3       (fill_type(1:flen) .eq. 'edge_lengths_max') .or.
+     4       (fill_type(1:flen) .eq. 'edge_lengths_mean'))then
 C     PURPOSE -
 C
 C        Get the parent mass point - parent mass point relation.
@@ -2075,6 +2107,12 @@ C       node i and all nodes connected to i.
            enddo
            ivalue(i) = ij_max
         enddo
+        elseif(fill_type(1:12) .eq. 'edge_lengths')then
+C
+C       Shortest, longest or mean length of the edges at each node.
+        call cmo_get_info(att_name,cmo_name,ipvalue,ilen,ityp,ierr)
+        call edge_lengths_lg(fill_type(14:flen),nnode,iedges,
+     &     iedges_first,iparent,xic,yic,zic,value)
         endif
 
         logmess='cmo/printatt/'//cmo_name//att_name//'/minmax ; finish'

@@ -1,0 +1,14 @@
+#####################################################################
+# el01_equi.lgi
+#
+# Equilateral triangles of side 0.5: every value must be 0.5.
+#
+# check : el01_out.inp
+# exact : 0.5
+#####################################################################
+read / avs / el_equi.inp / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el01_out.inp / mo
+finish
