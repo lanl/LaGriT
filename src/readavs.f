@@ -232,6 +232,11 @@ C$$     * ,volface(6)
       integer nelements_start, icount_e, nvalues_e, nvalues1_e
 C$$     * ,if2,if3,if4,j1,jndex,index
       integer if_zero_based, i_offset
+      integer nelemfile, nbad, ibadfirst, nsum, k
+      character*24 csect
+      character*32 cbadtype
+      pointer (ipidrop, idrop)
+      integer idrop(*)
     
       integer iunit
       integer*4 iunit4
@@ -259,6 +264,28 @@ C
       call cmo_get_info('nnodes',cmonam,nnodes,ilen,ity,ier)
       call cmo_get_info('nelements',cmonam,nelements,ilen,ity,ier)
       call cmo_get_info('mbndry',cmonam,mbndry,ilen,ity,ier)
+C
+C     The mesh object must be empty: read / avs does not add to a mesh
+C     (addmesh / append joins two meshes).
+C
+      if (nnodes.gt.0 .or. nelements.gt.0) then
+         write(logmess,'(a,a,a)') 'ERROR read/avs: mesh object ',
+     *      cmonam(1:icharlnf(cmonam)),' is not empty'
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,'(a)')
+     *      'ERROR read/avs: read into a new mesh object; '//
+     *      'addmesh / append joins meshes'
+         call writloga('default',0,logmess,0,ierr)
+         write(logmess,'(a)') 'ERROR read/avs: nothing read'
+         call writloga('default',0,logmess,1,ierr)
+         ierror=1
+         goto 9999
+      endif
+      nbad=0
+      ibadfirst=0
+      nelemfile=0
+      ipidrop=0
+      csect='header'
 C
 C     ******************************************************************
 C
@@ -316,13 +343,16 @@ C
  100  continue
       icount=icount+1
       iunit4 = iunit
-      read(iunit4,'(a132)') cline
+      read(iunit4,'(a132)',err=9990,end=9990) cline
       if(cline(1:3).eq.'run') goto 9998
       if(cline(1:6).eq.'finish') goto 9998
       if(cline(1:1).eq.'#') goto 100
       if(ifirst_line.eq.0) then
          ifirst_line=icount
-         read(cline,*) npoints,nelemavs,nvalues,nvalues_e
+         read(cline,*,err=9990,end=9990)
+     *      npoints,nelemavs,nvalues,nvalues_e
+         nelemfile=nelemavs
+         csect='vertices'
          i1min=npoints
          i1max=0
          goto 100
@@ -339,21 +369,23 @@ c
       if_zero_based = -1
          if(npoints.gt.0) then
             do iline=1,npoints
-               read(cline,*) i1,x1,y1,z1
+               read(cline,*,err=9990,end=9990) i1,x1,y1,z1
                if(if_zero_based .lt. 0)then
 c
 c              Check value of i1 on first pass through this loop
 c
                if_zero_based = i1
-               if(if_zero_based .ge. 2)then
-                  write(logmess,9000) if_zero_based
+               if(if_zero_based .ge. 2 .or. if_zero_based .lt. 0)then
+                  write(logmess,9003) if_zero_based
  9003             format
-     1   ('ERROR: The AVS files first node number is, ',i10)
+     1   ('ERROR read/avs: the first vertex number is ',i10)
                   call writloga('default',1,logmess,0,ierr)
+                  write(logmess,9004)
  9004             format
-     1   ('ERROR:Only 0 or 1 based sequential node numbering supported')
-                  call writloga('default',1,logmess,0,ierr)
-                  goto 9999
+     1   ('ERROR read/avs: number the vertices 0, 1, 2, ... or 1, 2, 3,'
+     2    ' ...')
+                  call writloga('default',0,logmess,0,ierr)
+                  goto 9992
                else
                   if(if_zero_based .eq. 0)then
                      i_offset = 1
@@ -365,6 +397,17 @@ c
  
  
  
+               ! vertex numbers must be consecutive: the cells refer
+               ! to the vertices by number
+               if(i1 .ne. if_zero_based+iline-1) then
+                  write(logmess,9005) i1, if_zero_based+iline-1
+ 9005             format('ERROR read/avs: vertex number ',i10,
+     1                   ' where ',i10,' was expected')
+                  call writloga('default',1,logmess,0,ierr)
+                  write(logmess,9004)
+                  call writloga('default',0,logmess,0,ierr)
+                  goto 9992
+               endif
                ! this code assumes i1(ipoint)=i1min:i1min+npoints-1
                ! and only uses i1 info to set itetshift
                i1min=min(i1min,i1+i_offset)
@@ -395,7 +438,7 @@ c
                if(npoints.gt.1.and.ipoints.lt.npoints) then
  101              continue
                   icount=icount+1
-                  read(iunit,'(a132)') cline
+                  read(iunit,'(a132)',err=9990,end=9990) cline
                   if(cline(1:1).eq.'#') goto 101
                endif
             enddo
@@ -406,9 +449,10 @@ c
  
 C read in the AVS elements
  
+         csect='cells'
          if(nelemavs.gt.0) then
  200        continue
-               read(iunit,'(a132)') cline
+               read(iunit,'(a132)',err=9990,end=9990) cline
                if(cline(1:1).eq.'#') goto 200
             if (iopt_elements.eq.1) then
  
@@ -454,7 +498,7 @@ C set defaults in case read in only bad elements
             do iline=1,nelemavs
                ielements=ielements+1
                if(iopt_elements.eq.1) then
-                  read(cline,*) it,imat
+                  read(cline,*,err=9990,end=9990) it,imat
                   it = it + i_offset
  
 C     find the AVS element type
@@ -491,6 +535,11 @@ C     find the AVS element type
                         ifound=7
                         itype=cline(istart:istart+5)
                         cline=cline(istart+6:len(cline))
+                     elseif (cline(istart:istart+3).eq.'pri ') then
+c                       'pri', as other codes write a prism
+                        ifound=7
+                        itype='prism'
+                        cline=cline(istart+4:len(cline))
                      elseif (cline(istart:istart+3).eq.'hex') then
                         ifound=8
                         itype=cline(istart:istart+3)
@@ -502,6 +551,20 @@ C     find the AVS element type
                   if (ifound.eq.0) then
                       ielements=ielements-1
                       nelements=nelements-1
+                      if (nbad.eq.0) then
+                         call mmgetblk('idrop',isubname,ipidrop,
+     *                                 nelemfile,1,icscode)
+                         do i=1,nelemfile
+                            idrop(i)=0
+                         enddo
+                         ibadfirst=iline
+                         read(cline,*,err=104,end=104) it,imat,cbadtype
+                         goto 105
+ 104                     cbadtype='?'
+ 105                     continue
+                      endif
+                      nbad=nbad+1
+                      idrop(iline)=1
                       goto 103
                   endif
  
@@ -817,7 +880,8 @@ C     set the itet relation for the current element
  
 103               if(itype(1:2).eq.'pt') then
 c         'pnt': note avs order  = lagrit order
-                     read(cline,*)  i1
+                     read(cline,*,err=9990,end=9990)
+     *                  i1
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmpnt
                      itetoff(ielements)=itoff
@@ -829,7 +893,8 @@ c         'pnt': note avs order  = lagrit order
  
                   elseif(itype(1:4).eq.'line') then
 c         'lin': note avs order  = lagrit order
-                     read(cline,*)  i1,i2
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmlin
                      itetoff(ielements)=itoff
@@ -843,7 +908,8 @@ c         'lin': note avs order  = lagrit order
  
                   elseif(itype(1:3).eq.'tri') then
 c         'tri': note avs order  = lagrit order
-                     read(cline,*)  i1,i2,i3
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i3
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmtri
                      itetoff(ielements)=itoff
@@ -859,7 +925,8 @@ c         'tri': note avs order  = lagrit order
  
                   elseif(itype(1:4).eq.'quad') then
 c         'qud': note avs order  = lagrit order
-                     read(cline,*)  i1,i2,i3,i4
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i3,i4
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmqud
                      itetoff(ielements)=itoff
@@ -877,7 +944,8 @@ c         'qud': note avs order  = lagrit order
  
                   elseif(itype(1:3).eq.'tet') then
 c         'tet': note avs order  1 2 4 3 = lagrit order 1 2 3 4
-                     read(cline,*)  i1,i2,i4,i3
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i4,i3
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmtet
                      itetoff(ielements)=itoff
@@ -895,7 +963,8 @@ c         'tet': note avs order  1 2 4 3 = lagrit order 1 2 3 4
  
                   elseif(itype(1:3).eq.'pyr') then
 c         'pyr': note avs order  1 2 3 4 5 = lagrit order 2 3 4 5 1
-                     read(cline,*)  i1,i2,i3,i4,i5
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i3,i4,i5
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmpyr
                      itetoff(ielements)=itoff
@@ -915,7 +984,8 @@ c         'pyr': note avs order  1 2 3 4 5 = lagrit order 2 3 4 5 1
  
                   elseif(itype(1:5).eq.'prism') then
 c         'pri': note avs order  1 2 3 4 5 6 = lagrit order 4 5 6 1 2 3
-                     read(cline,*)  i1,i2,i3,i4,i5,i6
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i3,i4,i5,i6
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmpri
                      itetoff(ielements)=itoff
@@ -936,7 +1006,8 @@ c         'pri': note avs order  1 2 3 4 5 6 = lagrit order 4 5 6 1 2 3
  
                   elseif(itype(1:3).eq.'hex') then
 c         'hex': note avs order  1 2 3 4 5 6 7 8 = lagrit order 5 6 7 8 1 2 3 4
-                     read(cline,*)  i1,i2,i3,i4,i5,i6,i7,i8
+                     read(cline,*,err=9990,end=9990)
+     *                  i1,i2,i3,i4,i5,i6,i7,i8
                      itetclr(ielements)=imat
                      itettyp(ielements)=ifelmhex
                      itetoff(ielements)=itoff
@@ -959,8 +1030,7 @@ c         'hex': note avs order  1 2 3 4 5 6 7 8 = lagrit order 5 6 7 8 1 2 3 4
                      jtet1(jtetoff(ielements)+6)=-1
  
                   else
-c         itype unsupported
-                     print *,"Bad element type: ",iline,'  ',itype
+c         itype unsupported: counted above, reported after the cells
                   endif
  
                endif
@@ -970,11 +1040,20 @@ c     get the next line
                if(nelemavs.gt.1.and.iline.lt.nelemavs) then
  102              continue
                   icount=icount+1
-                  read(iunit,'(a132)') cline
+                  read(iunit,'(a132)',err=9990,end=9990) cline
                   if(cline(1:1).eq.'#') goto 102
                endif
  
             enddo
+         endif
+         if (nbad.gt.0) then
+            write(logmess,'(a,i10,a)') 'WARNING read/avs: ',nbad,
+     *         ' cells of unknown type skipped'
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(a,i10,a,a)')
+     *         'WARNING read/avs: the first is cell ',ibadfirst,
+     *         ' of the file, type ',cbadtype(1:icharlnf(cbadtype))
+            call writloga('default',0,logmess,1,ierr)
          endif
          if(nelemavs.eq.0) nelements=0
          if(iopt_elements.eq.0) then
@@ -984,7 +1063,7 @@ c     get the next line
          endif
  
 c read in the field values
-         print *, nvalues, nvalues_e 
+         csect='vertex attributes'
          if((nvalues.le.0) .and. (nvalues_e.le.0)) then
 C
 C     All done, there are not node attributes or element attributes.
@@ -996,7 +1075,7 @@ C
 C     In this case there are no node attributes but element attributes will follow.
 C     Still expect a zero in the file here.
 C
-            read(iunit,*) nvalues1
+            read(iunit,*,err=9990,end=9990) nvalues1
             if ((nvalues1 .ne. 0).and.(nvalues1 .eq. nvalues_e)) then
             write(logmess,290) 
             call writloga('default',0,logmess,0,ierr)
@@ -1023,10 +1102,11 @@ C
             call mmgetblk('iatt_type',isubname,
      *                    ipiatt_type,length,2,icscode)
  300        continue
-               read(iunit,'(a132)') cline
+               read(iunit,'(a132)',err=9990,end=9990) cline
                if(cline(1:1).eq.'#') goto 300
             backspace(iunit)
-            read(iunit,*) nvalues1,(ivalues(i),i=1,nvalues1)
+            read(iunit,*,err=9990,end=9990)
+     *         nvalues1,(ivalues(i),i=1,nvalues1)
             if(nvalues1.gt.0) then
             if(nvalues1 .ne. nvalues)then
             write(logmess,305) nvalues
@@ -1042,7 +1122,7 @@ C
                do i=1,nvalues1
                   icount=icount+1
  310              continue
-                     read(iunit,'(a132)') cline
+                     read(iunit,'(a132)',err=9990,end=9990) cline
                      if(cline(1:1).eq.'#') goto 310
                   len1=min(len(cline),icharlnf(cline))
                   ic=1
@@ -1051,7 +1131,13 @@ C
                   enddo
                   ic=ic-1
                   cmoatt=cline(1:ic)
-                  ctype=cline(ic+2:ic+9)
+c                 the type after the comma, with or without a space
+                  if (ic+2.le.len(cline)) then
+                     ctype=' '//adjustl(cline(ic+2:))
+                  else
+                     ctype=' '
+                  endif
+                  ctype(9:)=' '
                   if(cmoatt(1:ic).eq.'xmt1') then
                      isetimt1=1
                      cmoatt='imt1'
@@ -1063,6 +1149,12 @@ C
                      iseticr1=1
                   elseif(cmoatt(1:ic).eq.'isn1') then
                      isetisn1=1
+                  endif
+                  if (ivalues(i).ne.1) then
+c                    only rank 1 (scalar) attributes are read
+                     call avs_rank_warn('vertex',cmoatt,ivalues(i))
+                     iatt_type(i)=0
+                     goto 315
                   endif
                   call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
                   if(icscode.eq.0) then
@@ -1106,21 +1198,31 @@ C
                      iatt_type(i)=2
                      endif
                   endif
+ 315              continue
                enddo
+c              one row holds the values of every attribute, all ranks
+               nsum=0
+               do j=1,nvalues
+                  nsum=nsum+ivalues(j)
+               enddo
+               call mmgetblk('xrow',isubname,ipxvalues,nsum,2,icscode)
                do i=npoints_start+1,npoints
                   icount=icount+1
  320              continue
-                     read(iunit,'(a132)') cline
+                     read(iunit,'(a132)',err=9990,end=9990) cline
                      if(cline(1:1).eq.'#') goto 320
                   backspace(iunit)
-                  read(iunit,*) i1,(xvalues(j),j=1,nvalues)
+                  read(iunit,*,err=9990,end=9990)
+     *               i1,(xvalues(j),j=1,nsum)
+                  k=0
                   do j=1,nvalues
+                     k=k+ivalues(j)
                      if(iatt_type(j).eq.1) then
                         ipiarray=isdatptr(j)
-                        iarray(i)=nint(xvalues(j))
-                     else
+                        iarray(i)=nint(xvalues(k))
+                     elseif(iatt_type(j).eq.2) then
                         ipxarray=isdatptr(j)
-                        xarray(i)=xvalues(j)
+                        xarray(i)=xvalues(k)
                      endif
                   enddo
                enddo
@@ -1135,6 +1237,7 @@ C ******* End Reading Node Attributes ***********
 C
 C ******* Begin Reading Element Attributes ***********
 C 
+         csect='cell attributes'
          if(nvalues_e.le.0) then
 C           Then we are done.
             go to 9998
@@ -1150,10 +1253,11 @@ C
             call mmgetblk('iatt_type_e',isubname,
      *                    ipiatt_type_e,length,2,icscode)
  400        continue
-               read(iunit,'(a132)') cline
+               read(iunit,'(a132)',err=9990,end=9990) cline
                if(cline(1:1).eq.'#') goto 400
             backspace(iunit)
-            read(iunit,*) nvalues1_e,(ivalues_e(i),i=1,nvalues1_e)
+            read(iunit,*,err=9990,end=9990)
+     *         nvalues1_e,(ivalues_e(i),i=1,nvalues1_e)
             if(nvalues1_e .ne. nvalues_e)then
             write(logmess,405) nvalues_e
  405        format('READAVS ERROR: File header says ',
@@ -1169,7 +1273,7 @@ C
                do i=1,nvalues1_e
                   icount_e=icount_e+1
  410              continue
-                     read(iunit,'(a132)') cline
+                     read(iunit,'(a132)',err=9990,end=9990) cline
                      if(cline(1:1).eq.'#') goto 410
                   len1=min(len(cline),icharlnf(cline))
                   ic=1
@@ -1178,7 +1282,19 @@ C
                   enddo
                   ic=ic-1
                   cmoatt=cline(1:ic)
-                  ctype=cline(ic+2:ic+9)
+c                 the type after the comma, with or without a space
+                  if (ic+2.le.len(cline)) then
+                     ctype=' '//adjustl(cline(ic+2:))
+                  else
+                     ctype=' '
+                  endif
+                  ctype(9:)=' '
+                  if (ivalues_e(i).ne.1) then
+c                    only rank 1 (scalar) attributes are read
+                     call avs_rank_warn('cell',cmoatt,ivalues_e(i))
+                     iatt_type_e(i)=0
+                     goto 415
+                  endif
                   call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
                   if(icscode.eq.0) then
                      call mmgettyp(ipout,itypeout,icscode)
@@ -1221,23 +1337,44 @@ C
                      iatt_type_e(i)=2
                      endif
                   endif
+ 415              continue
                enddo
-               do i=nelements_start+1,nelemavs
+               nsum=0
+               do j=1,nvalues_e
+                  nsum=nsum+ivalues_e(j)
+               enddo
+               call mmgetblk('xrow_e',isubname,ipxvalues_e,nsum,2,
+     *                       icscode)
+c              one row per cell of the file: the rows of cells of an
+c              unknown type (skipped) are read and dropped
+               i=nelements_start
+               iline=0
+               if (nelemavs.le.0) nelemfile=0
+               do while (iline.lt.nelemfile)
+                  iline=iline+1
                   icount_e=icount_e+1
  420              continue
-                     read(iunit,'(a132)') cline
+                     read(iunit,'(a132)',err=9990,end=9990) cline
                      if(cline(1:1).eq.'#') goto 420
                   backspace(iunit)
-                  read(iunit,*) i1,(xvalues_e(j),j=1,nvalues_e)
+                  read(iunit,*,err=9990,end=9990)
+     *               i1,(xvalues_e(j),j=1,nsum)
+                  if (nbad.gt.0) then
+                     if (idrop(iline).ne.0) goto 425
+                  endif
+                  i=i+1
+                  k=0
                   do j=1,nvalues_e
+                     k=k+ivalues_e(j)
                      if(iatt_type_e(j).eq.1) then
                         ipiarray_e=isdatptr_e(j)
-                        iarray_e(i)=nint(xvalues_e(j))
-                     else
+                        iarray_e(i)=nint(xvalues_e(k))
+                     elseif(iatt_type_e(j).eq.2) then
                         ipxarray_e=isdatptr_e(j)
-                        xarray_e(i)=xvalues_e(j)
+                        xarray_e(i)=xvalues_e(k)
                      endif
                   enddo
+ 425              continue
                enddo
             endif
          endif
@@ -1515,7 +1652,42 @@ C      call dotaskx3d(cbuff,ierror)
        call dotaskx3d(cbuff,ierror)
 C
       goto 9999
+C
+C     A line that cannot be read, or the end of the file too early.
+C
+ 9990 continue
+      write(logmess,'(a,a)')
+     *   'ERROR read/avs: a line cannot be read, or the file ends, in ',
+     *   csect(1:icharlnf(csect))
+      call writloga('default',1,logmess,0,ierr)
+C
+C     Errors after the file is opened: close it and empty the mesh
+C     object (it may hold part of the file).
+C
+ 9992 continue
+      close(iunit)
+      call cmo_set_info('nnodes',cmonam,0,1,1,ier)
+      call cmo_set_info('nelements',cmonam,0,1,1,ier)
+      write(logmess,'(a,a,a)') 'ERROR read/avs: nothing read; ',
+     *   cmonam(1:icharlnf(cmonam)),' is empty'
+      call writloga('default',0,logmess,1,ierr)
+      ierror=1
  9999 continue
       call mmrelprt(isubname,icscode)
+      return
+      end
+C
+      subroutine avs_rank_warn(cwhere,cname,irank)
+C
+C     read / avs: a WARNING that an attribute of rank irank is skipped
+C
+      implicit none
+      character*(*) cwhere, cname
+      integer irank, icharlnf, ierr
+      character*132 logmess
+      write(logmess,'(a,a,a,a,a,i3,a)') 'WARNING read/avs: ',
+     *   cwhere,' attribute ',cname(1:icharlnf(cname)),' has rank',
+     *   irank,'; only rank 1 is read: skipped'
+      call writloga('default',0,logmess,0,ierr)
       return
       end

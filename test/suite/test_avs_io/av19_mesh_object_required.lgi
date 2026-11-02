@@ -1,0 +1,10 @@
+# read / avs needs the mesh object: without it, or with it left blank,
+# an ERROR and nothing read (the current mesh object is unchanged)
+# check: finished
+# check: output give the mesh object
+# check: model out.inp cells_tet.inp
+read / avs / cells_tet.inp / mo1
+read / avs / cells_hex.inp
+read / avs / cells_hex.inp / / 1 1 1
+dump / avs / out.inp / mo1
+finish

@@ -283,7 +283,7 @@ C
       data ivoronoi2d / 1 /
       data ivoronoi3d / 0 /
       data cutoff/1.e-30/
-      data maxval/1.e+30/
+      data maxval/1.d+30/
       data izero/0/
 C
 C ######################################################################
@@ -348,6 +348,7 @@ C     write AVS UCD pt elements for node mesh with 0 elements
            write(logmess,'(a)') 
      *    'Expecting points but mesh has elements and connectivity.'
            call writloga('default',0,logmess,0,ierr)
+           close(iunit)
            return
          endif
 
@@ -603,34 +604,34 @@ C
             if (abs(b).lt.cutoff) b=0.0
             if (abs(c).lt.cutoff) c=0.0
             if (a.gt.maxval) then
-               write(logmess,9035) i,a
- 9035          format(' x coordinate number ',i10,
-     *                ' reset to maximum of 1.e+30 ',e12.5)
+               write(logmess,9035) 'x',i,a
+ 9035          format(1x,a1,' coordinate of vertex ',i10,
+     *                ' written as +-1.e+30: ',e12.5)
                call writloga('default',0,logmess,0,icscode)
                a=maxval
             endif
             if (a.lt.-maxval) then
-               write(logmess,9035) i,a
+               write(logmess,9035) 'x',i,a
                call writloga('default',0,logmess,0,icscode)
                a=-maxval
             endif
             if (b.gt.maxval) then
-               write(logmess,9035) i,b
+               write(logmess,9035) 'y',i,b
                call writloga('default',0,logmess,0,icscode)
                b=maxval
             endif
             if (b.lt.-maxval) then
-               write(logmess,9035) i,b
+               write(logmess,9035) 'y',i,b
                call writloga('default',0,logmess,0,icscode)
                b=-maxval
             endif
-            if (abs(c).gt.maxval) then
-               write(logmess,9035) i,c
+            if (c.gt.maxval) then
+               write(logmess,9035) 'z',i,c
                call writloga('default',0,logmess,0,icscode)
                c=maxval
             endif
             if (c.lt.-maxval) then
-               write(logmess,9035) i,c
+               write(logmess,9035) 'z',i,c
                call writloga('default',0,logmess,0,icscode)
                c=-maxval
             endif
@@ -1117,7 +1118,7 @@ C     If there are no elements to write, skip this part
          if(io_format_elem .eq. 0)then
          write(iunit,9060) nvaluese,(iranks(idxe(i)),i=1,nvaluese)
          elseif(io_format_elem .eq. 1)then
-         write(iunit,9061)'# ', nvaluese,(iranks(idx(i)),i=1,nvaluese)
+         write(iunit,9061)'# ', nvaluese,(iranks(idxe(i)),i=1,nvaluese)
          endif
          do i=1,nmcmoatt
  

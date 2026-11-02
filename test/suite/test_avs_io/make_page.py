@@ -21,7 +21,7 @@ P = ['<!doctype html><html><head><meta charset="utf-8"><title>test_avs_io</title
      "<p>Every mesh LaGriT reads is compared with the file it came from "
      "(the checker reads AVS itself); every file LaGriT writes is compared "
      "byte for byte with <code>golden/</code>. KNOWN = a documented problem "
-     "not yet fixed (parking lot item 27); FIXED = it now passes, so its "
+     "not yet fixed; FIXED = it now passes, so its "
      "<code># known:</code> line should go. See 00README.</p>",
      "<table><tr><th>deck</th><th>result</th><th>what it tests / detail</th></tr>"]
 for r in rows:
