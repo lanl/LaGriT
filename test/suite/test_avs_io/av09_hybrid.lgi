@@ -1,0 +1,15 @@
+# a hybrid mesh: one tet, pyramid, prism and hex
+# check: finished
+# check: noerror
+# check: model out_hybrid.inp hybrid.inp
+# check: model out1_hybrid.inp hybrid.inp
+# check: golden out_hybrid.inp
+# check: golden out1_hybrid.inp
+# check: same out_hybrid.inp rt_hybrid.inp
+read / avs / hybrid.inp / mo1
+dump / avs / out_hybrid.inp / mo1
+dump / avs1 / out1_hybrid.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_hybrid.inp / mo2
+dump / avs / rt_hybrid.inp / mo2
+finish

@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of hex cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_hex.inp cells_hex.inp
+# check: model out1_hex.inp cells_hex.inp
+# check: golden out_hex.inp
+# check: golden out1_hex.inp
+# check: same out_hex.inp rt_hex.inp
+read / avs / cells_hex.inp / mo1
+dump / avs / out_hex.inp / mo1
+dump / avs1 / out1_hex.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_hex.inp / mo2
+dump / avs / rt_hex.inp / mo2
+finish

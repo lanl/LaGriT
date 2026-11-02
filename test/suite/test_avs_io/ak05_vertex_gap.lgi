@@ -1,0 +1,9 @@
+# vertex numbers with a gap (7 missing; the cells use the same numbers):
+# read / avs either reads the mesh right or refuses it with a message
+# known: vertex numbers are not checked; the cells point past the vertices and memory is corrupted (MMVERIFY PANIC)
+# check: finished
+# check: nooutput PANIC
+# check: model_or_error out.inp cells_hex.inp
+read / avs / hex_gap.inp / mo1
+dump / avs / out.inp / mo1
+finish

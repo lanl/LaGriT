@@ -1,0 +1,8 @@
+# 12 cell attributes, more than the vertex attributes
+# check: finished
+# check: noerror
+# check: model out_wide.inp hex_wide.inp
+# check: golden out_wide.inp
+read / avs / hex_wide.inp / mo1
+dump / avs / out_wide.inp / mo1
+finish

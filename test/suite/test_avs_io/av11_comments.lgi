@@ -1,0 +1,8 @@
+# "#" lines before and inside every section: the same mesh as cells_hex
+# check: finished
+# check: noerror
+# check: model out_comments.inp cells_hex.inp
+# check: golden out_comments.inp
+read / avs / hex_comments.inp / mo1
+dump / avs / out_comments.inp / mo1
+finish

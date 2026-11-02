@@ -1,0 +1,8 @@
+# a cell of an unknown type between two hexes: either refused with a
+# message, or dropped with the other cells keeping their own attributes
+# known: the bad cell is dropped but its attribute row is not, so the hex after it gets the bad cell's attributes
+# check: finished
+# check: model_or_error out.inp cells_hex.inp
+read / avs / hex_bad_type.inp / mo1
+dump / avs / out.inp / mo1
+finish

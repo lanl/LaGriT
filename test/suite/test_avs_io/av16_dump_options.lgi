@@ -1,0 +1,24 @@
+# dump / avs with each iopt combination, avs1, att_node and att_elem;
+# the standard ones must hold the right parts of the mesh
+# check: finished
+# check: model o1100.inp cells_hex.inp parts=vc
+# check: model o1000.inp cells_hex.inp parts=v
+# check: model o0001.inp cells_hex.inp parts=a atts=ca,cr
+# check: golden o1100.inp
+# check: golden o1000.inp
+# check: golden o0010.inp
+# check: golden o0001.inp
+# check: golden o2222.inp
+# check: golden o1111_avs1.inp
+# check: golden att_node.txt
+# check: golden att_elem.txt
+read / avs / cells_hex.inp / mo1
+dump / avs / o1100.inp / mo1 / 1 1 0 0
+dump / avs / o1000.inp / mo1 / 1 0 0 0
+dump / avs / o0010.inp / mo1 / 0 0 1 0
+dump / avs / o0001.inp / mo1 / 0 0 0 1
+dump / avs / o2222.inp / mo1 / 2 2 2 2
+dump / avs1 / o1111_avs1.inp / mo1 / 1 1 1 1
+dump / att_node / att_node.txt / mo1
+dump / att_elem / att_elem.txt / mo1
+finish

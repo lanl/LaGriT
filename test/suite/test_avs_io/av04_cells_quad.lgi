@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of quad cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_quad.inp cells_quad.inp
+# check: model out1_quad.inp cells_quad.inp
+# check: golden out_quad.inp
+# check: golden out1_quad.inp
+# check: same out_quad.inp rt_quad.inp
+read / avs / cells_quad.inp / mo1
+dump / avs / out_quad.inp / mo1
+dump / avs1 / out1_quad.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_quad.inp / mo2
+dump / avs / rt_quad.inp / mo2
+finish

@@ -1,0 +1,8 @@
+# no attribute sections (header 12 2 0 0 0)
+# check: finished
+# check: noerror
+# check: model out_no_attributes.inp hex_no_attributes.inp
+# check: golden out_no_attributes.inp
+read / avs / hex_no_attributes.inp / mo1
+dump / avs / out_no_attributes.inp / mo1
+finish

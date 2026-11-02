@@ -1,0 +1,8 @@
+# cell attributes only: the vertex-attribute section is the line "0"
+# check: finished
+# check: noerror
+# check: model out_cell_atts.inp hex_cell_atts.inp
+# check: golden out_cell_atts.inp
+read / avs / hex_cell_atts.inp / mo1
+dump / avs / out_cell_atts.inp / mo1
+finish

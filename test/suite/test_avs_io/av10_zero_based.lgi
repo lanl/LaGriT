@@ -1,0 +1,8 @@
+# vertices and cells numbered from 0: the same mesh as cells_hex
+# check: finished
+# check: noerror
+# check: model out_zero_based.inp cells_hex.inp
+# check: golden out_zero_based.inp
+read / avs / hex_zero_based.inp / mo1
+dump / avs / out_zero_based.inp / mo1
+finish

@@ -1,0 +1,6 @@
+# read / avs prints nothing but LaGriT's own messages
+# known: a leftover print * writes the two attribute counts to the terminal
+# check: finished
+# check: nooutput ^\s*-?\d+\s+-?\d+\s*$
+read / avs / cells_hex.inp / mo1
+finish

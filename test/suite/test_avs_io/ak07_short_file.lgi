@@ -1,0 +1,7 @@
+# a file cut off in the middle of the cells: an error message, and
+# LaGriT goes on
+# known: no end-of-file check: "Fortran runtime error: End of file" stops LaGriT
+# check: finished
+# check: output ERROR
+read / avs / hex_short.inp / mo1
+finish

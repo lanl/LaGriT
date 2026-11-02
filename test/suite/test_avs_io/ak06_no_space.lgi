@@ -1,0 +1,8 @@
+# "va,integer" with no space after the comma is an integer attribute
+# known: the type is read at a fixed column after the comma, so va becomes real
+# check: finished
+# check: noerror
+# check: model out.inp cells_hex.inp
+read / avs / hex_no_space.inp / mo1
+dump / avs / out.inp / mo1
+finish

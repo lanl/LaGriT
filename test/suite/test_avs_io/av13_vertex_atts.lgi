@@ -1,0 +1,8 @@
+# vertex attributes only
+# check: finished
+# check: noerror
+# check: model out_vertex_atts.inp hex_vertex_atts.inp
+# check: golden out_vertex_atts.inp
+read / avs / hex_vertex_atts.inp / mo1
+dump / avs / out_vertex_atts.inp / mo1
+finish

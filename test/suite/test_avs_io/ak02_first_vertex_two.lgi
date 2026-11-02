@@ -1,0 +1,9 @@
+# the first vertex is numbered 2: read / avs refuses it, with a message
+# that says so
+# known: the message is "The AVS file, <garbage>, does not exist." twice (format 9000 used for the number)
+# check: finished
+# check: printable
+# check: output first vertex number
+# check: nooutput does not exist
+read / avs / hex_first_two.inp / mo1
+finish

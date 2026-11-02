@@ -7,6 +7,7 @@
 test_lagrit_upstream/work/
 test_connect_timing/work/
 test_interpolate_compute/work/
+test_avs_io/work/
 logs/
 out_*
 lagrit.out
@@ -44,3 +45,7 @@ __pycache__/
 .DS_Store
 ._*
 run_all_usual.txt
+
+# ---- tracked although the patterns above match them
+# test_avs_io/golden: the expected dump files (out_*.inp and others)
+!test_avs_io/golden/*
