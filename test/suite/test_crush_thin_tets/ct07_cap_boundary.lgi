@@ -1,0 +1,24 @@
+# ct07_cap_boundary.lgi
+# A CAP: an interior vertex just above the middle of a boundary face:
+# one vertex of a regular lattice tet mesh (6 x 6 x 6 vertices, 750
+# tets, relative width 0.41 everywhere) moved by make_inputs.py; every
+# tet stays valid. crush_thin_tets at its default TOLCRUSH 0.1. Each
+# written mesh is also measured (ct_measure.mlgi: Carl Gable's
+# dihedral, solid angle and edge ratio attributes) into <name>_m.inp.
+# expect: measured: as ct03, the cap goes only with its thin
+#   neighbour
+# check: crush | ct07 | cap_boundary.inp | 0.1
+read / avs / cap_boundary.inp / mo_tet
+resetpts / itp
+dump / avs / ct07_before.inp / mo_tet
+define / MO / mo_tet
+define / AVS_OUT / ct07_before_m.inp
+infile ct_measure.mlgi
+crush_thin_tets / mo_tet / 0.1
+rmpoint / compress
+resetpts / itp
+dump / avs / ct07_after_0.1.inp / mo_tet
+define / MO / mo_tet
+define / AVS_OUT / ct07_after_0.1_m.inp
+infile ct_measure.mlgi
+finish

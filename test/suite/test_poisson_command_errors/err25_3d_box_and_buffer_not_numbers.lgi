@@ -1,0 +1,23 @@
+#####################################################################
+# err25_3d_box_and_buffer_not_numbers.lgi
+#
+# blocks   : 1
+# contains : POI_ZMAX / must be a number, given abc | IF_POI_EDGE_BUFFER / must be 0 or 1, given 2 | POI_EDGE_BUFFER / must be a number >= 0
+#
+# EXPECT:
+#   ONE ERROR block with all three faults (accumulator test).
+#
+# NOTE:
+#   A word used to leave the box limit at whatever the previous
+#   lookup returned.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / abc
+define / IF_POI_EDGE_BUFFER / 2
+define / POI_EDGE_BUFFER / -1.0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.2 / no_connect
+finish

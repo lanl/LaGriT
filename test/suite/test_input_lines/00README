@@ -1,0 +1,74 @@
+test_input_lines -- how LaGriT reads its input lines (Oct 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_input_lines_tests.sh [path-to-lagrit]     10 decks, about 2 s
+  open logs/summary.html
+
+THE RULES TESTED
+
+  A command line (not a comment) of
+    up to 80 characters      is read as always;
+    81 to 1024 characters    is used in full, with a NOTE: LaGriT
+                             V3.3.4 and earlier silently ignored
+                             everything past column 80;
+    over 1024 characters     is an ERROR: the command is skipped
+                             (never cut, never run in part), with its
+                             continuation lines, and LaGriT goes on
+                             with the next command.
+  A command joined from lines ending in & may have up to 16384
+  characters; a longer one is an ERROR and is skipped the same way.
+  (Before, it returned an empty command and LaGriT gave up the input
+  file and went back to the terminal; its remaining continuation lines
+  were not skipped either.)
+  Comment lines (# or * in column 1) may be any length.
+  A word token over 32 characters is cut to its first 32 with a
+  WARNING. A number token is read in full.
+  Lengths count up to the last character that is not a blank, a tab
+  or a carriage return. Messages name the file and the line number
+  ("line 3 of sub.mlgi", or "of the input" for standard input).
+
+THE DECKS (written by make_input_lines.py into work/; see its comment)
+
+  il01_80       exactly 80 characters: nothing new
+  il02_note     81, 500, 1024 characters: NOTE, used; a cell type past
+                column 80 now counts (hex, not the old default tet)
+  il03_long     1025 and 3000 characters: ERROR, skipped, next runs
+  il04_huge     1,000,000 characters: ERROR, skipped, next runs
+  il05_amp      an over-long line ending in &, and an over-long
+                continuation line: their commands and remaining
+                continuation lines skipped
+  il06_joined   20 lines of 883 characters joined: over 16384, ERROR,
+                skipped, and LaGriT carries on with the deck
+  il07_comment  comments of 200 and 5000 characters: no message
+  il08_tokens   a 40-character name (WARNING, 32 used) and a
+                40-character number (read in full)
+  il09_infile   the same inside an infile: messages name that file
+                and its line numbers
+  il10_crlf     CRLF line ends and no newline at the end of the file
+
+WHAT IS CHECKED (check_input_lines.py)
+
+  LaGriT finished, with no signal, MMVERIFY or "empty command stack";
+  the mesh objects that must exist do, and those of skipped commands
+  (and of continuation lines that must not run alone) do not; the
+  expected NOTE / ERROR / WARNING texts, each the expected number of
+  times. summary.html lists LaGriT's messages for every deck.
+
+CODE
+
+  src/read_line_lg.f      reads a line of any length in pieces
+                          (non-advancing reads), checks it, skips the
+                          continuation lines of a refused command
+  src/input_lines_lg.h    the limits (80, 1024) and line counters
+  src/control_command_lg.f  read_command_lg uses them; the command
+                          stack now grows until a long command fits
+  lg_util/src/parse_string.f  token cut at 32 without writing past
+                          it; WARNING for words; numbers read in full
+
+FILES
+
+  run_input_lines_tests.sh  runner (work/, logs/)
+  make_input_lines.py       the decks and expect.json
+  check_input_lines.py      checks, logs/summary.html

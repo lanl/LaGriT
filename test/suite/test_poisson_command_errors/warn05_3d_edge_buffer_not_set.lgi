@@ -1,0 +1,20 @@
+#####################################################################
+# warn05_3d_edge_buffer_not_set.lgi
+#
+# EXPECT:
+#   A WARNING block naming both edge buffer defines and their
+#   defaults; no ERROR block; the vertices are made.
+#
+# NOTE:
+#   The box limits are integers here. They used to take whatever
+#   value the previous define lookup left behind; now 0 means 0.0.
+#####################################################################
+define / POI_XMIN / 0
+define / POI_YMIN / 0
+define / POI_ZMIN / 0
+define / POI_XMAX / 1
+define / POI_YMAX / 1
+define / POI_ZMAX / 1
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.2 / no_connect
+cmo / status / mo_box_poi / brief
+finish

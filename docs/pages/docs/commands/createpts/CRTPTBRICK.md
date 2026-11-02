@@ -111,6 +111,6 @@ createpts/brick/rtz/5,17,5/0.,0.,0./2.,360.,2./1,1,1/0,0,0/1.,1.,1./0,1,0
 ```
 The same kind of cylinder, with `jsym` = 1: the cells from 337.5 to 360 degrees are joined to the vertices at 0 degrees, so the seam is closed without **filter**. The 25 vertices at 360 degrees (5 radii x 5 heights) are left unused. The ratio zoning tokens `0,0,0 / 1.,1.,1.` (off) are needed to reach the switches.
 
-*LaGriT reads only the first 80 characters of an input line. A line that reaches the symmetry switches is easily longer than that, and then the switches are silently lost. Write such a command without spaces, as above, or continue it on the next line with **&**.*
+*A command that reaches the symmetry switches is easily longer than 80 characters. LaGriT V3.3.4 and earlier read only the first 80 characters of a line, so the switches were silently lost; later versions read lines up to 1024 characters and say so in a NOTE. To work with every version, write such a command without spaces, as above, or continue it on the next line with **&**.*
 
 

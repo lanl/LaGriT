@@ -4,10 +4,25 @@
 Following in Section II.b is a alphabetic list of the LaGriT commands.
 Conventions that apply to all commands include:
 
-- Lines are a maximum of 80 characters long, identifiers are a
-maximum of 32 characters long.
-- Continuation lines are signaled by an "&" as the last character of
-a line to be continued. A command can be up to 1024 characters long.
+- **Line length.** A command line can be up to 1024 characters long.
+  Lines longer than 80 characters are used in full, with a NOTE in the
+  output, because LaGriT V3.3.4 and earlier read only the first 80
+  characters of a line and ignored the rest without a message. A line
+  longer than 1024 characters is an ERROR: its command is not run (it is
+  never cut short or run in part), and LaGriT goes on with the next
+  command. Comment lines can be any length.
+- **Continuation lines.** A command is continued on the next line by an
+  "&" as the last character of a line. A command joined from its
+  continuation lines can be up to 16384 characters long; a longer one is
+  an ERROR and is skipped, with all its continuation lines. A token cannot
+  be split between two lines.
+- **Token length.** A token (a name, keyword or value between delimiters)
+  is used up to 32 characters. A longer word is cut to its first 32
+  characters with a WARNING; names of mesh objects, attributes and files
+  given to a command are therefore limited to 32 characters. A number
+  is read in full.
+- Messages about a line give its line number and file, for example
+  `ERROR: line 12 of input.lgi is too long:`.
 
 - Delimiters are comma, slash, equal sign, or blank. (',' '/', '=', ' ').
 

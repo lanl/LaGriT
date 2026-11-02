@@ -8,9 +8,9 @@ LaGriT V3.3.3 builds with and without Exodus on MacOS Intel and M1 machines on M
 
 LaGriT builds without Exodus are usually successful and recommended before building a version with Exodus.
 
-See **LaGriT/MAC-install-exodus.sh** which works for brew as well as macports. This script finds and sets compiler paths due to location and naming changes between homebrew and macports.
-
-See also **LaGriT/MAC_EnvironmentalVar.sh** for setting your compilers.
+To build with Exodus use `cmake .. -DLAGRIT_BUILD_EXODUS=ON -DLAGRIT_FETCH_EXODUS=ON` (see [README.md](README.md)).
+This works with Homebrew as well as MacPorts. Apple Clang has no Fortran, so cmake looks for gfortran-14, gfortran-13, gfortran-12, or gfortran in `/opt/homebrew/bin`, `/usr/local/bin`, and `/opt/local/bin`, then on your PATH. If none is found, install one with `brew install gcc` or `sudo port install gcc12`.
+The macOS system zlib is used, and HDF5 SZIP support is turned off so the build works on arm64 (M1 and newer).
 
 
 ### Compiler Errors
