@@ -1,0 +1,161 @@
+test_crush_thin_tets -- how crush_thin_tets moves a tet mesh from poor
+quality to better, and why some poor tets are left (user, Oct 21 2026:
+"I'd like to see some quality metrics so I can see how the algorithm
+moves from poor quality to better quality, and also identify why some
+poor quality cells remain"; "examples that use the 3D Poisson Disk code")
+=======================================================================
+
+QUICK START
+
+  sh run_crush_tests.sh [path-to-lagrit]     13 decks, about 15 s
+  open logs/summary.html
+
+  Default lagrit: build/lagrit of this LaGriT checkout.
+
+WORDS
+
+  Poor tets are SLIVER, WEDGE, NEEDLE and CAP (the user's words). Two
+  ways of sorting them are reported side by side:
+
+  Carl's classes (ex_id_tet_types; LaGriT computes the attributes in
+  ct_measure.mlgi, the checker applies the thresholds):
+    SLIVER  min dihedral <= 10, max dihedral >= 170, max solid angle <= 10
+    CAP     max solid angle >= 170
+    NEEDLE  edge ratio (shortest / longest) <= 0.1, min dihedral > 10
+    WEDGE   edge ratio <= 0.1, min dihedral <= 10
+    poor    any dihedral <= 10 or >= 170       (angles in degrees)
+
+  crush's view: crush_thin_tets works on every tet whose RELATIVE WIDTH
+  (smallest altitude / sqrt(sum of squared edge lengths / 9); 1 regular,
+  0 flat) is below TOLCRUSH (default 0.1), and sorts it by what comes
+  close, in this order: NEEDLE (two vertices: a short edge, merged;
+  tested at 1.2 x TOLCRUSH), WEDGE (a vertex near an edge: a point added
+  on the edge, the vertex merged onto it; 1.1 x TOLCRUSH), CAP (a vertex
+  near the opposite face: a point added on the face, the vertex merged
+  onto it or it into the vertex; switched off before Oct 2026), SLIVER
+  (two opposite edges nearly crossing: a point added on each, the two
+  merged). A thin tet that matches none is UNMATCHED. With a pset crush
+  works only on tets whose vertices are all in the pset or were added by
+  crush itself.
+  crush acts only if the worst tet around the change gets at least 1%
+  better, and repeats in trips (at most 10) until a trip changes nothing.
+
+THE DECKS
+
+  Planted (make_inputs.py): a regular lattice tet mesh (6 x 6 x 6
+  vertices, 750 tets, relative width 0.41 everywhere) with one vertex
+  moved to make one thin tet of a chosen kind; every tet stays valid.
+  ct01-ct04  NEEDLE, WEDGE, CAP, SLIVER inside the mesh
+  ct05-ct08  the same on the bottom boundary face (for CAP: an interior
+             vertex just above a boundary face)
+  ct09       every lattice vertex moved at random (thin tets of all kinds)
+  3D Poisson disk (createpts / poisson_disk / 3d_box / ... / connect):
+  ct10       unit cube, h = 0.1        (839 vertices, 3,780 tets)
+  ct11       unit cube, h graded 0.05 - 0.15 from a vertical line
+             (ct_h_field.mlgi; 447 vertices, 1,959 tets)
+  ct13       unit cube, h = 0.05           (5,630 vertices, 30,080 tets)
+  ct10, ct11 and ct13 are crushed at TOLCRUSH 0.1, 0.2 and 0.3, each from the
+  same mesh.
+  ct12       the ct10 mesh crushed at 0.3 with a pset (vertices below
+             z = 0.5): every tet with no vertex in the pset must be left
+             as it was
+
+  Moving one vertex to make a CAP always leaves another thin tet beside
+  it (a sliver); crush collapses that and the cap goes with it. A cap on
+  its own cannot be planted this way; the Poisson meshes show real ones.
+
+WHAT IS MEASURED (check_crush.py; definitions in its opening comment)
+
+  Before and after: vertices, tets, minimum relative width and the
+  number of tets below 0.05 / 0.1 / 0.2 / 0.3, LaGriT's aspect ratio,
+  min and max dihedral angle, Carl's classes, crush's view. Trip by
+  trip: the quality report crush prints at the start of each trip
+  (aspect ratio counts, tets) and the vertices merged in each trip.
+  Pictures: the tets below relative width 0.3, before and after.
+
+  Every tet still below TOLCRUSH afterwards is explained by replaying
+  crush's own decisions on the final mesh (crushlib.Mesh.replay, the
+  same steps as find_00, find_01, find_02, find_11 in
+  src/crush_thin_tets.f): every possible collapse leaves a neighbour no
+  better (not 1% better); boundary or material point types forbid the
+  merge; matched no case (no distance below TOLCRUSH x scale length);
+  outside the pset; and, for a LaGriT from before Oct 2026, CAP case
+  switched off. The checker picks the version of crush (the replay
+  models the current one and the older ones) under which crush would
+  do nothing more, since crush stops only then.
+
+  PASS / FAIL: LaGriT finished; every tet has positive volume; the total
+  volume is unchanged (1e-9); for "expect: removed", no tet is left
+  below TOLCRUSH; with "# pset:", no tet outside the pset changed.
+  Everything else is measured, not judged.
+
+FOUND (Oct 21-22 2026)
+
+  Tets left below TOLCRUSH 0.1 / 0.2 / 0.3 (ct13 h = 0.05, ct10 h = 0.1):
+
+                         ct13            ct10
+    before the fixes     3 / 36 / 301    0 / 1 / 27
+    1. scale fixed       0 / 24 / 242    0 / 2 / 36
+    2. + CAP case on     0 / 15 / 188    0 / 1 / 32
+    3. + ladder (now)    0 / 15 / 164    0 / 1 / 25
+  ct11 (graded): 0 / 0 / 8 before the fixes, 0 / 0 / 11 now (crush
+  adds 4% - 13% vertices; the 11 are 6 not-1%-better and 5 caps).
+
+  NOTE: until Oct 22 2026 ct_h_field.mlgi had four command lines longer
+  than 80 columns. LaGriT reads 80 columns of a line, so the rest was
+  cut off ("Illegal option or arguments to math") and the h field stayed
+  uniform: the deck then called "ct11 graded" was uniform h = 0.05. That
+  mesh is now ct13 (the numbers above are for it); ct11 is truly graded.
+  The checker now fails a deck that prints "Illegal option".
+
+  1. BUG, FIXED: the length every distance test is compared with
+     (TOLCRUSH x scale length) was the scale length of mesh vertices 1-4
+     for EVERY tet, not of the tet itself (local vertex numbers 1-4 used
+     as global ones). In ct13 it was 0.044 for tets near 0.07: real
+     slivers were passed over ("matched no case": 3 of 3 left at 0.1,
+     197 of 301 at 0.3). In ct10 it happened to be larger than the tets
+     (0.13), so crush acted more freely there.
+  2. FIXED: the CAP case was switched off (if (.false.) around find_02;
+     the face refinement it needs was half disabled). find_02 is
+     rewritten: the vertex nearest its opposite face (foot inside the
+     face, distance below TOLCRUSH x scale length) gets a point on that
+     face, and is merged onto it (or it into the vertex) if that makes
+     the worst tet around 1% better. Caps were the largest group left
+     (ct13 at 0.3: 169 of 242); now 80 of 164.
+  3. BUG, FIXED: len_iadd_tr was never set, so a second crush_thin_tets
+     in one run could write past the end of iadd_tr (a crash in a
+     Release build once the CAP case is on).
+  4. FIXED: the looser tolerances for NEEDLE (1.2 x) and WEDGE (1.1 x)
+     documented in the code were commented out; restored (ct13 at 0.3:
+     188 to 164; ct10: 32 to 25; nothing worse).
+  5. BUG, FIXED: the pset was ignored (its test commented out): crush
+     changed tets anywhere (ct12 on the old code: 253 tets outside the
+     pset changed). Now only tets whose vertices are all in the pset or
+     were added by crush.
+  6. What is left is the 1% rule: every tet still below TOLCRUSH is one
+     where each possible collapse would leave a neighbour no better
+     (ct13 at 0.3: 164 tets, 80 of them caps whose face merge would not
+     help; ct10: 25, 6 of them caps; the boundary sliver ct08).
+  7. crush MAKES caps: its edge splits and merges create tets with one
+     vertex just over a face. Carl's CAP count in ct13 goes from 0 to
+     56 at 0.2 and 31 at 0.3 (65 and 80 before the CAP case was on).
+  8. TOLCRUSH 0.1 (the default) is weaker than a 10 degree dihedral
+     rule: relative width 0.1 is about 5 degrees. ct13: Carl's "poor"
+     283 before, 185 after 0.1, 6 after 0.2, 2 after 0.3.
+  9. crush adds vertices (ct13: +2% at 0.1, +16% at 0.3) and never
+     smooths or reconnects (recon is commented out); maxtrip is fixed at
+     10 (the most any deck here used is 9: ct13 at 0.3).
+
+  The angle attributes this suite uses (ang_mind, ang_maxd, solid
+  angles) were themselves checked in ../test_element_angles.
+
+FILES
+
+  run_crush_tests.sh   runner (work/, logs/; WORK= and LOGS= may change them)
+  make_inputs.py       planted and jittered lattice meshes
+  crushlib.py          measures, classification, crush replay
+  check_crush.py       checker; writes logs/<tag>.json and .check
+  make_page.py         logs/summary.html
+  ct_measure.mlgi      Carl's attributes on a copy of the mesh
+  ct_h_field.mlgi      the graded h field for ct11
+  ct01-ct13 *.lgi      the decks

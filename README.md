@@ -132,26 +132,28 @@ $ python test/runtests.py --help
 
 
 The only LaGriT command used with ExodusII libs is `dump/exodus` and associated face set and node set commands.
-To include these commands you will need to install Seacas-Exodus.
+To include these commands you will need Seacas-Exodus (with Fortran support) and its HDF5 and NetCDF libraries.
 
-Use the install-exodus.sh or MAC_install-exodus.sh to Install Exodus and associated libraries. You can run the file or use the file as a guide to copy and paste commands for installation. The script provides the flags needed by LaGriT and will install seacas in the directory TPLs.
-
-For full and current Exodus Installation instructions, go to:
-[Seacas ExodusII](https://github.com/sandialabs/seacas)
-
-Install, configure, and build ExodusII with script (use MAC_install-exodus.sh for mac machines):
-
-```bash
-$ ./install-exodus.sh
-```
-
-Configure and build LaGriT using ExodusII libs:
+CMake can fetch, build, and link Exodus for you. This needs network access, git, make, and a Fortran compiler (on macOS install gfortran with `brew install gcc` or MacPorts).
 
 ```bash
 mkdir build/ && cd build/
-cmake .. -DLAGRIT_BUILD_EXODUS=ON
+cmake .. -DLAGRIT_BUILD_EXODUS=ON -DLAGRIT_FETCH_EXODUS=ON
 make
 ```
+
+During `make`, Seacas is cloned from GitHub and built with HDF5 and NetCDF into `build/_deps/seacas` before LaGriT is compiled. The first build takes several minutes. Later builds in the same directory reuse it.
+
+To use an existing Seacas install instead, point cmake at its install prefix (the directory with `lib/` and `include/`):
+
+```bash
+cmake .. -DLAGRIT_BUILD_EXODUS=ON -DEXODUS_ROOT=/path/to/seacas
+```
+
+If `EXODUS_ROOT` is not given, cmake looks in `$SEACAS_ROOT`, then `LaGriT/TPLs/seacas`, then `build/_deps/seacas`.
+
+For full and current Exodus Installation instructions, go to:
+[Seacas ExodusII](https://github.com/sandialabs/seacas)
 
 [Detailed Instructions for Building LaGriT with cmake and exodus](cmake/README.md)
 
@@ -164,17 +166,23 @@ To use cmake options, use -D as shown in this example:
 
 ```bash
 mkdir dir_name/ && cd dir_name/
-cmake .. -DCMAKE_BUILD_TYPE=Debug -DLAGRIT_BUILD_EXODUS=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DLAGRIT_BUILD_EXODUS=ON -DLAGRIT_FETCH_EXODUS=ON
 make
 ```
 
 - `-D CMAKE_BUILD_TYPE`
-  - Sets the build type. Choose between `Debug` and `Release`.
+  - Sets the build type: `Release` (default, optimized with `-O3`) or `Debug` (`-g`, no optimization and much slower).
 - `-D LAGRIT_BUILD_EXODUS=ON`
-  - Builds LaGriT with ExodusII if installed.
+  - Builds LaGriT with ExodusII (default `OFF`).
+- `-D LAGRIT_FETCH_EXODUS=ON`
+  - If Exodus is not found, fetches and builds Seacas/Exodus automatically (default `OFF`).
+- `-D EXODUS_ROOT=/path/to/seacas`
+  - Uses an existing Seacas install prefix containing `lib/` and `include/`.
+- `-D SEACAS_GIT_TAG=<tag>`
+  - Seacas branch or release tag to fetch (default `master`). Set a release tag for a reproducible build.
 - `-D CMAKE_INSTALL_PREFIX`
   - Sets where to install LaGriT when running `make install`. Defaults to `/usr/local/`.
-- `-D LaGriT_BUILD_STATIC`
+- `-D LAGRIT_BUILD_STATIC`
   - Builds LaGriT as a static binary (default; `ON`) or as a shared library (`.so`, `.dylib`, `.dll`)
 
 ### Supporting Documentation ###

@@ -71,6 +71,7 @@ C#######################################################################
 C
       implicit none
       include 'commands_lg.h'
+      include 'input_lines_lg.h'
       integer ierror
 
       integer icscode,nwds,jname,istrt,iend,i,nloop
@@ -123,6 +124,7 @@ c
          else
            nlevels=1
            clevels(nlevels)='interactive_lg'
+           nline_lg(nlevels)=0
          endif
          go to 100
       endif
@@ -177,6 +179,7 @@ c
            call writloga('default',0,error_msg,1,icscode)
          endif
          jlevels(nlevels)=iunit
+         nline_lg(nlevels)=0
          go to 100
 
 c  handle define commands
@@ -441,11 +444,14 @@ c  access cmd_stack
 c
 c  check that max length is not exceeded
 c
-      if(last_char+len_buff.gt.maxlen_stack) then
+c     grow until the command fits (a single step of 4096 was not
+c     enough for a long command pushed onto a non-empty stack: the
+c     copy below then wrote past the end of the stack)
+      do while(last_char+len_buff.gt.maxlen_stack)
          maxlen_stack=maxlen_stack+4096
          call mmincblk('cmd_stack',initname,ipcmd_stack,1024,
      *     icscode)
-      endif
+      enddo
 c
 c  make room for cmd_buff at front of cmd_stack
 C
@@ -710,7 +716,13 @@ C#######################################################################
 C
       implicit none
       include 'commands_lg.h'
+      include 'input_lines_lg.h'
       integer ifile,jstrt,ib,ie,icscode,ierror
+      integer ntot,ntc,ios,ibad,iline1
+      character*1 lastnb
+      character*1024 cl
+      character*100 cwhere
+      logical amp
       integer n_hits
       common /common_read_command_lg/ n_hits
       save /common_read_command_lg/
@@ -731,13 +743,17 @@ c
 c  read a line and look for continuation
 c
       jstrt=0
- 5    if(clevels(nlevels)(1:14).eq.'interactive_lg') then
-         read(*,'(a80)',end=1000) cmd_buff
-      else
-         read(ifile,'(a80)',end=1000) cmd_buff
-      endif
+c
+c  read a whole line, however long (read_line_lg.f). Lines were read
+c  with '(a80)' before, which dropped columns 81 on without a word.
+c
+ 5    call read_line_lg(ifile,cmd_buff,maxlen_buff,ntot,lastnb,ios)
+      if(ios.ne.0) go to 1000
+      nline_lg(nlevels)=nline_lg(nlevels)+1
+      iline1=nline_lg(nlevels)
 c
 c  check for comment - if so print and go to next command
+c  (a comment may be any length; its first 80 columns are shown)
 c
       if((cmd_buff(1:1).eq.'*').or.(cmd_buff(1:1).eq.'#')) then
          write(error_msg,'(a)')cmd_buff(1:80)
@@ -749,8 +765,19 @@ c
 c
 c  check for blank line - if so print and go to next command
 c
-      if(cmd_buff(1:80).eq.' ') then
+      if(ntot.eq.0) then
          write(*,'(a)')cmd_buff(1:80)
+         go to 5
+      endif
+c
+c  a line longer than LINE_NOTE_LEN is used, with a NOTE; one longer
+c  than LINE_MAX_LEN is an ERROR: the command and its continuation
+c  lines are skipped and reading goes on with the next command
+c
+      call check_line_len_lg(ntot,cmd_buff,iline1,ibad)
+      if(ibad.ne.0) then
+         amp=index(cmd_buff,'&').gt.0 .or. lastnb.eq.'&'
+         call skip_continuations_lg(ifile,amp)
          go to 5
       endif
 c
@@ -765,31 +792,44 @@ c
             jstrt=jstrt-1
          enddo
 c
-c  read continuation lines
+c  read continuation lines (same limits as the first line)
 c
-         if(clevels(nlevels)(1:14).eq.'interactive_lg') then
-            read(*,'(a80)',end=1000) cline
-         else
-            read(ifile,'(a80)',end=1000) cline
+         call read_line_lg(ifile,cl,len(cl),ntc,lastnb,ios)
+         if(ios.ne.0) go to 1000
+         nline_lg(nlevels)=nline_lg(nlevels)+1
+         if(ntc.eq.0) go to 9999
+         call check_line_len_lg(ntc,cl,nline_lg(nlevels),ibad)
+         if(ibad.ne.0) then
+            amp=index(cl,'&').gt.0 .or. lastnb.eq.'&'
+            call skip_continuations_lg(ifile,amp)
+            go to 5
          endif
-         if(cline.eq.' ') go to 9999
          ib=1
-         ie=80
-         dowhile (cline(ib:ib).eq.' ')
+         ie=ntc
+         dowhile (cl(ib:ib).eq.' ')
            ib=ib+1
          enddo
-         dowhile (cline(ie:ie).eq.' ')
-           ie=ie-1
-         enddo
          if(jstrt+ie-ib.gt.maxlen_buff) then
-            write(error_msg,9001)
- 9001       format('max command buffer length exceeded-command ignored')
+c           the joined command is too long: skip it and its other
+c           continuation lines, and go on with the next command
+c           (this returned a blank command before, which made LaGriT
+c           give up the input file)
+            call input_line_where_lg(iline1,cwhere)
+            write(error_msg,'(a,a,a)') 'ERROR: the command at ',
+     *         cwhere(1:len_trim(cwhere)),' is too long:'
+            call writloga('default',1,error_msg,0,icscode)
+            write(error_msg,'(a,i0,a)')
+     *         '  joined with its continuation lines it has over ',
+     *         maxlen_buff,' characters.'
             call writloga('default',0,error_msg,0,icscode)
-            ierror=1
+            write(error_msg,'(a)') '  Command skipped.'
+            call writloga('default',0,error_msg,1,icscode)
+            amp=index(cl,'&').gt.0 .or. lastnb.eq.'&'
+            call skip_continuations_lg(ifile,amp)
             cmd_buff=' '
-            go to 9999
+            go to 5
          endif
-         cmd_buff(jstrt:jstrt+ie-ib)=cline(ib:ie)
+         cmd_buff(jstrt:jstrt+ie-ib)=cl(ib:ie)
          go to 10
       endif
 c
