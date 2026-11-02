@@ -1,0 +1,17 @@
+#####################################################################
+# el07_tet.lgi
+#
+# A 2 x 2 x 2 brick of unit cubes, 6 tets each (hextotet): edges 1,
+# sqrt(2) and sqrt(3); an edge shared by many tets counts once.
+#
+# check : el07_out.inp
+#####################################################################
+cmo / create / mohex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 2. 2. 2. / 1 1 1
+hextotet / 6 / mo / mohex
+cmo / select / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el07_out.inp / mo
+finish

@@ -32,9 +32,16 @@ C
       integer i,j,istrt,length,inum,k,icharlnb
       logical isintgr,isreal
       real*8 xnum
+      integer lcm,ierrw
+      character*132 cmsg
 
       lenparse=icharlnb(command)
 C
+C     a token longer than cmsgout (32) is stored cut to that length,
+C     with a WARNING if it is a word; numbers are read from the full
+C     text. (The copy wrote past the token before, into the next
+C     token's place or past the last one.)
+      lcm=len(cmsgout(1))
       nwds=0
       inum=0
       xnum=0.0d0
@@ -58,7 +65,7 @@ C  look for delimiter break off a token
      *     command(j:j).ne.';'.and. command(j:j).ne.'/' .and.
      *     command(j:j).ne.char(0) .and. j.le.lenparse)
            i=i+1
-           cmsgout(nwds)(i:i)=command(j:j)
+           if(i.le.lcm) cmsgout(nwds)(i:i)=command(j:j)
            j=j+1
            if(j.gt.lenparse) go to 20
          enddo
@@ -68,23 +75,34 @@ C  figure out what kind of token
          imsgout(nwds)=0
          xmsgout(nwds)=0.
 c  if length is zero fill in the default token
-         if(length.eq.0.or.cmsgout(nwds)(1:length).eq.' ') then
+         if(length.eq.0.or.cmsgout(nwds)(1:min(length,lcm)).eq.' ')
+     *      then
             cmsgout(nwds)='-def-'
             go to 25
          endif
          inum=0
          xnum=0.0d0
-         call isinteger_lg(cmsgout(nwds),length,inum,isintgr)
+         call isinteger_lg(command(istrt:istrt+length-1),length,
+     *        inum,isintgr)
          if(isintgr) then
             imsgout(nwds)=inum
             xmsgout(nwds)=inum
             msgtype(nwds)=1
          else
-            call isrl_lg(cmsgout(nwds),length,xnum,isreal)
+            call isrl_lg(command(istrt:istrt+length-1),length,xnum,
+     *           isreal)
             if(isreal) then
                 xmsgout(nwds)=xnum
                 msgtype(nwds)=2
             endif
+         endif
+         if(length.gt.lcm .and. msgtype(nwds).eq.3) then
+            write(cmsg,'(a,i0,a,i0,a,i0,a)') 'WARNING: token ',nwds,
+     *        ' has ',length,' characters; LaGriT uses the first ',
+     *        lcm,':'
+            call writloga('default',0,cmsg,0,ierrw)
+            write(cmsg,'(a,a,a)') '  "',cmsgout(nwds)(1:lcm),'"'
+            call writloga('default',0,cmsg,0,ierrw)
          endif
 C  look for next token
 25       istrt=j+1

@@ -1,0 +1,20 @@
+# it04_pset.lgi
+# As it01, but only the vertices below z = 0.5 are in the pset: the
+# vertices at or above z = 0.5 must not move, and the tets with a
+# vertex there must not change.
+# check: valid pset_z_below_0.5
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo / 0.1 / connect
+resetpts / itp
+dump / avs / it04_before.inp / mo
+pset / p_low / attribute / zic / 1 0 0 / lt / 0.5
+improve_tets / mo / pset,get,p_low
+dump / avs / it04_after.inp / mo
+finish

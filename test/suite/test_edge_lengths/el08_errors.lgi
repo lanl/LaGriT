@@ -1,0 +1,17 @@
+#####################################################################
+# el08_errors.lgi
+#
+# No attribute name: an error, nothing made; then a valid call works.
+#
+# refused : edge_lengths_min needs an attribute name
+# refused : edge_lengths_mean needs an attribute name
+# check : el08_out.inp
+#####################################################################
+read / avs / el_equi.inp / mo
+cmo / addatt / mo / edge_lengths_min
+cmo / addatt / mo / edge_lengths_mean / -def-
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el08_out.inp / mo
+finish

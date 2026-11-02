@@ -1,0 +1,82 @@
+test_element_angles -- LaGriT's cell angle and quality attributes,
+checked against an independent computation (user, Oct 22 2026: "check
+for any inconsistency or bugs in the code that computes" the ang_*,
+solid angle, aspect, edge_ratio, edge_min and edge_max attributes)
+=======================================================================
+
+QUICK START
+
+  sh run_angle_tests.sh [path-to-lagrit]     4 decks, about 1 s
+  open logs/summary.html
+
+WHAT IS CHECKED (check_angles.py; definitions in its opening comment)
+
+  cmo / addatt / MO / ang_mind (ang_minr, ang_maxd, ang_maxr) / ATT
+      min / max dihedral angle, degrees / radians (src/cmo_addatt.f,
+      dihangle_element.f, dihangle_face.f)
+  cmo / addatt / MO / ang_mind_solid (ang_minr_solid, ang_maxd_solid,
+      ang_maxr_solid) / ATT
+      min / max solid angle at the vertices of a tet (solid_angle_lg.f)
+  quality / aspect / y       aratio   (aratio_element.f and aratio_*.f)
+  quality / edge_ratio / y   eratio   (aratio_element_edge.f)
+  quality / edge_min / y     edgemin
+  quality / edge_max / y     edgemax
+
+  ea01_tets   213 tets: regular, corner, needle, cap, wedge, slivers,
+              nearly and exactly flat tets, 200 random tets (about half
+              inverted), an inverted regular tet; every value against
+              the reference (1e-6)
+  ea02_thin   24 slivers of height 1e-4 ... 1e-14: no angle may be lost
+  ea03_solid  hex, prism, pyramid: known values
+  ea04_2d     triangle, quad: known values
+  Every deck: degrees = radians x 180 / pi, min <= max, eratio =
+  edgemin / edgemax.
+
+FOUND (Oct 22 2026)
+
+  1. BUG, FIXED: in a flat or nearly flat cell rounding put the
+     cosine of an angle just outside [-1, 1] (for example
+     1.0000000000000002); acos gave NaN and the angle was silently
+     skipped. A flat tet then had ang_mind = 458.4 and ang_maxd =
+     -458.4 (the starting values +-8 radians), and a sliver of relative
+     height 1e-9 or less lost its solid angles (s_maxd = -5.7e21: the
+     starting value -1e20 radians). Where only some angles were lost the
+     min or max was taken over the rest. Fixed by keeping the cosine in
+     [-1, 1] in dihangle_face.f, dihangle_element.f (triangles and
+     quads) and solid_angle_lg.f.
+  2. FIXED: solid_angle_lg.f used pi = 3.14159265358, which put 5.6e-10
+     "degrees" on every solid angle (the corner of a unit cube came out
+     90.0000000006) and could make the solid angle of a flat vertex
+     slightly negative. Now acos(-1), and the result is kept >= 0.
+  3. FIXED (comment only): the descriptions of ang_maxd_solid and
+     ang_minr_solid at the top of cmo_addatt.f were swapped (min / max,
+     degrees / radians). The code was right.
+  4. Not changed, but worth knowing:
+     - The solid angle "degrees" are steradians x 180 / pi (not square
+       degrees): a regular tet 31.59, a full sphere 720, the largest
+       possible value (a vertex lying in the opposite face) 360. Carl's
+       CAP rule s_maxd >= 170 is in these units.
+     - On cells that are not tets the solid angle attributes hold a
+       special value, 99999 / -99999 radians; in the degree attributes
+       that becomes 5.7e6 / -5.7e6 (the warning prints the radian
+       value).
+     - quality / aspect is 3 r_in / R_circ for tets and 2 r_in / R_circ
+       for triangles, but the shortest / longest DIAGONAL for quads and
+       hexes, and 0 for prisms and pyramids. It is the absolute value,
+       so an inverted tet has a positive aspect ratio (only the volume
+       shows the inversion).
+     - One quality command computes ONE of aspect, edge_ratio, edge_min,
+       edge_max: "quality / aspect / y / edge_ratio / y" makes only
+       aratio. Use one command for each.
+     - The attributes quality makes are named aratio, eratio, edgemin
+       and edgemax (not edge_min / edge_max).
+     - Everything else agreed with the reference to 1e-9 or better on
+       all 213 tets, including the inverted ones, and on the hex,
+       prism, pyramid, triangle and quad.
+
+FILES
+
+  run_angle_tests.sh     runner (work/, logs/; WORK= and LOGS= may change them)
+  make_angle_inputs.py   the meshes
+  check_angles.py        reference computation, checks, logs/summary.html
+  ea01-ea04 *.lgi        the decks
