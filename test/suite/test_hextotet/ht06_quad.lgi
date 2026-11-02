@@ -1,0 +1,21 @@
+#####################################################################
+# ht06_quad.lgi
+#
+# 3 x 2 quads (1 x 0.5) with two materials and f: quad to 2 and to 4
+# triangles, by hextotet and by grid2grid.
+#
+# split : ht06_t2.inp quad_grid.inp 2
+# split : ht06_t4.inp quad_grid.inp 4
+# same  : ht06_t2.inp ht06_g2.inp
+# same  : ht06_t4.inp ht06_g4.inp
+#####################################################################
+read / avs / quad_grid.inp / moq
+hextotet / 2 / mt2 / moq
+dump / avs / ht06_t2.inp / mt2
+hextotet / 4 / mt4 / moq
+dump / avs / ht06_t4.inp / mt4
+grid2grid / quadtotri2 / mg2 / moq
+dump / avs / ht06_g2.inp / mg2
+grid2grid / quadtotri4 / mg4 / moq
+dump / avs / ht06_g4.inp / mg4
+finish

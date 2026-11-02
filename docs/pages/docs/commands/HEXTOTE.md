@@ -55,6 +55,8 @@ The selections include:
  **24**   hex to 24 tets, seven new points (1 + 6 faces).
 
 
+Each option needs the matching cell type: 2 and 4 quad, 3, 14 and 18 prism, 4 pyramid (in a 3D mesh), 5, 6 and 24 hex. If any cell of the source mesh does not fit the option (for example 14 on a hex mesh), the command stops with an error and nothing is made. For a pyramid, option 4 adds one vertex at the centre of the base and makes 4 tets, each with the apex, one base edge and the new vertex.
+
 *`cmo_snk / cmo_src`* : are the mesh_object names. cmo_src is the
 original grid. cmo_snk is the name for the new tet or triangle grid.
 

@@ -1,0 +1,28 @@
+#####################################################################
+# ht04_prism_2mat.lgi
+#
+# 16 prisms (2 layers, both diagonals of the base squares) with two
+# materials and the linear field f, split by hextotet and grid2grid.
+# Option 14 crashed before the fix of issue #214.
+#
+# split : ht04_t3.inp  prism_2mat.inp 3
+# split : ht04_t14.inp prism_2mat.inp 14
+# split : ht04_t18.inp prism_2mat.inp 18
+# same  : ht04_t3.inp  ht04_g3.inp
+# same  : ht04_t14.inp ht04_g14.inp
+# same  : ht04_t18.inp ht04_g18.inp
+#####################################################################
+read / avs / prism_2mat.inp / mopri
+hextotet / 3 / mt3 / mopri
+dump / avs / ht04_t3.inp / mt3
+hextotet / 14 / mt14 / mopri
+dump / avs / ht04_t14.inp / mt14
+hextotet / 18 / mt18 / mopri
+dump / avs / ht04_t18.inp / mt18
+grid2grid / prismtotet3 / mg3 / mopri
+dump / avs / ht04_g3.inp / mg3
+grid2grid / prismtotet14 / mg14 / mopri
+dump / avs / ht04_g14.inp / mg14
+grid2grid / prismtotet18 / mg18 / mopri
+dump / avs / ht04_g18.inp / mg18
+finish

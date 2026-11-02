@@ -1,0 +1,15 @@
+#####################################################################
+# ht07_pyramid.lgi
+#
+# The unit cube as 6 pyramids (apex at the centre) with f: pyramid to
+# 4 tets, one new vertex at the centre of each base.
+#
+# split : ht07_t4.inp pyr_cube.inp 4
+# same  : ht07_t4.inp ht07_g4.inp
+#####################################################################
+read / avs / pyr_cube.inp / mopyr
+hextotet / 4 / mt4 / mopyr
+dump / avs / ht07_t4.inp / mt4
+grid2grid / pyrtotet4 / mg4 / mopyr
+dump / avs / ht07_g4.inp / mg4
+finish

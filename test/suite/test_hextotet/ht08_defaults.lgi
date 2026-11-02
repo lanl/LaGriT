@@ -1,0 +1,24 @@
+#####################################################################
+# ht08_defaults.lgi
+#
+# hextotet with no option uses the mesh type (documented: hex 6,
+# prism 3, quad 2, pyramid 4). A quad mesh used to get 24.
+#
+# split : ht08_hex.inp   hex_2mat.inp   6
+# split : ht08_prism.inp prism_2mat.inp 3
+# split : ht08_quad.inp  quad_grid.inp  2
+# split : ht08_pyr.inp   pyr_cube.inp   4
+#####################################################################
+read / avs / hex_2mat.inp / mohex
+hextotet / / mth / mohex
+dump / avs / ht08_hex.inp / mth
+read / avs / prism_2mat.inp / mopri
+hextotet / / mtp / mopri
+dump / avs / ht08_prism.inp / mtp
+read / avs / quad_grid.inp / moq
+hextotet / / mtq / moq
+dump / avs / ht08_quad.inp / mtq
+read / avs / pyr_cube.inp / mopyr
+hextotet / / mty / mopyr
+dump / avs / ht08_pyr.inp / mty
+finish

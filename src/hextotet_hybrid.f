@@ -336,6 +336,7 @@ C
       integer ioption, numhex, numtet, imesh_type
       integer npoints, npoints1, ipointi,ipointj, icount, iwcnt
       integer ierror_return, iwerr, ier, ierr, ierror, icscode, ier1
+      integer ierr_typ
       integer icskid, iout, imtmax, ntstart, ntetstart,
      *        ilen, ityp, lencmo, itpcmo, nsdgeomhex, length,
      *        nsdtopo, nsdgeom, nen, nef, ntet,nee,
@@ -470,7 +471,9 @@ c     Get the mesh type of the incoming cmo
           call writloga('default',0,wlog,1,ier)
       endif
       if (ioption.eq.-2) then
-        if (imesh_type.eq.ifelmtri) then
+C       A quad mesh fell through to 24 (tets from quads); the
+C       documented default for quad is 2.
+        if (imesh_type.eq.ifelmtri .or. imesh_type.eq.ifelmqud) then
            ioption = 2
         elseif (imesh_type.eq.ifelmhex) then
            ioption = 6
@@ -546,6 +549,14 @@ C
       call cmo_get_info('itet',cmohex,ipihexnn,lenihex,icmotype,ierror)
       call cmo_get_info('jtet',cmohex,ipjhexnn,lenjhex,icmotype,ierror)
       if(ierror.ne.0) call x3d_error(isubname,'get_info')
+C
+C     Refuse an option that does not fit the source cells (#214).
+      call hextotet_check_types(ioption,ihextyp,ihexclr,numhex,
+     *     nsdtopohex,ierr_typ)
+      if(ierr_typ.ne.0) then
+         ierror=1
+         goto 8888
+      endif
  
 C
 C     ******************************************************************
@@ -1213,7 +1224,10 @@ c     call cmo_get_info('iign',cmotet,ipiign,leniign,icmotype,ierror)
       endif
  
 c assign values from cmohex to cmotet
-      do i1=1,npoints
+c     Only the npstart source vertices exist in cmohex; the new ones
+c     (npstart+1 to npoints) are set just below. Looping to npoints
+c     read past the end of the source arrays (#214, valgrind).
+      do i1=1,npstart
          imt1(i1)=imt1hex(i1)
          itp1(i1)=itp1hex(i1)
          icr1(i1)=icr1hex(i1)
@@ -1893,204 +1907,48 @@ C        ioption =  4 ==>  4 TRIANGLES PER QUAD, 1 NEW POINT PER QUAD
                   enddo
                enddo
             elseif(nsdtopohex.eq.3) then
-               lalias(7)=npstart+ih1
-               icount=0
-               do i=1,nelmnef(ihextyp(ih1))
-                  if(ielmface0(i,ihextyp(ih1)) .eq.
-     *               nelmnen(ifelmqud)) then
-                     icount=icount+1
-                     lalias(icount+nelmnen(ihextyp(ih1)))=
-     *                  ktet(jhexoff(ih1)+i)
-                     do j=1,ielmface0(i,ihextyp(ih1))
-                        jp1=j+1
-                        if(jp1.gt.ielmface0(i,ihextyp(ih1))) jp1=1
-                        ntet=ntet+1
-                        itetclr(ntet)=ihexclr(ih1)
-                        itettyp(ntet)=ifelmtet
-                        itetoff(ntet)=itoff
-                        jtetoff(ntet)=jtoff
-                        itoff=itoff+nelmnen(itettyp(ntet))
-                        jtoff=jtoff+nelmnef(itettyp(ntet))
-                        itet1(itetoff(ntet)+1)=7
-                        itet1(itetoff(ntet)+2)=
-     *                     ielmface1(j,i,ihextyp(ih1))
-                        itet1(itetoff(ntet)+3)=
-     *                     ielmface1(jp1,i,ihextyp(ih1))
-                        itet1(itetoff(ntet)+4)=i+nelmnen(ihextyp(ih1))
-                     enddo
-                  elseif(ielmface0(i,ihextyp(ih1)).eq.
-     *                   nelmnen(ifelmtri)) then
-                        ntet=ntet+1
-                        itetclr(ntet)=ihexclr(ih1)
-                        itettyp(ntet)=ifelmtet
-                        itetoff(ntet)=itoff
-                        jtetoff(ntet)=jtoff
-                        itoff=itoff+nelmnen(itettyp(ntet))
-                        jtoff=jtoff+nelmnef(itettyp(ntet))
-                        itet1(itetoff(ntet)+1)=7
-                        itet1(itetoff(ntet)+2)=itet1(itetoff(ih1)+
-     *                                      ielmface1(1,i,ihextyp(ih1)))
-                        itet1(itetoff(ntet)+3)=itet1(itetoff(ih1)+
-     *                                      ielmface1(2,i,ihextyp(ih1)))
-                        itet1(itetoff(ntet)+4)=itet1(itetoff(ih1)+
-     *                                      ielmface1(3,i,ihextyp(ih1)))
-                  endif
-               enddo
-               imt1(lalias(7))=0
-               itp1(lalias(7))=0
-               icr1(lalias(7))=0
-               iign(lalias(7))=0
-               xic2(lalias(7))=0.0
-               yic2(lalias(7))=0.0
-               zic2(lalias(7))=0.0
-               itp=0
-               icr=9999999
-               ign=0
-               ict=0
-               do i=1,nelmnen(ihextyp(ih1))
-                  i1=ihexnn1(ihexoff(ih1)+i)
-                  itp=max(itp,itp1(i1))
-                  icr=min(icr,icr1(i1))
-                  ign=max(ign,iign(i1))
-                  xr=xic2(i1)
-                  yr=yic2(i1)
-                  zr=zic2(i1)
-                  xic2(lalias(7))=xic2(lalias(7))+xr
-                  yic2(lalias(7))=yic2(lalias(7))+yr
-                  zic2(lalias(7))=zic2(lalias(7))+zr
-                  rad1=rad1+sqrt(xr*xr+yr*yr+zr*zr)
-               enddo
-               imt1(lalias(7))=ihexclr(ih1)
-               itp1(lalias(7))=itp
-               icr1(lalias(7))=icr
-               iign(lalias(7))=1+ign
-               xic2(lalias(7))=xic2(lalias(7))/nelmnen(ihextyp(ih1))
-               yic2(lalias(7))=yic2(lalias(7))/nelmnen(ihextyp(ih1))
-               zic2(lalias(7))=zic2(lalias(7))/nelmnen(ihextyp(ih1))
-               rad1=rad1/dble(nelmnen(ihextyp(ih1)))
-               rad2=sqrt(xic2(lalias(7))**2+
-     *                   yic2(lalias(7))**2+
-     *                   zic2(lalias(7))**2)
-               if(iradavg.eq.1) then
-                  xic2(lalias(7))=xic2(lalias(7))*rad1/rad2
-                  yic2(lalias(7))=yic2(lalias(7))*rad1/rad2
-                  zic2(lalias(7))=zic2(lalias(7))*rad1/rad2
-               endif
-               icount=0
-               do i=1,nelmnef(ihextyp(ih1))
-                  if(ielmface0(i,ihextyp(ih1)) .eq.
-     *               nelmnen(ifelmqud)) then
-                     icount=icount+1
-                     lalias8=lalias(icount+nelmnen(ihextyp(ih1)))
-                     ict=0
-                     imt1(lalias8)=imt1(
-     *                              ihexnn1(
-     *                                 ihexoff(ih1)+
-     *                                 ielmface1(1,i,ihextyp(ih1))))
-                     itp1(lalias8)=0
-                     icr1(lalias8)=0
-                     iign(lalias8)=0
-                     xic2(lalias8)=0.0
-                     yic2(lalias8)=0.0
-                     zic2(lalias8)=0.0
-                     if(ifvels) then
-                        vels(1,lalias8)=0.0
-                        vels(2,lalias8)=0.0
-                        vels(3,lalias8)=0.0
+C              Pyramid to 4 tets: one new vertex at the centre of the
+C              base (vertices 1-4; vertex 5 is the apex); it and its
+C              attributes are set in the interpolation pass below.
+C              Each tet is apex, one base edge, base centre, in the
+C              order of the 24-tet hex split (inside point, face edge,
+C              face centre). The code here before was the 14/18 prism
+C              split: 8 tets and 2 new vertices per pyramid, written
+C              past arrays sized for 4 and 1 (memory corrupted).
+C              (Format 9080 lived in that code; other options use it.)
+ 9080          format("Error in assigning node color:",
+     *         " element=",i10," face=",i3," node=",i10)
+               if(ihextyp(ih1).eq.ifelmpyr) then
+                  lalias(7)=npstart+ih1
+                  do i=1,nelmnef(ifelmpyr)
+                     if(ielmface0(i,ifelmpyr).eq.
+     *                  nelmnen(ifelmqud)) then
+                        do j=1,4
+                           jp1=j+1
+                           if(jp1.gt.4) jp1=1
+                           ntet=ntet+1
+                           itetclr(ntet)=ihexclr(ih1)
+                           itettyp(ntet)=ifelmtet
+                           itetoff(ntet)=itoff
+                           jtetoff(ntet)=jtoff
+                           itoff=itoff+nelmnen(itettyp(ntet))
+                           jtoff=jtoff+nelmnef(itettyp(ntet))
+                           itet1(itetoff(ntet)+1)=5
+                           itet1(itetoff(ntet)+2)=
+     *                        ielmface1(j,i,ifelmpyr)
+                           itet1(itetoff(ntet)+3)=
+     *                        ielmface1(jp1,i,ifelmpyr)
+                           itet1(itetoff(ntet)+4)=7
+                        enddo
                      endif
-                     if(ifdens) then
-                        dens(lalias8)=0.0
-                     endif
-                     if(ifpres) then
-                        pres(lalias8)=0.0
-                     endif
-                     rad1=0.0
-                     itp=0
-                     icr=999999
-                     ign=0
-                     do j=1,ielmface0(i,ihextyp(ih1))
-                        i1=ihexnn1(ihexoff(ih1)+
-     *                             ielmface1(j,i,ihextyp(ih1)))
-                        imt=imt1(i1)
-                        if(imt1(lalias8).eq.imt) ict=ict+1
-                        itp=max(itp,itp1(i1))
-                        icr=min(icr,icr1(i1))
-                        ign=max(ign,iign(i1))
-                        xr=xic2(i1)
-                        yr=yic2(i1)
-                        zr=zic2(i1)
-                        xic2(lalias8)=xic2(lalias8)+xr
-                        yic2(lalias8)=yic2(lalias8)+yr
-                        zic2(lalias8)=zic2(lalias8)+zr
-                        rad1=rad1+sqrt(xr*xr+yr*yr+zr*zr)
-                     enddo
-                     itp1(lalias8)=itp
-                     icr1(lalias8)=icr
-                     iign(lalias8)=1+ign
-                     if(ict.ne.ielmface0(i,ihextyp(ih1))) then
-                        if(jhexnn1(jhexoff(ih1)+i).eq.mbndry) then
-                           jt=0
-                           jf=0
-                        elseif(jhexnn1(jhexoff(ih1)+i).gt.0 .and.
-     *                         jhexnn1(jhexoff(ih1)+i).lt.mbndry) then
-                           jt=1+(jhexnn1(jhexoff(ih1)+i)-1)/
-     *                           nefhex
-                           jf=jhexnn1(jhexoff(ih1)+i) -
-     *                           nefhex*(jt-1)
-                        elseif(jhexnn1(jhexoff(ih1)+i).gt.mbndry) then
-                           jt=1+(jhexnn1(jhexoff(ih1)+i)-mbndry-1)/
-     *                             nefhex
-                           jf=jhexnn1(jhexoff(ih1)+i) -
-     *                           nefhex*(jt-1) -
-     *                              mbndry
-                        endif
-                        imtel1=ihexclr(ih1)
-                        if(jt.eq.0) then
-                           imt1(lalias8)=imtel1
-                        else
-                           jhex=jt
-                           if(jhex.gt.0.and.jhex.le.numhex) then
-                              imtel2=ihexclr(jt)
-                           else
-                              imtel2=imtel1
-                           endif
-                           if(imtel1.eq.imtel2) then
-                              imt1(lalias8)=imtel1
-                           else
-                              if(iwcnt.le.20 .or. idebug.gt.0) then
-                                write(wlog,9080) ih1,i,lalias8
-                                call writloga(
-     *                             'default',0,wlog,0,iwerr)
- 9080                           format("Error in assigning node color:",
-     *                         " element=",i10," face=",i3," node=",i10)
-                              endif
-                              iwcnt=iwcnt+1
-                              imt1(lalias8)=imtel1
-                          endif
-                        endif
-                     endif
-                     xic2(lalias8)=xic2(lalias8) /
-     *                             ielmface0(i,ihextyp(ih1))
-                     yic2(lalias8)=yic2(lalias8) /
-     *                             ielmface0(i,ihextyp(ih1))
-                     zic2(lalias8)=zic2(lalias8) /
-     *                             ielmface0(i,ihextyp(ih1))
-                     rad1=rad1/ielmface0(i,ihextyp(ih1))
-                     rad2=sqrt(xic2(lalias8)**2+
-     *                         yic2(lalias8)**2+
-     *                         zic2(lalias8)**2)
-                     if(iradavg.eq.1) then
-                        xic2(lalias8)=xic2(lalias8)*rad1/rad2
-                        yic2(lalias8)=yic2(lalias8)*rad1/rad2
-                        zic2(lalias8)=zic2(lalias8)*rad1/rad2
-                     endif
-                  endif
-               enddo
-               do it=ntstart+1,ntet
-                  do i=1,nelmnen(itettyp(it))
-                     itet1(itetoff(it)+i)=lalias(itet1(itetoff(it)+i))
                   enddo
-               enddo
+                  do it=ntstart+1,ntet
+                     do i=1,nelmnen(itettyp(it))
+                        itet1(itetoff(it)+i)=
+     *                     lalias(itet1(itetoff(it)+i))
+                     enddo
+                  enddo
+               endif
             endif
  
 C        ioption =  5 ==>  5 TETS PER HEX, NO NEW POINTS
@@ -3031,7 +2889,12 @@ C  get work space for cmo_interpolate
           call mmgetblk('xweight',isubname,ipxweight,length,2,ier)
       elseif(ioption.eq.14) then
           nelmadd1=1+3
-          nelmadd2=nelmnen(ifelmpyr)
+C         Slot 1 is the prism centroid (6 vertices), slots 2-4 the
+C         quad face centres; nelmadd2 must hold 6 (#214: it held 5,
+C         the pyramid count, and the face slots were indexed by face
+C         number 3-5 instead of quad count 1-3, writing past the
+C         arrays).
+          nelmadd2=nelmnen(ifelmpri)
           length=nelmadd1*numhex
           call mmgetblk('list',isubname,iplist,length,1,ier)
           length=nelmadd1*nelmadd2*numhex
@@ -3416,7 +3279,9 @@ C*****               if(ialiasp(i1).eq.i1) then
             icr=9999999
             ign=0
             ict=0
-            do i=1,nelmnen(ihextyp(ih))
+C           Quad: the centre of the quad. Pyramid: the centre of the
+C           base, vertices 1-4 (not 5, the apex).
+            do i=1,min(4,nelmnen(ihextyp(ih)))
                i1=ihexnn1(ihexoff(ih)+i)
 C*****         if(ialiasp(i1).eq.i1) then
                if(i1.eq.i1) then
@@ -3576,7 +3441,7 @@ C*****         if(ialiasp(i1).eq.i1) then
                if(ielmface0(i,ihextyp(ih)).eq.nelmnen(ifelmqud)) then
                   icount=icount+1
                   lalias8=lalias(icount+nelmnen(ihextyp(ih)))
-                  list(nelmadd1*(ih-1)+1+i)=lalias8
+                  list(nelmadd1*(ih-1)+1+icount)=lalias8
                   if(jhexnn1(jhexoff(ih)+i).eq.mbndry) then
                      jt=0
                      jf=0
@@ -3621,7 +3486,7 @@ C*****         if(ialiasp(i1).eq.i1) then
 C*****               if(ialiasp(i1).eq.i1) then
                      if(i1.eq.i1) then
                         ilist(nelmadd1*nelmadd2*(ih-1)+
-     *                        nelmadd2*i+j)=i1
+     *                        nelmadd2*icount+j)=i1
                         ict1=ict1+1
                         xr=xic2(i1)
                         yr=yic2(i1)
@@ -3647,7 +3512,7 @@ C*****               if(ialiasp(i1).eq.i1) then
                         endif
                         rad1=rad1+sqrt(xr*xr+yr*yr+zr*zr)
                         xweight(nelmadd1*nelmadd2*(ih-1)+
-     *                          nelmadd2*i+j)=1.0d+00
+     *                          nelmadd2*icount+j)=1.0d+00
                      endif
                   enddo
                   if(ict1.gt.0) then

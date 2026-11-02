@@ -1,0 +1,99 @@
+test_hextotet -- the commands hextotet and grid2grid (Oct 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_hextotet_tests.sh [path-to-lagrit]     9 decks, under 1 s
+  open logs/summary.html
+
+WHAT IS TESTED
+
+  hextotet / N / mo_sink / mo_source splits every cell of the source
+  mesh; grid2grid / name / mo_sink / mo_source is the same command with
+  readable option names (it calls hextotet). The options:
+
+     2  quad    -> 2 triangles                       quadtotri2
+     4  quad    -> 4 triangles, + the quad centre     quadtotri4
+     4  pyramid -> 4 tets, + the base centre          pyrtotet4
+     3  prism   -> 3 tets                             prismtotet3
+     5  hex     -> 5 tets                             hextotet5
+     6  hex     -> 6 tets                             hextotet6
+    14  prism   -> 14 tets, + centroid, 3 quad face centres
+                                                      prismtotet14
+    18  prism   -> 18 tets, + centroid, 5 face centres prismtotet18
+    24  hex     -> 24 tets, + centroid, 6 face centres hextotet24
+  (no N)   the mesh type decides: hex 6, prism 3, quad 2, pyramid 4
+
+THE DECKS
+
+  ht01_hex_brick     the hex part of the deck in issue #214: a 2x2x2
+                     createpts brick to 5, 6, 24
+  ht02_hex_2mat      2x2x2 hexes, two materials, vertex field f: 5, 6,
+                     24 by hextotet and by grid2grid (same files)
+  ht03_hex_jitter    3x3x3 hexes, interior vertices moved (warped inner
+                     faces, flat outside): 5, 6, 24 must still conform
+  ht04_prism_2mat    16 prisms, both diagonals, two materials, f: 3,
+                     14, 18 by hextotet and grid2grid
+  ht05_prism_stack   the prism part of issue #214 (stack / fill), in
+                     its order 3, 18, 14
+  ht06_quad          3x2 quads: 2 and 4, hextotet and grid2grid
+  ht07_pyramid       the unit cube as 6 pyramids: 4, both commands
+  ht08_defaults      no option, on hex, prism, quad and pyramid meshes
+  ht09_refused       options that do not fit the cells (3, 14, 18 on
+                     hexes; 24, 5 on prisms; an unknown grid2grid name):
+                     refused with a message, LaGriT carries on, and a
+                     valid split after them still works
+
+  Header lines at the top of each deck say what to check:
+    # split   : OUT.inp SRC.inp N   OUT must be SRC split by option N
+    # same    : A.inp B.inp         the two files must be identical
+    # refused : TEXT                TEXT must be in the deck's output
+  The sources are made by make_hextotet_inputs.py (fixed seed) or by
+  the deck itself (ht01, ht05 dump theirs).
+
+WHAT IS CHECKED (check_hextotet.py; definitions in its opening comment)
+
+  Every deck: LaGriT finished; no MMVERIFY message, no signal, no
+  FATAL. Every split, against answers computed from the source alone:
+  cell type and count; vertex count, the source vertices unchanged and
+  first, every new vertex at a distinct centroid or face centre (a
+  face shared by two cells gets one) and none missing; every cell with
+  positive volume, the total = the source volume; a conforming split
+  (no face in more than two cells, and the outside area = the source's
+  outside area, so no gaps or overlaps); every cell inside exactly one
+  source cell with its material, and filling it; the linear field
+  f = 1 + 2x + 3y + 5z exact at every vertex. Measured, not judged:
+  smallest and largest dihedral angle (triangles: angle), imt of the
+  new vertices.
+
+  summary.html shows each source and result coloured by material, and
+  the cells made from one source cell, exploded (shrunk and pushed
+  apart) so each can be seen.
+
+FIXED WITH THIS SUITE (src/hextotet_hybrid.f, src/hextotet_check_types.f)
+
+  #214  prism to 14 tets wrote past its work arrays (ilist sized for
+        5 vertices, not the prism's 6; the face slots indexed by face
+        number 3-5 instead of 1-3): heap damage, abort. Sometimes the
+        damage only showed in a later command (3 then 18 aborted).
+  -     every option that adds vertices read the source vertex arrays
+        past their end (valgrind; harmless so far).
+  -     pyramid to 4 tets was the 14/18 prism code: 8 tets and 2 new
+        vertices per pyramid, written into arrays sized for 4 and 1
+        (MMVERIFY PANIC, abort). Now as documented: 4 tets, one new
+        vertex at the base centre.
+  -     an option that does not fit the cells (14 on hexes: memory
+        corruption, abort; 3 on hexes: meaningless "tets") is refused
+        before anything is made.
+  -     no option on a quad mesh gave 24 (tets from quads, with an
+        interpolation error); the documented default is 2.
+  On LaGriT without these fixes ht04, ht05, ht07, ht08 and ht09 fail.
+
+FILES
+
+  run_hextotet_tests.sh    runner (work/, logs/; WORK= and LOGS= may
+                           change them)
+  make_hextotet_inputs.py  the source meshes
+  check_hextotet.py        checks, logs/summary.html (pictures with
+                           ../test_lagrit_upstream/draw_meshes.py)
+  ht01-ht09 *.lgi          the decks
