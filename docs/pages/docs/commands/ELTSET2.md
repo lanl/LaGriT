@@ -54,9 +54,30 @@ list all elements in `eset_name`. If the 2nd argument is empty, list all names a
 
 ### **`logicals`** <a name="logicals"></a>
 <pre>
-<b>eltset</b>/eset_name/ <b>union</b> <b>inter</b> <b>not</b> / eset_list/
+<b>eltset</b>/eset_name/ <b>union</b> / eset1 eset2 [ eset3 ... ] /
+<b>eltset</b>/eset_name/ <b>inter</b> / eset1 eset2 [ eset3 ... ] /
+<b>eltset</b>/eset_name/ <b>not</b> / eset1 [ eset2 eset3 ... ] /
 </pre>
-logical operations **`union`**, **`inter`** and **`not`** act on previously defined eltsets. The definition of the unary operator **`not`** is extended such that **`not`**/e1/e2 means e1 and (not(e2)).
+logical operations on previously defined eltsets. Each takes a list of any number of eltsets, separated by blanks or commas:
+
+- **`union`**: the cells in at least one of the listed eltsets.
+- **`inter`**: the cells in every one of the listed eltsets.
+- **`not`** with one eltset: the cells not in it. With two or more: the cells in eset1 and in none of the others, so **`not`**/e1/e2 means e1 and (not(e2)).
+
+One command can list up to 31 eltsets, and a mesh object can hold at most 32 eltsets at a time; remove the ones no longer needed with **`delete`**.
+
+In LaGriT V3.3.4 and earlier, **`inter`** and **`not`** with three or more eltsets gave wrong results without a message (**`inter`** gave an empty set). With two eltsets they were correct, and **`union`** was correct with any number.
+
+Examples:
+```
+eltset / e_lev2  / itetlev / eq / 2
+eltset / e_leaf  / itetkid / eq / 0
+eltset / e_near  / inclusive / pset,get,p_near
+eltset / e_ref   / inter / e_lev2 e_leaf e_near
+eltset / e_any   / union / e_lev2 e_near
+eltset / e_other / not / e_leaf e_lev2 e_near
+```
+e_ref holds the leaf cells of level 2 that touch a vertex of p_near; e_any the cells of level 2 or touching p_near; e_other the leaf cells that are neither.
 
 
 ### **`pset`** <a name="pset"></a>

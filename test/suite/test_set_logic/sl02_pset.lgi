@@ -1,0 +1,88 @@
+* test_set_logic: pset union / inter / not with 1 to 4 sets
+* (see 00README). Membership is set by ranges of vertex numbers:
+*   a = vertices 1-30, b = 21-45, c = odd, d = 1,4,7,... (60 vertices)
+cmo / create / mo / / / hex
+createpts / brick / xyz / 5 4 3 / 0. 0. 0. / 4. 3. 2. / 1 1 1
+cmo / select / mo
+cmo / addatt / mo / ma / vint / scalar / nnodes
+cmo / setatt / mo / ma / 1 0 0 / 0
+cmo / setatt / mo / ma / 1,30,1 / 1
+pset / a / attribute / ma / 1,0,0 / eq 1
+cmo / addatt / mo / mb / vint / scalar / nnodes
+cmo / setatt / mo / mb / 1 0 0 / 0
+cmo / setatt / mo / mb / 21,45,1 / 1
+pset / b / attribute / mb / 1,0,0 / eq 1
+cmo / addatt / mo / mc / vint / scalar / nnodes
+cmo / setatt / mo / mc / 1 0 0 / 0
+cmo / setatt / mo / mc / 1,60,2 / 1
+pset / c / attribute / mc / 1,0,0 / eq 1
+cmo / addatt / mo / md / vint / scalar / nnodes
+cmo / setatt / mo / md / 1 0 0 / 0
+cmo / setatt / mo / md / 1,60,3 / 1
+pset / d / attribute / md / 1,0,0 / eq 1
+pset / u2 / union / a b
+pset / u3 / union / a b c
+pset / u4 / union / a b c d
+pset / i2 / inter / a b
+pset / i3 / inter / a b c
+pset / i4 / inter / a b c d
+pset / ic / inter / a,b,c
+pset / n1 / not / a
+pset / n2 / not / a b
+pset / n3 / not / a b c
+pset / n4 / not / a b c d
+cmo / addatt / mo / r_a / vint / scalar / nnodes
+cmo / setatt / mo / r_a / 1 0 0 / 0
+cmo / setatt / mo / r_a / pset,get,a / 1
+cmo / addatt / mo / r_b / vint / scalar / nnodes
+cmo / setatt / mo / r_b / 1 0 0 / 0
+cmo / setatt / mo / r_b / pset,get,b / 1
+cmo / addatt / mo / r_c / vint / scalar / nnodes
+cmo / setatt / mo / r_c / 1 0 0 / 0
+cmo / setatt / mo / r_c / pset,get,c / 1
+cmo / addatt / mo / r_d / vint / scalar / nnodes
+cmo / setatt / mo / r_d / 1 0 0 / 0
+cmo / setatt / mo / r_d / pset,get,d / 1
+cmo / addatt / mo / r_u2 / vint / scalar / nnodes
+cmo / setatt / mo / r_u2 / 1 0 0 / 0
+cmo / setatt / mo / r_u2 / pset,get,u2 / 1
+cmo / addatt / mo / r_u3 / vint / scalar / nnodes
+cmo / setatt / mo / r_u3 / 1 0 0 / 0
+cmo / setatt / mo / r_u3 / pset,get,u3 / 1
+cmo / addatt / mo / r_u4 / vint / scalar / nnodes
+cmo / setatt / mo / r_u4 / 1 0 0 / 0
+cmo / setatt / mo / r_u4 / pset,get,u4 / 1
+cmo / addatt / mo / r_i2 / vint / scalar / nnodes
+cmo / setatt / mo / r_i2 / 1 0 0 / 0
+cmo / setatt / mo / r_i2 / pset,get,i2 / 1
+cmo / addatt / mo / r_i3 / vint / scalar / nnodes
+cmo / setatt / mo / r_i3 / 1 0 0 / 0
+cmo / setatt / mo / r_i3 / pset,get,i3 / 1
+cmo / addatt / mo / r_i4 / vint / scalar / nnodes
+cmo / setatt / mo / r_i4 / 1 0 0 / 0
+cmo / setatt / mo / r_i4 / pset,get,i4 / 1
+cmo / addatt / mo / r_ic / vint / scalar / nnodes
+cmo / setatt / mo / r_ic / 1 0 0 / 0
+cmo / setatt / mo / r_ic / pset,get,ic / 1
+cmo / addatt / mo / r_n1 / vint / scalar / nnodes
+cmo / setatt / mo / r_n1 / 1 0 0 / 0
+cmo / setatt / mo / r_n1 / pset,get,n1 / 1
+cmo / addatt / mo / r_n2 / vint / scalar / nnodes
+cmo / setatt / mo / r_n2 / 1 0 0 / 0
+cmo / setatt / mo / r_n2 / pset,get,n2 / 1
+cmo / addatt / mo / r_n3 / vint / scalar / nnodes
+cmo / setatt / mo / r_n3 / 1 0 0 / 0
+cmo / setatt / mo / r_n3 / pset,get,n3 / 1
+cmo / addatt / mo / r_n4 / vint / scalar / nnodes
+cmo / setatt / mo / r_n4 / 1 0 0 / 0
+cmo / setatt / mo / r_n4 / pset,get,n4 / 1
+cmo / modatt / mo / ma / ioflag / l
+cmo / modatt / mo / mb / ioflag / l
+cmo / modatt / mo / mc / ioflag / l
+cmo / modatt / mo / md / ioflag / l
+cmo / modatt / mo / imt1 / ioflag / l
+cmo / modatt / mo / itp1 / ioflag / l
+cmo / modatt / mo / icr1 / ioflag / l
+cmo / modatt / mo / isn1 / ioflag / l
+dump / avs / sl02_pset.table / mo / 0 0 1 0
+finish

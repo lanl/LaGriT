@@ -88,9 +88,17 @@ list all nodes in `pset_name`. If the 2nd argument is empty, list all names all 
 
 ### **`logicals`**  <a name="logicals"></a>
 <pre>
-<b>pset</b>/pset_name/ <b>union</b>  <b>inter</b>  <b>not</b> / pset1[  ,pset2, … psetn ]
+<b>pset</b>/pset_name/ <b>union</b> / pset1 pset2 [ pset3 ... ]
+<b>pset</b>/pset_name/ <b>inter</b> / pset1 pset2 [ pset3 ... ]
+<b>pset</b>/pset_name/ <b>not</b> / pset1 [ pset2 pset3 ... ]
 </pre>
-logical operations **`union`**, **`inter`** and **`not`** act on previously defined psets.  The definition of the unary operator **`not`** is extended such that **`not`**/p1/p2 means p1 and (not(p2)).
+logical operations on previously defined psets. Each takes a list of any number of psets, separated by blanks or commas:
+
+- **`union`**: the vertices in at least one of the listed psets.
+- **`inter`**: the vertices in every one of the listed psets.
+- **`not`** with one pset: the vertices not in it. With two or more: the vertices in pset1 and in none of the others, so **`not`**/p1/p2 means p1 and (not(p2)).
+
+One command can list up to 63 psets, and a mesh object can hold at most 64 psets at a time; remove the ones no longer needed with **`delete`**.
 
 
 
