@@ -49,6 +49,14 @@ The binned values are normalized by dividing with the max value. The min and max
 **y** option creates **edgemax** mesh element attribute containing the value of the max edge length of each element.
 
 
+**`quality/minsine`** / [y] 
+
+computes, for each tet, the smallest sine of its six dihedral angles (the angles between pairs of faces that share an edge). For the edge of length *L* shared by faces with areas *A1* and *A2* in a tet of volume *V*, the sine of the dihedral angle at that edge is 3 *V L* / (2 *A1 A2*). Because sin(&theta;) is small both when &theta; is near 0&deg; and when it is near 180&deg;, the min sine catches every kind of poorly shaped tet in one number: slivers, caps, needles and wedges all have a min sine near 0. A regular tet has min sine 0.9428 (all dihedral angles 70.53&deg;); a value of 0.1736 means the worst angle is 10&deg; or 170&deg;; 0.5 means 30&deg; or 150&deg;. Large dihedral angles matter for accuracy (a-priori error estimates for elliptic problems typically grow like 1/sin(angle)) and small ones for conditioning, so min sine is a common objective for mesh improvement (Klingner &amp; Shewchuk, "Aggressive Tetrahedral Mesh Improvement", 16th International Meshing Roundtable, 2007). The absolute volume is used, so an inverted tet gets the value of its mirror image; a flat tet gets 0. The display is a binned count in 7 bins (log scale between .01 and 1) and the min and max values.
+**y** option creates **minsine** mesh cell attribute containing the min sine of each cell. Only tet cells are valid; other cell types get 0 and a warning with their count.
+
+Note: one **quality** command computes one of **aspect**, **edge_ratio**, **edge_min**, **edge_max** and **minsine** (the first one given). Use a separate command for each.
+
+
 **`quality/angle`** / **gt** OR **lt** / value / 
 
 finds the max and min dihedral angles between adjacent faces (or 2D edges) of an element in radians. If the compare  option is used, it displays a count of the number of elements with a dihedral angle that is greater than or less than the supplied value. See also **cmo/addatt/cmo/ang_** commands for dihedral angle and solid angle calculations.
@@ -100,6 +108,13 @@ display summary of aspect ratio distribution in 7 bins
 quality/aspect/ y  	
 ```
 create attribute **aratio** and display summary of aspect the aratio distribution
+
+```
+quality/minsine/ y
+cmo/printatt/ -def- / minsine / minmax
+eltset / e_poor / minsine / lt / 0.1736
+```
+create attribute **minsine**, display its distribution, and make a cell set (eltset) of the tets with a dihedral angle below 10&deg; or above 170&deg; (min sine below sin 10&deg; = 0.1736)
 
 ```
 quality/angle/gt/179/

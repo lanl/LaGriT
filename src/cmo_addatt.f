@@ -80,9 +80,9 @@ C                     and fills it with the maximum dihedral angle (radian) of t
 C  ang_mind_solid   - creates one scalar attribute
 C                     and fills it with the minimum solid angle (degrees) of the element
 C  ang_maxd_solid   - creates one scalar attribute
-C                     and fills it with the minimum solid angle (radian) of the element
-C  ang_minr_solid   - creates one scalar attribute
 C                     and fills it with the maximum solid angle (degrees) of the element
+C  ang_minr_solid   - creates one scalar attribute
+C                     and fills it with the minimum solid angle (radian) of the element
 C  ang_maxr_solid   - creates one scalar attribute
 C                     and fills it with the maximum solid angle (radian) of the element
 C  xyz_rtp          - creates three scalar attribute
