@@ -1,0 +1,38 @@
+# ct12_poisson_pset.lgi
+# The ct10 mesh (3D Poisson disk vertices in the unit cube, h = 0.1,
+# connected), crushed at TOLCRUSH 0.3 with a pset: the vertices below
+# z = 0.5. crush_thin_tets works only on tets whose vertices are all in
+# the pset (or were added by crush itself); the checker fails the deck
+# if any tet with no vertex in the pset is changed.
+# expect: measured
+# pset: z < 0.5
+# check: crush | ct12 | poisson | 0.3
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_box / 0.1 / connect
+resetpts / itp
+dump / avs / ct12_before.inp / mo_box
+define / MO / mo_box
+define / AVS_OUT / ct12_before_m.inp
+infile ct_measure.mlgi
+
+# ---- crush at TOLCRUSH 0.3, the vertices below z = 0.5 only
+cmo / copy / mo_c / mo_box
+cmo / select / mo_c
+pset / p_low / attribute / zic / 1 0 0 / lt / 0.5
+crush_thin_tets / mo_c / 0.3 / pset,get,p_low
+rmpoint / compress
+resetpts / itp
+dump / avs / ct12_after_0.3.inp / mo_c
+define / MO / mo_c
+define / AVS_OUT / ct12_after_0.3_m.inp
+infile ct_measure.mlgi
+cmo / delete / mo_c
+cmo / select / mo_box
+finish

@@ -139,6 +139,8 @@ C  Get the other point on each edge
                         z2 = z2 / norm2
  
                         dot = x1*x2 + y1*y2 + z1*z2
+c     (Oct 2026) keep dot in [-1,1] (rounding), else acos gives NaN
+                        dot = max(-1.0d0, min(1.0d0, dot))
                         f_angle = acos(dot)
                         if (f_angle .lt. minangle) then
                            minangle = f_angle
