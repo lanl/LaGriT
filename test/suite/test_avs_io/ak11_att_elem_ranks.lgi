@@ -1,0 +1,7 @@
+# dump / att_elem writes the ranks of the cell attributes
+# known: it writes the ranks of the vertex attributes (idx for idxe): "** ** ..." after the sixth
+# check: finished
+# check: line att_elem.txt 2 # 00012  1  1  1  1  1  1  1  1  1  1  1  1
+read / avs / hex_wide.inp / mo1
+dump / att_elem / att_elem.txt / mo1
+finish

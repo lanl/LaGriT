@@ -4,10 +4,11 @@
 #
 # Runs every test suite (seven for createpts/poisson_disk, one for the
 # other createpts options, one for triangulate, one for interpolate and
-# compute, LaGriT's level01 tests from ../level01, and, with BIG=1
-# only, the connect timing suite), one after another, and prints one
-# line per suite. Each suite's own runner, logs and summary page are
-# unchanged; this only calls them. See README.md.
+# compute, one for read / dump avs, LaGriT's level01 tests from
+# ../level01, and, with BIG=1 only, the connect timing suite), one
+# after another, and prints one line per suite. Each suite's own
+# runner, logs and summary page are unchanged; this only calls them.
+# See README.md.
 #
 # Exit status: 0 if every suite's runner exits 0, 1 otherwise.
 # Full output of every runner: run_all.log (overwritten each time).

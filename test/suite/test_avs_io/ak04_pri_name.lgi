@@ -1,0 +1,8 @@
+# the cell name "pri" (as other codes write prisms) reads as a prism
+# known: only "prism" is accepted; "pri" cells are dropped with "Bad element type" (parking lot 19)
+# check: finished
+# check: noerror
+# check: model out.inp cells_prism.inp
+read / avs / prism_pri.inp / mo1
+dump / avs / out.inp / mo1
+finish

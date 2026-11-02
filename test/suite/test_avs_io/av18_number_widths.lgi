@@ -1,0 +1,16 @@
+# LaGriT's own meshes, large enough for the next width of the vertex
+# and cell numbers (100 and 1,000 vertices; 81 and 729 hexes)
+# check: finished
+# check: noerror
+# check: golden quads.inp
+# check: golden hexes.inp
+# check: same hexes.inp hexes_rt.inp
+cmo / create / moq / / / quad
+createpts / brick / xyz / 10 10 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+dump / avs / quads.inp / moq
+cmo / create / moh / / / hex
+createpts / brick / xyz / 10 10 10 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / avs / hexes.inp / moh
+read / avs / hexes.inp / mo2
+dump / avs / hexes_rt.inp / mo2
+finish

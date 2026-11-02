@@ -1,0 +1,7 @@
+# a z coordinate of -1e31 is written as -1e30 (the documented clamp)
+# known: it is written as +1.000000015047E+30: the sign is lost, and 1e30 is a single-precision constant
+# check: finished
+# check: value out.inp vertex 6 z -1.000000000000E+30
+read / avs / hex_far_z.inp / mo1
+dump / avs / out.inp / mo1
+finish

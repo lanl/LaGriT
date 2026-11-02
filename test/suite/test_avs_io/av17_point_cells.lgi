@@ -1,0 +1,13 @@
+# a mesh of vertices only, dumped with pt cells (iopt_elements 3);
+# read back, it has the 4 pt cells
+# check: finished
+# check: noerror
+# check: model pts_back.inp pts.inp
+# check: cells pts_back.inp 4
+# check: golden pts.inp
+cmo / create / mop
+createpts / xyz / 2 2 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+dump / avs / pts.inp / mop / 1 3
+read / avs / pts.inp / mo2
+dump / avs / pts_back.inp / mo2
+finish

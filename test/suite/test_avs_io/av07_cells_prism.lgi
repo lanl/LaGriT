@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of prism cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_prism.inp cells_prism.inp
+# check: model out1_prism.inp cells_prism.inp
+# check: golden out_prism.inp
+# check: golden out1_prism.inp
+# check: same out_prism.inp rt_prism.inp
+read / avs / cells_prism.inp / mo1
+dump / avs / out_prism.inp / mo1
+dump / avs1 / out1_prism.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_prism.inp / mo2
+dump / avs / rt_prism.inp / mo2
+finish

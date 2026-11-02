@@ -53,3 +53,7 @@ __pycache__/
 .DS_Store
 ._*
 run_all_usual.txt
+
+# ---- tracked although the patterns above match them
+# test_avs_io/golden: the expected dump files (out_*.inp and others)
+!test_avs_io/golden/*

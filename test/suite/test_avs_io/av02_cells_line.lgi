@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of line cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_line.inp cells_line.inp
+# check: model out1_line.inp cells_line.inp
+# check: golden out_line.inp
+# check: golden out1_line.inp
+# check: same out_line.inp rt_line.inp
+read / avs / cells_line.inp / mo1
+dump / avs / out_line.inp / mo1
+dump / avs1 / out1_line.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_line.inp / mo2
+dump / avs / rt_line.inp / mo2
+finish

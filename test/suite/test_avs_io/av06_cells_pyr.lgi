@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of pyr cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_pyr.inp cells_pyr.inp
+# check: model out1_pyr.inp cells_pyr.inp
+# check: golden out_pyr.inp
+# check: golden out1_pyr.inp
+# check: same out_pyr.inp rt_pyr.inp
+read / avs / cells_pyr.inp / mo1
+dump / avs / out_pyr.inp / mo1
+dump / avs1 / out1_pyr.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_pyr.inp / mo2
+dump / avs / rt_pyr.inp / mo2
+finish

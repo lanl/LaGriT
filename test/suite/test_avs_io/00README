@@ -1,0 +1,77 @@
+test_avs_io -- read / avs and dump / avs (Carl, Nov 2 2026: "We use
+read/dump avs a lot"; the test suite comes before any change to
+src/readavs.f and src/dumpavs.f)
+=======================================================================
+
+QUICK START
+
+  sh run_avs_io_tests.sh [path-to-lagrit]     29 decks, about 5 s
+  open logs/summary.html
+
+WHAT IT TESTS
+
+  make_inputs.py writes the AVS input files into work/ (by its own
+  rules, not by LaGriT; the same files every time). Each deck reads
+  some of them and dumps them again. check_avs.py, which reads AVS
+  itself, then checks:
+
+  - the mesh LaGriT wrote holds the mesh of the file it read: the same
+    vertices (exactly: every coordinate has 13 significant digits,
+    which dump / avs keeps), cells (type, material, vertices in AVS
+    order) and attributes (type; integers exactly, reals within 1e-11:
+    the default dump / avs, which is avs2, writes 12 significant digits
+    of a real attribute, avs1 writes 13);
+  - every file LaGriT wrote is byte-identical to golden/ (written by
+    LaGriT at master 1f5f0de, before any change to read / dump avs):
+    a change to readavs.f or dumpavs.f must leave these files exactly
+    as they are, unless the change to the output is intended;
+  - LaGriT's own file, read back and dumped again, is the same file.
+
+THE DECKS
+
+  av01-av08  one file per cell type (pt, line, tri, quad, tet, pyr,
+             prism, hex), two vertex and two cell attributes (one
+             integer, one real each); dumped with avs and avs1, and read
+             back
+  av09       a hybrid mesh: a tet, a pyramid, a prism and a hex
+  av10       vertices and cells numbered from 0
+  av11       "#" comment lines before and inside every section
+  av12-av14  no attribute sections; vertex attributes only; cell
+             attributes only (the vertex-attribute section is "0")
+  av15       12 cell attributes, more than the vertex attributes
+  av16       dump / avs with iopt 1 1 0 0, 1 0 0 0, 0 0 1 0, 0 0 0 1,
+             2 2 2 2, avs1, att_node and att_elem
+  av17       a mesh of vertices only, dumped with pt cells (iopt 1 3)
+             and read back
+  av18       LaGriT's own quad and hex meshes with 100 and 1,000
+             vertices (the next width of the vertex and cell numbers)
+
+  Known problems (each deck says what it expects; KNOWN until fixed,
+  then FIXED until its "# known:" line is removed):
+  ak01  read / avs into a mesh object that already has vertices: segfault
+  ak02  first vertex numbered 2: the message prints garbage
+  ak03  a stray print of the two attribute counts on every read
+  ak04  the cell name "pri" is not read (parking lot 19)
+  ak05  a gap in the vertex numbers: memory corrupted
+  ak06  "va,integer" (no space) read as real
+  ak07  a file cut short: Fortran runtime error stops LaGriT
+  ak08  an unknown cell type: the next cell gets its attributes
+  ak09  z = -1e31 is written as +1.000000015047E+30
+  ak10  a rank-3 attribute: the next attribute gets its values
+  ak11  dump / att_elem writes the ranks of the vertex attributes
+
+GOLDEN FILES
+
+  GOLDEN=1 sh run_avs_io_tests.sh  rewrites golden/ from the run.
+  Only for an intended change to the output: review the diff
+  (git diff golden/) before committing it.
+
+FILES
+
+  make_inputs.py            the input files (into work/)
+  av*.lgi, ak*.lgi          the decks, each with its "# check:" lines
+  check_avs.py              the checker (Python 3, standard library)
+  golden/                   the expected dump files
+  make_page.py              logs/summary.html
+  run_avs_io_tests.sh
+  work/, logs/              written by each run (not tracked)

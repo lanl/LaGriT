@@ -1,0 +1,15 @@
+# read / avs and dump / avs (avs2 and avs1) of tri cells, two vertex and two cell attributes; read the dump back
+# check: finished
+# check: noerror
+# check: model out_tri.inp cells_tri.inp
+# check: model out1_tri.inp cells_tri.inp
+# check: golden out_tri.inp
+# check: golden out1_tri.inp
+# check: same out_tri.inp rt_tri.inp
+read / avs / cells_tri.inp / mo1
+dump / avs / out_tri.inp / mo1
+dump / avs1 / out1_tri.inp / mo1
+# read LaGriT's own file back: the same file again
+read / avs / out_tri.inp / mo2
+dump / avs / rt_tri.inp / mo2
+finish
