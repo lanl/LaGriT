@@ -276,6 +276,7 @@ static void dfLocate(double x, double xMin, double dx, unsigned int n,
 }
 
 double Domain::lookupH(double x, double y, double z) {
+    if (octree) return octree->lookupH(x, y, z);
     unsigned int i, j, k;
     double tx, ty, tz;
     dfLocate(x, dfXMin, dfCellSize, dfNumCellsX, i, tx);

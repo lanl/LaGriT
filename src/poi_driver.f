@@ -198,6 +198,7 @@ C #####################################################################
       implicit none
       include 'poi_params.h'
       include 'poi_errors.h'
+      include 'poi_octree_opts.h'
 C
 C  user_sub arguments
       integer nwds,ierror
@@ -268,7 +269,7 @@ C
      &     h,h_spacing)
       call poi_parse_enum(cmsgin,msgtyp,nwds,6,'connect flag',
      &     cconn,2,if_connect)
-      call poi_parse_options(cmsgin,imsgin,msgtyp,nwds,7,
+      call poi_parse_options(cmsgin,imsgin,xmsgin,msgtyp,nwds,7,
      &     if_h_field_variable,file_user_h_field_att,
      &     seed,number_of_samples,resample_sweeps)
 C
@@ -280,6 +281,10 @@ C
       if(ndimension .ne. 1)then
          call poi_err_add(
      &      'token 3 says 3d_box but the 2D driver was called')
+      endif
+      if(if_poi_oct_key .ne. 0)then
+         call poi_err_add('h_lookup, octree_k_factor, octree_batch '//
+     &      'and octree_dump are for 3d_box only')
       endif
 C
       call poi_err_report(ierror)
@@ -391,6 +396,7 @@ C #####################################################################
       implicit none
       include 'poi_params.h'
       include 'poi_errors.h'
+      include 'poi_octree_opts.h'
 C
 C  user_sub arguments
       integer nwds,ierror
@@ -465,7 +471,7 @@ C
      &     h,h_spacing)
       call poi_parse_enum(cmsgin,msgtyp,nwds,5,'connect flag',
      &     cconn,2,if_connect)
-      call poi_parse_options(cmsgin,imsgin,msgtyp,nwds,6,
+      call poi_parse_options(cmsgin,imsgin,xmsgin,msgtyp,nwds,6,
      &     if_h_field_variable,file_user_h_field_att,
      &     seed,number_of_samples,resample_sweeps)
 C
@@ -496,8 +502,15 @@ C ---------------------------------------------------------------------
 C
 C ---------------------------------------------------------------------
 C     PHASE 3 - build the background search lattice.
+C     With h_lookup octree there is no lattice: the octree is built in
+C     PHASE 5 (poi_oct_run), and the user's h field file is run
+C     there on batches of its vertices. Phases 3 and 4 are skipped.
 C ---------------------------------------------------------------------
       call poi_buffer_box(1,h,box_look,box_user)
+      if(if_poi_octree .eq. 1)then
+         call poi_define_h_factors(h)
+         goto 4500
+      endif
       call poi_lattice_size(box_look,h,np)
 C
       dlook(1) = (box_look(IBX_XMAX)-box_look(IBX_XMIN))/np(1)
@@ -541,11 +554,21 @@ C     Note that np is the LOOKUP lattice size, derived from box_look.
 C     It stays tied to the lookup mesh even when the sample box is
 C     smaller.
 C ---------------------------------------------------------------------
+ 4500 continue
       if(if_poi_edge_buffer .eq. 1)then
          buffer_dxyz = -1.0d0*h*poi_edge_buffer
          call poi_buffer_box(1,buffer_dxyz,box_samp,box_user)
       else
          call poi_copy_box(box_samp,box_user)
+      endif
+      if(if_poi_octree .eq. 1)then
+         call poi_oct_run
+     &     (mo_poi_pts_out,file_user_h_field_att,poi_oct_dump,
+     &      if_h_field_variable,if_poi_oct_dump,h_spacing,
+     &      box_samp,box_look,poi_oct_k,poi_oct_batch,
+     &      seed,number_of_samples,resample_sweeps,ierror)
+         if(ierror .ne. 0) goto 9999
+         goto 4600
       endif
 C
       call poisson_3d
@@ -555,6 +578,7 @@ C
      &      box_samp(IBX_ZMIN),box_samp(IBX_ZMAX),
      &      np(1),np(2),np(3),
      &      seed,number_of_samples,resample_sweeps)
+ 4600 continue
 C
       if(if_poi_edge_buffer .eq. 1)then
          call poi_3d_add_face_points(mo_poi_pts_out,h,box_user)
@@ -810,7 +834,7 @@ C
       end
 C
 C SUBROUTINE BEGIN ####################################################
-      subroutine poi_parse_options(cmsgin,imsgin,msgtyp,nwds,
+      subroutine poi_parse_options(cmsgin,imsgin,xmsgin,msgtyp,nwds,
      &           ifirst,if_h_field_variable,file_user_h_field_att,
      &           seed,number_of_samples,resample_sweeps)
 C #####################################################################
@@ -844,13 +868,14 @@ C
       integer nwds,ifirst,if_h_field_variable,poi_lentrim
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
+      real*8  xmsgin(nwds)
       character*32 file_user_h_field_att
       integer seed,number_of_samples,resample_sweeps
 C
       integer NKEY
       parameter (NKEY = 3)
 C
-      integer i,k,kfound,lenopt,lk,istart,numpairs,ipair
+      integer i,k,kfound,lenopt,lk,istart,numpairs,ipair,koct
       integer icharlnf
       integer ivals(NKEY)
       logical poi_token_type,has_ctrl_file
@@ -870,6 +895,7 @@ C
       ivals(1) = POI_DEF_SEED
       ivals(2) = POI_DEF_SAMPLES
       ivals(3) = POI_DEF_SWEEPS
+      call poi_octree_defaults()
       if_h_field_variable = 0
       file_user_h_field_att = ' '
 C
@@ -908,6 +934,14 @@ C
             if(cmsgin(i)(1:lenopt) .eq. ckeyu(k)(1:lk)) kfound = k
          enddo
 C
+C        The h lookup keywords (h_lookup, octree_k_factor, ...) are
+C        read by poi_parse_octree_key (poi_driver_octree.f).
+C
+         if(kfound .eq. 0)then
+            call poi_parse_octree_key(cmsgin,imsgin,xmsgin,msgtyp,
+     &           nwds,i,koct)
+            if(koct .ne. 0) goto 50
+         endif
          if(kfound .eq. 0)then
             write(cmsg,'(a,i3,a,a)')
      &         'token ',i+POI_TOKEN_OFFSET,' unknown option keyword: ',
@@ -921,6 +955,8 @@ C           have been truncated without any sign that it had been.
             lk = poi_lentrim(cvalid)
             write(cmsg,'(a,a)') '   ',cvalid(1:lk)
             call poi_err_add(cmsg)
+            call poi_err_add('   and, for 3d_box: h_lookup, '//
+     &         'octree_k_factor, octree_batch, octree_dump')
             goto 50
          endif
 C
@@ -2787,10 +2823,15 @@ C
 C #####################################################################
       implicit none
       include 'poi_params.h'
+      include 'poi_octree_opts.h'
       character*32 mo_poi_pts_out
       integer ilen,icharlnf
 C
-      call poi_cmd('cmo/release/'//POI_MO_HFIELD//' ; finish')
+C     With h_lookup octree the h field mesh object exists only while a
+C     batch of octree vertices is evaluated, so there is none to
+C     release here.
+      if(if_poi_octree .ne. 1)
+     &   call poi_cmd('cmo/release/'//POI_MO_HFIELD//' ; finish')
       ilen = icharlnf(mo_poi_pts_out)
       call poi_cmd('cmo / select / '//mo_poi_pts_out(1:ilen)//
      &     ' ; finish')

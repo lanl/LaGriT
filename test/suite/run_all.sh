@@ -74,6 +74,7 @@ test_poisson_nonconvex:run_nonconvex_tests.sh:6
 test_poisson_3d:run_test_poisson_3d.sh:62
 test_poisson_3d_refine_letters:run_poisson_3d_letters.sh:41
 test_poisson_sampler:run_poisson_sampler_tests.sh:41
+test_poisson_octree:run_poisson_octree_tests.sh:15
 test_createpts:run_createpts_tests.sh:26
 test_triangulate_2d_polygon:run_triangulate_tests.sh:22
 test_lagrit_upstream:run_upstream_tests.sh:30

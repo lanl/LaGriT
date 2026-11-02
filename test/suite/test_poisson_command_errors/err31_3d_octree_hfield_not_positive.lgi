@@ -1,0 +1,16 @@
+#####################################################################
+# err31_3d_octree_hfield_not_positive.lgi
+#
+# EXPECT:
+#   One ERROR block: the h lookup octree could not be built, because
+#   h_field_att is not positive at an octree vertex (h must be > 0).
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.1 / connect &
+      / hfield_not_positive.mlgi / h_lookup octree
+finish
