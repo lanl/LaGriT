@@ -373,6 +373,8 @@ C           tets until the first cell says otherwise
             ifound=0
             istart=1
             do while (istart.lt.nline .and. ifound.eq.0)
+C              every name starts with l, h, p, q or t
+               if (index('lhpqt',cline(istart:istart)).eq.0) goto 208
                do kk=1,8
                   if (cline(istart:istart+ltab(kk)-1).eq.
      *                ctab(kk)(1:ltab(kk))) then
@@ -390,6 +392,7 @@ C              "pri", as other codes write a prism
                   lname=3
                   goto 210
                endif
+ 208           continue
                istart=istart+1
             enddo
  210        continue
