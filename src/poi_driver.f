@@ -261,6 +261,7 @@ C
      &     cdim,2,ndimension)
       call poi_parse_name(cmsgin,msgtyp,nwds,3,'output mesh object',
      &     mo_poi_pts_out)
+      call poi_check_new_mo(mo_poi_pts_out)
       call poi_parse_name(cmsgin,msgtyp,nwds,4,'polygon mesh object',
      &     mo_poi_poly)
       call poi_parse_h(imsgin,xmsgin,msgtyp,nwds,5,'h_spacing_scalar',
@@ -459,6 +460,7 @@ C
      &     cdim,2,ndimension)
       call poi_parse_name(cmsgin,msgtyp,nwds,3,'output mesh object',
      &     mo_poi_pts_out)
+      call poi_check_new_mo(mo_poi_pts_out)
       call poi_parse_h(imsgin,xmsgin,msgtyp,nwds,4,'h_spacing_scalar',
      &     h,h_spacing)
       call poi_parse_enum(cmsgin,msgtyp,nwds,5,'connect flag',
@@ -487,6 +489,8 @@ C     variables. All six are required; every missing one is reported.
 C ---------------------------------------------------------------------
       call poi_err_reset()
       call poi_3d_get_box(box_user,if_poi_edge_buffer,poi_edge_buffer)
+      call poi_3d_check_buffer(box_user,h,if_poi_edge_buffer,
+     &     poi_edge_buffer)
       call poi_err_report(ierror)
       if(ierror .ne. 0) goto 9999
 C
@@ -691,6 +695,49 @@ C
 C
       lenopt = icharlnf(cmsgin(itok))
       cname = cmsgin(itok)(1:lenopt)
+C
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_check_new_mo(cname)
+C #####################################################################
+C
+C     PURPOSE - Refuse an output mesh object that already exists.
+C
+C     The sampler writes its vertices with cmo/create/<name>/<n>/...
+C     On an existing mesh object that command does nothing, so the
+C     object keeps its old length and the n new coordinates were
+C     written past the end of its xic, yic, zic arrays, corrupting
+C     the heap (free(): invalid size, then an abort). The existing
+C     object is not deleted here, so a user's mesh object is never
+C     lost without notice.
+C
+C     INPUT ARGUMENTS -
+C        cname - the output mesh object name, or blank if its token
+C                was bad (then nothing is checked)
+C
+C #####################################################################
+      implicit none
+      include 'poi_params.h'
+      include 'poi_errors.h'
+C
+      character*32 cname
+C
+      integer ierr,lname,icharlnf
+      character*(POI_MSG_LEN) cmsg
+C
+      if(cname .eq. ' ') return
+      call cmo_exist(cname,ierr)
+      if(ierr .ne. 0) return
+C
+      lname = icharlnf(cname)
+      write(cmsg,'(a,a,a)')
+     &   'output mesh object ',cname(1:lname),' already exists'
+      call poi_err_add(cmsg)
+      write(cmsg,'(a,a)')
+     &   'delete it first with  cmo / delete / ',cname(1:lname)
+      call poi_err_add(cmsg)
 C
       return
       end
@@ -1666,11 +1713,15 @@ C     argument of every get_define_variable_lg call, so the routine's
 C     return code was whatever the last lookup happened to leave
 C     behind. A local status is used here.
 C
-C     KNOWN LIMITATION: rstring_out is used without consulting
-C     istring_type, so a limit entered as an integer constant, for
-C     example define/POI_XMIN/0, may not be picked up. This matches
-C     the original behavior and is left alone deliberately, because
-C     changing it could alter results for existing input decks.
+C     FIX: rstring_out was used without consulting istring_type, so
+C     a limit entered as an integer, define / POI_XMIN / 0, took
+C     whatever value the previous lookup left behind (a flat or
+C     inverted box, then a crash). poi_get_define_num converts an
+C     integer to a real and reports a word as not a number.
+C
+C     A missing edge buffer define is reported in a WARNING block,
+C     since the defaults decide how the box faces are treated. A
+C     flat or inverted box (max <= min) is an error.
 C
 C     OUTPUT ARGUMENTS -
 C        box                - bounding box, see poi_params.h layout
@@ -1686,11 +1737,14 @@ C
       integer if_poi_edge_buffer
       real*8  poi_edge_buffer
 C
-      integer i,ierr_get
-      integer istring_type,istring_out
-      real*8  rstring_out
-      character*32 cstring_in,cstring_out
+      integer i,k
+      logical lfound,lnum
+      real*8  val
+      character*32 cval
       character*(POI_MSG_LEN) cmsg
+      integer nwarn
+      character*(POI_MSG_LEN) cwarn(4)
+      logical lboxbad
 C
 C     Names of the six required variables, in poi_params.h box order.
 C
@@ -1699,47 +1753,207 @@ C
      &           'POI_ZMIN','POI_ZMAX'/
 C
 C ---------------------------------------------------------------------
-C     Optional settings. A missing one is not a fault, it just means
-C     the default applies.
+C     Edge buffer settings. They have defaults, but the defaults
+C     decide how the box faces are treated, so a missing one is
+C     reported in a WARNING block (the run continues).
 C ---------------------------------------------------------------------
-      cstring_in = 'IF_POI_EDGE_BUFFER'
-      call get_define_variable_lg
-     &  (cstring_in,
-     &   istring_type,istring_out,rstring_out,cstring_out,ierr_get)
-      if(ierr_get .eq. 0)then
-         if_poi_edge_buffer = istring_out
+      nwarn = 0
+      if_poi_edge_buffer = POI_DEF_IFEDGEBUF
+      poi_edge_buffer = POI_DEF_EDGEBUF
+C
+      call poi_get_define_num('IF_POI_EDGE_BUFFER',lfound,lnum,val,
+     &     cval)
+      if(.not. lfound)then
+         nwarn = nwarn + 1
+         write(cwarn(nwarn),'(a,i2,a)')
+     &     '  define / IF_POI_EDGE_BUFFER /',POI_DEF_IFEDGEBUF,
+     &     '   (1 = regular vertices on the faces)'
+      elseif(lnum .and. (val.eq.0.0d0 .or. val.eq.1.0d0))then
+         if_poi_edge_buffer = nint(val)
       else
-         if_poi_edge_buffer = POI_DEF_IFEDGEBUF
+         call poi_err_add('define / IF_POI_EDGE_BUFFER / must be '//
+     &     '0 or 1, given '//cval)
       endif
 C
-      cstring_in = 'POI_EDGE_BUFFER'
-      call get_define_variable_lg
-     &  (cstring_in,
-     &   istring_type,istring_out,rstring_out,cstring_out,ierr_get)
-      if(ierr_get .eq. 0)then
-         poi_edge_buffer = rstring_out
+      call poi_get_define_num('POI_EDGE_BUFFER',lfound,lnum,val,cval)
+      if(.not. lfound)then
+C        Only used when the buffer is on.
+         if(if_poi_edge_buffer .eq. 1)then
+            nwarn = nwarn + 1
+            write(cwarn(nwarn),'(a,f4.1,a)')
+     &        '  define / POI_EDGE_BUFFER /',POI_DEF_EDGEBUF,
+     &        '    (sample box moved in by h per face)'
+         endif
+      elseif(lnum .and. val.ge.0.0d0)then
+         poi_edge_buffer = val
       else
-         poi_edge_buffer = POI_DEF_EDGEBUF
+         call poi_err_add('define / POI_EDGE_BUFFER / must be '//
+     &     'a number >= 0, given '//cval)
+      endif
+C
+      if(nwarn .gt. 0)then
+         do k = nwarn, 1, -1
+            cwarn(k+1) = cwarn(k)
+         enddo
+         cwarn(1) = 'edge buffer not set, using the default:'
+         nwarn = nwarn + 1
+         cwarn(nwarn+1) = 'usually set these before createpts to '//
+     &     'choose the face treatment'
+         nwarn = nwarn + 1
+         call poi_log_warn_n(cwarn,nwarn)
       endif
 C
 C ---------------------------------------------------------------------
-C     Required box limits. Record every missing one.
+C     Required box limits. Record every missing or non numeric one.
+C     An integer value (define / POI_XMIN / 0) is taken as a real.
 C ---------------------------------------------------------------------
+      lboxbad = .false.
       do i = 1, NBOX
          box(i) = 0.0d0
-         cstring_in = cbox(i)
-         call get_define_variable_lg
-     &     (cstring_in,
-     &      istring_type,istring_out,rstring_out,cstring_out,ierr_get)
-         if(ierr_get .eq. 0)then
-            box(i) = rstring_out
-         else
+         call poi_get_define_num(cbox(i),lfound,lnum,val,cval)
+         if(.not. lfound)then
             write(cmsg,'(a,a,a)')
      &        'the 3d_box option requires define / ',cbox(i),
      &        ' / floating_point'
             call poi_err_add(cmsg)
+            lboxbad = .true.
+         elseif(.not. lnum)then
+            write(cmsg,'(a,a,a,a)')
+     &        'define / ',cbox(i),' / must be a number, given ',cval
+            call poi_err_add(cmsg)
+            lboxbad = .true.
+         else
+            box(i) = val
          endif
       enddo
+C
+C     Each maximum must be above its minimum: a flat or inverted box
+C     used to crash the sampler.
+C
+      if(.not. lboxbad)then
+         do i = 1, NBOX, 2
+            if(box(i+1) .le. box(i))then
+               write(cmsg,'(a,a,1pe13.6,a,a,a,1pe13.6,a)')
+     &           cbox(i+1),' (',box(i+1),') must be greater than ',
+     &           cbox(i),' (',box(i),')'
+               call poi_err_add(cmsg)
+               lboxbad = .true.
+            endif
+         enddo
+      endif
+C
+      if(lboxbad)then
+         call poi_err_add('set all six box limits before createpts, '//
+     &     'for example')
+         call poi_err_add('  define / POI_XMIN / 0.0  ...  '//
+     &     'define / POI_ZMAX / 1.0')
+      endif
+C
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_get_define_num(cname,lfound,lnum,val,cval)
+C #####################################################################
+C
+C     PURPOSE - Look up a define variable that should be a number.
+C
+C     get_define_variable_lg sets only the value of the type it
+C     found, and leaves the type unset for a word. Reading its real
+C     output for an integer define (define / POI_XMIN / 0) gave
+C     whatever the previous lookup left there. Here an integer is
+C     converted to a real, and a word is reported as not a number.
+C
+C     OUTPUT ARGUMENTS -
+C        lfound - the variable is defined
+C        lnum   - its value is an integer or a real
+C        val    - the value as a real, 0 if not a number
+C        cval   - the value as written, for messages
+C
+C #####################################################################
+      implicit none
+      character*(*) cname
+      logical lfound,lnum
+      real*8  val
+      character*32 cval
+C
+      integer itype,ival,ierr
+      real*8  rval
+      character*32 cin
+C
+      cin = cname
+      itype = 3
+      ival = 0
+      rval = 0.0d0
+      cval = ' '
+      call get_define_variable_lg(cin,itype,ival,rval,cval,ierr)
+C
+      lfound = (ierr .eq. 0)
+      lnum = .false.
+      val = 0.0d0
+      if(.not. lfound) return
+      if(itype .eq. 1)then
+         lnum = .true.
+         val = dble(ival)
+      elseif(itype .eq. 2)then
+         lnum = .true.
+         val = rval
+      endif
+C
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_3d_check_buffer(box,h,if_poi_edge_buffer,
+     &           poi_edge_buffer)
+C #####################################################################
+C
+C     PURPOSE - With the edge buffer on, the sample box is the user
+C     box moved in by h*POI_EDGE_BUFFER on every face. If the box is
+C     not wider than 2*h*POI_EDGE_BUFFER in some direction the sample
+C     box is flat or inverted, which crashed the sampler
+C     (std::length_error). Report it instead. Does nothing if an
+C     earlier fault was already recorded.
+C
+C #####################################################################
+      implicit none
+      include 'poi_params.h'
+      include 'poi_errors.h'
+C
+      real*8  box(NBOX),h,poi_edge_buffer
+      integer if_poi_edge_buffer
+C
+      integer i
+      real*8  ext,wmin
+      character*1 cdir(3)
+      character*(POI_MSG_LEN) cmsg
+      logical lbad
+      data cdir /'x','y','z'/
+C
+      if(poi_nerr .gt. 0) return
+      if(if_poi_edge_buffer .ne. 1) return
+C
+      lbad = .false.
+      wmin = 2.0d0*h*poi_edge_buffer
+      do i = 1, 3
+         ext = box(2*i) - box(2*i-1)
+         if(ext .le. wmin)then
+            write(cmsg,'(a,1pe13.6,a,a,a)')
+     &        'box is ',ext,' in ',cdir(i),
+     &        '; with the edge buffer on it must be more'
+            call poi_err_add(cmsg)
+            write(cmsg,'(a,1pe13.6)')
+     &        '  than 2*h*POI_EDGE_BUFFER = ',wmin
+            call poi_err_add(cmsg)
+            lbad = .true.
+         endif
+      enddo
+C
+      if(lbad)then
+         call poi_err_add('make the box larger or h or '//
+     &     'POI_EDGE_BUFFER smaller,')
+         call poi_err_add('  or set  define / IF_POI_EDGE_BUFFER / 0')
+      endif
 C
       return
       end
