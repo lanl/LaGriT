@@ -10,6 +10,13 @@ C      PURPOSE -
 C
 C         THIS ROUTINE READS AN AVS UCD TYPE FILE
 C
+C         Nov 2026: restructured: the cell types and vertex orders
+C         from avs_cell_table (shared with dumpavs), one line reader
+C         (avs_getline: comments, errors, long lines), one routine for
+C         the vertex and the cell attributes (avs_read_atts), each
+C         line read once. Meshes read are the same as before
+C         (test/suite/test_avs_io).
+C
 C     INPUT ARGUMENTS -
 C
 C        ifile         - INPUT AVS FILE NAME. 
@@ -131,26 +138,12 @@ C
 C#######################################################################
 C
       implicit none
-      pointer (ipisdatptr,isdatptr)
-C  32 bit address declaration
-      integer isdatptr(*)
-C  64 bit address declaration
-C      integer*8 isdatptr(*)
-      pointer (ipisdatptr_e,isdatptr_e)
-C  32 bit address declaration
-      integer isdatptr_e(*)
-C  64 bit address declaration
-C      integer*8 isdatptr_e(*)
-c      include 'pointer_arrays.h'
-C
-      character*132 logmess
-C
-C ######################################################################
-C
-C     DEFINE THE MESH_OBJECT POINTERS.
 C
       include "chydro.h"
       include "local_element.h"
+C
+      character*(*) ifile
+      integer iopt_nodes, iopt_elements, iopt_values, ierror
 C
       pointer (ipimt1, imt1)
       pointer (ipitp1, itp1)
@@ -161,106 +154,56 @@ C
       pointer (ipzic, zic)
       pointer (ipitet, itet1)
       pointer (ipjtet, jtet1)
-      integer imt1(1000000), itp1(1000000),
-     *        icr1(1000000), isn1(1000000)
-      integer itet1(10000000), jtet1(10000000)
-      real*8   xic(1000000), yic(1000000), zic(1000000)
+      integer imt1(*), itp1(*), icr1(*), isn1(*), itet1(*), jtet1(*)
+      real*8 xic(*), yic(*), zic(*)
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
       pointer (ipjtetoff, jtetoff)
-      integer itetclr(1000000), itettyp(1000000),
-     *        itetoff(1000000), jtetoff(1000000)
-C
-      pointer (ipireal1 , ireal1  )
-      integer ireal1(1000000)
-C
+      integer itetclr(*), itettyp(*), itetoff(*), jtetoff(*)
+      pointer (ipireal1, ireal1)
+      integer ireal1(*)
       pointer (ipidone, idone)
-      integer idone(1000000)
+      integer idone(*)
+      pointer (ipidrop, idrop)
+      integer idrop(*)
+C
+      character*132 logmess
+      character*32 isubname, cmonam
+      character*200 cbuff
+      character*24 csect
+      character*32 cbadtype
+      character*8 cname
+C     one line of the file (avs_getline): cline(1:nline)
+      character*1024 cline
+      integer nline, ios, ilong
+C
+      integer icharlnf
+      integer nnodes, nelements, mbndry, ilen, ity, ier, ierr, ierr1,
+     *  itp, icscode, lenfile, iunit, isetimt1, isetitp1, iseticr1,
+     *  isetisn1, npoints, nelemavs, nvalues, nvalues_e, nelemfile,
+     *  i, j, k, i1, ih, it, jt, jf, node1, iline, imat, ifound,
+     *  istart, ifelm, ifelmnew, ihybrid, itoff, jtoff, ielements,
+     *  nen, nef, nee, nsdgeom, nsdtopo, if_zero_based, i_offset,
+     *  i1min, i1max, nbad, ibadfirst, lname, nvert, njtet, lperm(8),
+     *  ivert(8), kk, numtet, numtet1, itetshift, imt1min, imt1max,
+     *  length, ierrdum, nvalues1, ifk, njk
+      character*8 ctab(8)
+      integer ltab(8), ntab(8), jtab(8), ftab(8), ptab(8,8)
+      real*8 x1, y1, z1
 C
 C ######################################################################
 C
-      character*(*) ifile
-      character*8 itype
-      character*32 isubname, cmonam, cmoatt, cmotype
-      character*132 cline, cbuff,ctype
-C
-C     Node based arrays
-C
-      pointer (ipout,data)
-      real*8 data(*)
-      pointer (ipiarray, iarray)
-      pointer (ipxarray, xarray)
-      integer iarray(1000000)
-      real*8 xarray(1000000)
-      pointer (ipivalues, ivalues)
-      integer ivalues(1000000)
-      pointer (ipxvalues, xvalues)
-      real*8 xvalues(1000000)
-      pointer (ipiatt_type, iatt_type)
-      integer iatt_type(1000000)
-C
-C     Element based arrays
-C
-      pointer (ipiarray_e, iarray_e)
-      pointer (ipxarray_e, xarray_e)
-      integer iarray_e(1000000)
-      real*8 xarray_e(1000000)
-      pointer (ipivalues_e, ivalues_e)
-      integer ivalues_e(1000000)
-      pointer (ipxvalues_e, xvalues_e)
-      real*8 xvalues_e(1000000)
-      pointer (ipiatt_type_e, iatt_type_e)
-      integer iatt_type_e(1000000)
-C      
-      integer icharlnf
-C$$      integer ismax,ismin
-C
-C$$      real*8 xref(6),yref(6),zref(6)
-C$$     * ,volface(6)
-      integer nnodes,ilen,ity,ier,mbndry,isetimt1,
-     * isetitp1,iseticr1,isetisn1,npoints_start,ihybrid,
-     * ifirst_line,icount,ipoints,ielements,itoff,jtoff,
-     * lenfile,jf,jt,node1,imt1max,
-     * imt1min,ih,numtet1,numtet,j,ic,len1,i,
-     * nvalues1,length,i1,i2,i3, i4,i5,i6,i7,i8,ifelmnew,
-     * istart,ifound,imat,it,nen,nef,nee,nsdgeom,nsdtopo,
-     * nsd,nelements,iline,i1max,i1min,nvalues,npoints,
-     * nelemavs,ierr1,ierr,iopt_values,iopt_elements,
-     * iopt_nodes,ierrdum,itetshift,icscode,lenout,
-     * ierror,itp,itypeout
-      integer nelements_start, icount_e, nvalues_e, nvalues1_e
-C$$     * ,if2,if3,if4,j1,jndex,index
-      integer if_zero_based, i_offset
-      integer nelemfile, nbad, ibadfirst, nsum, k
-      character*24 csect
-      character*32 cbadtype
-      pointer (ipidrop, idrop)
-      integer idrop(*)
-    
-      integer iunit
-      integer*4 iunit4
-
-      real*8 x1,y1,z1
-C$$     * ,ymin1,ymax1,xmax1,xmin1,zmax1,zmin1,xdiff,xavg
-C$$     * ,dx,x2,y2,z2,x3,y3,z3,x4,y4,z4,dy,dz,zavg,zdiff,yavg,ydiff
-C#######################################################################
-C
-C
-C     GET CMO NAME
-C        (IF CMO DOES NOT EXIST, BAIL OUT)
-C
       isubname='readavs'
+      ierror=0
       call cmo_get_name(cmonam,ierror)
       if (ierror.ne.0 .or. cmonam(1:8).eq.'-notset-') then
          lenfile=icharlnf(cmonam)
          write(logmess,9001) cmonam(1:lenfile)
  9001    format('The target mesh , ',a,', does not exist.')
          call writloga('default',1,logmess,0,ierr)
-         ! call x3d_error(isubname,'AVS READ FAILED')
          goto 9999
       endif
-C
       call cmo_get_info('nnodes',cmonam,nnodes,ilen,ity,ier)
       call cmo_get_info('nelements',cmonam,nelements,ilen,ity,ier)
       call cmo_get_info('mbndry',cmonam,mbndry,ilen,ity,ier)
@@ -281,36 +224,30 @@ C
          ierror=1
          goto 9999
       endif
-      nbad=0
-      ibadfirst=0
-      nelemfile=0
-      ipidrop=0
-      csect='header'
-C
-C     ******************************************************************
-C
 C
       isetimt1=0
       isetitp1=0
       iseticr1=0
       isetisn1=0
-C
-      npoints_start=nnodes
-      nelements_start=nelements
-C
       ihybrid=0
-      ifirst_line=0
-      icount=0
-      icount_e=0
-      ipoints=npoints_start
       ielements=0
       itoff=0
       jtoff=0
-C
+      nbad=0
+      ibadfirst=0
+      nelemfile=0
+      nelemavs=0
+      npoints=0
+      nvalues=0
+      nvalues_e=0
+      i_offset=0
+      i1min=0
+      i1max=0
+      nen=0
+      nef=0
 C
 C     ******************************************************************
-C
-C     CHECK TO SEE IF THE AVS FILE EXISTS, IF NOT THEN BAIL OUT.
+C     Open the file.
 C
       lenfile=icharlnf(ifile)
       call fexist(ifile(1:lenfile),ierr1)
@@ -320,12 +257,6 @@ C
          call writloga('default',1,logmess,0,ierr)
          goto 9999
       endif
-C
-C
-C     ******************************************************************
-C
-C     ASSIGN THE FILE TO THE NEXT AVAILABLE LOGICAL UNIT NUMBER.
-C
       iunit=-1
       call hassign(iunit,ifile,ierror)
       if (ierror.ne.0 .or. iunit.lt.0) then
@@ -334,1052 +265,273 @@ C
          call writloga('default',1,logmess,0,ierr)
          goto 9999
       endif
-
-C
 C
 C     ******************************************************************
+C     The header: vertices, cells, vertex and cell attributes. A first
+C     line "run" or "finish" ends the file.
 C
-C
- 100  continue
-      icount=icount+1
-      iunit4 = iunit
-      read(iunit4,'(a132)',err=9990,end=9990) cline
+      csect='header'
+      call avs_getline(iunit,cline,nline,ilong,ios)
+      if (ios.ne.0) goto 9990
       if(cline(1:3).eq.'run') goto 9998
       if(cline(1:6).eq.'finish') goto 9998
-      if(cline(1:1).eq.'#') goto 100
-      if(ifirst_line.eq.0) then
-         ifirst_line=icount
-         read(cline,*,err=9990,end=9990)
-     *      npoints,nelemavs,nvalues,nvalues_e
-         nelemfile=nelemavs
-         csect='vertices'
-         i1min=npoints
-         i1max=0
-         goto 100
-      elseif(ipoints.lt.npoints) then
- 
-C read in the AVS points
- 
-c
-c     Some AVS files use zero based arrays. This code assumes the
-c     nodes are in order, there are no holes in the list, and the
-c     list starts with entry 1. Put in code to deal with the case
-c     where the list starts with entry 0.
-c
+      read(cline(1:nline),*,err=9990,end=9990)
+     *   npoints,nelemavs,nvalues,nvalues_e
+      nelemfile=nelemavs
+      i1min=npoints
+      i1max=0
+C
+C     Nothing more is read without vertices.
+      if (npoints.le.0) goto 600
+C
+C     ******************************************************************
+C     The vertices, numbered from 0 or from 1, one after another (the
+C     cells refer to them by these numbers).
+C
+      csect='vertices'
       if_zero_based = -1
-         if(npoints.gt.0) then
-            do iline=1,npoints
-               read(cline,*,err=9990,end=9990) i1,x1,y1,z1
-               if(if_zero_based .lt. 0)then
-c
-c              Check value of i1 on first pass through this loop
-c
-               if_zero_based = i1
-               if(if_zero_based .ge. 2 .or. if_zero_based .lt. 0)then
-                  write(logmess,9003) if_zero_based
- 9003             format
-     1   ('ERROR read/avs: the first vertex number is ',i10)
-                  call writloga('default',1,logmess,0,ierr)
-                  write(logmess,9004)
- 9004             format
+      do iline=1,npoints
+         call avs_getline(iunit,cline,nline,ilong,ios)
+         if (ios.ne.0) goto 9990
+         read(cline(1:nline),*,err=9990,end=9990) i1,x1,y1,z1
+         if(if_zero_based .lt. 0)then
+            if_zero_based = i1
+            if(if_zero_based .ge. 2 .or. if_zero_based .lt. 0)then
+               write(logmess,9003) if_zero_based
+ 9003          format('ERROR read/avs: the first vertex number is ',i10)
+               call writloga('default',1,logmess,0,ierr)
+               write(logmess,9004)
+ 9004          format
      1   ('ERROR read/avs: number the vertices 0, 1, 2, ... or 1, 2, 3,'
      2    ' ...')
-                  call writloga('default',0,logmess,0,ierr)
-                  goto 9992
-               else
-                  if(if_zero_based .eq. 0)then
-                     i_offset = 1
-                  else
-                     i_offset = 0
-                  endif
-               endif
-               endif
- 
- 
- 
-               ! vertex numbers must be consecutive: the cells refer
-               ! to the vertices by number
-               if(i1 .ne. if_zero_based+iline-1) then
-                  write(logmess,9005) i1, if_zero_based+iline-1
- 9005             format('ERROR read/avs: vertex number ',i10,
-     1                   ' where ',i10,' was expected')
-                  call writloga('default',1,logmess,0,ierr)
-                  write(logmess,9004)
-                  call writloga('default',0,logmess,0,ierr)
-                  goto 9992
-               endif
-               ! this code assumes i1(ipoint)=i1min:i1min+npoints-1
-               ! and only uses i1 info to set itetshift
-               i1min=min(i1min,i1+i_offset)
-               i1max=max(i1max,i1+i_offset)
-               ipoints=ipoints+1
-               if(ipoints.eq.1) then
-                  npoints=npoints_start+npoints
-                  call cmo_set_info('nnodes',cmonam,npoints,1,1,ierror)
-                  call cmo_newlen(cmonam,ierror)
-                  call cmo_get_info('imt1',cmonam,
-     *                              ipimt1,ilen,itp,ier)
-                  call cmo_get_info('itp1',cmonam,
-     *                              ipitp1,ilen,itp,ier)
-                  call cmo_get_info('icr1',cmonam,
-     *                              ipicr1,ilen,itp,ier)
-                  call cmo_get_info('xic',cmonam,
-     *                              ipxic,ilen,itp,ierror)
-                  call cmo_get_info('yic',cmonam,
-     *                              ipyic,ilen,itp,ierror)
-                  call cmo_get_info('zic',cmonam,
-     *                              ipzic,ilen,itp,ierror)
-               endif
-               imt1(ipoints)=0
-               itp1(ipoints)=0
-               xic(ipoints)=x1
-               yic(ipoints)=y1
-               zic(ipoints)=z1
-               if(npoints.gt.1.and.ipoints.lt.npoints) then
- 101              continue
-                  icount=icount+1
-                  read(iunit,'(a132)',err=9990,end=9990) cline
-                  if(cline(1:1).eq.'#') goto 101
-               endif
-            enddo
-         endif
-         if(iopt_nodes.eq.0) then
-            npoints=0
-         endif
- 
-C read in the AVS elements
- 
-         csect='cells'
-         if(nelemavs.gt.0) then
- 200        continue
-               read(iunit,'(a132)',err=9990,end=9990) cline
-               if(cline(1:1).eq.'#') goto 200
-            if (iopt_elements.eq.1) then
- 
-C set defaults in case read in only bad elements
- 
-               nnodes=npoints
-               nelements=nelemavs
-               call cmo_set_info('nnodes',cmonam,
-     *                            nnodes,1,1,ierror)
-               call cmo_set_info('nelements',cmonam,
-     *                            nelements,1,1,ierror)
-               cmotype='tet'
-               nsd=3
-               nsdgeom=3
-               nsdtopo=3
-               nen=nelmnen(ifelmtet)
-               nef=nelmnef(ifelmtet)
-               nee=nelmnee(ifelmtet)
-               call cmo_set_info('ndimensions_geom',cmonam,
-     *                            nsdgeom,1,1,ierror)
-               call cmo_set_info('ndimensions_topo',cmonam,
-     *                            nsdtopo,1,1,ierror)
-               call cmo_set_info('nodes_per_element',cmonam,
-     *                            nen,1,1,ierror)
-               call cmo_set_info('faces_per_element',cmonam,
-     *                            nef,1,1,ierror)
-               call cmo_set_info('edges_per_element',cmonam,
-     *                            nee,1,1,ierror)
-               call cmo_newlen(cmonam,ierror)
-               call cmo_get_info('itetclr',cmonam,
-     *                            ipitetclr,ilen,itp,ier)
-               call cmo_get_info('itettyp',cmonam,
-     *                            ipitettyp,ilen,itp,ier)
-               call cmo_get_info('itetoff',cmonam,
-     *                            ipitetoff,ilen,itp,ier)
-               call cmo_get_info('jtetoff',cmonam,
-     *                            ipjtetoff,ilen,itp,ier)
-               call cmo_get_info('itet',cmonam,
-     *                            ipitet,ilen,itp,ier)
-               call cmo_get_info('jtet',cmonam,
-     *                            ipjtet,ilen,itp,ier)
+               call writloga('default',0,logmess,0,ierr)
+               goto 9992
             endif
-            do iline=1,nelemavs
-               ielements=ielements+1
-               if(iopt_elements.eq.1) then
-                  read(cline,*,err=9990,end=9990) it,imat
-                  it = it + i_offset
- 
-C     find the AVS element type
- 
-                  ifound=0
-                  itype='BAD'
-                  istart=1
-                  dowhile(istart.lt.len(cline).and.ifound.eq.0)
-                     if (cline(istart:istart+2).eq.'pt') then
-                        ifound=1
-                        itype=cline(istart:istart+2)
-                        cline=cline(istart+3:len(cline))
-                     elseif (cline(istart:istart+4).eq.'line') then
-                        ifound=2
-                        itype=cline(istart:istart+4)
-                        cline=cline(istart+5:len(cline))
-                     elseif (cline(istart:istart+3).eq.'tri') then
-                        ifound=3
-                        itype=cline(istart:istart+3)
-                        cline=cline(istart+4:len(cline))
-                     elseif (cline(istart:istart+4).eq.'quad') then
-                        ifound=4
-                        itype=cline(istart:istart+4)
-                        cline=cline(istart+5:len(cline))
-                     elseif (cline(istart:istart+3).eq.'tet') then
-                        ifound=5
-                        itype=cline(istart:istart+3)
-                        cline=cline(istart+4:len(cline))
-                     elseif (cline(istart:istart+3).eq.'pyr') then
-                        ifound=6
-                        itype=cline(istart:istart+3)
-                        cline=cline(istart+4:len(cline))
-                     elseif (cline(istart:istart+5).eq.'prism') then
-                        ifound=7
-                        itype=cline(istart:istart+5)
-                        cline=cline(istart+6:len(cline))
-                     elseif (cline(istart:istart+3).eq.'pri ') then
-c                       'pri', as other codes write a prism
-                        ifound=7
-                        itype='prism'
-                        cline=cline(istart+4:len(cline))
-                     elseif (cline(istart:istart+3).eq.'hex') then
-                        ifound=8
-                        itype=cline(istart:istart+3)
-                        cline=cline(istart+4:len(cline))
-                     else
-                        istart=istart+1
-                     endif
-                  enddo
-                  if (ifound.eq.0) then
-                      ielements=ielements-1
-                      nelements=nelements-1
-                      if (nbad.eq.0) then
-                         call mmgetblk('idrop',isubname,ipidrop,
-     *                                 nelemfile,1,icscode)
-                         do i=1,nelemfile
-                            idrop(i)=0
-                         enddo
-                         ibadfirst=iline
-                         read(cline,*,err=104,end=104) it,imat,cbadtype
-                         goto 105
- 104                     cbadtype='?'
- 105                     continue
-                      endif
-                      nbad=nbad+1
-                      idrop(iline)=1
-                      goto 103
-                  endif
- 
-C     initialize lagrit mesh element info
- 
-                  if (ielements.eq.1) then
- 
-                     if(itype(1:2).eq.'pt') then
-                        cmotype='pnt'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=1
-                        nen=nelmnen(ifelmpnt)
-                        nef=nelmnef(ifelmpnt)
-                        nee=nelmnee(ifelmpnt)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     elseif (itype(1:4).eq.'line') then
-                        cmotype='lin'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=1
-                        nen=nelmnen(ifelmlin)
-                        nef=nelmnef(ifelmlin)
-                        nee=nelmnee(ifelmlin)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     else if(itype(1:3).eq.'tri') then
-                        cmotype='tri'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=2
-                        nen=nelmnen(ifelmtri)
-                        nef=nelmnef(ifelmtri)
-                        nee=nelmnee(ifelmtri)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     elseif (itype(1:4).eq.'quad') then
-                        cmotype='quad'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=2
-                        nen=nelmnen(ifelmqud)
-                        nef=nelmnef(ifelmqud)
-                        nee=nelmnee(ifelmqud)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     elseif (itype(1:3).eq.'tet') then
-                        cmotype='tet'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=3
-                        nen=nelmnen(ifelmtet)
-                        nef=nelmnef(ifelmtet)
-                        nee=nelmnee(ifelmtet)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     elseif (itype(1:3).eq.'pyr') then
-                        cmotype='pyr'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=3
-                        nen=nelmnen(ifelmpyr)
-                        nef=nelmnef(ifelmpyr)
-                        nee=nelmnee(ifelmpyr)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
- 
-                     elseif(itype(1:5).eq.'prism') then
-                        cmotype='prism'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=3
-                        nen=nelmnen(ifelmpri)
-                        nef=nelmnef(ifelmpri)
-                        nee=nelmnee(ifelmpri)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
-                     elseif(itype(1:3).eq.'hex') then
-                        cmotype='hex'
-                        nsd=3
-                        nsdgeom=3
-                        nsdtopo=3
-                        nen=nelmnen(ifelmhex)
-                        nef=nelmnef(ifelmhex)
-                        nee=nelmnee(ifelmhex)
-                        call cmo_set_info('ndimensions_geom',cmonam,
-     *                                    nsdgeom,1,1,ierror)
-                        call cmo_set_info('ndimensions_topo',cmonam,
-     *                                    nsdtopo,1,1,ierror)
-                        call cmo_set_info('nodes_per_element',cmonam,
-     *                                    nen,1,1,ierror)
-                        call cmo_set_info('faces_per_element',cmonam,
-     *                                    nef,1,1,ierror)
-                        call cmo_set_info('edges_per_element',cmonam,
-     *                                    nee,1,1,ierror)
-                        call cmo_newlen(cmonam,ierror)
-                        call cmo_get_info('itetclr',cmonam,
-     *                                    ipitetclr,ilen,itp,ier)
-                        call cmo_get_info('itettyp',cmonam,
-     *                                    ipitettyp,ilen,itp,ier)
-                        call cmo_get_info('itetoff',cmonam,
-     *                                    ipitetoff,ilen,itp,ier)
-                        call cmo_get_info('jtetoff',cmonam,
-     *                                    ipjtetoff,ilen,itp,ier)
-                        call cmo_get_info('itet',cmonam,
-     *                                    ipitet,ilen,itp,ier)
-                        call cmo_get_info('jtet',cmonam,
-     *                                    ipjtet,ilen,itp,ier)
-                     endif
-                  endif
- 
-C     set the itettyp for the current element
- 
-                  if(itype(1:2).eq.'pt') then
-                     ifelmnew=ifelmpnt
-                  elseif(itype(1:4).eq.'line') then
-                     ifelmnew=ifelmlin
-                  elseif(itype(1:3).eq.'tri') then
-                     ifelmnew=ifelmtri
-                  elseif(itype(1:4).eq.'quad') then
-                     ifelmnew=ifelmqud
-                  elseif(itype(1:3).eq.'tet') then
-                     ifelmnew=ifelmtet
-                  elseif(itype(1:3).eq.'pyr') then
-                     ifelmnew=ifelmpyr
-                  elseif(itype(1:3).eq.'pri') then
-                     ifelmnew=ifelmpri
-                  elseif(itype(1:3).eq.'hex') then
-                     ifelmnew=ifelmhex
-                  endif
-                  if(ihybrid.eq.0 .and. ifound.ne.0 .and.
-     *               (nelmnen(ifelmnew).ne.nen .or.
-     *                nelmnef(ifelmnew).ne.nef)) then
-                     ihybrid=1
-                     nen=nelmnen(ifelmhyb)
-                     nef=nelmnef(ifelmhyb)
-                     nee=nelmnee(ifelmhyb)
-                     call cmo_set_info('nodes_per_element',cmonam,
-     *                                 nen,1,1,ierror)
-                     call cmo_set_info('faces_per_element',cmonam,
-     *                                 nef,1,1,ierror)
-                     call cmo_set_info('edges_per_element',cmonam,
-     *                                 nee,1,1,ierror)
-                     call cmo_newlen(cmonam,ierror)
-                     call cmo_get_info('itetclr',cmonam,
-     *                                 ipitetclr,ilen,itp,ier)
-                     call cmo_get_info('itettyp',cmonam,
-     *                                 ipitettyp,ilen,itp,ier)
-                     call cmo_get_info('itetoff',cmonam,
-     *                                 ipitetoff,ilen,itp,ier)
-                     call cmo_get_info('jtetoff',cmonam,
-     *                                 ipjtetoff,ilen,itp,ier)
-                     call cmo_get_info('itet',cmonam,
-     *                                 ipitet,ilen,itp,ier)
-                     call cmo_get_info('jtet',cmonam,
-     *                                 ipjtet,ilen,itp,ier)
-                  endif
- 
-C     set the itet relation for the current element
- 
-103               if(itype(1:2).eq.'pt') then
-c         'pnt': note avs order  = lagrit order
-                     read(cline,*,err=9990,end=9990)
-     *                  i1
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmpnt
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i1+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
- 
-                  elseif(itype(1:4).eq.'line') then
-c         'lin': note avs order  = lagrit order
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmlin
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i1+i_offset
-                     itet1(itetoff(ielements)+2)=i2+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
- 
-                  elseif(itype(1:3).eq.'tri') then
-c         'tri': note avs order  = lagrit order
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i3
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmtri
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i1+i_offset
-                     itet1(itetoff(ielements)+2)=i2+i_offset
-                     itet1(itetoff(ielements)+3)=i3+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
- 
-                  elseif(itype(1:4).eq.'quad') then
-c         'qud': note avs order  = lagrit order
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i3,i4
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmqud
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i1+i_offset
-                     itet1(itetoff(ielements)+2)=i2+i_offset
-                     itet1(itetoff(ielements)+3)=i3+i_offset
-                     itet1(itetoff(ielements)+4)=i4+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
-                     jtet1(jtetoff(ielements)+4)=-1
- 
-                  elseif(itype(1:3).eq.'tet') then
-c         'tet': note avs order  1 2 4 3 = lagrit order 1 2 3 4
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i4,i3
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmtet
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i1+i_offset
-                     itet1(itetoff(ielements)+2)=i2+i_offset
-                     itet1(itetoff(ielements)+3)=i3+i_offset
-                     itet1(itetoff(ielements)+4)=i4+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
-                     jtet1(jtetoff(ielements)+4)=-1
- 
-                  elseif(itype(1:3).eq.'pyr') then
-c         'pyr': note avs order  1 2 3 4 5 = lagrit order 2 3 4 5 1
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i3,i4,i5
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmpyr
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i2+i_offset
-                     itet1(itetoff(ielements)+2)=i3+i_offset
-                     itet1(itetoff(ielements)+3)=i4+i_offset
-                     itet1(itetoff(ielements)+4)=i5+i_offset
-                     itet1(itetoff(ielements)+5)=i1+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
-                     jtet1(jtetoff(ielements)+4)=-1
-                     jtet1(jtetoff(ielements)+5)=-1
- 
-                  elseif(itype(1:5).eq.'prism') then
-c         'pri': note avs order  1 2 3 4 5 6 = lagrit order 4 5 6 1 2 3
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i3,i4,i5,i6
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmpri
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i4+i_offset
-                     itet1(itetoff(ielements)+2)=i5+i_offset
-                     itet1(itetoff(ielements)+3)=i6+i_offset
-                     itet1(itetoff(ielements)+4)=i1+i_offset
-                     itet1(itetoff(ielements)+5)=i2+i_offset
-                     itet1(itetoff(ielements)+6)=i3+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
-                     jtet1(jtetoff(ielements)+4)=-1
-                     jtet1(jtetoff(ielements)+5)=-1
- 
-                  elseif(itype(1:3).eq.'hex') then
-c         'hex': note avs order  1 2 3 4 5 6 7 8 = lagrit order 5 6 7 8 1 2 3 4
-                     read(cline,*,err=9990,end=9990)
-     *                  i1,i2,i3,i4,i5,i6,i7,i8
-                     itetclr(ielements)=imat
-                     itettyp(ielements)=ifelmhex
-                     itetoff(ielements)=itoff
-                     jtetoff(ielements)=jtoff
-                     itoff=itoff+nelmnen(itettyp(ielements))
-                     jtoff=jtoff+nelmnef(itettyp(ielements))
-                     itet1(itetoff(ielements)+1)=i5+i_offset
-                     itet1(itetoff(ielements)+2)=i6+i_offset
-                     itet1(itetoff(ielements)+3)=i7+i_offset
-                     itet1(itetoff(ielements)+4)=i8+i_offset
-                     itet1(itetoff(ielements)+5)=i1+i_offset
-                     itet1(itetoff(ielements)+6)=i2+i_offset
-                     itet1(itetoff(ielements)+7)=i3+i_offset
-                     itet1(itetoff(ielements)+8)=i4+i_offset
-                     jtet1(jtetoff(ielements)+1)=-1
-                     jtet1(jtetoff(ielements)+2)=-1
-                     jtet1(jtetoff(ielements)+3)=-1
-                     jtet1(jtetoff(ielements)+4)=-1
-                     jtet1(jtetoff(ielements)+5)=-1
-                     jtet1(jtetoff(ielements)+6)=-1
- 
-                  else
-c         itype unsupported: counted above, reported after the cells
-                  endif
- 
-               endif
- 
-c     get the next line
- 
-               if(nelemavs.gt.1.and.iline.lt.nelemavs) then
- 102              continue
-                  icount=icount+1
-                  read(iunit,'(a132)',err=9990,end=9990) cline
-                  if(cline(1:1).eq.'#') goto 102
-               endif
- 
-            enddo
+            i_offset = 1 - if_zero_based
          endif
-         if (nbad.gt.0) then
-            write(logmess,'(a,i10,a)') 'WARNING read/avs: ',nbad,
-     *         ' cells of unknown type skipped'
+         if(i1 .ne. if_zero_based+iline-1) then
+            write(logmess,9005) i1, if_zero_based+iline-1
+ 9005       format('ERROR read/avs: vertex number ',i10,
+     1             ' where ',i10,' was expected')
             call writloga('default',1,logmess,0,ierr)
-            write(logmess,'(a,i10,a,a)')
-     *         'WARNING read/avs: the first is cell ',ibadfirst,
-     *         ' of the file, type ',cbadtype(1:icharlnf(cbadtype))
-            call writloga('default',0,logmess,1,ierr)
-         endif
-         if(nelemavs.eq.0) nelements=0
-         if(iopt_elements.eq.0) then
-            nelemavs=0
-         elseif(iopt_elements.eq.1) then
-            nelemavs=nelements
-         endif
- 
-c read in the field values
-         csect='vertex attributes'
-         if((nvalues.le.0) .and. (nvalues_e.le.0)) then
-C
-C     All done, there are not node attributes or element attributes.
-C
-
-            go to 9998
-         elseif((nvalues.le.0) .and. (nvalues_e.gt.0)) then
-C
-C     In this case there are no node attributes but element attributes will follow.
-C     Still expect a zero in the file here.
-C
-            read(iunit,*,err=9990,end=9990) nvalues1
-            if ((nvalues1 .ne. 0).and.(nvalues1 .eq. nvalues_e)) then
-            write(logmess,290) 
+            write(logmess,9004)
             call writloga('default',0,logmess,0,ierr)
-            write(logmess,291) 
+            goto 9992
+         endif
+         i1min=min(i1min,i1+i_offset)
+         i1max=max(i1max,i1+i_offset)
+         if(iline.eq.1) then
+            call cmo_set_info('nnodes',cmonam,npoints,1,1,ierror)
+            call cmo_newlen(cmonam,ierror)
+            call cmo_get_info('imt1',cmonam,ipimt1,ilen,itp,ier)
+            call cmo_get_info('itp1',cmonam,ipitp1,ilen,itp,ier)
+            call cmo_get_info('icr1',cmonam,ipicr1,ilen,itp,ier)
+            call cmo_get_info('xic',cmonam,ipxic,ilen,itp,ierror)
+            call cmo_get_info('yic',cmonam,ipyic,ilen,itp,ierror)
+            call cmo_get_info('zic',cmonam,ipzic,ilen,itp,ierror)
+         endif
+         imt1(iline)=0
+         itp1(iline)=0
+         xic(iline)=x1
+         yic(iline)=y1
+         zic(iline)=z1
+      enddo
+      if(iopt_nodes.eq.0) then
+         npoints=0
+      endif
+C
+C     ******************************************************************
+C     The cells: number, material, AVS type, vertices (avs_cell_table
+C     gives the types and vertex orders). The type is the first of
+C     the names followed by a blank on the line. A cell of another
+C     type is skipped (WARNING below), and so is its row of cell
+C     attributes.
+C
+      csect='cells'
+      do kk=1,8
+         call avs_cell_table(kk,ctab(kk),ltab(kk),ftab(kk),ntab(kk),
+     *                       jtab(kk),ptab(1,kk))
+      enddo
+      if(nelemavs.gt.0) then
+         if (iopt_elements.eq.1) then
+C           tets until the first cell says otherwise
+            nelements=nelemavs
+            call cmo_set_info('nnodes',cmonam,npoints,1,1,ierror)
+            call cmo_set_info('nelements',cmonam,nelements,1,1,ierror)
+            nen=nelmnen(ifelmtet)
+            nef=nelmnef(ifelmtet)
+            nee=nelmnee(ifelmtet)
+            call avs_cmo_shape(cmonam,3,3,nen,nef,nee,ipitetclr,
+     *         ipitettyp,ipitetoff,ipjtetoff,ipitet,ipjtet)
+         endif
+         do iline=1,nelemavs
+            call avs_getline(iunit,cline,nline,ilong,ios)
+            if (ios.ne.0) goto 9990
+            ielements=ielements+1
+            if (iopt_elements.ne.1) goto 295
+            read(cline(1:nline),*,err=9990,end=9990) it,imat
+            ifound=0
+            istart=1
+            do while (istart.lt.nline .and. ifound.eq.0)
+               do kk=1,8
+                  if (cline(istart:istart+ltab(kk)-1).eq.
+     *                ctab(kk)(1:ltab(kk))) then
+                     if (cline(istart+ltab(kk):istart+ltab(kk)).eq.' ')
+     *                  then
+                        ifound=kk
+                        lname=ltab(kk)
+                        goto 210
+                     endif
+                  endif
+               enddo
+C              "pri", as other codes write a prism
+               if (cline(istart:istart+3).eq.'pri ') then
+                  ifound=7
+                  lname=3
+                  goto 210
+               endif
+               istart=istart+1
+            enddo
+ 210        continue
+            if (ifound.ne.0) then
+               ifelm=ftab(ifound)
+               nvert=ntab(ifound)
+               njtet=jtab(ifound)
+               do k=1,8
+                  lperm(k)=ptab(k,ifound)
+               enddo
+            endif
+            if (ifound.eq.0) then
+               ielements=ielements-1
+               nelements=nelements-1
+               if (nbad.eq.0) then
+                  call mmgetblk('idrop',isubname,ipidrop,
+     *                          nelemfile,1,icscode)
+                  do i=1,nelemfile
+                     idrop(i)=0
+                  enddo
+                  ibadfirst=iline
+                  read(cline(1:nline),*,err=204,end=204) it,imat,
+     *               cbadtype
+                  goto 205
+ 204              cbadtype='?'
+ 205              continue
+               endif
+               nbad=nbad+1
+               idrop(iline)=1
+               goto 295
+            endif
+C
+C           the mesh object's cell shape: from the first cell; hybrid
+C           as soon as a cell of another size follows
+            if (ielements.eq.1) then
+               nen=nelmnen(ifelm)
+               nef=nelmnef(ifelm)
+               nee=nelmnee(ifelm)
+               nsdtopo=3
+               if (ifelm.eq.ifelmpnt .or. ifelm.eq.ifelmlin) nsdtopo=1
+               if (ifelm.eq.ifelmtri .or. ifelm.eq.ifelmqud) nsdtopo=2
+               call avs_cmo_shape(cmonam,3,nsdtopo,nen,nef,nee,
+     *            ipitetclr,ipitettyp,ipitetoff,ipjtetoff,ipitet,ipjtet)
+            endif
+            ifelmnew=ifelm
+            if(ihybrid.eq.0 .and.
+     *         (nelmnen(ifelmnew).ne.nen .or.
+     *          nelmnef(ifelmnew).ne.nef)) then
+               ihybrid=1
+               nen=nelmnen(ifelmhyb)
+               nef=nelmnef(ifelmhyb)
+               nee=nelmnee(ifelmhyb)
+               call avs_cmo_shape(cmonam,0,0,nen,nef,nee,
+     *            ipitetclr,ipitettyp,ipitetoff,ipjtetoff,ipitet,ipjtet)
+            endif
+C
+            read(cline(istart+lname:nline),*,err=9990,end=9990)
+     *         (ivert(k),k=1,nvert)
+            itetclr(ielements)=imat
+            itettyp(ielements)=ifelm
+            itetoff(ielements)=itoff
+            jtetoff(ielements)=jtoff
+            itoff=itoff+nelmnen(ifelm)
+            jtoff=jtoff+nelmnef(ifelm)
+            do k=1,nvert
+               itet1(itetoff(ielements)+lperm(k))=ivert(k)+i_offset
+            enddo
+            do k=1,njtet
+               jtet1(jtetoff(ielements)+k)=-1
+            enddo
+ 295        continue
+         enddo
+      endif
+      if (nbad.gt.0) then
+         write(logmess,'(a,i10,a)') 'WARNING read/avs: ',nbad,
+     *      ' cells of unknown type skipped'
+         call writloga('default',1,logmess,0,ierr)
+         write(logmess,'(a,i10,a,a)')
+     *      'WARNING read/avs: the first is cell ',ibadfirst,
+     *      ' of the file, type ',cbadtype(1:icharlnf(cbadtype))
+         call writloga('default',0,logmess,1,ierr)
+      endif
+      if(nelemavs.eq.0) nelements=0
+      if(iopt_elements.eq.0) then
+         nelemavs=0
+      elseif(iopt_elements.eq.1) then
+         nelemavs=nelements
+      endif
+C
+C     ******************************************************************
+C     The vertex attributes. With none but cell attributes to come,
+C     the section is the line "0" (a file without it is read too).
+C
+      csect='vertex attributes'
+      if((nvalues.le.0) .and. (nvalues_e.le.0)) then
+         goto 9998
+      elseif((nvalues.le.0) .and. (nvalues_e.gt.0)) then
+         read(iunit,*,err=9990,end=9990) nvalues1
+         if ((nvalues1 .ne. 0).and.(nvalues1 .eq. nvalues_e)) then
+            write(logmess,290)
             call writloga('default',0,logmess,0,ierr)
-            write(logmess,292) 
+            write(logmess,291)
+            call writloga('default',0,logmess,0,ierr)
+            write(logmess,292)
             call writloga('default',0,logmess,0,ierr)
  290        format('READAVS WARNING: File header says nnode_att = 0')
  291        format
      1   ('READAVS WARNING: 0 not read after element connectivity')
  292        format
      1   ('READAVS WARNING: Assume nelement_att is in this position')
-C           Make a guess that this was really nvalues1_e
-               backspace(iunit)
-            endif
-C           and now jump forward to the place where element attribute info is read.
-C
-         elseif(nvalues.gt.0) then
-            length=nvalues
-            call mmgetblk('ivalues',isubname,ipivalues,length,2,icscode)
-            call mmgetblk('xvalues',isubname,ipxvalues,length,2,icscode)
-            call mmgetblk('isdatptr',isubname,
-     *                    ipisdatptr,length,2,icscode)
-            call mmgetblk('iatt_type',isubname,
-     *                    ipiatt_type,length,2,icscode)
- 300        continue
-               read(iunit,'(a132)',err=9990,end=9990) cline
-               if(cline(1:1).eq.'#') goto 300
             backspace(iunit)
-            read(iunit,*,err=9990,end=9990)
-     *         nvalues1,(ivalues(i),i=1,nvalues1)
-            if(nvalues1.gt.0) then
-            if(nvalues1 .ne. nvalues)then
-            write(logmess,305) nvalues
- 305        format('READAVS ERROR: File header says ',
-     1              i10,' node attributes')
-            call writloga('default',1,logmess,0,ierr)
-            write(logmess,306) nvalues1
- 306        format('READAVS ERROR: Data header says ',
-     1              i10,' node attributes')
-            call writloga('default',1,logmess,0,ierr)
-            goto 9999
-            endif
-               do i=1,nvalues1
-                  icount=icount+1
- 310              continue
-                     read(iunit,'(a132)',err=9990,end=9990) cline
-                     if(cline(1:1).eq.'#') goto 310
-                  len1=min(len(cline),icharlnf(cline))
-                  ic=1
-                  dowhile(ic.le.len1.and.cline(ic:ic).ne.',')
-                     ic=ic+1
-                  enddo
-                  ic=ic-1
-                  cmoatt=cline(1:ic)
-c                 the type after the comma, with or without a space
-                  if (ic+2.le.len(cline)) then
-                     ctype=' '//adjustl(cline(ic+2:))
-                  else
-                     ctype=' '
-                  endif
-                  ctype(9:)=' '
-                  if(cmoatt(1:ic).eq.'xmt1') then
-                     isetimt1=1
-                     cmoatt='imt1'
-                  elseif(cmoatt(1:ic).eq.'imt1') then
-                     isetimt1=1
-                  elseif(cmoatt(1:ic).eq.'itp1') then
-                     isetitp1=1
-                  elseif(cmoatt(1:ic).eq.'icr1') then
-                     iseticr1=1
-                  elseif(cmoatt(1:ic).eq.'isn1') then
-                     isetisn1=1
-                  endif
-                  if (ivalues(i).ne.1) then
-c                    only rank 1 (scalar) attributes are read
-                     call avs_rank_warn('vertex',cmoatt,ivalues(i))
-                     iatt_type(i)=0
-                     goto 315
-                  endif
-                  call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                  if(icscode.eq.0) then
-                     call mmgettyp(ipout,itypeout,icscode)
-                     if (itypeout.eq.1) then
-                        isdatptr(i)=ipout
-                        iatt_type(i)=1
-                     elseif(itypeout.eq.2) then
-                        isdatptr(i)=ipout
-                        iatt_type(i)=2 
-                     else
-                        write(logmess,'(a,a)')'Illegal attribute type ',
-     *                       cmoatt(1:icharlnf(cmoatt))
-                        call writloga('default',0,logmess,0,icscode)
-                        go to 9998
-                     endif                  
-                  else
-                    if(ctype(1:icharlnf(ctype)).eq.' integer') then
-                        cbuff='cmo/addatt/' //
-     *                     cmonam(1:icharlnf(cmonam)) //
-     *                     '/' //
-     *                     cmoatt(1:icharlnf(cmoatt)) //
-     *                     '/VINT' //
-     *                     '/scalar/nnodes/linear/permanent/gxaf/0.0' //
-     *                     ' ; finish '
-                     call dotaskx3d(cbuff,ierror)
-                     call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                     isdatptr(i)=ipout
-                     iatt_type(i)=1
-                    else
-                     cbuff='cmo/addatt/' //
-     *                     cmonam(1:icharlnf(cmonam)) //
-     *                     '/' //
-     *                     cmoatt(1:icharlnf(cmoatt)) //
-     *                     '/VDOUBLE' //
-     *                     '/scalar/nnodes/linear/permanent/gxaf/0.0' //
-     *                     ' ; finish '
-                     call dotaskx3d(cbuff,ierror)
-                     call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                     isdatptr(i)=ipout
-                     iatt_type(i)=2
-                     endif
-                  endif
- 315              continue
-               enddo
-c              one row holds the values of every attribute, all ranks
-               nsum=0
-               do j=1,nvalues
-                  nsum=nsum+ivalues(j)
-               enddo
-               call mmgetblk('xrow',isubname,ipxvalues,nsum,2,icscode)
-               do i=npoints_start+1,npoints
-                  icount=icount+1
- 320              continue
-                     read(iunit,'(a132)',err=9990,end=9990) cline
-                     if(cline(1:1).eq.'#') goto 320
-                  backspace(iunit)
-                  read(iunit,*,err=9990,end=9990)
-     *               i1,(xvalues(j),j=1,nsum)
-                  k=0
-                  do j=1,nvalues
-                     k=k+ivalues(j)
-                     if(iatt_type(j).eq.1) then
-                        ipiarray=isdatptr(j)
-                        iarray(i)=nint(xvalues(k))
-                     elseif(iatt_type(j).eq.2) then
-                        ipxarray=isdatptr(j)
-                        xarray(i)=xvalues(k)
-                     endif
-                  enddo
-               enddo
-            endif
          endif
-         if(iopt_values.eq.0) then
-            nvalues=0
-         endif
+      else
+         call avs_read_atts(iunit,cmonam,'nnodes',nvalues,npoints,
+     *      0,idrop,isetimt1,isetitp1,iseticr1,isetisn1,csect,ierr)
+         if (ierr.eq.1) goto 9990
+         if (ierr.eq.2) goto 9992
+         if (ierr.eq.3) goto 9998
+      endif
+      if(iopt_values.eq.0) then
+         nvalues=0
       endif
 C
-C ******* End Reading Node Attributes ***********
+C     ******************************************************************
+C     The cell attributes: one row per cell of the file (the rows of
+C     skipped cells are read and dropped).
 C
-C ******* Begin Reading Element Attributes ***********
-C 
-         csect='cell attributes'
-         if(nvalues_e.le.0) then
-C           Then we are done.
-            go to 9998
+ 600  continue
+      csect='cell attributes'
+      if(nvalues_e.gt.0) then
+         if (nelemavs.le.0) nelemfile=0
+         call avs_read_atts(iunit,cmonam,'nelements',nvalues_e,
+     *      nelemfile,nbad,idrop,isetimt1,isetitp1,iseticr1,isetisn1,
+     *      csect,ierr)
+         if (ierr.eq.1) goto 9990
+         if (ierr.eq.2) goto 9992
+      endif
 C
-         elseif(nvalues_e.gt.0) then
-            length=nvalues_e
-            call mmgetblk('ivalues_e',isubname,
-     *                    ipivalues_e,length,2,icscode)
-            call mmgetblk('xvalues_e',isubname,
-     *                    ipxvalues_e,length,2,icscode)
-            call mmgetblk('isdatptr_e',isubname,
-     *                    ipisdatptr_e,length,2,icscode)
-            call mmgetblk('iatt_type_e',isubname,
-     *                    ipiatt_type_e,length,2,icscode)
- 400        continue
-               read(iunit,'(a132)',err=9990,end=9990) cline
-               if(cline(1:1).eq.'#') goto 400
-            backspace(iunit)
-            read(iunit,*,err=9990,end=9990)
-     *         nvalues1_e,(ivalues_e(i),i=1,nvalues1_e)
-            if(nvalues1_e .ne. nvalues_e)then
-            write(logmess,405) nvalues_e
- 405        format('READAVS ERROR: File header says ',
-     1              i10,' element attributes')
-            call writloga('default',1,logmess,0,ierr)
-            write(logmess,406) nvalues1_e
- 406        format('READAVS ERROR: Data header says ',
-     1              i10,' element attributes')
-            call writloga('default',1,logmess,0,ierr)
-            goto 9999
-            endif
-            if(nvalues1_e.gt.0) then
-               do i=1,nvalues1_e
-                  icount_e=icount_e+1
- 410              continue
-                     read(iunit,'(a132)',err=9990,end=9990) cline
-                     if(cline(1:1).eq.'#') goto 410
-                  len1=min(len(cline),icharlnf(cline))
-                  ic=1
-                  dowhile(ic.le.len1.and.cline(ic:ic).ne.',')
-                     ic=ic+1
-                  enddo
-                  ic=ic-1
-                  cmoatt=cline(1:ic)
-c                 the type after the comma, with or without a space
-                  if (ic+2.le.len(cline)) then
-                     ctype=' '//adjustl(cline(ic+2:))
-                  else
-                     ctype=' '
-                  endif
-                  ctype(9:)=' '
-                  if (ivalues_e(i).ne.1) then
-c                    only rank 1 (scalar) attributes are read
-                     call avs_rank_warn('cell',cmoatt,ivalues_e(i))
-                     iatt_type_e(i)=0
-                     goto 415
-                  endif
-                  call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                  if(icscode.eq.0) then
-                     call mmgettyp(ipout,itypeout,icscode)
-                     if (itypeout.eq.1) then
-                        isdatptr_e(i)=ipout
-                        iatt_type_e(i)=1
-                     elseif(itypeout.eq.2) then
-                        isdatptr_e(i)=ipout
-                        iatt_type_e(i)=2 
-                     else
-                        write(logmess,'(a,a)')'Illegal attribute type ',
-     *                       cmoatt(1:icharlnf(cmoatt))
-                        call writloga('default',0,logmess,0,icscode)
-                        go to 9998
-                     endif                  
-                  else
-                    if(ctype(1:icharlnf(ctype)).eq.' integer') then
-                        cbuff='cmo/addatt/' //
-     *                     cmonam(1:icharlnf(cmonam)) //
-     *                     '/' //
-     *                     cmoatt(1:icharlnf(cmoatt)) //
-     *                     '/VINT' //
-     *                 '/scalar/nelements/linear/permanent/gxaf/0.0' //
-     *                     ' ; finish '
-                     call dotaskx3d(cbuff,ierror)
-                     call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                     isdatptr_e(i)=ipout
-                     iatt_type_e(i)=1
-                    else
-                     cbuff='cmo/addatt/' //
-     *                     cmonam(1:icharlnf(cmonam)) //
-     *                     '/' //
-     *                     cmoatt(1:icharlnf(cmoatt)) //
-     *                     '/VDOUBLE' //
-     *                 '/scalar/nelements/linear/permanent/gxaf/0.0' //
-     *                     ' ; finish '
-                     call dotaskx3d(cbuff,ierror)
-                     call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-                     isdatptr_e(i)=ipout
-                     iatt_type_e(i)=2
-                     endif
-                  endif
- 415              continue
-               enddo
-               nsum=0
-               do j=1,nvalues_e
-                  nsum=nsum+ivalues_e(j)
-               enddo
-               call mmgetblk('xrow_e',isubname,ipxvalues_e,nsum,2,
-     *                       icscode)
-c              one row per cell of the file: the rows of cells of an
-c              unknown type (skipped) are read and dropped
-               i=nelements_start
-               iline=0
-               if (nelemavs.le.0) nelemfile=0
-               do while (iline.lt.nelemfile)
-                  iline=iline+1
-                  icount_e=icount_e+1
- 420              continue
-                     read(iunit,'(a132)',err=9990,end=9990) cline
-                     if(cline(1:1).eq.'#') goto 420
-                  backspace(iunit)
-                  read(iunit,*,err=9990,end=9990)
-     *               i1,(xvalues_e(j),j=1,nsum)
-                  if (nbad.gt.0) then
-                     if (idrop(iline).ne.0) goto 425
-                  endif
-                  i=i+1
-                  k=0
-                  do j=1,nvalues_e
-                     k=k+ivalues_e(j)
-                     if(iatt_type_e(j).eq.1) then
-                        ipiarray_e=isdatptr_e(j)
-                        iarray_e(i)=nint(xvalues_e(k))
-                     elseif(iatt_type_e(j).eq.2) then
-                        ipxarray_e=isdatptr_e(j)
-                        xarray_e(i)=xvalues_e(k)
-                     endif
-                  enddo
- 425              continue
-               enddo
-            endif
-         endif
-
-C ******* End Reading Element Attributes ***********
+C     ******************************************************************
+C     The mesh: compress the cells, the vertex materials and types,
+C     jtet (geniee), dudded vertices.
+C
  9998 continue
 C
       close(iunit)
@@ -1509,98 +661,6 @@ C
             enddo
             call mmrelblk('idone',isubname,ipidone,icscode)
          endif
-C$$C
-C$$C try to set icr1 assuming box
-C$$C
-C$$         if(iseticr1.eq.0) then
-C$$            index=ismin(npoints,xic,1)
-C$$            xmin1=xic(index)
-C$$            index=ismax(npoints,xic,1)
-C$$            xmax1=xic(index)
-C$$            xdiff=xmax1-xmin1
-C$$            xavg=0.5d+00*(xmax1+xmin1)
-C$$C
-C$$            index=ismin(npoints,yic,1)
-C$$            ymin1=yic(index)
-C$$            index=ismax(npoints,yic,1)
-C$$            ymax1=yic(index)
-C$$            ydiff=ymax1-ymin1
-C$$            yavg=0.5d+00*(ymax1+ymin1)
-C$$C
-C$$            index=ismin(npoints,zic,1)
-C$$            zmin1=zic(index)
-C$$            index=ismax(npoints,zic,1)
-C$$            zmax1=zic(index)
-C$$            zdiff=zmax1-zmin1
-C$$            zavg=0.5d+00*(zmax1+zmin1)
-C$$C
-C$$            xref(1)=xavg
-C$$            yref(1)=yavg
-C$$            zref(1)=zavg+10.0*zdiff
-C$$            xref(2)=xavg
-C$$            yref(2)=yavg
-C$$            zref(2)=zavg-10.0*zdiff
-C$$            xref(3)=xavg
-C$$            yref(3)=yavg-10.0*ydiff
-C$$            zref(3)=zavg
-C$$            xref(4)=xavg+10.0*xdiff
-C$$            yref(4)=yavg
-C$$            zref(4)=zavg
-C$$            xref(5)=xavg
-C$$            yref(5)=yavg+10.0*ydiff
-C$$            zref(5)=zavg
-C$$            xref(6)=xavg-10.0*xdiff
-C$$            yref(6)=yavg
-C$$            zref(6)=zavg
-C$$C
-C$$            do i=1,npoints
-C$$C*****   ******icr1(i)=0
-C$$            enddo
-C$$            do it=1,numtet
-C$$               do i=1,nelmnef(itettyp(it))
-C$$                  index=jtetoff(it)+i
-C$$                  if((jtet1(index).le.0.or.jtet1(index).eq.mbndry) .and.
-C$$     *             itettyp(it).eq.ifelmtet) then
-C$$                     if2=itet1(itetoff(it) +
-C$$     *                   ielmface1(1,i,itettyp(it)))
-C$$                     if3=itet1(itetoff(it) +
-C$$     *                   ielmface1(2,i,itettyp(it)))
-C$$                     if4=itet1(itetoff(it) +
-C$$     *                   ielmface1(3,i,itettyp(it)))
-C$$                     x2=xic(if2)
-C$$                     y2=yic(if2)
-C$$                     z2=zic(if2)
-C$$                     x3=xic(if3)
-C$$                     y3=yic(if3)
-C$$                     z3=zic(if3)
-C$$                     x4=xic(if4)
-C$$                     y4=yic(if4)
-C$$                     z4=zic(if4)
-C$$                     dx= ((y2-y3)*(z4-z3)-(y4-y3)*(z2-z3))
-C$$                     dy=-((x2-x3)*(z4-z3)-(x4-x3)*(z2-z3))
-C$$                     dz= ((x2-x3)*(y4-y3)-(x4-x3)*(y2-y3))
-C$$                     do j=1,nef
-C$$                        volface(j)=-((x3-xref(j))*dx+
-C$$     *                               (y3-yref(j))*dy+
-C$$     *                               (z3-zref(j))*dz)
-C$$                     enddo
-C$$                     index=ismax(nef,volface,1)
-C$$                     jndex=nef*(it-1)
-C$$                     if(cmotype(1:3).eq.'tet') then
-C$$                        do j=1,3
-C$$                           j1=itet1(jndex+ielmface1(j,i,ifelmtet))
-C$$C*****   ******************icr1(j1)=index
-C$$                        enddo
-C$$                     elseif(cmotype(1:3).eq.'hex') then
-C$$                        do j=1,4
-C$$                           j1=itet1(jndex+ielmface1(j,i,ifelmhex))
-C$$C*****   ******************icr1(j1)=index
-C$$                        enddo
-C$$                     endif
-C$$                  endif
-C$$               enddo
-C$$            enddo
-C$$         endif
 C
       endif
 C
@@ -1658,7 +718,7 @@ C
  9990 continue
       write(logmess,'(a,a)')
      *   'ERROR read/avs: a line cannot be read, or the file ends, in ',
-     *   csect(1:icharlnf(csect))
+     *   csect(1:len_trim(csect))
       call writloga('default',1,logmess,0,ierr)
 C
 C     Errors after the file is opened: close it and empty the mesh
@@ -1689,5 +749,250 @@ C
      *   cwhere,' attribute ',cname(1:icharlnf(cname)),' has rank',
      *   irank,'; only rank 1 is read: skipped'
       call writloga('default',0,logmess,0,ierr)
+      return
+      end
+C
+      subroutine avs_getline(iunit, cline, nline, ilong, ios)
+C
+C     read / avs: the next line of the file that does not start with
+C     "#", in cline(1:nline) (blanks follow it). A line that fills
+C     cline (it may be longer) gives ilong = 1: backspace reads it
+C     again from the file. ios: 0, or the iostat of the end of the
+C     file or a read error.
+C
+      implicit none
+      integer iunit, nline, ilong, ios
+      character*(*) cline
+ 10   continue
+      ilong=0
+      read(iunit,'(a)',iostat=ios) cline
+      if (ios.ne.0) then
+         nline=0
+         return
+      endif
+      if (cline(1:1).eq.'#') goto 10
+      nline=len_trim(cline)
+      if (nline.eq.len(cline)) ilong=1
+      return
+      end
+C
+      subroutine avs_cmo_shape(cmonam, nsdgeom, nsdtopo, nen, nef, nee,
+     *   ipitetclr, ipitettyp, ipitetoff, ipjtetoff, ipitet, ipjtet)
+C
+C     read / avs: give mesh object cmonam cells of nen vertices, nef
+C     faces and nee edges (and the dimensions, if nsdgeom > 0), and
+C     return its cell arrays.
+C
+      implicit none
+      character*(*) cmonam
+      integer nsdgeom, nsdtopo, nen, nef, nee
+      integer ipitetclr, ipitettyp, ipitetoff, ipjtetoff, ipitet,
+     *        ipjtet
+      integer ilen, itp, ier, ierror
+      if (nsdgeom.gt.0) then
+         call cmo_set_info('ndimensions_geom',cmonam,nsdgeom,1,1,ierror)
+         call cmo_set_info('ndimensions_topo',cmonam,nsdtopo,1,1,ierror)
+      endif
+      call cmo_set_info('nodes_per_element',cmonam,nen,1,1,ierror)
+      call cmo_set_info('faces_per_element',cmonam,nef,1,1,ierror)
+      call cmo_set_info('edges_per_element',cmonam,nee,1,1,ierror)
+      call cmo_newlen(cmonam,ierror)
+      call cmo_get_info('itetclr',cmonam,ipitetclr,ilen,itp,ier)
+      call cmo_get_info('itettyp',cmonam,ipitettyp,ilen,itp,ier)
+      call cmo_get_info('itetoff',cmonam,ipitetoff,ilen,itp,ier)
+      call cmo_get_info('jtetoff',cmonam,ipjtetoff,ilen,itp,ier)
+      call cmo_get_info('itet',cmonam,ipitet,ilen,itp,ier)
+      call cmo_get_info('jtet',cmonam,ipjtet,ilen,itp,ier)
+      return
+      end
+C
+      subroutine avs_read_atts(iunit, cmonam, clen, nexp, nrows, nbad,
+     *   idrop, isetimt1, isetitp1, iseticr1, isetisn1, csect, ierr)
+C
+C     read / avs: one attribute section, vertex (clen 'nnodes') or
+C     cell ('nelements'): the count and ranks, one "name, type" line
+C     each, then nrows rows. A row of a skipped cell (idrop(row) = 1,
+C     when nbad > 0) is read and dropped. An attribute the mesh
+C     object lacks is made: VINT if its type is "integer" (with or
+C     without a blank after the comma), else VDOUBLE. Ranks other than
+C     1 are skipped (WARNING). For vertex attributes, xmt1 is read as
+C     imt1, and isetimt1 ... isetisn1 say which of imt1, itp1, icr1
+C     and isn1 the file gave.
+C
+C     ierr: 0 done; 1 a line cannot be read or the file ends (the
+C     caller reports it, with csect); 2 an error reported here; 3 an
+C     attribute of a type other than integer or real (reading stops,
+C     the mesh is kept, as before).
+C
+      implicit none
+      integer iunit, nexp, nrows, nbad, isetimt1, isetitp1, iseticr1,
+     *        isetisn1, ierr
+      character*(*) cmonam, clen, csect
+      integer idrop(*)
+C
+      pointer (ipout, iout)
+      integer iout(*)
+      pointer (ipiarray, iarray)
+      pointer (ipxarray, xarray)
+      integer iarray(*)
+      real*8 xarray(*)
+      pointer (ipirank, irank)
+      pointer (ipiatt, iatt_type)
+      pointer (ipidat, isdatptr)
+      pointer (ipxrow, xrow)
+      integer irank(*), iatt_type(*), isdatptr(*)
+      real*8 xrow(*)
+C
+      character*1024 cline
+      character*132 logmess, ctype
+      character*200 cbuff
+      character*32 isubname, cmoatt, cwhere
+      integer nline, ilong, ios, nvals, i, j, k, ic, len1, nsum, irow,
+     *  lenout, icscode, itypeout, ierror, i1, iwhere
+      integer icharlnf
+C
+      isubname='avs_read_atts'
+      ierr=0
+      if (clen(1:6).eq.'nnodes') then
+         cwhere='vertex'
+         iwhere=1
+      else
+         cwhere='cell'
+         iwhere=2
+      endif
+C
+C     the count and the ranks
+      call avs_getline(iunit,cline,nline,ilong,ios)
+      if (ios.ne.0) goto 900
+      call mmgetblk('irank',isubname,ipirank,max(1,nexp),1,icscode)
+      read(cline(1:nline),*,iostat=ios) nvals,(irank(i),i=1,nexp)
+      if (ios.ne.0 .or. ilong.ne.0) then
+         backspace(iunit)
+         read(iunit,*,err=900,end=900) nvals
+         if (nvals.ne.nexp) goto 800
+         backspace(iunit)
+         read(iunit,*,err=900,end=900) nvals,(irank(i),i=1,nvals)
+      endif
+ 800  continue
+      if (nvals.ne.nexp) then
+         write(logmess,805) nexp, cwhere(1:icharlnf(cwhere))
+ 805     format('READAVS ERROR: File header says ',i10,1x,a,
+     1          ' attributes')
+         call writloga('default',1,logmess,0,ierror)
+         write(logmess,806) nvals, cwhere(1:icharlnf(cwhere))
+ 806     format('READAVS ERROR: Data header says ',i10,1x,a,
+     1          ' attributes')
+         call writloga('default',1,logmess,0,ierror)
+         ierr=2
+         goto 999
+      endif
+C
+C     the names: make the attributes the mesh object lacks
+      call mmgetblk('iatt_type',isubname,ipiatt,nvals,1,icscode)
+      call mmgetblk('isdatptr',isubname,ipidat,nvals,1,icscode)
+      do i=1,nvals
+         call avs_getline(iunit,cline,nline,ilong,ios)
+         if (ios.ne.0) goto 900
+         len1=min(nline,icharlnf(cline))
+         ic=1
+         do while (ic.le.len1 .and. cline(ic:ic).ne.',')
+            ic=ic+1
+         enddo
+         ic=ic-1
+         cmoatt=cline(1:ic)
+C        the type after the comma, with or without a space
+         if (ic+2.le.len(cline)) then
+            ctype=' '//adjustl(cline(ic+2:))
+         else
+            ctype=' '
+         endif
+         ctype(9:)=' '
+         if (iwhere.eq.1) then
+            if(cmoatt(1:ic).eq.'xmt1') then
+               isetimt1=1
+               cmoatt='imt1'
+            elseif(cmoatt(1:ic).eq.'imt1') then
+               isetimt1=1
+            elseif(cmoatt(1:ic).eq.'itp1') then
+               isetitp1=1
+            elseif(cmoatt(1:ic).eq.'icr1') then
+               iseticr1=1
+            elseif(cmoatt(1:ic).eq.'isn1') then
+               isetisn1=1
+            endif
+         endif
+         iatt_type(i)=0
+         if (irank(i).ne.1) then
+            call avs_rank_warn(cwhere(1:icharlnf(cwhere)),cmoatt,
+     *                         irank(i))
+            goto 150
+         endif
+         call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
+         if (icscode.ne.0) then
+            if (ctype(1:icharlnf(ctype)).eq.' integer') then
+               cbuff='cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
+     *               '/' // cmoatt(1:icharlnf(cmoatt)) // '/VINT' //
+     *               '/scalar/' // clen(1:icharlnf(clen)) //
+     *               '/linear/permanent/gxaf/0.0 ; finish '
+            else
+               cbuff='cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
+     *               '/' // cmoatt(1:icharlnf(cmoatt)) // '/VDOUBLE' //
+     *               '/scalar/' // clen(1:icharlnf(clen)) //
+     *               '/linear/permanent/gxaf/0.0 ; finish '
+            endif
+            call dotaskx3d(cbuff,ierror)
+            call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
+         endif
+         call mmgettyp(ipout,itypeout,icscode)
+         if (itypeout.ne.1 .and. itypeout.ne.2) then
+            write(logmess,'(a,a)')'Illegal attribute type ',
+     *         cmoatt(1:icharlnf(cmoatt))
+            call writloga('default',0,logmess,0,icscode)
+            ierr=3
+            goto 999
+         endif
+         isdatptr(i)=ipout
+         iatt_type(i)=itypeout
+ 150     continue
+      enddo
+C
+C     the rows: one line each (or more: then read from the file)
+      nsum=0
+      do j=1,nvals
+         nsum=nsum+irank(j)
+      enddo
+      call mmgetblk('xrow',isubname,ipxrow,max(1,nsum),2,icscode)
+      irow=0
+      do i=1,nrows
+         call avs_getline(iunit,cline,nline,ilong,ios)
+         if (ios.ne.0) goto 900
+         ios=1
+         if (ilong.eq.0)
+     *      read(cline(1:nline),*,iostat=ios) i1,(xrow(j),j=1,nsum)
+         if (ios.ne.0) then
+            backspace(iunit)
+            read(iunit,*,err=900,end=900) i1,(xrow(j),j=1,nsum)
+         endif
+         if (nbad.gt.0) then
+            if (idrop(i).ne.0) goto 250
+         endif
+         irow=irow+1
+         k=0
+         do j=1,nvals
+            k=k+irank(j)
+            if (iatt_type(j).eq.1) then
+               ipiarray=isdatptr(j)
+               iarray(irow)=nint(xrow(k))
+            elseif (iatt_type(j).eq.2) then
+               ipxarray=isdatptr(j)
+               xarray(irow)=xrow(k)
+            endif
+         enddo
+ 250     continue
+      enddo
+      goto 999
+C
+ 900  ierr=1
+ 999  call mmrelprt(isubname,icscode)
       return
       end
