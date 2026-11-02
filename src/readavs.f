@@ -191,6 +191,8 @@ C
       character*8 ctab(8)
       integer ltab(8), ntab(8), jtab(8), ftab(8), ptab(8,8)
       real*8 x1, y1, z1
+      integer ipos, ierrp, iv(2)
+      real*8 rv(3)
 C
 C ######################################################################
 C
@@ -293,7 +295,19 @@ C
       do iline=1,npoints
          call avs_getline(iunit,cline,nline,ilong,ios)
          if (ios.ne.0) goto 9990
-         read(cline(1:nline),*,err=9990,end=9990) i1,x1,y1,z1
+C        avs_get_ints and avs_get_reals (avs_fast.c) read the plain
+C        lines; anything else, the list-directed read as before
+         ipos=1
+         call avs_get_ints(cline,nline,ipos,1,iv,ierrp)
+         if (ierrp.eq.0) call avs_get_reals(cline,nline,ipos,3,rv,ierrp)
+         if (ierrp.eq.0) then
+            i1=iv(1)
+            x1=rv(1)
+            y1=rv(2)
+            z1=rv(3)
+         else
+            read(cline(1:nline),*,err=9990,end=9990) i1,x1,y1,z1
+         endif
          if(if_zero_based .lt. 0)then
             if_zero_based = i1
             if(if_zero_based .ge. 2 .or. if_zero_based .lt. 0)then
@@ -369,7 +383,14 @@ C           tets until the first cell says otherwise
             if (ios.ne.0) goto 9990
             ielements=ielements+1
             if (iopt_elements.ne.1) goto 295
-            read(cline(1:nline),*,err=9990,end=9990) it,imat
+            ipos=1
+            call avs_get_ints(cline,nline,ipos,2,iv,ierrp)
+            if (ierrp.eq.0) then
+               it=iv(1)
+               imat=iv(2)
+            else
+               read(cline(1:nline),*,err=9990,end=9990) it,imat
+            endif
             ifound=0
             istart=1
             do while (istart.lt.nline .and. ifound.eq.0)
@@ -449,8 +470,11 @@ C           as soon as a cell of another size follows
      *            ipitetclr,ipitettyp,ipitetoff,ipjtetoff,ipitet,ipjtet)
             endif
 C
-            read(cline(istart+lname:nline),*,err=9990,end=9990)
-     *         (ivert(k),k=1,nvert)
+            ipos=istart+lname
+            call avs_get_ints(cline,nline,ipos,nvert,ivert,ierrp)
+            if (ierrp.ne.0)
+     *         read(cline(istart+lname:nline),*,err=9990,end=9990)
+     *            (ivert(k),k=1,nvert)
             itetclr(ielements)=imat
             itettyp(ielements)=ifelm
             itetoff(ielements)=itoff
@@ -850,6 +874,8 @@ C
       character*132 logmess, ctype
       character*200 cbuff
       character*32 isubname, cmoatt, cwhere
+      integer ipos, iv(1), iindex
+      character*32 cptype, cprank, cplen, cpint, cppers, cpio
       integer nline, ilong, ios, nvals, i, j, k, ic, len1, nsum, irow,
      *  lenout, icscode, itypeout, ierror, i1, iwhere
       integer icharlnf
@@ -931,7 +957,22 @@ C        the type after the comma, with or without a space
             goto 150
          endif
          call mmfindbk(cmoatt,cmonam,ipout,lenout,icscode)
-         if (icscode.ne.0) then
+         if (icscode.eq.0) then
+C           an attribute of that name, of the other length (a cell
+C           attribute named like a vertex attribute, or the reverse):
+C           skipped, since its values would not fit
+            call cmo_get_attparam(cmoatt,cmonam,iindex,cptype,cprank,
+     *         cplen,cpint,cppers,cpio,ierror)
+            if (ierror.eq.0 .and. cplen(1:icharlnf(cplen)).ne.
+     *          clen(1:icharlnf(clen))) then
+               write(logmess,'(a,a,a,a,a)') 'WARNING read/avs: ',
+     *            cwhere(1:icharlnf(cwhere)),' attribute ',
+     *            cmoatt(1:icharlnf(cmoatt)),
+     *            ' exists with the other length: skipped'
+               call writloga('default',0,logmess,0,icscode)
+               goto 150
+            endif
+         else
             if (ctype(1:icharlnf(ctype)).eq.' integer') then
                cbuff='cmo/addatt/' // cmonam(1:icharlnf(cmonam)) //
      *               '/' // cmoatt(1:icharlnf(cmoatt)) // '/VINT' //
@@ -970,8 +1011,14 @@ C     the rows: one line each (or more: then read from the file)
          call avs_getline(iunit,cline,nline,ilong,ios)
          if (ios.ne.0) goto 900
          ios=1
-         if (ilong.eq.0)
-     *      read(cline(1:nline),*,iostat=ios) i1,(xrow(j),j=1,nsum)
+         if (ilong.eq.0) then
+            ipos=1
+            call avs_get_ints(cline,nline,ipos,1,iv,ios)
+            if (ios.eq.0)
+     *         call avs_get_reals(cline,nline,ipos,nsum,xrow,ios)
+            if (ios.ne.0)
+     *         read(cline(1:nline),*,iostat=ios) i1,(xrow(j),j=1,nsum)
+         endif
          if (ios.ne.0) then
             backspace(iunit)
             read(iunit,*,err=900,end=900) i1,(xrow(j),j=1,nsum)

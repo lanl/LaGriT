@@ -20,8 +20,9 @@ C        cname  - the AVS cell name (character*8, blank padded)
 C        lname  - its length
 C        ifelm  - the LaGriT cell type (local_element.h)
 C        nvert  - the number of vertices
-C        njtet  - the number of jtet entries read / avs sets to -1
-C                 (as it always has)
+C        njtet  - the number of jtet entries read / avs sets to -1:
+C                 the faces of the cell (a pt cell has none; read / avs
+C                 used to write one, past the end of jtet)
 C        lperm  - lperm(j) = the LaGriT vertex (1..nvert) at AVS
 C                 position j: AVS vertex j of a cell is itet(lperm(j))
 C
@@ -43,7 +44,7 @@ C
      *            'prism', 'hex' /
       data lnam / 2, 4, 3, 4, 3, 3, 5, 3 /
       data nv   / 1, 2, 3, 4, 4, 5, 6, 8 /
-      data nj   / 1, 2, 3, 4, 4, 5, 5, 6 /
+      data nj   / 0, 2, 3, 4, 4, 5, 5, 6 /
       data perm / 1, 0, 0, 0, 0, 0, 0, 0,
      *            1, 2, 0, 0, 0, 0, 0, 0,
      *            1, 2, 3, 0, 0, 0, 0, 0,

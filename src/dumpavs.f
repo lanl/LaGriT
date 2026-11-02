@@ -253,6 +253,8 @@ C
       character*132 logmess
       character*8 cname
       character*4096 ch_string
+      character*256 cline
+      integer nout, iok, nrow
       character*30 cfmt_point, cfmt_cell
       character*2 chash
       real*8 xyz(3), cutoff, maxval, r8, cinterpolate
@@ -448,7 +450,14 @@ C
                   xyz(k)=sign(maxval,xyz(k))
                endif
             enddo
-            if (iopt_points .eq. 1) then
+C           the line built by avs_put_vertex (avs_fast.c), else by a
+C           formatted write (the same characters)
+            iok = 0
+            if (iopt_points.eq.1 .or. iopt_points.eq.2)
+     *         call avs_put_vertex(iopt_points,i,iw,xyz,cline,nout,iok)
+            if (iok .eq. 1) then
+               write(iunit,'(a)') cline(1:nout)
+            elseif (iopt_points .eq. 1) then
                write(iunit,cfmt_point) i,xyz(1),xyz(2),xyz(3)
             elseif (iopt_points .eq. 2) then
                write(iunit,cfmt_point) xyz(1),xyz(2),xyz(3)
@@ -484,7 +493,14 @@ C        the table once: ktab(LaGriT type) = its entry, 0 for none
      *      '))'
          do it=1,nelem
             if (iopt_elements .eq. 3) then
-               write(iunit,cfmt_cell) it,1,'pt',it
+               ivert(1) = it
+               call avs_put_cell(1,it,iw,1,'pt',2,1,ivert,ivw,cline,
+     *                           nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') cline(1:nout)
+               else
+                  write(iunit,cfmt_cell) it,1,'pt',it
+               endif
             else
                ic = 0
                if (itettyp(it).ge.0 .and. itettyp(it).le.20)
@@ -496,7 +512,13 @@ C        the table once: ktab(LaGriT type) = its entry, 0 for none
                   do k=1,nvert
                      ivert(k) = itet(ioff+ptab(k,ic))
                   enddo
-                  if (iopt_elements .eq. 1) then
+                  iok = 0
+                  if (iopt_elements.eq.1 .or. iopt_elements.eq.2)
+     *               call avs_put_cell(iopt_elements,it,iw,itetclr(it),
+     *                  ctab(ic),lname,nvert,ivert,ivw,cline,nout,iok)
+                  if (iok .eq. 1) then
+                     write(iunit,'(a)') cline(1:nout)
+                  elseif (iopt_elements .eq. 1) then
                      write(iunit,cfmt_cell) it,itetclr(it),
      *                  ctab(ic)(1:lname),(ivert(k),k=1,nvert)
                   elseif (iopt_elements .eq. 2) then
@@ -642,7 +664,14 @@ C
 C           avs1: every value a real, 100 to a line
             ncolumn_max = 100
             do it=1,nent
-               if (iopt .eq. 1) then
+               iok = 0
+               if ((iopt.eq.1 .or. iopt.eq.2) .and.
+     *             irowlen.le.ncolumn_max)
+     *            call avs_put_row1(iopt,it,irowlen,
+     *               xvalues(1+irowlen*(it-1)),ch_string,nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') ch_string(1:nout)
+               elseif (iopt .eq. 1) then
                   write(iunit,9080) it,
      *              (xvalues(i+irowlen*(it-1)),
      *               i=1,min(ncolumn_max,irowlen))
@@ -672,7 +701,16 @@ C           avs2: integers as integers, packed into ch_string
                n_int_i(i) = nint(alog10( real(imax_vint(i)+1))) + 3
                if (n_int_i(i) .le. 3) n_int_i(i) = 3
             enddo
+            nrow = 0
+            if (iopt .eq. 1) nrow = nint( alog10( real(nent)+1 ) ) + 3
             do it=1,nent
+               call avs_put_row2(nrow,it,nsel,
+     *            xvalues(1+irowlen*(it-1)),itype_flag,n_int_i,
+     *            ch_string,nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') ch_string(1:nout)
+                  goto 450
+               endif
                n_char_string = 0
                if (iopt .eq. 1) then
                   n_int  = nint( alog10( real(nent)+1 ) ) + 3
@@ -689,6 +727,7 @@ C           avs2: integers as integers, packed into ch_string
                enddo
                call string_write(ch_string, n_char_string, iunit,
      *                           if_clear)
+ 450           continue
             enddo
          endif
  500     continue

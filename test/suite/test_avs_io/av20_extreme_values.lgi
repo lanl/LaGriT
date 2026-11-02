@@ -1,0 +1,14 @@
+# values at the edges of dump / avs's number formats (three-digit
+# exponents, 5e-324, 1.8e308, -0.0, 9.99999999999995e99, 13-digit
+# integers): written as before, and read back to the same file
+# check: finished
+# check: noerror
+# check: golden out_extremes.inp
+# check: golden out1_extremes.inp
+# check: same out_extremes.inp rt_extremes.inp
+read / avs / extremes.inp / mo1
+dump / avs / out_extremes.inp / mo1
+dump / avs1 / out1_extremes.inp / mo1
+read / avs / out_extremes.inp / mo2
+dump / avs / rt_extremes.inp / mo2
+finish

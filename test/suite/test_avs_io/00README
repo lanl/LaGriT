@@ -5,7 +5,7 @@ src/readavs.f and src/dumpavs.f)
 
 QUICK START
 
-  sh run_avs_io_tests.sh [path-to-lagrit]     30 decks, about 2 s
+  sh run_avs_io_tests.sh [path-to-lagrit]     32 decks, about 2 s
   open logs/summary.html
 
 WHAT IT TESTS
@@ -47,6 +47,8 @@ THE DECKS
              vertices (the next width of the vertex and cell numbers)
   av19       read / avs without a mesh object name, or with it blank:
              an ERROR, nothing read (the name is required)
+  av20       values at the edges of the number formats (three-digit
+             exponents, 5e-324, 1.8e308, -0.0, 13-digit integers)
 
   Problems found in a review of readavs.f and dumpavs.f (Nov 2026),
   first added as KNOWN, now fixed; each deck checks the fixed behaviour
@@ -70,6 +72,10 @@ THE DECKS
         right (the next attribute got its values)
   ak11  dump / att_elem writes the ranks of the cell attributes (of
         the vertex attributes)
+  ak12  a cell attribute named like a vertex attribute: skipped with a
+        WARNING (its values were written into the vertex attribute,
+        past its end when there are more cells than vertices; found by
+        a random test of step 4)
   A deck may also carry a "# known:" line for a problem not yet fixed:
   it gives KNOWN while a check fails, FIXED once all hold.
 
