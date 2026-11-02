@@ -1,0 +1,47 @@
+test_edge_lengths -- cmo / addatt / edge_lengths_min, _max, _mean (Oct 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_edge_lengths_tests.sh [path-to-lagrit]     8 decks, about 1 s
+  open logs/summary.html
+
+WHAT IS TESTED
+
+  cmo / addatt / mo / edge_lengths_min  / att_name
+  cmo / addatt / mo / edge_lengths_max  / att_name
+  cmo / addatt / mo / edge_lengths_mean / att_name
+  make a real (VDOUBLE) vertex attribute with the shortest, longest or
+  mean length of the distinct edges at each vertex (cell sides; a tet's
+  6 vertex pairs; quad diagonals are not edges); 0 for a vertex in no
+  cell. The attribute name is required. Written to set a resolution
+  from a surface mesh, e.g. the h field of createpts / poisson_disk
+  from a DFN.
+
+THE DECKS (meshes from make_edge_inputs.py, except el07)
+
+  el01_equi    equilateral triangles of side 0.5: all values 0.5
+  el02_rect    1 x 2 rectangles cut into triangles
+  el03_quad    the same as quads (no diagonals)
+  el04_mixed   quads and triangles together
+  el05_jitter  a triangle grid with every vertex moved at random
+  el06_lone    plus one vertex in no cell: 0
+  el07_tet     a brick of cubes cut into 6 tets each (hextotet)
+  el08_errors  no attribute name (none, or -def-): an error, nothing
+               made; then a valid call works
+
+WHAT IS CHECKED (check_edge_lengths.py)
+
+  LaGriT finished; el_min, el_max and el_mean are real vertex
+  attributes; every value agrees to 1e-10 (relative) with the value
+  computed from the vertices and cells in the same dumped file; plus
+  the deck's "# exact", "# lone" and "# refused" lines. On a LaGriT
+  without these keywords every deck fails.
+
+FILES
+
+  run_edge_lengths_tests.sh   runner (work/, logs/)
+  make_edge_inputs.py         the meshes
+  check_edge_lengths.py       checks, logs/summary.html (pictures with
+                              ../test_lagrit_upstream/draw_meshes.py)
+  el01-el08 *.lgi             the decks

@@ -571,7 +571,7 @@ C
             do 130 i=3,nsets
                ipos2=ibpos(i)
                do 120 j=1,ntets
-                  nwd1=shiftr(iand(xtetwd(j),imask(ipos1)),ipos1-1)
+                  nwd1=shiftr(iand(itmpwd(j),imask(ipos1)),ipos1-1)
                   nwd2=shiftr(iand(xtetwd(j),imask(ipos2)),ipos2-1)
   
                   iintrfce=shiftl(iand(nwd1,nwd2),ibitpos-1)
@@ -605,7 +605,7 @@ C
                   do 150 j=1,ntets
                      nwd1=shiftr(iand(itmpwd(j),imask(ipos1)),ipos1-1)
                      nwd2=shiftr(iand(xtetwd(j),imask(ipos2)),ipos2-1)
-                     iintrfce=iand(shiftl(nwd1,not(nwd2)),ibitpos-1)
+                     iintrfce=shiftl(iand(nwd1,not(nwd2)),ibitpos-1)
                      itmpwd(j)=ior(iand(itmpwd(j),nmask),iintrfce)
  150              continue
  160           continue

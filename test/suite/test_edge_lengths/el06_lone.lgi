@@ -1,0 +1,14 @@
+#####################################################################
+# el06_lone.lgi
+#
+# The jitter mesh plus one vertex in no cell: that vertex gets 0.
+#
+# check : el06_out.inp
+# lone : 122
+#####################################################################
+read / avs / el_lone.inp / mo
+cmo / addatt / mo / edge_lengths_min / el_min
+cmo / addatt / mo / edge_lengths_max / el_max
+cmo / addatt / mo / edge_lengths_mean / el_mean
+dump / avs / el06_out.inp / mo
+finish

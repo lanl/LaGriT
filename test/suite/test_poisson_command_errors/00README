@@ -84,11 +84,24 @@
 #   err18  THREE missing box defines      accumulator test
 #   err19  h field illegal away from the first z layer
 #
+# Output mesh object already exists (used to corrupt the heap)
+#   err20  3D, created first with cmo / create
+#   err21  2D, output name is the polygon mesh object
+#
+# 3D box and edge buffer defines (the first three used to crash)
+#   err22  flat box, POI_ZMAX = POI_ZMIN
+#   err23  inverted box, POI_XMAX < POI_XMIN
+#   err24  box 0.3 thick, edge buffer moves each face in by h = 0.2
+#   err25  THREE faults: POI_ZMAX a word, IF_POI_EDGE_BUFFER 2,
+#          POI_EDGE_BUFFER -1 (accumulator test)
+#
 # Warnings, must NOT abort
 #   warn01 nonconvex, reflex at vertex 4
 #   warn02 nonconvex, reflex at vertex 1
 #   warn03 nonconvex, reflex at vertex 6
 #   warn04 h field above the 100*h warning threshold
+#   warn05 3D, edge buffer defines not set (defaults used); the box
+#          limits are integers, which used to be read as garbage
 #
 #######################################################################
 #

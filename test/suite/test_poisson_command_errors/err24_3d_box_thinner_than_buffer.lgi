@@ -1,0 +1,24 @@
+#####################################################################
+# err24_3d_box_thinner_than_buffer.lgi
+#
+# blocks   : 1
+# contains : in z; with the edge buffer on | 2*h*POI_EDGE_BUFFER =  4.000000E-01 | IF_POI_EDGE_BUFFER / 0
+#
+# EXPECT:
+#   One ERROR block: the box is 0.3 thick in z, but the edge buffer
+#   moves each face in by h = 0.2, so the sample box is inverted.
+#
+# NOTE:
+#   Before the fix the sampler aborted (std::length_error). The same
+#   box with IF_POI_EDGE_BUFFER 0 runs; see the test index.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.2 / no_connect
+finish

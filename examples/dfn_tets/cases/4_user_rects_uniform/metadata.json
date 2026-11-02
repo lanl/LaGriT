@@ -1,0 +1,22 @@
+{
+  "case": "4_user_rects_uniform",
+  "source_example": "4_user_rects",
+  "domain_size": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "domain_size_increase": [
+    0,
+    0,
+    0
+  ],
+  "h": 0.1,
+  "uniform_mesh": true,
+  "min_dist": null,
+  "max_dist": null,
+  "max_resolution_factor": null,
+  "n_nodes": 771,
+  "n_elements": 1386,
+  "dfnworks_commit": "16b16b8aa00f00c43ddf75f92eeebc12b7d497f9"
+}

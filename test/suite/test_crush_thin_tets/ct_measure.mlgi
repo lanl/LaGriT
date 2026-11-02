@@ -1,0 +1,14 @@
+# ct_measure.mlgi - Carl Gable's tet quality attributes (ex_id_tet_types),
+# computed on a copy of mesh object MO and written to AVS_OUT.
+cmo / copy / mo_m / MO
+cmo / select / mo_m
+cmo / addatt / mo_m / ang_mind / ang_mind
+cmo / addatt / mo_m / ang_maxd / ang_maxd
+cmo / addatt / mo_m / ang_maxd_solid / s_maxd
+cmo / addatt / mo_m / ang_mind_solid / s_mind
+quality / edge_ratio / y
+quality / aspect / y
+dump / avs / AVS_OUT / mo_m
+cmo / delete / mo_m
+cmo / select / MO
+finish

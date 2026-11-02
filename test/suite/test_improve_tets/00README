@@ -1,0 +1,76 @@
+test_improve_tets -- the command improve_tets (Oct 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_improve_tests.sh [path-to-lagrit]     6 decks, about 15 s
+  open logs/summary.html
+
+WHAT improve_tets DOES
+
+  It improves the quality of the worst tets of a tet mesh without adding
+  or removing vertices, so the spatial variation of the resolution is
+  kept. Quality = the smallest sine of the six dihedral angles of a tet
+  (quality / minsine; small and large angles both count), with the sine
+  of an obtuse angle weighted by 0.75. Following Klingner & Shewchuk,
+  "Aggressive Tetrahedral Mesh Improvement" (16th IMR, 2007), restricted
+  to operations that keep the vertex set: smoothing that raises the worst
+  tet around each vertex (boundary and interface vertices slide in their
+  plane or along their line), edge removal (rings of 3 - 7 tets) and
+  multi-face removal, each kept only if the worst tet it touches gets
+  better. Code: src/improve_tets.f (command) and src/improve_tets_core.cpp
+  (the work); no other routine is changed. Documentation:
+  docs/pages/docs/commands/IMPROVE_TETS.md.
+
+THE DECKS (3D Poisson disk meshes of the unit cube)
+
+  it01_poisson_uniform  h = 0.1, defaults
+  it02_poisson_graded   h graded away from the plane x = 0.5 (a stand-in
+                        for a fracture): 0.03 at the plane to 0.1
+                        (it_plane_field.mlgi); the gradient must be kept
+  it03_boundary_fixed   slide / off: boundary vertices must not move
+  it04_pset             pset of the vertices below z = 0.5: the others
+                        and the tets touching them must not change
+  it05_materials        two materials (staircase interface): the volume
+                        of each must be kept; progress / off
+  it06_errors           a hex mesh, an unknown keyword, a target out of
+                        range, a keyword without a value, a word for a
+                        number, a value that is not on / off: each
+                        refused with a message, the mesh unchanged
+
+WHAT IS CHECKED (check_improve.py; definitions in its opening comment)
+
+  Every deck except it06: LaGriT finished, improve_tets printed its
+  report and its progress lines (none with progress / off), and its
+  resolution report (vertex move / h; h after / h
+  before) agrees with the same numbers computed from the meshes; every
+  tet has positive volume, the total volume and the vertex
+  count are unchanged, every boundary face lies on the box and the
+  numbers of vertices on box faces / edges / corners are unchanged.
+  Then, as the deck's "# check:" line says: no tet at or beyond 10 / 170
+  degrees; the local spacing (mean edge length at each place) within 10%
+  in the median; the gradient: mean edge length in each band of distance
+  from the plane within 5% of the input; boundary fixed; pset respected;
+  material volumes kept; messages. Angles and min sine before and after are reported.
+
+RESULTS (Oct 27 2026, Linux, GCC 14)
+
+  it01  min / max dihedral 1.75 / 177.09 -> 37.01 / 126.17 degrees
+  it02  0.66 / 178.91 -> 37.15 / 125.88; mean edge length by distance
+        from the plane 0.050 ... 0.141 before, 0.049 ... 0.141 after
+        (largest change 3.1%)
+  it03  -> 28.78 / 133.66 with the boundary fixed
+  On a LaGriT without improve_tets every deck fails ("did not run").
+
+  The comparison with LaGriT's other commands (smooth, recon with
+  ivoronoi -2, massage, crush_thin_tets) and with Stellar, the code of
+  Klingner & Shewchuk, is on the sliver experiment page; improve_tets
+  reaches Stellar's level (vertex count kept) in about a third of the
+  time.
+
+FILES
+
+  run_improve_tests.sh   runner (work/, logs/; WORK= and LOGS= may change them)
+  check_improve.py       checks, logs/summary.html
+  it_plane_field.mlgi    the graded h field of it02
+  it01-it06 *.lgi        the decks

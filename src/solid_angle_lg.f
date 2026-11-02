@@ -98,7 +98,9 @@ c|el|     ii(4)=itet(1+mod(j+2,4),i)
 c|el|    enddo
 
         ! may want to change to pi from data statement....
-        solid_angle=-3.14159265358d0
+c     (Oct 2026) pi to full precision (was 3.14159265358d0, which put
+c     5.6e-10 degrees on every solid angle)
+        solid_angle=-acos(-1.0d0)
 
         i4=ii(4)
         do k=1,3
@@ -125,6 +127,9 @@ c|el|    enddo
           d12=(dx1*dx2+dy1*dy2+dz1*dz2)
 
           cos_ang=d12/dsqrt(d11*d22)
+c     (Oct 2026) In a nearly flat tet rounding can put cos_ang just
+c     outside [-1,1]; dacos then gives NaN and the solid angle is lost.
+          cos_ang=max(-1.0d0,min(1.0d0,cos_ang))
           solid_angle=solid_angle + dacos(cos_ang)
 
           ! note the assumption has been made that this angle is
@@ -132,6 +137,9 @@ c|el|    enddo
           ! should be tested in general by also calculating the sine
 
         enddo
+c     (Oct 2026) the sum of the three dihedral angles minus pi can
+c     round to just below 0 for a flat tet
+        solid_angle=max(0.0d0,solid_angle)
         ! write(*,*) solid_angle/(4.d0*3.14159265358d0)
 
 c|el|    s_ang(1+mod(j+2,4),iel)=solid_angle

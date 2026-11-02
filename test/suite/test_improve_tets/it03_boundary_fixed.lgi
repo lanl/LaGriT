@@ -1,0 +1,17 @@
+# it03_boundary_fixed.lgi
+# As it01 with slide / off: vertices on the boundary must not move.
+# check: valid nopoor boundary_fixed
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo / 0.1 / connect
+resetpts / itp
+dump / avs / it03_before.inp / mo
+improve_tets / mo / slide / off
+dump / avs / it03_after.inp / mo
+finish

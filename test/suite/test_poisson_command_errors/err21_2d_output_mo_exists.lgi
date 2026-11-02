@@ -1,0 +1,20 @@
+#####################################################################
+# err21_2d_output_mo_exists.lgi
+#
+# blocks   : 1
+# contains : output mesh object mo_polygon already exists | cmo / delete / mo_polygon
+#
+# EXPECT:
+#   One ERROR block: the output mesh object already exists.
+#   No crash, and the polygon mesh object is left as it was.
+#
+# NOTE:
+#   Here the output name is the polygon itself, which the 2D writer
+#   (cmo/create/<name>/<n>/0/triplane) would have overrun in the same
+#   way as the 3D one; see err20.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_polygon / mo_polygon &
+      / 0.05 / connect
+cmo / status / mo_polygon / brief
+finish
