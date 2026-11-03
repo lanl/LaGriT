@@ -166,6 +166,79 @@ def check_mesh(X, T):
     return areas_ok, edges_ok, used
 
 
+# What each deck tests, shown under a "What this tests" button on the
+# summary page.
+ABOUT = {
+    "cd01_origin":
+        "400 random points in a 100 x 80 rectangle with a corner at the "
+        "origin: the reference mesh the offset decks (cd02-cd06) must "
+        "match triangle for triangle. The complete Delaunay triangulation "
+        "of these points has 783 triangles (2n - 2 - h, with h = 15 points "
+        "on the convex hull). LaGriT V3.3.4 made 778: it lost 5 thin "
+        "triangles along the hull with the enclosing triangle.",
+    "cd02_utm":
+        "The same points moved to x = 400,000, y = 3,900,000 (UTM-sized "
+        "coordinates). LaGriT V3.3.4 placed a vertex of its enclosing "
+        "triangle at 1.01 times the centre coordinate, 4,000 m from a "
+        "100 m box, so the triangle did not contain the points and "
+        "connect made no triangles. A correct result is the cd01 mesh: "
+        "the offset must change nothing.",
+    "cd03_negative":
+        "The same points moved to x = -650,000, y = -4,200,000: the "
+        "enclosing-triangle fix must work for negative coordinates too.",
+    "cd04_y_only":
+        "The same points moved in y only (y = 3,900,000; x still starts "
+        "at 0). LaGriT V3.3.4 got this one right, because the misplaced "
+        "vertex depends on the x centre: a control case.",
+    "cd05_yz_plane":
+        "The same points in the plane x = 0 (moved to y = 200,000, "
+        "z = 300,000). connect takes points in any plane; this tests the "
+        "enclosing triangle's branch for a plane parallel to x = 0, and "
+        "the exact tests on the y and z coordinates.",
+    "cd06_xz_plane":
+        "As cd05, in the plane y = 0 (moved to x = 200,000, z = 300,000).",
+    "cd07_square1000":
+        "The four corners of a unit square at x = 1000: the case "
+        "test/level01/connect_errors was written to record as failing. "
+        "Two triangles; the four corners are cocircular, so either "
+        "diagonal is correct.",
+    "cd08_graded":
+        "400 points crowded toward the left and bottom sides ((u^3, v^3) "
+        "x 100), so triangle sizes span many orders of magnitude. LaGriT "
+        "V3.3.4 left 42 boundary edges off the convex hull (thin hull "
+        "triangles lost with the enclosing triangle). Many points lie "
+        "within about 1e-6 of a straight side; connect deliberately does "
+        "not fill corners flatter than 1e-6, which leaves one long, very "
+        "thin sliver along the left side (area far below 1e-6 of the "
+        "hull).",
+    "cd09_stretched":
+        "A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.4 compared "
+        "every in-circle test with a tolerance scaled by the longest side "
+        "of the box squared (1,000,000), so at the short spacing every "
+        "test looked degenerate and 37 points were left out. Exact tests "
+        "connect all 961 points. Drawn with x and y scaled separately.",
+    "cd10_jitter":
+        "A 31 x 31 grid of the unit square with every coordinate moved by "
+        "up to 1e-9. On the exact grid both diagonals of each square are "
+        "Delaunay; after the jitter the four corners are no longer "
+        "cocircular (r^2 - d^2 between 1e-13 and 2e-10), so exactly one "
+        "diagonal is correct. LaGriT V3.3.4's tolerance (6.5e-9) and its "
+        "recon/0 (1e-6 of the longest edge) could not see the "
+        "difference, so the diagonal was decided by insertion order: 416 "
+        "of 900 squares wrong (purple). The exact test gets every one "
+        "right; the green squares are those 416. The jitter along the "
+        "sides is round-off, so no slivers are added there (smallest "
+        "angle 45 degrees).",
+    "cd11_rings":
+        "A centre point and 10 rings of equally spaced points: many sets "
+        "of four or more cocircular points (exact ties). Any choice among "
+        "tied triangulations is Delaunay; the test is that the mesh is "
+        "valid and has no edge strictly non-Delaunay. LaGriT V3.3.4 left "
+        "one edge just non-Delaunay (in-circle determinant 5e-21, a "
+        "near-tie its tolerances could not see).",
+}
+
+
 # ---------------------------------------------------------------- pictures
 #
 # One SVG per deck (LOGS/<deck>.svg), shown on the summary page:
@@ -462,8 +535,8 @@ def main():
             "and cover the convex hull (checked with exact rational arithmetic).</p><table>"
             "<tr><th>deck</th><th>check</th><th>result</th><th>size</th><th>detail</th></tr>"]
     for r in rows:
-        page.append("<tr><td>%s</td><td>%s</td><td class='%s'>%s</td><td>%s</td><td>%s</td></tr>" % (
-            E(r[0]), E(r[1]), "p" if r[2] else "f", "PASS" if r[2] else "FAIL", E(r[3]), E(r[4])))
+        page.append("<tr><td><a href='#%s'>%s</a></td><td>%s</td><td class='%s'>%s</td><td>%s</td><td>%s</td></tr>" % (
+            E(r[0]), E(r[0]), E(r[1]), "p" if r[2] else "f", "PASS" if r[2] else "FAIL", E(r[3]), E(r[4])))
     page.append("</table>")
     page.append("<h2 style='font-size:16px;margin-top:24px'>The meshes</h2>"
                 "<p style='font-size:13px'>Grey: the triangles connect made. "
@@ -482,9 +555,14 @@ def main():
             continue
         P, T, Qd, ref = draw[deck]
         fn, cap = write_pictures(logs, deck, P, T, Qd, ref)
-        page.append("<h3 style='font-size:14px;margin:18px 0 4px'>%s</h3>"
-                    "<p style='font-size:12px;margin:0 0 6px'>%s</p><img src='%s'>" %
-                    (E(deck), cap, E(fn)))
+        about = ABOUT.get(deck, "")
+        page.append("<h3 id='%s' style='font-size:14px;margin:22px 0 4px'>%s</h3>"
+                    "%s<p style='font-size:12px;margin:4px 0 6px'>%s</p><img src='%s'>" %
+                    (E(deck), E(deck),
+                     "<details style='font-size:13px;max-width:780px'><summary "
+                     "style='cursor:pointer;color:#0969da'>What this tests</summary>"
+                     "<p style='margin:6px 0 0 14px'>%s</p></details>" % E(about)
+                     if about else "", cap, E(fn)))
     page.append("</body></html>")
     open(os.path.join(logs, "summary.html"), "w").write("\n".join(page) + "\n")
     npass = sum(r[2] for r in rows)
