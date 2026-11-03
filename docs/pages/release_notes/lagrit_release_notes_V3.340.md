@@ -40,13 +40,14 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
   - #313 exact in-circle and orientation tests (src/lg_predicates2d.c); the triangles along the convex hull are added and the mesh flipped to Delaunay (src/lg_connect2d_hull.c); connect no longer runs recon / 0 for such points. New suite test_connect_2d.
   - #314 more than 100 points are inserted in a BRIO order (src/lg_brio_order.c); new option **connect / old_order** keeps the earlier order.
   - Changes users will see: a few more triangles along the hull; where points are exactly cocircular (a regular grid) a square may be split along the other diagonal; two new lines in connect's output. level01 references updated: connect_errors, intersect, intrp_2D_sizes, pflotran_stor, recon1.
+- **3D connect insertion order** (branch connect3d-brio, on top of #314): more than 100 points inserted in a 3D BRIO order (lg_brio_order3); `old_order` works in 3D too; the vertex-type test `itsttp` has a fast path for the names asked most, and 3D connect tests interfaces once per vertex. 256,000 random points: 2.7 s, was 14.0 s (whole run, Linux sandbox); 3D growth N^1.05 to N^1.10 for every input order (was up to N^1.3). Meshes change only where points are exactly cospherical (a cube of a regular grid splits into 5 or 6 tets, either Delaunay); level01 references updated for that: addmesh_add, cmo_addatt_normals, connect_cube, hybrid_volume, rmpoint, setpts, smooth. Also fixed there: delaunay.f and delaunay2d_lg.f sized a work array by nnodes, but points added by fix_small_tets / fix_small_triangles_lg are numbered above it, so connect wrote past the array (MMVERIFY "Array epilog overwritten", then a stop; seen with all points on a sphere).
 - #315 recon accepts vertices with imt 0 (no more "MMGETBLK: ERROR! FATAL ... matrecon").
 - #303 createpts / poisson_disk / 3d_box: h_lookup octree, a lean octree for the h field and the neighbour search, with a maximal fill.
 - #306, #307, #308 read / avs and dump / avs: errors instead of crashes and wrong meshes; restructured code; read about 3 times and dump about 2.5 times faster, output byte-identical. read / avs requires a named, empty mesh object (to join meshes, use addmesh / append).
 
 ### Known issues
 
-- 3D connect still inserts points in the old order; its time grows faster than linearly for random input (about N^1.3).
+- 3D connect: not exactly Delaunay where points are nearly cospherical (a grid jittered by 1e-9: 2,977 faces), and thin tets along the convex hull are lost with the enclosing tetrahedron (1.3% of the hull volume for random points, 5.4% for a 100 x 1 x 1 box). Exact 3D tests and a hull fill are planned.
 - 2D connect of points in a tilted plane still uses the tolerance tests and recon / 0.
 
 ### Log summary

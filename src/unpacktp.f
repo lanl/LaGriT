@@ -721,8 +721,26 @@ C
 C
       integer icharlnf,ierror,len1
 C
-      len1=icharlnf(ioptitp)
       itsttp=.false.
+C     Fast path for the names asked most (once per vertex of every
+C     cell in connect): a fixed-length compare, no length scan and no
+C     chain of compares. Same answers as the general code below.
+      if (ioptitp .eq. 'intrface') then
+         itsttp = (itp.eq.ifitpini) .or. (itp.eq.ifitpvrt) .or.
+     *            (itp.eq.ifitpirb) .or. (itp.eq.ifitpifb) .or.
+     *            (itp.eq.ifitpvrb) .or. (itp.eq.ifitpvfb) .or.
+     *            (itp.eq.ifitpvif) .or. (itp.eq.ifitpvin) .or.
+     *            (itp.eq.ifitpvir) .or. (itp.eq.ifitpalb) .or.
+     *            (itp.eq.ifitpirf)
+         return
+      elseif (ioptitp .eq. 'virtual') then
+         itsttp = (itp.eq.ifitpvrt) .or. (itp.eq.ifitpvin) .or.
+     *            (itp.eq.ifitpvir) .or. (itp.eq.ifitpvfb) .or.
+     *            (itp.eq.ifitpvrf) .or. (itp.eq.ifitpvif) .or.
+     *            (itp.eq.ifitpalb) .or. (itp.eq.ifitpvrb)
+         return
+      endif
+      len1=icharlnf(ioptitp)
 C
       if (ioptitp(1:len1) .eq. 'allreal') then
 C

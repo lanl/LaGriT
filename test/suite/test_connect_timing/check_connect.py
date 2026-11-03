@@ -27,10 +27,10 @@ Growth
   time is at least 0.05 s (shorter times are mostly noise); with fewer
   than three such sizes, the three largest. p = 1 is linear, p < 1
   better, p > 1 worse; p = 2 doubles the time... four-fold per doubling.
-  HARD  in 2D, p is at most 1.3 for every order: connect (2D) inserts
-        the points in a BRIO order of its own, so the order they are
-        given in must not matter (in LaGriT V3.3.4 random order grew
-        about as N^1.9). 3D is reported only.
+  HARD  p is at most 1.3 in 2D and 1.2 in 3D for every order: connect
+        inserts the points in a BRIO order of its own, so the order they
+        are given in must not matter (in LaGriT V3.3.4 random order grew
+        about as N^1.6 to 1.9 in 2D and N^1.3 in 3D).
 Exit status: 1 on any FAIL.
 """
 import html
@@ -40,6 +40,7 @@ import sys
 
 TOL_DELAUNAY = 1e-5
 MAX_GROWTH_2D = 1.3
+MAX_GROWTH_3D = 1.2
 MIN_T = 0.05
 ORDERS = ("random", "xyz", "xyz_bins", "morton")
 COL = {"random": "#c0392b", "xyz": "#2e64c8", "xyz_bins": "#b8650a",
@@ -290,15 +291,16 @@ def main(argv):
             "%s -" % o for o in ORDERS))
     nf = sum(1 for r in rows if r["verdict"] == "FAIL")
     ngrow = 0
-    for o in ORDERS:
-        p = fits[(2, o)]
-        if p is not None and p > MAX_GROWTH_2D:
-            ngrow += 1
-            table.append("FAIL 2D growth %s N^%.2f, more than N^%.1f" %
-                         (o, p, MAX_GROWTH_2D))
+    for dim, lim in ((2, MAX_GROWTH_2D), (3, MAX_GROWTH_3D)):
+        for o in ORDERS:
+            p = fits[(dim, o)]
+            if p is not None and p > lim:
+                ngrow += 1
+                table.append("FAIL %dD growth %s N^%.2f, more than N^%.1f" %
+                             (dim, o, p, lim))
     summary = "pass %d   fail %d   (of %d cases)" % (len(rows) - nf, nf, len(rows))
     if ngrow:
-        summary += "; 2D growth FAIL for %d order(s)" % ngrow
+        summary += "; growth FAIL for %d order(s)" % ngrow
     nf += ngrow
     open(os.path.join(logdir, "table.txt"), "w").write("\n".join(table) + "\n")
     print("\n".join(table))

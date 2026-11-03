@@ -17,15 +17,17 @@
  * random insertion. The random choices come from a fixed seed, so a run
  * is reproducible.
  *
- * The Morton key uses the two coordinates with the largest spread of
- * the listed points (any plane: xy, xz, yz or tilted).
+ * lg_brio_order (2D connect): the Morton key uses the two coordinates
+ * with the largest spread of the listed points (any plane: xy, xz, yz
+ * or tilted). lg_brio_order3 (3D connect): all three coordinates.
  *
  * lg_connect_order_set(iold) records the connect option old_order
  * (1: keep the order of LaGriT V3.3.4 and earlier, 0: BRIO, the
  * default); lg_connect_order_get(iold) returns it.
  *
  * Called from Fortran (8-byte integers):
- *   call lg_brio_order(n,list,xic,yic,zic)
+ *   call lg_brio_order(n,list,xic,yic,zic)       (2D)
+ *   call lg_brio_order3(n,list,xic,yic,zic)      (3D)
  *   n        number of entries in list
  *   list(n)  point numbers (1-based); reordered in place
  *
@@ -71,6 +73,18 @@ static uint64_t spread(uint64_t v)
     return v;
 }
 
+/* spread the low 19 bits of v to every third bit position */
+static uint64_t spread3(uint64_t v)
+{
+    v &= 0x7ffffULL;
+    v = (v | (v << 32)) & 0x001f00000000ffffULL;
+    v = (v | (v << 16)) & 0x001f0000ff0000ffULL;
+    v = (v | (v << 8)) & 0x100f00f00f00f00fULL;
+    v = (v | (v << 4)) & 0x10c30c30c30c30c3ULL;
+    v = (v | (v << 2)) & 0x1249249249249249ULL;
+    return v;
+}
+
 /* splitmix64: a small, well-mixed generator */
 static uint64_t next_random(uint64_t *s)
 {
@@ -80,12 +94,12 @@ static uint64_t next_random(uint64_t *s)
     return z ^ (z >> 31);
 }
 
-void lg_brio_order_(const int64_t *n, int64_t *list, const double *xic,
-                    const double *yic, const double *zic)
+static void brio(int ndim, const int64_t *n, int64_t *list,
+                 const double *xic, const double *yic, const double *zic)
 {
     const double *C[3];
-    double lo[3], hi[3], sp[3], scale[2];
-    int ax[2], k, nround;
+    double lo[3], hi[3], sp[3], scale[3];
+    int ax[3], k, nround;
     int64_t i, m = *n;
     uint64_t seed = 0x4c614772695400ULL ^ (uint64_t) m;   /* "LaGriT" */
     item_t *it;
@@ -104,13 +118,21 @@ void lg_brio_order_(const int64_t *n, int64_t *list, const double *xic,
         }
         sp[k] = hi[k] - lo[k];
     }
-    /* the two coordinates with the largest spread */
-    k = (sp[0] <= sp[1] && sp[0] <= sp[2]) ? 0 : (sp[1] <= sp[2] ? 1 : 2);
-    ax[0] = (k + 1) % 3;
-    ax[1] = (k + 2) % 3;
-    if (ax[0] > ax[1]) { int t = ax[0]; ax[0] = ax[1]; ax[1] = t; }
-    for (k = 0; k < 2; k++)
-        scale[k] = sp[ax[k]] > 0.0 ? 536870911.0 / sp[ax[k]] : 0.0;
+    if (ndim == 3) {
+        ax[0] = 0; ax[1] = 1; ax[2] = 2;
+        for (k = 0; k < 3; k++)
+            scale[k] = sp[k] > 0.0 ? 524287.0 / sp[k] : 0.0;
+    } else {
+        /* the two coordinates with the largest spread */
+        k = (sp[0] <= sp[1] && sp[0] <= sp[2]) ? 0 :
+            (sp[1] <= sp[2] ? 1 : 2);
+        ax[0] = (k + 1) % 3;
+        ax[1] = (k + 2) % 3;
+        if (ax[0] > ax[1]) { int t = ax[0]; ax[0] = ax[1]; ax[1] = t; }
+        ax[2] = k;
+        for (k = 0; k < 2; k++)
+            scale[k] = sp[ax[k]] > 0.0 ? 536870911.0 / sp[ax[k]] : 0.0;
+    }
 
     /* number of rounds: the first round has about 100 points or more */
     nround = 0;
@@ -120,17 +142,35 @@ void lg_brio_order_(const int64_t *n, int64_t *list, const double *xic,
         int64_t p = list[i] - 1;
         uint64_t u = (uint64_t) ((C[ax[0]][p] - lo[ax[0]]) * scale[0]);
         uint64_t v = (uint64_t) ((C[ax[1]][p] - lo[ax[1]]) * scale[1]);
+        uint64_t mk;
         uint64_t r = next_random(&seed);
         int round = 0;
         /* round = number of trailing one bits, capped: 0 with
            probability 1/2 (the last round), 1 with 1/4, ... */
         while (round < nround && (r & 1)) { round++; r >>= 1; }
+        if (ndim == 3) {
+            uint64_t w = (uint64_t) ((C[2][p] - lo[2]) * scale[2]);
+            mk = spread3(u) | (spread3(v) << 1) | (spread3(w) << 2);
+        } else {
+            mk = spread(u) | (spread(v) << 1);
+        }
         /* rounds with more trailing ones go first */
-        it[i].key = ((uint64_t) (nround - round) << 58) |
-                    (spread(u) | (spread(v) << 1));
+        it[i].key = ((uint64_t) (nround - round) << 58) | mk;
         it[i].pt = list[i];
     }
     qsort(it, m, sizeof(item_t), cmp_item);
     for (i = 0; i < m; i++) list[i] = it[i].pt;
     free(it);
+}
+
+void lg_brio_order_(const int64_t *n, int64_t *list, const double *xic,
+                    const double *yic, const double *zic)
+{
+    brio(2, n, list, xic, yic, zic);
+}
+
+void lg_brio_order3_(const int64_t *n, int64_t *list, const double *xic,
+                     const double *yic, const double *zic)
+{
+    brio(3, n, list, xic, yic, zic);
 }

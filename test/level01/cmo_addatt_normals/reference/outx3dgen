@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  4  15:11:22          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  22:09:04          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -990,51 +992,51 @@ cmo delete mo_tri
 cmo/create/cmo_tet                                                              
 createpts/sphere/1/2/500/0.5,1.0/0.,0.,0./0                                     
 rz/xyz/9/9/1/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.250000
-0E-01/-6.2500000E-01/                                                           
+0E-01/-6.2500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                    1 TO                   81              
 finish                                                                          
 rz/xyz/9/9/1/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000E-01/6.2500000
-E-01/6.2500000E-01/                                                             
+E-01/6.2500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                   82 TO                  162              
 finish                                                                          
 rz/xyz/9/1/9/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/-6.25000
-00E-01/6.2500000E-01/                                                           
+00E-01/6.2500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                  163 TO                  243              
 finish                                                                          
 rz/xyz/9/1/9/-6.2500000E-01/6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000
-E-01/6.2500000E-01/                                                             
+E-01/6.2500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                  244 TO                  324              
 finish                                                                          
 rz/xyz/1/9/9/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.25000
-00E-01/6.2500000E-01/                                                           
+00E-01/6.2500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                  325 TO                  405              
 finish                                                                          
 rz/xyz/1/9/9/6.2500000E-01/-6.2500000E-01/-6.2500000E-01/6.2500000E-01/6.2500000
-E-01/6.2500000E-01/                                                             
+E-01/6.2500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                  406 TO                  486              
 finish                                                                          
 rz/xyz/9/9/1/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.750000
-0E-01/-8.7500000E-01/                                                           
+0E-01/-8.7500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                  487 TO                  567              
 finish                                                                          
 rz/xyz/9/9/1/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000E-01/8.7500000
-E-01/8.7500000E-01/                                                             
+E-01/8.7500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                  568 TO                  648              
 finish                                                                          
 rz/xyz/9/1/9/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/-8.75000
-00E-01/8.7500000E-01/                                                           
+00E-01/8.7500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                  649 TO                  729              
 finish                                                                          
 rz/xyz/9/1/9/-8.7500000E-01/8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000
-E-01/8.7500000E-01/                                                             
+E-01/8.7500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                  730 TO                  810              
 finish                                                                          
 rz/xyz/1/9/9/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.75000
-00E-01/8.7500000E-01/                                                           
+00E-01/8.7500000E-01/0,0,0/                                                     
   RZ GENERATED POINTS                  811 TO                  891              
 finish                                                                          
 rz/xyz/1/9/9/8.7500000E-01/-8.7500000E-01/-8.7500000E-01/8.7500000E-01/8.7500000
-E-01/8.7500000E-01/                                                             
+E-01/8.7500000E-01/0,0,0/                                                       
   RZ GENERATED POINTS                  892 TO                  972              
 finish                                                                          
   RZS GENERATED POINTS      1 TO    972                                         
@@ -1067,7 +1069,7 @@ connect
 LaGriT FINISH: connect                                                          
  
 cmo/setatt/cmo_tet/itetclr/1 0 0/1                                              
-      4757 values reset for attribute itetclr                                   
+      4699 values reset for attribute itetclr                                   
  
 resetpts/itp                                                                    
 geniee                                                                          
@@ -1448,7 +1450,7 @@ The current-mesh-object(CMO) is: mo_tri
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
  
   4 Mesh Object name: cmo_tet                                                   
-    number of nodes =           972        number of elements =         4757    
+    number of nodes =           972        number of elements =         4699    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
@@ -1461,7 +1463,7 @@ The current-mesh-object(CMO) is: mo_tri
   4          nnodes  INT     scalar          scalar const perma   l  9.720E+02  
   5          nedges  INT     scalar          scalar const perma   l  0.000E+00  
   6          nfaces  INT     scalar          scalar const perma   l  0.000E+00  
-  7       nelements  INT     scalar          scalar const perma   l  4.757E+03  
+  7       nelements  INT     scalar          scalar const perma   l  4.699E+03  
   8          mbndry  INT     scalar          scalar const perma   l  1.600E+07  
   9 ndimensions_top  INT     scalar          scalar const perma   l  3.000E+00  
  10 ndimensions_geo  INT     scalar          scalar const perma   l  3.000E+00  
@@ -1682,7 +1684,7 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  itetclr1                         1                1               0       968  
  idnode0                        487              972             485       486  
  idelem0                          0                0               0       968  
- idelem1                          5             4602            4597       968  
+ idelem1                          1             4692            4691       968  
  facecol                          1                1               0       968  
  idface0                          0                0               0       968  
  idface1                          1                4               3       968  

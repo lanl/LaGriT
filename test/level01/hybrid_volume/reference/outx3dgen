@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  4  15:42:09          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  22:09:04          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -82,23 +84,17 @@ AMatbld3d_stor: Local epsilon:  0.1000000E-14
 AMatbld3d_stor: Using hybrid median-Voronoi volumes                             
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 finish                                                                          
-AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients         1                 
-AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
-cmo/addatt/mo1/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/           
-finish                                                                          
-cmo/addatt/mo1/ij_ccoef/VINT/scalar/nnodes/linear/permanent/afgx/0.0/           
-finish                                                                          
-AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1331  ncoefs =       8591                         
 AMatbld3d_stor: Number of unique coefs =         4                              
-AMatbld3d_stor: Maximum num. connections to a node =          8                 
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
 AMatbld3d_stor: Total Volume:   1.0000000E+03                                   
-AMatbld3d_stor: abs(Aij/xij) min =   4.9065389E-18                              
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
-AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
@@ -118,19 +114,17 @@ AMatbld3d_stor: Using hybrid median-Voronoi volumes
 cmo/addatt/mo1/hybrid_factor/vdouble/scalar/nelements                           
 CMO_ADDATT warning: attribute already exist: mo1  hybrid_factor                 
 finish                                                                          
-AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients         1                 
-AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
-AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
-AMatbld3d_stor: Number of unique coefs =      4962                              
-AMatbld3d_stor: Maximum num. connections to a node =          8                 
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1331  ncoefs =       8591                         
+AMatbld3d_stor: Number of unique coefs =      4961                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
 AMatbld3d_stor: Total Volume:   1.0000000E+03                                   
 AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
-AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph, not coefficient values        
@@ -145,19 +139,17 @@ ADDATT/voronoi_volume: creating new attribute: voronoi
  
 AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
 AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients         1                 
-AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
-AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
-AMatbld3d_stor: Number of unique coefs =      4962                              
-AMatbld3d_stor: Maximum num. connections to a node =          8                 
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1331  ncoefs =       8591                         
+AMatbld3d_stor: Number of unique coefs =      4961                              
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
 AMatbld3d_stor: Total Volume:   1.0000000E+03                                   
 AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
-AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph, not coefficient values        
@@ -191,7 +183,7 @@ math/sum/mo1/total_element_volume/1 0 0/mo1/element_volume
 sink attribute being created:   cmo = mo1  att = total_element_volume           
 cmo/addatt/mo1/total_element_volume/REAL/scalar/scalar/constant/permanent/      
 finish                                                                          
-      5826 values summed from attribute element_volume                          
+      5954 values summed from attribute element_volume                          
 element_volume sum =   0.100000000000E+04                                       
 cmo select mo1                                                                  
 finish                                                                          
@@ -234,7 +226,7 @@ cmo/status/brief
 The current-mesh-object(CMO) is: mo3                                            
  
   1 Mesh Object name: mo1                                                       
-    number of nodes =          1331        number of elements =         5826    
+    number of nodes =          1331        number of elements =         5954    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
@@ -289,7 +281,7 @@ cmo/status/brief
 The current-mesh-object(CMO) is: mo4                                            
  
   1 Mesh Object name: mo1                                                       
-    number of nodes =          1331        number of elements =         5826    
+    number of nodes =          1331        number of elements =         5954    
     dimensions geometry =         3        element type =                tet    
     dimensions topology =         3        4 nodes      4 faces      6 edges    
     boundary flag =        16000000        status =                 inactive    
@@ -364,19 +356,21 @@ Warning: ignoring hybrid option because it is not supported in combination with
                                                        the other chosen options.
  
 *** Construct Sparse Matrix:3D ***                                              
-Matbld3d_stor: npoints =     1331  n connections =      16843                   
-Matbld3d_stor: Ave. num connections (ncoefs/npoints) =      12.6543951          
-Matbld3d_stor: Maximum num. connections to a node =         22                  
+Matbld3d_stor: npoints =     1331  n connections =      17099                   
+Matbld3d_stor: Ave. num connections (ncoefs/npoints) =      12.8467321          
+Matbld3d_stor: Maximum num. connections to a node =         26                  
 Matbld3d_stor: Volume min =   1.2500000E-01                                     
 Matbld3d_stor: Volume max =   1.0000000E+00                                     
 Matbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                               
 Matbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                               
 Matbld3d_stor: Total Volume:   1.0000000E+03  1.0000000E+03  1.0000000E+03      
-Matbld3d_stor: mmgetblk   itemp:          18175                                 
-Matbld3d_stor:mmgetblk imatptrs:          18175                                 
-Matbld3d_stor:     Aij/xij min =  -8.3411162E-17                                
+Matbld3d_stor: mmgetblk   itemp:          18431                                 
+Matbld3d_stor:mmgetblk imatptrs:          18431                                 
+cmo/addatt/mo1/ccoef/VDOUBLE/scalar/nnodes/linear/permanent/afgx/0.0/           
+finish                                                                          
+Matbld3d_stor:     Aij/xij min =  -1.0794386E-16                                
 Matbld3d_stor:     Aij/xij max =   1.0000000E+00                                
-Matbld3d_stor: total neg     1060 mincoef=  -8.3411162E-17 maxcoef=   1.0000000E
+Matbld3d_stor: total neg     1018 mincoef=  -1.0794386E-16 maxcoef=   1.0000000E
                                                                              +00
 NegC: sort              edge            vor_coeff                   row_node    
                                                                         col_node
@@ -396,19 +390,19 @@ Warning: ignoring hybrid option because it is not supported in combination with
  
 *** Construct Sparse Matrix:3D ***                                              
    *** Compress Area Coefficient Values ***                                     
-Matbld3d_stor: npoints =     1331  n connections =      16843                   
-Matbld3d_stor: Ave. num connections (ncoefs/npoints) =      12.6543951          
-Matbld3d_stor: Maximum num. connections to a node =         22                  
+Matbld3d_stor: npoints =     1331  n connections =      17099                   
+Matbld3d_stor: Ave. num connections (ncoefs/npoints) =      12.8467321          
+Matbld3d_stor: Maximum num. connections to a node =         26                  
 Matbld3d_stor: Volume min =   1.2500000E-01                                     
 Matbld3d_stor: Volume max =   1.0000000E+00                                     
 Matbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                               
 Matbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                               
 Matbld3d_stor: Total Volume:   1.0000000E+03  1.0000000E+03  1.0000000E+03      
-Matbld3d_stor: mmgetblk   itemp:          18175                                 
-Matbld3d_stor:mmgetblk imatptrs:          18175                                 
-Matbld3d_stor:     Aij/xij min =  -8.3411162E-17                                
+Matbld3d_stor: mmgetblk   itemp:          18431                                 
+Matbld3d_stor:mmgetblk imatptrs:          18431                                 
+Matbld3d_stor:     Aij/xij min =  -1.0794386E-16                                
 Matbld3d_stor:     Aij/xij max =   1.0000000E+00                                
-Matbld3d_stor: total neg     1060 mincoef=  -8.3411162E-17 maxcoef=   1.0000000E
+Matbld3d_stor: total neg     1018 mincoef=  -1.0794386E-16 maxcoef=   1.0000000E
                                                                              +00
 NegC: sort              edge            vor_coeff                   row_node    
                                                                         col_node
@@ -437,19 +431,17 @@ dump/stor/out_07/mo1
  
 AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
 AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Negative Coefficients ******                               
-AMatbld3d_stor: Total Number of Negative Coefficients         1                 
-AMatbld3d_stor: Number of Significant Negative Coefs         0                  
-AMatbld3d_stor: Number of 'zero' (< 10e-8 *max) coefs         1                 
-AMatbld3d_stor: npoints =     1331  ncoefs =       8593                         
+AMatbld3d_stor: *****Zero Negative Coefficients ******                          
+AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
+AMatbld3d_stor: npoints =     1331  ncoefs =       8591                         
 AMatbld3d_stor: Number of unique coefs =         4                              
-AMatbld3d_stor: Maximum num. connections to a node =          8                 
+AMatbld3d_stor: Maximum num. connections to a node =          7                 
 AMatbld3d_stor: Volume min =   1.2500000E-01                                    
 AMatbld3d_stor: Volume max =   1.0000000E+00                                    
 AMatbld3d_stor: Total Volume:   1.0000000E+03                                   
-AMatbld3d_stor: abs(Aij/xij) min =   4.9065389E-18                              
+AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
 AMatbld3d_stor: abs(Aij/xij) max =   1.0000000E+00                              
-AMatbld3d_stor: (Aij/xij) max =   4.9065389E-18                                 
+AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
 AMatbld3d_stor: (Aij/xij) min =  -1.0000000E+00                                 
 AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
 AMatbld3d_stor Matrix compression used for graph and coefficient values         
