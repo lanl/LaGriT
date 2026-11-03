@@ -4,7 +4,7 @@ test_connect_2d -- 2D connect: offsets, exact Delaunay, convex hull
 
 QUICK START
 
-  sh run_connect_2d_tests.sh [path-to-lagrit]     11 decks, about 5 s
+  sh run_connect_2d_tests.sh [path-to-lagrit]     12 decks, about 5 s
   open logs/summary.html
 
 WHAT IS TESTED
@@ -29,6 +29,9 @@ WHAT IS TESTED
                    sides)
   cd11_rings       a centre point and 10 rings of equally spaced points
                    (many cocircular sets)
+  cd12_old_order   the cd08 points with connect / old_order (insert in
+                   the order of LaGriT V3.3.4, not BRIO): must give
+                   exactly the cd08 triangles
 
   HARD checks, every deck: LaGriT finished with no ERROR; connect left
   no point unconnected; the expected number of triangles (778; 2 for

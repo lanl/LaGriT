@@ -40,6 +40,8 @@ DECKS["cd09_stretched"] = {"nv": 961, "nt": 1800, "ref": None, "pts": True}
 DECKS["cd10_jitter"] = {"nv": 961, "nt": 1800, "ref": None, "pts": True,
                         "minangle": 40.0}
 DECKS["cd11_rings"] = {"nv": 571, "nt": 1036, "ref": None, "pts": True}
+DECKS["cd12_old_order"] = {"nv": 400, "nt": None, "ref": "cd08_graded",
+                           "pts": True}
 HULL_GAP_MAX = 1e-6
 
 
@@ -236,6 +238,15 @@ ABOUT = {
         "valid and has no edge strictly non-Delaunay. LaGriT V3.3.4 left "
         "one edge just non-Delaunay (in-circle determinant 5e-21, a "
         "near-tie its tolerances could not see).",
+    "cd12_old_order":
+        "The points of cd08 again, with connect / old_order: the points "
+        "are inserted in the order of LaGriT V3.3.4 (a fixed prime "
+        "stride through the list) instead of the default BRIO order "
+        "(random rounds, each sorted along a Morton curve). With exact "
+        "tests the order may change only how exact ties are split, and "
+        "these points have none, so the mesh must be exactly the cd08 "
+        "mesh. It also checks that old_order is accepted and does not "
+        "disturb the other connect options.",
 }
 
 

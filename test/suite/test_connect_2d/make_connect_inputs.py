@@ -91,7 +91,8 @@ def rings():
 
 
 EXTRA = {"cd08_graded": graded, "cd09_stretched": stretched,
-         "cd10_jitter": jittered, "cd11_rings": rings}
+         "cd10_jitter": jittered, "cd11_rings": rings,
+         "cd12_old_order": graded}
 
 
 def main():

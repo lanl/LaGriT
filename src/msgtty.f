@@ -989,6 +989,7 @@ C
 C            **************************************************************
 C            connect: Use Watson point insertion to grid the mesh
 C
+           call connect_order_opt(imsgout,xmsgout,cmsgout,msgtype,nwds)
            call cmo_get_name(cmo,ierror)
 
            call cmo_get_info('ndimensions_topo',cmo,

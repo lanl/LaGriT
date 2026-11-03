@@ -23,6 +23,8 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 <b>connect</b> / <b>noadd</b>
 
 <b>connect</b> / <b>check_interface</b>
+
+<b>connect</b> / ... / <b>old_order</b>
 </pre>
 
 
@@ -42,6 +44,9 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 
 
 **`check_interface`** option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.
+
+
+**`old_order`** (2D only; may be added anywhere in the command) inserts the points in the order used by LaGriT V3.3.4 and earlier, a fixed prime stride through the point list. By default 2D connect inserts more than 100 points in a Biased Randomized Insertion Order (BRIO; Amenta, Choi and Rote, 2003): the points are split at random into rounds that double in size, each round is sorted along a Morton (Z-order) curve, and the rounds are inserted smallest first. Each insertion then starts close to the new point, so connect time grows about linearly with the number of points, whatever order they are given in (256,000 random points: about 2 s instead of about 47 s). The random choices use a fixed seed, so a run is reproducible. The mesh is the same in either order except where points are exactly cocircular (a regular grid, say), where either choice is Delaunay; **old_order** reproduces the choices of older versions.
 
 
 

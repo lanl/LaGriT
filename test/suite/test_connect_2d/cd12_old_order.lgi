@@ -1,0 +1,18 @@
+#####################################################################
+# cd12_old_order.lgi   (test_connect_2d)
+#
+# WHAT:
+#   The points of cd08_graded, connected with connect / old_order
+#   (insert in the order of LaGriT V3.3.4 instead of BRIO).
+#
+# EXPECT:
+#   Exactly the triangles of cd08_graded: with exact tests the order
+#   changes only how exact ties are split, and these points have none.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd12_old_order.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect / old_order
+dump / avs / cd12_old_order.inp / mo_tri
+finish

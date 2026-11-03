@@ -128,7 +128,7 @@ C        *** POINTERS RELATED TO NEW TETRAHEDRA IN INSERTION POLYHEDRON.
 C     iplane: the plane of the points, for the exact in-circle test
 C     (lg_incircle2d): 3 = xy, 2 = xz, 1 = yz; 0 = a tilted plane,
 C     where the old test with tolerances is used. isgn: its answer.
-      integer iplane,isgn
+      integer iplane,isgn,iold_order,nclear,lenfl,lenvol
       real*8 rr2
 C        *** POINTERS RELATED TO WALKING ALGORITHM
 C
@@ -337,8 +337,17 @@ C
          test1=0.0
       endif
       if (nlstptl.le.0) call x3d_warn(isubname,'nlstptl is 0')
+C     More than 100 points: insert them in a BRIO order (random rounds,
+C     each along a Morton curve; lg_brio_order.c), so that each search
+C     starts near the new point. connect / old_order keeps the order
+C     of LaGriT V3.3.4 and earlier (a fixed prime stride).
+      call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)
+      call mmfindbk('vol',nname,ipvol,lenvol,icscode)
+      call lg_connect_order_get(iold_order)
+      if (nlstptl.gt.100 .and. iold_order.eq.0)
+     *   call lg_brio_order(nlstptl,lstptl,xic,yic,zic)
       do 5000 ilstpt=1,nlstptl
-         if (nlstptl.gt.100) then
+         if (nlstptl.gt.100 .and. iold_order.ne.0) then
             call primestep(nlstptl,iranidx)
             mpnt=lstptl(iranidx)
          else
@@ -577,7 +586,10 @@ C
 C        ...............................................................
 C        INCREASE MEMORY, IF NECESSARY.
 C
-           call mmfindbk('lstold',isubname,iplstold,lenold,icscode)
+C          lenold, lenfl and lenvol track the block lengths (every
+C          resize is done here), so the blocks need not be looked up
+C          by name for every point
+           icscode=0
            if (icscode.ne.0 ) then
 C     GET MEMORY RELATED TO OLD TETRAHEDRA IN A POLYHEDRON.
            lenold=lenblk
@@ -611,7 +623,7 @@ C
             endif
          endif
 C     GET MEMORY RELATED TO NEW TETRAHEDRA IN A POLYHEDRON
-         call mmfindbk('volnew',isubname,ipvolnew,lennew,icscode)
+         icscode=0
          if (icscode.ne.0 ) then
             lennew=3*lenblk
             call mmgetblk('itetnew',isubname,ipitetne,3*lennew,1,
@@ -874,12 +886,16 @@ C
 C        _______________________________________________________________
 C        COMPUTE jtet VALUES FOR THE INTERIOR FACES OF NEW TETRAHEDRA.
 C
-         call mmfindbk('ifacelst',isubname,ipifacelst,leni,icscode)
-         if(leni.lt.nlstnew*24)  then
+         if(lenfl.lt.nlstnew*24)  then
             leni=24*(nlstnew+50)
             call mmincblk('ifacelst',isubname,ipifacelst,leni,icscode)
+            call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)
          endif
-         do i=1,leni/6
+         leni=lenfl
+C        only the entries this insertion can use (3 per new
+C        triangle) need clearing, not the whole list
+         nclear=min(leni/6,3*nlstnew+1)
+         do i=1,nclear
             do j=1,6
                ifacelst(j,i)=0
             enddo
@@ -976,9 +992,8 @@ C        _______________________________________________________________
 C        INCREASE MEMORY RELATED TO THE TOTAL NUMBER OF TETRAHEDRA, IF
 C        NECESSARY.
 C
-         call mmfindbk('vol',nname,ipvol,leno,icscode)
          if(ntets+nlstnew.gt.ntetmx.or.
-     *      ntets+nlstnew.gt.leno) then
+     *      ntets+nlstnew.gt.lenvol) then
             ntetmx=max(ntetmx,ntets+nlstnew+500)
             call cmo_set_info('nelements',cmo,ntetmx,1,1,ierr)
             call cmo_newlen(cmo,ierr)
@@ -992,6 +1007,7 @@ C
             call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ierr)
             ntetmaxl=ntetmx-ntetexcl
             call mmnewlen('vol',nname,ipvol,ntetmx,icscode)
+            call mmfindbk('vol',nname,ipvol,lenvol,icscode)
             call mmnewlen('xvor',nname,ipxvor,ntetmx,icscode)
             call mmnewlen('yvor',nname,ipyvor,ntetmx,icscode)
             call mmnewlen('zvor',nname,ipzvor,ntetmx,icscode)
