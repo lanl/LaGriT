@@ -3,22 +3,124 @@
 
 test_connect_2d checker. For every deck: LaGriT finished with no ERROR,
 no point left unconnected, the expected number of triangles, every
-triangle with positive area in its plane, the triangle areas summing to
-the area of the region the mesh covers (no overlaps: each interior edge
-is shared by exactly two triangles, each boundary edge by one). The
-offset decks (cd02-cd06) must also give exactly the triangles of
-cd01_origin, vertex for vertex. Writes LOGS/summary.html and
-LOGS/table.txt; exit 0 if every check passes. Python 3, standard library.
+triangle with positive area in its plane, each edge in one or two
+triangles. The offset decks (cd02-cd06) must give exactly the triangles
+of cd01_origin, vertex for vertex.
+
+For the decks that read a point file (all but cd07), with the points'
+full-precision coordinates from that file (the AVS dump keeps only 13
+digits) and exact rational arithmetic:
+  Delaunay   no interior edge has the opposite vertex strictly inside
+             the circle of the triangle on the other side
+  hull gap   (area of the convex hull - area of the mesh) / hull area;
+             at most 1e-6 (connect leaves out only corners flatter than
+             1e-6 of their base: round-off in points meant to be on a
+             line)
+cd10_jitter also: no angle below 40 degrees (no slivers on the sides).
+
+Writes LOGS/summary.html and LOGS/table.txt; exit 0 if every check
+passes. Python 3, standard library.
 """
 import html
+import math
 import os
 import sys
+from fractions import Fraction
 
 POINTS = ["cd01_origin", "cd02_utm", "cd03_negative", "cd04_y_only",
           "cd05_yz_plane", "cd06_xz_plane"]
-DECKS = {n: {"nv": 400, "nt": 778, "ref": "cd01_origin"} for n in POINTS}
+# nt: triangles expected (None: not fixed); pts: the deck reads NAME.pts
+# 783 = 2n - 2 - h for n = 400 points with h = 15 on the convex hull
+DECKS = {n: {"nv": 400, "nt": 783, "ref": "cd01_origin", "pts": True}
+         for n in POINTS}
 DECKS["cd01_origin"]["ref"] = None
-DECKS["cd07_square1000"] = {"nv": 4, "nt": 2, "ref": None}
+DECKS["cd07_square1000"] = {"nv": 4, "nt": 2, "ref": None, "pts": False}
+DECKS["cd08_graded"] = {"nv": 400, "nt": None, "ref": None, "pts": True}
+DECKS["cd09_stretched"] = {"nv": 961, "nt": 1800, "ref": None, "pts": True}
+DECKS["cd10_jitter"] = {"nv": 961, "nt": 1800, "ref": None, "pts": True,
+                        "minangle": 40.0}
+DECKS["cd11_rings"] = {"nv": 571, "nt": 1036, "ref": None, "pts": True}
+HULL_GAP_MAX = 1e-6
+
+
+def read_pts(path):
+    """the full-precision coordinates of a point file"""
+    with open(path) as f:
+        n = int(f.readline().split()[0])
+        return [tuple(float(v) for v in f.readline().split()[1:4])
+                for _ in range(n)]
+
+
+def exact2(P):
+    """exact 2D coordinates: drop the coordinate that is constant"""
+    span = [max(p[k] for p in P) - min(p[k] for p in P) for k in range(3)]
+    keep = [k for k in range(3) if k != span.index(min(span))]
+    return [(Fraction(p[keep[0]]), Fraction(p[keep[1]])) for p in P]
+
+
+def orient(a, b, c):
+    return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])
+
+
+def incircle(a, b, c, d):
+    """> 0 when d is inside the circle through a, b, c (any order)"""
+    m = []
+    for p in (a, b, c):
+        x, y = p[0] - d[0], p[1] - d[1]
+        m.append((x, y, x * x + y * y))
+    det = (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+           - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+           + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]))
+    o = orient(a, b, c)
+    return det if o > 0 else -det
+
+
+def hull_area(Q):
+    """area of the convex hull (monotone chain, exact)"""
+    S = sorted(set(Q))
+    if len(S) < 3:
+        return Fraction(0)
+    lo, hi = [], []
+    for p in S:
+        while len(lo) >= 2 and orient(lo[-2], lo[-1], p) <= 0:
+            lo.pop()
+        lo.append(p)
+    for p in reversed(S):
+        while len(hi) >= 2 and orient(hi[-2], hi[-1], p) <= 0:
+            hi.pop()
+        hi.append(p)
+    H = lo[:-1] + hi[:-1]
+    return abs(sum(H[i][0] * H[(i + 1) % len(H)][1] -
+                   H[(i + 1) % len(H)][0] * H[i][1]
+                   for i in range(len(H)))) / 2
+
+
+def delaunay_and_hull(Q, T):
+    """(non-Delaunay interior edges, hull gap, smallest angle in degrees)"""
+    E = {}
+    for t, (a, b, c) in enumerate(T):
+        for u, v, w in ((a, b, c), (b, c, a), (c, a, b)):
+            E.setdefault(frozenset((u, v)), []).append((t, w))
+    bad = 0
+    for L in E.values():
+        if len(L) != 2:
+            continue
+        (t, _), (s, z) = L
+        a, b, c = T[t]
+        if incircle(Q[a], Q[b], Q[c], Q[z]) > 0:
+            bad += 1
+    area = sum(abs(orient(Q[a], Q[b], Q[c])) for a, b, c in T) / 2
+    ha = hull_area(Q)
+    gap = float((ha - area) / ha) if ha else 0.0
+    amin = 180.0
+    for a, b, c in T:
+        for p, q, r in ((a, b, c), (b, c, a), (c, a, b)):
+            ux, uy = float(Q[q][0] - Q[p][0]), float(Q[q][1] - Q[p][1])
+            vx, vy = float(Q[r][0] - Q[p][0]), float(Q[r][1] - Q[p][1])
+            cr = abs(ux * vy - uy * vx)
+            dt = ux * vx + uy * vy
+            amin = min(amin, math.degrees(math.atan2(cr, dt)))
+    return bad, gap, amin
 
 
 def read_avs(path):
@@ -89,8 +191,9 @@ def main():
             continue
         X, T = read_avs(path)
         meshes[deck] = T
-        row(deck, "triangle count", len(T) == D["nt"],
-            "%d (expect %d)" % (len(T), D["nt"]), "")
+        if D["nt"] is not None:
+            row(deck, "triangle count", len(T) == D["nt"],
+                "%d (expect %d)" % (len(T), D["nt"]), "")
         if not T:
             continue
         areas_ok, edges_ok, used = check_mesh(X, T)
@@ -98,6 +201,16 @@ def main():
             used == D["nv"], "%d of %d vertices used" % (used, D["nv"]),
             "areas %s; edges %s" % ("ok" if areas_ok else "not all positive",
                                    "ok" if edges_ok else "shared by 3 or more"))
+        if D["pts"]:
+            Q = exact2(read_pts(os.path.join(work, deck + ".pts")))
+            bad, gap, amin = delaunay_and_hull(Q, T)
+            row(deck, "Delaunay (exact)", bad == 0,
+                "%d non-Delaunay edges" % bad, "full-precision coordinates")
+            row(deck, "covers the convex hull", 0.0 <= gap <= HULL_GAP_MAX,
+                "hull gap %.3g" % gap, "at most %g" % HULL_GAP_MAX)
+            if "minangle" in D:
+                row(deck, "smallest angle", amin >= D["minangle"],
+                    "%.2f deg" % amin, "at least %g" % D["minangle"])
     for deck, D in DECKS.items():
         ref = D["ref"]
         if ref is None:
@@ -117,9 +230,11 @@ def main():
             "body{font-family:-apple-system,Helvetica,Arial,sans-serif;margin:16px;color:#1f2328;background:#fff}"
             "table{border-collapse:collapse;font-size:13px}td,th{border-bottom:1px solid #d0d7de;padding:3px 8px;"
             "text-align:left}.p{color:#1a7f37;font-weight:600}.f{color:#cf222e;font-weight:600}</style></head><body>",
-            "<h1 style='font-size:20px'>test_connect_2d: 2D connect far from the origin</h1>",
+            "<h1 style='font-size:20px'>test_connect_2d: 2D connect</h1>",
             "<p>The same 400 points at the origin and at large offsets, in the xy, yz and xz planes, "
-            "and the unit square at x = 1000. Every offset mesh must equal the mesh at the origin.</p><table>"
+            "the unit square at x = 1000, and graded, stretched, round-off and cocircular point sets. "
+            "Every offset mesh must equal the mesh at the origin; every mesh must be exactly Delaunay "
+            "and cover the convex hull (checked with exact rational arithmetic).</p><table>"
             "<tr><th>deck</th><th>check</th><th>result</th><th>size</th><th>detail</th></tr>"]
     for r in rows:
         page.append("<tr><td>%s</td><td>%s</td><td class='%s'>%s</td><td>%s</td><td>%s</td></tr>" % (

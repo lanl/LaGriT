@@ -125,6 +125,11 @@ C        *** POINTERS RELATED TO NEW TETRAHEDRA IN INSERTION POLYHEDRON.
      *  mbndry,nfailc
       real*8 volold,volnew,xvornew,yvornew,zvornew,rtest,
      *  test1
+C     iplane: the plane of the points, for the exact in-circle test
+C     (lg_incircle2d): 3 = xy, 2 = xz, 1 = yz; 0 = a tilted plane,
+C     where the old test with tolerances is used. isgn: its answer.
+      integer iplane,isgn
+      real*8 rr2
 C        *** POINTERS RELATED TO WALKING ALGORITHM
 C
 
@@ -240,6 +245,15 @@ C     exit here instead of seg fault during remainder of code
       call cmo_get_info('itet',cmo,ipitet,leni,icmotype,ierror)
       call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ierror)
       call getsize(xn,xx,yn,yx,zn,zx,epsilona,epsilonv)
+      if (boxsizez.eq.0.0d0) then
+         iplane=3
+      elseif (boxsizey.eq.0.0d0) then
+         iplane=2
+      elseif (boxsizex.eq.0.0d0) then
+         iplane=1
+      else
+         iplane=0
+      endif
 C
 C    Some temporary memory for walking algorithm
 C    ******************************************************************
@@ -358,6 +372,12 @@ C  use jtet array to walk along path from test tet to query point.
      *                     (xic(mpnt)-xvor(idx))**2-
      *                     (yic(mpnt)-yvor(idx))**2-
      *                     (zic(mpnt)-zvor(idx))**2
+            if (iplane.gt.0) then
+               call delaunay2d_incirc(itet(1,idx),itet(2,idx),
+     *            itet(3,idx),mpnt,iplane,xic,yic,zic,isgn)
+               if (isgn.gt.0) go to 110
+               go to 102
+            endif
             if (rtest(itetuse).ge.smalarea) go to 110
             if((istep.eq.2.and.rtest(itetuse).gt.smalarea/100.0).or.
      *         (istep.eq.3.and.rtest(itetuse).gt.0.0)  ) go to 110
@@ -396,17 +416,32 @@ C
                       idx=ibint(itetest)
                       ivertex=min(itet(1,idx),itet(2,idx),
      * 			                  itet(3,idx))
-                      rtest(itetest)=(xic(ivertex)-xvor(idx))**2+
+                      rr2=(xic(ivertex)-xvor(idx))**2+
      *                     (yic(ivertex)-yvor(idx))**2+
-     *                     (zic(ivertex)-zvor(idx))**2-
+     *                     (zic(ivertex)-zvor(idx))**2
+                      rtest(itetest)=rr2-
      *                     (xic(mpnt)-xvor(idx))**2-
      *                     (yic(mpnt)-yvor(idx))**2-
      *                     (zic(mpnt)-zvor(idx))**2
-                      if(rtest(itetest).ge.test1) then
+                      if (iplane.gt.0) then
+C                        the walk only needs some cell whose circle
+C                        holds mpnt: skip the exact test where the
+C                        quick one says clearly outside
+                         isgn=-1
+                         if (rtest(itetest).gt.-1.0d-6*rr2)
+     *                      call delaunay2d_incirc(itet(1,idx),
+     *                      itet(2,idx),itet(3,idx),mpnt,iplane,
+     *                      xic,yic,zic,isgn)
+                         if (isgn.gt.0) then
+                            itetuse=itetest
+                            go to 110
+                         endif
+                      elseif(rtest(itetest).ge.test1) then
                          itetuse=itetest
                          go to 110
                       endif
-                      if (rtest(itetest).ge.asmallnumber) then
+                      if (iplane.eq.0 .and.
+     *                    rtest(itetest).ge.asmallnumber) then
                         nfailc=nfailc+1
                         if((istep.eq.1.and.nfailc.gt.20).or.
      *                     (istep.eq.2.and.nfailc.gt.100).or.
@@ -461,7 +496,11 @@ C
  112         itetuse=ipath(nstack)
              nstack=nstack-1
              rtest(itetuse)=rtest(itetuse)+addeps
-             if(istep.eq.1) then
+C            exact test: every cell on the stack holds mpnt strictly
+C            inside its circle; no degeneracy to report
+             if (iplane.gt.0) then
+                continue
+             elseif(istep.eq.1) then
                if(abs(rtest(itetuse)).lt.smalarea) then
                    do n=1,ntemp
                       mark_path(itemp1(n))=0
@@ -511,7 +550,15 @@ C
      *                    -(xvor(idx)-xic(mpnt))**2
      *                    -(yvor(idx)-yic(mpnt))**2
      *                    -(zvor(idx)-zic(mpnt))**2
-                      if(rtest(itetest).ge.test1) then
+                      if (iplane.gt.0) then
+                         call delaunay2d_incirc(itet(1,idx),
+     *                      itet(2,idx),itet(3,idx),mpnt,iplane,
+     *                      xic,yic,zic,isgn)
+                         if (isgn.gt.0) then
+                            nstack=nstack+1
+                            ipath(nstack)=itetest
+                         endif
+                      elseif(rtest(itetest).ge.test1) then
                          nstack=nstack+1
                          ipath(nstack)=itetest
                       endif
@@ -1099,3 +1146,26 @@ C
       return
       end
  
+C#######################################################################
+      subroutine delaunay2d_incirc(i1,i2,i3,ip,iplane,xic,yic,zic,isgn)
+C
+C     Is vertex ip inside the circle through vertices i1, i2, i3?
+C     isgn = 1 inside, 0 on the circle (or i1, i2, i3 collinear),
+C     -1 outside, from lg_incircle2d (lg_predicates2d.c), using the
+C     two coordinates of the plane iplane (3 = xy, 2 = xz, 1 = yz).
+C
+      implicit none
+      integer i1,i2,i3,ip,iplane,isgn
+      real*8 xic(*),yic(*),zic(*)
+      if (iplane.eq.3) then
+         call lg_incircle2d(xic(i1),yic(i1),xic(i2),yic(i2),
+     *      xic(i3),yic(i3),xic(ip),yic(ip),isgn)
+      elseif (iplane.eq.2) then
+         call lg_incircle2d(xic(i1),zic(i1),xic(i2),zic(i2),
+     *      xic(i3),zic(i3),xic(ip),zic(ip),isgn)
+      else
+         call lg_incircle2d(yic(i1),zic(i1),yic(i2),zic(i2),
+     *      yic(i3),zic(i3),yic(ip),zic(ip),isgn)
+      endif
+      return
+      end

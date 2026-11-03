@@ -903,6 +903,10 @@ C
          enddo
       enddo
 C
+C     fill out to the convex hull and flip to Delaunay
+      call connect2d_hull_lg(cmo,ierr)
+      call cmo_get_info('nelements',cmo,ntets,leni,icmotype,ier)
+C
  9999 continue
 
       if (ierr1.ne.0 .or. nerr.gt.0) then

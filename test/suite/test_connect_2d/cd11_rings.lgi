@@ -1,0 +1,17 @@
+#####################################################################
+# cd11_rings.lgi   (test_connect_2d)
+#
+# WHAT:
+#   A centre point and 10 rings of equally spaced points: many
+#   cocircular sets.
+#
+# EXPECT:
+#   every point connected; Delaunay; covers the convex hull.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd11_rings.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd11_rings.inp / mo_tri
+finish

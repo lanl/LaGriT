@@ -1,9 +1,10 @@
-test_connect_2d -- 2D connect far from the origin (Nov 2026)
+test_connect_2d -- 2D connect: offsets, exact Delaunay, convex hull
+(Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_connect_2d_tests.sh [path-to-lagrit]     7 decks, about 1 s
+  sh run_connect_2d_tests.sh [path-to-lagrit]     11 decks, about 5 s
   open logs/summary.html
 
 WHAT IS TESTED
@@ -20,6 +21,14 @@ WHAT IS TESTED
   cd06_xz_plane    in the plane y = 0, moved to x 2.0e5, z 3.0e5
   cd07_square1000  the four corners of a unit square at x = 1000 (the
                    case test/level01/connect_errors records as failing)
+  cd08_graded      400 points crowded toward one corner ((u**3, v**3)
+                   * 100): sizes over many orders
+  cd09_stretched   a 31 x 31 grid 1000 long and 1 high
+  cd10_jitter      a 31 x 31 grid of the unit square, every point moved
+                   by up to 1e-9 (round-off in points meant to lie on the
+                   sides)
+  cd11_rings       a centre point and 10 rings of equally spaced points
+                   (many cocircular sets)
 
   HARD checks, every deck: LaGriT finished with no ERROR; connect left
   no point unconnected; the expected number of triangles (778; 2 for
@@ -27,6 +36,17 @@ WHAT IS TESTED
   its plane; every edge shared by one or two triangles; every vertex
   used. cd02-cd06 must also give exactly the triangles of cd01_origin,
   vertex number for vertex number.
+
+  For every deck that reads a point file (all but cd07), checked with
+  the full-precision coordinates of that file (the AVS dump keeps only
+  13 digits) in exact rational arithmetic:
+    Delaunay   no interior edge has the opposite vertex strictly inside
+               the circle of the triangle on its other side
+    hull gap   (convex hull area - mesh area) / hull area, at most 1e-6
+               (connect leaves out only hull corners flatter than 1e-6)
+  The 400-point decks must have 783 triangles = 2n - 2 - h for n = 400
+  points with h = 15 on the hull: the whole hull. cd10_jitter must have
+  no angle below 40 degrees (no slivers along the sides).
 
 WHY
 
@@ -38,8 +58,25 @@ WHY
   point fails and connect makes no triangles. Now the old place is kept
   when the box of the points contains the origin, so those meshes are
   unchanged, and otherwise the vertex is offset by 0.005 of the box
-  size. On such a LaGriT cd02, cd03, cd05, cd06 and cd07 fail; cd01 and
-  cd04 pass (cd04: the x offset decides, and x starts at 0).
+  size.
+
+  The insertion tested whether a point is inside a triangle's circle
+  against a fixed tolerance in area units, 2 x 3.25e-10 x (longest side
+  of the box)**2, the same for every triangle. Small triangles could be
+  left out of the insertion cavity although the point was well inside
+  their circle (the mesh was then not Delaunay; connect ran recon / 0
+  to repair it), and on a stretched box every test with the short
+  spacing looked degenerate, so points were left out. For points in a
+  coordinate plane the tests are now exact (lg_predicates2d.c: Shewchuk's
+  error bounds, then double-double arithmetic when those do not decide).
+  The triangles along the convex hull that the enclosing triangle
+  displaced are added back and the mesh is flipped to Delaunay, exactly
+  (lg_connect2d_hull.c).
+
+  On LaGriT V3.3.4 and earlier, cd02, cd03, cd05, cd06 and cd07 make no
+  triangles; the 400-point meshes miss 5 hull triangles; cd08 misses
+  part of its hull; cd09 leaves 37 points out; cd10 and cd11 are not
+  exactly Delaunay.
 
 FILES
 
