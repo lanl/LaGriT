@@ -414,9 +414,12 @@ C
          do i1=1,npoints
             nmats=max(nmats,imt1(i1))
          enddo
-         length=nmats
+C        imt 0 (never set) is allowed: keep at least one entry, so
+C        the memory manager is not asked for a block of length 0,
+C        and flipbdyc reads entry 1 for a vertex with imt 0.
+         length=max(nmats,1)
          call mmgetblk('matrecon',isubname,ipmatrecon,length,2,ics)
-         do i=1,nmats
+         do i=1,length
             matrecon(i)=1
          enddo
          call initnbr()
