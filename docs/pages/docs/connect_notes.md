@@ -1,5 +1,10 @@
 Notes on connect algorithm:
 
+*The notes below describe 3D connect, and 2D connect in LaGriT V3.3.4
+and earlier. 2D connect of points in a coordinate plane has changed:
+see [2D connect (after V3.3.4)](#2d-connect-after-v334) at the end of
+this page.*
+
 Connect uses the standard point insertion method of tetrahedralization
 which consists of the following steps:
 
@@ -141,3 +146,72 @@ large and may contain node(s) of the big triangle, and the triangle
 consisting of these three nodes will not be formed.   In this case it is
 necessary for the user to supply the coordinates of the 'big' triangle
 in the connect command.
+
+
+## 2D connect (after V3.3.4)
+
+For a triplane mesh object whose points lie in a coordinate plane
+(every z the same, or every y, or every x), 2D connect differs from the
+description above in four ways. Points in a tilted plane, and all of 3D
+connect, work as described above.
+
+**Exact tests, no tolerances.** The 'inside' (in-circle) test and the
+orientation test are done by src/lg_predicates2d.c. Each is computed in
+double precision after translating to one of the points; when the
+result is larger than the bound on its rounding error (J. R. Shewchuk,
+"Adaptive precision floating-point arithmetic and fast robust geometric
+predicates", Discrete & Computational Geometry 18, 1997), its sign is
+certain. Otherwise it is computed again in double-double arithmetic
+(about 106 bits). The answer does not depend on **smalarea**, on the
+size of the box or on the distance from the origin, so no point fails
+for being nearly on a circle; the later passes remain only for points
+that fail the volume tests. A point exactly on a circle (cocircular points, as on a regular
+grid) counts as outside; either diagonal is then Delaunay.
+
+**The whole convex hull.** Triangles along the convex hull whose
+circumcircles reach the enclosing triangle are lost when the enclosing
+triangle is removed. After the removal, connect walks the outer
+boundary once and adds a triangle at every inward corner
+(src/lg_connect2d_hull.c), then flips edges with the exact in-circle
+test until every interior edge is locally Delaunay. The result is the
+Delaunay triangulation of the convex hull of the points; there is no
+need to supply the coordinates of the 'big' triangle. A corner whose
+triangle is flatter than 1e-6 (height less than 1e-6 of its base) is
+treated as straight and left open: that is round-off in points meant to
+lie on a straight side, and filling it would add a sliver. Edges are not
+flipped between triangles of different colour or along an interface.
+connect reports the triangles added and the edges flipped:
+
+```
+ connect: added        16 triangles to reach the convex hull
+ connect: flipped       6 edges to make the triangulation Delaunay
+```
+
+Because the mesh is already Delaunay, connect no longer runs
+**recon/0** after 2D connect in a coordinate plane.
+
+**Insertion order.** More than 100 points are inserted in a Biased
+Randomized Insertion Order (BRIO; N. Amenta, S. Choi, G. Rote,
+"Incremental constructions con BRIO", Symposium on Computational
+Geometry 2003), src/lg_brio_order.c: the points are split at random
+into rounds that double in size, each round is sorted along a Morton
+(Z-order) curve in the two coordinates with the largest spread, and the
+rounds are inserted smallest first. Each search for the triangle
+containing the next point starts from the triangle made last, which is
+then close by, so connect time grows about linearly with the number of
+points whatever order they are given in. The random choices use a fixed
+seed, so a run is reproducible. **connect / old_order** inserts in the
+order of earlier versions (a fixed prime stride through the point list);
+with the exact tests the order changes the mesh only where points are
+exactly cocircular.
+
+**The enclosing triangle.** One vertex of the enclosing triangle used to
+be placed at 1.01 times the centre coordinate of the points, which far
+from the origin is outside them (connect then made no triangles). It is
+now placed 0.005 of the box size from the centre; meshes whose box
+contains the origin are unchanged.
+
+Tests: test/suite/test_connect_2d (every mesh checked for exact
+Delaunay and for covering the convex hull) and
+test/suite/test_connect_timing (time against the number of points, for
+four point orders).

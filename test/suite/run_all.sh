@@ -83,6 +83,11 @@ test_interpolate_compute:run_interpolate_tests.sh:10
 test_crush_thin_tets:run_crush_tests.sh:15
 test_element_angles:run_angle_tests.sh:2
 test_improve_tets:run_improve_tests.sh:15
+test_avs_io:run_avs_io_tests.sh:5
+test_hextotet:run_hextotet_tests.sh:1
+test_set_logic:run_set_logic_tests.sh:1
+test_edge_lengths:run_edge_lengths_tests.sh:1
+test_input_lines:run_input_lines_tests.sh:2
 test_connect_timing:run_connect_timing.sh:290:big
 "
 
