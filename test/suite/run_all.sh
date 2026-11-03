@@ -77,6 +77,7 @@ test_poisson_3d_refine_letters:run_poisson_3d_letters.sh:41
 test_poisson_sampler:run_poisson_sampler_tests.sh:41
 test_createpts:run_createpts_tests.sh:26
 test_triangulate_2d_polygon:run_triangulate_tests.sh:22
+test_connect_2d:run_connect_2d_tests.sh:2
 test_lagrit_upstream:run_upstream_tests.sh:30
 test_interpolate_compute:run_interpolate_tests.sh:10
 test_crush_thin_tets:run_crush_tests.sh:15

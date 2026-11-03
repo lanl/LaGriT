@@ -1,0 +1,18 @@
+#####################################################################
+# cd01_origin.lgi   (test_connect_2d)
+#
+# WHAT:
+#   400 points in a 100 x 80 rectangle with a corner at the
+#   origin. The reference the other decks are compared with.
+#
+# EXPECT:
+#   Every point connected; 778 triangles, the same triangles (by
+#   vertex number) as cd01_origin.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd01_origin.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd01_origin.inp / mo_tri
+finish

@@ -16,6 +16,7 @@ test_element_angles/logs_*/
 test_improve_tets/work/
 test_improve_tets/work_*/
 test_improve_tets/logs_*/
+test_connect_2d/work/
 logs/
 out_*
 lagrit.out

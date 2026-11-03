@@ -1,0 +1,17 @@
+#####################################################################
+# cd04_y_only.lgi   (test_connect_2d)
+#
+# WHAT:
+#   The same points moved to y 3.9e6 only; x starts at 0.
+#
+# EXPECT:
+#   Every point connected; 778 triangles, the same triangles (by
+#   vertex number) as cd01_origin.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd04_y_only.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd04_y_only.inp / mo_tri
+finish

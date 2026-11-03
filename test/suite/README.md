@@ -48,6 +48,7 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_poisson_sampler` | the 2D and 3D Poisson disk samplers against the exact h field (uniform, linear, narrow band; 3 seeds) | 45 s |
 | `test_createpts` | `createpts` xyz, rtz, rtp, line, brick and error cases against the documentation | 30 s |
 | `test_triangulate_2d_polygon` | `triangulate` on 41 polygons: collinear runs, dense boundaries, near-touching geometry, far-from-origin coordinates, combs, spirals, holes | 20 s |
+| `test_connect_2d` | 2D `connect` of the same 400 points at the origin, at UTM-sized and negative offsets and in the yz and xz planes, and a unit square at x = 1000: every point connected and the same triangles everywhere | 1 s |
 | `test_lagrit_upstream` | all 43 `test/level01` tests, judged as `runtests.py` does, plus crash and one-line-difference checks (`LEVEL2=1`: the Exodus tests too) | 30 s |
 | `test_interpolate_compute` | `interpolate` voronoi / continuous / map and `compute` distance fields against independent answers, for every source cell type; keepatt with dudded vertices; points on edges and faces | 10 s |
 | `test_crush_thin_tets` | `crush_thin_tets` on planted needle, wedge, cap and sliver tets (inside and on the boundary), a jittered lattice and 3D Poisson disk meshes: quality before, trip by trip and after, and why each thin tet left survives | 15 s |

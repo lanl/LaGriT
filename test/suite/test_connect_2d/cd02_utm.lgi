@@ -1,0 +1,18 @@
+#####################################################################
+# cd02_utm.lgi   (test_connect_2d)
+#
+# WHAT:
+#   The same points moved to x 4.0e5, y 3.9e6 (UTM-sized
+#   coordinates). LaGriT V3.3.4 and earlier: 0 triangles.
+#
+# EXPECT:
+#   Every point connected; 778 triangles, the same triangles (by
+#   vertex number) as cd01_origin.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd02_utm.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd02_utm.inp / mo_tri
+finish
