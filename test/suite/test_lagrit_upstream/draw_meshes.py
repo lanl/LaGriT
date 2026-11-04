@@ -272,7 +272,8 @@ def frame(P2, nlines=2):
     and nlines lines of description"""
     xs, ys = [p[0] for p in P2] or [0], [p[1] for p in P2] or [0]
     x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
-    mt, mb, ms = 22 + 12 * nlines, 40, 16
+    # bottom margin: the legend (label at H - 34) and the vertex dots must not meet
+    mt, mb, ms = 22 + 12 * nlines, 50, 16
     s = min((W - 2 * ms) / ((x1 - x0) or 1), (H - mt - mb) / ((y1 - y0) or 1))
     ox = ms + ((W - 2 * ms) - (x1 - x0) * s) / 2
     oy = mb + ((H - mt - mb) - (y1 - y0) * s) / 2
