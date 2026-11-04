@@ -1,12 +1,14 @@
       subroutine connect_order_opt(imsgin,xmsgin,cmsgin,msgtype,nwds)
 C #####################################################################
 C     PURPOSE -
-C        Read the connect keywords old_order, noadd and check_interface
+C        Read the connect keywords old_order, noadd, check_interface
+C        and exact
 C        in any position, remove them from the command (so the
 C        positional arguments are read the same way with or without
 C        them), and record them: old_order for the insertion order
 C        (lg_connect_order_set, lg_brio_order.c), noadd and
-C        check_interface for connect (lg_connect_opts_set).
+C        check_interface for connect (lg_connect_opts_set), exact for
+C        the 3D in-sphere tests (lg_connect_exact_set).
 C
 C        Token 2 holds the algorithm name, delaunay (the only one). When
 C        it is left out and token 2 is a point number or pset
@@ -26,21 +28,23 @@ C #####################################################################
       integer imsgin(*),msgtype(*)
       real*8 xmsgin(*)
       character*(*) cmsgin(*)
-      integer i,j,iold,inoadd,ichk
+      integer i,j,iold,inoadd,ichk,iexact
       character*32 ckey
 C
       iold=0
       inoadd=0
       ichk=0
+      iexact=0
       i=2
       do while (i.le.nwds)
          ckey=' '
          if (msgtype(i).eq.3) ckey=cmsgin(i)
          if (ckey.eq.'old_order' .or. ckey.eq.'noadd' .or.
-     *       ckey.eq.'check_interface') then
+     *       ckey.eq.'check_interface' .or. ckey.eq.'exact') then
             if (ckey.eq.'old_order') iold=1
             if (ckey.eq.'noadd') inoadd=1
             if (ckey.eq.'check_interface') ichk=1
+            if (ckey.eq.'exact') iexact=1
             do j=i,nwds-1
                imsgin(j)=imsgin(j+1)
                xmsgin(j)=xmsgin(j+1)
@@ -70,5 +74,6 @@ C
       endif
       call lg_connect_order_set(iold)
       call lg_connect_opts_set(inoadd,ichk)
+      call lg_connect_exact_set(iexact)
       return
       end

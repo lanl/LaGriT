@@ -27,6 +27,8 @@
  * lg_connect_opts_set(noadd,check) and lg_connect_opts_get record the
  * options noadd and check_interface (1 given, 0 not), read from any
  * position of the command by connect_order_opt.f.
+ * lg_connect_exact_set(iexact) / lg_connect_exact_get: the option exact
+ * (3D: exact in-sphere tests; 1 given, 0 not).
  *
  * Called from Fortran (8-byte integers):
  *   call lg_brio_order(n,list,xic,yic,zic)       (2D)
@@ -47,6 +49,19 @@ void lg_connect_opts_set_(const int64_t *noadd, const int64_t *check)
 {
     opt_noadd = *noadd ? 1 : 0;
     opt_check = *check ? 1 : 0;
+}
+
+static int64_t opt_exact = 0;
+
+/* connect / exact: 3D in-sphere tests exact (lg_predicates3d.c) */
+void lg_connect_exact_set_(const int64_t *iexact)
+{
+    opt_exact = *iexact ? 1 : 0;
+}
+
+void lg_connect_exact_get_(int64_t *iexact)
+{
+    *iexact = opt_exact;
 }
 
 void lg_connect_opts_get_(int64_t *noadd, int64_t *check)

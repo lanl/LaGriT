@@ -23,6 +23,7 @@ test_set_logic/work/
 test_edge_lengths/work/
 test_input_lines/work/
 test_connect_options/work/
+test_connect_exact/work/
 logs/
 out_*
 lagrit.out

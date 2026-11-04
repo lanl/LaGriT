@@ -14,6 +14,7 @@ Changes since LaGriT V3.3.4 are marked *(after V3.3.4)*. They are listed in the 
 | Mesh object | Inside and orientation tests | Afterwards |
 |---|---|---|
 | 3D (tet) | tolerance tests, below | thin tetrahedra along the hull may be missing |
+| 3D, **connect / exact** *(after V3.3.4)* | **exact** | no points added; thin tetrahedra along the hull may be missing |
 | 2D (triplane), vertices in a coordinate plane (every z the same, or every y, or every x) | **exact** *(after V3.3.4)* | hull filled and edges flipped: exactly the Delaunay triangulation of the convex hull |
 | 2D, vertices in a tilted plane | tolerance tests, below | **recon / 0** |
 
@@ -116,6 +117,12 @@ The in-circle and orientation tests are done by src/lg_predicates2d.c:
 
 The answer does not depend on any tolerance, on the size of the box, or on the distance from the origin. A vertex exactly on a circumcircle counts as outside, so on a regular grid either diagonal of a square may be chosen; both are Delaunay. Only vertices that fail the volume tests go to later passes.
 
+### Exact tests in 3D (connect / exact; after V3.3.4)
+
+With **exact**, 3D connect decides the in-sphere and orientation tests with src/lg_predicates3d.c, the same way as in 2D (double precision with Shewchuk's error bounds, then double-double arithmetic). A vertex exactly on a circumsphere counts as outside in the first pass; a vertex that then fails (cospherical and coplanar at once) is tried again in later passes with ties counted as inside. A new tetrahedron below the volume epsilon is accepted when its exact orientation agrees with the largest new tetrahedron: near-cospherical vertices have Delaunay tetrahedra that are thin but valid. No points are added in small tetrahedra.
+
+The result is the Delaunay tetrahedralization of the vertices. On grids jittered by 1e-12 to 1e-6 (test/suite/test_connect_exact), plain connect leaves hundreds to thousands of faces not Delaunay, and at 1e-9 adds points and leaves vertices out; **connect / exact** adds and loses none and is exactly Delaunay. Delaunay does not mean well shaped: vertices that are meant to be coplanar and cospherical but are off by round-off (the **createpts / rtp** sphere) give tetrahedra that are flat to round-off, valid in exact arithmetic but of zero or negative volume in floating point. Use plain connect for such input.
+
 ### The tolerance tests
 
 In 3D, and in 2D for a tilted plane, a vertex is inside a cell's circumsphere when its squared distance from the circumcentre is less than the circumradius squared, by more than a tolerance. The circumcentre is computed with the cell translated so that one of its vertices is at the origin, which avoids losing precision when the coordinates are large.
@@ -163,7 +170,7 @@ It is needed only in extreme cases: vertices with a very high aspect ratio, warn
 
 - **Non-convex domains.** connect triangulates the convex hull of the vertices. Cells join vertices across a non-convex boundary and must be removed afterwards; the [connect / noadd demo](demos/description2_connect.md) tags them with **interpolate / map** from a hex mesh and removes them.
 - **Coincident vertices** are not filtered; they are dudded (step 4). Remove them first with **filter / 1,0,0** and **rmpoint / compress**.
-- **3D near-ties** are decided by the tolerance (see above), not exactly.
+- **3D near-ties** are decided by the tolerance (see above), not exactly, unless **connect / exact** is given.
 - **3D hull** cells may be missing (step 6).
 - **Large coordinates in 3D.** For better precision, move the vertices close to the origin before connect, and back afterwards. **trans / zero** and **trans / original** do this without having to know the coordinates:
 
