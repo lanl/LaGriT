@@ -18,33 +18,23 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 ## SYNTAX ##
 
 <pre>
-<b>connect</b>/[ <b>delaunay</b>/ ifirst,ilast,istride / big_tet_coordinates ]
-
-<b>connect</b> / <b>noadd</b>
-
-<b>connect</b> / <b>check_interface</b>
-
-<b>connect</b> / ... / <b>old_order</b>
+<b>connect</b> / [ <b>delaunay</b> ] / [ ifirst,ilast,istride ] / [ <b>noadd</b> ] [ <b>check_interface</b> ] [ <b>old_order</b> ]
 </pre>
+
+The keywords **noadd**, **check_interface** and **old_order** may be given in any position after **connect**, in any combination.
 
 
 ## OPTIONS
  
- **`delaunay`** is the default algorithm and requires that a "big tet" be constructed that contains all nodes in
-  its interior.  For mesh points with multi-materials (imt with multi-values), connect will detect material interfaces and will look for edges that intersect the interfaces.  connect will add points at these intersections to create a conforming mesh, note that mesh quality may be impacted.  
+ **`delaunay`** is the algorithm (the only one; it may be left out). It starts from an enclosing triangle or tetrahedron that contains all nodes and inserts the nodes one at a time. For mesh points with several materials (imt values separated by material interfaces from **surface** / **region** / **mregion**), connect then looks for edges that cross an interface and adds points where they cross, to make a conforming mesh; mesh quality may suffer. It also adds a point in the middle of each triangle or tetrahedron of very small area or volume.
   
-  
-*`ifirst,ilast,istride`* The user has the option of selecting a subset of nodes to connect.
+*`ifirst,ilast,istride`* (or **pset,get,** *name*) connects only those nodes. It may follow **connect** directly: `connect/1,0,0` is `connect/delaunay/1,0,0`.
 
+**`noadd`** (2D and 3D) adds no points: neither at material interfaces nor in small triangles or tetrahedra. The mesh connects exactly the given nodes; edges may cross material interfaces.
 
-*`big_tet_coordinates`* The user has the option of providing the coordinates of this "big tet". 
+**`check_interface`** (3D) does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary: it also checks edges between two nodes tagged itp='intrface'. In 2D it gives a warning and is ignored.
 
-
-**`noadd`** This option will turn off material interface detection.
-
-
-**`check_interface`** option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.
-
+*`big_tet_coordinates`* (deprecated) The 12 coordinates of the enclosing tetrahedron (3D) or 9 of the enclosing triangle (2D), after the point range. They are used with a WARNING that the option will be removed; connect places the enclosing tetrahedron or triangle itself. Fewer numbers give a WARNING and are ignored. (LaGriT V3.3.4 and earlier read 12 numbers after the point range whatever was there, so `connect/delaunay/1,0,0/noadd` made no tetrahedra.)
 
 **`old_order`** (2D and 3D; may be added anywhere in the command) inserts the points in the order used by LaGriT V3.3.4 and earlier, a fixed prime stride through the point list. By default connect inserts more than 100 points in a Biased Randomized Insertion Order (BRIO; Amenta, Choi and Rote, 2003): the points are split at random into rounds that double in size, each round is sorted along a Morton (Z-order) curve (in 2D on the two coordinates of the points' plane, in 3D on all three), and the rounds are inserted smallest first. Each insertion then starts close to the new point, so connect time grows about linearly with the number of points, whatever order they are given in (256,000 random points: 2D about 23 times faster, 3D about 5 times faster than V3.3.4). The random choices use a fixed seed, so a run is reproducible. The mesh is the same in either order except where points are exactly cocircular or cospherical (a regular grid, say: in 3D a cube splits into 5 or 6 tets), where either choice is Delaunay; **old_order** reproduces the choices of older versions.
 
@@ -122,16 +112,12 @@ resetpts / itp
 Create a triplane mesh object (ndimensions_topo=2 and ndimensions_geom=2) with 4 x 4 points on plane with Z = 0. Connect into triangles and set node and element materials to 1. The resetpts/itp command will define the boundary nodes for this mesh.
 
 ```
-connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./
-
-connect/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
-
-connect/delaunay/1,0,0/ 0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./noadd
-
-connect/delaunay/1,0,0/0.,0.,0./1000.,0.,0./500.,1000.,0./500.,500.,10./check_interface
+connect/delaunay/1,0,0/noadd
+connect/noadd/check_interface
+connect/old_order/noadd
 ```
 
-Create the Delaunay tetrahedral connectivity of all nodes in the mesh and specify explicitly the coordinates of the enclosing tetrahedron. 
+Keywords in any order: connect all nodes without adding points; the same with the extra interface check (3D); without adding points, in the insertion order of LaGriT V3.3.4 and earlier.
 
 ```
 connect /pset, get, mypoints

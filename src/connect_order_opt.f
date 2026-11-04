@@ -1,29 +1,46 @@
       subroutine connect_order_opt(imsgin,xmsgin,cmsgin,msgtype,nwds)
 C #####################################################################
 C     PURPOSE -
-C        Find the connect option old_order in any position, remove it
-C        from the command (so the other options are read exactly as
-C        before), and record it for the insertion (lg_brio_order.c).
-C        Without it, connect (2D) inserts more than 100 points in a
-C        BRIO order; with it, in the order of LaGriT V3.3.4 and
-C        earlier.
+C        Read the connect keywords old_order, noadd and check_interface
+C        in any position, remove them from the command (so the
+C        positional arguments are read the same way with or without
+C        them), and record them: old_order for the insertion order
+C        (lg_connect_order_set, lg_brio_order.c), noadd and
+C        check_interface for connect (lg_connect_opts_set).
+C
+C        Token 2 holds the algorithm name, delaunay (the only one). When
+C        it is left out and token 2 is a point number or pset
+C        (connect / 1,0,0 or connect / pset,get,name), delaunay is put
+C        back in so the point range is read from tokens 3-5.
+C
+C        Before Nov 2026 noadd and check_interface were recognised only
+C        as the last token in 3D and noadd only as token 18 in 2D.
 C     INPUT ARGUMENTS -
 C        imsgin,xmsgin,cmsgin,msgtype,nwds - the parsed command
 C     OUTPUT ARGUMENTS -
-C        the same, without the old_order tokens
+C        the same, without the keywords
 C #####################################################################
       implicit none
+      include 'commands_lg.h'
       integer nwds
       integer imsgin(*),msgtype(*)
       real*8 xmsgin(*)
       character*(*) cmsgin(*)
-      integer i,j,iold
+      integer i,j,iold,inoadd,ichk
+      character*32 ckey
 C
       iold=0
+      inoadd=0
+      ichk=0
       i=2
       do while (i.le.nwds)
-         if (msgtype(i).eq.3 .and. cmsgin(i).eq.'old_order') then
-            iold=1
+         ckey=' '
+         if (msgtype(i).eq.3) ckey=cmsgin(i)
+         if (ckey.eq.'old_order' .or. ckey.eq.'noadd' .or.
+     *       ckey.eq.'check_interface') then
+            if (ckey.eq.'old_order') iold=1
+            if (ckey.eq.'noadd') inoadd=1
+            if (ckey.eq.'check_interface') ichk=1
             do j=i,nwds-1
                imsgin(j)=imsgin(j+1)
                xmsgin(j)=xmsgin(j+1)
@@ -35,6 +52,23 @@ C
             i=i+1
          endif
       enddo
+C
+      if (nwds.ge.2 .and. nwds.lt.maxcmd_args) then
+         if (msgtype(2).ne.3 .or. cmsgin(2).eq.'pset') then
+            do j=nwds,2,-1
+               imsgin(j+1)=imsgin(j)
+               xmsgin(j+1)=xmsgin(j)
+               cmsgin(j+1)=cmsgin(j)
+               msgtype(j+1)=msgtype(j)
+            enddo
+            imsgin(2)=0
+            xmsgin(2)=0.0d0
+            cmsgin(2)='delaunay'
+            msgtype(2)=3
+            nwds=nwds+1
+         endif
+      endif
       call lg_connect_order_set(iold)
+      call lg_connect_opts_set(inoadd,ichk)
       return
       end

@@ -39,7 +39,9 @@ which consists of the following steps:
  are then inserted into the mesh using the algorithm described above. 
  This process is repeated until no more 'multi-material' edges are
  encountered or until the maximum number of iterations is reached. 
- This step is skipped if the **noadd** option has been specified.
+ This step is skipped if the **noadd** option has been specified; **noadd**
+ also turns off the points added in tetrahedra (triangles) of very small
+ volume (area). It may be given anywhere in the command, in 2D and 3D.
 
  Finally, the initial enclosing tetrahedron vertices and the attached
  tetrahedra are removed.

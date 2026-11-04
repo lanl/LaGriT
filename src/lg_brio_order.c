@@ -24,6 +24,9 @@
  * lg_connect_order_set(iold) records the connect option old_order
  * (1: keep the order of LaGriT V3.3.4 and earlier, 0: BRIO, the
  * default); lg_connect_order_get(iold) returns it.
+ * lg_connect_opts_set(noadd,check) and lg_connect_opts_get record the
+ * options noadd and check_interface (1 given, 0 not), read from any
+ * position of the command by connect_order_opt.f.
  *
  * Called from Fortran (8-byte integers):
  *   call lg_brio_order(n,list,xic,yic,zic)       (2D)
@@ -38,6 +41,19 @@
 #include <stdlib.h>
 
 static int64_t old_order = 0;
+static int64_t opt_noadd = 0, opt_check = 0;
+
+void lg_connect_opts_set_(const int64_t *noadd, const int64_t *check)
+{
+    opt_noadd = *noadd ? 1 : 0;
+    opt_check = *check ? 1 : 0;
+}
+
+void lg_connect_opts_get_(int64_t *noadd, int64_t *check)
+{
+    *noadd = opt_noadd;
+    *check = opt_check;
+}
 
 void lg_connect_order_set_(const int64_t *iold)
 {

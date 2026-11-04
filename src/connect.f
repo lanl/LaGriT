@@ -290,7 +290,7 @@ C
       implicit none
  
       integer nwds,ierr1
-      integer ierr_imt
+      integer ierr_imt,inoadd,ichkint
       integer imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*32 cmsgin(nwds)
@@ -735,11 +735,31 @@ C     OTHERWISE, CHANGE MASS-POINT NUMBERS OF POINTS ASSOCIATED WITH THE
 C     SURROUNDING TETRAHEDRON.
 C
       n=0
-      if (nwds.ge.ifield+4) then
+      if (nwds.ge.ifield+15) then
+C        the enclosing tet given in the command: 12 coordinates after
+C        the point range (deprecated; connect places it itself)
          n=12
          do j=1,12
             xcoords(j)=xmsgin(ifield+3+j)
          enddo
+         write(logmess,'(a)') ' WARNING: connect: the coordinates of'//
+     *      ' the enclosing tetrahedron are deprecated'
+         call writloga(cdefault,0,logmess,0,ierr)
+         write(logmess,'(a)') '   (connect places it itself; this'//
+     *      ' option will be removed)'
+         call writloga(cdefault,0,logmess,0,ierr)
+         if (nwds.gt.ifield+15) then
+            write(logmess,'(a,i6,a)') ' WARNING: connect:',
+     *         nwds-ifield-15,' tokens after the coordinates ignored'
+            call writloga(cdefault,0,logmess,0,ierr)
+         endif
+      elseif (nwds.ge.ifield+4) then
+         write(logmess,'(a,i6,a)') ' WARNING: connect:',nwds-ifield-3,
+     *      ' tokens after the point range ignored (the enclosing'
+         call writloga(cdefault,0,logmess,0,ierr)
+         write(logmess,'(a)') '   tetrahedron needs 12 coordinates;'//
+     *      ' see the connect options)'
+         call writloga(cdefault,0,logmess,0,ierr)
       endif
       call make_big_tet(npoints,ntets,xcoords,n)
       write(logmess,"(' Coordinates of enclosing tetrahedron are: ')")
@@ -757,10 +777,11 @@ C
       lif_search_intrface_edges =.false.
 
       incpts=0
-      if(cmsgin(nwds)(1:icharlnf(cmsgin(nwds))).eq.'noadd')
-     *      lifadd=.false.
-      if(cmsgin(nwds)(1:icharlnf(cmsgin(nwds))).eq.'check_interface')
-     *      lif_search_intrface_edges = .true.
+C     noadd and check_interface may be anywhere in the command; they
+C     were read and removed by connect_order_opt
+      call lg_connect_opts_get(inoadd,ichkint)
+      if (inoadd.ne.0) lifadd=.false.
+      if (ichkint.ne.0) lif_search_intrface_edges = .true.
      
       if (ibigtet.gt.0) then
          xic (ibigtet  )=xbigtet(1)

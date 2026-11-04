@@ -22,6 +22,7 @@ test_hextotet/work/
 test_set_logic/work/
 test_edge_lengths/work/
 test_input_lines/work/
+test_connect_options/work/
 logs/
 out_*
 lagrit.out

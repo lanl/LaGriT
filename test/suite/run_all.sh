@@ -88,6 +88,7 @@ test_hextotet:run_hextotet_tests.sh:1
 test_set_logic:run_set_logic_tests.sh:1
 test_edge_lengths:run_edge_lengths_tests.sh:1
 test_input_lines:run_input_lines_tests.sh:2
+test_connect_options:run_connect_options_tests.sh:2
 test_connect_timing:run_connect_timing.sh:290:big
 "
 

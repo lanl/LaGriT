@@ -1,0 +1,52 @@
+test_connect_options -- the options of connect, 2D and 3D (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_connect_options_tests.sh [path-to-lagrit]   20 decks, about 2 s
+  open logs/summary.html
+
+THE RULES TESTED
+
+  connect / [delaunay] / [ifirst,ilast,istride] / [enclosing coordinates]
+          and the keywords noadd, check_interface, old_order anywhere
+
+  noadd            no points added by the interface pass or the
+                   small-element pass (2D and 3D)
+  check_interface  3D: also check edges between two interface points;
+                   2D: a WARNING, ignored
+  old_order        the insertion order of LaGriT V3.3.4 and earlier
+  delaunay         token 2, the algorithm name (the only one). When it
+                   is left out and token 2 is a number or pset, it is
+                   taken as the start of the point range.
+  enclosing        12 numbers (3D: the 4 vertices of the enclosing
+  coordinates      tetrahedron) or 9 (2D: the enclosing triangle) after
+                   the point range: used, with a WARNING that they are
+                   deprecated. Fewer numbers: a WARNING, ignored.
+
+  What LaGriT V3.3.4 did instead: noadd and check_interface were read
+  only as the last token in 3D (so not both), noadd only as token 18
+  in 2D; anything after the point range was read as 12 coordinates,
+  past the end of the command if need be (no tets); a point range or
+  pset in token 2 was misread (no tets, or every point connected).
+  Run against V3.3.4, 11 of the 20 decks fail.
+
+THE MESHES
+
+  A  3D, 6 x 6 x 6 points in a unit box, two materials split by a
+     tilted plane (surface / intrface): the interface pass adds points
+     unless noadd
+  B  3D, 5 x 5 x 5 points, pset p1 = points 1 to 60
+  C  2D (triplane), 7 x 7 points, two materials split by a tilted
+     plane: the interface pass adds points unless noadd
+
+  Counts are compared with other decks of the same mesh (equal, more
+  than), and only fixed where noadd fixes them (216, 125, 49 nodes), so
+  the suite does not depend on how connect breaks ties.
+
+FILES
+
+  make_connect_options.py   writes the decks and work/expect.json
+                            (what each deck tests, and what V3.3.4 did)
+  check_connect_options.py  judges them; logs/summary.html
+  run_connect_options_tests.sh
