@@ -61,12 +61,13 @@ rmpoint/compress
 
 In 2D the points may lie in any plane. When they lie in a coordinate plane (every z the same, or every y, or every x), the triangulation is exactly Delaunay and covers the convex hull of the points: the in-circle and orientation tests are exact (they do not depend on tolerances or on how far the points are from the origin), and the triangles along the hull that the construction leaves out are added at the end. A hull corner flatter than 1e-6 (the triangle's height less than 1e-6 of its base) is not filled: that is round-off in points meant to lie on a straight side, and the sliver would only harm the mesh. Points in a tilted plane are connected as in LaGriT V3.3.4 and earlier, followed by **recon/0**.
 
-In 3D, for better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.
+In 3D, for better precision where large coordinate numbers are being used, move the points close to zero before using connect, and back afterwards. **trans / zero** and **trans / original** do this without having to know the coordinates:
 ```
-trans 1,0,0 /XBIG,YBIG,ZBIG/ 0. 0. 0./
+trans / 1,0,0 / zero
 connect
-trans 1,0,0 / 0. 0. 0./ XBIG,YBIG,ZBIG
+trans / 1,0,0 / original
 ```
+In 2D, for points in a coordinate plane, the tests are exact and this is not needed.
 
 The connect algorithm creates a triangulation or tetrahedralization of the convex hull. If the domain to be meshed is not convex, there is no guarantee that all of its faces and edges will be within the specified mesh boundary. Connections will be formed across non-convex boundaries. 
 
