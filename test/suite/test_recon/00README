@@ -36,10 +36,11 @@ WHAT IT TESTS
   rc04_2d_materials  two materials, recon / 0 then recon / 1
   rc05_2d_off        ivoronoi = 5 turns recon off
   rc06_2d_poisson    Poisson disk points in the unit square, h = 0.05,
-                     connected: recon / 0 then recon / 1 (Carl: a mesh one would
+                     connected: recon / 0 then recon / 1; _x1p01,
+                     _x1p1, _x2, _x10: the points stretched in x first (Carl: a mesh one would
                      compute on, unlike rc02's random points)
-  rc07_2d_poisson_graded  the same with h graded 0.01 to 0.05 (the h
-                     field of test_poisson_2d)
+  rc07_2d_graded     the same with h graded 0.01 to 0.05 (the h
+                     field of test_poisson_2d), and stretched likewise
   rc11_3d_flip       recon / 0, 3D grid with 621 non-Delaunay faces
   rc12_3d_add        recon / 1 on a Delaunay tet mesh (random points)
   rc13_3d_materials  two materials, recon / 0 then recon / 1
@@ -62,11 +63,16 @@ RESULTS (Nov 4 2026)
   rc06, rc07: with its own connect, createpts / poisson_disk / 2d_polygon
          already ends with smooth, recon / 0, smooth, recon / 1
          (poi_driver.f), so these decks make the points with no_connect
-         and connect them. Even so, the Poisson disk mesh has no Voronoi
-         centre outside the square and no obtuse boundary angle (the
-         boundary vertices are placed first, closer together than h),
-         and recon / 1 rightly changes nothing. A real-world mesh where
-         recon / 1 must add vertices is still wanted.
+         and connect them. The Poisson disk meshes of the square have no
+         Voronoi centre outside and recon / 1 rightly changes nothing.
+         Stretched in x (Carl), the boundary triangles turn obtuse and
+         recon / 1 fixes them all (Voronoi centres outside: before ->
+         after, vertices added):
+                      x 1.01  x 1.1   x 2           x 10
+           uniform    0       0       0             39 -> 0, +42
+           graded     0       0       5 -> 0, +5    134 -> 0, +140
+         The mesh stays Delaunay, valid, the same area; every new vertex
+         is on the boundary.
   rc11   recon / 0 in 3D leaves 145 of 621 faces not Delaunay (it prints
          them as "nface"): its flips (2-3, 3-2, 4-4) cannot reach every
          face. Measured, not failed; the vertices, boundary and volume

@@ -189,32 +189,39 @@ dump / avs / rc05_2d_off_0.inp / mo
 recon / 0
 dump / avs / rc05_2d_off_1.inp / mo
 """, ["0", "1"], {"dim": 2, "after": {"1": ["unchanged"]}})
-    for name, h, extra, what in (
+    # Poisson disk meshes (Carl: real-world meshes), and the same points
+    # stretched in x (Carl: x 1.01, 1.1, 2, 10) before connect, so that
+    # the boundary triangles become obtuse and recon / 1 has work to do
+    for base, h, extra, what in (
             ("rc06_2d_poisson", "0.05", "", "uniform h = 0.05"),
-            ("rc07_2d_poisson_graded", "0.01", " / h_field_x.mlgi",
+            ("rc07_2d_graded", "0.01", " / h_field_x.mlgi",
              "h graded from 0.01 at x = 0 to 0.05 at the sides (h = max(0.01, 0.1 |x|))")):
-        deck(name,
-             "A mesh one would compute on: a Poisson disk triangulation of the unit square, %s "
-             "made with no_connect and then connect (with its own connect, createpts runs smooth, recon / 0, "
-             "smooth and recon / 1 itself, so recon / 1 would have nothing left to do). recon / 0 must leave the "
-             "Delaunay mesh as it is; recon / 1 must bring every Voronoi centre inside the square, adding "
-             "vertices on the boundary only, keeping the mesh Delaunay, valid and the same area." % what,
-             """define / WIDTH_FACTOR / 10.0
+        for sx, tag in (("1.0", ""), ("1.01", "_x1p01"), ("1.1", "_x1p1"), ("2.0", "_x2"), ("10.0", "_x10")):
+            name = base + tag
+            stretch = "" if sx == "1.0" else "scale / 1 0 0 / relative / xyz / %s 1. 1. / 0. 0. 0.\n" % sx
+            how = "" if sx == "1.0" else ", then x multiplied by %s (the square becomes a %g x 1 rectangle)" % (sx, float(sx))
+            deck(name,
+                 "A mesh one would compute on: Poisson disk points in the unit square, %s, made with no_connect "
+                 "(with its own connect, createpts runs smooth, recon / 0, smooth and recon / 1 itself)%s, then "
+                 "connect. recon / 0 must leave the Delaunay mesh as it is; recon / 1 must bring every Voronoi "
+                 "centre inside the rectangle, adding vertices on the boundary only, keeping the mesh Delaunay, "
+                 "valid and the same area." % (what, how),
+                 """define / WIDTH_FACTOR / 10.0
 read / avs / unit_square.poly / mo_polygon
 createpts / poisson_disk / 2d_polygon / mo / mo_polygon &
       / %s / no_connect%s
 cmo / select / mo
-cmo / setatt / mo / imt / 1 0 0 / 1
+%scmo / setatt / mo / imt / 1 0 0 / 1
 connect
 dump / avs / %s_0.inp / mo
 recon / 0
 dump / avs / %s_1.inp / mo
 recon / 1
 dump / avs / %s_2.inp / mo
-""" % (h, extra, name, name, name), ["0", "1", "2"], {"dim": 2, "after": {
-                 "1": ["delaunay", "same_vertices", "same_boundary", "valid", "same_size", "unchanged"],
-                 "2": ["delaunay", "centres_inside", "no_obtuse_boundary", "added_on_boundary", "valid",
-                       "same_size"]}})
+""" % (h, extra, stretch, name, name, name), ["0", "1", "2"], {"dim": 2, "after": {
+                     "1": ["delaunay", "same_vertices", "same_boundary", "valid", "same_size", "unchanged"],
+                     "2": ["delaunay", "centres_inside", "no_obtuse_boundary", "added_on_boundary", "valid",
+                           "same_size"]}})
     deck("rc11_3d_flip",
          "recon / 0 on a valid 3D mesh with 621 faces that are not Delaunay (a grid moved and cut into 6 tets "
          "per cube). recon / 0 must add no vertex and keep the boundary and the volume. The faces left not "

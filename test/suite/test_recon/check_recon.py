@@ -410,7 +410,13 @@ def picture(name, s, r, prev, dim):
     note = "%d cells, %d not Delaunay, %d centres outside%s" % (
         len(r["C"]), r["nonDelaunay"], r["centres_out"], ", %d added" % nadd if prev else "")
     title = "before" if not prev else "after step %s" % s
-    return svg_plot2d(title, segs, pts, (), 300, 270 if dim == 2 else 300, pad=0.04, note=note)
+    w, hgt = 300, 270 if dim == 2 else 300
+    if dim == 2:
+        xs, ys = [p[0] for p in V], [p[1] for p in V]
+        asp = (max(xs) - min(xs)) / max(max(ys) - min(ys), 1e-300)
+        if asp > 3:                          # a long domain: one wide picture per row
+            w, hgt = 1150, int(max(150, min(270, 1150 / asp + 70)))
+    return svg_plot2d(title, segs, pts, (), w, hgt, pad=0.02, note=note)
 
 
 # ---- small SVG helpers (standard library only; copied into each checker) ----
@@ -473,10 +479,10 @@ def svg_plot2d(title, segs=(), pts=(), circles=(), width=260, height=260, pad=0.
     if not xs:
         xs, ys = [0, 1], [0, 1]
     x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
-    span = max(x1 - x0, y1 - y0) or 1.0
     cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
     T = 22
-    s = (min(width, height - T) * (1 - 2 * pad)) / span
+    # fit both ways (a long domain fills a wide picture)
+    s = min(width * (1 - 2 * pad) / ((x1 - x0) or 1.0), (height - T - 14) * (1 - 2 * pad) / ((y1 - y0) or 1.0))
     def P(x, y):
         return width / 2 + (x - cx) * s, T + (height - T) / 2 - (y - cy) * s
     o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:10px sans-serif;background:#fff">'
