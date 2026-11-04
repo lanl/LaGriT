@@ -1,0 +1,32 @@
+test_predicates -- the exact geometric predicates of connect (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_predicates_tests.sh          about 60 s; no lagrit needed
+  open logs/summary.html
+
+  Compiles two small drivers with cc (or $CC) against
+  src/lg_predicates2d.c and src/lg_predicates3d.c (which include
+  src/lg_exact_int.h), feeds them 40,000 2D and 20,000 3D tests and
+  compares every sign with Python's exact fractions.
+
+THE INPUTS (fixed seeds)
+
+  lattices moved by -2..2 times 2**-20 .. 2**-52; lattices with spacing
+  1/n; exact ties (integer points, cube corners); UTM-sized coordinates
+  with offsets of 1e-9 or 2**-30; coordinates of wild scales (1e-30 to
+  1e30); points on a circle or sphere (near-ties from rounding);
+  random points.
+
+  Before the exact integer stage, near-ties below about 1e-28 of the
+  determinant's size counted as ties: 341 of the 2D tests and 147 of
+  the 3D tests were wrong (most with coordinates of wildly different
+  scales, a few on jittered lattices and at UTM offsets). Now none may
+  be.
+
+FILES
+  pred2d_driver.c, pred3d_driver.c   read tests from stdin, print signs
+  check_predicates.py                generates, compares, writes
+                                     logs/summary.html
+  run_predicates_tests.sh

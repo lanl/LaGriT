@@ -90,6 +90,7 @@ test_edge_lengths:run_edge_lengths_tests.sh:1
 test_input_lines:run_input_lines_tests.sh:2
 test_connect_options:run_connect_options_tests.sh:2
 test_connect_exact:run_connect_exact_tests.sh:40
+test_predicates:run_predicates_tests.sh:10
 test_connect_timing:run_connect_timing.sh:290:big
 "
 
