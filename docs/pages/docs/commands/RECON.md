@@ -24,6 +24,17 @@ The standard method used by **`recon`** is to flip connections based on the in-s
 
 **`1`** adds points on the boundaries if needed to make Delaunay (recommended for 2D meshes only). 
 
+The aim of `recon / 1` is a Delaunay mesh with every Voronoi centre (the circumcentre of each triangle) inside the exterior boundary, which gives positive coupling coefficients in two-point flux codes such as FEHM, PFLOTRAN and TOUGH. The method is described in M. Murphy and C. Gable, *Strategies for Nonobtuse Boundary Delaunay Triangulations*, 7th International Meshing Roundtable, 2000. In 3D the problem is harder; see M. Murphy, D. Mount and C. Gable, *A point-placement strategy for conforming Delaunay tetrahedralization*, Int. J. Comput. Geom. Appl. 11 (2001), 669-682.
+
+What `recon / 1` does:
+
+- **2D:** rounds of flips, then a point on each boundary (or interface) edge whose opposite angle is obtuse (its Voronoi coefficient is negative), repeated (up to 50 rounds) until no boundary angle is obtuse. The result is Delaunay, with every Voronoi centre inside the boundary and no obtuse angle at the boundary, and the boundary and the area of each material are kept.
+- **3D:** one round of flips, one pass that puts a point on the boundary edge opposite each obtuse angle of a boundary face, then flips again. This does **not** reach the aim: on a Delaunay tet mesh of random points in a cube, the Voronoi centres outside the cube go from 310 to 454, 330 faces are left not Delaunay and the obtuse boundary angles double (test/suite/test_recon, rc12). It also writes a file `gmv_refine_edge_3d` in the current folder, and with two materials prints "zero terminated parent/child chain" messages. Use `recon / 0` (or `connect`) for 3D.
+
+In 3D, `recon / 0` reaches Delaunay only as far as its flips can: on a jittered grid with 621 faces not Delaunay it leaves 145 (it prints their number as `nface`).
+
+A mesh with more than one material must have the parent / child vertices that `connect` makes on the interfaces; read from a file without them, `recon` stops LaGriT (test_recon, rc15).
+
 
 If `damage`  is specified then flips on exterior boundaries are checked to verify that the maximum depth of deformation of the external boundary does not exceed the value of `damage`. The default value of damage is 1% of the problem size. This setting prevents connecting across corners if the external boundary is a reflective box.
 

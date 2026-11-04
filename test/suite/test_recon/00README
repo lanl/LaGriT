@@ -1,0 +1,87 @@
+test_recon -- recon / 0 and recon / 1 (Nov 2026; parking lot 61)
+
+QUICK START
+
+  sh run_recon_tests.sh [path-to-lagrit]     10 decks, about 10 s
+  open summary.html
+
+WHAT IT TESTS
+
+  The aim of recon / 1 (Carl, Nov 4): every Voronoi centre (cell
+  circumcentre) inside the exterior boundary, so that two-point flux
+  codes (FEHM, PFLOTRAN, TOUGH) get positive coupling coefficients. The
+  2D method: M. Murphy and C. Gable, "Strategies for Nonobtuse Boundary
+  Delaunay Triangulations", 7th International Meshing Roundtable, 2000.
+  3D is harder: M. Murphy, D. Mount and C. Gable, "A point-placement
+  strategy for conforming Delaunay tetrahedralization", Int. J. Comput.
+  Geom. Appl. 11 (2001) 669-682. The checker counts the circumcentres
+  outside the domain (every mesh here is a box: the box of its vertices).
+
+  recon / 0 flips edges (2D) or faces (3D) toward Delaunay and adds no
+  vertex. recon / 1 also adds vertices where a boundary triangle has an
+  obtuse angle (its Voronoi coefficient is negative):
+    2D  reconloop2d: up to 50 rounds of flips (recon2d), then the
+        negative coefficients (matbld0tri), then refine_edge_2d puts a
+        vertex on each such boundary (or interface) edge, until none is
+        left;
+    3D  reconloop3d: ONE round of flips (recon2), one pass of
+        refine_edge_3d (a vertex at the foot of the altitude on the
+        boundary edge opposite each obtuse angle of a boundary face),
+        flips again. RECON.md recommends recon / 1 for 2D only.
+
+  rc01_2d_flip       recon / 0, 2D grid with 54 non-Delaunay edges
+  rc02_2d_add        recon / 0 then recon / 1 on random points (15 obtuse
+                     boundary angles)
+  rc03_2d_flip_add   recon / 1 on the rc01 grid
+  rc04_2d_materials  two materials, recon / 0 then recon / 1
+  rc05_2d_off        ivoronoi = 5 turns recon off
+  rc11_3d_flip       recon / 0, 3D grid with 621 non-Delaunay faces
+  rc12_3d_add        recon / 1 on a Delaunay tet mesh (random points)
+  rc13_3d_materials  two materials, recon / 0 then recon / 1
+  rc14_errors        no cells (WARNING); a hex mesh (message)
+  rc15_no_parents    two materials read from AVS, no parent / child
+                     vertices
+
+  make_recon.py writes the inputs (fixed seeds) and decks; each deck
+  dumps the mesh before and after each recon. check_recon.py judges every
+  mesh against the one before it in exact rational arithmetic on the
+  dumped coordinates; its opening comment defines every check.
+
+RESULTS (Nov 4 2026)
+
+  PASS   rc01-rc05, rc11, rc14. 2D recon / 0 and recon / 1 do what the
+         documentation says: Delaunay; after recon / 1 every Voronoi
+         centre inside the domain (rc02: 19 outside before, 0 after, with
+         26 vertices added on the boundary) and no obtuse boundary angle;
+         the boundary, the area and the area of each material kept.
+  rc11   recon / 0 in 3D leaves 145 of 621 faces not Delaunay (it prints
+         them as "nface"): its flips (2-3, 3-2, 4-4) cannot reach every
+         face. Measured, not failed; the vertices, boundary and volume
+         are kept.
+  KNOWN  rc12: recon / 1 in 3D does not reach its aim: the Voronoi
+         centres outside the domain go from 310 to 454, a Delaunay mesh
+         becomes one with 330 faces not Delaunay, and the obtuse boundary
+         angles go from 268 to 524 (each new vertex makes new obtuse angles; there is only
+         one pass). It writes the file gmv_refine_edge_3d in the current
+         folder (a debugging dump left in refine_edge_3d.f). Valid, the
+         volume and the boundary surface are kept.
+  KNOWN  rc13: recon / 1 in 3D with two materials prints "zero terminated
+         parent/child chain" (11 times): new interface vertices are not
+         linked into the parent / child chains.
+  KNOWN  rc15: a two-material tet mesh read from AVS without parent /
+         child vertices: recon / 0 prints "zero terminated parent/child
+         chain" and "in fnd2to3i ... not interface point" and LaGriT
+         stops in the middle of the deck with exit status 0.
+
+  Also found reading the code (recon.f): the test before contable checks
+  the status of an earlier call (icscode, not ics), so contable is never
+  called (parking lot 48); the message for a hex mesh says "Refine on
+  this CMO type is not implemented".
+
+FILES
+
+  run_recon_tests.sh   runs the decks in work/, keeps any
+                       gmv_refine_edge_3d as <deck>.gmv_refine_edge_3d
+  make_recon.py        inputs, decks, work/expect.json
+  check_recon.py       the checks; logs/<deck>.check, logs/table.txt,
+                       summary.html
