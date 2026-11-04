@@ -230,7 +230,7 @@ C        DO NOT PERFORM AN INTERFACE FLIP UNLESS THE MATERIALS ON EACH
 C        SIDE OF THE INTERFACE ARE ALREADY FLAGGED FOR RECONNECTION
 C
          if(itet(1,it).le.0) go to 800
-         if (matrecon(imt1(itet(1,it))) .eq. 0) goto 800
+         if (matrecon(max(1,imt1(itet(1,it)))) .eq. 0) goto 800
          ifpos=iand((iface-1),maskface)+1
          if (itet(1,it).le.0 .or. kfix(1,it) .gt. 0) goto 800
          volit=volume(itet(1,it),itet(2,it),itet(3,it),itet(4,it))
@@ -327,7 +327,7 @@ C           EACH SIDE OF THE INTERFACE ARE ALREADY FLAGGED FOR
 C           RECONNECTION.
 C
             imtx=imt1(itet(1,it3))
-            if (matrecon(imtx).eq.0) go to 800
+            if (matrecon(max(1,imtx)).eq.0) go to 800
 C
 C           ............................................................
 C           TRY THE 3-TO-2I FLIP.
@@ -369,7 +369,7 @@ c$$$            goto 300
             call writloga('bat',0,logdan,0,icscode)
             go to 800
  250        imtx=imt1a(jj)
-            if (matrecon(imtx) .eq. 0) goto 800
+            if (matrecon(max(1,imtx)) .eq. 0) goto 800
             do 275 j0=1,6
                np1=itet(ielist(4*(j0-1)+1),it3)
                np2=itet(ielist(4*(j0-1)+2),it3)
