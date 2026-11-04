@@ -48,10 +48,14 @@ C
          isint(i)=0
          if (itsttp('intrface',itp1(i))) isint(i)=1
       enddo
-C     room for the added triangles: at most one per vertex
+C     room for the added triangles: at most one per vertex. Only the
+C     attributes whose length is nelements grow (hull_grow_elements, in
+C     connect3d_hull_lg.f: never shrink, never a vertex array);
+C     cmo_newlen is not used, because it resizes every array to the
+C     mesh object's counts and can move arrays the caller still holds
+C     (Nov 4 2026: macOS failures with the 3D fill).
       maxtri=ntets+npoints
-      call cmo_set_info('nelements',cmo,maxtri,1,1,ier)
-      call cmo_newlen(cmo,ier)
+      call hull_grow_elements(cmo,ntets,maxtri)
       call cmo_get_info('xic',cmo,ipxic,leni,itype,ier)
       call cmo_get_info('yic',cmo,ipyic,leni,itype,ier)
       call cmo_get_info('zic',cmo,ipzic,leni,itype,ier)
