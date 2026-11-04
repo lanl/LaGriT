@@ -443,8 +443,9 @@ c
                if (rtest(itetuse).ge.test1) go to 110
             else
 C              exact test (lg_predicates3d.c): inside or not
-               call delaunay_insph(itet(1,idx),itet(2,idx),itet(3,idx),
-     *            itet(4,idx),mpnt,xic,yic,zic,isgn)
+               call delaunay_insph_fast(rtest(itetuse),ivertex,mpnt,
+     *            xvor(idx),yvor(idx),zvor(idx),vol(idx),itet(1,idx),
+     *            itet(2,idx),itet(3,idx),itet(4,idx),xic,yic,zic,isgn)
                if (isgn.gt.iexmin) go to 110
                go to 102
             endif
@@ -503,8 +504,10 @@ C                     does not say clearly outside
                       if (iexact.eq.0) then
                          if (rtest(itetest).ge.test1) isgn=1
                       elseif (rtest(itetest).gt.-1.0d-6*rbig) then
-                         call delaunay_insph(itet(1,idx),itet(2,idx),
-     *                   itet(3,idx),itet(4,idx),mpnt,xic,yic,zic,isgn)
+                         call delaunay_insph_fast(rtest(itetest),
+     *                   ivertex,mpnt,xvor(idx),yvor(idx),zvor(idx),
+     *                   vol(idx),itet(1,idx),itet(2,idx),itet(3,idx),
+     *                   itet(4,idx),xic,yic,zic,isgn)
                       endif
                       if(isgn.gt.iexmin) then
                          itetuse=itetest
@@ -610,8 +613,10 @@ C
                          isgn=-1
                          if(rtest(itetest).ge.test2) isgn=1
                       else
-                         call delaunay_insph(itet(1,idx),itet(2,idx),
-     *                   itet(3,idx),itet(4,idx),mpnt,xic,yic,zic,isgn)
+                         call delaunay_insph_fast(rtest(itetest),
+     *                   ivertex,mpnt,xvor(idx),yvor(idx),zvor(idx),
+     *                   vol(idx),itet(1,idx),itet(2,idx),itet(3,idx),
+     *                   itet(4,idx),xic,yic,zic,isgn)
                       endif
                       if(isgn.gt.iexmin) then
                          nstack=nstack+1
@@ -1373,6 +1378,55 @@ C
       implicit none
       integer i1,i2,i3,i4,ip,isgn
       real*8 xic(*),yic(*),zic(*)
+      call lg_insphere3d(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2),
+     *   zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4),
+     *   xic(ip),yic(ip),zic(ip),isgn)
+      return
+      end
+C#######################################################################
+      subroutine delaunay_insph_fast(rt,iv,ip,xv,yv,zv,v6,
+     *   i1,i2,i3,i4,xic,yic,zic,isgn)
+C
+C     The same answer as delaunay_insph, but first from the quick test
+C     connect already has: rt = (v-p).(v+p-X), v = vertex iv of the
+C     tet, X = (xv,yv,zv) twice its stored circumcentre, v6 its stored
+C     6 x volume. rt has the sign of the exact test unless it is within
+C     the error of X (computed from the tet: about eps R**4/|v6|, R the
+C     circumradius, plus eps |X| for the final addition) and of rt's own
+C     evaluation; the bound is taken 4 times larger than that analysis
+C     gives. Inside the bound, or for a nearly flat tet, the exact test
+C     decides; for a tet of positive volume its orientation is passed
+C     (LaGriT's positive tets have orient3d = -1), so it is not
+C     computed again.
+C
+      implicit none
+      integer iv,ip,i1,i2,i3,i4,isgn,io
+      real*8 rt,xv,yv,zv,v6,xic(*),yic(*),zic(*)
+      real*8 eps,r2,dvp,big,err
+      parameter (eps=1.1102230246251565d-16)
+      r2=(xic(iv)-0.5d0*xv)**2+(yic(iv)-0.5d0*yv)**2
+     *  +(zic(iv)-0.5d0*zv)**2
+      dvp=abs(xic(iv)-xic(ip))+abs(yic(iv)-yic(ip))
+     *   +abs(zic(iv)-zic(ip))
+      big=abs(xic(iv)-xic(ip))*abs(xic(iv)+xic(ip)-xv)
+     *   +abs(yic(iv)-yic(ip))*abs(yic(iv)+yic(ip)-yv)
+     *   +abs(zic(iv)-zic(ip))*abs(zic(iv)+zic(ip)-zv)
+      if (v6.gt.1.0d-6*r2*sqrt(r2)) then
+         err=4.0d0*(dvp*(384.0d0*eps*r2*r2/v6
+     *      +4.0d0*eps*(abs(xv)+abs(yv)+abs(zv)))+8.0d0*eps*big)
+         if (rt.gt.err) then
+            isgn=1
+            return
+         elseif (rt.lt.-err) then
+            isgn=-1
+            return
+         endif
+         io=-1
+         call lg_insphere3d_or(xic(i1),yic(i1),zic(i1),xic(i2),
+     *      yic(i2),zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),
+     *      zic(i4),xic(ip),yic(ip),zic(ip),io,isgn)
+         return
+      endif
       call lg_insphere3d(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2),
      *   zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4),
      *   xic(ip),yic(ip),zic(ip),isgn)

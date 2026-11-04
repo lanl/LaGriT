@@ -19,8 +19,9 @@
  *
  * Called from Fortran (8-byte integers):
  *   call lg_orient3d(ax,ay,az,bx,by,bz,cx,cy,cz,dx,dy,dz,isign)
- *   call lg_insphere3d(a(3),b(3),c(3),d(3),e(3),isign)
- *        (each point as 3 consecutive reals: x, y, z)
+ *   call lg_insphere3d(ax,ay,az,...,ex,ey,ez,isign)
+ *   call lg_insphere3d_or(ax,ay,az,...,ex,ey,ez,io,isign)
+ *        io: the orientation of a, b, c, d if already known
  * isign = 1, 0 or -1. lg_insphere3d: 1 = e strictly inside.
  * lg_orient3d: the sign of det(a - d, b - d, c - d).
  */
@@ -78,6 +79,22 @@ static dd dd_mul(dd a, dd b)
     p.hi = a.hi * b.hi;
     p.lo = fma(a.hi, b.hi, -p.hi);
     return dd_norm(p.hi, p.lo + (a.hi * b.lo + a.lo * b.hi));
+}
+
+/* the exact product of two doubles, as a double-double */
+static dd two_prod(double a, double b)
+{
+    dd p;
+    p.hi = a * b;
+    p.lo = fma(a, b, -p.hi);
+    return p;
+}
+
+/* a double-double times a double */
+static dd dd_mul_d(dd a, double b)
+{
+    dd p = two_prod(a.hi, b);
+    return dd_norm(p.hi, p.lo + a.lo * b);
 }
 
 static int64_t sign_of(double v) { return (v > 0.0) - (v < 0.0); }
@@ -176,20 +193,54 @@ static int64_t insphere(const double *a, const double *b, const double *c,
     Cz = two_diff(c[2], e[2]);
     Dx = two_diff(d[0], e[0]); Dy = two_diff(d[1], e[1]);
     Dz = two_diff(d[2], e[2]);
+    if (Ax.lo == 0.0 && Ay.lo == 0.0 && Az.lo == 0.0 && Bx.lo == 0.0 &&
+        By.lo == 0.0 && Bz.lo == 0.0 && Cx.lo == 0.0 && Cy.lo == 0.0 &&
+        Cz.lo == 0.0 && Dx.lo == 0.0 && Dy.lo == 0.0 && Dz.lo == 0.0) {
+        /* every difference is exact in double (the usual case: points
+           close together, a lattice for one): products of two
+           differences are exact with two_prod, and the 3 x 3 minors
+           and lifts need only a double-double times a double */
+        double ax = Ax.hi, ay = Ay.hi, az = Az.hi, bx = Bx.hi, by = By.hi,
+               bz = Bz.hi, cx = Cx.hi, cy = Cy.hi, cz = Cz.hi, dx = Dx.hi,
+               dy = Dy.hi, dz = Dz.hi;
+        AB = dd_sub(two_prod(ax, by), two_prod(bx, ay));
+        BC = dd_sub(two_prod(bx, cy), two_prod(cx, by));
+        CD = dd_sub(two_prod(cx, dy), two_prod(dx, cy));
+        DA = dd_sub(two_prod(dx, ay), two_prod(ax, dy));
+        AC = dd_sub(two_prod(ax, cy), two_prod(cx, ay));
+        BD = dd_sub(two_prod(bx, dy), two_prod(dx, by));
+        ABC = dd_add(dd_sub(dd_mul_d(BC, az), dd_mul_d(AC, bz)),
+                     dd_mul_d(AB, cz));
+        BCD = dd_add(dd_sub(dd_mul_d(CD, bz), dd_mul_d(BD, cz)),
+                     dd_mul_d(BC, dz));
+        CDA = dd_add(dd_add(dd_mul_d(DA, cz), dd_mul_d(AC, dz)),
+                     dd_mul_d(CD, az));
+        DAB = dd_add(dd_add(dd_mul_d(AB, dz), dd_mul_d(BD, az)),
+                     dd_mul_d(DA, bz));
+        AL = dd_add(dd_add(two_prod(ax, ax), two_prod(ay, ay)),
+                    two_prod(az, az));
+        BL = dd_add(dd_add(two_prod(bx, bx), two_prod(by, by)),
+                    two_prod(bz, bz));
+        CL = dd_add(dd_add(two_prod(cx, cx), two_prod(cy, cy)),
+                    two_prod(cz, cz));
+        DL = dd_add(dd_add(two_prod(dx, dx), two_prod(dy, dy)),
+                    two_prod(dz, dz));
+    } else {
     AB = dd_sub(dd_mul(Ax, By), dd_mul(Bx, Ay));
     BC = dd_sub(dd_mul(Bx, Cy), dd_mul(Cx, By));
     CD = dd_sub(dd_mul(Cx, Dy), dd_mul(Dx, Cy));
     DA = dd_sub(dd_mul(Dx, Ay), dd_mul(Ax, Dy));
     AC = dd_sub(dd_mul(Ax, Cy), dd_mul(Cx, Ay));
     BD = dd_sub(dd_mul(Bx, Dy), dd_mul(Dx, By));
-    ABC = dd_add(dd_sub(dd_mul(Az, BC), dd_mul(Bz, AC)), dd_mul(Cz, AB));
-    BCD = dd_add(dd_sub(dd_mul(Bz, CD), dd_mul(Cz, BD)), dd_mul(Dz, BC));
-    CDA = dd_add(dd_add(dd_mul(Cz, DA), dd_mul(Dz, AC)), dd_mul(Az, CD));
-    DAB = dd_add(dd_add(dd_mul(Dz, AB), dd_mul(Az, BD)), dd_mul(Bz, DA));
     AL = dd_add(dd_add(dd_mul(Ax, Ax), dd_mul(Ay, Ay)), dd_mul(Az, Az));
     BL = dd_add(dd_add(dd_mul(Bx, Bx), dd_mul(By, By)), dd_mul(Bz, Bz));
     CL = dd_add(dd_add(dd_mul(Cx, Cx), dd_mul(Cy, Cy)), dd_mul(Cz, Cz));
     DL = dd_add(dd_add(dd_mul(Dx, Dx), dd_mul(Dy, Dy)), dd_mul(Dz, Dz));
+    ABC = dd_add(dd_sub(dd_mul(Az, BC), dd_mul(Bz, AC)), dd_mul(Cz, AB));
+    BCD = dd_add(dd_sub(dd_mul(Bz, CD), dd_mul(Cz, BD)), dd_mul(Dz, BC));
+    CDA = dd_add(dd_add(dd_mul(Cz, DA), dd_mul(Dz, AC)), dd_mul(Az, CD));
+    DAB = dd_add(dd_add(dd_mul(Dz, AB), dd_mul(Az, BD)), dd_mul(Bz, DA));
+    }
     R = dd_add(dd_sub(dd_mul(DL, ABC), dd_mul(CL, DAB)),
                dd_sub(dd_mul(BL, CDA), dd_mul(AL, BCD)));
     if (fabs(R.hi) <= DD_ISP_BOUND * perm)
@@ -206,6 +257,22 @@ void lg_orient3d_(const double *ax, const double *ay, const double *az,
     double a[3] = {*ax, *ay, *az}, b[3] = {*bx, *by, *bz};
     double c[3] = {*cx, *cy, *cz}, d[3] = {*dx, *dy, *dz};
     *isign = orient3d(a, b, c, d);
+}
+
+/* lg_insphere3d_or_: the same as lg_insphere3d_ for a tet whose
+   orientation is known: *io is orient3d(a, b, c, d) (1 or -1), so it
+   is not computed again */
+void lg_insphere3d_or_(const double *ax, const double *ay, const double *az,
+                       const double *bx, const double *by, const double *bz,
+                       const double *cx, const double *cy, const double *cz,
+                       const double *dx, const double *dy, const double *dz,
+                       const double *ex, const double *ey, const double *ez,
+                       const int64_t *io, int64_t *isign)
+{
+    double a[3] = {*ax, *ay, *az}, b[3] = {*bx, *by, *bz};
+    double c[3] = {*cx, *cy, *cz}, d[3] = {*dx, *dy, *dz};
+    double e[3] = {*ex, *ey, *ez};
+    *isign = *io * insphere(a, b, c, d, e);
 }
 
 /* 1 when e is strictly inside the sphere through a, b, c, d, whatever
