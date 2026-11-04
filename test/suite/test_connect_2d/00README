@@ -1,0 +1,49 @@
+test_connect_2d -- 2D connect far from the origin (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_connect_2d_tests.sh [path-to-lagrit]     7 decks, about 1 s
+  open logs/summary.html
+
+WHAT IS TESTED
+
+  connect on a triplane mesh object (2D Delaunay triangulation) of the
+  same 400 points, made by make_connect_inputs.py from a fixed random
+  number generator, in a 100 x 80 rectangle:
+
+  cd01_origin      a corner at the origin: the reference
+  cd02_utm         moved to x 4.0e5, y 3.9e6 (UTM-sized coordinates)
+  cd03_negative    moved to x -6.5e5, y -4.2e6
+  cd04_y_only      moved to y 3.9e6 only (x starts at 0)
+  cd05_yz_plane    in the plane x = 0, moved to y 2.0e5, z 3.0e5
+  cd06_xz_plane    in the plane y = 0, moved to x 2.0e5, z 3.0e5
+  cd07_square1000  the four corners of a unit square at x = 1000 (the
+                   case test/level01/connect_errors records as failing)
+
+  HARD checks, every deck: LaGriT finished with no ERROR; connect left
+  no point unconnected; the expected number of triangles (778; 2 for
+  cd07); every triangle with positive area and the same orientation in
+  its plane; every edge shared by one or two triangles; every vertex
+  used. cd02-cd06 must also give exactly the triangles of cd01_origin,
+  vertex number for vertex number.
+
+WHY
+
+  connect (2D) starts from a large triangle enclosing the points
+  (src/make_bigtri_lg.f). In LaGriT V3.3.4 and earlier its third vertex
+  was placed at 1.01 times the centre coordinate of the points. Far from
+  the origin that is far outside the box (4,000 m away for a 100 m box
+  at x = 400,000), the triangle no longer encloses the points, every
+  point fails and connect makes no triangles. Now the old place is kept
+  when the box of the points contains the origin, so those meshes are
+  unchanged, and otherwise the vertex is offset by 0.005 of the box
+  size. On such a LaGriT cd02, cd03, cd05, cd06 and cd07 fail; cd01 and
+  cd04 pass (cd04: the x offset decides, and x starts at 0).
+
+FILES
+
+  make_connect_inputs.py   writes cd01-cd06 .pts (AVS points) into WORK
+  cd*.lgi                  the decks
+  check_connect_2d.py      the checker (Python 3, standard library)
+  run_connect_2d_tests.sh  the runner; work/ and logs/ are rewritten

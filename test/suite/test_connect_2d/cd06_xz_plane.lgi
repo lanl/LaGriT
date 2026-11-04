@@ -1,0 +1,18 @@
+#####################################################################
+# cd06_xz_plane.lgi   (test_connect_2d)
+#
+# WHAT:
+#   The same points in the plane y = 0, moved to x 2.0e5,
+#   z 3.0e5 (the enclosing triangle's y = 0 branch).
+#
+# EXPECT:
+#   Every point connected; 778 triangles, the same triangles (by
+#   vertex number) as cd01_origin.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd06_xz_plane.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd06_xz_plane.inp / mo_tri
+finish

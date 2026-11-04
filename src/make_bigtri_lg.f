@@ -65,7 +65,8 @@ C
       include 'chydro.h'
       include 'consts.h'
       real*8 depthx,depthy,depthz,xmeanl,a,b,c,d,s1,s2,
-     *  ymeanl,zmeanl,xminl,yminl,zminl,xmaxl,ymaxl,zmaxl
+     *  ymeanl,zmeanl,xminl,yminl,zminl,xmaxl,ymaxl,zmaxl,
+     *  xthird,ythird
       integer npoints,ntets,i,mbndry
       integer ipt1,ipt2,ierror,
      * leni,icmotype,ier,nwds
@@ -234,6 +235,19 @@ C
        depthy=3.0*boxsizey
        depthz=3.0*boxsizez
 c
+c     The third vertex sits a little off the centre of the box. It
+c     was placed at 1.01 times the centre coordinate, which far from
+c     the origin (UTM coordinates, say) is outside the box: then no
+c     point is inside the triangle and connect makes no triangles.
+c     Keep that place when the box contains the origin (unchanged
+c     meshes); otherwise offset by 0.005 of the box size.
+       xthird=1.01*xmeanl
+       if (abs(xmeanl) .gt. 0.5d0*boxsizex)
+     *    xthird=xmeanl+sign(0.005d0*boxsizex,xmeanl)
+       ythird=1.01*ymeanl
+       if (abs(ymeanl) .gt. 0.5d0*boxsizey)
+     *    ythird=ymeanl+sign(0.005d0*boxsizey,ymeanl)
+c
        if ((depthx .ge. depthy) .and.
      *     (depthz .ge. depthy)) then
 c
@@ -245,7 +259,7 @@ c
             xbigtet(2)=xmeanl+0.75*depthx
             zbigtet(2)=zmeanl-0.75*depthz
             ybigtet(2)=-(a*xbigtet(2)+c*zbigtet(2)-d)/b
-            xbigtet(3)=1.01*xmeanl
+            xbigtet(3)=xthird
             zbigtet(3)=zmeanl+max(depthx,depthz)
             ybigtet(3)=-(a*xbigtet(3)+c*zbigtet(3)-d)/b
 c
@@ -259,7 +273,7 @@ c        Bigtet is most parallel to the x=0 plane
             ybigtet(2)=ymeanl+0.75*depthy
             zbigtet(2)=zmeanl-0.75*depthz
             xbigtet(2)=-(b*ybigtet(2)+c*zbigtet(2)-d)/a
-            ybigtet(3)=1.01*ymeanl
+            ybigtet(3)=ythird
             zbigtet(3)=zmeanl+1.5*max(depthy,depthz)
             xbigtet(3)=-(b*ybigtet(3)+c*zbigtet(3)-d)/a
 c
@@ -274,7 +288,7 @@ c
             xbigtet(2)=xmeanl+0.75*depthx
             ybigtet(2)=ymeanl-0.75*depthy
             zbigtet(2)=-(a*xbigtet(2)+b*ybigtet(2)-d)/c
-            xbigtet(3)=1.01*xmeanl
+            xbigtet(3)=xthird
             ybigtet(3)=ymeanl+1.5*max(depthx,depthy)
             zbigtet(3)=-(a*xbigtet(3)+b*ybigtet(3)-d)/c
 c

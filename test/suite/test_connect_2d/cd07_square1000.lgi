@@ -1,0 +1,18 @@
+#####################################################################
+# cd07_square1000.lgi   (test_connect_2d)
+#
+# WHAT:
+#   The four corners of a unit square at x = 1000, the case
+#   test/level01/connect_errors records as failing.
+#
+# EXPECT:
+#   4 points connected into 2 triangles. LaGriT V3.3.4 and earlier:
+#   no triangles (the 4 points were left out).
+#####################################################################
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 2 2 1 / 1000. 0. 0. / 1001. 1. 0. / 1 1 1
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd07_square1000.inp / mo_tri
+finish
