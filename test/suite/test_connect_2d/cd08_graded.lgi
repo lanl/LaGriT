@@ -1,0 +1,17 @@
+#####################################################################
+# cd08_graded.lgi   (test_connect_2d)
+#
+# WHAT:
+#   400 points crowded toward one corner of a 100 x 100
+#   square ((u**3, v**3) * 100): sizes over many orders.
+#
+# EXPECT:
+#   every point connected; exactly Delaunay; covers the convex hull.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd08_graded.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd08_graded.inp / mo_tri
+finish

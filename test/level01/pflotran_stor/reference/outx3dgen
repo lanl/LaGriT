@@ -2,9 +2,11 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.3.3   Linux          *                 
-*               *    Date Compile: 2023/12/20                 *                 
-*               *    Run Time: 2023/Dec 21  12:46:05          *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  06:58:42          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -25,8 +27,8 @@
                                -----oOo-----                                    
  
  
-Output log file: lagrit.out                                                     
-Command log file: lagrit.log                                                    
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
  
 # LaGriT V3.2+                                                                  
 # Test pflotran and stor options                                                
@@ -51,13 +53,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
@@ -198,13 +196,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      
@@ -345,13 +339,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 rmpoint compress                                                                
          0 points removed and          0 elements removed.                      

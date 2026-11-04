@@ -83,11 +83,22 @@ THE CHECKS (a timing is never a failure)
          of neighbouring cells, the far vertex is not inside the
          circumcircle (circumsphere), the determinant scaled by the cell
          size at most 1e-5
+  HARD   in 2D the growth exponent p (below) is at most 1.3 for every
+         order: connect (2D) now inserts the points in a BRIO order of
+         its own, so the order they are given in must not matter
   REPORTED  the connect time; the growth exponent p (t = a N^p, a least
          squares fit of log t on log N over the times of 0.05 s or
          more); the slope between successive sizes; the coverage (the
          total area or volume of the cells, 1 = the whole box); the
          cell counts of the orders
+
+RESULTS WITH BRIO ORDER (sandbox, Nov 3 2026; 2D only changed)
+
+            random    xyz       xyz_bins  morton    at 256000 vertices
+  2D        N^1.11    N^1.01    N^0.99    N^1.01    2.0, 1.7, 1.4, 1.1 s
+
+  The same run in the old insertion order (as connect / old_order):
+  2D random order N^1.91, 46.7 s at 256000 vertices.
 
 RESULTS (sandbox, Oct 17 2026, Release, gfortran 14, Linux; 4 min 44 s)
 

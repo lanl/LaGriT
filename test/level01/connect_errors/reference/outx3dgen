@@ -6,7 +6,7 @@
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 14.2.0                 *                 
 *               *    Date Compile: 2026/11/03                 *                 
-*               *    Run Time: 2026/Nov  3  06:03:09          *                 
+*               *    Run Time: 2026/Nov  3  06:58:42          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -57,13 +57,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 quality                                                                         
  
@@ -138,13 +134,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 quality                                                                         
  

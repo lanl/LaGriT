@@ -1,0 +1,17 @@
+#####################################################################
+# cd09_stretched.lgi   (test_connect_2d)
+#
+# WHAT:
+#   A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.4 and
+#   earlier left 37 of the 961 points out.
+#
+# EXPECT:
+#   all 961 points connected into 1800 triangles; Delaunay.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd09_stretched.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd09_stretched.inp / mo_tri
+finish

@@ -1,0 +1,18 @@
+#####################################################################
+# cd10_jitter.lgi   (test_connect_2d)
+#
+# WHAT:
+#   A 31 x 31 grid of the unit square with every point moved
+#   by up to 1e-9: round-off in points meant to lie on the sides.
+#
+# EXPECT:
+#   1800 triangles, none flatter than 40 degrees: the
+#   round-off corners along the sides are not filled with slivers.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd10_jitter.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd10_jitter.inp / mo_tri
+finish

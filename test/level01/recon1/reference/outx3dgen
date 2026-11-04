@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  8  17:29:15          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  06:58:42          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -55,21 +57,17 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.26250D+01-0.80000D+00-0.00000D+00                                  
-           0.41250D+01-0.87500D+00-0.00000D+00                                  
-           0.75750D+00 0.70000D+01-0.00000D+00                                  
+          -0.26250D+01-0.80000D+00 0.00000D+00                                  
+           0.41250D+01-0.87500D+00 0.00000D+00                                  
+           0.75750D+00 0.70000D+01 0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 resetpts/itp                                                                    
 geniee                                                                          
@@ -1163,21 +1161,17 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.20250D+01-0.18600D+01-0.00000D+00                                  
-           0.29250D+01-0.20250D+01-0.00000D+00                                  
+          -0.20250D+01-0.18600D+01 0.00000D+00                                  
+           0.29250D+01-0.20250D+01 0.00000D+00                                  
            0.45450D+00 0.54000D+01 0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 resetpts/itp                                                                    
 geniee                                                                          
@@ -1365,13 +1359,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 resetpts/itp                                                                    
 geniee                                                                          

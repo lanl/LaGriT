@@ -48,6 +48,18 @@ for deck in cd[0-9]*.lgi; do
     ( cd "$WORK" && "$LAGRIT" < "$deck" > "$name.out" 2>&1 )
     cp "$WORK/$name.out" "$LOGDIR/$name.stdout"
 done
+# Optional: REF_LAGRIT=/path/to/another/lagrit runs the decks with it too
+# (into WORK/ref), and the pictures show its meshes beside these.
+if [ -n "${REF_LAGRIT:-}" ]; then
+    echo "reference lagrit : $REF_LAGRIT"
+    mkdir -p "$WORK/ref"
+    for deck in cd[0-9]*.lgi; do
+        name=${deck%.lgi}
+        cp "$deck" "$WORK/ref/"
+        cp "$WORK/$name.pts" "$WORK/ref/" 2>/dev/null
+        ( cd "$WORK/ref" && "$REF_LAGRIT" < "$deck" > "$name.out" 2>&1 )
+    done
+fi
 python3 -I check_connect_2d.py "$WORK" "$LOGDIR"
 rc=$?
 echo

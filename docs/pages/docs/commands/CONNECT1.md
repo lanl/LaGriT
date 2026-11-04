@@ -23,6 +23,8 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 <b>connect</b> / <b>noadd</b>
 
 <b>connect</b> / <b>check_interface</b>
+
+<b>connect</b> / ... / <b>old_order</b>
 </pre>
 
 
@@ -42,6 +44,9 @@ Connect the nodes into a Delaunay tetrahedral or triangle grid. The Delaunay cri
 
 
 **`check_interface`** option does a more exhaustive job of making sure there are no edges of the mesh that cross a material boundary.
+
+
+**`old_order`** (2D only; may be added anywhere in the command) inserts the points in the order used by LaGriT V3.3.4 and earlier, a fixed prime stride through the point list. By default 2D connect inserts more than 100 points in a Biased Randomized Insertion Order (BRIO; Amenta, Choi and Rote, 2003): the points are split at random into rounds that double in size, each round is sorted along a Morton (Z-order) curve, and the rounds are inserted smallest first. Each insertion then starts close to the new point, so connect time grows about linearly with the number of points, whatever order they are given in (256,000 random points: about 2 s instead of about 47 s). The random choices use a fixed seed, so a run is reproducible. The mesh is the same in either order except where points are exactly cocircular (a regular grid, say), where either choice is Delaunay; **old_order** reproduces the choices of older versions.
 
 
 
@@ -64,7 +69,9 @@ rmpoint/compress
 ```
 
 
-For better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.
+In 2D the points may lie in any plane. When they lie in a coordinate plane (every z the same, or every y, or every x), the triangulation is exactly Delaunay and covers the convex hull of the points: the in-circle and orientation tests are exact (they do not depend on tolerances or on how far the points are from the origin), and the triangles along the hull that the construction leaves out are added at the end. A hull corner flatter than 1e-6 (the triangle's height less than 1e-6 of its base) is not filled: that is round-off in points meant to lie on a straight side, and the sliver would only harm the mesh. Points in a tilted plane are connected as in LaGriT V3.3.4 and earlier, followed by **recon/0**.
+
+In 3D, for better precision where large coordinate numbers are being used, translate the points close to zero before using connect. The following will move points, connect, then translate back to original position.
 ```
 trans 1,0,0 /XBIG,YBIG,ZBIG/ 0. 0. 0./
 connect
@@ -74,7 +81,7 @@ trans 1,0,0 / 0. 0. 0./ XBIG,YBIG,ZBIG
 The connect algorithm creates a triangulation or tetrahedralization of the convex hull. If the domain to be meshed is not convex, there is no guarantee that all of its faces and edges will be within the specified mesh boundary. Connections will be formed across non-convex boundaries. 
 
 
-A convex geometry is not guaranteed. A point distribution over a large region where spacing varies from very small to very large can result in high aspect ratios with small concavities formed on mesh boundaries. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tets (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.
+In 3D (and in 2D in a tilted plane) a convex geometry is not guaranteed. A point distribution over a large region where spacing varies from very small to very large can result in high aspect ratios with small concavities formed on mesh boundaries. You can mitigate the impact by adjusting the mesh resolution. Generally high aspect ratio tets (long dimension along the external boundary) are more of a problem. This means that mesh refinement that brings the mesh closer to unit aspect ratio will help.
 
   
 The connect command may refuse to add nodes that will result in near

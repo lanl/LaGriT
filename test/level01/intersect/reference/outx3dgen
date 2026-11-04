@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  8  15:39:32          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  16:57:34          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -57,13 +59,9 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 cmo/setatt/mo_s1/itetclr 1                                                      
        200 values reset for attribute itetclr                                   
@@ -382,21 +380,17 @@ Warning: nelements = 0
  
 connect                                                                         
  Coordinates of enclosing triangle are:                                         
-          -0.17500D+02-0.32000D+02-0.00000D+00                                  
-           0.27500D+02-0.35000D+02-0.00000D+00                                  
-           0.50500D+01 0.10000D+03-0.00000D+00                                  
+          -0.17500D+02-0.32000D+02 0.00000D+00                                  
+           0.27500D+02-0.35000D+02 0.00000D+00                                  
+           0.50500D+01 0.10000D+03 0.00000D+00                                  
  
  Successfully eliminated all multimaterial connections.                         
  
  The mesh is now complete!                                                      
  
+ connect: added         0 triangles to reach the convex hull                    
+ connect: flipped         0 edges to make the triangulation Delaunay            
 LaGriT FINISH: connect                                                          
- 
-recon/0                                                                         
-RECON2D reconnection loop2d:     1                                              
-RECON: done.                                                                    
-finish                                                                          
-LaGriT FINISH: recon 0 for connect 2d                                           
  
 cmo/setatt/mo1/itetclr 1                                                        
 Warning: MO DOES NOT EXIST: mo1                                                 
@@ -522,15 +516,15 @@ cmo/delatt/mo_lines/line_sort_key
 finish                                                                          
 cmo/printatt/mo_lines/cid minmax                                                
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- cid                              1               10               9       587  
+ cid                              1               10               9       591  
  
 cmo/printatt/mo_lines/ctype minmax                                              
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- ctype                            1                3               2       587  
+ ctype                            1                3               2       591  
  
 cmo/printatt/mo_lines/loopid minmax                                             
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- loopid                           0                1               1       587  
+ loopid                           0                1               1       591  
  
 * dump / output_test02.inp / mo_lines                                           
 # Test 03                                                                       
@@ -552,10 +546,10 @@ cmo/addatt/mo_s1/xsect/VINT/scalar/nelements/linear/permanent//0/
 finish                                                                          
  
          Element    Elems Searched  Elements Found  Percent Done                
-             51               39              9       25 %                      
-            101               77              5       50 %                      
-            151              138              5       75 %                      
-            200              164             20    Total Done                   
+             51               46              8       25 %                      
+            101               78              2       50 %                      
+            151              103              3       75 %                      
+            200              177             20    Total Done                   
  
 cmo/select/mo_s1                                                                
 finish                                                                          

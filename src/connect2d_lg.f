@@ -146,6 +146,8 @@ c
       pointer (ipmatlst,matlst(*)    )
       integer  nimts,imts1,matlst
       logical itsttp, ifp1,ifp2,ifp3
+      pointer (iplintf,lintf)
+      integer lintf(*)
       real*8 xcoords(12),vvbarmin
 
       character*8 cglobal,cdefault
@@ -827,10 +829,16 @@ C     ******************************************************************
 C
 C     ADD mbndry TO jtet OF BOUNDARY-TETRAHEDRON FACES.
 C
+C     the interface test once per vertex, not three times per triangle
+      call mmgetblk('lintf','connect2d_intf',iplintf,npoints,1,icscode)
+      do i=1,npoints
+         lintf(i)=0
+         if (itsttp('intrface',itp1(i))) lintf(i)=1
+      enddo
       do it=itetstrt,ntets
-               ifp1=itsttp('intrface',itp1(itet(1,it)))
-               ifp2=itsttp('intrface',itp1(itet(2,it)))
-               ifp3=itsttp('intrface',itp1(itet(3,it)))
+               ifp1=lintf(itet(1,it)).eq.1
+               ifp2=lintf(itet(2,it)).eq.1
+               ifp3=lintf(itet(3,it)).eq.1
          jtet(1,it)=cvmgt(mbndry+jtet(1,it),jtet(1,it),
      $                    jtet(1,it).eq.0.or.
      $                    (ifp2.and.ifp3.and.
@@ -853,6 +861,7 @@ C
      $                    )
      $                   )
       enddo
+      call mmrelprt('connect2d_intf',icscode)
 C
 C     ******************************************************************
 C     SET THE ERROR FLAG TO NORMAL.
@@ -902,6 +911,10 @@ C
             endif
          enddo
       enddo
+C
+C     fill out to the convex hull and flip to Delaunay
+      call connect2d_hull_lg(cmo,ierr)
+      call cmo_get_info('nelements',cmo,ntets,leni,icmotype,ier)
 C
  9999 continue
 

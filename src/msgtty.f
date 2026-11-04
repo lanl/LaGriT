@@ -789,7 +789,7 @@ C
      *  ipointi,ipointj,icscode,npoints,npoints_save,itype,
      *  ntets,ioption,lencmo,itpcmo,numhex,nsdgeom,
      *  npoints2d,ntets2d,ipointi2d,ipointj2d,ilen,icount,
-     *  nsdtopo,length,icmotype,ier,nwrite
+     *  nsdtopo,length,icmotype,ier,nwrite,iexact2d
       character*32 isubname,idsb,icommand,cmo,ifile
 C
 C     *****************************************************************
@@ -989,6 +989,7 @@ C
 C            **************************************************************
 C            connect: Use Watson point insertion to grid the mesh
 C
+           call connect_order_opt(imsgout,xmsgout,cmsgout,msgtype,nwds)
            call cmo_get_name(cmo,ierror)
 
            call cmo_get_info('ndimensions_topo',cmo,
@@ -1039,7 +1040,12 @@ C              call recon/0 to ensure delaunay
                    ntets = 0
                else
                    ierr2 = 0
-                   call dotaskx3d('recon/0 ; finish',ierr2)
+C                  connect makes the mesh Delaunay with exact tests
+C                  when the points lie in a coordinate plane (xy, xz,
+C                  yz); otherwise recon / 0 flips it, as before
+                   call lg_connect2d_wasexact(iexact2d)
+                   if (iexact2d.eq.0)
+     *                call dotaskx3d('recon/0 ; finish',ierr2)
 
                    if (ierr2.ne.0) then
                      write(logmess,'(a,i5)')
@@ -1047,7 +1053,7 @@ C              call recon/0 to ensure delaunay
                      call writloga('default',0,logmess,1,ierrw)
                      ierr2 = 0
 
-                   else
+                   elseif (iexact2d.eq.0) then
                      write(logmess,'(a)')
      *               'LaGriT FINISH: recon 0 for connect 2d'
                      call writloga('default',0,logmess,1,ierrw)
