@@ -14,7 +14,7 @@ Translate a mesh object from old to new coordinates.
 
 <b>trans</b>/ifirst,ilast,istride/xold,yold,zold/xnew,ynew,znew
 
-<b>trans</b>/ifirst,ilast,istride/<b>enter</b> <b>zero</b> <b>original</b>/[<b>xyz</b> <b>rtp</b> <b>rtz</b>]/ [xdim,ydim,zdim]
+<b>trans</b>/ifirst,ilast,istride/<b>zero</b> <b>center</b> <b>original</b>/[<b>xyz</b> <b>rtp</b> <b>rtz</b>]/ [xdim,ydim,zdim]
 </pre>
 
 
@@ -29,13 +29,13 @@ translates a set of points **from** point `xold,yold,zold` **to** new coordinate
 ### Second form of this command: 
 
 
-**`zero`**  point set is translated so that (0,0,0) is located at the midpoint of min x,y,z and max x,y,z of the mesh. 
+**`zero`**  point set is translated so that (0,0,0) is located at the min x,y,z of the mesh. 
 
 
-**`center`** point set is translated so that (0,0,0) is located at the min x,y,z of the mesh. 
+**`center`** point set is translated so that (0,0,0) is located at the midpoint of min x,y,z and max x,y,z of the mesh. 
 
 
-**`original`**  point set is translated to the original location before **enter** or **zero** was called. 
+**`original`**  point set is translated to the original location before **zero** or **center** was called. 
 
 
 **`xyz`** is the default (**rtp** and **rtz** are reserved for future implementation). 
