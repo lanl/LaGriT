@@ -310,6 +310,20 @@ C
          endif
          idelaun=0
 C
+C        int1(i) = 1 for interface vertices: tested once per vertex
+C        each pass (points are added between passes), not three times
+C        per triangle
+C
+         if(intpass.eq.1) then
+            call mmgetblk('int1',isubname,ipint1,npoints+incpts,
+     *         1,ierr)
+         else
+            call mmnewlen('int1',isubname,ipint1,npoints+incpts,ierr)
+         endif
+         if(ierr.ne.0) call x3d_error(isubname,'mmgetblk int1')
+         call unpacktp('intrface','set',npoints+incpts,ipitp1,
+     *                  ipint1,icscode)
+C
 C        MAKE A LIST OF MULTIMATERIAL TETRAHEDRA.
 C
          if(intpass.eq.1) then
@@ -320,11 +334,6 @@ C
             do it=1,ntetexcl
                lsttts(it)=0
             enddo
-            call mmgetblk('int1',isubname,ipint1,npoints+incpts,
-     *         1,ierr)
-            if(ierr.ne.0) call x3d_error(isubname,'mmgetblk')
-            call unpacktp('intrface','set',npoints+incpts,ipitp1,
-     *                     ipint1,icscode)
             do 9005 it=itetstrt,ntets
                itetl1=itet(1,it)
                itetl2=itet(2,it)
@@ -367,9 +376,9 @@ C
                itetl1=itet(1,it)
                itetl2=itet(2,it)
                itetl3=itet(3,it)
-               ifp1=itsttp('intrface',itp1(itetl1))
-               ifp2=itsttp('intrface',itp1(itetl2))
-               ifp3=itsttp('intrface',itp1(itetl3))
+               ifp1=int1(itetl1).ne.0
+               ifp2=int1(itetl2).ne.0
+               ifp3=int1(itetl3).ne.0
                lsttts(it)=cvmgt(it,0,max(imt1(itetl1),imt1(itetl2),
      $                                    imt1(itetl3)).ne.
      $                               min(imt1(itetl1),imt1(itetl2),
@@ -442,9 +451,9 @@ C
                itetl1=itet(1,lsttts(iit))
                itetl2=itet(2,lsttts(iit))
                itetl3=itet(3,lsttts(iit))
-               ifp1=itsttp('intrface',itp1(itetl1))
-               ifp2=itsttp('intrface',itp1(itetl2))
-               ifp3=itsttp('intrface',itp1(itetl3))
+               ifp1=int1(itetl1).ne.0
+               ifp2=int1(itetl2).ne.0
+               ifp3=int1(itetl3).ne.0
                if(imt1(itetl1).eq.imt1(itetl2) .or.
      $             ifp1.or.ifp2) then
                   lstcns1(3*iit-2)=0
