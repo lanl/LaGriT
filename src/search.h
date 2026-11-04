@@ -29,6 +29,9 @@ C ######################################################################
       pointer (ipxvor  ,xvor(*)      )
       pointer (ipyvor  ,yvor(*)      )
       pointer (ipzvor  ,zvor(*)      )
+C        *** connect / exact: error bound of the quick in-sphere test,
+C        *** per tet (delaunay.f; -1 means use the exact test)
+      pointer (ipvorerr,vorerr(*)    )
       pointer (iplsttts,lsttts(*)    )
 C        *** POINTERS RELATED TO CONNECTIONS.
       pointer (iplstcns1,lstcns1(*)    )
@@ -43,7 +46,7 @@ C        *** POINTER TO TET LIST
      *  idelaun,nfacnew,nfacold,nfacout,iaddpts,iremove,
      *  itetstrt,lstptlen,ittstrt1,imtmax,iaddpass,
      *  lenmatx,lenmatmx,matblks,nsall
-      real*8 xvor,yvor,zvor,vol,smldistp
+      real*8 xvor,yvor,zvor,vol,smldistp,vorerr
       real*8 rl,xl,yl,zl,voltet,voltetr,ax,ay,az,
      *  delxb,delyb,delzb,xbigtet(4),ybigtet(4),zbigtet(4),
      *  small,smalluse,smaldist,smalarea,smalvol,smlttvol,

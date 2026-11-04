@@ -503,6 +503,7 @@ C
       call mmgetblk('xvor',blkname,ipxvor,ntetmax,2,icscode)
       call mmgetblk('yvor',blkname,ipyvor,ntetmax,2,icscode)
       call mmgetblk('zvor',blkname,ipzvor,ntetmax,2,icscode)
+      call mmgetblk('vorerr',blkname,ipvorerr,ntetmax,2,icscode)
       call mmgetblk('lsttts',blkname,iplsttts,ntetmax,1,icscode)
 C
 C  access mesh object
@@ -842,6 +843,7 @@ C
          xvor(1)=2.*xvor(1)
          yvor(1)=2.*yvor(1)
          zvor(1)=2.*zvor(1)
+         vorerr(1)=-1.0d0
       endif
 C
 C     ******************************************************************

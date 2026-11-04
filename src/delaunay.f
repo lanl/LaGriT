@@ -125,7 +125,11 @@ C
      *  iboundary,leni,icmotype,ierror,ilstpt,i1,jtetlcl,n,ierr
 
       integer itetdata(3,4)
-      integer iold_order,lenfl,lenvol,lenxic,lenioff
+      integer iold_order,lenfl,lenvol,lenxic,lenioff,isgn
+      integer jbig,iobig,iothin,iexmin,iexact
+      real*8 rbig,dxv,dyv,dzv,sxv,syv,szv,rtv,r2v,v6v,errv,epsr,dvp
+      integer iom2,iwalkq
+      parameter (epsr=1.1102230246251565d-16, iom2=-2)
 
       real*8 cvmgm, cvmgt, cvmgz
       real*8 rtestmin,vololdt,d,ssum,volnewt,xdone,epsilonv,epsilona,
@@ -342,6 +346,7 @@ C
       call mmfindbk('xvor',nname,ipxvor,lennew,icscode)
       call mmfindbk('yvor',nname,ipyvor,lennew,icscode)
       call mmfindbk('zvor',nname,ipzvor,lennew,icscode)
+      call mmfindbk('vorerr',nname,ipvorerr,lennew,icscode)
       call mmfindbk('lstcns1',nname,iplstcns1,lennew,icscode)
       call mmfindbk('lstcns2',nname,iplstcns2,lennew,icscode)
       call mmfindbk('lsttts',nname,iplsttts,lennew,icscode)
@@ -387,6 +392,16 @@ C     done here), so the blocks are not looked up by name per point.
       call lg_connect_order_get(iold_order)
       if (nlstptl.gt.100 .and. iold_order.eq.0)
      *   call lg_brio_order3(nlstptl,lstptl,xic,yic,zic)
+C     connect / exact (lg_connect_exact_get, lg_brio_order.c): the
+C     in-sphere tests are exact (lg_predicates3d.c) instead of the
+C     tolerance tests. In the first pass a point exactly on a sphere
+C     counts as outside it; a point that then fails (a flat new tet:
+C     points both cospherical and coplanar) is tried again in the later
+C     passes with ties counted as inside, which merges the tied tets
+C     into its cavity. A tet is taken into the cavity when isgn > iexmin.
+      call lg_connect_exact_get(iexact)
+      iexmin=0
+      if (istep.gt.1) iexmin=-1
       do 5000 ilstpt=1,nlstptl
          if (nlstptl.gt.100 .and. iold_order.ne.0) then
             call primestep(nlstptl,iranidx)
@@ -420,14 +435,22 @@ c  rtest is the square of the distance from the center of the
 c  circumcenter to a vertex minus the square of the distance
 c  from the query point to the center
 c
+            if (iexact.eq.0) then
             rtest(itetuse)=(xic(ivertex)-xic(mpnt))*
      *               (xic(ivertex)+xic(mpnt)-xvor(idx))
      *              +(yic(ivertex)-yic(mpnt))*
      *               (yic(ivertex)+yic(mpnt)-yvor(idx))
      *              +(zic(ivertex)-zic(mpnt))*
      *               (zic(ivertex)+zic(mpnt)-zvor(idx))
- 
-            if (rtest(itetuse).ge.test1) go to 110
+               if (rtest(itetuse).ge.test1) go to 110
+            else
+C              exact test: inside or not
+               iwalkq=0
+               include 'delaunay_insph_inline.h'
+               rtest(itetuse)=rtv
+               if (isgn.gt.iexmin) go to 110
+               go to 102
+            endif
 c            if(istep.gt.1.and.rtest(itetuse).ge.-smalvol) go to 110
 C
 C  Get neighbors of itetuse
@@ -464,17 +487,29 @@ c 	       call writloga ('default',0,logmess,0,icscode)
                       idx=ibint(itetest)
                       ivertex=min(itet(1,idx),itet(2,idx),
      * 			                  itet(3,idx),itet(4,idx))
+                      isgn=-1
+                      if (iexact.eq.0) then
                       rtest(itetest)=(xic(ivertex)-xic(mpnt))*
      *                     (xic(ivertex)+xic(mpnt)-xvor(idx))
      *                    +(yic(ivertex)-yic(mpnt))*
      *                     (yic(ivertex)+yic(mpnt)-yvor(idx))
      *                    +(zic(ivertex)-zic(mpnt))*
      *                     (zic(ivertex)+zic(mpnt)-zvor(idx))
-                      if(rtest(itetest).ge.test1) then
+                         if (rtest(itetest).ge.test1) isgn=1
+                      else
+C                        exact test (the walk only needs some tet whose
+C                        sphere holds mpnt)
+                         iwalkq=0
+                         if (lpath.lt.50) iwalkq=1
+                         include 'delaunay_insph_inline.h'
+                         rtest(itetest)=rtv
+                      endif
+                      if(isgn.gt.iexmin) then
                          itetuse=itetest
                          go to 110
                       endif
-                      if (rtest(itetest).ge.asmallnumber) then
+                      if (iexact.eq.0 .and.
+     *                    rtest(itetest).ge.asmallnumber) then
                         nfailc=nfailc+1
                         if((istep.eq.1.and.nfailc.gt.20).or.
      *                     (istep.eq.2.and.nfailc.gt.100).or.
@@ -525,8 +560,11 @@ C
              call mmgetlen(iptemp,lentemp,icscode)
  112         itetuse=ipath(nstack)
              nstack=nstack-1
-             if(istep.eq.1.and.(abs(rtest(itetuse)).lt.test2).or.
-     *       (istep.ne.1.and.abs(rtest(itetuse)).lt.0.d0)) then
+C            exact test: every tet on the stack holds mpnt strictly
+C            inside its sphere; no degeneracy to report
+             if (iexact.eq.0 .and.
+     *       (istep.eq.1.and.(abs(rtest(itetuse)).lt.test2).or.
+     *       (istep.ne.1.and.abs(rtest(itetuse)).lt.0.d0))) then
                    do n=1,ntemp
                       mark_path(itemp1(n))=0
                    enddo
@@ -560,13 +598,21 @@ C
                       idx=ibint(itetest)
                       ivertex=min(itet(1,idx),itet(2,idx),
      * 			                  itet(3,idx),itet(4,idx))
+                      if (iexact.eq.0) then
                       rtest(itetest)=(xic(ivertex)-xic(mpnt))*
      *                     (xic(ivertex)+xic(mpnt)-xvor(idx))
      *                    +(yic(ivertex)-yic(mpnt))*
      *                     (yic(ivertex)+yic(mpnt)-yvor(idx))
      *                    +(zic(ivertex)-zic(mpnt))*
      *                     (zic(ivertex)+zic(mpnt)-zvor(idx))
-                      if(rtest(itetest).ge.test2) then
+                         isgn=-1
+                         if(rtest(itetest).ge.test2) isgn=1
+                      else
+                         iwalkq=0
+                         include 'delaunay_insph_inline.h'
+                         rtest(itetest)=rtv
+                      endif
+                      if(isgn.gt.iexmin) then
                          nstack=nstack+1
                          ipath(nstack)=itetest
                       endif
@@ -919,6 +965,36 @@ C           INSERTION POLYHEDRON VOLUME.
 C
          vololdt=ssum(nlstold,volold(1),1)
          jj=ismin(nlstnew,volnew(1),1)
+C        A new tet below the volume threshold is still accepted when
+C        the exact orientation test (lg_predicates3d.c) gives it the
+C        same orientation as the largest new tet: near-cospherical
+C        points have Delaunay tets that are thin but valid. Only an
+C        exactly flat or inverted tet fails the point.
+         if(volnew(jj).le.epsilonv .and. iexact.ne.0) then
+            jbig=1
+            do ii=2,nlstnew
+               if (volnew(ii).gt.volnew(jbig)) jbig=ii
+            enddo
+            call lg_orient3d(xic(itetnew(1,jbig)),yic(itetnew(1,jbig)),
+     *         zic(itetnew(1,jbig)),xic(itetnew(2,jbig)),
+     *         yic(itetnew(2,jbig)),zic(itetnew(2,jbig)),
+     *         xic(itetnew(3,jbig)),yic(itetnew(3,jbig)),
+     *         zic(itetnew(3,jbig)),xic(itetnew(4,jbig)),
+     *         yic(itetnew(4,jbig)),zic(itetnew(4,jbig)),iobig)
+            iothin=iobig
+            do ii=1,nlstnew
+               if (volnew(ii).le.epsilonv .and. iothin.eq.iobig) then
+                  call lg_orient3d(xic(itetnew(1,ii)),
+     *               yic(itetnew(1,ii)),zic(itetnew(1,ii)),
+     *               xic(itetnew(2,ii)),yic(itetnew(2,ii)),
+     *               zic(itetnew(2,ii)),xic(itetnew(3,ii)),
+     *               yic(itetnew(3,ii)),zic(itetnew(3,ii)),
+     *               xic(itetnew(4,ii)),yic(itetnew(4,ii)),
+     *               zic(itetnew(4,ii)),iothin)
+               endif
+            enddo
+            if (iobig.ne.0 .and. iothin.eq.iobig) go to 2099
+         endif
          if(volnew(jj).le.epsilonv) then
             do jk=1,4
               if(iabs(itetnew(jk,jj)).ge.ibigtet.and.ibigtet.gt.0) then
@@ -1122,6 +1198,7 @@ C
             call mmnewlen('xvor',nname,ipxvor,ntetmx,icscode)
             call mmnewlen('yvor',nname,ipyvor,ntetmx,icscode)
             call mmnewlen('zvor',nname,ipzvor,ntetmx,icscode)
+            call mmnewlen('vorerr',nname,ipvorerr,ntetmx,icscode)
             call mmnewlen('ibint',nname,ipibint,ntetmx,icscode)
             call mmnewlen('rtest',isubname,iprtest,ntetmx,icscode)
             call mmnewlen('lsttts',nname,iplsttts,ntetmx,icscode)
@@ -1145,6 +1222,27 @@ C
             xvor(ntets+it)=xvornew(it)
             yvor(ntets+it)=yvornew(it)
             zvor(ntets+it)=zvornew(it)
+C           connect / exact: the error bound of the quick test for this
+C           tet (see delaunay_insph_inline.h), or -1 for a nearly flat
+C           tet (the exact test is used). R**2 is taken from the vertex
+C           farthest from the computed centre: the centre of a thin tet
+C           is inaccurate, and the bound must not use an underestimate.
+            if (iexact.ne.0) then
+               r2v=0.0d0
+               do jk=1,4
+                  r2v=max(r2v,(xic(itetnew(jk,it))-0.5d0*xvornew(it))**2
+     *              +(yic(itetnew(jk,it))-0.5d0*yvornew(it))**2
+     *              +(zic(itetnew(jk,it))-0.5d0*zvornew(it))**2)
+               enddo
+               v6v=volnew(it)
+               if (v6v.gt.0.0d0 .and. v6v*v6v.gt.1.0d-12*r2v**3) then
+                  vorerr(ntets+it)=384.0d0*epsr*r2v*r2v/v6v
+     *              +4.0d0*epsr*(abs(xvornew(it))+abs(yvornew(it))
+     *              +abs(zvornew(it)))+16.0d0*epsr*sqrt(r2v)
+               else
+                  vorerr(ntets+it)=-1.0d0
+               endif
+            endif
             ibint(ntets+it)=ntets+it
          enddo
 C
@@ -1204,6 +1302,7 @@ C
             xvor(lstold(ii))=xvor(lstmov(ii))
             yvor(lstold(ii))=yvor(lstmov(ii))
             zvor(lstold(ii))=zvor(lstmov(ii))
+            vorerr(lstold(ii))=vorerr(lstmov(ii))
          enddo
 C
 C        _______________________________________________________________
@@ -1286,3 +1385,18 @@ C
       return
       end
  
+C#######################################################################
+      subroutine delaunay_insph(i1,i2,i3,i4,ip,xic,yic,zic,isgn)
+C
+C     Is vertex ip strictly inside the sphere through vertices i1, i2,
+C     i3, i4? isgn = 1 inside, 0 on it (or i1-i4 coplanar), -1 outside,
+C     from lg_insphere3d (lg_predicates3d.c), exactly.
+C
+      implicit none
+      integer i1,i2,i3,i4,ip,isgn
+      real*8 xic(*),yic(*),zic(*)
+      call lg_insphere3d(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2),
+     *   zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4),
+     *   xic(ip),yic(ip),zic(ip),isgn)
+      return
+      end

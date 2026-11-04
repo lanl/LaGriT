@@ -60,6 +60,8 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_edge_lengths` | `cmo / addatt` edge_lengths_min / max / mean against an independent computation | 1 s |
 | `test_input_lines` | input lines up to 1024 characters, longer lines refused, cut tokens warned | 2 s |
 | `test_connect_options` | `connect` options in 2D and 3D: `noadd`, `check_interface`, `old_order` in any position, the point range with or without `delaunay`, the deprecated enclosing tet / triangle coordinates | 2 s |
+| `test_connect_exact` | 3D `connect` and `connect / exact` on grids, grids jittered by 1e-12 to 1e-3, random points, a thin box and an rtp sphere; every mesh checked with exact rational arithmetic (Delaunay, valid, nothing added or missing) | 25 s |
+| `test_predicates` | the exact orientation, in-circle and in-sphere tests of 2D and 3D connect against rational arithmetic on adversarial inputs (compiles two small C drivers; no lagrit) | 10 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
 
 Times are for a Release build on a recent Mac.

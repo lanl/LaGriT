@@ -14,14 +14,13 @@
  * (the static bounds of J. R. Shewchuk, "Adaptive precision floating-
  * point arithmetic and fast robust geometric predicates", Discrete &
  * Computational Geometry 18, 1997), its sign is certain. Otherwise
- * the test is done again in double-double arithmetic (about 106 bits);
- * only if that result is also within its error bound is the answer 0
- * ("on the line" or "on the circle"). The coordinate differences are
- * exact in double-double, so this is wrong only for points that are
- * cocircular to about 1 part in 1e30.
+ * the test is done again in double-double arithmetic (about 106 bits).
+ * If that result is also within its error bound, the test is done
+ * exactly in integer arithmetic (lg_exact_int.h): the answer 0 ("on
+ * the line" or "on the circle") then means exactly on it.
  *
- * This is not Shewchuk's predicates.c (which is exact in every case);
- * it uses only his error bounds. Written for LaGriT, Nov 2026.
+ * This is not Shewchuk's predicates.c; it uses only his error bounds.
+ * Written for LaGriT, Nov 2026.
  *
  * Called from Fortran (8-byte integers):
  *   call lg_orient2d(ax,ay,bx,by,cx,cy,isign)
@@ -31,6 +30,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include "lg_exact_int.h"
 
 /* unit roundoff of a double, 2**-53 */
 #define LG_EPS 1.1102230246251565e-16
@@ -109,6 +109,125 @@ static int64_t dd_sign(dd v)
     return v.hi != 0.0 ? sign_of(v.hi) : sign_of(v.lo);
 }
 
+
+/* the unit (power of two) of the smallest last bit among n values, for
+   lsb_exp_bits / big_from; 0 if all are zero. ok = 0 for a subnormal. */
+static int unit_of(const double *x, int n, int *ok)
+{
+    int i, u = 0, first = 1;
+    *ok = 1;
+    for (i = 0; i < n; i++)
+        if (x[i] != 0.0) {
+            int e = lsb_exp_bits(x[i], ok);
+            if (!*ok) return 0;
+            if (first || e < u) u = e;
+            first = 0;
+        }
+    return u;
+}
+
+/* exact sign of adx bdy - ady bdx from the differences (each hi + lo) */
+static int64_t orient2d_exact(const dd *D)
+{
+    double x[8];
+    int i, ok, u, allhi = 1;
+    for (i = 0; i < 4; i++) {
+        x[2 * i] = D[i].hi;
+        x[2 * i + 1] = D[i].lo;
+        if (D[i].lo != 0.0) allhi = 0;
+    }
+    u = unit_of(x, 8, &ok);
+    if (ok && allhi) {
+        int64_t v[4];
+        for (i = 0; i < 4; i++)
+            if (!to_int62(D[i].hi, u, &v[i])) break;
+        if (i == 4) {
+            __int128 det = (__int128) v[0] * v[3] - (__int128) v[1] * v[2];
+            return (det > 0) - (det < 0);
+        }
+    }
+    {
+        big b[4], t, w;
+        for (i = 0; i < 4; i++) {
+            big h;
+            if (!big_from(&h, D[i].hi, u) || !big_from(&t, D[i].lo, u) ||
+                !big_add(&b[i], &h, &t, 1))
+                return 2;
+        }
+        if (!big_mul(&t, &b[0], &b[3]) || !big_mul(&w, &b[1], &b[2]) ||
+            !big_add(&t, &t, &w, -1))
+            return 2;
+        return t.n == 0 ? 0 : (t.neg ? -1 : 1);
+    }
+}
+
+/* exact sign of alift (bdx cdy - cdx bdy) + blift (cdx ady - adx cdy)
+   + clift (adx bdy - bdx ady) from the differences (each hi + lo) */
+static int64_t incircle_exact(const dd *D)
+{
+    double x[12];
+    int i, j, k, ok, u, allhi = 1;
+    static const int M[3][4] = {{2, 5, 4, 3}, {4, 1, 0, 5}, {0, 3, 2, 1}};
+    for (i = 0; i < 6; i++) {
+        x[2 * i] = D[i].hi;
+        x[2 * i + 1] = D[i].lo;
+        if (D[i].lo != 0.0) allhi = 0;
+    }
+    u = unit_of(x, 12, &ok);
+    if (ok && allhi) {
+        int64_t v[6];
+        uint64_t av[6], pw[5], nw[5], w[5];
+        unsigned __int128 PN[2][6];
+        for (i = 0; i < 6; i++) {
+            if (!to_int62(D[i].hi, u, &v[i])) break;
+            av[i] = (uint64_t) (v[i] < 0 ? -v[i] : v[i]);
+        }
+        if (i == 6) {
+            /* |v| < 2**62: minors < 2**125, lifts < 2**125, products
+               < 2**250 */
+            memset(PN, 0, sizeof PN);
+            for (k = 0; k < 3; k++) {
+                const int *q = M[k];
+                __int128 m = (__int128) v[q[0]] * v[q[1]]
+                           - (__int128) v[q[2]] * v[q[3]];
+                unsigned __int128 am = (unsigned __int128) (m < 0 ? -m : m);
+                unsigned __int128 l = MUL64(av[2 * k], av[2 * k])
+                                    + MUL64(av[2 * k + 1], av[2 * k + 1]);
+                uint64_t mw[2] = {(uint64_t) am, (uint64_t) (am >> 64)};
+                uint64_t lw[2] = {(uint64_t) l, (uint64_t) (l >> 64)};
+                int neg = m < 0;
+                for (i = 0; i < 2; i++)
+                    for (j = 0; j < 2; j++)
+                        ACC(PN, i + j, MUL64(lw[i], mw[j]), neg);
+            }
+            acc_words(PN[0], 5, pw);
+            acc_words(PN[1], 5, nw);
+            return words_diff(pw, nw, 5, w);
+        }
+    }
+    {
+        big b[6], t, h, m, l, acc;
+        acc.n = 0; acc.neg = 0;
+        for (i = 0; i < 6; i++)
+            if (!big_from(&h, D[i].hi, u) || !big_from(&t, D[i].lo, u) ||
+                !big_add(&b[i], &h, &t, 1))
+                return 2;
+        for (k = 0; k < 3; k++) {
+            const int *q = M[k];
+            if (!big_mul(&t, &b[q[0]], &b[q[1]]) ||
+                !big_mul(&h, &b[q[2]], &b[q[3]]) || !big_add(&m, &t, &h, -1))
+                return 2;
+            if (!big_mul(&t, &b[2 * k], &b[2 * k]) ||
+                !big_mul(&h, &b[2 * k + 1], &b[2 * k + 1]) ||
+                !big_add(&l, &t, &h, 1))
+                return 2;
+            if (!big_mul(&t, &l, &m) || !big_add(&acc, &acc, &t, 1))
+                return 2;
+        }
+        return acc.n == 0 ? 0 : (acc.neg ? -1 : 1);
+    }
+}
+
 /* sign of (b - a) x (c - a): 1 if a, b, c turn left (counterclockwise) */
 static int64_t orient2d(double ax, double ay, double bx, double by,
                         double cx, double cy)
@@ -124,8 +243,13 @@ static int64_t orient2d(double ax, double ay, double bx, double by,
     l = dd_mul(two_diff(ax, cx), two_diff(by, cy));
     r = dd_mul(two_diff(ay, cy), two_diff(bx, cx));
     d = dd_add(l, dd_neg(r));
-    if (fabs(d.hi) <= DD_CCW_BOUND * (fabs(l.hi) + fabs(r.hi)))
-        return 0;
+    if (fabs(d.hi) <= DD_CCW_BOUND * (fabs(l.hi) + fabs(r.hi))) {
+        /* too close for double-double: exactly, in integers */
+        dd D[4] = {two_diff(ax, cx), two_diff(ay, cy), two_diff(bx, cx),
+                   two_diff(by, cy)};
+        int64_t e = orient2d_exact(D);
+        return e == 2 ? 0 : e;
+    }
     return dd_sign(d);
 }
 
@@ -164,8 +288,12 @@ static int64_t incircle_ccw(double ax, double ay, double bx, double by,
     m2 = dd_add(dd_mul(Cdx, Ady), dd_neg(dd_mul(Adx, Cdy)));
     m3 = dd_add(dd_mul(Adx, Bdy), dd_neg(dd_mul(Bdx, Ady)));
     D = dd_add(dd_add(dd_mul(Al, m1), dd_mul(Bl, m2)), dd_mul(Cl, m3));
-    if (fabs(D.hi) <= DD_ICC_BOUND * perm)
-        return 0;
+    if (fabs(D.hi) <= DD_ICC_BOUND * perm) {
+        /* too close for double-double: exactly, in integers */
+        dd Dv[6] = {Adx, Ady, Bdx, Bdy, Cdx, Cdy};
+        int64_t e = incircle_exact(Dv);
+        return e == 2 ? 0 : e;
+    }
     return dd_sign(D);
 }
 

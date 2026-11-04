@@ -83,7 +83,7 @@ C
       include 'cmo.h'
       include 'chydro.h'
       integer limithih,limitlow,it,i,j,ierr,k,leni,icmotype,
-     *  npoints,ntets,ntetmax,nlsttts
+     *  npoints,ntets,ntetmax,nlsttts,iexact
       real*8 epsilon
       pointer (iplstptl,lstptl)
       integer lstptl(1000000)
@@ -243,7 +243,12 @@ C
 C     CHECK FOR SMALL TETRAHEDRA, AND IF NECESSARY, ADD MORE POINTS TO
 C     ELIMINATE THEM.
 C
-      if(iaddpts.ne.0.and.lifadd) then
+C     With connect / exact the mesh is the Delaunay tetrahedralization;
+C     its thin tets come from nearly cospherical points and are
+C     Delaunay. Adding points to remove them (fix_small_tets) would
+C     break that, and its insertions can fail, so it is not done.
+      call lg_connect_exact_get(iexact)
+      if(iaddpts.ne.0.and.lifadd.and.iexact.eq.0) then
          iaddpts=0
          iaddpass=iaddpass+1
          idelaun=1

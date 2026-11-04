@@ -1,0 +1,62 @@
+test_connect_exact -- 3D connect: tolerance tests and connect / exact (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_connect_exact_tests.sh [path-to-lagrit]   26 decks, about 40 s
+  open logs/summary.html
+
+WHAT IS TESTED
+
+  Nine point sets, each connected twice: plain connect (the tolerance
+  in-sphere tests, and points added in small tets) and connect / exact
+  (exact in-sphere and orientation tests, src/lg_predicates3d.c; no
+  points added).
+
+    g0    12 x 12 x 12 regular grid (exact ties)
+    j12   the grid jittered by up to 1e-12
+    j9    by up to 1e-9
+    j6a   by up to 1e-6 (seed 2)
+    j6b   by up to 1e-6 (seed 5)
+    j3    by up to 1e-3
+    rnd   3000 random points
+    thin  3000 random points in a 100 x 1 x 1 box
+    gi    a 12 x 12 x 12 lattice, spacing 10, at UTM-sized x and y
+    gij   that lattice moved by multiples of 1/1024 (up to 3/1024)
+    dyad  a unit lattice moved by multiples of 2**-40 (determinants of
+          about 1e-36 of their size: beyond double-double)
+    j14   a 1/11 lattice jittered by up to 1e-14
+    sph   the createpts rtp sphere (5 radii, 11.25 degree steps),
+          duplicates removed
+
+  The points are written with 17 digits, so the checker sees exactly
+  the coordinates LaGriT read. Every mesh is checked with exact
+  rational arithmetic (Python fractions) where floating point cannot
+  decide:
+    added     points connect added
+    missing   input points in no tet (dudded)
+    nonDel    interior faces that are not locally Delaunay
+    inverted  tets inverted or flat, exactly
+    flat_fp   tets valid exactly but of zero or negative volume in
+              floating point (flat to round-off)
+
+PASS
+  connect / exact: added = missing = nonDel = inverted = flat_fp = 0
+  (sph: flat_fp > 0 is expected and reported, see below).
+  plain connect: LaGriT finished and inverted = 0; the other numbers
+  are the baseline. On the jittered grids plain connect leaves
+  hundreds to thousands of faces not Delaunay, and at 1e-9 adds 281
+  points and leaves 4 input points out.
+
+THE SPHERE
+  createpts rtp points are meant to lie on common planes and spheres,
+  but sin and cos round them off. The exact Delaunay tetrahedralization
+  of those coordinates contains tets that are flat to round-off: valid
+  in exact arithmetic, zero or negative volume when computed in double
+  precision (159 here). For such input use plain connect.
+
+FILES
+  make_connect_exact.py   writes the point sets, the decks and
+                          work/expect.json
+  check_connect_exact.py  judges them; logs/summary.html
+  run_connect_exact_tests.sh

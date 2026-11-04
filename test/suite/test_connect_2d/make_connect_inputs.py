@@ -3,9 +3,9 @@
 
 Writes the point files the test_connect_2d decks read: one set of 400
 points in a 100 x 80 rectangle, placed at the origin and at offsets
-(cd01-cd06), and four harder sets in the xy plane (cd08-cd11): graded,
-a 1000 x 1 grid, a grid with 1e-9 round-off, and rings of cocircular
-points. The points come from a fixed linear congruential generator,
+(cd01-cd06), and harder sets in the xy plane (cd08-cd13): graded,
+a 1000 x 1 grid, a grid with 1e-9 round-off, rings of cocircular
+points, and a grid moved by multiples of 2**-40. The points come from a fixed linear congruential generator,
 so the files are the same on every machine. Python 3, standard library.
 """
 import sys
@@ -90,9 +90,19 @@ def rings():
     return out
 
 
+def dyadic():
+    """a 31 x 31 grid with spacing 1, every point moved by -1, 0 or 1
+    times 2**-40: in-circle determinants far below what double-double
+    can decide"""
+    g = Lcg(13)
+    def d():
+        return (int(3 * g.u()) - 1) * 2.0 ** -40
+    return [(i + d(), j + d()) for i in range(31) for j in range(31)]
+
+
 EXTRA = {"cd08_graded": graded, "cd09_stretched": stretched,
          "cd10_jitter": jittered, "cd11_rings": rings,
-         "cd12_old_order": graded}
+         "cd12_old_order": graded, "cd13_dyadic": dyadic}
 
 
 def main():
