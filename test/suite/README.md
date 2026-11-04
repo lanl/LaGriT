@@ -18,7 +18,8 @@ From this folder, after building LaGriT in `build/` at the top of the
 checkout:
 
 ```
-sh run_all.sh                 # every suite, about 3 to 5 minutes
+sh run_all.sh                 # every suite, about 5 to 11 minutes
+JOBS=4 sh run_all.sh          # the same, 4 suites at a time
 BIG=1 sh run_all.sh           # also the slow parts, about 10 minutes more
 sh run_all.sh /path/to/lagrit # a different LaGriT
 ```
@@ -37,6 +38,47 @@ shell and Python 3 (standard library only).
 
 Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 40,004 vertices) or to connect (the connect timing suite).
+
+## Running less: side by side, by group, by what changed
+
+During development most changes can affect only a few suites. Three settings
+(they combine) make `run_all.sh` run less, or faster:
+
+```
+JOBS=4 sh run_all.sh             # 4 suites at a time (longest first); about
+                                 # a third of the time on a 4-core machine
+ONLY=connect sh run_all.sh       # the suites tagged connect (or a name: ONLY=test_recon)
+ONLY=2d,quality sh run_all.sh    # any of several tags
+QUICK=1 sh run_all.sh            # leave out the slow suites (20 s or more)
+CHANGED=1 sh run_all.sh          # only the suites what changed since master can affect
+CHANGED=connect3d-hull JOBS=4 sh run_all.sh   # ... since another branch or commit
+```
+
+**Tags** (in the `SUITES` list of `run_all.sh`): `poisson`, `createpts`,
+`triangulate`, `connect`, `recon`, `interpolate`, `quality`, `io`, `sets`,
+`parser`, `upstream`, `errors`, `2d`, `3d`; `slow` (QUICK=1 leaves these out)
+and `big` (BIG=1 only).
+
+**CHANGED** compares the working tree (committed or not, and new files) with
+the base, and `select_changed.py` picks the suites:
+
+- a file in `src/` selects the suites whose runs execute at least one line of
+  it, from `suite_sources.txt` (and suites that compile it themselves, like
+  test_predicates); an include file selects the suites of every file that
+  includes it;
+- a file in a suite's folder selects that suite, and any suite that uses it
+  (the letters suite uses test_poisson_3d's checker);
+- a change to `test/level01` selects test_lagrit_upstream;
+- docs, `.md` files, `.github`, PyLaGriT and examples select nothing;
+- anything else (CMake files, a source file the map has never seen,
+  `run_all.sh` and the other shared scripts) runs everything.
+
+The run prints the reason for each choice. `suite_sources.txt` is made by
+running every suite on a LaGriT built with coverage counting (gcc and
+gfortran): see the top of `make_suite_sources.py` (about 5 minutes on Linux).
+Make it again now and then, and after adding a suite (until then the new
+suite always runs). Before a pull request, run everything once: `JOBS=4 sh
+run_all.sh`.
 
 ## The suites
 
@@ -66,6 +108,7 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_connect_exact` | 3D `connect` and `connect / exact` on grids, grids jittered by 1e-12 to 1e-3, random points, a thin box and an rtp sphere; every mesh checked with exact rational arithmetic (Delaunay, valid, nothing added or missing) | 25 s |
 | `test_predicates` | the exact orientation, in-circle and in-sphere tests of 2D and 3D connect against rational arithmetic on adversarial inputs (compiles two small C drivers; no lagrit) | 10 s |
 | `test_connect_hull` | 3D `connect` fills to the convex hull: random, graded, thin, UTM-sized and jittered-grid point sets with plain connect, `exact` and `nohull`; validity, the hull volume covered (an independent hull), exact Delaunay | 20 s |
+| `test_recon` | `recon / 0` and `recon / 1` in 2D and 3D, one and two materials: Delaunay after the flips, obtuse boundary angles, where added vertices go, the boundary, the area or volume of each material (exact rational checks); KNOWN: `recon / 1` in 3D breaks Delaunay and writes a stray GMV file, a mesh without parent / child vertices stops LaGriT | 10 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
 
 Times are for a Release build on a recent Mac.

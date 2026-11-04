@@ -87,6 +87,8 @@ jobs:
         working-directory: test/suite
         env:
           BIG: ${{ inputs.big && '1' || '0' }}
+          # JOBS: suites side by side (the runners have 4 cores on Linux, 3 on macOS)
+          JOBS: ${{ runner.os == 'macOS' && '3' || '4' }}
         run: sh run_all.sh ../../build/lagrit
 
       - name: Show the rows that did not pass
@@ -103,6 +105,7 @@ jobs:
           name: test-results-${{ matrix.label }}
           path: |
             test/suite/summary.html
+            test/suite/*/summary.html
             test/suite/run_all.log
             test/suite/*/logs/
           if-no-files-found: warn
