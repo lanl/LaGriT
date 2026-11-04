@@ -59,6 +59,7 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_set_logic` | `eltset` and `pset` union / inter / not with 1 to 4 sets, every member against the definitions | 1 s |
 | `test_edge_lengths` | `cmo / addatt` edge_lengths_min / max / mean against an independent computation | 1 s |
 | `test_input_lines` | input lines up to 1024 characters, longer lines refused, cut tokens warned | 2 s |
+| `test_connect_options` | `connect` options in 2D and 3D: `noadd`, `check_interface`, `old_order` in any position, the point range with or without `delaunay`, the deprecated enclosing tet / triangle coordinates | 2 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
 
 Times are for a Release build on a recent Mac.

@@ -81,7 +81,7 @@ C
       implicit none
 C
       integer nwds
-      integer ierr_imt
+      integer ierr_imt,inoadd,ichkint
       integer imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*32 cmsgin(nwds),cmo
@@ -529,11 +529,31 @@ C     OTHERWISE, CHANGE MASS-POINT NUMBERS OF POINTS ASSOCIATED WITH THE
 C     SURROUNDING TETRAHEDRON.
 C
       n=0
-      if (nwds.ge.ifield+4) then
+      if (nwds.ge.ifield+12) then
+C        the enclosing triangle given in the command: 9 coordinates
+C        after the point range (deprecated; connect places it itself)
          n=12
          do j=1,9
             xcoords(j)=xmsgin(ifield+3+j)
          enddo
+         write(logmess,'(a)') ' WARNING: connect: the coordinates of'//
+     *      ' the enclosing triangle are deprecated'
+         call writloga(cdefault,0,logmess,0,ierr)
+         write(logmess,'(a)') '   (connect places it itself; this'//
+     *      ' option will be removed)'
+         call writloga(cdefault,0,logmess,0,ierr)
+         if (nwds.gt.ifield+12) then
+            write(logmess,'(a,i6,a)') ' WARNING: connect:',
+     *         nwds-ifield-12,' tokens after the coordinates ignored'
+            call writloga(cdefault,0,logmess,0,ierr)
+         endif
+      elseif (nwds.ge.ifield+4) then
+         write(logmess,'(a,i6,a)') ' WARNING: connect:',nwds-ifield-3,
+     *      ' tokens after the point range ignored (the enclosing'
+         call writloga(cdefault,0,logmess,0,ierr)
+         write(logmess,'(a)') '   triangle needs 9 coordinates;'//
+     *      ' see the connect options)'
+         call writloga(cdefault,0,logmess,0,ierr)
       endif
       call make_bigtri_lg(npoints,ntets,xcoords,nwds,ierr1)
       if(ierr1.ne.0) go to 9999
@@ -549,9 +569,14 @@ C     CHECK IF ADDING POINTS IS TURNED OFF
 C
       lifadd=.true.
       incpts=0
-      if(nwds.eq.18) then
-         if(cmsgin(18)(1:icharlnf(cmsgin(18))).eq.'noadd')
-     *      lifadd=.false.
+C     noadd may be anywhere in the command; it was read and removed by
+C     connect_order_opt
+      call lg_connect_opts_get(inoadd,ichkint)
+      if (inoadd.ne.0) lifadd=.false.
+      if (ichkint.ne.0) then
+         write(logmess,'(a)') ' WARNING: connect: check_interface is'//
+     *      ' for 3D connect; ignored'
+         call writloga(cdefault,0,logmess,0,ierr)
       endif
       if (ibigtet.gt.0) then
          xic (ibigtet  )=xbigtet(1)

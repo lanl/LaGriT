@@ -1,219 +1,196 @@
-Notes on connect algorithm:
+---
+title: Notes on the connect algorithm
+tags: connect, Delaunay, algorithm
+---
 
-*The notes below describe 3D connect, and 2D connect in LaGriT V3.3.4
-and earlier. 2D connect of points in a coordinate plane has changed:
-see [2D connect (after V3.3.4)](#2d-connect-after-v334) at the end of
-this page.*
+# Notes on the connect algorithm
 
-Connect uses the standard point insertion method of tetrahedralization
-which consists of the following steps:
+**connect** builds a Delaunay triangulation (2D) or tetrahedralization (3D) of the vertices of a mesh object: no vertex lies inside the circumcircle of any triangle, or the circumsphere of any tetrahedron. This page describes how it does that, how it decides whether a vertex is inside a circumsphere, and where it can fall short. The command and its options are on the [connect](commands/CONNECT1.md) page.
 
- First, an enclosing tetrahedra is constructed which contains the nodes
- to be tetrahedralized.
+Changes since LaGriT V3.3.4 are marked *(after V3.3.4)*. They are listed in the [V3.3.4 release notes](../release_notes/lagrit_release_notes_V3.340.md).
 
- Then, the nodes are processed in a random order and inserted one at a
- time. (After V3.3.4, more than 100 nodes are inserted in a BRIO
- order, in 2D and 3D: random rounds, each sorted along a Morton curve;
- see the 2D section at the end, and **old_order** on the connect page.)
+## Which method is used
 
- To insert node n+1:
+| Mesh object | Inside and orientation tests | Afterwards |
+|---|---|---|
+| 3D (tet) | tolerance tests, below | thin tetrahedra along the hull may be missing |
+| 2D (triplane), vertices in a coordinate plane (every z the same, or every y, or every x) | **exact** *(after V3.3.4)* | hull filled and edges flipped: exactly the Delaunay triangulation of the convex hull |
+| 2D, vertices in a tilted plane | tolerance tests, below | **recon / 0** |
 
-  Find a tetrahedra whose circumsphere contains node n+1.  Place this
-  tetrahedron on the stack.  Pop a tetrahedron off the stack.  Look at
-  all face neighbors of this containing tetrahedron to determine if
-  their circumspheres contain node n+1.  Place the containing neighbor
-  tetrahedra onto the stack.  Continue until the stack is empty.  Keep
-  track of the set of containing tetrahedra as the stack is depleted. 
-  The union of these tetrahedra is the insertion cavity into which the
-  new node is placed; so, we remove the containing tetrahedra and
-  construct new tetrahedra by connecting the new node to the faces of
-  the cavity.
+## The steps
 
-  If for some reason a node cannot be inserted, it is placed in a fail
-  list and subsequent passes will attempt to insert the node by using
-  looser 'inside' tests.
+### 1. The enclosing triangle or tetrahedron
 
- When all nodes are inserted, we inspect all edges to see if there are
- any edges that cross material interfaces. If so, we construct a node at
- the intersection of the edge and interface.  These new nodes (if any)
- are then inserted into the mesh using the algorithm described above. 
- This process is repeated until no more 'multi-material' edges are
- encountered or until the maximum number of iterations is reached. 
- This step is skipped if the **noadd** option has been specified.
+connect first makes a triangle (2D) or tetrahedron (3D) that contains all the vertices, well outside their bounding box. Every vertex is then inserted into this one cell, which is removed at the end (step 6).
 
- Finally, the initial enclosing tetrahedron vertices and the attached
- tetrahedra are removed.
+*(after V3.3.4)* In 2D the third vertex of the enclosing triangle is placed 0.005 of the box size from the centre of the vertices. Before, it was placed at 1.01 times the centre coordinate, which for vertices far from the origin (UTM coordinates, say) lay outside them, and connect made no triangles. Meshes whose box contains the origin are unchanged.
 
- To determine if a node is 'inside' a tetrahedron's circumsphere we
- compare the distance from the tetrahedron's voronoi point to a vertex
- of the tetrahedron (i.e. the circumsphere radius) with the distance
- from the voronoi point to the node in question.  If the second
- distance is less than the first, the node is 'inside' the
- circumsphere.  Obviously, the comparison of these distances should
- involve an epsilon which is dependent upon both the machine accuracy
- and the problem scale.  For computational efficiency we compare the
- distances squared.
+The coordinates of the enclosing cell can still be given in the command, but this is deprecated *(after V3.3.4)*: connect gives a warning, and the option will be removed.
 
- Currently the 'inside' test is as follows:
+### 2. The insertion order
 
-  Since we are comparing distances squared the appropriate test is an
-  area test.  We construct a variable called **smalarea** =
+The vertices are inserted one at a time. The search for the cell that contains the next vertex starts from the cell made last, so the time depends on how far apart consecutive vertices are.
 
-  [ ((machine
-  precision)
-*10,000)
-*
-*(boxsizex
-*boxsizey
-*boxsizez)
-*
-*(2.d0/3.d0)]
+*(after V3.3.4)* More than 100 vertices are inserted in a Biased Randomized Insertion Order (BRIO; Amenta, Choi and Rote 2003; src/lg_brio_order.c):
 
-  where boxsize is the (max coordinate value - min coordinate value)
-  in each of the 3 directions,
+- the vertices are split at random into rounds that double in size;
+- each round is sorted along a Morton (Z-order) curve: in 2D on the two coordinates with the largest spread, in 3D on all three;
+- the rounds are inserted smallest first.
 
-  machine precision is usually around 2
-*10-16 for double precision.
+Consecutive vertices are then close together, and the random rounds keep the good expected behaviour of a random order. connect's time grows about linearly with the number of vertices, whatever order they are given in. For 256,000 random vertices, 2D is about 23 times faster and 3D about 5 times faster than V3.3.4. The random choices use a fixed seed, so a run is reproducible.
 
-  So, for a unit cube the test value is about 7
-*10-11.
+**connect / old_order** keeps the order of V3.3.4 and earlier, a fixed prime stride through the vertex list. The order changes the mesh only where vertices are exactly cocircular or cospherical, as on a regular grid, where either choice is Delaunay.
 
-  For a 1000x1000x1000 cube the test value is about .07.
+### 3. Inserting a vertex (Bowyer-Watson)
 
-  For the first pass we use smalarea
-*100.
+To insert a vertex:
 
-  We loop until no more nodes can be added using this value.
+1. Walk from the last cell made to a cell whose circumsphere (circumcircle in 2D) contains the vertex.
+2. Grow the *cavity*: look at the face neighbours of each cell in it, and add those whose circumspheres also contain the vertex.
+3. Remove the cells of the cavity, and connect the vertex to each face (edge in 2D) on the cavity's boundary.
 
-  For the second pass we use smalarea
+The new cells must pass the volume tests below; if they don't, the cavity is restored and the vertex goes into a fail list.
 
-  For the third pass smalarea/100.
+### 4. Failed vertices and later passes
 
-  For the fourth pass we use zero
+Vertices in the fail list are tried again in later passes, with a looser inside test each time (see [the tolerance tests](#the-tolerance-tests)). At the end, every vertex that is in no cell is *dudded* (its itp is set to dudded, 21), and connect lists it:
 
-  For the fifth pass we use -100
-*smalarea
+```
+ Dudding      7181 points that have no associated tetrahedra.
+ The mesh is complete but could not include all points.
+```
 
- The inside test requires that the coordinates of the circumcenter of
- the new tetrahedra be calculated.  As this calculation uses the
- squares of the coordinates of the vertices, we first translate the
- tetrahedron so that the coordinates one of its vertices lie at zero. 
- This simplifies the calculation and avoids loss of precision when the
- values of the coordinates are very large.  After calculating the
- coordinates of the circumcenter, the tetrahedron and its circumcenter
- are translated back to their original location.
+A vertex ends up in no cell for one of these reasons:
 
- As the insertion cavity is filled with new tetrahedra, the new
- tetrahedra are subjected to two tests.  The first test checks that the
- volume of each new tetrahedron is positive.  This test uses a volume
- epsilon that represents the smallest volume that can be handled
- computationally.  We use the mesh object attribute **epsilonv** which
- is set to [ ((machine
- precision)
-*1000)
-*
-*(boxsizex
-*boxsizey
-*boxsizez)].  The second
- test compares the sum of the volumes of the new tetrahedra to the sum
- of the volumes of the removed tetrahedra.  This test fails if: [ 
- (volnewt-vololdt)/vololdt  &gt; machine precision
-*10
-*
-*8].
+- **Coincident or nearly coincident vertices.** The second of two vertices at the same place, or closer than the volume epsilon allows (in a unit box, 1e-13 apart is dudded, 1e-7 is not), would make cells of zero or tiny volume, so it fails the [volume tests](#the-volume-tests) in every pass. This is the commonest reason. Remove them first with **filter / 1,0,0** and **rmpoint / compress**.
+- **Cells too small for the volume epsilon.** epsilonv is set from the size of the whole box, not from the local spacing. Where the spacing is very fine compared with the box (strong grading, a long thin domain, or one stray vertex far from the others, which enlarges the box), correct cells can be smaller than epsilonv, and their vertices fail. **setsize** before **setpts** sets the epsilons from the geometry instead.
+- **Degenerate configurations in 3D and tilted 2D.** A vertex nearly on a face or an edge of an existing cell, or nearly on the circumsphere of several cells, can make a new cell almost flat, or the search for a containing cell can give up after too many steps (20, 100, 500 and 1000 in passes 1 to 4). Usually this is the coincident-vertex case at a larger distance.
+- **Lost with the enclosing cell.** A vertex on a nearly flat part of the hull whose only cells reach the enclosing cell (step 6) is left with none. In 2D in a coordinate plane the hull fill puts such vertices back *(after V3.3.4)*; before, a 1000 x 1 grid of 961 vertices lost 37.
+- **Not selected.** With a point range or a pset (**connect / delaunay / 1,60,1**, **connect / pset,get,name**), the vertices left out are not connected, and they are dudded too.
 
- The user can change the 'tightness' of the circumsphere test by adding
- an attribute to the mesh object called **circumsphere\_factor** and
- setting this factor, e.g.:
+Only vertices with itp below 20 are connected. Merged (20) and dudded (21) vertices and parent vertices (41; their child vertices on the interface are connected instead) are left out and not counted.
 
- **cmo** **/addatt**/**/circumsphere\_factor** **/REAL** **/scalar** **/scalar**
+### 5. Points added by connect
 
- **cmo** **/setatt**/**/circumsphere\_factor**/1,0,0/.125
+Unless **noadd** is given, connect adds vertices in two places.
 
- This factor will only be required in extreme circumstances.  If a node
- distribution has an extremely high aspect ratio, the user might see
- warning messages about circumsphere problems and connect may fail to
- connect all nodes.  In this case one might try adjusting the
- circumsphere\_factor.
+**Material interfaces.** When the mesh object has geometry (**surface**, **region**, **mregion**) and the vertices several materials, connect finds edges whose two ends are in different materials. It adds a vertex where each such edge crosses the interface, inserts these vertices as in step 3, and repeats until no such edge is left or the number of passes reaches its limit. **check_interface** (3D) also checks edges between two vertices on an interface. The added vertices keep the interface in the mesh, but they can land very close to existing vertices, so the cells near the interface can be thin.
 
-The requirement for a delaunay tessellation is that the circumcircle or
-circumsphere of each element enclose no other nodes in the
-tessellation.  If nodes on the boundary of the mesh are nearly coplanar
-or nearly collinear, it is possible that the big tetrahedron or big
-triangle constructed automatically will not be large enough.  For
-illustration purposes consider the 2D case in which there are 3 nodes on
-the boundary that are nearly collinear say (0,0,0) (.5,.05,0.) and
-(1,0,0), then the circumcircle determined by these three nodes is very
-large and may contain node(s) of the big triangle, and the triangle
-consisting of these three nodes will not be formed.   In this case it is
-necessary for the user to supply the coordinates of the 'big' triangle
-in the connect command.
+**Small cells.** connect adds a vertex at the centre of each tetrahedron (triangle) whose volume (area) is very small.
 
+**noadd** turns off both. *(after V3.3.4)* **noadd**, **check_interface** and **old_order** may be anywhere in the command, in 2D and 3D. Before, in 3D they were recognised only as the last token, and in 2D **noadd** only as token 18.
 
-## 2D connect (after V3.3.4)
+### 6. Removing the enclosing cell
 
-For a triplane mesh object whose points lie in a coordinate plane
-(every z the same, or every y, or every x), 2D connect differs from the
-description above in four ways. Points in a tilted plane, and all of 3D
-connect, work as described above.
+The vertices of the enclosing cell and the cells attached to them are removed.
 
-**Exact tests, no tolerances.** The 'inside' (in-circle) test and the
-orientation test are done by src/lg_predicates2d.c. Each is computed in
-double precision after translating to one of the points; when the
-result is larger than the bound on its rounding error (J. R. Shewchuk,
-"Adaptive precision floating-point arithmetic and fast robust geometric
-predicates", Discrete & Computational Geometry 18, 1997), its sign is
-certain. Otherwise it is computed again in double-double arithmetic
-(about 106 bits). The answer does not depend on **smalarea**, on the
-size of the box or on the distance from the origin, so no point fails
-for being nearly on a circle; the later passes remain only for points
-that fail the volume tests. A point exactly on a circle (cocircular points, as on a regular
-grid) counts as outside; either diagonal is then Delaunay.
+A cell on the convex hull whose circumsphere reaches a vertex of the enclosing cell is removed along with it. This happens for thin cells along nearly flat parts of the hull: three boundary vertices (0,0), (0.5,0.05), (1,0), for example, have a very large circumcircle. The triangle or tetrahedron they would form is lost, and the mesh has a notch where the convex hull should be.
 
-**The whole convex hull.** Triangles along the convex hull whose
-circumcircles reach the enclosing triangle are lost when the enclosing
-triangle is removed. After the removal, connect walks the outer
-boundary once and adds a triangle at every inward corner
-(src/lg_connect2d_hull.c), then flips edges with the exact in-circle
-test until every interior edge is locally Delaunay. The result is the
-Delaunay triangulation of the convex hull of the points; there is no
-need to supply the coordinates of the 'big' triangle. A corner whose
-triangle is flatter than 1e-6 (height less than 1e-6 of its base) is
-treated as straight and left open: that is round-off in points meant to
-lie on a straight side, and filling it would add a sliver. Edges are not
-flipped between triangles of different colour or along an interface.
-connect reports the triangles added and the edges flipped:
+*(after V3.3.4)* In 2D, for vertices in a coordinate plane, connect then fills the hull (src/lg_connect2d_hull.c):
+
+- It walks the outer boundary and adds a triangle at every inward corner.
+- It flips edges with the exact in-circle test until every interior edge is Delaunay.
+- A corner flatter than 1e-6 (the triangle's height less than 1e-6 of its base) is left open. That is round-off in vertices meant to lie on a straight side, and filling it would add a sliver.
+- Edges between triangles of different colour, or along an interface, are not flipped.
+
+connect reports what it did:
 
 ```
  connect: added        16 triangles to reach the convex hull
  connect: flipped       6 edges to make the triangulation Delaunay
 ```
 
-Because the mesh is already Delaunay, connect no longer runs
-**recon/0** after 2D connect in a coordinate plane.
+The result is exactly the Delaunay triangulation of the convex hull, so connect no longer runs **recon / 0** in this case. For vertices in a tilted plane, connect still runs **recon / 0** afterwards.
 
-**Insertion order.** More than 100 points are inserted in a Biased
-Randomized Insertion Order (BRIO; N. Amenta, S. Choi, G. Rote,
-"Incremental constructions con BRIO", Symposium on Computational
-Geometry 2003), src/lg_brio_order.c: the points are split at random
-into rounds that double in size, each round is sorted along a Morton
-(Z-order) curve in the two coordinates with the largest spread, and the
-rounds are inserted smallest first. Each search for the triangle
-containing the next point starts from the triangle made last, which is
-then close by, so connect time grows about linearly with the number of
-points whatever order they are given in. The random choices use a fixed
-seed, so a run is reproducible. **connect / old_order** inserts in the
-order of earlier versions (a fixed prime stride through the point list);
-with the exact tests the order changes the mesh only where points are
-exactly cocircular.
+In 3D the hull is not filled yet: for random vertices about 1% of the hull's volume is missing, and more for long thin domains (5% for a 100 x 1 x 1 box).
 
-**The enclosing triangle.** One vertex of the enclosing triangle used to
-be placed at 1.01 times the centre coordinate of the points, which far
-from the origin is outside them (connect then made no triangles). It is
-now placed 0.005 of the box size from the centre; meshes whose box
-contains the origin are unchanged.
+## The inside test
 
-Tests: test/suite/test_connect_2d (every mesh checked for exact
-Delaunay and for covering the convex hull) and
-test/suite/test_connect_timing (time against the number of points, for
-four point orders).
+### Exact tests (2D, vertices in a coordinate plane; after V3.3.4)
+
+The in-circle and orientation tests are done by src/lg_predicates2d.c:
+
+- Each determinant is computed in double precision, after translating the vertices so that one of them is at the origin.
+- When the result is larger than the bound on its rounding error (Shewchuk 1997), its sign is certain.
+- Otherwise it is computed again in double-double arithmetic, about 106 bits.
+
+The answer does not depend on any tolerance, on the size of the box, or on the distance from the origin. A vertex exactly on a circumcircle counts as outside, so on a regular grid either diagonal of a square may be chosen; both are Delaunay. Only vertices that fail the volume tests go to later passes.
+
+### The tolerance tests
+
+In 3D, and in 2D for a tilted plane, a vertex is inside a cell's circumsphere when its squared distance from the circumcentre is less than the circumradius squared, by more than a tolerance. The circumcentre is computed with the cell translated so that one of its vertices is at the origin, which avoids losing precision when the coordinates are large.
+
+The tolerance is an area:
+
+- 3D: **smalarea** = *small* x (boxsize_x x boxsize_y x boxsize_z)^(2/3)
+- 2D: **smalarea** = 2 x *small* x max(boxsize)^2
+
+Here boxsize is the extent of the vertices in each direction, and *small* = epsilonr x 100,000 x circumsphere_factor (epsilonr is the mesh object's relative epsilon; circumsphere_factor is 1 unless set). For a unit cube, **smalarea** is about 3e-10. It grows with the square of the box size, but not with the spacing of the vertices, so on a long thin domain many tests at the short spacing look like ties.
+
+Each pass loosens the test:
+
+| Pass | Tolerance |
+|---|---|
+| 1 | 100 x smalarea |
+| 2 | smalarea |
+| 3 | smalarea / 100 |
+| 4 | 0 |
+| 5 and later | -100 x smalarea (a vertex slightly outside counts as inside) |
+
+Because the tolerance is absolute, near-ties are decided by it rather than by geometry. Vertices nearly on a common sphere may give a tetrahedralization that is Delaunay only up to the tolerance: on a grid jittered by 1e-9, about 3,000 faces are not exactly Delaunay.
+
+### The volume tests
+
+As a cavity is filled, the new cells must pass two tests:
+
+1. Every new cell has a volume greater than **epsilonv**, the mesh object's volume epsilon: (boxsize_x x boxsize_y x boxsize_z) x epsilonr x 1000. A cell attached to the enclosing cell may be as small as epsilonv x 1e-10.
+2. The volumes of the new cells add up to the volume of the cavity, to a relative error of epsilonr x 1e8.
+
+If either fails, the vertex goes into the fail list. To base the epsilons on the geometry, issue **setsize** before **setpts**.
+
+### circumsphere_factor
+
+To make the inside test tighter or looser, add the mesh object attribute **circumsphere_factor**; it multiplies *small*:
+
+```
+cmo / addatt / mo / circumsphere_factor / REAL / scalar / scalar
+cmo / setatt / mo / circumsphere_factor / 1,0,0 / .125
+```
+
+It is needed only in extreme cases: vertices with a very high aspect ratio, warnings about circumsphere problems, or vertices that cannot be connected. It does not affect the exact 2D tests.
+
+## Limitations
+
+- **Non-convex domains.** connect triangulates the convex hull of the vertices. Cells join vertices across a non-convex boundary and must be removed afterwards; the [connect / noadd demo](demos/description2_connect.md) tags them with **interpolate / map** from a hex mesh and removes them.
+- **Coincident vertices** are not filtered; they are dudded (step 4). Remove them first with **filter / 1,0,0** and **rmpoint / compress**.
+- **3D near-ties** are decided by the tolerance (see above), not exactly.
+- **3D hull** cells may be missing (step 6).
+- **Large coordinates in 3D.** For better precision, move the vertices close to the origin before connect, and back afterwards. **trans / zero** and **trans / original** do this without having to know the coordinates:
+
+```
+trans / 1,0,0 / zero
+connect
+trans / 1,0,0 / original
+```
+
+  Or give the offset yourself:
+
+```
+trans / 1,0,0 / XBIG,YBIG,ZBIG / 0. 0. 0.
+connect
+trans / 1,0,0 / 0. 0. 0. / XBIG,YBIG,ZBIG
+```
+
+  In 2D in a coordinate plane the exact tests do not need this *(after V3.3.4)*.
+
+## Tests
+
+- test/suite/test_connect_2d: every 2D mesh checked with exact rational arithmetic for being Delaunay and covering the convex hull; vertices far from the origin, in the yz and xz planes, stretched, graded and cocircular.
+- test/suite/test_connect_options: the options in 2D and 3D.
+- test/suite/test_connect_timing: time against the number of vertices, for four vertex orders, 2D and 3D.
+
+## References
+
+- A. Bowyer, "Computing Dirichlet tessellations", The Computer Journal 24 (1981); D. F. Watson, "Computing the n-dimensional Delaunay tessellation with application to Voronoi polytopes", same issue.
+- N. Amenta, S. Choi, G. Rote, "Incremental constructions con BRIO", Symposium on Computational Geometry 2003.
+- J. R. Shewchuk, "Adaptive precision floating-point arithmetic and fast robust geometric predicates", Discrete & Computational Geometry 18 (1997).
