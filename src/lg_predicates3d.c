@@ -28,6 +28,7 @@
 
 #include <math.h>
 #include <stdint.h>
+#include <string.h>
 
 #define LG_EPS 1.1102230246251565e-16
 #define O3D_BOUND ((7.0 + 56.0 * LG_EPS) * LG_EPS)
@@ -97,6 +98,61 @@ static dd dd_mul_d(dd a, double b)
     return dd_norm(p.hi, p.lo + a.lo * b);
 }
 
+/* Integer stage. If every coordinate difference is an integer multiple
+   of a common power of two and at most 2**20 times it (points on a
+   lattice with a spacing such as 1, 0.5, 10 or 25, at any offset), the
+   in-sphere determinant is computed exactly in 64- and 128-bit
+   integers, much faster than in double-double. Returns 2 when the
+   differences do not qualify. */
+static int ints20(const double *v, int n, int64_t *iv)
+{
+    double m = 0.0, sc;
+    uint64_t bits;
+    int i, e;
+    for (i = 0; i < n; i++)
+        if (fabs(v[i]) > m) m = fabs(v[i]);
+    if (m == 0.0) {
+        for (i = 0; i < n; i++) iv[i] = 0;
+        return 1;
+    }
+    memcpy(&bits, &m, 8);
+    e = (int) ((bits >> 52) & 0x7ff) - 1022;     /* m < 2**e */
+    if (e < -900 || e > 900) return 0;
+    bits = (uint64_t) (1023 + 20 - e) << 52;      /* sc = 2**(20 - e) */
+    memcpy(&sc, &bits, 8);
+    for (i = 0; i < n; i++) {
+        double t = v[i] * sc;                    /* exact: |t| < 2**20 */
+        int64_t k = (int64_t) t;
+        if ((double) k != t) return 0;
+        iv[i] = k;
+    }
+    return 1;
+}
+
+static int insphere_int(double d[12])
+{
+    int64_t q[12];
+    int64_t ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz;
+    int64_t ab, bc, cd, da, ac, bd, abc, bcd, cda, dab, al, bl, cl, dl;
+    __int128 r;
+    if (!ints20(d, 12, q)) return 2;
+    ax = q[0]; ay = q[1]; az = q[2]; bx = q[3]; by = q[4]; bz = q[5];
+    cx = q[6]; cy = q[7]; cz = q[8]; dx = q[9]; dy = q[10]; dz = q[11];
+    /* |q| < 2**20: 2 x 2 minors < 2**41, 3 x 3 < 2**63, lifts < 2**42 */
+    ab = ax * by - bx * ay; bc = bx * cy - cx * by;
+    cd = cx * dy - dx * cy; da = dx * ay - ax * dy;
+    ac = ax * cy - cx * ay; bd = bx * dy - dx * by;
+    abc = az * bc - bz * ac + cz * ab;
+    bcd = bz * cd - cz * bd + dz * bc;
+    cda = cz * da + dz * ac + az * cd;
+    dab = dz * ab + az * bd + bz * da;
+    al = ax * ax + ay * ay + az * az; bl = bx * bx + by * by + bz * bz;
+    cl = cx * cx + cy * cy + cz * cz; dl = dx * dx + dy * dy + dz * dz;
+    r = ((__int128) dl * abc - (__int128) cl * dab)
+      + ((__int128) bl * cda - (__int128) al * bcd);
+    return (r > 0) - (r < 0);
+}
+
 static int64_t sign_of(double v) { return (v > 0.0) - (v < 0.0); }
 
 static int64_t dd_sign(dd v)
@@ -139,8 +195,8 @@ static int64_t orient3d(const double *a, const double *b, const double *c,
 
 /* Shewchuk's insphere: positive when e is inside the sphere through
    a, b, c, d and orient3d(a, b, c, d) is positive */
-static int64_t insphere(const double *a, const double *b, const double *c,
-                        const double *d, const double *e)
+static double isp_perm(const double *a, const double *b, const double *c,
+                       const double *d, const double *e, double *pdet)
 {
     double aex = a[0] - e[0], bex = b[0] - e[0], cex = c[0] - e[0],
            dex = d[0] - e[0];
@@ -179,11 +235,36 @@ static int64_t insphere(const double *a, const double *b, const double *c,
                     + dexaeyplus * bezplus) * clift)
                 + ((bexceyplus * aezplus + aexceyplus * bezplus
                     + aexbeyplus * cezplus) * dlift);
+
+    *pdet = det;
+    return perm;
+}
+
+static int64_t insphere_s(const double *a, const double *b, const double *c,
+                          const double *d, const double *e, int skip);
+
+static int64_t insphere(const double *a, const double *b, const double *c,
+                        const double *d, const double *e)
+{
+    return insphere_s(a, b, c, d, e, 0);
+}
+
+/* skip = 1: the caller's own quick test was too close to call, so the
+   double-precision stage is skipped (it would almost always fail too) */
+static int64_t insphere_s(const double *a, const double *b, const double *c,
+                          const double *d, const double *e, int skip)
+{
     dd Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz, Dx, Dy, Dz;
     dd AB, BC, CD, DA, AC, BD, ABC, BCD, CDA, DAB, AL, BL, CL, DL, R;
+    double det = 0.0, perm = 0.0;
+    int haveperm = 0;
 
-    if (det > ISP_BOUND * perm || -det > ISP_BOUND * perm)
-        return sign_of(det);
+    if (!skip) {
+        perm = isp_perm(a, b, c, d, e, &det);
+        haveperm = 1;
+        if (det > ISP_BOUND * perm || -det > ISP_BOUND * perm)
+            return sign_of(det);
+    }
 
     Ax = two_diff(a[0], e[0]); Ay = two_diff(a[1], e[1]);
     Az = two_diff(a[2], e[2]);
@@ -196,6 +277,10 @@ static int64_t insphere(const double *a, const double *b, const double *c,
     if (Ax.lo == 0.0 && Ay.lo == 0.0 && Az.lo == 0.0 && Bx.lo == 0.0 &&
         By.lo == 0.0 && Bz.lo == 0.0 && Cx.lo == 0.0 && Cy.lo == 0.0 &&
         Cz.lo == 0.0 && Dx.lo == 0.0 && Dy.lo == 0.0 && Dz.lo == 0.0) {
+        double dv[12] = {Ax.hi, Ay.hi, Az.hi, Bx.hi, By.hi, Bz.hi,
+                         Cx.hi, Cy.hi, Cz.hi, Dx.hi, Dy.hi, Dz.hi};
+        int ri = insphere_int(dv);
+        if (ri != 2) return ri;
         /* every difference is exact in double (the usual case: points
            close together, a lattice for one): products of two
            differences are exact with two_prod, and the 3 x 3 minors
@@ -243,6 +328,7 @@ static int64_t insphere(const double *a, const double *b, const double *c,
     }
     R = dd_add(dd_sub(dd_mul(DL, ABC), dd_mul(CL, DAB)),
                dd_sub(dd_mul(BL, CDA), dd_mul(AL, BCD)));
+    if (!haveperm) perm = isp_perm(a, b, c, d, e, &det);
     if (fabs(R.hi) <= DD_ISP_BOUND * perm)
         return 0;
     return dd_sign(R);
@@ -261,7 +347,8 @@ void lg_orient3d_(const double *ax, const double *ay, const double *az,
 
 /* lg_insphere3d_or_: the same as lg_insphere3d_ for a tet whose
    orientation is known: *io is orient3d(a, b, c, d) (1 or -1), so it
-   is not computed again */
+   is not computed again; *io = 2 or -2: the same, and the caller's own
+   quick test was too close to call, so the double stage is skipped */
 void lg_insphere3d_or_(const double *ax, const double *ay, const double *az,
                        const double *bx, const double *by, const double *bz,
                        const double *cx, const double *cy, const double *cz,
@@ -272,7 +359,8 @@ void lg_insphere3d_or_(const double *ax, const double *ay, const double *az,
     double a[3] = {*ax, *ay, *az}, b[3] = {*bx, *by, *bz};
     double c[3] = {*cx, *cy, *cz}, d[3] = {*dx, *dy, *dz};
     double e[3] = {*ex, *ey, *ez};
-    *isign = *io * insphere(a, b, c, d, e);
+    *isign = (*io > 0 ? 1 : -1) *
+             insphere_s(a, b, c, d, e, *io > 1 || *io < -1);
 }
 
 /* 1 when e is strictly inside the sphere through a, b, c, d, whatever

@@ -127,7 +127,9 @@ C
       integer itetdata(3,4)
       integer iold_order,lenfl,lenvol,lenxic,lenioff,isgn
       integer jbig,iobig,iothin,iexmin,iexact
-      real*8 rbig
+      real*8 rbig,dxv,dyv,dzv,sxv,syv,szv,rtv,r2v,v6v,errv,epsr
+      integer iom2,iwalkq
+      parameter (epsr=1.1102230246251565d-16, iom2=-2)
 
       real*8 cvmgm, cvmgt, cvmgz
       real*8 rtestmin,vololdt,d,ssum,volnewt,xdone,epsilonv,epsilona,
@@ -432,20 +434,19 @@ c  rtest is the square of the distance from the center of the
 c  circumcenter to a vertex minus the square of the distance
 c  from the query point to the center
 c
+            if (iexact.eq.0) then
             rtest(itetuse)=(xic(ivertex)-xic(mpnt))*
      *               (xic(ivertex)+xic(mpnt)-xvor(idx))
      *              +(yic(ivertex)-yic(mpnt))*
      *               (yic(ivertex)+yic(mpnt)-yvor(idx))
      *              +(zic(ivertex)-zic(mpnt))*
      *               (zic(ivertex)+zic(mpnt)-zvor(idx))
- 
-            if (iexact.eq.0) then
                if (rtest(itetuse).ge.test1) go to 110
             else
-C              exact test (lg_predicates3d.c): inside or not
-               call delaunay_insph_fast(rtest(itetuse),ivertex,mpnt,
-     *            xvor(idx),yvor(idx),zvor(idx),vol(idx),itet(1,idx),
-     *            itet(2,idx),itet(3,idx),itet(4,idx),xic,yic,zic,isgn)
+C              exact test: inside or not
+               iwalkq=0
+               include 'delaunay_insph_inline.h'
+               rtest(itetuse)=rtv
                if (isgn.gt.iexmin) go to 110
                go to 102
             endif
@@ -485,29 +486,22 @@ c 	       call writloga ('default',0,logmess,0,icscode)
                       idx=ibint(itetest)
                       ivertex=min(itet(1,idx),itet(2,idx),
      * 			                  itet(3,idx),itet(4,idx))
+                      isgn=-1
+                      if (iexact.eq.0) then
                       rtest(itetest)=(xic(ivertex)-xic(mpnt))*
      *                     (xic(ivertex)+xic(mpnt)-xvor(idx))
      *                    +(yic(ivertex)-yic(mpnt))*
      *                     (yic(ivertex)+yic(mpnt)-yvor(idx))
      *                    +(zic(ivertex)-zic(mpnt))*
      *                     (zic(ivertex)+zic(mpnt)-zvor(idx))
-C                     the walk only needs some tet whose sphere holds
-C                     mpnt: the exact test only where the quick one
-C                     does not say clearly outside
-                      rbig=abs(xic(ivertex)-xic(mpnt))*
-     *                     abs(xic(ivertex)+xic(mpnt)-xvor(idx))
-     *                    +abs(yic(ivertex)-yic(mpnt))*
-     *                     abs(yic(ivertex)+yic(mpnt)-yvor(idx))
-     *                    +abs(zic(ivertex)-zic(mpnt))*
-     *                     abs(zic(ivertex)+zic(mpnt)-zvor(idx))
-                      isgn=-1
-                      if (iexact.eq.0) then
                          if (rtest(itetest).ge.test1) isgn=1
-                      elseif (rtest(itetest).gt.-1.0d-6*rbig) then
-                         call delaunay_insph_fast(rtest(itetest),
-     *                   ivertex,mpnt,xvor(idx),yvor(idx),zvor(idx),
-     *                   vol(idx),itet(1,idx),itet(2,idx),itet(3,idx),
-     *                   itet(4,idx),xic,yic,zic,isgn)
+                      else
+C                        exact test (the walk only needs some tet whose
+C                        sphere holds mpnt)
+                         iwalkq=0
+                         if (lpath.lt.50) iwalkq=1
+                         include 'delaunay_insph_inline.h'
+                         rtest(itetest)=rtv
                       endif
                       if(isgn.gt.iexmin) then
                          itetuse=itetest
@@ -603,20 +597,19 @@ C
                       idx=ibint(itetest)
                       ivertex=min(itet(1,idx),itet(2,idx),
      * 			                  itet(3,idx),itet(4,idx))
+                      if (iexact.eq.0) then
                       rtest(itetest)=(xic(ivertex)-xic(mpnt))*
      *                     (xic(ivertex)+xic(mpnt)-xvor(idx))
      *                    +(yic(ivertex)-yic(mpnt))*
      *                     (yic(ivertex)+yic(mpnt)-yvor(idx))
      *                    +(zic(ivertex)-zic(mpnt))*
      *                     (zic(ivertex)+zic(mpnt)-zvor(idx))
-                      if (iexact.eq.0) then
                          isgn=-1
                          if(rtest(itetest).ge.test2) isgn=1
                       else
-                         call delaunay_insph_fast(rtest(itetest),
-     *                   ivertex,mpnt,xvor(idx),yvor(idx),zvor(idx),
-     *                   vol(idx),itet(1,idx),itet(2,idx),itet(3,idx),
-     *                   itet(4,idx),xic,yic,zic,isgn)
+                         iwalkq=0
+                         include 'delaunay_insph_inline.h'
+                         rtest(itetest)=rtv
                       endif
                       if(isgn.gt.iexmin) then
                          nstack=nstack+1
@@ -1378,55 +1371,6 @@ C
       implicit none
       integer i1,i2,i3,i4,ip,isgn
       real*8 xic(*),yic(*),zic(*)
-      call lg_insphere3d(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2),
-     *   zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4),
-     *   xic(ip),yic(ip),zic(ip),isgn)
-      return
-      end
-C#######################################################################
-      subroutine delaunay_insph_fast(rt,iv,ip,xv,yv,zv,v6,
-     *   i1,i2,i3,i4,xic,yic,zic,isgn)
-C
-C     The same answer as delaunay_insph, but first from the quick test
-C     connect already has: rt = (v-p).(v+p-X), v = vertex iv of the
-C     tet, X = (xv,yv,zv) twice its stored circumcentre, v6 its stored
-C     6 x volume. rt has the sign of the exact test unless it is within
-C     the error of X (computed from the tet: about eps R**4/|v6|, R the
-C     circumradius, plus eps |X| for the final addition) and of rt's own
-C     evaluation; the bound is taken 4 times larger than that analysis
-C     gives. Inside the bound, or for a nearly flat tet, the exact test
-C     decides; for a tet of positive volume its orientation is passed
-C     (LaGriT's positive tets have orient3d = -1), so it is not
-C     computed again.
-C
-      implicit none
-      integer iv,ip,i1,i2,i3,i4,isgn,io
-      real*8 rt,xv,yv,zv,v6,xic(*),yic(*),zic(*)
-      real*8 eps,r2,dvp,big,err
-      parameter (eps=1.1102230246251565d-16)
-      r2=(xic(iv)-0.5d0*xv)**2+(yic(iv)-0.5d0*yv)**2
-     *  +(zic(iv)-0.5d0*zv)**2
-      dvp=abs(xic(iv)-xic(ip))+abs(yic(iv)-yic(ip))
-     *   +abs(zic(iv)-zic(ip))
-      big=abs(xic(iv)-xic(ip))*abs(xic(iv)+xic(ip)-xv)
-     *   +abs(yic(iv)-yic(ip))*abs(yic(iv)+yic(ip)-yv)
-     *   +abs(zic(iv)-zic(ip))*abs(zic(iv)+zic(ip)-zv)
-      if (v6.gt.1.0d-6*r2*sqrt(r2)) then
-         err=4.0d0*(dvp*(384.0d0*eps*r2*r2/v6
-     *      +4.0d0*eps*(abs(xv)+abs(yv)+abs(zv)))+8.0d0*eps*big)
-         if (rt.gt.err) then
-            isgn=1
-            return
-         elseif (rt.lt.-err) then
-            isgn=-1
-            return
-         endif
-         io=-1
-         call lg_insphere3d_or(xic(i1),yic(i1),zic(i1),xic(i2),
-     *      yic(i2),zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),
-     *      zic(i4),xic(ip),yic(ip),zic(ip),io,isgn)
-         return
-      endif
       call lg_insphere3d(xic(i1),yic(i1),zic(i1),xic(i2),yic(i2),
      *   zic(i2),xic(i3),yic(i3),zic(i3),xic(i4),yic(i4),zic(i4),
      *   xic(ip),yic(ip),zic(ip),isgn)
