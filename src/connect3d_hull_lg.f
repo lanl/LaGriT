@@ -56,11 +56,21 @@ C     valid but not yet filled), more room and go on from there
       nskip=0
       ntry=0
       ierror=5
-      do while (ierror.eq.5 .and. ntry.lt.6)
+C     First with no room for new tets: when there is nothing to add
+C     (the usual case for a convex or exact-grid point set), no memory
+C     is touched. When it runs out of room (ierror 5), only the arrays
+C     whose length is nelements grow (hull_grow_elements: never shrink,
+C     never a vertex array); cmo_newlen is NOT used here, because in
+C     the middle of connect it would also resize the vertex arrays to a
+C     count that is not final yet, and move arrays connect still holds
+C     (Nov 4 2026: refine_recon_quality failed on macOS).
+      maxtet=ntets
+      do while (ierror.eq.5 .and. ntry.lt.7)
+         if (ntry.gt.0) then
+            maxtet=ntets+max(1000,npoints/2)*2**(ntry-1)
+            call hull_grow_elements(cmo,ntets,maxtet)
+         endif
          ntry=ntry+1
-         maxtet=ntets+max(1000,npoints/2)*2**(ntry-1)
-         call cmo_set_info('nelements',cmo,maxtet,1,1,ier)
-         call cmo_newlen(cmo,ier)
          call cmo_get_info('xic',cmo,ipxic,leni,itype,ier)
          call cmo_get_info('yic',cmo,ipyic,leni,itype,ier)
          call cmo_get_info('zic',cmo,ipzic,leni,itype,ier)
@@ -72,7 +82,7 @@ C     valid but not yet filled), more room and go on from there
          nadded=nadded+nadd1
          nskip=nskip1
       enddo
-      call cmo_set_info('nelements',cmo,ntets,1,1,ier)
+      if (ntry.gt.1) call cmo_set_info('nelements',cmo,ntets,1,1,ier)
       call mmrelprt(isubname,icscode)
 C
       write(logmess,'(a,i10,a)') ' connect: added',nadded,
@@ -96,5 +106,36 @@ C
      *      ' the whole hull'
          call writloga('default',0,logmess,0,ier)
       endif
+      return
+      end
+C
+      subroutine hull_grow_elements(cmo,ntets,maxtet)
+C     every memory-managed attribute of cmo whose length is nelements
+C     grows to at least maxtet (times its rank); none shrinks, and the
+C     vertex attributes are left alone. mmnewlen keeps the contents and
+C     zeroes the new part. nelements is left at ntets.
+      implicit none
+      character*(*) cmo
+      integer ntets,maxtet
+      integer nmcmoatt,i,ilen,itype,ics,index,length,irank,len,need
+      character*32 cname,ctype,crank,clen,cinter,cpers,cio
+      pointer (ipa,ia)
+      integer ia(*)
+      call cmo_set_info('nelements',cmo,maxtet,1,1,ics)
+      call cmo_get_info('number_of_attributes',cmo,nmcmoatt,
+     *   ilen,itype,ics)
+      do i=1,nmcmoatt
+         call cmo_get_attribute_name(cmo,i,cname,ics)
+         call cmo_get_attparam(cname,cmo,index,ctype,crank,
+     *      clen,cinter,cpers,cio,ics)
+         if (ctype(1:1).eq.'V' .and. clen.eq.'nelements') then
+            call cmo_get_length(cname,cmo,length,irank,ics)
+            need=max(1,irank*length)
+            call mmfindbk(cname,cmo,ipa,len,ics)
+            if (ics.eq.0 .and. len.lt.need)
+     *         call mmnewlen(cname,cmo,ipa,need,ics)
+         endif
+      enddo
+      call cmo_set_info('nelements',cmo,ntets,1,1,ics)
       return
       end
