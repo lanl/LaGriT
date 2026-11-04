@@ -29,11 +29,11 @@ import sys
 STUB = "lift_summary.py: forwarded"
 BACK = ('<p style="margin:0 0 8px;font-size:13px"><a href="../summary.html">'
         '&larr; all suites (top-level summary)</a></p>')
-REF = re.compile(r'\b(href|src)="([^"]*)"')
+REF = re.compile(r"""\b(href|src)=(["'])(.*?)\2""")   # either quote
 
 
 def fix(m):
-    attr, url = m.group(1), m.group(2)
+    attr, q, url = m.group(1), m.group(2), m.group(3)
     if (not url or url.startswith(("#", "/", "data:", "mailto:", "javascript:"))
             or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", url)):
         return m.group(0)
@@ -43,7 +43,7 @@ def fix(m):
         url = url[3:]
     else:                                   # in logs/
         url = "logs/" + url
-    return '%s="%s"' % (attr, url)
+    return "%s=%s%s%s" % (attr, q, url, q)
 
 
 def main():
@@ -70,7 +70,7 @@ def main():
             page = page.replace("</h1>", "</h1>\n" + para, 1)
         else:
             page = re.sub(r"(<body[^>]*>)", r"\1\n" + para, page, count=1)
-    if 'href="../summary.html"' not in page:
+    if 'href="../summary.html"' not in page and "href='../summary.html'" not in page:
         page = re.sub(r"(<body[^>]*>)", r"\1\n" + BACK, page, count=1)
     with open(dst, "w", encoding="utf-8") as f:
         f.write(page)
