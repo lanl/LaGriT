@@ -15,6 +15,8 @@ Inputs written here (fixed seeds), coordinates with 17 digits:
               along its main diagonal: valid, 621 faces not Delaunay
   grid3m.inp  grid3 with the cells at x > 0.5 given material 2, read as
               it is (no parent / child vertices): rc15
+  unit_square.poly, h_field_x.mlgi  the square and the graded h field of
+              test_poisson_2d, for the Poisson disk meshes of rc06, rc07
 Other meshes are made in the decks (random points, connect).
 """
 import json
@@ -187,6 +189,32 @@ dump / avs / rc05_2d_off_0.inp / mo
 recon / 0
 dump / avs / rc05_2d_off_1.inp / mo
 """, ["0", "1"], {"dim": 2, "after": {"1": ["unchanged"]}})
+    for name, h, extra, what in (
+            ("rc06_2d_poisson", "0.05", "", "uniform h = 0.05"),
+            ("rc07_2d_poisson_graded", "0.01", " / h_field_x.mlgi",
+             "h graded from 0.01 at x = 0 to 0.05 at the sides (h = max(0.01, 0.1 |x|))")):
+        deck(name,
+             "A mesh one would compute on: a Poisson disk triangulation of the unit square, %s "
+             "made with no_connect and then connect (with its own connect, createpts runs smooth, recon / 0, "
+             "smooth and recon / 1 itself, so recon / 1 would have nothing left to do). recon / 0 must leave the "
+             "Delaunay mesh as it is; recon / 1 must bring every Voronoi centre inside the square, adding "
+             "vertices on the boundary only, keeping the mesh Delaunay, valid and the same area." % what,
+             """define / WIDTH_FACTOR / 10.0
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo / mo_polygon &
+      / %s / no_connect%s
+cmo / select / mo
+cmo / setatt / mo / imt / 1 0 0 / 1
+connect
+dump / avs / %s_0.inp / mo
+recon / 0
+dump / avs / %s_1.inp / mo
+recon / 1
+dump / avs / %s_2.inp / mo
+""" % (h, extra, name, name, name), ["0", "1", "2"], {"dim": 2, "after": {
+                 "1": ["delaunay", "same_vertices", "same_boundary", "valid", "same_size", "unchanged"],
+                 "2": ["delaunay", "centres_inside", "no_obtuse_boundary", "added_on_boundary", "valid",
+                       "same_size"]}})
     deck("rc11_3d_flip",
          "recon / 0 on a valid 3D mesh with 621 faces that are not Delaunay (a grid moved and cut into 6 tets "
          "per cube). recon / 0 must add no vertex and keep the boundary and the volume. The faces left not "
@@ -257,6 +285,18 @@ def main(work):
     V, T, col = tet_grid(6, 0.2, 3)
     write_avs(os.path.join(work, "grid3.inp"), V, T, "tet")
     write_avs(os.path.join(work, "grid3m.inp"), V, T, "tet", col)
+    with open(os.path.join(work, "unit_square.poly"), "w") as f:
+        f.write("4 0 0 0 0\n1 -0.5 -0.5 0\n2 0.5 -0.5 0\n3 0.5 0.5 0\n4 -0.5 0.5 0\n")
+    # the h field of test_poisson_2d (user_h_field_att.mlgi): h = max(h0, h0 WIDTH_FACTOR |x|)
+    with open(os.path.join(work, "h_field_x.mlgi"), "w") as f:
+        f.write("""define / MO_H_FIELD / mo_poi_h_field
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / MO_H_FIELD / xic / 2.0
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / MO_H_FIELD / h_field_att / 0.5
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / MO_H_FIELD / h_field_att / POI_H_FACTOR
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / MO_H_FIELD / h_field_att / WIDTH_FACTOR
+math / floor / MO_H_FIELD / h_field_att / 1,0,0 / MO_H_FIELD / h_field_att / POI_H_FACTOR
+finish
+""")
     make()
     exp = {}
     for name, (about, body, e) in DECKS.items():
