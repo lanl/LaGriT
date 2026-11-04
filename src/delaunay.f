@@ -125,6 +125,7 @@ C
      *  iboundary,leni,icmotype,ierror,ilstpt,i1,jtetlcl,n,ierr
 
       integer itetdata(3,4)
+      integer iold_order,lenfl,lenvol,lenxic,lenioff
 
       real*8 cvmgm, cvmgt, cvmgz
       real*8 rtestmin,vololdt,d,ssum,volnewt,xdone,epsilonv,epsilona,
@@ -324,8 +325,13 @@ C
       if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk zvornew')
       call mmgetblk('temp',isubname,iptemp,6*lennew,1,icscode)
       if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk temp')
-      leni = npoints
-      call mmgetblk('ioff',isubname,ipioff,leni,1,icscode)
+C     ioff is indexed by vertex number. Points added by fix_small_tets
+C     (or fix_small_triangles_lg) and the enclosing vertices can be
+C     numbered above nnodes, so size it by the coordinate arrays'
+C     length, which holds every vertex number in use.
+      call cmo_get_info('xic',cmo,ipxic,lenxic,icmotype,ierror)
+      lenioff = max(npoints,lenxic)
+      call mmgetblk('ioff',isubname,ipioff,lenioff,1,icscode)
       leni = 6000
       call mmgetblk('ifacelst',isubname,ipifacelst,leni,1,icscode)
 C
@@ -344,7 +350,7 @@ C
       ifailv=0
       ifailr=0
       ifailc=0
-      do i=1,npoints
+      do i=1,lenioff
          ioff(i)=0
       enddo
 C
@@ -370,8 +376,19 @@ c        test1=min(smalvol,smalarea)/2.d0
          test1=0.d0
          test2=-smalarea*100.d0
       endif
+C     More than 100 points: insert them in a BRIO order (random rounds,
+C     each along a 3D Morton curve; lg_brio_order.c), so that each
+C     search starts near the new point. connect / old_order keeps the
+C     order of LaGriT V3.3.4 and earlier (a fixed prime stride).
+C     lenold, lenfl and lenvol track the block lengths (every resize is
+C     done here), so the blocks are not looked up by name per point.
+      call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)
+      call mmfindbk('vol',nname,ipvol,lenvol,icscode)
+      call lg_connect_order_get(iold_order)
+      if (nlstptl.gt.100 .and. iold_order.eq.0)
+     *   call lg_brio_order3(nlstptl,lstptl,xic,yic,zic)
       do 5000 ilstpt=1,nlstptl
-         if (nlstptl.gt.100) then
+         if (nlstptl.gt.100 .and. iold_order.ne.0) then
             call primestep(nlstptl,iranidx)
             mpnt=lstptl(iranidx)
          else
@@ -568,7 +585,7 @@ C
 C        ...............................................................
 C        INCREASE MEMORY, IF NECESSARY.
 C
-           call mmfindbk('lstold',isubname,iplstold,lenold,icscode)
+           icscode=0
            if (icscode.ne.0 ) then
 C     GET MEMORY RELATED TO OLD TETRAHEDRA IN A POLYHEDRON.
            lenold=lenblk
@@ -602,7 +619,7 @@ C
             endif
          endif
 C     GET MEMORY RELATED TO NEW TETRAHEDRA IN A POLYHEDRON
-         call mmfindbk('volnew',isubname,ipvolnew,lennew,icscode)
+         icscode=0
          if (icscode.ne.0 ) then
             lennew=4*lenblk
             call mmgetblk('itetnew',isubname,ipitetne,4*lennew,1,
@@ -970,12 +987,15 @@ C
 C        _______________________________________________________________
 C        COMPUTE jtet VALUES FOR THE INTERIOR FACES OF NEW TETRAHEDRA.
 C
-         call mmfindbk('ifacelst',isubname,ipifacelst,leni,icscode)
-         if(leni.lt.nlstnew*24)  then
+         if(lenfl.lt.nlstnew*24)  then
             leni=24*(nlstnew+50)
             call mmincblk('ifacelst',isubname,ipifacelst,leni,icscode)
+            call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)
          endif
-         do i=1,leni/6
+         leni=lenfl
+C        only the entries this insertion can use (4 per new tet)
+C        need clearing, not the whole list
+         do i=1,min(leni/6,4*nlstnew+1)
             do j=1,6
                ifacelst(j,i)=0
             enddo
@@ -1083,9 +1103,8 @@ C        _______________________________________________________________
 C        INCREASE MEMORY RELATED TO THE TOTAL NUMBER OF TETRAHEDRA, IF
 C        NECESSARY.
 C
-         call mmfindbk('vol',nname,ipvol,leno,icscode)
          if(ntets+nlstnew.gt.ntetmx.or.
-     *      ntets+nlstnew.gt.leno) then
+     *      ntets+nlstnew.gt.lenvol) then
             ntetmx=max(ntetmx,ntets+nlstnew+500)
             call cmo_set_info('nelements',cmo,ntetmx,1,1,ierr)
             call cmo_newlen(cmo,ierr)
@@ -1099,6 +1118,7 @@ C
             call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ierr)
             ntetmaxl=ntetmx-ntetexcl
             call mmnewlen('vol',nname,ipvol,ntetmx,icscode)
+            call mmfindbk('vol',nname,ipvol,lenvol,icscode)
             call mmnewlen('xvor',nname,ipxvor,ntetmx,icscode)
             call mmnewlen('yvor',nname,ipyvor,ntetmx,icscode)
             call mmnewlen('zvor',nname,ipzvor,ntetmx,icscode)

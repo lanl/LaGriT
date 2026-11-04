@@ -128,7 +128,7 @@ C        *** POINTERS RELATED TO NEW TETRAHEDRA IN INSERTION POLYHEDRON.
 C     iplane: the plane of the points, for the exact in-circle test
 C     (lg_incircle2d): 3 = xy, 2 = xz, 1 = yz; 0 = a tilted plane,
 C     where the old test with tolerances is used. isgn: its answer.
-      integer iplane,isgn,iold_order,nclear,lenfl,lenvol
+      integer iplane,isgn,iold_order,nclear,lenfl,lenvol,lenxic,lenioff
       real*8 rr2
 C        *** POINTERS RELATED TO WALKING ALGORITHM
 C
@@ -302,8 +302,13 @@ C
       if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk zvornew')
       call mmgetblk('temp',isubname,iptemp,6*lennew,2,icscode)
       if (icscode.ne.0) call x3d_warn(isubname,'mmgetblk temp')
-      leni = npoints
-      call mmgetblk('ioff',isubname,ipioff,leni,1,icscode)
+C     ioff is indexed by vertex number. Points added by fix_small_tets
+C     (or fix_small_triangles_lg) and the enclosing vertices can be
+C     numbered above nnodes, so size it by the coordinate arrays'
+C     length, which holds every vertex number in use.
+      call cmo_get_info('xic',cmo,ipxic,lenxic,icmotype,ierror)
+      lenioff = max(npoints,lenxic)
+      call mmgetblk('ioff',isubname,ipioff,lenioff,1,icscode)
       leni = 6000
       call mmgetblk('ifacelst',isubname,ipifacelst,leni,1,icscode)
 C
@@ -322,7 +327,7 @@ C
       ifailv=0
       ifailr=0
       if (npoints.le.0) call x3d_warn(isubname,'npoints is 0')
-      do i=1,npoints
+      do i=1,lenioff
          ioff(i)=0
       enddo
 C

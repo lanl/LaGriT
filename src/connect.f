@@ -342,6 +342,8 @@ C
 
 C        *** POINTERS RELATED TO MREGIONS AND SURFACES.
       logical itsttp, ifp1,ifp2,ifp3,ifp4
+      pointer (iplintf,lintf)
+      integer lintf(*)
       logical lif_search_intrface_edges
       real*8 xcoords(12),vvbarmin
 
@@ -1056,11 +1058,17 @@ C     ******************************************************************
 C
 C     ADD mbndry TO jtet OF BOUNDARY-TETRAHEDRON FACES.
 C
+C     the interface test once per vertex, not four times per tet
+      call mmgetblk('lintf','connect_intf',iplintf,npoints,1,icscode)
+      do i=1,npoints
+         lintf(i)=0
+         if (itsttp('intrface',itp1(i))) lintf(i)=1
+      enddo
       do it=itetstrt,ntets
-               ifp1=itsttp('intrface',itp1(itet(1,it)))
-               ifp2=itsttp('intrface',itp1(itet(2,it)))
-               ifp3=itsttp('intrface',itp1(itet(3,it)))
-               ifp4=itsttp('intrface',itp1(itet(4,it)))
+               ifp1=lintf(itet(1,it)).eq.1
+               ifp2=lintf(itet(2,it)).eq.1
+               ifp3=lintf(itet(3,it)).eq.1
+               ifp4=lintf(itet(4,it)).eq.1
          jtet(1,it)=cvmgt(mbndry+jtet(1,it),jtet(1,it),
      $                    jtet(1,it).eq.0.or.
      $                    (ifp2.and.ifp3.and.ifp4.and.
@@ -1090,6 +1098,7 @@ C
      $                    )
      $                   )
       enddo
+      call mmrelprt('connect_intf',icscode)
 C
 C     ******************************************************************
 C     SET THE ERROR FLAG TO NORMAL.

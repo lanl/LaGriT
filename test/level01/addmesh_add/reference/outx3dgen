@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  3  17:25:18          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/03                 *                 
+*               *    Run Time: 2026/Nov  3  22:09:03          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -25,8 +27,8 @@
                                -----oOo-----                                    
  
  
-Output log file: outx3dgen                                                     
-Command log file: logx3dgen                                                    
+Output log file: outx3dgen                                                      
+Command log file: logx3dgen                                                     
  
 *--* Create a rough and fine mesh,                                              
 *--* Insert the fine mesh inside the course mesh,                               
@@ -437,22 +439,22 @@ epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          1                          
-elements with aspect ratio b/w .1  and .2 :        133                          
-elements with aspect ratio b/w .2  and .5 :       2714                          
-elements with aspect ratio b/w .5  and 1. :      18444                          
-min aspect ratio =  0.5846E-01  max aspect ratio =  0.1000E+01                  
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :        125                          
+elements with aspect ratio b/w .2  and .5 :       2720                          
+elements with aspect ratio b/w .5  and 1. :      18493                          
+min aspect ratio =  0.1408E+00  max aspect ratio =  0.1000E+01                  
  
 epsilonvol:   2.2204460E-13                                                     
 ---------------------------------------                                         
-element volumes b/w  0.2270E-05 and  0.6560E-05:     13957                      
-element volumes b/w  0.6560E-05 and  0.1896E-04:      2419                      
+element volumes b/w  0.2270E-05 and  0.6560E-05:     14025                      
+element volumes b/w  0.6560E-05 and  0.1896E-04:      2418                      
 element volumes b/w  0.1896E-04 and  0.5477E-04:       774                      
 element volumes b/w  0.5477E-04 and  0.1583E-03:       235                      
-element volumes b/w  0.1583E-03 and  0.4572E-03:      3907                      
+element volumes b/w  0.1583E-03 and  0.4572E-03:      3886                      
 min volume =   2.2704697E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
-     21292 total elements evaluated.                                            
+     21338 total elements evaluated.                                            
  
 cmo/setatt//ipolydat/no                                                         
          1 values reset for attribute ipolydat                                  
@@ -470,22 +472,22 @@ epsilonl, epsilonaspect:   3.8459254E-13  5.6885628E-38
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
 elements with aspect ratio b/w .02 and .05:          0                          
-elements with aspect ratio b/w .05 and .1 :          1                          
-elements with aspect ratio b/w .1  and .2 :        133                          
-elements with aspect ratio b/w .2  and .5 :       2714                          
-elements with aspect ratio b/w .5  and 1. :      18444                          
-min aspect ratio =  0.5846E-01  max aspect ratio =  0.1000E+01                  
+elements with aspect ratio b/w .05 and .1 :          0                          
+elements with aspect ratio b/w .1  and .2 :        125                          
+elements with aspect ratio b/w .2  and .5 :       2720                          
+elements with aspect ratio b/w .5  and 1. :      18493                          
+min aspect ratio =  0.1408E+00  max aspect ratio =  0.1000E+01                  
  
 epsilonvol:   2.2204460E-13                                                     
 ---------------------------------------                                         
-element volumes b/w  0.2270E-05 and  0.6560E-05:     13957                      
-element volumes b/w  0.6560E-05 and  0.1896E-04:      2419                      
+element volumes b/w  0.2270E-05 and  0.6560E-05:     14025                      
+element volumes b/w  0.6560E-05 and  0.1896E-04:      2418                      
 element volumes b/w  0.1896E-04 and  0.5477E-04:       774                      
 element volumes b/w  0.5477E-04 and  0.1583E-03:       235                      
-element volumes b/w  0.1583E-03 and  0.4572E-03:      3907                      
+element volumes b/w  0.1583E-03 and  0.4572E-03:      3886                      
 min volume =   2.2704697E-06  max volume =   4.5724737E-04                      
 -----------------------------------------------------------                     
-     21292 total elements evaluated.                                            
+     21338 total elements evaluated.                                            
  
 finish                                                                          
 LaGriT successfully completed                                                   

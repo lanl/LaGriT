@@ -12,7 +12,9 @@ which consists of the following steps:
  to be tetrahedralized.
 
  Then, the nodes are processed in a random order and inserted one at a
- time.
+ time. (After V3.3.4, more than 100 nodes are inserted in a BRIO
+ order, in 2D and 3D: random rounds, each sorted along a Morton curve;
+ see the 2D section at the end, and **old_order** on the connect page.)
 
  To insert node n+1:
 
