@@ -4,7 +4,7 @@ test_improve_tets -- the command improve_tets (Oct 2026)
 QUICK START
 
   sh run_improve_tests.sh [path-to-lagrit]     6 decks, about 15 s
-  open logs/summary.html
+  open summary.html
 
 WHAT improve_tets DOES
 
@@ -71,6 +71,6 @@ RESULTS (Oct 27 2026, Linux, GCC 14)
 FILES
 
   run_improve_tests.sh   runner (work/, logs/; WORK= and LOGS= may change them)
-  check_improve.py       checks, logs/summary.html
+  check_improve.py       checks, summary.html
   it_plane_field.mlgi    the graded h field of it02
   it01-it06 *.lgi        the decks

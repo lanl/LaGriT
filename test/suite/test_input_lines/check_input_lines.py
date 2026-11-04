@@ -27,6 +27,22 @@ import sys
 E = html.escape
 
 
+def about():
+    """{deck: what it holds}, from the list in make_input_lines.py"""
+    out, cur = {}, None
+    src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "make_input_lines.py")).read()
+    for l in src.split('"""')[1].split("\n"):
+        m = re.match(r"^  (il\d\d_\w+)\s+(.*)$", l)
+        if m:
+            cur = m.group(1)
+            out[cur] = m.group(2).strip()
+        elif cur and l.startswith("      ") and l.strip():
+            out[cur] += " " + l.strip()
+        else:
+            cur = None
+    return out
+
+
 def main(work, logdir):
     exp = json.load(open(os.path.join(work, "expect.json")))
     rows = []
@@ -67,6 +83,7 @@ def main(work, logdir):
         print("  %-4s  %s%s" % (res, deck, ("  " + "; ".join(fails[:3])) if fails else ""))
     with open(os.path.join(logdir, "table.txt"), "w") as f:
         f.writelines("%s %s\n" % (d, r) for d, r, _, _, _ in rows)
+    ABOUT = about()
     o = ["""<!doctype html><html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>input line limits</title>
 <style>body{font-family:-apple-system,Helvetica,Arial,sans-serif;margin:16px;max-width:1100px;color:#1f2328;background:#fff}
@@ -80,10 +97,14 @@ padding:3px 6px;text-align:left;vertical-align:top}th{background:#f6f8fa}.PASS{c
 for a command joined from &amp; continuation lines, it is an ERROR: the command is skipped, never cut or run in part,
 its continuation lines are skipped with it, and LaGriT goes on with the next command. A word token over 32 characters
 is cut to 32 with a WARNING. Each deck below says what it holds; the messages are LaGriT's own.</p>
+<p><b>What it does:</b> the decks are written by make_input_lines.py (they hold lines of exact lengths, up to a million
+characters). Each one makes small mesh objects with commands of a given length; the checker reads LaGriT's output for the
+NOTE, ERROR and WARNING messages and for which mesh objects exist at the end (a skipped command makes none). No mesh is
+drawn: these tests are about reading command lines.</p>
 <table><tr><th>deck</th><th>result</th><th>mesh objects made / not made</th><th>LaGriT's messages</th></tr>"""]
     for d, r, fails, msgs, e in rows:
-        o.append('<tr><td>%s</td><td class="%s">%s</td><td>%s<br><i>not:</i> %s</td><td><pre>%s</pre>%s</td></tr>'
-                 % (E(d), r, r, E(", ".join(e["mo"])), E(", ".join(e["no_mo"]) or "-"),
+        o.append('<tr><td>%s<details><summary>What it does</summary>%s</details></td><td class="%s">%s</td><td>%s<br><i>not:</i> %s</td><td><pre>%s</pre>%s</td></tr>'
+                 % (E(d), E(ABOUT.get(d, "")), r, r, E(", ".join(e["mo"])), E(", ".join(e["no_mo"]) or "-"),
                     E("\n".join(msgs) or "(none)"),
                     "".join('<div class="FAIL">%s</div>' % E(x) for x in fails)))
     o.append("</table></body></html>")

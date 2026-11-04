@@ -333,7 +333,6 @@ def main():
     for t in table:
         print(t)
     print()
-    print("summary page: logs/summary.html")
     print(summary)
 
     write_page(os.path.join(logdir, "summary.html"), rows, info, summary,

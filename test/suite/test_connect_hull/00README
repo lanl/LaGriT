@@ -1,0 +1,41 @@
+test_connect_hull -- 3D connect: fill to the convex hull (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_connect_hull_tests.sh [path-to-lagrit]   18 decks, about 20 s
+  open summary.html
+
+WHAT IS TESTED
+
+  After the enclosing tetrahedron is removed, 3D connect adds the
+  Delaunay tets between the mesh and the convex hull of the points
+  (src/lg_connect3d_hull.c). Six point sets, each connected with plain
+  connect, connect / exact and connect / nohull (no fill, the old
+  behaviour, as the baseline):
+
+    rnd    2000 random points in the unit cube
+    grad   2000 points crowded toward x = 0
+    thin   2000 random points in a 100 x 1 x 1 box
+    utm    2000 random points in a 100 m cube at UTM-sized x and y
+    jit    a 10 x 10 x 10 grid moved by up to 1e-6
+    box    an exact 10 x 10 x 10 grid
+
+  Checks, against the input coordinates (17 digits), exact rationals
+  where floating point cannot decide:
+    valid     every tet positively oriented, no face in 3 or more tets
+    missing   the share of the convex hull's volume (an independent
+              incremental hull) the tets do not cover
+    open      boundary faces with a point outside them
+    nonDel    connect / exact: faces not Delaunay
+
+PASS
+  valid; with the fill missing <= 1e-6 (pockets flatter than 1e-6 of
+  their size are left open by design: the jittered grid's faces); with
+  exact also nonDel = 0. Without the fill (nohull) the missing share is
+  1.3% (rnd), 1.7% (grad), 7.7% (thin), 1.5% (utm).
+
+FILES
+  make_connect_hull.py   point sets, decks, work/expect.json
+  check_connect_hull.py  judges them; summary.html
+  run_connect_hull_tests.sh

@@ -33,6 +33,91 @@ from fractions import Fraction as Fr
 
 E = html.escape
 
+# ---- small SVG helpers (standard library only; copied into each checker) ----
+def svg_bars(title, labels, series, colors, width=560, height=220, logy=False, unit=""):
+    """grouped bar chart: labels on x, series = [(name, [values])]"""
+    import math
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    L, R, T, B = 48, 12, 28, 58
+    W, H = width - L - R, height - T - B
+    vals = [v for _, vs in series for v in vs if v is not None]
+    vmax = max([v for v in vals] + [1e-30])
+    if logy:
+        pos = [v for v in vals if v and v > 0]
+        lo = 10 ** math.floor(math.log10(min(pos))) if pos else 1.0
+        hi = 10 ** math.ceil(math.log10(vmax)) if vmax > 0 else 10.0
+        if hi <= lo: hi = lo * 10
+        def Y(v):
+            if not v or v <= 0: return T + H
+            return T + H - H * (math.log10(v) - math.log10(lo)) / (math.log10(hi) - math.log10(lo))
+        ticks = [10 ** k for k in range(int(round(math.log10(lo))), int(round(math.log10(hi))) + 1)]
+    else:
+        hi = vmax * 1.1 if vmax > 0 else 1.0
+        def Y(v): return T + H - H * (v or 0) / hi
+        step = 10 ** math.floor(math.log10(hi)) if hi > 0 else 1
+        while hi / step > 6: step *= 2
+        ticks = [k * step for k in range(0, int(hi / step) + 1)]
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:11px sans-serif">' % (width, height, width),
+         '<text x="%d" y="16" font-weight="600">%s</text>' % (L, E2(title))]
+    for t in ticks:
+        y = Y(t)
+        o.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" stroke="#d0d7de"/>' % (L, L + W, y, y))
+        o.append('<text x="%d" y="%.1f" text-anchor="end" fill="#57606a">%s</text>' % (L - 4, y + 4, ("%g" % t) + unit))
+    n, k = len(labels), len(series)
+    gw = W / max(n, 1)
+    bw = gw * 0.8 / max(k, 1)
+    for i, lab in enumerate(labels):
+        for j, (name, vs) in enumerate(series):
+            v = vs[i]
+            x = L + i * gw + gw * 0.1 + j * bw
+            y = Y(v)
+            o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"><title>%s: %s</title></rect>'
+                     % (x, y, bw - 1, T + H - y, colors[j], E2(name), E2(v)))
+        o.append('<text x="%.1f" y="%d" text-anchor="end" transform="rotate(-30 %.1f %d)">%s</text>'
+                 % (L + i * gw + gw / 2, T + H + 14, L + i * gw + gw / 2, T + H + 14, E2(lab)))
+    for j, (name, _) in enumerate(series):
+        o.append('<rect x="%d" y="%d" width="10" height="10" fill="%s"/><text x="%d" y="%d">%s</text>'
+                 % (L + W - 150, 6 + 13 * j, colors[j], L + W - 136, 15 + 13 * j, E2(name)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
+def svg_plot2d(title, segs=(), pts=(), circles=(), width=260, height=260, pad=0.08, note=""):
+    """segs: [(x1,y1,x2,y2,color,widthpx)], pts: [(x,y,color,rpx,label)],
+    circles: [(cx,cy,r,color)]; equal axes, fitted to everything"""
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    xs = [s[0] for s in segs] + [s[2] for s in segs] + [p[0] for p in pts] + \
+         [c[0] - c[2] for c in circles] + [c[0] + c[2] for c in circles]
+    ys = [s[1] for s in segs] + [s[3] for s in segs] + [p[1] for p in pts] + \
+         [c[1] - c[2] for c in circles] + [c[1] + c[2] for c in circles]
+    if not xs:
+        xs, ys = [0, 1], [0, 1]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    span = max(x1 - x0, y1 - y0) or 1.0
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    T = 22
+    s = (min(width, height - T) * (1 - 2 * pad)) / span
+    def P(x, y):
+        return width / 2 + (x - cx) * s, T + (height - T) / 2 - (y - cy) * s
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:10px sans-serif;background:#fff">'
+         % (width, height, width), '<text x="4" y="14" font-weight="600">%s</text>' % E2(title)]
+    for (x, y, r, col) in circles:
+        X, Y = P(x, y)
+        o.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="%s" stroke-dasharray="3 2"/>' % (X, Y, r * s, col))
+    for (xa, ya, xb, yb, col, w) in segs:
+        A, B = P(xa, ya), P(xb, yb)
+        o.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s"/>' % (A[0], A[1], B[0], B[1], col, w))
+    for p in pts:
+        X, Y = P(p[0], p[1])
+        o.append('<circle cx="%.1f" cy="%.1f" r="%s" fill="%s"/>' % (X, Y, p[3], p[2]))
+        if len(p) > 4 and p[4]:
+            o.append('<text x="%.1f" y="%.1f">%s</text>' % (X + 4, Y - 3, E2(p[4])))
+    if note:
+        o.append('<text x="4" y="%d" fill="#57606a">%s</text>' % (height - 4, E2(note)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
 
 def read_avs(fn):
     with open(fn) as f:
@@ -93,6 +178,7 @@ def check(X0, X, T):
         for j in range(4):
             faces.setdefault(frozenset(t[:j] + t[j + 1:]), []).append((k, t[j]))
     nondel = 0
+    badf = []
     for f, L in faces.items():
         if len(L) != 2:
             continue
@@ -104,9 +190,34 @@ def check(X0, X, T):
             continue
         if insphere(*(xf(i) for i in list(T[k]) + [z])) > 0:
             nondel += 1
+            badf.append(tuple(f))
     used = set(i for t in T for i in t)
     missing = sum(1 for i in range(len(X0)) if i not in used)
+    PIC[0] = (X, [i for i in range(len(X0)) if i not in used], list(range(len(X0), len(X))), badf)
     return dict(tets=len(T), verts=len(X), missing=missing, nonDel=nondel, inverted=inverted, flat_fp=flat_fp)
+
+
+PIC = [None]
+
+
+def picture(name):
+    """oblique view of the vertices: red the faces that are not Delaunay,
+    black crosses the input points left out, orange the points added"""
+    if PIC[0] is None:
+        return ""
+    X, miss, add, badf = PIC[0]
+    def pr(p):
+        return (p[0] + 0.35 * p[2], p[1] + 0.22 * p[2])
+    pts = [pr(p) + ("#d0d7de", 1.2, "") for p in X]
+    segs = []
+    for f in badf[:3000]:
+        a, b, c = [pr(X[i]) for i in f]
+        segs += [(a[0], a[1], b[0], b[1], "#cf222e", 0.8), (b[0], b[1], c[0], c[1], "#cf222e", 0.8),
+                 (c[0], c[1], a[0], a[1], "#cf222e", 0.8)]
+    pts += [pr(X[i]) + ("#bf8700", 2.5, "") for i in add]
+    pts += [pr(X[i]) + ("#1f2328", 3.5, "") for i in miss]
+    note = "red %d not Delaunay, orange %d added, black %d out" % (len(badf), len(add), len(miss))
+    return svg_plot2d(name, segs, pts, (), 250, 250, pad=0.04, note=note)
 
 
 def main(work, logdir):
@@ -125,6 +236,7 @@ def main(work, logdir):
             X, T = read_avs(mesh)
             r = check(X0, X, T) if T else dict(tets=0, verts=len(X), missing=len(X0), nonDel=0, inverted=0, flat_fp=0)
             r["added"] = r["verts"] - e["n"]
+            r["pic"] = picture("%s, %s" % (e["set"], "connect / exact" if e["mode"] == "exact" else "plain connect"))
             if r["inverted"]:
                 fails.append("%d tets inverted or flat (exactly)" % r["inverted"])
             if e["mode"] == "exact":
@@ -143,7 +255,7 @@ def main(work, logdir):
         with open(os.path.join(logdir, deck + ".check"), "w") as f:
             f.write("result %s\n" % res)
             if r:
-                f.write("".join("%s %s\n" % kv for kv in sorted(r.items())))
+                f.write("".join("%s %s\n" % kv for kv in sorted(r.items()) if kv[0] != "pic"))
             f.writelines("fail %s\n" % x for x in fails)
         rows.append((deck, res, fails, e, r))
         print("  %-4s  %-24s %s%s" % (res, deck, " ".join("%s=%s" % (k, r[k]) for k in
@@ -166,17 +278,38 @@ coordinates with exact rational arithmetic. <i>added</i>: points connect added; 
 (dudded); <i>nonDel</i>: interior faces that are not Delaunay; <i>inverted</i>: tets inverted or flat, exactly;
 <i>flat fp</i>: tets valid exactly but of zero or negative volume in floating point. connect / exact must add and
 miss nothing and be exactly Delaunay; plain connect must give valid tets, and its other numbers are the baseline.</p>
+"""]
+    sets = []
+    for d, s_, f_, e, r in rows:
+        if e["set"] not in sets:
+            sets.append(e["set"])
+    def val(st, mode, key):
+        for d, s_, f_, e, r in rows:
+            if e["set"] == st and e["mode"] == mode and r:
+                return r[key]
+        return 0
+    o.append(svg_bars("Faces not Delaunay (log scale; 0 drawn as no bar)", sets,
+                      [("plain connect", [val(t, "tol", "nonDel") for t in sets]),
+                       ("connect / exact", [val(t, "exact", "nonDel") for t in sets])],
+                      ["#cf222e", "#1a7f37"], width=760, height=260, logy=True))
+    o.append(svg_bars("Points added by connect, and input points left out (plain connect)", sets,
+                      [("added", [val(t, "tol", "added") for t in sets]),
+                       ("left out", [val(t, "tol", "missing") for t in sets])],
+                      ["#bf8700", "#1f2328"], width=760, height=240))
+    o.append("""<p>The pictures show each mesh's vertices in an oblique view: in red the faces that are not Delaunay (the
+vertex across them is strictly inside the circumsphere), in orange the points connect added, in black the input
+points it left out. connect / exact must show none of them.</p>
 <table><tr><th>deck</th><th>result</th><th>points</th><th>tets</th><th>added</th><th>missing</th><th>nonDel</th>
-<th>inverted</th><th>flat fp</th><th class="l">notes</th></tr>"""]
+<th>inverted</th><th>flat fp</th><th class="l">notes</th><th>picture</th></tr>""")
     for d, s, fails, e, r in rows:
-        cells = "".join('<td%s>%s</td>' % (' class="bad"' if r and r[k] and (e["mode"] == "exact" or k == "inverted")
+        cells = "".join('<td%s>%s</td>' % (' class="bad"' if r and k != "tets" and r[k] and (e["mode"] == "exact" or k == "inverted")
                         and not (k == "flat_fp" and e["flat_known"]) else "", r[k] if r else "-")
                         for k in ("tets", "added", "missing", "nonDel", "inverted", "flat_fp"))
-        o.append('<tr><td>%s<details><summary>What this tests</summary>%s</details></td><td class="%s">%s</td>'
-                 '<td>%d</td>%s<td class="l">%s</td></tr>'
+        o.append('<tr><td>%s<details><summary>What it does</summary>%s</details></td><td class="%s">%s</td>'
+                 '<td>%d</td>%s<td class="l">%s</td><td style="min-width:250px">%s</td></tr>'
                  % (E(d), E(e["about"]), s, s, e["n"], cells,
                     "".join('<div class="FAIL">%s</div>' % E(x) for x in fails) or
-                    ("known: flat to round-off" if e["flat_known"] else "")))
+                    ("known: flat to round-off" if e["flat_known"] else ""), r.get("pic", "") if r else ""))
     o.append("</table></body></html>")
     open(os.path.join(logdir, "summary.html"), "w").write("\n".join(o) + "\n")
     n = sum(s == "PASS" for _, s, _, _, _ in rows)

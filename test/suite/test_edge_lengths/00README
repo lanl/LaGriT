@@ -4,7 +4,7 @@ test_edge_lengths -- cmo / addatt / edge_lengths_min, _max, _mean (Oct 2026)
 QUICK START
 
   sh run_edge_lengths_tests.sh [path-to-lagrit]     8 decks, about 1 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 
@@ -42,6 +42,6 @@ FILES
 
   run_edge_lengths_tests.sh   runner (work/, logs/)
   make_edge_inputs.py         the meshes
-  check_edge_lengths.py       checks, logs/summary.html (pictures with
+  check_edge_lengths.py       checks, summary.html (pictures with
                               ../test_lagrit_upstream/draw_meshes.py)
   el01-el08 *.lgi             the decks

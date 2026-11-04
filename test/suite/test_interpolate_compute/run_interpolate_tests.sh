@@ -13,6 +13,10 @@
 # POSIX sh. Python 3, standard library only.
 #######################################################################
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 # Default: the lagrit built in this LaGriT checkout (build/lagrit), else
 # lagrit on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
@@ -76,6 +80,6 @@ cp demo/demo.lgi $WORK/
 cp $WORK/demo.out $LOGDIR/demo.stdout
 python3 -I demo/make_demo_page.py $WORK $LOGDIR || echo "demo page not drawn (see logs/demo.stdout)"
 echo
-echo "summary page: logs/summary.html   demonstrations: logs/demo.html"
+echo "demonstrations: logs/demo.html"
 echo "pass $NPASS   known $NKNOWN   fail $NFAIL   (of $((NPASS + NKNOWN + NFAIL)) decks)"
 [ "$NFAIL" -eq 0 ]

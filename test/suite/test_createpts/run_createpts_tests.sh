@@ -34,6 +34,10 @@
 # POSIX sh. Python 3, standard library only.
 #######################################################################
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 # Default: the lagrit built in this LaGriT checkout (build/lagrit), else
 # lagrit on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
@@ -307,7 +311,6 @@ JS
 } > $HTML
 
 echo
-echo "summary page: $HTML"
 echo "$TALLY"
 [ "$FAIL" -eq 0 ] || exit 1
 exit 0

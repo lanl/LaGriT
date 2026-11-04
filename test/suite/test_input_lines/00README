@@ -4,7 +4,7 @@ test_input_lines -- how LaGriT reads its input lines (Oct 2026)
 QUICK START
 
   sh run_input_lines_tests.sh [path-to-lagrit]     10 decks, about 2 s
-  open logs/summary.html
+  open summary.html
 
 THE RULES TESTED
 
@@ -71,4 +71,4 @@ FILES
 
   run_input_lines_tests.sh  runner (work/, logs/)
   make_input_lines.py       the decks and expect.json
-  check_input_lines.py      checks, logs/summary.html
+  check_input_lines.py      checks, summary.html

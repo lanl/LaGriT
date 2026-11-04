@@ -31,7 +31,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   To re-check outputs already in this directory without running LaGriT:
 
@@ -213,7 +213,7 @@ READING THE PICTURE
 OUTPUT
 -----------------------------------------------------------------------
 
-  logs/summary.html          everything on one page
+  summary.html          everything on one page
   logs/table.txt             the results table
   logs/<row>.keys            every number each row printed
   logs/case_01.svg           the case picture

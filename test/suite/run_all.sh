@@ -13,7 +13,7 @@
 # Exit status: 0 if every suite's runner exits 0, 1 otherwise.
 # Full output of every runner: run_all.log (overwritten each time).
 # One page for the whole run: summary.html (overwritten each time),
-# linking to every suite's own logs/summary.html.
+# linking to every suite's own summary.html (in the suite's folder).
 #
 # POSIX sh.
 
@@ -91,6 +91,7 @@ test_input_lines:run_input_lines_tests.sh:2
 test_connect_options:run_connect_options_tests.sh:2
 test_connect_exact:run_connect_exact_tests.sh:40
 test_predicates:run_predicates_tests.sh:10
+test_connect_hull:run_connect_hull_tests.sh:20
 test_connect_timing:run_connect_timing.sh:290:big
 "
 
@@ -168,7 +169,7 @@ for entry in $SUITES; do
     rc=$?
     t1=$(date +%s)
     if [ $rc -eq 0 ]; then res=PASS; else res=FAIL; NFAIL=$((NFAIL + 1)); fi
-    page="$dir/logs/summary.html"
+    page="$dir/summary.html"
     [ -f "$TOP/$page" ] || page="(no page; see $dir/logs/)"
     printf '%-30s %-6s %5ss  %s\n' "$dir" "$res" $((t1 - t0)) "$page"
     ROWS="$ROWS$dir|$res|$((t1 - t0))|$tstart
@@ -221,8 +222,8 @@ html_escape () { sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g'; }
         [ -n "$d" ] || continue
         # the suite's own page opens in a new tab; the suite name jumps
         # to (and opens) its runner output further down this page
-        if [ -f "$TOP/$d/logs/summary.html" ]; then
-            link="<a href=\"$d/logs/summary.html\" target=\"_blank\" rel=\"noopener\">$d/logs/summary.html</a>"
+        if [ -f "$TOP/$d/summary.html" ]; then
+            link="<a href=\"$d/summary.html\" target=\"_blank\" rel=\"noopener\">$d/summary.html</a>"
         else
             link="(no page: see the runner output below, or <a href=\"$d/logs/\" target=\"_blank\" rel=\"noopener\">$d/logs/</a>)"
         fi

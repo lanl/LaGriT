@@ -1,0 +1,1 @@
+runs the original 2D Poisson disk deck test_Poisson_2D.lgi unchanged: it meshes a unit square three times (uniform h = 0.05, and an h field fine along x = 0 with two widths). The checker reads each mesh: points inside the square, a valid mesh, and the spacing against the h field and the triangle quality, measured. Each mesh has its picture.

@@ -25,6 +25,7 @@ test_input_lines/work/
 test_connect_options/work/
 test_connect_exact/work/
 test_predicates/work/
+test_connect_hull/work/
 logs/
 out_*
 lagrit.out
@@ -32,6 +33,7 @@ lagrit.log
 run_all.log
 run_all_times.txt
 /summary.html
+test_*/summary.html
 
 # ---- outputs named by a deck (not out_*)
 test_poisson_2d/output0*.inp

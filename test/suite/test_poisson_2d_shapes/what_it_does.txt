@@ -1,0 +1,1 @@
+each deck runs createpts / poisson_disk / 2d_polygon on a convex shape (square, hexagon, circle, two ellipses), with uniform or variable h, and connects the points. The checker reads the mesh: every point inside the polygon, a valid mesh, and the spacing and triangle quality measured. Each test has its picture.

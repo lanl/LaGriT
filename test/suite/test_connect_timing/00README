@@ -7,7 +7,7 @@ QUICK START
   BIG=1 run_connect_timing.sh             1000 to 256000 vertices,
                                             about 5 minutes
   run_connect_timing.sh                    1000 to 16000, about 25 s
-  open logs/summary.html
+  open summary.html
 
   run_all.sh SKIPS this suite; BIG=1 run_all.sh runs it.
 
@@ -70,7 +70,7 @@ FILES
                          LaGriT (work/d<dim>_n<N>_<order>/: decks, logs;
                          work/pic_d<dim>_<order>/: the picture meshes)
   check_connect.py       checks, growth fits, pictures, logs/table.txt
-                         and logs/summary.html. Its opening comment
+                         and summary.html. Its opening comment
                          defines every check.
   logs/results.txt       one line per case (times, cells, volumes)
 

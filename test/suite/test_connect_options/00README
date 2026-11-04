@@ -4,7 +4,7 @@ test_connect_options -- the options of connect, 2D and 3D (Nov 2026)
 QUICK START
 
   sh run_connect_options_tests.sh [path-to-lagrit]   20 decks, about 2 s
-  open logs/summary.html
+  open summary.html
 
 THE RULES TESTED
 
@@ -48,5 +48,5 @@ FILES
 
   make_connect_options.py   writes the decks and work/expect.json
                             (what each deck tests, and what V3.3.4 did)
-  check_connect_options.py  judges them; logs/summary.html
+  check_connect_options.py  judges them; summary.html
   run_connect_options_tests.sh

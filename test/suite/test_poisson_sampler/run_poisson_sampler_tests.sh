@@ -10,6 +10,10 @@
 #
 # POSIX sh. Python 3 standard library only (set PYTHON to override).
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 CHECK_ONLY=0
 if [ "$1" = "--check-only" ]; then
     CHECK_ONLY=1
@@ -126,6 +130,25 @@ done
 # ----------------------------------------------------------------------
 # one summary page
 # ----------------------------------------------------------------------
+# what a row tests, from its name (U2_s1 = test U, 2D, seed 1); 00README
+about_row () {
+    case $1 in
+        U2*) w="uniform h = 0.02 in the unit square" ;;
+        U3*) w="uniform h = 0.05 in the unit cube" ;;
+        L2*) w="h = 0.01 + 0.04 y in the unit square" ;;
+        L3*) w="h = 0.03 + 0.12 y in the unit cube" ;;
+        V2*) w="a fine band (h 0.01) at y = 9 in a 0.205 x 10 strip, h 0.05 elsewhere" ;;
+        V3*) w="a fine band (h 0.03) at y = 9 in a 1 x 10 x 1 box, h 0.15 elsewhere" ;;
+        *) w="" ;;
+    esac
+    case $1 in
+        U*) c="no interior pair closer than h (the neighbour search stopped one cell short on the + side)" ;;
+        L*) c="no interior pair closer than h with h varying (also the lookup's cell size)" ;;
+        V*) c="no pair closer than 0.95 h and no hole wider than 2 h (the h lookup drifted toward +y)" ;;
+        *) c="" ;;
+    esac
+    echo "seed ${1##*_s}: $w. Checks: $c."
+}
 {
     echo '<!doctype html><html><head><meta charset="utf-8">'
     echo "<title>$SUITE summary</title>"
@@ -134,15 +157,18 @@ done
     echo '.FAIL{color:#c00;font-weight:bold}.PASS{color:#070}td{padding:2px 10px 2px 0}</style></head><body>'
     echo '<p style="margin:0 0 8px;font-size:13px"><a href="../../summary.html">&larr; all suites (top-level summary)</a></p>'
     echo "<h1>$SUITE</h1><p>$(date)  -  lagrit $LAGRIT</p>"
-    echo '<p>Expected: PASS (the fixed sampler). The original sampler FAILs 16 of 18 rows; see 00README.</p><table>'
+    echo '<p>Expected: PASS (the fixed sampler). The original sampler FAILs 16 of 18 rows; see 00README.</p>'
+    echo '<p><b>What it does:</b> six small decks, each aimed at one fault found in the Poisson disk samplers, in 2D and 3D, three seeds each (18 point sets). Each deck runs <code>createpts / poisson_disk</code> with an h field the checker knows exactly (uniform, linear in y, or a narrow fine band at y = 9 in a box 10 long), dumps the vertices, and the checker measures every interior pair against h there and looks for holes. Each row has a picture of its point set.</p>'
+    echo '<table><tr><th>row</th><th>result</th><th>what it does</th><th>summary</th></tr>'
     for id in $($PY $CHECK ids $CASES); do
         res=$(sed -n 's/^result //p' logs/$id.keys | tail -1)
         sum=$(sed -n 's/^summary //p' logs/$id.keys | sed 's/&/\&amp;/g; s/</\&lt;/g')
-        echo "<tr><td><a href=\"#$id\">$id</a></td><td class=\"${res:-FAIL}\">${res:-FAIL}</td><td>$sum</td></tr>"
+        about=$(about_row $id)
+        echo "<tr><td><a href=\"#$id\">$id</a></td><td class=\"${res:-FAIL}\">${res:-FAIL}</td><td style=\"max-width:380px\">$about</td><td>$sum</td></tr>"
     done
     echo '</table>'
     for id in $($PY $CHECK ids $CASES); do
-        echo "<h2 id=\"$id\">$id</h2><pre>"
+        echo "<h2 id=\"$id\">$id</h2><p>$(about_row $id)</p><pre>"
         grep -v '^summary ' logs/$id.keys | sed 's/&/\&amp;/g; s/</\&lt;/g'
         echo '</pre>'
         [ -f logs/$id.svg ] && cat logs/$id.svg
@@ -151,7 +177,6 @@ done
 } > logs/summary.html
 
 echo
-echo "summary page: logs/summary.html"
 if [ $NFAIL -gt 0 ]; then
     echo "$NFAIL row(s) FAILED"
     exit 1

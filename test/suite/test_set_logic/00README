@@ -4,7 +4,7 @@ test_set_logic -- eltset and pset union / inter / not (Oct 2026)
 QUICK START
 
   sh run_set_logic_tests.sh [path-to-lagrit]     2 decks, about 1 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 
@@ -41,4 +41,4 @@ FILES
   run_set_logic_tests.sh   runner (work/, logs/)
   sl01_eltset.lgi          eltset deck
   sl02_pset.lgi            pset deck
-  check_set_logic.py       checks, logs/summary.html, logs/table.txt
+  check_set_logic.py       checks, summary.html, logs/table.txt

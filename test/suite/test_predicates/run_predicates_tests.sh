@@ -8,6 +8,10 @@
 # Python 3 (standard library), a C compiler with __int128 (gcc, clang).
 # WORK and LOGS may be set to other folders. No lagrit needed.
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 cd "$(dirname "$0")" || exit 2
 if [ ! -f "./run_predicates_tests.sh" ] || [ "$(pwd)" = "$HOME" ] || [ "$(pwd)" = / ]; then
     echo "$0: not in its own directory ($(pwd)); nothing deleted" >&2
@@ -24,5 +28,4 @@ $CC -O2 -I"$SRC" -o "$WORK/pred2d" pred2d_driver.c "$SRC/lg_predicates2d.c" -lm 
 python3 -I check_predicates.py "$WORK" "$LOGDIR"
 rc=$?
 echo
-echo "summary page: $LOGDIR/summary.html"
 exit $rc

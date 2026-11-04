@@ -1,0 +1,1 @@
+each deck connects a 2D point set (400 points moved far from the origin, into other planes, graded, stretched, jittered, on a lattice) into triangles; the checker reads the mesh: every triangle Delaunay (exact arithmetic), the convex hull filled, no point left out. Each deck has its picture.

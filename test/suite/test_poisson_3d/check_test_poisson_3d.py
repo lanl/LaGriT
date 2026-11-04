@@ -1454,6 +1454,40 @@ def row_field_distance(R, m, att, case, fd):
              % (m["nn"], fmt(worst_a), nchk, fmt(worst_b)))
 
 
+def about(cases, row):
+    """one line for the summary page: what this row checks"""
+    if row == "run":
+        return ("LaGriT ran the deck: exit status 0, one createpts echo and one clean "
+                "poisson_disk exit per case, no ERROR or WARNING lines")
+    if row == "deck":
+        return ("the deck's define lines agree with the facts in the .cases file "
+                "(catches the deck and the checker drifting apart)")
+    if row == "merge":
+        return "the merged dump has as many vertices and tets as the cases together"
+    if row == "field":
+        return ("the h field LaGriT dumped agrees with the formula (SKIP when the "
+                "deck's dump line is commented out, the default)")
+    c = next((c for c in cases["cases"] if "case_" + c["id"] == row), None)
+    if c is None:
+        return ""
+    f = c.get("field")
+    if f == "uniform":
+        hs = "uniform h = %g" % c["h"]
+    elif f == "radial":
+        hs = ("h growing with distance from the vertical line x = %g, y = %g: "
+              "%g to %g" % (c["line_x"], c["line_y"], c["floor"], c["ceil"]))
+    elif f == "distance":
+        hs = ("h growing with distance from the vertices of %s: %g to %g"
+              % (c.get("src", "?"), c["floor"], c["ceil"]))
+    else:
+        hs = "h = %g" % c["h"]
+    bs = ("with an edge buffer of %g h (box faces sampled first, the interior kept "
+          "that far from them)" % c["buf"]) if c.get("ifbuf") else "no edge buffer"
+    return ("createpts / poisson_disk / 3d_box, %s, %s; then connect. Checks the tet mesh "
+            "(and .stor): vertices in the box, no duplicates, no inverted tet, conforming"
+            % (hs, bs))
+
+
 def main(argv):
     if len(argv) < 3:
         sys.exit(__doc__)
@@ -1471,6 +1505,8 @@ def main(argv):
         print(" ".join(names))
     elif mode == "ids":
         print(" ".join(c["id"] for c in cases["cases"]))
+    elif mode == "about":
+        print(about(cases, argv[3]))
     elif mode == "run":
         row_run(cases, argv[3], argv[4], argv[5])
     elif mode == "deck":

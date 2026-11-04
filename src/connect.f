@@ -290,7 +290,7 @@ C
       implicit none
  
       integer nwds,ierr1
-      integer ierr_imt,inoadd,ichkint
+      integer ierr_imt,inoadd,ichkint,ierrhull
       integer imsgin(nwds), msgtype(nwds)
       real*8 xmsgin(nwds)
       character*32 cmsgin(nwds)
@@ -1076,6 +1076,20 @@ C     RELEASE THE TEMPORARY MEMORY BACK TO THE MEMORY MANAGER.
 C
       call mmrelprt(blkname,icscode)
 C
+C
+C     ******************************************************************
+C
+C     FILL TO THE CONVEX HULL: the tets lost with the enclosing tet
+C     (connect3d_hull_lg, lg_connect3d_hull.c). The arrays may move.
+C
+      call connect3d_hull_lg(cmo,ntets,ierrhull)
+      call cmo_get_info('itet',cmo,ipitet,leni,icmotype,ier)
+      call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ier)
+      call cmo_get_info('itp1',cmo,ipitp1,leni,icmotype,ier)
+      call cmo_get_info('imt1',cmo,ipimt1,leni,icmotype,ier)
+      call cmo_get_info('xic',cmo,ipxic,leni,icmotype,ier)
+      call cmo_get_info('yic',cmo,ipyic,leni,icmotype,ier)
+      call cmo_get_info('zic',cmo,ipzic,leni,icmotype,ier)
 C
 C     ******************************************************************
 C

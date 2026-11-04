@@ -329,6 +329,147 @@ def check(deck, work):
     return bad, rows, {"report": rep, "before": s0, "after": s1}
 
 
+# ---- small SVG helpers (standard library only; copied into each checker) ----
+def svg_bars(title, labels, series, colors, width=560, height=220, logy=False, unit=""):
+    """grouped bar chart: labels on x, series = [(name, [values])]"""
+    import math
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    L, R, T, B = 48, 12, 28, 58
+    W, H = width - L - R, height - T - B
+    vals = [v for _, vs in series for v in vs if v is not None]
+    vmax = max([v for v in vals] + [1e-30])
+    if logy:
+        pos = [v for v in vals if v and v > 0]
+        lo = 10 ** math.floor(math.log10(min(pos))) if pos else 1.0
+        hi = 10 ** math.ceil(math.log10(vmax)) if vmax > 0 else 10.0
+        if hi <= lo: hi = lo * 10
+        def Y(v):
+            if not v or v <= 0: return T + H
+            return T + H - H * (math.log10(v) - math.log10(lo)) / (math.log10(hi) - math.log10(lo))
+        ticks = [10 ** k for k in range(int(round(math.log10(lo))), int(round(math.log10(hi))) + 1)]
+    else:
+        hi = vmax * 1.1 if vmax > 0 else 1.0
+        def Y(v): return T + H - H * (v or 0) / hi
+        step = 10 ** math.floor(math.log10(hi)) if hi > 0 else 1
+        while hi / step > 6: step *= 2
+        ticks = [k * step for k in range(0, int(hi / step) + 1)]
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:11px sans-serif">' % (width, height, width),
+         '<text x="%d" y="16" font-weight="600">%s</text>' % (L, E2(title))]
+    for t in ticks:
+        y = Y(t)
+        o.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" stroke="#d0d7de"/>' % (L, L + W, y, y))
+        o.append('<text x="%d" y="%.1f" text-anchor="end" fill="#57606a">%s</text>' % (L - 4, y + 4, ("%g" % t) + unit))
+    n, k = len(labels), len(series)
+    gw = W / max(n, 1)
+    bw = gw * 0.8 / max(k, 1)
+    for i, lab in enumerate(labels):
+        for j, (name, vs) in enumerate(series):
+            v = vs[i]
+            x = L + i * gw + gw * 0.1 + j * bw
+            y = Y(v)
+            o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"><title>%s: %s</title></rect>'
+                     % (x, y, bw - 1, T + H - y, colors[j], E2(name), E2(v)))
+        o.append('<text x="%.1f" y="%d" text-anchor="end" transform="rotate(-30 %.1f %d)">%s</text>'
+                 % (L + i * gw + gw / 2, T + H + 14, L + i * gw + gw / 2, T + H + 14, E2(lab)))
+    for j, (name, _) in enumerate(series):
+        o.append('<rect x="%d" y="%d" width="10" height="10" fill="%s"/><text x="%d" y="%d">%s</text>'
+                 % (L + W - 150, 6 + 13 * j, colors[j], L + W - 136, 15 + 13 * j, E2(name)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
+def svg_plot2d(title, segs=(), pts=(), circles=(), width=260, height=260, pad=0.08, note=""):
+    """segs: [(x1,y1,x2,y2,color,widthpx)], pts: [(x,y,color,rpx,label)],
+    circles: [(cx,cy,r,color)]; equal axes, fitted to everything"""
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    xs = [s[0] for s in segs] + [s[2] for s in segs] + [p[0] for p in pts] + \
+         [c[0] - c[2] for c in circles] + [c[0] + c[2] for c in circles]
+    ys = [s[1] for s in segs] + [s[3] for s in segs] + [p[1] for p in pts] + \
+         [c[1] - c[2] for c in circles] + [c[1] + c[2] for c in circles]
+    if not xs:
+        xs, ys = [0, 1], [0, 1]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    span = max(x1 - x0, y1 - y0) or 1.0
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    T = 22
+    s = (min(width, height - T) * (1 - 2 * pad)) / span
+    def P(x, y):
+        return width / 2 + (x - cx) * s, T + (height - T) / 2 - (y - cy) * s
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:10px sans-serif;background:#fff">'
+         % (width, height, width), '<text x="4" y="14" font-weight="600">%s</text>' % E2(title)]
+    for (x, y, r, col) in circles:
+        X, Y = P(x, y)
+        o.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="%s" stroke-dasharray="3 2"/>' % (X, Y, r * s, col))
+    for (xa, ya, xb, yb, col, w) in segs:
+        A, B = P(xa, ya), P(xb, yb)
+        o.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s"/>' % (A[0], A[1], B[0], B[1], col, w))
+    for p in pts:
+        X, Y = P(p[0], p[1])
+        o.append('<circle cx="%.1f" cy="%.1f" r="%s" fill="%s"/>' % (X, Y, p[3], p[2]))
+        if len(p) > 4 and p[4]:
+            o.append('<text x="%.1f" y="%.1f">%s</text>' % (X + 4, Y - 3, E2(p[4])))
+    if note:
+        o.append('<text x="4" y="%d" fill="#57606a">%s</text>' % (height - 4, E2(note)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
+def cut_picture(title, V, C, zc=0.5):
+    """the mesh cut by the plane z = zc: each tet's cross-section as a
+    polygon, grey, or red for a poor tet (a dihedral angle <= 10 or
+    >= 170 degrees)"""
+    segs, npoor = [], 0
+    for c in C:
+        P = [V[k] for k in c]
+        q = []
+        for a, b in ((0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)):
+            za, zb = P[a][2] - zc, P[b][2] - zc
+            if (za < 0) != (zb < 0):
+                t = za / (za - zb)
+                q.append((P[a][0] + t * (P[b][0] - P[a][0]), P[a][1] + t * (P[b][1] - P[a][1])))
+        if len(q) < 3:
+            continue
+        mx = sum(x for x, _ in q) / len(q)
+        my = sum(y for _, y in q) / len(q)
+        q.sort(key=lambda u: math.atan2(u[1] - my, u[0] - mx))
+        lo, hi, _ = angles(P)
+        poor = lo <= 10 or hi >= 170
+        npoor += poor
+        col, w = ("#cf222e", 1.4) if poor else ("#8c959f", 0.6)
+        for i in range(len(q)):
+            x1, y1 = q[i]; x2, y2 = q[(i + 1) % len(q)]
+            segs.append((x1, y1, x2, y2, col, w))
+    segs.sort(key=lambda s_: s_[4] == "#cf222e")   # red on top
+    return svg_plot2d(title, segs, (), (), 300, 300, pad=0.03,
+                      note="cut at z = %g; red: %d poor tets crossing it" % (zc, npoor))
+
+
+def angle_chart(Vb, Cb, Va, Ca):
+    bins = list(range(0, 75, 5))
+    def hist(V, C):
+        h = [0] * len(bins)
+        for c in C:
+            lo = angles([V[k] for k in c])[0]
+            h[min(int(lo // 5), len(bins) - 1)] += 1
+        return h
+    return svg_bars("Tets by their smallest dihedral angle (degrees)",
+                    ["%d-%d" % (b, b + 5) if b < 70 else "70+" for b in bins],
+                    [("before improve_tets", hist(Vb, Cb)), ("after", hist(Va, Ca))],
+                    ["#cf222e", "#1a7f37"], width=620, height=230)
+
+
+def pictures(deck, work):
+    tag = deck[:4]
+    fb, fa = (os.path.join(work, "%s_%s.inp" % (tag, w)) for w in ("before", "after"))
+    if tag == "it06" or not (os.path.isfile(fb) and os.path.isfile(fa)):
+        return ""
+    Vb, Cb = read_avs(fb)[:2]
+    Va, Ca = read_avs(fa)[:2]
+    return ('<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start">%s%s</div>%s'
+            % (cut_picture("before improve_tets", Vb, Cb), cut_picture("after", Va, Ca),
+               angle_chart(Vb, Cb, Va, Ca)))
+
+
 def main(work, logdir):
     decks = sorted(f for f in os.listdir(".") if f.startswith("it") and f.endswith(".lgi"))
     page, nfail = [], 0
@@ -349,6 +490,10 @@ def main(work, logdir):
                 f.write("lagrit %s\n" % l)
         print("%-24s %s%s" % (d[:-4], res, "" if not bad else "  (" + "; ".join(bad) + ")"))
         desc = " ".join(l[2:].strip() for l in open(d) if l.startswith("# ") and not l.startswith("# check:"))
+        try:
+            extra["pic"] = pictures(d, work)
+        except (OSError, ValueError, IndexError):
+            extra["pic"] = ""
         page.append((d[:-4], res, desc.split(".lgi", 1)[-1].strip(), bad, rows, extra, open(d).read()))
     write_page(os.path.join(logdir, "summary.html"), page)
     return 1 if nfail else 0
@@ -363,7 +508,15 @@ def write_page(path, page):
          "padding:8px;font-size:12px}</style></head><body><h1>test_improve_tets</h1>",
          "<p>The command <code>improve_tets</code> on 3D Poisson disk meshes: quality, validity, the box, "
          "the resolution, fixed boundary, pset, materials, refused commands. Run: <code>sh "
-         "run_improve_tests.sh [path-to-lagrit]</code>.</p><table><tr><th>deck</th><th>result</th>"
+         "run_improve_tests.sh [path-to-lagrit]</code>.</p>"
+         "<p><b>What it does:</b> each deck makes a 3D Poisson disk mesh of the unit box (uniform, or graded "
+         "toward the plane x = 0.5), dumps it, runs improve_tets (with the boundary fixed, on a pset only, "
+         "or with two materials in some decks), dumps it again, and checks the two meshes here: no tet "
+         "inverted, volume and vertex count unchanged, box faces kept, local spacing kept, poor tets gone. "
+         "it06 gives improve_tets commands it must refuse. The pictures cut each mesh with the plane "
+         "z = 0.5 (each tet crossing it drawn as its cross-section; red a tet with a dihedral angle "
+         "&lt;= 10 or &gt;= 170 degrees), before and after; the chart counts the tets by their smallest "
+         "dihedral angle.</p><table><tr><th>deck</th><th>result</th>"
          "<th>what</th></tr>"]
     for d, res, desc, bad, rows, extra, deck in page:
         h.append("<tr><td><a href='#%s'>%s</a></td><td class='%s'>%s</td><td>%s</td></tr>" % (d, d, res, res, e(desc)))
@@ -372,6 +525,7 @@ def write_page(path, page):
         h.append("<h2 id='%s'>%s <span class='%s'>%s</span></h2><p>%s</p>" % (d, d, res, res, e(desc)))
         if bad:
             h.append("<ul>%s</ul>" % "".join("<li>%s</li>" % e(b) for b in bad))
+        h.append(extra.get("pic", ""))
         h.append("<table>%s</table>" % "".join("<tr><td>%s</td><td>%s</td><td class='%s'>%s</td></tr>" % (
             e(r[0]), e(r[1]), "PASS" if r[2] else "FAIL", "ok" if r[2] else "WRONG") for r in rows))
         if extra.get("report"):

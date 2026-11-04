@@ -8,7 +8,7 @@ poor quality cells remain"; "examples that use the 3D Poisson Disk code")
 QUICK START
 
   sh run_crush_tests.sh [path-to-lagrit]     13 decks, about 15 s
-  open logs/summary.html
+  open summary.html
 
   Default lagrit: build/lagrit of this LaGriT checkout.
 
@@ -155,7 +155,7 @@ FILES
   make_inputs.py       planted and jittered lattice meshes
   crushlib.py          measures, classification, crush replay
   check_crush.py       checker; writes logs/<tag>.json and .check
-  make_page.py         logs/summary.html
+  make_page.py         summary.html
   ct_measure.mlgi      Carl's attributes on a copy of the mesh
   ct_h_field.mlgi      the graded h field for ct11
   ct01-ct13 *.lgi      the decks

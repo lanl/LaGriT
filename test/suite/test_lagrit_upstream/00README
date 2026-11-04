@@ -19,7 +19,7 @@ QUICK START
   run_upstream_tests.sh                    (about 30 s with the pictures)
   LEVEL2=1 run_upstream_tests.sh           (also the Exodus tests;
                                              needs a build with Exodus)
-  open logs/summary.html
+  open summary.html
 
   The tests come from (first that exists; printed at the start):
     $LAGRIT_TESTS            a test/ folder given by hand
@@ -37,7 +37,7 @@ FILES
                          written to.
   check_upstream.py      checker (Python 3, standard library): judges
                          every test; writes logs/table.txt and
-                         logs/summary.html. Its opening comment defines
+                         summary.html. Its opening comment defines
                          every check exactly.
   draw_meshes.py         the pictures: one SVG per AVS mesh file
                          (outer faces shaded; coloured by material, a

@@ -26,7 +26,10 @@ sh run_all.sh /path/to/lagrit # a different LaGriT
 Then open `summary.html` in this folder: one row per suite, linking to each
 suite's own page. Every runner can also be run alone from its folder (for
 example `sh test_triangulate_2d_polygon/run_triangulate_tests.sh`) and writes
-`logs/summary.html` there.
+`summary.html` there, in the suite's folder (the checker writes it in `logs/`
+and `lift_summary.py`, run by every runner on exit, moves it up one folder,
+fixing its links into `logs/`; `logs/summary.html` is left as a page that
+forwards to it).
 
 Each runner uses `build/lagrit` of this checkout if it exists, else `lagrit`
 on `PATH`, unless a path is given as the first argument. Requires: a POSIX
@@ -62,6 +65,7 @@ Run `BIG=1 sh run_all.sh` after any change to `src/triangulate_lg.f` (tri21,
 | `test_connect_options` | `connect` options in 2D and 3D: `noadd`, `check_interface`, `old_order` in any position, the point range with or without `delaunay`, the deprecated enclosing tet / triangle coordinates | 2 s |
 | `test_connect_exact` | 3D `connect` and `connect / exact` on grids, grids jittered by 1e-12 to 1e-3, random points, a thin box and an rtp sphere; every mesh checked with exact rational arithmetic (Delaunay, valid, nothing added or missing) | 25 s |
 | `test_predicates` | the exact orientation, in-circle and in-sphere tests of 2D and 3D connect against rational arithmetic on adversarial inputs (compiles two small C drivers; no lagrit) | 10 s |
+| `test_connect_hull` | 3D `connect` fills to the convex hull: random, graded, thin, UTM-sized and jittered-grid point sets with plain connect, `exact` and `nohull`; validity, the hull volume covered (an independent hull), exact Delaunay | 20 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
 
 Times are for a Release build on a recent Mac.

@@ -42,6 +42,10 @@
 # this harness was being debugged.
 #######################################################################
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 # Default: the lagrit built in this LaGriT checkout (build/lagrit), else
 # lagrit on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
@@ -301,6 +305,7 @@ echo
 echo "======================================================="
 echo "passed $PASS   failed $FAIL"
 echo "all three output streams saved per test under $LOGDIR/"
+python3 -I make_page.py $LOGDIR || echo "summary page not written"
 echo "======================================================="
 [ "$FAIL" -eq 0 ] || exit 1
 exit 0

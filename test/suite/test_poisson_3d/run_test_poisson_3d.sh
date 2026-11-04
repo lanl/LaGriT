@@ -10,6 +10,10 @@
 #
 # POSIX sh. Python 3 standard library only (set PYTHON to override).
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 CHECK_ONLY=0
 if [ "$1" = "--check-only" ]; then
     CHECK_ONLY=1
@@ -169,16 +173,19 @@ fi
     echo '.FAIL{color:#c00;font-weight:bold}.PASS{color:#070}'
     echo '.SKIP{color:#777}td{padding:2px 10px 2px 0}</style></head><body>'
     echo '<p style="margin:0 0 8px;font-size:13px"><a href="../../summary.html">&larr; all suites (top-level summary)</a></p>'
-    echo "<h1>$SUITE</h1><p>$(date)  -  deck $DECK</p><table>"
+    echo "<h1>$SUITE</h1><p>$(date)  -  deck $DECK</p>"
+    echo "<p><b>What it does:</b> each of the eight cases of test_Poisson_3D.lgi fills the box [0.2,0.8] x [0.2,0.8] x [0,0.3] with Poisson disk vertices (createpts / poisson_disk / 3d_box), uniform h or h growing away from a vertical line, with and without the edge buffer, connects them into tets and dumps .inp and .stor; then all eight are merged. The checker reads every dump. The overview picture shows all eight meshes cut in half (red: slivers); each case then has its own picture: slabs of the vertices from above and the side, the spacing and the smallest dihedral angles.</p><table>"
+    echo "<tr><th>row</th><th>result</th><th>what it does</th><th>summary</th></tr>"
     for row in $ROWS; do
         res=$(sed -n 's/^result //p' logs/$row.keys)
         sum=$(sed -n 's/^summary //p' logs/$row.keys | sed 's/&/\&amp;/g; s/</\&lt;/g')
-        echo "<tr><td>$row</td><td class=\"${res:-FAIL}\">${res:-FAIL}</td><td>$sum</td></tr>"
+        about=$($PY -I $CHECK about $CASES $row 2>/dev/null | sed 's/&/\&amp;/g; s/</\&lt;/g')
+        echo "<tr><td>$row</td><td class=\"${res:-FAIL}\">${res:-FAIL}</td><td style=\"max-width:420px\">$about</td><td>$sum</td></tr>"
     done
     echo '</table>'
     [ -f logs/mesh_overview.svg ] && cat logs/mesh_overview.svg
     for row in $ROWS; do
-        echo "<h2>$row</h2><pre>"
+        echo "<h2>$row</h2><p>$($PY -I $CHECK about $CASES $row 2>/dev/null | sed 's/&/\&amp;/g; s/</\&lt;/g')</p><pre>"
         grep -v '^summary ' logs/$row.keys | sed 's/&/\&amp;/g; s/</\&lt;/g'
         echo '</pre>'
         id=${row#case_}
@@ -188,7 +195,6 @@ fi
 } > $SUMMARY
 
 echo
-echo "summary page: $SUMMARY"
 if [ $NFAIL -gt 0 ]; then
     echo "$NFAIL row(s) FAILED"
     exit 1

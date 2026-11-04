@@ -305,7 +305,6 @@ def main(argv):
     open(os.path.join(logdir, "table.txt"), "w").write("\n".join(table) + "\n")
     print("\n".join(table))
     print()
-    print("summary page: logs/summary.html")
     print(summary)
     write_page(os.path.join(logdir, "summary.html"), rows, fits, counts, summary)
     return 1 if nf else 0
@@ -454,7 +453,7 @@ th{background:#f6f8fa} td.l,th.l{text-align:left}
     o.append('<p id="runinfo"><b>%s</b> &mdash; %s sizes (%s)</p>'
              % (e(summary), "BIG" if big else "quick",
                 "1000 to %d vertices" % max(r["n"] for r in rows)))
-    o.append("<p>Uniformly random points in the unit square (2D, triangles) or "
+    o.append("<p><b>What it does:</b> connect is run on uniformly random points in the unit square (2D, triangles) or "
              "cube (3D, tets), with the box corners, the same points in four "
              "orders: <b>random</b>; <b>xyz</b>, LaGriT's multi-key sort / "
              "index on xic yic zic, then reorder (y only breaks ties in x, "

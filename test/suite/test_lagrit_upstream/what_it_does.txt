@@ -1,0 +1,1 @@
+runs LaGriT's own tests (test/level01 of this checkout; level02 with LEVEL2=1) on the build under test, compares each test's log with its reference outx3dgen, and draws the meshes each test writes. It is the check a pull request into lanl/LaGriT gets.
