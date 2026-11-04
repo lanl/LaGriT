@@ -239,6 +239,42 @@ static int insphere_fixed(const double *d)
     }
 }
 
+
+/* exact sign of det(A, B, C) for 9 exact differences (Ax..Cz), when
+   they are integers below 2**62 in a common unit; 2 if not */
+static int orient_fixed(const double *d)
+{
+    int64_t v[9];
+    uint64_t av[9], pw[4], nw[4], w[4];
+    int i, u = 0, first = 1, ok = 1;
+    unsigned __int128 PN[2][5];
+    /* det = Az (Bx Cy - Cx By) + Bz (Cx Ay - Ax Cy) + Cz (Ax By - Bx Ay) */
+    static const int T[3][5] = {{2, 3, 7, 6, 4}, {5, 6, 1, 0, 7}, {8, 0, 4, 3, 1}};
+    for (i = 0; i < 9; i++)
+        if (d[i] != 0.0) {
+            int e = lsb_exp_bits(d[i], &ok);
+            if (first || e < u) u = e;
+            first = 0;
+        }
+    if (!ok) return 2;
+    for (i = 0; i < 9; i++) {
+        if (!to_int62(d[i], u, &v[i])) return 2;
+        av[i] = (uint64_t) (v[i] < 0 ? -v[i] : v[i]);
+    }
+    memset(PN, 0, sizeof PN);
+    for (i = 0; i < 3; i++) {
+        const int *q = T[i];
+        __int128 m = (__int128) v[q[1]] * v[q[2]] - (__int128) v[q[3]] * v[q[4]];
+        unsigned __int128 am = (unsigned __int128) (m < 0 ? -m : m);
+        int neg = (m < 0) ^ (v[q[0]] < 0);
+        ACC(PN, 0, MUL64(av[q[0]], (uint64_t) am), neg);
+        ACC(PN, 1, MUL64(av[q[0]], (uint64_t) (am >> 64)), neg);
+    }
+    acc_words(PN[0], 4, pw);
+    acc_words(PN[1], 4, nw);
+    return words_diff(pw, nw, 4, w);
+}
+
 /* exact sign of the in-sphere determinant from the 12 differences, each
    hi + lo; 2 if the integers would be too long */
 static int insphere_big(const dd *D)
@@ -366,7 +402,16 @@ static int64_t orient3d(const double *a, const double *b, const double *c,
                dd_mul(Cz, dd_sub(dd_mul(Ax, By), dd_mul(Bx, Ay))));
     if (fabs(D.hi) <= DD_O3D_BOUND * perm) {
         dd Dv[9] = {Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz};
-        int r = orient_big(Dv);
+        int r;
+        if (Ax.lo == 0.0 && Ay.lo == 0.0 && Az.lo == 0.0 && Bx.lo == 0.0 &&
+            By.lo == 0.0 && Bz.lo == 0.0 && Cx.lo == 0.0 && Cy.lo == 0.0 &&
+            Cz.lo == 0.0) {
+            double dv[9] = {Ax.hi, Ay.hi, Az.hi, Bx.hi, By.hi, Bz.hi,
+                            Cx.hi, Cy.hi, Cz.hi};
+            r = orient_fixed(dv);
+            if (r != 2) return r;
+        }
+        r = orient_big(Dv);
         if (r != 2) return r;
         return 0;
     }

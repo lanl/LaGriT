@@ -13,8 +13,8 @@ Changes since LaGriT V3.3.4 are marked *(after V3.3.4)*. They are listed in the 
 
 | Mesh object | Inside and orientation tests | Afterwards |
 |---|---|---|
-| 3D (tet) | tolerance tests, below | thin tetrahedra along the hull may be missing |
-| 3D, **connect / exact** *(after V3.3.4)* | **exact** | no points added; thin tetrahedra along the hull may be missing |
+| 3D (tet) | tolerance tests, below | hull filled *(after V3.3.4)* |
+| 3D, **connect / exact** *(after V3.3.4)* | **exact** | no points added; hull filled: exactly the Delaunay tetrahedralization of the convex hull |
 | 2D (triplane), vertices in a coordinate plane (every z the same, or every y, or every x) | **exact** *(after V3.3.4)* | hull filled and edges flipped: exactly the Delaunay triangulation of the convex hull |
 | 2D, vertices in a tilted plane | tolerance tests, below | **recon / 0** |
 
@@ -103,7 +103,7 @@ connect reports what it did:
 
 The result is exactly the Delaunay triangulation of the convex hull, so connect no longer runs **recon / 0** in this case. For vertices in a tilted plane, connect still runs **recon / 0** afterwards.
 
-In 3D the hull is not filled yet: for random vertices about 1% of the hull's volume is missing, and more for long thin domains (5% for a 100 x 1 x 1 box).
+*(after V3.3.4)* In 3D connect then fills the hull too (src/lg_connect3d_hull.c). The tets kept are Delaunay tets of the vertices, so the missing ones are the Delaunay tets of the pockets between the mesh and the convex hull; they are found by gift wrapping. For each boundary face next to a reflex edge (and each face added after it), the tet on its outer side is the face plus the boundary vertex, strictly outside its plane, whose sphere through the face holds no other such vertex (exact in-sphere tests). A face with no vertex outside its plane is a facet of the convex hull. A tet is not added when it is flatter than 1e-6 (height over the face less than 1e-6 of its longest edge: round-off), when the choice is a tie, or when its vertices that are not interface points have different materials. connect reports the tets added and the pockets left open. Without the fill, 1.3% of the hull's volume was missing for random vertices and 7.7% for a 100 x 1 x 1 box (test/suite/test_connect_hull); **connect / nohull** leaves it out.
 
 ## The inside test
 
@@ -172,7 +172,7 @@ It is needed only in extreme cases: vertices with a very high aspect ratio, warn
 - **Non-convex domains.** connect triangulates the convex hull of the vertices. Cells join vertices across a non-convex boundary and must be removed afterwards; the [connect / noadd demo](demos/description2_connect.md) tags them with **interpolate / map** from a hex mesh and removes them.
 - **Coincident vertices** are not filtered; they are dudded (step 4). Remove them first with **filter / 1,0,0** and **rmpoint / compress**.
 - **3D near-ties** are decided by the tolerance (see above), not exactly, unless **connect / exact** is given.
-- **3D hull** cells may be missing (step 6).
+- **3D hull:** pockets flatter than 1e-6 of their size are left open (step 6); **connect / nohull** leaves every pocket open, as before.
 - **Large coordinates in 3D.** For better precision, move the vertices close to the origin before connect, and back afterwards. **trans / zero** and **trans / original** do this without having to know the coordinates:
 
 ```

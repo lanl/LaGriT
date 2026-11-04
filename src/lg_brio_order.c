@@ -51,7 +51,11 @@ void lg_connect_opts_set_(const int64_t *noadd, const int64_t *check)
     opt_check = *check ? 1 : 0;
 }
 
-static int64_t opt_exact = 0;
+static int64_t opt_exact = 0, opt_nohull = 0;
+
+/* connect / nohull: 3D, do not fill to the convex hull */
+void lg_connect_nohull_set_(const int64_t *v) { opt_nohull = *v ? 1 : 0; }
+void lg_connect_nohull_get_(int64_t *v) { *v = opt_nohull; }
 
 /* connect / exact: 3D in-sphere tests exact (lg_predicates3d.c) */
 void lg_connect_exact_set_(const int64_t *iexact)

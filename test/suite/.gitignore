@@ -25,6 +25,7 @@ test_input_lines/work/
 test_connect_options/work/
 test_connect_exact/work/
 test_predicates/work/
+test_connect_hull/work/
 logs/
 out_*
 lagrit.out
