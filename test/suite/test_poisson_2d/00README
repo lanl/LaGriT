@@ -29,7 +29,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   That one page has the results table, the deck, and for every output
   its full measurement report and a picture.
@@ -144,7 +144,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html           EVERYTHING ON ONE PAGE
+  summary.html           EVERYTHING ON ONE PAGE
   logs/<output>.svg           one output's picture
   logs/<output>.check         its full measurement report
   logs/field_<output>.check   the field comparison

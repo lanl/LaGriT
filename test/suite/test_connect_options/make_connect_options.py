@@ -134,6 +134,7 @@ def main(work):
             f.write("* test_connect_options %s\n" % deck)
             f.write(SETUP[s])
             f.write(cmd + "\n")
+            f.write("dump / avs / out_%s.inp / mo / 1 1 1 0\n" % deck)
             f.write("cmo / status / mo / brief\nfinish\n")
         exp[deck] = dict(e, setup=s, cmd=cmd, about=about, old=old)
     json.dump(exp, open(os.path.join(work, "expect.json"), "w"), indent=1)

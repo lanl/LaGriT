@@ -5,7 +5,7 @@ test_connect_2d -- 2D connect: offsets, exact Delaunay, convex hull
 QUICK START
 
   sh run_connect_2d_tests.sh [path-to-lagrit]     12 decks, about 5 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 

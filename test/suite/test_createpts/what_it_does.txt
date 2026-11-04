@@ -1,0 +1,1 @@
+each deck makes vertices with one createpts option (xyz, rtz or rtp lattices with and without ratio zoning, line, brick), dumps them and, where they span a plane or a volume, connects them into triangles, tets or the brick's own hexes and quads. The checker compares every vertex with where the createpts documentation says it goes. Each row shows its points or mesh.

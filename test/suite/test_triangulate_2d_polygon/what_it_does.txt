@@ -1,0 +1,1 @@
+each deck gives triangulate a polygon (many collinear vertices along a side, very dense boundaries, sharp vertices close to a far part of the boundary, coordinates far from the origin) and the checker judges the result: n - 2 cells for n vertices, none of zero area or inverted, the cells covering the polygon exactly, every polygon edge used once. Each polygon has its picture.

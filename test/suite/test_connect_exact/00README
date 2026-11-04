@@ -4,7 +4,7 @@ test_connect_exact -- 3D connect: tolerance tests and connect / exact (Nov 2026)
 QUICK START
 
   sh run_connect_exact_tests.sh [path-to-lagrit]   26 decks, about 40 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 
@@ -58,5 +58,5 @@ THE SPHERE
 FILES
   make_connect_exact.py   writes the point sets, the decks and
                           work/expect.json
-  check_connect_exact.py  judges them; logs/summary.html
+  check_connect_exact.py  judges them; summary.html
   run_connect_exact_tests.sh

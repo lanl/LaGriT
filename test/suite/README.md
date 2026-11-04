@@ -26,7 +26,10 @@ sh run_all.sh /path/to/lagrit # a different LaGriT
 Then open `summary.html` in this folder: one row per suite, linking to each
 suite's own page. Every runner can also be run alone from its folder (for
 example `sh test_triangulate_2d_polygon/run_triangulate_tests.sh`) and writes
-`logs/summary.html` there.
+`summary.html` there, in the suite's folder (the checker writes it in `logs/`
+and `lift_summary.py`, run by every runner on exit, moves it up one folder,
+fixing its links into `logs/`; `logs/summary.html` is left as a page that
+forwards to it).
 
 Each runner uses `build/lagrit` of this checkout if it exists, else `lagrit`
 on `PATH`, unless a path is given as the first argument. Requires: a POSIX

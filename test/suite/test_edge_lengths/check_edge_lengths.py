@@ -162,7 +162,11 @@ th{background:#f6f8fa}.PASS{color:#1a7f37;font-weight:600}.FAIL{color:#cf222e;fo
 <p style="font-size:14px;max-width:950px">Each attribute is checked at every vertex against the shortest, longest and mean
 length of the distinct edges at that vertex, computed here from the mesh in the same file (cell sides; a tet's 6 vertex
 pairs; no quad diagonals; 0 for a vertex in no cell). Pictures: the mesh coloured by <code>el_mean</code>.</p>
-<table><tr><th>deck</th><th>result</th><th>what</th><th>values</th><th>picture</th></tr>"""]
+<p style="font-size:14px;max-width:950px"><b>What it does:</b> each deck builds a small mesh (equilateral and right
+triangles, quads, a mix of cell types, a jittered grid, a mesh with a vertex in no cell, tets), adds the three attributes
+with <code>cmo / addatt</code>, and dumps it; el08 gives commands LaGriT must refuse. The checker reads the dump and
+recomputes all three at every vertex.</p>
+<table><tr><th>deck</th><th>result</th><th>what it does</th><th>values</th><th>picture</th></tr>"""]
     for name, res, doc, info, fails, pic in rows:
         o.append('<tr><td>%s</td><td class="%s">%s</td><td>%s</td><td>%s%s</td><td>%s</td></tr>' % (
             E(name), res, res, E(" ".join(doc)),

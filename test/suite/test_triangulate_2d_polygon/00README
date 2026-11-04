@@ -30,7 +30,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
 
@@ -310,7 +310,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html     EVERYTHING ON ONE PAGE
+  summary.html     EVERYTHING ON ONE PAGE
   logs/table.txt        the results table, as printed
   logs/<deck>.check     one deck's full check report
   logs/<deck>.svg       its picture

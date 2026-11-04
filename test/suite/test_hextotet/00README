@@ -4,7 +4,7 @@ test_hextotet -- the commands hextotet and grid2grid (Oct 2026)
 QUICK START
 
   sh run_hextotet_tests.sh [path-to-lagrit]     9 decks, under 1 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 
@@ -94,6 +94,6 @@ FILES
   run_hextotet_tests.sh    runner (work/, logs/; WORK= and LOGS= may
                            change them)
   make_hextotet_inputs.py  the source meshes
-  check_hextotet.py        checks, logs/summary.html (pictures with
+  check_hextotet.py        checks, summary.html (pictures with
                            ../test_lagrit_upstream/draw_meshes.py)
   ht01-ht09 *.lgi          the decks

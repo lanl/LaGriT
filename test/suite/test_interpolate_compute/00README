@@ -8,7 +8,7 @@ QUICK START
 
   run_interpolate_tests.sh                 28 decks, about 10 s
   open logs/demo.html                       what each method does (pictures)
-  open logs/summary.html
+  open summary.html
 
 RUN A DECK YOURSELF
 
@@ -147,6 +147,6 @@ FILES
   run_interpolate_tests.sh  runner (POSIX sh)
   make_inputs.py            input meshes (written into work/)
   check_ic.py               the checks; its opening comment defines them
-  make_page.py              logs/summary.html
+  make_page.py              summary.html
   demo/                     the demonstrations (logs/demo.html)
   ic*.lgi                   decks; the "# check:" line says what to check

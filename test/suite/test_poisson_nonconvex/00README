@@ -22,7 +22,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   That one page has the tally, the results table and, for every deck,
   its notes, its full report and a picture.
@@ -154,7 +154,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html     EVERYTHING ON ONE PAGE
+  summary.html     EVERYTHING ON ONE PAGE
   logs/table.txt        the results table, as printed
   logs/<deck>.svg       one deck's picture
   logs/<deck>.recovery  its full measurement report

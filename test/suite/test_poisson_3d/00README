@@ -27,7 +27,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   To re-check outputs already in this directory without running LaGriT:
 
@@ -206,7 +206,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html                EVERYTHING ON ONE PAGE
+  summary.html                EVERYTHING ON ONE PAGE
   logs/<row>.keys                  one row's full report
   logs/case_NN.svg                 one case's picture
   logs/mesh_overview.png           overview picture, grey

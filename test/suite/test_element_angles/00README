@@ -7,7 +7,7 @@ solid angle, aspect, edge_ratio, edge_min and edge_max attributes)
 QUICK START
 
   sh run_angle_tests.sh [path-to-lagrit]     4 decks, about 1 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS CHECKED (check_angles.py; definitions in its opening comment)
 
@@ -78,5 +78,5 @@ FILES
 
   run_angle_tests.sh     runner (work/, logs/; WORK= and LOGS= may change them)
   make_angle_inputs.py   the meshes
-  check_angles.py        reference computation, checks, logs/summary.html
+  check_angles.py        reference computation, checks, summary.html
   ea01-ea04 *.lgi        the decks

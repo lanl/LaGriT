@@ -9,6 +9,10 @@
 # an independent computation. See 00README. POSIX sh, Python 3
 # (standard library). WORK and LOGS may be set to other folders.
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 # Default: the lagrit built in this LaGriT checkout (build/lagrit), else
 # lagrit on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
@@ -53,5 +57,4 @@ done
 python3 -I check_angles.py "$WORK" "$LOGDIR"
 rc=$?
 echo
-echo "summary page: $LOGDIR/summary.html"
 exit $rc

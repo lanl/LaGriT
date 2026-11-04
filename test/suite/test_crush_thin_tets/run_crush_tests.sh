@@ -10,6 +10,10 @@
 #
 # WORK and LOGS may be set to other folders (default work, logs).
 
+# On exit, put the summary page in this folder (../lift_summary.py).
+_SUITE=$(cd "$(dirname "$0")" && pwd)
+trap 'python3 -I "$_SUITE/../lift_summary.py" "$_SUITE"' EXIT
+
 # Default: the lagrit built in this LaGriT checkout (build/lagrit), else
 # lagrit on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
@@ -61,7 +65,6 @@ for deck in ct[0-9]*.lgi; do
 done
 python3 -I make_page.py "$WORK" "$LOGDIR" || echo "page not drawn"
 echo
-echo "summary page: $LOGDIR/summary.html"
 N=$(ls ct[0-9]*.lgi | wc -l | tr -d ' ')
 echo "pass $((N - NFAIL))   fail $NFAIL   (of $N decks)"
 [ $NFAIL -eq 0 ]

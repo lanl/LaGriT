@@ -4,7 +4,7 @@ test_predicates -- the exact geometric predicates of connect (Nov 2026)
 QUICK START
 
   sh run_predicates_tests.sh          about 60 s; no lagrit needed
-  open logs/summary.html
+  open summary.html
 
   Compiles two small drivers with cc (or $CC) against
   src/lg_predicates2d.c and src/lg_predicates3d.c (which include
@@ -28,5 +28,5 @@ THE INPUTS (fixed seeds)
 FILES
   pred2d_driver.c, pred3d_driver.c   read tests from stdin, print signs
   check_predicates.py                generates, compares, writes
-                                     logs/summary.html
+                                     summary.html
   run_predicates_tests.sh

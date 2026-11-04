@@ -23,7 +23,7 @@ QUICK START
 
   then open, in a web browser,
 
-      logs/summary.html
+      summary.html
 
   That one page has the results table and, for every test, its notes,
   the full measurement report and a picture.
@@ -135,7 +135,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html   EVERYTHING ON ONE PAGE
+  summary.html   EVERYTHING ON ONE PAGE
   logs/<deck>.svg     one test's picture
   logs/<deck>.check   one test's full measurement report
   logs/<deck>.all     all LaGriT output for one test

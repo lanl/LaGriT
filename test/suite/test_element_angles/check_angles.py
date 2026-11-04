@@ -174,6 +174,138 @@ KNOWN = {
                   "edgemin": 1, "edgemax": 2, "minsine": 0})]}
 
 
+# ---- small SVG helpers (standard library only; copied into each checker) ----
+def svg_bars(title, labels, series, colors, width=560, height=220, logy=False, unit=""):
+    """grouped bar chart: labels on x, series = [(name, [values])]"""
+    import math
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    L, R, T, B = 48, 12, 28, 58
+    W, H = width - L - R, height - T - B
+    vals = [v for _, vs in series for v in vs if v is not None]
+    vmax = max([v for v in vals] + [1e-30])
+    if logy:
+        pos = [v for v in vals if v and v > 0]
+        lo = 10 ** math.floor(math.log10(min(pos))) if pos else 1.0
+        hi = 10 ** math.ceil(math.log10(vmax)) if vmax > 0 else 10.0
+        if hi <= lo: hi = lo * 10
+        def Y(v):
+            if not v or v <= 0: return T + H
+            return T + H - H * (math.log10(v) - math.log10(lo)) / (math.log10(hi) - math.log10(lo))
+        ticks = [10 ** k for k in range(int(round(math.log10(lo))), int(round(math.log10(hi))) + 1)]
+    else:
+        hi = vmax * 1.1 if vmax > 0 else 1.0
+        def Y(v): return T + H - H * (v or 0) / hi
+        step = 10 ** math.floor(math.log10(hi)) if hi > 0 else 1
+        while hi / step > 6: step *= 2
+        ticks = [k * step for k in range(0, int(hi / step) + 1)]
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:11px sans-serif">' % (width, height, width),
+         '<text x="%d" y="16" font-weight="600">%s</text>' % (L, E2(title))]
+    for t in ticks:
+        y = Y(t)
+        o.append('<line x1="%d" x2="%d" y1="%.1f" y2="%.1f" stroke="#d0d7de"/>' % (L, L + W, y, y))
+        o.append('<text x="%d" y="%.1f" text-anchor="end" fill="#57606a">%s</text>' % (L - 4, y + 4, ("%g" % t) + unit))
+    n, k = len(labels), len(series)
+    gw = W / max(n, 1)
+    bw = gw * 0.8 / max(k, 1)
+    for i, lab in enumerate(labels):
+        for j, (name, vs) in enumerate(series):
+            v = vs[i]
+            x = L + i * gw + gw * 0.1 + j * bw
+            y = Y(v)
+            o.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" fill="%s"><title>%s: %s</title></rect>'
+                     % (x, y, bw - 1, T + H - y, colors[j], E2(name), E2(v)))
+        o.append('<text x="%.1f" y="%d" text-anchor="end" transform="rotate(-30 %.1f %d)">%s</text>'
+                 % (L + i * gw + gw / 2, T + H + 14, L + i * gw + gw / 2, T + H + 14, E2(lab)))
+    for j, (name, _) in enumerate(series):
+        o.append('<rect x="%d" y="%d" width="10" height="10" fill="%s"/><text x="%d" y="%d">%s</text>'
+                 % (L + W - 150, 6 + 13 * j, colors[j], L + W - 136, 15 + 13 * j, E2(name)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
+def svg_plot2d(title, segs=(), pts=(), circles=(), width=260, height=260, pad=0.08, note=""):
+    """segs: [(x1,y1,x2,y2,color,widthpx)], pts: [(x,y,color,rpx,label)],
+    circles: [(cx,cy,r,color)]; equal axes, fitted to everything"""
+    E2 = lambda s: str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    xs = [s[0] for s in segs] + [s[2] for s in segs] + [p[0] for p in pts] + \
+         [c[0] - c[2] for c in circles] + [c[0] + c[2] for c in circles]
+    ys = [s[1] for s in segs] + [s[3] for s in segs] + [p[1] for p in pts] + \
+         [c[1] - c[2] for c in circles] + [c[1] + c[2] for c in circles]
+    if not xs:
+        xs, ys = [0, 1], [0, 1]
+    x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys)
+    span = max(x1 - x0, y1 - y0) or 1.0
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    T = 22
+    s = (min(width, height - T) * (1 - 2 * pad)) / span
+    def P(x, y):
+        return width / 2 + (x - cx) * s, T + (height - T) / 2 - (y - cy) * s
+    o = ['<svg viewBox="0 0 %d %d" width="%d" style="max-width:100%%;height:auto;font:10px sans-serif;background:#fff">'
+         % (width, height, width), '<text x="4" y="14" font-weight="600">%s</text>' % E2(title)]
+    for (x, y, r, col) in circles:
+        X, Y = P(x, y)
+        o.append('<circle cx="%.1f" cy="%.1f" r="%.1f" fill="none" stroke="%s" stroke-dasharray="3 2"/>' % (X, Y, r * s, col))
+    for (xa, ya, xb, yb, col, w) in segs:
+        A, B = P(xa, ya), P(xb, yb)
+        o.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" stroke="%s" stroke-width="%s"/>' % (A[0], A[1], B[0], B[1], col, w))
+    for p in pts:
+        X, Y = P(p[0], p[1])
+        o.append('<circle cx="%.1f" cy="%.1f" r="%s" fill="%s"/>' % (X, Y, p[3], p[2]))
+        if len(p) > 4 and p[4]:
+            o.append('<text x="%.1f" y="%.1f">%s</text>' % (X + 4, Y - 3, E2(p[4])))
+    if note:
+        o.append('<text x="4" y="%d" fill="#57606a">%s</text>' % (height - 4, E2(note)))
+    o.append("</svg>")
+    return "\n".join(o)
+
+
+CELL_EDGES = {
+    "tet": [(0, 1), (0, 2), (0, 3), (1, 2), (1, 3), (2, 3)],
+    "tri": [(0, 1), (1, 2), (2, 0)], "quad": [(0, 1), (1, 2), (2, 3), (3, 0)],
+    "pyr": [(1, 2), (2, 3), (3, 4), (4, 1), (0, 1), (0, 2), (0, 3), (0, 4)],  # apex first
+    "pri": [(0, 1), (1, 2), (2, 0), (3, 4), (4, 5), (5, 3), (0, 3), (1, 4), (2, 5)],
+    "hex": [(0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), (6, 7), (7, 4),
+            (0, 4), (1, 5), (2, 6), (3, 7)]}
+
+
+def tiles(name, work):
+    """small pictures of the cells of a deck's output, each scaled to its
+    own tile, labelled with LaGriT's smallest and largest angle"""
+    tag = "ea_" + name.split("_", 1)[1]
+    V, C, typ, A = read_avs(os.path.join(work, tag + "_out.inp"))
+    nf = os.path.join(work, tag + ".names")
+    labels = open(nf).read().split() if os.path.isfile(nf) else []
+    if tag in KNOWN:
+        labels = [w for w, _ in KNOWN[tag]]
+    pick, seen = [], set()
+    for i in range(len(C)):
+        lab = labels[i] if i < len(labels) else str(i + 1)
+        if lab.startswith("random") and len([j for j in pick if labels[j].startswith("random")]) >= 2:
+            continue
+        if lab in seen:
+            continue
+        seen.add(lab)
+        pick.append(i)
+    out = []
+    for i in pick[:14]:
+        P = [V[k] for k in C[i]]
+        t = typ[i][:3] if typ[i].startswith("pri") else typ[i]
+        def pr(p):
+            return (p[0] + 0.42 * p[2] + 0.12 * p[1], p[1] + 0.32 * p[2] - 0.05 * p[0])
+        segs = []
+        for a, b in CELL_EDGES.get(t, []):
+            if a < len(P) and b < len(P):
+                x1, y1 = pr(P[a]); x2, y2 = pr(P[b])
+                segs.append((x1, y1, x2, y2, "#0969da", 1.2))
+        pts = [pr(q) + ("#24292f", 1.8, "") for q in P]
+        lab = labels[i] if i < len(labels) else str(i + 1)
+        if tag == "ea_thin":
+            lab = "h = " + lab
+        note = "min %.3g°, max %.4g°" % (A["ang_mind"][i], A["ang_maxd"][i])
+        out.append(svg_plot2d(lab, segs, pts, (), 150, 130, pad=0.1, note=note))
+    return '<div style="display:flex;flex-wrap:wrap;gap:6px">%s</div>' % "".join(out)
+
+
 def check(name, work):
     """(list of failures, rows for the page)"""
     tag = name.split("_", 1)[1]
@@ -258,7 +390,11 @@ def main(work, logdir):
         print("%-12s %s%s" % (d, res, "" if not bad else "  (%d: %s)" % (len(bad), bad[0])))
         desc = [l[2:].rstrip() for l in open(d + ".lgi") if l.startswith("# ") and not
                 l.startswith("# check:")][1:]
-        page.append((d, res, " ".join(desc), bad, rows, open(d + ".lgi").read()))
+        try:
+            pic = tiles(d, work)
+        except (OSError, ValueError, IndexError, KeyError):
+            pic = ""
+        page.append((d, res, " ".join(desc), bad, rows, open(d + ".lgi").read(), pic))
     write_page(os.path.join(logdir, "summary.html"), page)
     return 1 if nfail else 0
 
@@ -274,13 +410,20 @@ def write_page(path, page):
          "(cmo/addatt ang_*) and quality aspect / edge_ratio / edge_min / edge_max, checked "
          "against an independent computation (check_angles.py). Run: <code>sh "
          "run_angle_tests.sh [path-to-lagrit]</code>.</p>",
+         "<p><b>What it does:</b> each deck reads a set of single cells (tets of every shape, "
+         "from regular to slivers and needles; tets flattened to a height h down to 1e-14; "
+         "a hex, prism and pyramid; a triangle and a quad), asks LaGriT for their angle and "
+         "quality attributes, and compares every value with one computed here. The pictures "
+         "show the cells (each scaled to its own box, seen at an angle) with LaGriT's smallest "
+         "and largest dihedral angle (for 2D cells, the angles between edges).</p>",
          "<table><tr><th>deck</th><th>result</th><th>what</th></tr>"]
-    for d, res, desc, bad, rows, deck in page:
+    for d, res, desc, bad, rows, deck, pic in page:
         h.append("<tr><td><a href='#%s'>%s</a></td><td class='%s'>%s</td><td>%s</td></tr>"
                  % (d, d, res, res, e(desc)))
     h.append("</table>")
-    for d, res, desc, bad, rows, deck in page:
+    for d, res, desc, bad, rows, deck, pic in page:
         h.append("<h2 id='%s'>%s <span class='%s'>%s</span></h2><p>%s</p>" % (d, d, res, res, e(desc)))
+        h.append(pic)
         if bad:
             h.append("<p><b>Failures</b> (%d):</p><ul>%s</ul>" % (len(bad), "".join(
                 "<li>%s</li>" % e(b) for b in bad[:40])))

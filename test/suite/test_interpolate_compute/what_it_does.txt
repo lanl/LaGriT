@@ -1,0 +1,1 @@
+each deck runs interpolate or compute (map, voronoi, continuous; distance fields; keepatt, with and without dudded vertices) on small meshes and fields whose answers the checker knows independently, and compares every value. logs/demo.html shows what each method does in pictures.

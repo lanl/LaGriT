@@ -25,7 +25,7 @@ QUICK START
 
   run_createpts_tests.sh                           about 12 seconds
 
-  then open logs/summary.html.
+  then open summary.html.
 
   Requires: LaGriT, Python 3 (standard library only), a POSIX shell.
 
@@ -222,7 +222,7 @@ FIXED Oct 16 2026 (brick re-type)
 COMMENTING ON THE PAGE (user, Oct 12 2026)
 -----------------------------------------------------------------------
 
-  Every row of logs/summary.html has a comment box. Type under any row
+  Every row of summary.html has a comment box. Type under any row
   (an empty box means no change); a box with text turns amber, and the
   bar at the top counts them. Comments stay in the browser (per suite)
   until "Clear all", so the page can be closed and reopened, and they
@@ -244,7 +244,7 @@ READING THE PICTURE
 
 OUTPUT
 
-  logs/summary.html     EVERYTHING ON ONE PAGE, grouped
+  summary.html     EVERYTHING ON ONE PAGE, grouped
   logs/table.txt        the results table
   logs/<deck>.check     the check report
   logs/<deck>_pts.svg, logs/<deck>_mesh.svg   the two pictures

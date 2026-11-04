@@ -583,10 +583,15 @@ has exactly the area of the outside of the source, so there is no gap or overlap
 cell, with its material, filling it; a linear vertex field <i>f</i> = 1 + 2x + 3y + 5z carried exactly to the new vertices.
 grid2grid must write the same file as hextotet. Options that do not fit the cells must be refused.
 Table entries are <i>got / expected</i>. Definitions: <code>check_hextotet.py</code>.</p>
-<table><tr><th>deck</th><th>result</th><th>what failed</th></tr>"""]
+<p><b>What it does:</b> each deck builds a small mesh of one cell type (hex, prism, pyramid, quad, or a mix with two
+materials), splits it with <code>hextotet</code> and each of its options (and with <code>grid2grid</code>), and dumps
+the source and the results; the checker judges every split from the dumps alone. Under each deck: the source mesh,
+then each split coloured by material, with one source cell's new cells pulled apart.</p>
+<table><tr><th>deck</th><th>result</th><th>what it does</th><th>what failed</th></tr>"""]
     for r in results:
-        o.append('<tr><td><a href="#%s">%s</a></td><td class="%s">%s</td><td>%s</td></tr>'
-                 % (E(r["deck"]), E(r["deck"]), r["result"], r["result"], E("; ".join(r["fails"][:4]))))
+        o.append('<tr><td><a href="#%s">%s</a></td><td class="%s">%s</td><td>%s</td><td>%s</td></tr>'
+                 % (E(r["deck"]), E(r["deck"]), r["result"], r["result"], E(" ".join(r["doc"])),
+                    E("; ".join(r["fails"][:4])) or "-"))
     o.append("</table>")
     for r in results:
         o.append('<h2 id="%s">%s <span class="%s">%s</span></h2>' % (E(r["deck"]), E(r["deck"]), r["result"], r["result"]))

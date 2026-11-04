@@ -1,0 +1,1 @@
+each deck makes a tet mesh with poor tets in it (3D Poisson disk meshes and made-up slivers, wedges, needles and caps), measures the quality, runs crush_thin_tets and measures again. The page shows how the quality moves from poor to better, which poor tets remain and why, with pictures of the meshes and of the tets left.

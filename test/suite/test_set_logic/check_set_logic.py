@@ -13,15 +13,37 @@ import os
 import sys
 
 DECKS = {
-    "sl01_eltset": {"n": 24, "what": "cells", "word": "ELTSET",
+    "sl01_eltset": {"n": 24, "row": 4, "layer": 12, "what": "cells", "word": "ELTSET",
                     "a": range(1, 13), "b": range(7, 19), "c": range(1, 25, 2), "d": range(1, 25, 3)},
-    "sl02_pset": {"n": 60, "what": "vertices", "word": "PSET",
+    "sl02_pset": {"n": 60, "row": 5, "layer": 20, "what": "vertices", "word": "PSET",
                   "a": range(1, 31), "b": range(21, 46), "c": range(1, 61, 2), "d": range(1, 61, 3)},
 }
 OPS = [("u2", "union", "ab"), ("u3", "union", "abc"), ("u4", "union", "abcd"),
        ("i2", "inter", "ab"), ("i3", "inter", "abc"), ("i4", "inter", "abcd"),
        ("ic", "inter", "abc"),
        ("n1", "not", "a"), ("n2", "not", "ab"), ("n3", "not", "abc"), ("n4", "not", "abcd")]
+
+
+def strip(D, got, want):
+    """the set as a picture: one square per cell (or vertex) in number
+    order, row by row and layer by layer of the brick (4 x 3 x 2 cells,
+    5 x 4 x 3 vertices): filled = in the set, red = LaGriT disagrees"""
+    q, gap = 9, 8
+    nl = (D["n"] + D["layer"] - 1) // D["layer"]
+    rows_ = D["layer"] // D["row"]
+    W = nl * (D["row"] * q + gap)
+    H = rows_ * q + 2
+    o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" role="img">' % (W, H)]
+    for i in range(1, D["n"] + 1):
+        k = i - 1
+        L, r, c = k // D["layer"], (k % D["layer"]) // D["row"], k % D["row"]
+        x, y = L * (D["row"] * q + gap) + c * q, (rows_ - 1 - r) * q + 1
+        g, w = got is not None and i in got, i in want
+        fill = "#cf222e" if g != w else ("#1a7f37" if w else "#ffffff")
+        o.append('<rect x="%d" y="%d" width="%d" height="%d" fill="%s" stroke="#8c959f" '
+                 'stroke-width="0.6"><title>%d</title></rect>' % (x, y, q - 1, q - 1, fill, i))
+    o.append("</svg>")
+    return "".join(o)
 
 
 def expected(D):
@@ -95,7 +117,7 @@ def main():
                 miss, extra = sorted(want - got), sorted(got - want)
                 detail = "ok" if got == want else "missing %s; extra %s" % (miss[:12] or "-", extra[:12] or "-")
             rows.append((deck, label, good, "%d %s (expect %d)" % (len(got or ()), D["what"], len(want)),
-                         "%s; LaGriT printed %s" % (detail, printed.get(name, "-"))))
+                         "%s; LaGriT printed %s" % (detail, printed.get(name, "-")), strip(D, got, want)))
     os.makedirs(logs, exist_ok=True)
     with open(os.path.join(logs, "table.txt"), "w") as t:
         for r in rows:
@@ -108,11 +130,19 @@ def main():
             "<h1 style='font-size:20px'>test_set_logic: eltset and pset union / inter / not</h1>",
             "<p>Every member of every set is compared with the answer computed by the checker. "
             "eltset: 24 cells, a = 1&ndash;12, b = 7&ndash;18, c = odd, d = 1, 4, 7, ... "
-            "pset: 60 vertices, a = 1&ndash;30, b = 21&ndash;45, c = odd, d = 1, 4, 7, ...</p><table>"
-            "<tr><th>deck</th><th>check</th><th>result</th><th>size</th><th>detail</th></tr>"]
+            "pset: 60 vertices, a = 1&ndash;30, b = 21&ndash;45, c = odd, d = 1, 4, 7, ...</p>"
+            "<p><b>What it does:</b> each deck makes a small brick mesh (4 x 3 x 2 hex cells, so 5 x 4 x 3 "
+            "vertices), defines four sets a, b, c, d from ranges of cell (or vertex) numbers, then builds "
+            "new sets with <code>union</code>, <code>inter</code> and <code>not</code> of 1 to 4 sets, writes "
+            "each set as a 0/1 attribute and dumps the table. The checker compares every member with the "
+            "answer computed from the definitions, and the count LaGriT printed. The picture shows each set: "
+            "one square per cell (or vertex) in number order, a row of the brick per line, its layers side by "
+            "side; green = in the set, red = LaGriT disagrees with the answer.</p><table>"
+            "<tr><th>deck</th><th>check</th><th>result</th><th>size</th><th>detail</th><th>set</th></tr>"]
     for r in rows:
-        page.append("<tr><td>%s</td><td>%s</td><td class='%s'>%s</td><td>%s</td><td>%s</td></tr>" % (
-            E(r[0]), E(r[1]), "p" if r[2] else "f", "PASS" if r[2] else "FAIL", E(r[3]), E(r[4])))
+        page.append("<tr><td>%s</td><td>%s</td><td class='%s'>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>" % (
+            E(r[0]), E(r[1]), "p" if r[2] else "f", "PASS" if r[2] else "FAIL", E(r[3]), E(r[4]),
+            r[5] if len(r) > 5 else ""))
     page.append("</table></body></html>")
     open(os.path.join(logs, "summary.html"), "w").write("\n".join(page) + "\n")
     npass = sum(r[2] for r in rows)

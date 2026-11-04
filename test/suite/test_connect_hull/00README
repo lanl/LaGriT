@@ -4,7 +4,7 @@ test_connect_hull -- 3D connect: fill to the convex hull (Nov 2026)
 QUICK START
 
   sh run_connect_hull_tests.sh [path-to-lagrit]   18 decks, about 20 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IS TESTED
 
@@ -37,5 +37,5 @@ PASS
 
 FILES
   make_connect_hull.py   point sets, decks, work/expect.json
-  check_connect_hull.py  judges them; logs/summary.html
+  check_connect_hull.py  judges them; summary.html
   run_connect_hull_tests.sh

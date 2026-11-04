@@ -6,7 +6,7 @@ src/readavs.f and src/dumpavs.f)
 QUICK START
 
   sh run_avs_io_tests.sh [path-to-lagrit]     29 decks, about 5 s
-  open logs/summary.html
+  open summary.html
 
 WHAT IT TESTS
 
@@ -72,6 +72,6 @@ FILES
   av*.lgi, ak*.lgi          the decks, each with its "# check:" lines
   check_avs.py              the checker (Python 3, standard library)
   golden/                   the expected dump files
-  make_page.py              logs/summary.html
+  make_page.py              summary.html
   run_avs_io_tests.sh
   work/, logs/              written by each run (not tracked)

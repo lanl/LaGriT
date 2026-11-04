@@ -1,0 +1,1 @@
+each deck runs createpts / poisson_disk / 2d_polygon on a nonconvex polygon (notches narrower and wider than h) and measures how much of the outline the clipped mesh recovers. These push the method past where it works on purpose: a degraded mesh is expected and reported, not failed. Each deck has its picture.

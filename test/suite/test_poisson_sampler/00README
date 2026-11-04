@@ -19,7 +19,7 @@ QUICK START
                                                  samp_V3; the rest is
                                                  the checker)
 
-  then open logs/summary.html.
+  then open summary.html.
 
   Original sampler: 16 of 18 rows FAIL (U2 seeds 1 and 2 pass).
   Fixed sampler: all 18 PASS (macOS, Oct 11; V3 seed 1 has 2 pairs at
