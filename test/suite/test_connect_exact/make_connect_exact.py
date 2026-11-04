@@ -20,6 +20,10 @@ connect / exact.
         (UTM-like): exact ties decided by the integer stage
   gij   the same lattice moved by multiples of 1/1024 (up to 3/1024):
         near-ties the integer stage decides exactly
+  dyad  12 x 12 x 12 lattice, spacing 1, moved by -1, 0 or 1 times 2**-40:
+        in-sphere determinants down to about 1e-36 of their size, below
+        what double-double can decide (the exact integer stages do)
+  j14   lattice spacing 1/11 jittered by up to 1e-14
   sph   an r-theta-phi sphere (5 radii, 11.25 degree steps; the rtp
         points of createpts, duplicates removed): near-degenerate in
         floating point (points meant to be coplanar and cospherical)
@@ -41,6 +45,8 @@ ABOUT = {
  "thin": "3000 random points in a 100 x 1 x 1 box.",
  "gi": "A lattice with spacing 10 m at UTM-sized coordinates: the coordinate differences are small multiples of a power of two, so exact ties are decided by the fast integer stage.",
  "gij": "The spacing-10 lattice moved by multiples of 1/1024 m: near-ties, still decided exactly by the integer stage.",
+ "dyad": "A unit lattice moved by multiples of 2**-40: in-sphere determinants of about 1e-36 of their size, too small for double-double; the exact integer stages decide them.",
+ "j14": "A lattice with spacing 1/11 jittered by up to 1e-14: determinants near the limit of double-double.",
  "sph": "The r-theta-phi sphere of createpts: points meant to be coplanar and cospherical, but off by round-off from sin and cos. "
         "The exact Delaunay tetrahedralization of these coordinates has tets that are flat to round-off (valid exactly, zero "
         "or negative volume in floating point): use plain connect for such input.",
@@ -81,6 +87,12 @@ def main(work):
                for i in range(12) for j in range(12) for k in range(12)],
         "gij": [(400000 + 10.0 * i + rng.randint(-3, 3) / 1024.0, 3800000 + 10.0 * j + rng.randint(-3, 3) / 1024.0,
                  1000 + 10.0 * k + rng.randint(-3, 3) / 1024.0)
+                for i in range(12) for j in range(12) for k in range(12)],
+        "dyad": [(i + rng.randint(-1, 1) * 2.0 ** -40, j + rng.randint(-1, 1) * 2.0 ** -40,
+                  k + rng.randint(-1, 1) * 2.0 ** -40)
+                 for i in range(12) for j in range(12) for k in range(12)],
+        "j14": [(i / 11 + rng.uniform(-1e-14, 1e-14), j / 11 + rng.uniform(-1e-14, 1e-14),
+                 k / 11 + rng.uniform(-1e-14, 1e-14))
                 for i in range(12) for j in range(12) for k in range(12)],
         "sph": sphere(),
     }

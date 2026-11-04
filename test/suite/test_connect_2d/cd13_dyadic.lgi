@@ -1,0 +1,18 @@
+#####################################################################
+# cd13_dyadic.lgi   (test_connect_2d)
+#
+# WHAT:
+#   A 31 x 31 grid with spacing 1, every point moved by -1, 0 or 1
+#   times 2**-40: near-ties beyond double-double precision.
+#
+# EXPECT:
+#   all 961 points connected, exactly Delaunay (exact rational
+#   check), covering the convex hull.
+#####################################################################
+cmo / create / mo_tri / / / triplane
+read / avs / cd13_dyadic.pts / mo_tri
+cmo / setatt / mo_tri / imt / 1 0 0 / 1
+cmo / setatt / mo_tri / itp / 1 0 0 / 0
+connect
+dump / avs / cd13_dyadic.inp / mo_tri
+finish

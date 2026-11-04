@@ -55,6 +55,7 @@ C
       call mmfindbk('xvor',nname,ipxvor,leni,ierr)
       call mmfindbk('yvor',nname,ipyvor,leni,ierr)
       call mmfindbk('zvor',nname,ipzvor,leni,ierr)
+      call mmfindbk('vorerr',nname,ipvorerr,leni,ierr)
       call mmfindbk('vol',nname,ipvol,leni,ierr)
       call mmgetblk('iremtet',isubname,ipiremtet,ntets,1,ierr)
       call mmgetblk('imovtet',isubname,ipimovtet,ntets,1,ierr)
@@ -125,6 +126,7 @@ C
             xvor(iremtet(ii))=xvor(imovtet(ii))
             yvor(iremtet(ii))=yvor(imovtet(ii))
             zvor(iremtet(ii))=zvor(imovtet(ii))
+            vorerr(iremtet(ii))=vorerr(imovtet(ii))
             vol(iremtet(ii))=vol(imovtet(ii))
             jtetlcl=cvmgt(jtet(1,iremtet(ii)),
      $                    jtet(1,iremtet(ii))-mbndry,

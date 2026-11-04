@@ -42,6 +42,7 @@ DECKS["cd10_jitter"] = {"nv": 961, "nt": 1800, "ref": None, "pts": True,
 DECKS["cd11_rings"] = {"nv": 571, "nt": 1036, "ref": None, "pts": True}
 DECKS["cd12_old_order"] = {"nv": 400, "nt": None, "ref": "cd08_graded",
                            "pts": True}
+DECKS["cd13_dyadic"] = {"nv": 961, "nt": None, "ref": None, "pts": True}
 HULL_GAP_MAX = 1e-6
 
 
@@ -238,6 +239,13 @@ ABOUT = {
         "valid and has no edge strictly non-Delaunay. LaGriT V3.3.4 left "
         "one edge just non-Delaunay (in-circle determinant 5e-21, a "
         "near-tie its tolerances could not see).",
+    "cd13_dyadic":
+        "A 31 x 31 grid with spacing 1, every point moved by -1, 0 or 1 "
+        "times 2**-40. Many in-circle determinants are about 1e-24 of "
+        "their size or less, below what double-double arithmetic can "
+        "decide; the exact integer stage (lg_exact_int.h) decides them. "
+        "Before it, such near-ties were taken as ties and a few edges "
+        "came out just non-Delaunay.",
     "cd12_old_order":
         "The points of cd08 again, with connect / old_order: the points "
         "are inserted in the order of LaGriT V3.3.4 (a fixed prime "

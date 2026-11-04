@@ -127,7 +127,7 @@ C
       integer itetdata(3,4)
       integer iold_order,lenfl,lenvol,lenxic,lenioff,isgn
       integer jbig,iobig,iothin,iexmin,iexact
-      real*8 rbig,dxv,dyv,dzv,sxv,syv,szv,rtv,r2v,v6v,errv,epsr
+      real*8 rbig,dxv,dyv,dzv,sxv,syv,szv,rtv,r2v,v6v,errv,epsr,dvp
       integer iom2,iwalkq
       parameter (epsr=1.1102230246251565d-16, iom2=-2)
 
@@ -346,6 +346,7 @@ C
       call mmfindbk('xvor',nname,ipxvor,lennew,icscode)
       call mmfindbk('yvor',nname,ipyvor,lennew,icscode)
       call mmfindbk('zvor',nname,ipzvor,lennew,icscode)
+      call mmfindbk('vorerr',nname,ipvorerr,lennew,icscode)
       call mmfindbk('lstcns1',nname,iplstcns1,lennew,icscode)
       call mmfindbk('lstcns2',nname,iplstcns2,lennew,icscode)
       call mmfindbk('lsttts',nname,iplsttts,lennew,icscode)
@@ -1197,6 +1198,7 @@ C
             call mmnewlen('xvor',nname,ipxvor,ntetmx,icscode)
             call mmnewlen('yvor',nname,ipyvor,ntetmx,icscode)
             call mmnewlen('zvor',nname,ipzvor,ntetmx,icscode)
+            call mmnewlen('vorerr',nname,ipvorerr,ntetmx,icscode)
             call mmnewlen('ibint',nname,ipibint,ntetmx,icscode)
             call mmnewlen('rtest',isubname,iprtest,ntetmx,icscode)
             call mmnewlen('lsttts',nname,iplsttts,ntetmx,icscode)
@@ -1220,6 +1222,27 @@ C
             xvor(ntets+it)=xvornew(it)
             yvor(ntets+it)=yvornew(it)
             zvor(ntets+it)=zvornew(it)
+C           connect / exact: the error bound of the quick test for this
+C           tet (see delaunay_insph_inline.h), or -1 for a nearly flat
+C           tet (the exact test is used). R**2 is taken from the vertex
+C           farthest from the computed centre: the centre of a thin tet
+C           is inaccurate, and the bound must not use an underestimate.
+            if (iexact.ne.0) then
+               r2v=0.0d0
+               do jk=1,4
+                  r2v=max(r2v,(xic(itetnew(jk,it))-0.5d0*xvornew(it))**2
+     *              +(yic(itetnew(jk,it))-0.5d0*yvornew(it))**2
+     *              +(zic(itetnew(jk,it))-0.5d0*zvornew(it))**2)
+               enddo
+               v6v=volnew(it)
+               if (v6v.gt.0.0d0 .and. v6v*v6v.gt.1.0d-12*r2v**3) then
+                  vorerr(ntets+it)=384.0d0*epsr*r2v*r2v/v6v
+     *              +4.0d0*epsr*(abs(xvornew(it))+abs(yvornew(it))
+     *              +abs(zvornew(it)))+16.0d0*epsr*sqrt(r2v)
+               else
+                  vorerr(ntets+it)=-1.0d0
+               endif
+            endif
             ibint(ntets+it)=ntets+it
          enddo
 C
@@ -1279,6 +1302,7 @@ C
             xvor(lstold(ii))=xvor(lstmov(ii))
             yvor(lstold(ii))=yvor(lstmov(ii))
             zvor(lstold(ii))=zvor(lstmov(ii))
+            vorerr(lstold(ii))=vorerr(lstmov(ii))
          enddo
 C
 C        _______________________________________________________________

@@ -29,6 +29,7 @@
 #include <math.h>
 #include <stdint.h>
 #include <string.h>
+#include "lg_exact_int.h"
 
 #define LG_EPS 1.1102230246251565e-16
 #define O3D_BOUND ((7.0 + 56.0 * LG_EPS) * LG_EPS)
@@ -153,6 +154,181 @@ static int insphere_int(double d[12])
     return (r > 0) - (r < 0);
 }
 
+
+
+/* ------------------------------------------------------------------
+   Fixed-width exact stage. If every coordinate difference is exact in
+   double and, in units of the smallest last-bit value among them, an
+   integer below 2**62 (any lattice, at any offset, with differences
+   spanning at most 62 - 53 = 9 binary orders beyond their own 53 bits;
+   in practice: points close together), the in-sphere determinant is
+   computed exactly with 128-bit minors and 256/384-bit two's-complement
+   sums. Much faster than the general multi-word stage below.
+   ------------------------------------------------------------------ */
+static int insphere_fixed(const double *d)
+{
+    int64_t v[12];
+    uint64_t av[12], mw[6][2], Mw[4][3], lw[4][2], pw[6], nw[6];
+    int sv[12], sm[6], sM[4];
+    int i, j, k, u = 0, first = 1, ok = 1;
+    static const int P[6][2] = {{0, 3}, {3, 6}, {6, 9}, {9, 0}, {0, 6}, {3, 9}};
+    /* the 3 x 3 minors as sums of (sign, coordinate, 2 x 2 minor) */
+    static const int MT[4][3][3] = {
+        {{1, 2, 1}, {-1, 5, 4}, {1, 8, 0}},      /* abc */
+        {{1, 5, 2}, {-1, 8, 5}, {1, 11, 1}},     /* bcd */
+        {{1, 8, 3}, {1, 11, 4}, {1, 2, 2}},      /* cda */
+        {{1, 11, 0}, {1, 2, 5}, {1, 5, 3}}};     /* dab */
+    /* R = dl abc - cl dab + bl cda - al bcd */
+    static const int RT[4][3] = {{1, 3, 0}, {-1, 2, 3}, {1, 1, 2}, {-1, 0, 1}};
+    unsigned __int128 PN[2][7];
+    for (i = 0; i < 12; i++)
+        if (d[i] != 0.0) {
+            int e = lsb_exp_bits(d[i], &ok);
+            if (first || e < u) u = e;
+            first = 0;
+        }
+    if (!ok) return 2;
+    for (i = 0; i < 12; i++) {
+        if (!to_int62(d[i], u, &v[i])) return 2;
+        sv[i] = v[i] < 0;
+        av[i] = (uint64_t) (sv[i] ? -v[i] : v[i]);
+    }
+    /* |v| < 2**62: 2 x 2 minors |m| < 2**125, exact in 128 bits */
+    for (i = 0; i < 6; i++) {
+        int p = P[i][0], q = P[i][1];
+        __int128 m = (__int128) v[p] * v[q + 1] - (__int128) v[q] * v[p + 1];
+        unsigned __int128 am;
+        sm[i] = m < 0;
+        am = (unsigned __int128) (sm[i] ? -m : m);
+        mw[i][0] = (uint64_t) am;
+        mw[i][1] = (uint64_t) (am >> 64);
+    }
+    for (i = 0; i < 4; i++) {
+        unsigned __int128 l = MUL64(av[3*i], av[3*i]) + MUL64(av[3*i+1], av[3*i+1])
+                            + MUL64(av[3*i+2], av[3*i+2]);   /* < 2**126 */
+        lw[i][0] = (uint64_t) l;
+        lw[i][1] = (uint64_t) (l >> 64);
+    }
+    /* 3 x 3 minors, |M| < 2**189 (3 words) */
+    for (k = 0; k < 4; k++) {
+        memset(PN, 0, sizeof(unsigned __int128) * 14);
+        for (i = 0; i < 3; i++) {
+            int iv = MT[k][i][1], im = MT[k][i][2];
+            int neg = (MT[k][i][0] < 0) ^ sv[iv] ^ sm[im];
+            ACC(PN, 0, MUL64(av[iv], mw[im][0]), neg);
+            ACC(PN, 1, MUL64(av[iv], mw[im][1]), neg);
+        }
+        acc_words(PN[0], 3, pw);
+        acc_words(PN[1], 3, nw);
+        sM[k] = words_diff(pw, nw, 3, Mw[k]) < 0;
+    }
+    /* R = P - N, each below 2**320 (5 words, 6 for headroom) */
+    memset(PN, 0, sizeof PN);
+    for (k = 0; k < 4; k++) {
+        int neg = (RT[k][0] < 0) ^ sM[RT[k][2]];
+        const uint64_t *L = lw[RT[k][1]], *M = Mw[RT[k][2]];
+        for (i = 0; i < 2; i++)
+            for (j = 0; j < 3; j++)
+                ACC(PN, i + j, MUL64(L[i], M[j]), neg);
+    }
+    acc_words(PN[0], 6, pw);
+    acc_words(PN[1], 6, nw);
+    {
+        uint64_t w[6];
+        return words_diff(pw, nw, 6, w);
+    }
+}
+
+/* exact sign of the in-sphere determinant from the 12 differences, each
+   hi + lo; 2 if the integers would be too long */
+static int insphere_big(const dd *D)
+{
+    big v[12], t, u2, m[6], M[4], L[4], R, w;
+    int i, u = 0, first = 1;
+    for (i = 0; i < 12; i++) {
+        if (D[i].hi != 0.0) {
+            int e = lsb_exp(D[i].hi);
+            if (first || e < u) u = e;
+            first = 0;
+        }
+        if (D[i].lo != 0.0) {
+            int e = lsb_exp(D[i].lo);
+            if (first || e < u) u = e;
+            first = 0;
+        }
+    }
+    for (i = 0; i < 12; i++) {
+        if (!big_from(&t, D[i].hi, u) || !big_from(&u2, D[i].lo, u) ||
+            !big_add(&v[i], &t, &u2, 1))
+            return 2;
+    }
+    /* v: ax ay az bx by bz cx cy cz dx dy dz (0..11) */
+#define BM(r, a, b) if (!big_mul(r, a, b)) return 2
+#define BA(r, a, b, s) if (!big_add(r, a, b, s)) return 2
+    /* 2 x 2 minors of the x, y columns: ab bc cd da ac bd */
+    {
+        static const int P[6][2] = {{0, 3}, {3, 6}, {6, 9}, {9, 0}, {0, 6}, {3, 9}};
+        for (i = 0; i < 6; i++) {
+            int p = P[i][0], q = P[i][1];
+            BM(&t, &v[p], &v[q + 1]);      /* px * qy */
+            BM(&u2, &v[q], &v[p + 1]);     /* qx * py */
+            BA(&m[i], &t, &u2, -1);
+        }
+    }
+    /* abc = az bc - bz ac + cz ab */
+    BM(&t, &v[2], &m[1]); BM(&u2, &v[5], &m[4]); BA(&w, &t, &u2, -1);
+    BM(&t, &v[8], &m[0]); BA(&M[0], &w, &t, 1);
+    /* bcd = bz cd - cz bd + dz bc */
+    BM(&t, &v[5], &m[2]); BM(&u2, &v[8], &m[5]); BA(&w, &t, &u2, -1);
+    BM(&t, &v[11], &m[1]); BA(&M[1], &w, &t, 1);
+    /* cda = cz da + dz ac + az cd */
+    BM(&t, &v[8], &m[3]); BM(&u2, &v[11], &m[4]); BA(&w, &t, &u2, 1);
+    BM(&t, &v[2], &m[2]); BA(&M[2], &w, &t, 1);
+    /* dab = dz ab + az bd + bz da */
+    BM(&t, &v[11], &m[0]); BM(&u2, &v[2], &m[5]); BA(&w, &t, &u2, 1);
+    BM(&t, &v[5], &m[3]); BA(&M[3], &w, &t, 1);
+    for (i = 0; i < 4; i++) {
+        BM(&t, &v[3 * i], &v[3 * i]); BM(&u2, &v[3 * i + 1], &v[3 * i + 1]);
+        BA(&w, &t, &u2, 1);
+        BM(&t, &v[3 * i + 2], &v[3 * i + 2]); BA(&L[i], &w, &t, 1);
+    }
+    /* R = (dl abc - cl dab) + (bl cda - al bcd) */
+    BM(&t, &L[3], &M[0]); BM(&u2, &L[2], &M[3]); BA(&R, &t, &u2, -1);
+    BM(&t, &L[1], &M[2]); BA(&w, &R, &t, 1);
+    BM(&t, &L[0], &M[1]); BA(&R, &w, &t, -1);
+#undef BM
+#undef BA
+    return R.n == 0 ? 0 : (R.neg ? -1 : 1);
+}
+
+/* exact sign of det(a - d, b - d, c - d) from the 9 differences */
+static int orient_big(const dd *D)
+{
+    big v[9], t, u2, w, R;
+    int i, u = 0, first = 1;
+    for (i = 0; i < 9; i++) {
+        if (D[i].hi != 0.0) { int e = lsb_exp(D[i].hi); if (first || e < u) u = e; first = 0; }
+        if (D[i].lo != 0.0) { int e = lsb_exp(D[i].lo); if (first || e < u) u = e; first = 0; }
+    }
+    for (i = 0; i < 9; i++)
+        if (!big_from(&t, D[i].hi, u) || !big_from(&u2, D[i].lo, u) ||
+            !big_add(&v[i], &t, &u2, 1))
+            return 2;
+    /* v: Ax Ay Az Bx By Bz Cx Cy Cz; det = Az(BxCy-CxBy) + Bz(CxAy-AxCy)
+       + Cz(AxBy-BxAy) */
+#define BM(r, a, b) if (!big_mul(r, a, b)) return 2
+#define BA(r, a, b, s) if (!big_add(r, a, b, s)) return 2
+    BM(&t, &v[3], &v[7]); BM(&u2, &v[6], &v[4]); BA(&w, &t, &u2, -1);
+    BM(&R, &v[2], &w);
+    BM(&t, &v[6], &v[1]); BM(&u2, &v[0], &v[7]); BA(&w, &t, &u2, -1);
+    BM(&t, &v[5], &w); BA(&R, &R, &t, 1);
+    BM(&t, &v[0], &v[4]); BM(&u2, &v[3], &v[1]); BA(&w, &t, &u2, -1);
+    BM(&t, &v[8], &w); BA(&R, &R, &t, 1);
+#undef BM
+#undef BA
+    return R.n == 0 ? 0 : (R.neg ? -1 : 1);
+}
+
 static int64_t sign_of(double v) { return (v > 0.0) - (v < 0.0); }
 
 static int64_t dd_sign(dd v)
@@ -188,8 +364,12 @@ static int64_t orient3d(const double *a, const double *b, const double *c,
     D = dd_add(dd_add(dd_mul(Az, dd_sub(dd_mul(Bx, Cy), dd_mul(Cx, By))),
                       dd_mul(Bz, dd_sub(dd_mul(Cx, Ay), dd_mul(Ax, Cy)))),
                dd_mul(Cz, dd_sub(dd_mul(Ax, By), dd_mul(Bx, Ay))));
-    if (fabs(D.hi) <= DD_O3D_BOUND * perm)
+    if (fabs(D.hi) <= DD_O3D_BOUND * perm) {
+        dd Dv[9] = {Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz};
+        int r = orient_big(Dv);
+        if (r != 2) return r;
         return 0;
+    }
     return dd_sign(D);
 }
 
@@ -281,6 +461,8 @@ static int64_t insphere_s(const double *a, const double *b, const double *c,
                          Cx.hi, Cy.hi, Cz.hi, Dx.hi, Dy.hi, Dz.hi};
         int ri = insphere_int(dv);
         if (ri != 2) return ri;
+        ri = insphere_fixed(dv);
+        if (ri != 2) return ri;
         /* every difference is exact in double (the usual case: points
            close together, a lattice for one): products of two
            differences are exact with two_prod, and the 3 x 3 minors
@@ -329,8 +511,13 @@ static int64_t insphere_s(const double *a, const double *b, const double *c,
     R = dd_add(dd_sub(dd_mul(DL, ABC), dd_mul(CL, DAB)),
                dd_sub(dd_mul(BL, CDA), dd_mul(AL, BCD)));
     if (!haveperm) perm = isp_perm(a, b, c, d, e, &det);
-    if (fabs(R.hi) <= DD_ISP_BOUND * perm)
+    if (fabs(R.hi) <= DD_ISP_BOUND * perm) {
+        /* too close for double-double: exactly, in integers */
+        dd Dv[12] = {Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz, Dx, Dy, Dz};
+        int r = insphere_big(Dv);
+        if (r != 2) return r;
         return 0;
+    }
     return dd_sign(R);
 }
 

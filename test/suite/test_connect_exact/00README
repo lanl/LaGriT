@@ -3,7 +3,7 @@ test_connect_exact -- 3D connect: tolerance tests and connect / exact (Nov 2026)
 
 QUICK START
 
-  sh run_connect_exact_tests.sh [path-to-lagrit]   22 decks, about 30 s
+  sh run_connect_exact_tests.sh [path-to-lagrit]   26 decks, about 40 s
   open logs/summary.html
 
 WHAT IS TESTED
@@ -23,6 +23,9 @@ WHAT IS TESTED
     thin  3000 random points in a 100 x 1 x 1 box
     gi    a 12 x 12 x 12 lattice, spacing 10, at UTM-sized x and y
     gij   that lattice moved by multiples of 1/1024 (up to 3/1024)
+    dyad  a unit lattice moved by multiples of 2**-40 (determinants of
+          about 1e-36 of their size: beyond double-double)
+    j14   a 1/11 lattice jittered by up to 1e-14
     sph   the createpts rtp sphere (5 radii, 11.25 degree steps),
           duplicates removed
 
