@@ -81,9 +81,10 @@ RESULTS (Nov 4 2026)
          centres outside the domain go from 310 to 454, a Delaunay mesh
          becomes one with 330 faces not Delaunay, and the obtuse boundary
          angles go from 268 to 524 (each new vertex makes new obtuse angles; there is only
-         one pass). It writes the file gmv_refine_edge_3d in the current
-         folder (a debugging dump left in refine_edge_3d.f). Valid, the
-         volume and the boundary surface are kept.
+         one pass). Valid, the volume and the boundary surface are kept.
+         It also wrote the file gmv_refine_edge_3d in the current folder (a
+         debugging dump left in refine_edge_3d.f): removed Nov 5; rc12 and
+         rc13 now check that no such file is written.
   KNOWN  rc13: recon / 1 in 3D with two materials prints "zero terminated
          parent/child chain" (11 times): new interface vertices are not
          linked into the parent / child chains.

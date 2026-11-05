@@ -243,9 +243,9 @@ dump / avs / rc11_3d_flip_1.inp / mo
 dump / avs / rc12_3d_add_0.inp / mo
 recon / 1
 dump / avs / rc12_3d_add_1.inp / mo
-""", ["0", "1"], {"dim": 3, "after": {"1": ["valid", "same_size", "added_on_boundary"]},
+""", ["0", "1"], {"dim": 3, "after": {"1": ["valid", "same_size", "added_on_boundary", "no_stray_file"]},
                   "measure": ["nonDelaunay", "obtuse_boundary"],
-                  "known": {"1": ["delaunay", "fewer_centres_out", "fewer_obtuse_boundary", "no_stray_file"]}})
+                  "known": {"1": ["delaunay", "fewer_centres_out", "fewer_obtuse_boundary"]}})
     deck("rc13_3d_materials",
          "Two materials in 3D (random points, material 2 at x > 0.5; connect). recon / 0 and then recon / 1 "
          "must keep the mesh valid and the volume of each material; recon / 0 on this Delaunay mesh must change "
@@ -261,7 +261,7 @@ dump / avs / rc13_3d_materials_1.inp / mo
 recon / 1
 dump / avs / rc13_3d_materials_2.inp / mo
 """, ["0", "1", "2"], {"dim": 3, "after": {"1": ["valid", "same_size", "same_materials", "unchanged"],
-                                           "2": ["valid", "same_size", "same_materials"]},
+                                           "2": ["valid", "same_size", "same_materials", "no_stray_file"]},
                        "measure": ["nonDelaunay", "obtuse_boundary"], "known": {"2": ["clean_output"]}})
     deck("rc14_errors",
          "recon where it cannot work: a mesh object with no cells (a WARNING, no crash) and a hex mesh (a "
