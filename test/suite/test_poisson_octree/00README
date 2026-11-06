@@ -4,7 +4,7 @@ test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
 QUICK START
 
   sh run_poisson_octree_tests.sh [path-to-lagrit]    8 decks, about 15 s
-  open logs/summary.html
+  open summary.html
 
   The page explains each deck and check, and shows:
     - a slice of po01's octree through the point source, coloured by
