@@ -36,6 +36,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - read / avs and dump / avs (#306, #307, #308): errors instead of crashes and wrong meshes on bad files; the code restructured; read about 3 times and dump about 2.5 times faster, with byte-identical output. test_avs_io grows to 32 decks.
 - TRANS.md had **zero** and **center** swapped and listed a keyword **enter** that does not exist (#318).
 - 3D `recon / 1` no longer writes a file `gmv_refine_edge_3d` in the current folder (a debugging dump left in refine_edge_3d.f).
+- createpts / poisson_disk / 3d_box / connect left the vertices connect could not connect (dudded, itp1 = 21, in no tet) in the output mesh: 8 of 144,992 in a graded mesh. They are now removed with rmpoint / compress, as in 2D.
 - The 3D hull fill (#320) and the 2D one (#322) no longer resize every array of the mesh object in the middle of connect, which made test/level01/refine_recon_quality and test_createpts cp62 fail on macOS.
 
 ### Build and tests

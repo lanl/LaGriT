@@ -2461,7 +2461,8 @@ C     result as the current mesh object.
 C
 C     The ONLY difference between the 2D and 3D tails is that a 2D
 C     polygon may need its outline recovered after connect. A 3D box
-C     is convex, so it never does.
+C     is convex, so it never does; in 3D, the vertices connect left
+C     out (dudded) are removed with rmpoint / compress.
 C
 C     INPUT ARGUMENTS -
 C        ndim         - 2 or 3
@@ -2484,6 +2485,11 @@ C
          if(ndim .eq. 2)then
             call poi_2d_recover_polygon(mo_poi_poly,mo_poi_pts_out,
      &           if_convex)
+         else
+C           connect can leave a few vertices out (dudded, itp1 = 21,
+C           in no tet) when a new tet fails its minimum volume test;
+C           remove them, as the 2D path does in poi_2d_recover_polygon
+            call poi_cmd('rmpoint / compress ; finish ')
          endif
          call poi_sort_reorder_cells(mo_poi_pts_out)
       endif
