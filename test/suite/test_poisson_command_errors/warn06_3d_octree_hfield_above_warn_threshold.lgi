@@ -1,0 +1,22 @@
+#####################################################################
+# warn06_3d_octree_hfield_above_warn_threshold.lgi
+#
+# EXPECT:
+#   One WARNING block: h_field_att above the 100*h warning threshold,
+#   from h_lookup octree. The mesh is still made.
+#
+# NOTE:
+#   The edge buffer is off: with it on, the faces get a uniform
+#   lattice at h_spacing_scalar (here 0.002) whatever the h field.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+define / IF_POI_EDGE_BUFFER / 0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.002 / connect &
+      / hfield_too_large.mlgi / h_lookup octree
+cmo / status / brief
+finish

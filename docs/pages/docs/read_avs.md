@@ -1,14 +1,15 @@
 # read / avs
 
-read an AVS format file into a mesh object. This command requires either cmo-name to be given in
-the command or for a mesh object to have been created previously. This file format contains no geometry
-information. 
+read an AVS format file into a mesh object. The mesh object name is required, and the mesh object
+must be new or empty: **read / avs** does not add to a mesh (use **addmesh / append** to join two
+meshes). Without a name, or into a mesh object that already has vertices or cells, it stops with an
+ERROR and reads nothing. This file format contains no geometry information.
 
 ## SYNTAX
 
 **read**/ filename.[inp or .avs] / cmo_name
 
-**read** **/avs**/ filename /[cmoname]/[ node_flag / element_flag / attribute_flag]
+**read** **/avs**/ filename / cmo_name /[ node_flag / element_flag / attribute_flag]
 
 
 ## OPTIONS
@@ -28,10 +29,10 @@ read/ file1.inp /cmo1
 read/ avs / file1 /cmo1
 ```
 
-read into existing and current mesh object
+read into the mesh object cmo2,
 and skip, do not read the attribute data
 ```
-read/ avs / file2.avs / /1/1/0
+read/ avs / file2.avs / cmo2 /1/1/0
 ```
 
 ## AVS UCD ASCII FILE FORMAT
@@ -48,7 +49,7 @@ The general order of the data is as follows.
  
 1. Numbers defining the overall structure, including the number of nodes, the number of cells, and the length of the vector of data associated with the nodes, cells, and the model.
  
-2. For each node, its node id and the coordinates of that node in space. Node ids must be integers, but any number including non sequential numbers can be used. Mid edge nodes are treated like any other node.
+2. For each node, its node id and the coordinates of that node in space. Node ids must be integers. The AVS format allows any numbers, but **read / avs** requires them in order, one after another, starting from 0 or 1 (the cells refer to the nodes by these numbers); other numbering stops with an ERROR. Mid edge nodes are treated like any other node.
  
 3. For each cell: its cell id, material, cell type, and the list of nodes for the cell connectivity. 
 
@@ -65,9 +66,11 @@ prism (Prism)          avs order  = 4 5 6 1 2 3
 hex   (Hexahedron)     avs order  = 5 6 7 8 1 2 3 4 
 ```
 
+**read / avs** also reads **pri** as a prism (as some other codes write it). A cell of any other type is skipped, with a WARNING that gives the number of such cells and the first one; its row of cell data is skipped with it.
+
 4. Optional Node based data descriptions: data vector for nodes and number components that vector is divided into.
  
-5. For each node data a label on seperate lines; label/unit label pair, separated by a comma.
+5. For each node data a label on seperate lines; label/unit label pair, separated by a comma. **read / avs** makes a new attribute of type integer when the unit label is `integer` (with or without a space after the comma), else of type real. It reads only data of size 1 (scalars): data of a larger size is skipped with a WARNING.
 
 6. For each node in a separate line, the vector of data values associated with it.
 

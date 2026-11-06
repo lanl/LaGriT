@@ -26,6 +26,8 @@ test_connect_options/work/
 test_connect_exact/work/
 test_predicates/work/
 test_connect_hull/work/
+test_recon/work/
+test_poisson_octree/work/
 logs/
 out_*
 lagrit.out
@@ -68,3 +70,5 @@ run_all_usual.txt
 # ---- tracked although the patterns above match them
 # test_avs_io/golden: the expected dump files (out_*.inp and others)
 !test_avs_io/golden/*
+.run_all/
+.run_all_why.txt

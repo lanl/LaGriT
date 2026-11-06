@@ -1,0 +1,15 @@
+#####################################################################
+# err28_3d_octree_k_factor_zero.lgi
+#
+# EXPECT:
+#   One ERROR block: octree_k_factor must be more than 0.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.1 / connect &
+      / h_lookup / octree / octree_k_factor / 0
+finish

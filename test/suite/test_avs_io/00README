@@ -5,7 +5,7 @@ src/readavs.f and src/dumpavs.f)
 
 QUICK START
 
-  sh run_avs_io_tests.sh [path-to-lagrit]     29 decks, about 5 s
+  sh run_avs_io_tests.sh [path-to-lagrit]     32 decks, about 2 s
   open summary.html
 
 WHAT IT TESTS
@@ -45,20 +45,39 @@ THE DECKS
              and read back
   av18       LaGriT's own quad and hex meshes with 100 and 1,000
              vertices (the next width of the vertex and cell numbers)
+  av19       read / avs without a mesh object name, or with it blank:
+             an ERROR, nothing read (the name is required)
+  av20       values at the edges of the number formats (three-digit
+             exponents, 5e-324, 1.8e308, -0.0, 13-digit integers)
 
-  Known problems (each deck says what it expects; KNOWN until fixed,
-  then FIXED until its "# known:" line is removed):
-  ak01  read / avs into a mesh object that already has vertices: segfault
-  ak02  first vertex numbered 2: the message prints garbage
-  ak03  a stray print of the two attribute counts on every read
-  ak04  the cell name "pri" is not read (parking lot 19)
-  ak05  a gap in the vertex numbers: memory corrupted
-  ak06  "va,integer" (no space) read as real
-  ak07  a file cut short: Fortran runtime error stops LaGriT
-  ak08  an unknown cell type: the next cell gets its attributes
-  ak09  z = -1e31 is written as +1.000000015047E+30
-  ak10  a rank-3 attribute: the next attribute gets its values
-  ak11  dump / att_elem writes the ranks of the vertex attributes
+  Problems found in a review of readavs.f and dumpavs.f (Nov 2026),
+  first added as KNOWN, now fixed; each deck checks the fixed behaviour
+  (before the fix, in brackets):
+  ak01  read / avs into a mesh object that already has vertices or
+        cells: an ERROR, the mesh unchanged (segfault)
+  ak02  first vertex numbered 2: an ERROR that says so (a garbled
+        "file does not exist" message)
+  ak03  no stray print of the two attribute counts on every read
+  ak04  the cell name "pri" reads as a prism (cells dropped)
+  ak05  a gap in the vertex numbers: an ERROR naming the vertex number
+        (memory corrupted)
+  ak06  "va,integer" (no space) reads as integer (as real)
+  ak07  a file cut short: an ERROR naming the section, LaGriT goes on
+        (Fortran runtime error stopped LaGriT)
+  ak08  an unknown cell type: skipped with a WARNING, with its row of
+        cell attributes (the next cell got its attributes)
+  ak09  z = -1e31 is written as -1.000000000000E+30
+        (+1.000000015047E+30)
+  ak10  a rank-3 attribute: skipped with a WARNING; the others read
+        right (the next attribute got its values)
+  ak11  dump / att_elem writes the ranks of the cell attributes (of
+        the vertex attributes)
+  ak12  a cell attribute named like a vertex attribute: skipped with a
+        WARNING (its values were written into the vertex attribute,
+        past its end when there are more cells than vertices; found by
+        a random test of step 4)
+  A deck may also carry a "# known:" line for a problem not yet fixed:
+  it gives KNOWN while a check fails, FIXED once all hold.
 
 GOLDEN FILES
 

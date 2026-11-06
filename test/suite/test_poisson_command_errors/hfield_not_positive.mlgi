@@ -1,0 +1,12 @@
+#####################################################################
+# 3D. h_field_att = h * (1 - 2*xic): 0 at x = 0.5 and negative
+# beyond, which the h lookup octree refuses while it is built.
+#####################################################################
+define / MO_H_FIELD / mo_poi_h_field
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / xic / -2.0
+math / add / MO_H_FIELD / h_field_att / 1,0,0 / &
+             MO_H_FIELD / h_field_att / 1.0
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+                  MO_H_FIELD / h_field_att / POI_H_FACTOR
+finish

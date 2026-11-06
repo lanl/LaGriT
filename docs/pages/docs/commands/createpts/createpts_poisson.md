@@ -17,7 +17,7 @@ This poisson_disk command is available for LaGriT versions V3.3.3 or greater.
 <pre>
 <b>createpts</b> / <b>poisson_disk</b> / <b>2d_polygon</b> / mo_out / mo_polygon / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
 
-<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
+<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ] [ h_lookup <b>hex_grid</b> | <b>octree</b> ] [ octree_k_factor real ] [ octree_batch integer ] [ octree_dump file ]
 </pre>
 
 The 3D form has no `mo_polygon`: the box is given by define variables set before the command (see [3D Box and Edge Buffer](#3d-box-and-edge-buffer)), so every argument after `mo_out` is one position earlier than in 2D. The argument numbers below are those of the 2D form.
@@ -57,7 +57,7 @@ Default if this option is not used, the mesh will be uniform resolution defined 
 `user_resolution.mlgi` is the name of a LaGriT control file for user defined  resolution.
 The control file  defines a function h(x,y) (2D) or h(x,y,z) (3D) that will be used to control vertex spacing in a variable resolution mesh. See examples below.
 
-When the variable  option is utilized, internal to the module a mesh object, ** mo_poi_h_field**, with a real scalar attribute, **h_field_att**, is created. By default for uniform resolution, **h_field_att**, is set to a constant value of `h_spacing_scalar`, however, when this option is exercised, the user must fill *h_field_att* with their own scalar field h(x,y) or h(x,y,z). In 3D, mo_poi_h_field is a hex mesh covering the box, so the field must be set on every z layer, not only the first. In addition, internal to the code the command:
+When the variable  option is utilized, internal to the module a mesh object, ** mo_poi_h_field**, with a real scalar attribute, **h_field_att**, is created. By default for uniform resolution, **h_field_att**, is set to a constant value of `h_spacing_scalar`, however, when this option is exercised, the user must fill *h_field_att* with their own scalar field h(x,y) or h(x,y,z). In 3D, mo_poi_h_field is a hex mesh covering the box, so the field must be set on every z layer, not only the first. With `h_lookup octree` it is a mesh object of vertices only, with no cells, and the control file runs on it several times, once for each batch of octree vertices (see [3D h Lookup: Octree](#3d-h-lookup-octree)). In addition, internal to the code the command:
 ```define / POI_H_FACTOR / h_spacing_scalar```
 so one can access the value of `h_spacing_scalar` by using the variable **POI_H_FACTOR** in the LaGriT control file `user_resolution.mlgi` for setting variable resolution.
 
@@ -139,6 +139,33 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
 createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
       / 0.01 / connect / poisson_seed 3
 </pre>
+
+### 3D h Lookup: Octree
+
+By default (`h_lookup hex_grid`) the 3D form reads h from a hex mesh covering the box at about `h_spacing_scalar` / 1.5, and keeps track of the vertices on a grid of cells `h_spacing_scalar` / &radic;3 over the whole box. Both grow with the box volume / `h_spacing_scalar`<sup>3</sup>, whatever h is. With `h_lookup octree`, both are replaced by an octree adapted to h, so memory and time follow the number of vertices instead. Use it when h ranges over more than about a factor of 10, or when the box is large compared with `h_spacing_scalar`.
+
+| keyword | value | default |
+| --- | --- | --- |
+| `h_lookup` | `hex_grid` or `octree` | `hex_grid` |
+| `octree_k_factor` | real > 0: an octree leaf is at most h / K; a larger K is a finer, more accurate octree | 0.75 |
+| `octree_batch` | the most octree vertices given to the control file in one run | 8000000 (about 2 GB) |
+| `octree_dump` | a file name: the octree leaves are written there as an AVS hex mesh, with `h_field_att` on the vertices and the level `itetlev` on the cells | not written |
+
+These keywords are for `3d_box` only; `2d_polygon` refuses them.
+
+**The control file.** It is the same file as for `hex_grid`, run on batches of octree vertices instead of one hex mesh. The field must therefore be a function of the position only: `xic`, `yic`, `zic`, distance fields (`compute / distance_field`), `interpolate` from another mesh object, `math`. It must not use the cells of `mo_poi_h_field`, which has none. h must be positive everywhere; the checks on h (at least 0.49 `h_spacing_scalar`, a warning above 100 times) are the same as with `hex_grid`.
+
+**The vertices.** A candidate vertex is rejected only when it is closer than max(h(x), h(q)) to an accepted vertex q. The fill of empty space is maximal: it stops only when every part of the box is either shown to be covered or smaller than h / 16. At the end of each fill, LaGriT prints where any vertex could still be added, for example:
+
+<pre>
+  maximality: 7357200 boxes looked at; any vertex that could
+    still be added is in the 55951 boxes left, each at most 0.0625 h
+    (volume fraction 5.3e-05)
+</pre>
+
+So `h_lookup octree` can place more vertices than `hex_grid` for the same h: about 20 to 27% more where h is close to `h_spacing_scalar` (constant h, or the finest part of a graded mesh), and about the same where h is many times larger. There, the edges of the tetrahedra are about 1.36 h long (median) instead of about 1.45 h. Raise h by about 7% to keep the same vertex count.
+
+**The edge buffer.** With `IF_POI_EDGE_BUFFER` 1, the box faces get vertices on a regular grid at `h_spacing_scalar`, whatever the field. When h is much larger than `h_spacing_scalar`, set `IF_POI_EDGE_BUFFER` to 0.
 
 <hr>
 
@@ -362,3 +389,43 @@ finish
 
 To keep only the vertices, use `no_connect`. To vary the resolution, add a control file as the next argument. That file sets `h_field_att` on the 3D mesh object `mo_poi_h_field`, for example as a function of `zic`.
 
+## EXAMPLE 3D Box Graded from a Point, h Lookup Octree
+
+The unit box, h = 0.01 at the point (0.3, 0.6, 0.45), growing by 0.2 per unit of distance up to 0.2: a range of 20 in h. With `hex_grid` this takes about 150 s and 550 MB; with `h_lookup octree`, about 1 s and 15 MB.
+
+```
+cmo / create / mo_src / / / tet
+createpts / xyz / 1 1 1 / 0.3 0.6 0.45 / 0.3 0.6 0.45 / 1 1 1
+
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+
+createpts / poisson_disk / 3d_box / mo_pts / 0.01 / connect / &
+      h_point.mlgi / h_lookup octree / octree_dump octree_leaves.inp
+
+quality
+dump / avs / output_point_3d.inp / mo_pts
+finish
+```
+
+The control file `h_point.mlgi`:
+
+```
+compute / distance_field / mo_poi_h_field / mo_src / d_src
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / d_src / 0.2
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.01
+math / ceiling / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.2
+cmo / DELATT / mo_poi_h_field / d_src
+finish
+```
+
+`octree_leaves.inp` shows the octree: small leaves near the point, larger ones away from it.

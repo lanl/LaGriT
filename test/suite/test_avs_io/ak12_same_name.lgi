@@ -1,0 +1,11 @@
+# a cell attribute with the name of a vertex attribute (va): skipped
+# with a WARNING, the others read (it was written into the vertex
+# attribute, past its end when there are more cells than vertices)
+# check: finished
+# check: noerror
+# check: nooutput PANIC
+# check: output cell attribute va exists with the other length
+# check: model out.inp cells_hex.inp atts=va,vr,cr
+read / avs / hex_same_names.inp / mo1
+dump / avs / out.inp / mo1
+finish

@@ -54,6 +54,8 @@
 #   hfield_too_large.mlgi       field at 200*h, above the 100*h warn
 #   hfield_vary_in_z.mlgi       3D, illegal values only away from the
 #                               first z layer
+#   hfield_not_positive.mlgi    3D, h = h * (1 - 2*xic): not positive
+#                               from x = 0.5 on
 #
 #######################################################################
 #
@@ -95,6 +97,15 @@
 #   err25  THREE faults: POI_ZMAX a word, IF_POI_EDGE_BUFFER 2,
 #          POI_EDGE_BUFFER -1 (accumulator test)
 #
+# h_lookup octree (3D)
+#   err26  h field below the floor away from the first z layer
+#          (err19's field), checked on every octree vertex
+#   err27  h_lookup octtree, not hex_grid or octree
+#   err28  octree_k_factor 0
+#   err29  TWO faults: octree_batch 0, octree_k_factor a word
+#   err30  2D refuses the h lookup keywords
+#   err31  h field not positive: the octree cannot be built
+#
 # Warnings, must NOT abort
 #   warn01 nonconvex, reflex at vertex 4
 #   warn02 nonconvex, reflex at vertex 1
@@ -102,6 +113,8 @@
 #   warn04 h field above the 100*h warning threshold
 #   warn05 3D, edge buffer defines not set (defaults used); the box
 #          limits are integers, which used to be read as garbage
+#   warn06 3D h_lookup octree, h field above the 100*h warning
+#          threshold (edge buffer off)
 #
 #######################################################################
 #

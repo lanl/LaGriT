@@ -9,7 +9,8 @@
 # with the file it came from (check_avs.py reads AVS itself), and every
 # file LaGriT writes is compared byte for byte with golden/ (written by
 # LaGriT before any change to read / dump avs). The ak* decks document
-# problems not yet fixed (KNOWN). See 00README. About 5 seconds.
+# problems that were fixed (KNOWN for a problem not yet fixed). See
+# 00README. About 2 seconds.
 #
 # make_inputs.py writes the input files into work/; each deck runs
 # there. Exit status: nonzero on any FAIL or FIXED.

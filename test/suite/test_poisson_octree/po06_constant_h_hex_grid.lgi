@@ -1,0 +1,14 @@
+# po06_constant_h_hex_grid.lgi -- test_poisson_octree (see 00README)
+# Constant h = 0.1 (no h field file), h_lookup hex_grid.
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.1 / connect / &
+      h_lookup hex_grid / poisson_seed 1
+dump / avs / po06_points_hex_grid.inp / mo_pts / 1 0 0 0
+finish

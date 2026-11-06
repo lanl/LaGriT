@@ -175,7 +175,8 @@ def main():
     except OSError:
         output = b""
     otext = output.decode("latin-1")
-    olines = otext.split("\n")
+    # LaGriT echoes the deck, comments too: judge only its own lines
+    olines = [l for l in otext.split("\n") if not l.startswith("#")]
     has_error = any(re.search(r"ERROR|Error from", l) for l in olines)
     fails = []
 

@@ -61,6 +61,7 @@ If a cell in the grid is occupied, it's tagged with the node number + 1
 0 indicates the cells is empty.
 */
 void Domain::initializeNeighborGrid() {
+    if (octree) { octInitNeighborGrid(); return; }
     cout << "Initializing Neighbor Grid" << endl;
     // grid size is h / sqrt(2) to correspond with a circle of radius h
     cellSize = h / sqrt(3);
@@ -125,6 +126,7 @@ previously accepted points within the exclusion radius of the current point.
 This is done using the values of the neighborgrid
 */
 std::vector<int> Domain::getNeighborCellsRadius(Point point) {
+    if (octree) return octGetNeighborCellsRadius(point);
     
     std::vector<int> nodeIDs;
     // Get the corners of a square around ix,iy.
@@ -180,6 +182,7 @@ std::vector<int> Domain::getNeighborCellsRadius(Point point) {
 * Exclusion radius of the provided point.
 */
 void Domain::tagNeighborCells(Point point) {
+    if (octree) { octTagNeighborCells(point); return; }
 //    cout << "tagging neighbor cells" << endl;
 
     // Get discrete radius. Number of cells covered by the radius
@@ -228,6 +231,7 @@ void Domain::tagNeighborCells(Point point) {
 /*! Walk through grid and find cells that do not contain a point
 */
 void Domain::findEmptyCells() {
+    if (octree) { octFindEmptyCells(); return; }
     cout << "Finding Empty Cells " << endl;
     emptyCells.erase(emptyCells.begin(), emptyCells.end());
     emptyCells.shrink_to_fit();
@@ -264,6 +268,7 @@ void Domain::findEmptyCells() {
 /*! Given the list of empty cells, attempt to fill them with a new point.
 */
 unsigned int Domain::fillEmptyCells() {
+    if (octree) return octFillEmptyCells();
     Point newPoint;
     unsigned int newPoints = 0;
     // cells indices are stored in multiples of 2.

@@ -30,6 +30,10 @@ Variants of cells_hex (the same mesh, written differently):
                      section is the single line "0"
   hex_wide           12 cell attributes: more cell than vertex
                      attributes (dump / att_elem's header)
+  extremes           values at the edges of the number formats: three
+                     digit exponents, the smallest and largest doubles,
+                     -0.0, values that round up to the next power of 10,
+                     13-digit integers
 Files for known problems (see the decks with a "# known:" line):
   hex_first_two      the first vertex is numbered 2
   hex_gap            vertex numbers 1..6, 8..13 (7 missing), the cells
@@ -41,6 +45,7 @@ Files for known problems (see the decks with a "# known:" line):
                      with its attribute row
   hex_far_z          one z coordinate is -1e31
   vec_rank3          one vertex attribute of rank 3
+  hex_same_names     a cell attribute named va, like a vertex attribute
 
 Python 3, standard library only.
 """
@@ -248,6 +253,9 @@ def main():
     Vf = list(V)
     Vf[5] = (Vf[5][0], Vf[5][1], -1.0e31)
     std("hex_far_z.inp", Vf, C)
+    write_extremes(os.path.join(out, "extremes.inp"))
+    ca, cr = catts(len(C))
+    std("hex_same_names.inp", V, C, cnames=("va", "cr"), ccols=(ca, cr))
     std("vec_rank3.inp", V, C, vranks=[3, 1])
     Vp, Cp = mesh_prism()
     std("prism_pri.inp", jiggle(Vp), [("pri", c) for (_, c) in Cp])
@@ -273,6 +281,34 @@ def main():
     L[i + 1] = "3" + L[i + 1][1:]
     L.insert(i + 1, "2 999 %s" % fmt(9.99))
     open(p, "w").write("\n".join(L))
+
+
+def write_extremes(path):
+    """extremes.inp: the 12-vertex hex mesh with values at the edges of
+    what dump / avs formats: exponents of three digits, the smallest
+    and largest doubles, -0.0, values that round up to the next power
+    of ten, and integers of 13 digits"""
+    V, C = mesh_hex()
+    V = [list(v) for v in jiggle(V)]
+    V[0][0] = 9.99999999999995e29
+    V[1][1] = -1.0e-29
+    V[2][2] = 123456789.0123456789
+    vi = [0, 1, -1, 99, -100, 2 ** 40, -(2 ** 40), 999999999999, 7, -7, 10 ** 12, 5]
+    vr = [1e-300, -1e300, 1.0e100, -9.99999999999995e99, 5e-324, -0.0,
+          1.0000000000005, 123456789012.345678, -1e-100, 0.5, 2.5e-15,
+          1.7976931348623157e308]
+    ca = [2 ** 40, -(2 ** 40)]
+    cr = [1e-99, -9.999999999995e-100]
+    L = ["12 2 2 2 0"]
+    for i, (x, y, z) in enumerate(V):
+        L.append("%d %r %r %r" % (i + 1, x, y, z))
+    for k, (t, idx) in enumerate(C):
+        L.append("%d %d %s %s" % (k + 1, k + 1, t, " ".join(map(str, idx))))
+    L += ["2 1 1", "vi, integer", "vr, real"]
+    L += ["%d %d %r" % (i + 1, vi[i], vr[i]) for i in range(12)]
+    L += ["2 1 1", "ca, integer", "cr, real"]
+    L += ["%d %d %r" % (k + 1, ca[k], cr[k]) for k in range(2)]
+    open(path, "w").write("\n".join(L) + "\n")
 
 
 if __name__ == "__main__":

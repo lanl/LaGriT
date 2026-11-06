@@ -330,8 +330,8 @@ c
 c
       goto 9999
  9999 continue
-C
-      call dotaskx3d('dump/gmv/gmv_refine_edge_3d ; finish',ierror)
+C     (a debugging dump/gmv/gmv_refine_edge_3d here wrote that file in
+C     the current folder on every 3D recon / 1; removed Nov 2026)
 C
       call mmrelprt(isubname,icscode)
       return

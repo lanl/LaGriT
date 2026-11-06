@@ -1,7 +1,8 @@
-# read / avs into a mesh object that already has vertices and cells
-# known: segfault: readavs resizes the arrays only when its vertex count reaches 1 (parking lot 27)
+# read / avs into a mesh object that already has vertices and cells is
+# refused (addmesh / append joins two meshes); the mesh is unchanged
 # check: finished
-# check: model_or_error out.inp cells_hex.inp
+# check: output mo1 is not empty
+# check: model out.inp cells_tet.inp
 read / avs / cells_tet.inp / mo1
 read / avs / cells_hex.inp / mo1
 dump / avs / out.inp / mo1
