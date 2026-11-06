@@ -1,8 +1,9 @@
-# a vertex attribute of rank 3: either read with its 3 values, or
-# refused with a message; the next attribute must not take its values
-# known: the ranks in the file are ignored: vr gets va's second value
+# a vertex attribute of rank 3: skipped with a WARNING (only rank 1 is
+# read); the next attribute keeps its own values
 # check: finished
-# check: model_or_error out.inp cells_hex.inp atts=vr
+# check: noerror
+# check: output attribute va has rank +3
+# check: model out.inp cells_hex.inp atts=vr,ca,cr
 read / avs / vec_rank3.inp / mo1
 dump / avs / out.inp / mo1
 finish

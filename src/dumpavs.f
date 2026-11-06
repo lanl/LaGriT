@@ -11,6 +11,12 @@ C     PURPOSE -
 C
 C        THIS ROUTINE WRITES AN OUTPUT FILE IN AVS UCD FORMAT.
 C
+C        Nov 2026: restructured (the AVS cell types and vertex orders
+C        from avs_cell_table, shared with readavs; computed number
+C        widths; one loop for the vertex and the cell attributes). The
+C        files written are byte-identical to the earlier ones
+C        (test/suite/test_avs_io/golden).
+C
 C     INPUT ARGUMENTS -
 C
 C        iopt_points      = 0 Do not output node coordinate information
@@ -204,95 +210,75 @@ C
 C
       character ifile*(*)
       character*32 cmo
-      pointer (ipimt1, imt1)
-      pointer (ipitp1, itp1)
-      pointer (ipicr1, icr1)
-      pointer (ipisn1, isn1)
+      integer nsd, nen, nef, nnodes, nelements, mbndry, ihcycle
+      real*8 time, dthydro
+      integer iopt_points, iopt_elements, iopt_values_node,
+     *        iopt_values_elem, io_format
+C
       pointer (ipxic, xic)
       pointer (ipyic, yic)
       pointer (ipzic, zic)
+      real*8 xic(*), yic(*), zic(*)
       pointer (ipitetclr, itetclr)
       pointer (ipitettyp, itettyp)
       pointer (ipitetoff, itetoff)
-      pointer (ipjtetoff, jtetoff)
       pointer (ipitet, itet)
-      pointer (ipjtet, jtet)
-
-      integer imt1(*), itp1(*), icr1(*), isn1(*)
-      real*8 xic(*), yic(*), zic(*)
-      integer itetclr(*), itettyp(*),
-     *        itetoff(*), jtetoff(*)
-      pointer (ipisetwd, isetwd)
-      integer isetwd(*)
-      integer itet(*), jtet(*)
-      integer  itypout
+      integer itetclr(*), itettyp(*), itetoff(*), itet(*)
 C
       pointer (ipxvalues, xvalues)
       real*8 xvalues(*)
       pointer (ipcmo_pointer, icmo_pointer)
       pointer (ipcmo_pointer, xcmo_pointer)
       integer icmo_pointer(*)
-      REAL*8 xcmo_pointer(*)
-      pointer (iadr,dat)
+      real*8 xcmo_pointer(*)
+      pointer (iadr, dat)
       real*8 dat(*)
 C
-      integer  nmcmoatt
-      pointer (ipcnames,cnames)
-      pointer (ipranks,iranks)
-      pointer (ipidx,idx)
-      pointer (ipidxe,idxe)
-      pointer (ipoffs,ioffs)
-      pointer (ipoffse,ioffse)
-      pointer (iplengths,clengths)
-      pointer (ipioflags,cioflags)
-      character*32 cnames(*),clengths(*),cioflags(*)
-      integer iranks(*),ioffs(*),ioffse(*),idx(*),idxe(*)
+      pointer (ipcnames, cnames)
+      pointer (ipranks, iranks)
+      pointer (iplengths, clengths)
+      pointer (ipioflags, cioflags)
+      pointer (ipisel, isel)
+      pointer (ipioffv, ioffv)
+      character*32 cnames(*), clengths(*), cioflags(*)
+      integer iranks(*), isel(*), ioffv(*)
 C
-      character*32 isubname
-      character*32  ctype , cinterp, crank,cpers
-      character*132 logmess
-      real*8 a,b,c,time,dthydro,cutoff,maxval
-      real*8 cinterpolate
-      integer icharlnf
-      integer ilen,ityp,ierr,ivoronoi2d,ivoronoi3d,mmlength,
-     *  ierror_return,irank,lent,nvalues1,length,len2,i8,i7,
-     *  i6,i5,i4,i3,i2,i1,index,it,j,iflag,len1,i,nvalues,
-     *  icscode,ierror,iunit,iopt_points,iopt_elements,
-     *  iopt_values_node,iopt_values_elem,io_format,
-     *  io_format_node, io_format_elem,
-     *  mbndry,nelements,nnodes,ihcycle,nvaluese,lenval,lvalues,
-     *  lvaluese,izero,k,irowlen,irowlene, ncolumn_max
-      integer nnodes_io,nelements_io,nvalues_node,nvalues_elem
-      integer nsd, nen, nef, nsdgeom,nsdtopo,nee
-      integer ielements, itoff, jtoff
-C
-      pointer (ipitype_flag,itype_flag)
+      pointer (ipitype_flag, itype_flag)
       pointer (ipimin_vint, imin_vint)
       pointer (ipimax_vint, imax_vint)
-      pointer (ipn_int_i,   n_int_i)
-      integer itype_flag(*),imin_vint(*),imax_vint(*),n_int_i(*)
-      integer n_real, n_dec, n_int, n_space, n_char_string
-      integer if_clear
-      real*8 r8
-c
-      character*4096 ch_string 
+      pointer (ipn_int_i, n_int_i)
+      integer itype_flag(*), imin_vint(*), imax_vint(*), n_int_i(*)
 C
-      character*8  ch_elem1
-      character*22 ch_elem2
+      character*32 isubname, ctype, cinterp, crank, cpers, clen
+      character*132 logmess
+      character*8 cname
+      character*4096 ch_string
+      character*256 cline
+      integer nout, iok, nrow
+      character*30 cfmt_point, cfmt_cell
+      character*2 chash
+      real*8 xyz(3), cutoff, maxval, r8, cinterpolate
+      integer icharlnf, avs_width
+      integer i, j, k, ic, it, iindex, ierr, icscode, ierror_return,
+     *  ilen, ityp, iunit, nmcmoatt, nvalues, nvaluese, nelem,
+     *  io_fmt, io_format_node, io_format_elem, nnodes_io,
+     *  nelements_io, nvalues_node, nvalues_elem, iw, ivw, isec,
+     *  nent, iopt, ihash, nsel, irowlen, len2, itypout, irank,
+     *  length, mmlength, lent, ncolumn_max, n_real, n_dec, n_int,
+     *  n_space, n_char_string, if_clear, lname, ifelm, nvert,
+     *  njtet, lperm(8), ioff, ivert(8), kc, ktab(0:20), ifk
+      character*8 ctab(8)
+      integer ltab(8), ntab(8), ptab(8,8), njk
+      character*1 cxyz(3)
+      data cxyz / 'x', 'y', 'z' /
 C
-      data ivoronoi2d / 1 /
-      data ivoronoi3d / 0 /
       data cutoff/1.e-30/
-      data maxval/1.e+30/
-      data izero/0/
+      data maxval/1.d+30/
 C
 C ######################################################################
 C begin
-
-      it = 0
-      lenval = 0
-
-      if((nnodes .eq. 0) .and. (nelements .eq. 0))then
+C
+      if ((nnodes .eq. 0) .and. (nelements .eq. 0)) then
           write(logmess,'(a)')'WARNING: dumpavs'
           call writloga('default',0,logmess,0,icscode)
           write(logmess,'(a)')'WARNING: nnodes=0 nelements = 0'
@@ -304,111 +290,67 @@ C begin
       isubname="dumpavs"
 C
       iunit=-1
-      call hassign(iunit,ifile,ierror)
-      if (iunit.lt.0 .or. ierror.lt.0) then
+      call hassign(iunit,ifile,ierr)
+      if (iunit.lt.0 .or. ierr.lt.0) then
         call x3d_error(isubname,'hassign bad file unit')
         write(logmess,'(a)')'WARNING: No output'
         call writloga('default',0,logmess,0,icscode)
         return
       endif
-
 C
-C  get information from  mesh object
-C
-      call cmo_get_info('isetwd',cmo,
-     *                        ipisetwd,ilen,ityp,ierr)
-      call cmo_get_info('imt1',cmo,ipimt1,ilen,ityp,ierr)
-      call cmo_get_info('itp1',cmo,ipitp1,ilen,ityp,ierr)
-      call cmo_get_info('icr1',cmo,ipicr1,ilen,ityp,ierr)
-      call cmo_get_info('isn1',cmo,ipisn1,ilen,ityp,ierr)
       call cmo_get_info('xic',cmo,ipxic,ilen,ityp,ierr)
       call cmo_get_info('yic',cmo,ipyic,ilen,ityp,ierr)
       call cmo_get_info('zic',cmo,ipzic,ilen,ityp,ierr)
-      call cmo_get_info('itetclr',cmo,
-     *                  ipitetclr,ilen,ityp,ierr)
-      call cmo_get_info('itettyp',cmo,
-     *                  ipitettyp,ilen,ityp,ierr)
-      call cmo_get_info('itetoff',cmo,
-     *                  ipitetoff,ilen,ityp,ierr)
-      call cmo_get_info('jtetoff',cmo,
-     *                  ipjtetoff,ilen,ityp,ierr)
+      call cmo_get_info('itetclr',cmo,ipitetclr,ilen,ityp,ierr)
+      call cmo_get_info('itettyp',cmo,ipitettyp,ilen,ityp,ierr)
+      call cmo_get_info('itetoff',cmo,ipitetoff,ilen,ityp,ierr)
       call cmo_get_info('itet',cmo,ipitet,ilen,ityp,ierr)
-      call cmo_get_info('jtet',cmo,ipjtet,ilen,ityp,ierr)
 C
-C     ******************************************************************
+C     The options. io_format 3 and 4 (att_node, att_elem) start the
+C     header lines with "#". The arguments are not changed: local
+C     copies (nelem, io_fmt).
 C
-
-
-C     write AVS UCD pt elements for node mesh with 0 elements 
-      if(iopt_elements .eq. 3)then
-
-         if (nnodes.gt.0 .and. nelements.gt.0 ) then
+      nelem = nelements
+      io_fmt = io_format
+      io_format_node = 0
+      io_format_elem = 0
+      if (iopt_elements .eq. 3) then
+C        pt cells for a mesh of vertices only
+         if (nnodes.gt.0 .and. nelements.gt.0) then
            write(logmess,'(a)')'WARNING: AVS UCD PT No output'
            call writloga('default',0,logmess,0,ierr)
-           write(logmess,'(a)') 
+           write(logmess,'(a)')
      *    'Expecting points but mesh has elements and connectivity.'
            call writloga('default',0,logmess,0,ierr)
+           close(iunit)
            return
          endif
-
-         nelements = nnodes
-         io_format = 2
-         iopt_elements = 3
-         io_format_node = 0
-         io_format_elem = 0
-
-      elseif(io_format .eq. 3)then
-         io_format = 2
+         nelem = nnodes
+         io_fmt = 2
+      elseif (io_format .eq. 3) then
+         io_fmt = 2
          io_format_node = 1
-         io_format_elem = 0
-      elseif(io_format .eq. 4)then
-         io_format = 2
-         io_format_node = 0
+      elseif (io_format .eq. 4) then
+         io_fmt = 2
          io_format_elem = 1
-      else
-         io_format_node = 0
-         io_format_elem = 0
       endif
-
-
-C debug
-C     print*,"nnodes  = ",nnodes
-C     print*,"nelements  = ",nelements
-C     print*,"io format, node, elem = ",
-C    *        io_format,io_format_node,io_format_elem
-C     print*,"iopt_points       = ",iopt_points
-C     print*,"iopt_elements     = ",iopt_elements
-C     print*,"iopt_values_node  = ",iopt_values_node
-C     print*,"iopt_values_elem  = ",iopt_values_elem
-
 C
 C     ******************************************************************
-C     Count the number of AVS fields to write
+C     The attributes written: ioflag holds 'a'; length nnodes (vertex
+C     attributes) or nelements (cell attributes).
 C
       call cmo_get_info('number_of_attributes',cmo,nmcmoatt,ilen,ityp,
      *   icscode)
 C
-      nvalues=0
-      nvaluese=0
-      lvalues=0
-      lvaluese=0
-      lenval=0
-      irowlen=0
-      irowlene=0
- 
 c     Hardwire turning off output of -def- field.
-c
       call dotaskx3d
      1 ('cmo/modatt/-def-/-def-/ioflag/x;finish',icscode)
       call mmgetblk('cnames',isubname,ipcnames,nmcmoatt*8,1,icscode)
       call mmgetblk('clengths',isubname,iplengths,nmcmoatt*8,1,icscode)
-      call mmgetblk('iranks',isubname,ipranks,nmcmoatt,1,icscode)
-      call mmgetblk('idx',isubname,ipidx,nmcmoatt,1,icscode)
-      call mmgetblk('idxe',isubname,ipidxe,nmcmoatt,1,icscode)
-      call mmgetblk('ioffs',isubname,ipoffs,nmcmoatt,1,icscode)
-      call mmgetblk('ioffse',isubname,ipoffse,nmcmoatt,1,icscode)
       call mmgetblk('cioflags',isubname,ipioflags,nmcmoatt*8,1,icscode)
-c
+      call mmgetblk('iranks',isubname,ipranks,nmcmoatt,1,icscode)
+      call mmgetblk('isel',isubname,ipisel,nmcmoatt,1,icscode)
+      call mmgetblk('ioffv',isubname,ipioffv,nmcmoatt,1,icscode)
       call mmgetblk
      1   ('itype_flag',isubname,ipitype_flag,nmcmoatt,1,icscode)
       call mmgetblk
@@ -418,38 +360,16 @@ c
       call mmgetblk
      1   ('n_int_i',   isubname,ipn_int_i,   nmcmoatt,1,icscode)
 C
-c
-      ioffs(1)=0
-      ioffse(1)=0
-c
+      nvalues=0
+      nvaluese=0
       do i=1,nmcmoatt
-C
-C
-C....    NAME Field.
-C
-         call cmo_get_attribute_name(cmo,i,
-     *                     cnames(i),icscode)
-C
-         call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
+         call cmo_get_attribute_name(cmo,i,cnames(i),icscode)
+         call cmo_get_attparam(cnames(i),cmo,iindex,ctype,crank,
      *    clengths(i),cinterp,cpers,cioflags(i),ierror_return)
          call cmo_get_info(crank,cmo,iranks(i),ilen,ityp,icscode)
-
-C        code has been written to handle rank 3 vectors
-C        but is not handling the part where values are written
-C        ie, if rank 3, only one third of values written
-C        and all other values written are corrupted
-C        So until fixed, do not write vector rank 3 
 C
-C     NOTE: Writing a vector, there is only 1 attribute not 3 (irank)
-C     Internally lagrit has an array 3x nnodes (or elements)
-C     Write AVS format for vector should look something like:
-C     Header: nnodes nelements 3 0 0
-C     Data:
-C     1 3
-C     vector_name, real
-C     1 varray(1,1) varray(2,1) varray(3,1)
-C     2 varray(1,2) varray(2,2) varray(3,2)
-
+C        Vectors (rank 3) are not written; see the history of this
+C        file for the format they would need.
          if (crank(1:6) .eq. "vector") then
             write(logmess,"(a)")
      1     'ERROR dumpavs: vector output not supported.'
@@ -460,36 +380,14 @@ C     2 varray(1,2) varray(2,2) varray(3,2)
             write(logmess,"(a)")
      1     'ERROR dumpavs: No Action '
             call writloga('default',0,logmess,1,ierr)
-            write(logmess,"(a)")
             goto 9999
          endif
-         
-         len1=icharlnf(cioflags(i))
-         iflag=0
-         ioffs(1)=0
-         do j=1,len1
-            if(cioflags(i)(j:j).eq.'a'.and.
-     *         clengths(i)(1:icharlnf(clengths(i))).eq.'nnodes') then
-               iflag=1
-               nvalues=nvalues+1
-               idx(nvalues)=i
-               lvalues=lvalues+iranks(i)
-
-               ioffs(i)=irowlen
-               irowlen=irowlen+iranks(i)
-            endif
-         enddo
-         do j=1,len1
-            if(cioflags(i)(j:j).eq.'a'.and.
-     *         clengths(i)(1:icharlnf(clengths(i))).eq.'nelements') then
-               iflag=1
-               nvaluese=nvaluese+1
-               idxe(nvaluese)=i
-               lvaluese=lvaluese+iranks(i)
-               ioffse(i)=irowlene
-               irowlene=irowlene+iranks(i)
-            endif
-         enddo
+         if (index(cioflags(i),'a') .gt. 0) then
+            if (clengths(i)(1:icharlnf(clengths(i))).eq.'nnodes')
+     *         nvalues=nvalues+1
+            if (clengths(i)(1:icharlnf(clengths(i))).eq.'nelements')
+     *         nvaluese=nvaluese+1
+         endif
       enddo
       if ((nvalues+nvaluese)*32 .gt. 4096) then
         write(logmess,"(a)")
@@ -503,833 +401,340 @@ C     2 varray(1,2) varray(2,2) varray(3,2)
         call writloga('default',0,logmess,1,ierr)
         goto 9999
       endif
-
 C
-C     write header at top of file only if writing node coordinates
-C     num_nodes, num_elems, num_node_att, num_elem_att, num_mdata
-C       num_mdata is model data and is not used and is set to 0
-C       iopt_points toggle node coordinates
-C       iopt_elements toggle element connectivity
-C       iopt_values_node toggle node attributes 
-C       iopt_values_elem toggle element attributes 
-
-      if(iopt_points .ge. 1)then
-         nnodes_io = nnodes
+C     ******************************************************************
+C     The header: vertices, cells, vertex attributes, cell
+C     attributes, model data (always 0); a part not written counts 0.
+C
+      nnodes_io = 0
+      nelements_io = 0
+      nvalues_node = 0
+      nvalues_elem = 0
+      if (iopt_points .ge. 1) nnodes_io = nnodes
+      if (iopt_elements .ge. 1) nelements_io = nelem
+      if (iopt_values_node .ge. 1) nvalues_node = nvalues
+      if (iopt_values_elem .ge. 1) nvalues_elem = nvaluese
+      if ((io_format_node .ne. 0) .or. (io_format_elem .ne. 0)) then
+         write(iunit,9029) '# ',
+     *     nnodes_io,nelements_io,nvalues_node,nvalues_elem,0
       else
-         nnodes_io = izero
+         write(iunit,9030)
+     *     nnodes_io,nelements_io,nvalues_node,nvalues_elem,0
       endif
-      if(iopt_elements .ge. 1)then
-         nelements_io = nelements
-      else
-         nelements_io = izero
-      endif
-      if(iopt_values_node .ge. 1)then
-         nvalues_node = nvalues
-      else
-         nvalues_node = izero
-      endif
-      if(iopt_values_elem .ge. 1)then
-         nvalues_elem = nvaluese
-      else
-         nvalues_elem = izero
-      endif
-      if((io_format_node .ne. 0) .or. (io_format_elem .ne. 0))then
-       write(iunit,9029)'# ',
-     *   nnodes_io,nelements_io,nvalues_node,nvalues_elem,izero
-      else
-       write(iunit,9030)
-     *   nnodes_io,nelements_io,nvalues_node,nvalues_elem,izero
-      endif
-     
  9029 format(a2,5(i10,1x))
  9030 format(5(i10,1x))
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-C        Write the point coordinates
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-      if(iopt_points .ge. 1) then
-
-         if(iopt_points .eq. 1)then
+C     ******************************************************************
+C     The vertices: number (iopt_points 1, as wide as needed), x, y, z.
+C     |value| below 1e-30 is written as 0, beyond 1e30 as +-1e30.
 C
-C        Output node#, x,y,z
-C         
-         ch_string(1:23) = '(i03.03,1x,3(1pe20.12))'
-      if(nnodes .ge. 99)
-     1   ch_string(1:23) = '(i04.04,1x,3(1pe20.12))'
-      if(nnodes .ge. 999)
-     1   ch_string(1:23) = '(i05.05,1x,3(1pe20.12))'
-      if(nnodes .ge. 9999)
-     1   ch_string(1:23) = '(i06.06,1x,3(1pe20.12))'
-      if(nnodes .ge. 99999)
-     1   ch_string(1:23) = '(i07.07,1x,3(1pe20.12))'
-      if(nnodes .ge. 999999)
-     1   ch_string(1:23) = '(i08.08,1x,3(1pe20.12))'
-      if(nnodes .ge. 9999999)
-     1   ch_string(1:23) = '(i09.09,1x,3(1pe20.12))'
-      if(nnodes .ge. 99999999)
-     1   ch_string(1:23) = '(i10.10,1x,3(1pe20.12))'
-      if(nnodes .ge. 999999999)
-     1   ch_string(1:23) = '(i11.11,1x,3(1pe20.12))'
-     
-         elseif(iopt_points .eq. 2)then
-C
-C        Output x,y,z without node number in first column
-C
-         ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 99)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 9999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 99999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 999999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 9999999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 99999999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-      if(nnodes .ge. 999999999)
-     1   ch_string(1:23) = '(3(1pe20.12))          '
-     
+      if (iopt_points .ge. 1) then
+         iw = avs_width(nnodes)
+         if (iopt_points .eq. 1) then
+            write(cfmt_point,'(a,i2.2,a,i2.2,a)') '(i',iw,'.',iw,
+     *         ',1x,3(1pe20.12))'
+         else
+            cfmt_point = '(3(1pe20.12))'
          endif
          do i=1,nnodes
-            a=xic(i)
-            b=yic(i)
-            c=zic(i)
-            if (abs(a).lt.cutoff) a=0.0
-            if (abs(b).lt.cutoff) b=0.0
-            if (abs(c).lt.cutoff) c=0.0
-            if (a.gt.maxval) then
-               write(logmess,9035) i,a
- 9035          format(' x coordinate number ',i10,
-     *                ' reset to maximum of 1.e+30 ',e12.5)
-               call writloga('default',0,logmess,0,icscode)
-               a=maxval
+            xyz(1)=xic(i)
+            xyz(2)=yic(i)
+            xyz(3)=zic(i)
+            do k=1,3
+               if (abs(xyz(k)).lt.cutoff) xyz(k)=0.0
+               if (abs(xyz(k)).gt.maxval) then
+                  write(logmess,9035) cxyz(k),i,xyz(k)
+ 9035             format(1x,a1,' coordinate of vertex ',i10,
+     *                   ' written as +-1.e+30: ',e12.5)
+                  call writloga('default',0,logmess,0,icscode)
+                  xyz(k)=sign(maxval,xyz(k))
+               endif
+            enddo
+C           the line built by avs_put_vertex (avs_fast.c), else by a
+C           formatted write (the same characters)
+            iok = 0
+            if (iopt_points.eq.1 .or. iopt_points.eq.2)
+     *         call avs_put_vertex(iopt_points,i,iw,xyz,cline,nout,iok)
+            if (iok .eq. 1) then
+               write(iunit,'(a)') cline(1:nout)
+            elseif (iopt_points .eq. 1) then
+               write(iunit,cfmt_point) i,xyz(1),xyz(2),xyz(3)
+            elseif (iopt_points .eq. 2) then
+               write(iunit,cfmt_point) xyz(1),xyz(2),xyz(3)
             endif
-            if (a.lt.-maxval) then
-               write(logmess,9035) i,a
-               call writloga('default',0,logmess,0,icscode)
-               a=-maxval
-            endif
-            if (b.gt.maxval) then
-               write(logmess,9035) i,b
-               call writloga('default',0,logmess,0,icscode)
-               b=maxval
-            endif
-            if (b.lt.-maxval) then
-               write(logmess,9035) i,b
-               call writloga('default',0,logmess,0,icscode)
-               b=-maxval
-            endif
-            if (abs(c).gt.maxval) then
-               write(logmess,9035) i,c
-               call writloga('default',0,logmess,0,icscode)
-               c=maxval
-            endif
-            if (c.lt.-maxval) then
-               write(logmess,9035) i,c
-               call writloga('default',0,logmess,0,icscode)
-               c=-maxval
-            endif
-            if(iopt_points .eq. 1)then
-            write(iunit,ch_string(1:23)) i,a,b,c
-            elseif(iopt_points .eq. 2)then
-            write(iunit,ch_string(1:23))a,b,c
-            endif
-C
-C 9040       format(i10.10,1x,3(1pe20.12))
-C
          enddo
       endif
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-C        Write the connectivity
+C     ******************************************************************
+C     The cells: number (iopt_elements 1 and 3), material, AVS type,
+C     vertices in AVS order (avs_cell_table). iopt_elements 3 writes
+C     one pt cell per vertex (material 1), for a mesh of vertices
+C     only (Paraview draws them). Cells of other types are not
+C     written.
 C
-C        Option to write 0 element point file at pt elements
-C        This allows paraview to read and display the points
-C        Set nelements to nnodes
-C        Set material id to 1
-C        Set connectivity to single integer value of node_id
-C        Note the mesh attributes related to elements do not exist
-C        Format:
-C        1  1   pt   1
-C        2  1   pt   2
-C        3  1   pt   3
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
-C     
-      if(iopt_elements .ge. 1) then
-C
-C Since this is node connectivity all connectivity
-C entries will be positive. We don't have to leave room for negative signs.
-C
-         if(iopt_elements.eq.1 .or. iopt_elements.eq.3) then
-C
-C        Output element#, material_id, element_type, connectivity
-C         
-         ch_elem1 = '(i03.03,'
-      if(nelements .ge. 99)
-     1   ch_elem1 = '(i04.04,'
-      if(nelements .ge. 999)
-     1   ch_elem1 = '(i05.05,'
-      if(nelements .ge. 9999)
-     1   ch_elem1 = '(i06.06,'
-      if(nelements .ge. 99999)
-     1   ch_elem1 = '(i07.07,'
-      if(nelements .ge. 999999)
-     1   ch_elem1 = '(i08.08,'
-      if(nelements .ge. 9999999)
-     1   ch_elem1 = '(i09.09,'
-      if(nelements .ge. 99999999)
-     1   ch_elem1 = '(i10.10,'
-      if(nelements .ge. 999999999)
-     1   ch_elem1 = '(i11.11,'
-
-         elseif(iopt_elements .eq. 2)then
-
-         ch_elem1 = '(       '
-
+      if (iopt_elements .ge. 1) then
+C        the table once: ktab(LaGriT type) = its entry, 0 for none
+         do kc=0,20
+            ktab(kc)=0
+         enddo
+         do kc=1,8
+            call avs_cell_table(kc,ctab(kc),ltab(kc),ifk,ntab(kc),
+     *                          njk,ptab(1,kc))
+            if (ifk.ge.0 .and. ifk.le.20) ktab(ifk)=kc
+         enddo
+         iw = avs_width(nelem)
+         ivw = avs_width(nnodes) - 1
+         if (iopt_elements.eq.1 .or. iopt_elements.eq.3) then
+            write(cfmt_cell,'(a,i2.2,a,i2.2,a)') '(i',iw,'.',iw,','
+         else
+            cfmt_cell = '(       '
          endif
-         
-         ch_elem2 = '1x,i8,1x,a5,8(1x,i02))'
-      if(nnodes .ge. 99)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i03))'
-      if(nnodes .ge. 999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i04))'
-      if(nnodes .ge. 9999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i05))'
-      if(nnodes .ge. 99999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i06))'
-      if(nnodes .ge. 999999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i07))'
-      if(nnodes .ge. 9999999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i08))'
-      if(nnodes .ge. 99999999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i09))'
-      if(nnodes .ge. 999999999)
-     1   ch_elem2 = '1x,i8,1x,a5,8(1x,i10))'
-
-      ch_string(1:30) = ch_elem1(1:8)//ch_elem2(1:22)
-
-C debug
-C        print*,"ch_elem1: ",ch_elem1
-C        print*,"ch_elem2: ",ch_elem2
-C        print*,"ch_string: ",ch_string(1:30)
-          
-         if(iopt_elements.eq.1 .or. iopt_elements.eq.3)then
-         do it=1,nelements
-
-C           write connectivity for pt mesh with 0 elements
-            if(iopt_elements .eq. 3) then
-
-               write(iunit,ch_string(1:30)) it,1,'pt',it
-
-            elseif(itettyp(it).eq.ifelmpnt) then
-
-               index=itetoff(it)
-               i1=itet(1+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'pt',i1
-
-            elseif(itettyp(it).eq.ifelmlin) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'line',
-     *                                      i1,i2
-            elseif(itettyp(it).eq.ifelmtri) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'tri',
-     *                                      i1,i2,i3
-            elseif(itettyp(it).eq.ifelmqud) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               i4=itet(4+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'quad',
-     *                                      i1,i2,i3,i4
-            elseif(itettyp(it).eq.ifelmtet) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               i4=itet(4+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'tet',
-     *                                      i1,i2,i4,i3
-            elseif(itettyp(it).eq.ifelmpyr) then
-               index=itetoff(it)
-               i2=itet(1+index)
-               i3=itet(2+index)
-               i4=itet(3+index)
-               i5=itet(4+index)
-               i1=itet(5+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'pyr',
-     *                                      i1,i2,i3,i4,i5
-            elseif(itettyp(it).eq.ifelmpri) then
-               index=itetoff(it)
-               i4=itet(1+index)
-               i5=itet(2+index)
-               i6=itet(3+index)
-               i1=itet(4+index)
-               i2=itet(5+index)
-               i3=itet(6+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'prism',
-     *                                      i1,i2,i3,i4,i5,i6
-            elseif(itettyp(it).eq.ifelmhex) then
-               index=itetoff(it)
-               i1=itet(5+index)
-               i2=itet(6+index)
-               i3=itet(7+index)
-               i4=itet(8+index)
-               i5=itet(1+index)
-               i6=itet(2+index)
-               i7=itet(3+index)
-               i8=itet(4+index)
-               write(iunit,ch_string(1:30)) it,itetclr(it),'hex',
-     *                                      i1,i2,i3,i4,i5,i6,i7,i8
+         write(cfmt_cell(9:30),'(a,i2.2,a)') '1x,i8,1x,a5,8(1x,i',ivw,
+     *      '))'
+         do it=1,nelem
+            if (iopt_elements .eq. 3) then
+               ivert(1) = it
+               call avs_put_cell(1,it,iw,1,'pt',2,1,ivert,ivw,cline,
+     *                           nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') cline(1:nout)
+               else
+                  write(iunit,cfmt_cell) it,1,'pt',it
+               endif
+            else
+               ic = 0
+               if (itettyp(it).ge.0 .and. itettyp(it).le.20)
+     *            ic = ktab(itettyp(it))
+               if (ic .gt. 0) then
+                  nvert = ntab(ic)
+                  lname = ltab(ic)
+                  ioff = itetoff(it)
+                  do k=1,nvert
+                     ivert(k) = itet(ioff+ptab(k,ic))
+                  enddo
+                  iok = 0
+                  if (iopt_elements.eq.1 .or. iopt_elements.eq.2)
+     *               call avs_put_cell(iopt_elements,it,iw,itetclr(it),
+     *                  ctab(ic),lname,nvert,ivert,ivw,cline,nout,iok)
+                  if (iok .eq. 1) then
+                     write(iunit,'(a)') cline(1:nout)
+                  elseif (iopt_elements .eq. 1) then
+                     write(iunit,cfmt_cell) it,itetclr(it),
+     *                  ctab(ic)(1:lname),(ivert(k),k=1,nvert)
+                  elseif (iopt_elements .eq. 2) then
+                     write(iunit,cfmt_cell) itetclr(it),
+     *                  ctab(ic)(1:lname),(ivert(k),k=1,nvert)
+                  endif
+               endif
             endif
          enddo
-         elseif(iopt_elements .eq. 2)then
-         do it=1,nelements
-            if(itettyp(it).eq.ifelmpnt) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'pt',
-     *                                      i1
-            elseif(itettyp(it).eq.ifelmlin) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'line',
-     *                                      i1,i2
-            elseif(itettyp(it).eq.ifelmtri) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'tri',
-     *                                      i1,i2,i3
-            elseif(itettyp(it).eq.ifelmqud) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               i4=itet(4+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'quad',
-     *                                      i1,i2,i3,i4
-            elseif(itettyp(it).eq.ifelmtet) then
-               index=itetoff(it)
-               i1=itet(1+index)
-               i2=itet(2+index)
-               i3=itet(3+index)
-               i4=itet(4+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'tet',
-     *                                      i1,i2,i4,i3
-            elseif(itettyp(it).eq.ifelmpyr) then
-               index=itetoff(it)
-               i2=itet(1+index)
-               i3=itet(2+index)
-               i4=itet(3+index)
-               i5=itet(4+index)
-               i1=itet(5+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'pyr',
-     *                                      i1,i2,i3,i4,i5
-            elseif(itettyp(it).eq.ifelmpri) then
-               index=itetoff(it)
-               i4=itet(1+index)
-               i5=itet(2+index)
-               i6=itet(3+index)
-               i1=itet(4+index)
-               i2=itet(5+index)
-               i3=itet(6+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'prism',
-     *                                      i1,i2,i3,i4,i5,i6
-            elseif(itettyp(it).eq.ifelmhex) then
-               index=itetoff(it)
-               i1=itet(5+index)
-               i2=itet(6+index)
-               i3=itet(7+index)
-               i4=itet(8+index)
-               i5=itet(1+index)
-               i6=itet(2+index)
-               i7=itet(3+index)
-               i8=itet(4+index)
-               write(iunit,ch_string(1:30)) itetclr(it),'hex',
-     *                                      i1,i2,i3,i4,i5,i6,i7,i8
-            endif
-         enddo
-         endif
       endif
- 9050          format(i10.10,1x,i8,1x,a5,8(1x,i10))
- 9052          format(i8,1x,a5,8(1x,i10))
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-C        Write the node and/or element attributes
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C     ******************************************************************
+C     The vertex attributes (isec 1), then the cell attributes (isec
+C     2): the count and ranks, one "name, type" line each, then one
+C     row per vertex or cell (iopt 1: with its number; 2: without).
+C     avs1 (io_format 1) writes every value as a real; avs2 (2)
+C     writes integers as integers, as wide as the largest |value|.
+C     imin_vint and imax_vint carry over from the vertex to the cell
+C     attributes, so the widths of cell attribute k also cover vertex
+C     attribute k (as before; kept so that files do not change).
 C
-      if (iopt_values_node.eq.0 .or. nvalues.eq.0) go to 9995
-      if (iopt_values_node.ge.1) then
-         if(io_format_node .eq. 0)then
-         write(iunit,9060) nvalues,(iranks(idx(i)),i=1,nvalues)
+      do isec=1,2
+         if (isec .eq. 1) then
+            clen = 'nnodes'
+            nent = nnodes
+            iopt = iopt_values_node
+            ihash = io_format_node
+         else
+            clen = 'nelements'
+            nent = nelem
+            iopt = iopt_values_elem
+            ihash = io_format_elem
+         endif
+         nsel = 0
+         irowlen = 0
+         do i=1,nmcmoatt
+            if (index(cioflags(i),'a').gt.0 .and.
+     *          clengths(i)(1:icharlnf(clengths(i))).eq.
+     *          clen(1:icharlnf(clen))) then
+               nsel = nsel+1
+               isel(nsel) = i
+               ioffv(nsel) = irowlen
+               irowlen = irowlen + iranks(i)
+            endif
+         enddo
+         if (iopt.eq.0 .or. nsel.eq.0) goto 500
+C
+         chash = ' '
+         if (ihash .eq. 1) chash = '# '
+         if (ihash .eq. 0) then
+            write(iunit,9060) nsel,(iranks(isel(i)),i=1,nsel)
+         else
+            write(iunit,9061) chash, nsel,(iranks(isel(i)),i=1,nsel)
+         endif
  9060    format(i5.5,100(1x,i2))
-         elseif(io_format_node .eq. 1)then
-         write(iunit,9061)'# ', nvalues,(iranks(idx(i)),i=1,nvalues)
  9061    format(a,i5.5,100(1x,i2))
-         endif
-         do i=1,nmcmoatt
-            len1=icharlnf(cioflags(i))
-            do j=1,len1
-               if(cioflags(i)(j:j).eq.'a'.and.
-     *            clengths(i)(1:icharlnf(clengths(i))).eq.'nnodes') then
-                  len2=icharlnf(cnames(i))
-                  call mmfindbk(cnames(i),cmo,iadr,length,icscode)
-                  call mmgettyp(iadr,itypout,icscode)
-                  if(io_format_node .eq. 0)then
-                  if(itypout.eq.1) then
-                   write(iunit,9070) cnames(i)(1:len2),', integer '
-                  elseif(itypout.eq.2) then
-                   write(iunit,9070) cnames(i)(1:len2),', real '
-                  else
-                   write(iunit,9070) cnames(i)(1:len2),', no units'
-                  endif
-                  elseif(io_format_node .eq. 1)then
-C
-C Prepend lines with #
-C
-                  if(itypout.eq.1) then
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', integer '
-                  elseif(itypout.eq.2) then
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', real '
-                  else
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', no units'
-                  endif
-                  endif
- 9070             format(a,a)
- 9071             format(a,a,a)
-               endif
-            enddo
-         enddo
-C
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-C        Write the node attributes
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C        If there are no node attributes, skip to elem attributes
-         lenval=lvalues*nnodes
-         call mmgetblk('xvalues',isubname,ipxvalues,lenval,2,icscode)
-         if (iopt_values_node.eq.0 .or. lenval.eq.0) then
-           lenval = 0
-           go to 9995
-         endif
-
-         nvalues1=0
-         do i=1,nmcmoatt
-            len1=icharlnf(cioflags(i))
-            iflag=0
-            do j=1,len1
-               if(cioflags(i)(j:j).eq.'a'.and.
-     *            clengths(i)(1:icharlnf(clengths(i))).eq.'nnodes') then
-                  iflag=1
-                  nvalues1=nvalues1+1
-               endif
-            enddo
-            if(iflag.eq.1) then
- 
-C
-               call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
-     *         clengths(i),cinterp,cpers,cioflags(i),ierror_return)
-               lent=icharlnf(ctype)
-               if(ctype(1:lent).eq.'VINT') then
-C
-                  itype_flag(nvalues1) = 1
-                  call cmo_get_length(cnames(i),cmo,length,irank,
-     *                                ierror_return)
-C
-                  mmlength=irank*length
-C
-                  call mmfindbk(cnames(i),
-     *                          cmo,
-     *                          ipcmo_pointer,mmlength,
-     *                          ierror_return)
-C
-                  if(ierror_return.ne.0) then
-                     call x3d_error(isubname,'mmfindbk')
-                  else
-                     if(length.eq.nnodes) then
-                        do j=1,length
-                          do k=1,irank
-                            xvalues(ioffs(i)+irowlen*(j-1)+k)=
-     *                        icmo_pointer(irank*(j-1)+k)
-                              imin_vint(nvalues1)=
-     *                           min(imin_vint(nvalues1),
-     *                           icmo_pointer(irank*(j-1)+k))
-                              imax_vint(nvalues1)=
-     *                           max(imax_vint(nvalues1),
-     *                           icmo_pointer(irank*(j-1)+k))
-                          enddo
-                        enddo
-                        imax_vint(nvalues1)=
-     *                       max(abs(imin_vint(nvalues1)),
-     *                           abs(imax_vint(nvalues1)))
-                     else
-                        write(logmess,9100) cnames(i),
-     *                                      length,irank
- 9100                   format("Invalid length for AVS variable: ",
-     *                         a,' length=',i10,' rank=',i10)
-                        call x3d_error(isubname,'Illegal cmo_name')
-                     endif
-                  endif
-               elseif(ctype(1:lent).eq.'VDOUBLE') then
-C
-                  itype_flag(nvalues1) = 2
-                  call cmo_get_length(cnames(i),cmo,length,irank,
-     *                                ierror_return)
-C
-                  mmlength=irank*length
-C
-                  call mmfindbk(cnames(i),
-     *                          cmo,
-     *                          ipcmo_pointer,mmlength,
-     *                          ierror_return)
-                  if(ierror_return.ne.0) then
-                     call x3d_error(isubname,'mmfindbk')
-                  else
-                     if(length.eq.nnodes) then
-                        do j=1,length
-                          do k=1,irank
-                            xvalues(ioffs(i)+irowlen*(j-1)+k)=
-     *                        cinterpolate('function',cinterp,
-     *                        xcmo_pointer(irank*(j-1)+k))
-                          enddo
-                        enddo
-                     elseif(length.eq.nelements) then
-c                        write(logmess,9100) cname(i),
-c     *                                      length,irank
-c                        call x3d_error(isubname,'Illegal cmo_name')
-                     else
-                        write(logmess,9100) cnames(i),
-     *                                      length,irank
-                        call x3d_error(isubname,'Illegal cmo_name')
-                     endif
-                  endif
-               endif
+         do i=1,nsel
+            len2=icharlnf(cnames(isel(i)))
+            call mmfindbk(cnames(isel(i)),cmo,iadr,length,icscode)
+            call mmgettyp(iadr,itypout,icscode)
+            if (itypout.eq.1) then
+               ctype = ', integer '
+               lent = 10
+            elseif (itypout.eq.2) then
+               ctype = ', real '
+               lent = 7
+            else
+               ctype = ', no units'
+               lent = 10
             endif
+            if (ihash .eq. 0) then
+               write(iunit,9070) cnames(isel(i))(1:len2),ctype(1:lent)
+            else
+               write(iunit,9071) chash, cnames(isel(i))(1:len2),
+     *            ctype(1:lent)
+            endif
+ 9070       format(a,a)
+ 9071       format(a,a,a)
          enddo
-         
-         if(io_format .eq. 1)then
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-C        Output only reals.
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-         ncolumn_max = 100
-         
-         if(iopt_values_node .eq. 1)then
-         
-         do i1=1,nnodes
-            write(iunit,9080) i1,
-     *        (xvalues(i+nvalues1*(i1-1)),i=1,min(ncolumn_max,nvalues1))
+C        the values, one row of irowlen per vertex or cell
+         if (irowlen*nent .le. 0) goto 500
+         if (isec .eq. 1) then
+            call mmgetblk('xvalues',isubname,ipxvalues,irowlen*nent,2,
+     *                    icscode)
+         else
+            call mmgetblk('xvaluese',isubname,ipxvalues,irowlen*nent,
+     *                    2,icscode)
+         endif
+         do i=1,nsel
+            call cmo_get_attparam(cnames(isel(i)),cmo,iindex,ctype,
+     *         crank,clengths(isel(i)),cinterp,cpers,cioflags(isel(i)),
+     *         ierror_return)
+            lent=icharlnf(ctype)
+            if (ctype(1:lent).ne.'VINT' .and.
+     *          ctype(1:lent).ne.'VDOUBLE') goto 400
+            if (ctype(1:lent).eq.'VINT') then
+               itype_flag(i) = 1
+            else
+               itype_flag(i) = 2
+            endif
+            call cmo_get_length(cnames(isel(i)),cmo,length,irank,
+     *                          ierror_return)
+            mmlength=irank*length
+            call mmfindbk(cnames(isel(i)),cmo,ipcmo_pointer,mmlength,
+     *                    ierror_return)
+            if (ierror_return.ne.0) then
+               call x3d_error(isubname,'mmfindbk')
+               goto 400
+            endif
+            if (length.ne.nent) then
+               if (isec.eq.1 .and. itype_flag(i).eq.2 .and.
+     *             length.eq.nelem) goto 400
+               call x3d_error(isubname,'Illegal cmo_name')
+               goto 400
+            endif
+            ioff = ioffv(i)
+            if (itype_flag(i) .eq. 1) then
+               do j=1,length
+                  do k=1,irank
+                     xvalues(ioff+irowlen*(j-1)+k)=
+     *                  icmo_pointer(irank*(j-1)+k)
+                     imin_vint(i)=min(imin_vint(i),
+     *                  icmo_pointer(irank*(j-1)+k))
+                     imax_vint(i)=max(imax_vint(i),
+     *                  icmo_pointer(irank*(j-1)+k))
+                  enddo
+               enddo
+               imax_vint(i)=max(abs(imin_vint(i)),abs(imax_vint(i)))
+            else
+               do j=1,length
+                  do k=1,irank
+                     xvalues(ioff+irowlen*(j-1)+k)=
+     *                  cinterpolate('function',cinterp,
+     *                  xcmo_pointer(irank*(j-1)+k))
+                  enddo
+               enddo
+            endif
+ 400        continue
+         enddo
+C
+         if (io_fmt .eq. 1) then
+C           avs1: every value a real, 100 to a line
+            ncolumn_max = 100
+            do it=1,nent
+               iok = 0
+               if ((iopt.eq.1 .or. iopt.eq.2) .and.
+     *             irowlen.le.ncolumn_max)
+     *            call avs_put_row1(iopt,it,irowlen,
+     *               xvalues(1+irowlen*(it-1)),ch_string,nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') ch_string(1:nout)
+               elseif (iopt .eq. 1) then
+                  write(iunit,9080) it,
+     *              (xvalues(i+irowlen*(it-1)),
+     *               i=1,min(ncolumn_max,irowlen))
+               elseif (iopt .eq. 2) then
+                  write(iunit,9081)
+     *              (xvalues(i+irowlen*(it-1)),
+     *               i=1,min(ncolumn_max,irowlen))
+               endif
+               if (irowlen .gt. ncolumn_max) then
+                  do j=ncolumn_max+1,irowlen,ncolumn_max
+                     write(iunit,9085)
+     *                (xvalues(i+irowlen*(it-1)),
+     *                 i=j,min(j+ncolumn_max-1,irowlen))
+                  enddo
+               endif
+            enddo
  9080       format(i10.10,100(1x,1pe19.12))
-            if(nvalues1.gt. ncolumn_max) then
-               do j=ncolumn_max+1,nvalues1,ncolumn_max
-                  write(iunit,9085)
-     *             (xvalues(i+nvalues1*(i1-1)),
-     *              i=j,min(j+ncolumn_max-1,nvalues1))
- 9085             format(100(1x,1pe19.12))
-               enddo
-            endif
-         enddo
-         
-         elseif(iopt_values_node .eq. 2)then
-         
-         do i1=1,nnodes
-            write(iunit,9081)
-     *        (xvalues(i+nvalues1*(i1-1)),i=1,min(ncolumn_max,nvalues1))
  9081       format(100(1pe19.12,1x))
-            if(nvalues1.gt. ncolumn_max) then
-               do j=ncolumn_max+1,nvalues1,ncolumn_max
-                  write(iunit,9085)
-     *             (xvalues(i+nvalues1*(i1-1)),
-     *              i=j,min(j+ncolumn_max-1,nvalues1))
-               enddo
-            endif
-         enddo
-         
-         endif
-         
-         elseif(io_format .eq. 2)then
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-C        Output real and integer by packing a character string.
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-         n_real   = 20
-         n_dec    = 12
-         n_space  =  0
-         if_clear =  0
-
-         do i = 1, nvalues1
-            n_int_i(i) = nint(alog10( real(imax_vint(i)+1))) + 3
-            if(n_int_i(i) .le. 3)n_int_i(i) = 3
-         enddo
-         do i1=1,nnodes
-            if(iopt_values_node .eq. 1)then
-            
-            n_int  = nint( alog10( real(nnodes)+1 ) ) + 3
-            n_char_string = 0
-            r8 = i1
-            call string_add_entry_r8
-     1     (ch_string,n_char_string,r8, 1,n_real,n_dec,n_int,n_space)
-            elseif(iopt_values_node .eq. 2)then
-C
-            n_char_string = 0
-C
-            endif
-            do i = 1, nvalues1
-               n_int = n_int_i(i)
-               call string_add_entry_r8
-     1        (ch_string,n_char_string,xvalues(i+nvalues1*(i1-1)),
-     2         itype_flag(i),n_real,n_dec,n_int,n_space)
+ 9085       format(100(1x,1pe19.12))
+         elseif (io_fmt .eq. 2) then
+C           avs2: integers as integers, packed into ch_string
+            n_real   = 20
+            n_dec    = 12
+            n_space  =  0
+            if_clear =  0
+            do i = 1, nsel
+               n_int_i(i) = nint(alog10( real(imax_vint(i)+1))) + 3
+               if (n_int_i(i) .le. 3) n_int_i(i) = 3
             enddo
-            call string_write(ch_string, n_char_string, iunit, if_clear)
-         enddo
-         endif
-         
-      endif
-
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-C        Write the element attributes
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C     If there are no elements to write, skip this part
- 9995 if (iopt_values_elem.eq.0 .or. nvaluese.eq.0) go to 9999
-      if(iopt_values_elem.ge.1) then
-         if(io_format_elem .eq. 0)then
-         write(iunit,9060) nvaluese,(iranks(idxe(i)),i=1,nvaluese)
-         elseif(io_format_elem .eq. 1)then
-         write(iunit,9061)'# ', nvaluese,(iranks(idx(i)),i=1,nvaluese)
-         endif
-         do i=1,nmcmoatt
- 
-            len1=icharlnf(cioflags(i))
-            do j=1,len1
-               if(cioflags(i)(j:j).eq.'a'.and.
-     *            clengths(i)(1:icharlnf(clengths(i))).eq.'nelements')
-     *             then
-                  len2=icharlnf(cnames(i))
-                  call mmfindbk(cnames(i),cmo,iadr,length,icscode)
-                  call mmgettyp(iadr,itypout,icscode)
-                  if(io_format_elem .eq. 0)then
-                  if(itypout.eq.1) then
-                   write(iunit,9070) cnames(i)(1:len2),', integer '
-                  elseif(itypout.eq.2) then
-                   write(iunit,9070) cnames(i)(1:len2),', real '
-                  else
-                   write(iunit,9070) cnames(i)(1:len2),', no units'
-                  endif
-                  elseif(io_format_elem .eq. 1)then
-                  if(itypout.eq.1) then
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', integer '
-                  elseif(itypout.eq.2) then
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', real '
-                  else
-                   write(iunit,9071)'# ', cnames(i)(1:len2),', no units'
-                  endif
-                  endif
+            nrow = 0
+            if (iopt .eq. 1) nrow = nint( alog10( real(nent)+1 ) ) + 3
+            do it=1,nent
+               call avs_put_row2(nrow,it,nsel,
+     *            xvalues(1+irowlen*(it-1)),itype_flag,n_int_i,
+     *            ch_string,nout,iok)
+               if (iok .eq. 1) then
+                  write(iunit,'(a)') ch_string(1:nout)
+                  goto 450
                endif
-            enddo
-         enddo
-C
-        if(lvaluese*nelements.gt.lenval) then
-          if ((lenval.eq.0) .or. (iopt_values_node.eq.0)) then
-           lenval=lvaluese*nelements
-           call mmgetblk('xvalues',isubname,ipxvalues,lenval,2,icscode)
-          else
-            lenval=lvaluese*nelements
-            call mmincblk('xvalues',isubname,ipxvalues,lenval,icscode)
-          endif
-        endif
-C
-         nvalues1=0
-         do i=1,nmcmoatt
- 
-            len1=icharlnf(cioflags(i))
-            iflag=0
-            do j=1,len1
-               if(cioflags(i)(j:j).eq.'a'.and.
-     *            clengths(i)(1:icharlnf(clengths(i))).eq.'nelements')
-     *            then
-                  iflag=1
-                  nvalues1=nvalues1+1
+               n_char_string = 0
+               if (iopt .eq. 1) then
+                  n_int  = nint( alog10( real(nent)+1 ) ) + 3
+                  r8 = it
+                  call string_add_entry_r8
+     1             (ch_string,n_char_string,r8,1,n_real,n_dec,n_int,
+     2              n_space)
                endif
+               do i = 1, nsel
+                  n_int = n_int_i(i)
+                  call string_add_entry_r8
+     1             (ch_string,n_char_string,xvalues(i+irowlen*(it-1)),
+     2              itype_flag(i),n_real,n_dec,n_int,n_space)
+               enddo
+               call string_write(ch_string, n_char_string, iunit,
+     *                           if_clear)
+ 450           continue
             enddo
-            if(iflag.eq.1) then
-            call cmo_get_attparam(cnames(i),cmo,index,ctype,crank,
-     *         clengths(i),cinterp,cpers,cioflags(i),ierror_return)
-c
-               lent=icharlnf(ctype)
-               if(ctype(1:lent).eq.'VINT') then
-C
-                  itype_flag(nvalues1) = 1
-                  call cmo_get_length(cnames(i),cmo,length,irank,
-     *                                ierror_return)
-C
-                  mmlength=irank*length
-C
-                  call mmfindbk(cnames(i),
-     *                          cmo,
-     *                          ipcmo_pointer,mmlength,
-     *                          ierror_return)
-C
-                  if(ierror_return.ne.0) then
-                     call x3d_error(isubname,'mmfindbk')
-                  else
-                     if(length.eq.nelements) then
-                        do j=1,length
-                          do k=1,irank
-                            xvalues(ioffse(i)+irowlene*(j-1)+k)=
-     *                        icmo_pointer(irank*(j-1)+k)
-                              imin_vint(nvalues1)=
-     *                           min(imin_vint(nvalues1),
-     *                           icmo_pointer(irank*(j-1)+k))
-                              imax_vint(nvalues1)=
-     *                           max(imax_vint(nvalues1),
-     *                           icmo_pointer(irank*(j-1)+k))
-                          enddo
-                        enddo
-                        imax_vint(nvalues1)=
-     *                       max(abs(imin_vint(nvalues1)),
-     *                           abs(imax_vint(nvalues1)))
-                     else
-                        write(logmess,9100) cnames(i), length,irank
-                        call x3d_error(isubname,'Illegal cmo_name')
-                     endif
-                  endif
-               elseif(ctype(1:lent).eq.'VDOUBLE') then
-C
-                  itype_flag(nvalues1) = 2
-                  call cmo_get_length(cnames(i),cmo,length,irank,
-     *                                ierror_return)
-C
-                  mmlength=irank*length
-C
-                  call mmfindbk(cnames(i),
-     *                          cmo,
-     *                          ipcmo_pointer,mmlength,
-     *                          ierror_return)
-                  if(ierror_return.ne.0) then
-                     call x3d_error(isubname,'mmfindbk')
-                  else
-                     if(length.eq.nelements) then
-                        do j=1,length
-                          do k=1,irank
-                            xvalues(ioffse(i)+irowlene*(j-1)+k)=
-     *                       cinterpolate('function',cinterp,
-     *                       xcmo_pointer(irank*(j-1)+k))
-                          enddo
-                        enddo
-                     else
-                        write(logmess,9100) cnames(i),
-     *                                      length,irank
-                        call x3d_error(isubname,'Illegal cmo_name')
-                     endif
-                  endif
-               endif
-            endif
-         enddo
-         if(io_format .eq. 1)then
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-C        Output only reals.
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-         ncolumn_max = 100
-         
-         if(iopt_values_elem .eq. 1)then
-         
-         do i1=1,nelements
-            write(iunit,9080) i1,
-     *       (xvalues(i+nvalues1*(i1-1)),i=1,min(ncolumn_max,nvalues1))
-            if(nvalues1.gt.ncolumn_max) then
-               do j=ncolumn_max+1,nvalues1,ncolumn_max
-                  write(iunit,9085)
-     *               (xvalues(i+nvalues1*(i1-1))
-     *                ,i=j,min(j+ncolumn_max-1,nvalues1))
-               enddo
-            endif
-         enddo
-
-         elseif(iopt_values_elem .eq. 2)then
-
-         do i1=1,nelements
-            write(iunit,9081)
-     *       (xvalues(i+nvalues1*(i1-1)),i=1,min(ncolumn_max,nvalues1))
-            if(nvalues1.gt.ncolumn_max) then
-               do j=ncolumn_max+1,nvalues1,ncolumn_max
-                  write(iunit,9085)
-     *               (xvalues(i+nvalues1*(i1-1))
-     *                ,i=j,min(j+ncolumn_max-1,nvalues1))
-               enddo
-            endif
-         enddo
-
          endif
-         
-         elseif(io_format .eq. 2)then
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C
-C        Output real and integer by packing a character string.
-C         
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-         n_real = 20
-         n_dec  = 12
-         n_space = 0
-         if_clear = 0
-
-         do i = 1, nvalues1
-            n_int_i(i) = nint(alog10( real(imax_vint(i)+1))) + 3
-            if(n_int_i(i) .le. 3)n_int_i(i) = 3
-         enddo
-         do i1=1,nelements
-         
-            if(iopt_values_elem .eq. 1)then
-            
-            n_int  = nint( alog10( real(nelements)+1 ) ) + 3
-            n_char_string = 0
-            r8 = i1
-            call string_add_entry_r8
-     1     (ch_string,n_char_string,r8, 1,n_real,n_dec,n_int,n_space)
-            elseif(iopt_values_elem .eq. 2)then
-C
-            n_char_string = 0
-C
-            endif
-            do i = 1, nvalues1
-               n_int = n_int_i(i)
-               call string_add_entry_r8
-     1        (ch_string,n_char_string,xvalues(i+nvalues1*(i1-1)),
-     2         itype_flag(i),n_real,n_dec,n_int,n_space)
-            enddo
-            call string_write(ch_string, n_char_string, iunit, if_clear)
-         enddo
-       endif
-      endif
+ 500     continue
+      enddo
 C
  9999 close(iunit)
-      continue
-C
       call mmrelprt(isubname,icscode)
-C
       return
       end
 

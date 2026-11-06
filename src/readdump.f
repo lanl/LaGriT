@@ -643,13 +643,19 @@ C
       elseif(idsb(1:lenidsb).eq.'readavs' .or.
      *       ioption(1:len1).eq.'avs') then
 C
-         if (nnwds.eq.2) then
-            call cmo_get_name(cmo,ierror)
-            call cmo_exist(cmo,ierror)
-            if(ierror.eq.0) then
-               call cmo_set_info('nnodes',cmo,0,1,1,ierror)
-               call cmo_set_info('nelements',cmo,0,1,1,ierror)
-            endif
+         cmo=' '
+         if (nnwds.ge.3) cmo=cmsgin(icmsg)
+         if (nnwds.eq.2 .or. cmo(1:5).eq.'-def-' .or. cmo.eq.' ') then
+C           read / avs needs the mesh object (it used to empty the
+C           current one and read into it)
+            write(logmess,'(a)')
+     *      'ERROR read/avs: give the mesh object: '//
+     *      'read / avs / file / mo_name'
+            call writloga('default',1,logmess,0,ierr)
+            write(logmess,'(a)') 'ERROR read/avs: nothing read'
+            call writloga('default',0,logmess,1,ierr)
+            ierror_return=1
+            go to 9000
          else
             cmo=cmsgin(icmsg)
          endif

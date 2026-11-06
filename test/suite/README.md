@@ -100,7 +100,7 @@ run_all.sh`.
 | `test_crush_thin_tets` | `crush_thin_tets` on planted needle, wedge, cap and sliver tets (inside and on the boundary), a jittered lattice and 3D Poisson disk meshes: quality before, trip by trip and after, and why each thin tet left survives | 15 s |
 | `test_element_angles` | `cmo/addatt` dihedral and solid angle attributes (`ang_mind` ... `ang_maxr_solid`) and `quality` aspect / edge_ratio / edge_min / edge_max on 213 tets of known shape, very thin slivers, hex, prism, pyramid, triangle and quad, against an independent computation | 1 s |
 | `test_improve_tets` | the new command `improve_tets` (improve the worst tet quality by smoothing and flips, vertex set kept) on uniform and graded 3D Poisson disk meshes: quality, validity, the box, the resolution, fixed boundary, pset, materials, refused commands | 6 s |
-| `test_avs_io` | `read / avs` and `dump / avs`: every mesh read and dumped again holds the file's vertices, cells and attributes (an independent AVS reader), and every dump is byte-identical to golden files | 5 s |
+| `test_avs_io` | `read / avs` and `dump / avs`: every cell type, hybrid meshes, 0-based numbering, comments, each attribute section, the dump options; meshes compared with their files, dumps byte for byte with `golden/`; errors and warnings for bad files | 2 s |
 | `test_hextotet` | `hextotet` and `grid2grid`: every option on hex, prism, quad and pyramid meshes (issue #214), defaults, and options that do not fit the cells refused | 1 s |
 | `test_set_logic` | `eltset` and `pset` union / inter / not with 1 to 4 sets, every member against the definitions | 1 s |
 | `test_edge_lengths` | `cmo / addatt` edge_lengths_min / max / mean against an independent computation | 1 s |

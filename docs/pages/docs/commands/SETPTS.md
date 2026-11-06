@@ -99,13 +99,13 @@ In general, it is good practice to use filter to remove duplicate points, setpts
 
 ```
 cmo/create/s1///tri
-read/avs/surfaces
+read/avs/surfaces/s1
 cmo/create/3dmesh
 surface/surface1/intrcons/sheet/s1
 copyts/3dmesh/s1/
 cmo/release/s1/
 cmo/create/s2///tri/
-read/avs/surf2.avs
+read/avs/surf2.avs/s2
 surface/surface2/intrcons/sheet/s2
 copypts/3dmesh/s2
 cmo/release/s2/
