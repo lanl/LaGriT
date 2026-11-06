@@ -84,13 +84,14 @@ run_all.sh`.
 
 | suite | what it tests | time |
 |---|---|---|
-| `test_poisson_command_errors` | `createpts / poisson_disk`: 19 bad commands and 4 warning cases, each reported clearly, no crash | 4 s |
+| `test_poisson_command_errors` | `createpts / poisson_disk`: 31 bad commands and 6 warning cases, each reported clearly, no crash | 5 s |
 | `test_poisson_2d` | the original 2D Poisson deck: uniform and variable h; spacing, h tracking, triangle quality | 6 s |
 | `test_poisson_2d_shapes` | square at four h, hexagon, circle, ellipses: spacing, containment, quality | 4 s |
 | `test_poisson_nonconvex` | sawtooth outlines across a sweep of h: where the clip stops reproducing the notches (stress test; some degraded results expected) | 7 s |
 | `test_poisson_3d` | the original 3D Poisson deck (reduced box): spacing, tet quality, `.stor` coefficients | 60 s |
 | `test_poisson_3d_refine_letters` | a 3D box graded from h = 0.16 at the letters "LaGriT" to 1.0 | 45 s |
 | `test_poisson_sampler` | the 2D and 3D Poisson disk samplers against the exact h field (uniform, linear, narrow band; 3 seeds) | 45 s |
+| `test_poisson_octree` | `3d_box` with `h_lookup octree`: spacing against the exact h, maximality, the h field in batches, seeds, `octree_k_factor`, the octree file read back, octree against `hex_grid` (time, memory, tet angles) | 15 s |
 | `test_createpts` | `createpts` xyz, rtz, rtp, line, brick and error cases against the documentation | 30 s |
 | `test_triangulate_2d_polygon` | `triangulate` on 41 polygons: collinear runs, dense boundaries, near-touching geometry, far-from-origin coordinates, combs, spirals, holes | 20 s |
 | `test_connect_2d` | 2D `connect`: the same 400 points at the origin, at UTM-sized and negative offsets and in the yz and xz planes, a unit square at x = 1000, graded, stretched, round-off and cocircular point sets; every point connected, the same triangles everywhere, exactly Delaunay and covering the convex hull (exact rational checks) | 5 s |

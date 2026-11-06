@@ -1,0 +1,8 @@
+# po05_read_octree.lgi -- test_poisson_octree (see 00README)
+# Reads the octree leaves po01 wrote back into LaGriT: a hex mesh with
+# h_field_att and itetlev; every cell must have a positive volume.
+read / avs / po01_octree.inp / mo_oct
+cmo / printatt / mo_oct / h_field_att / minmax
+cmo / printatt / mo_oct / itetlev / minmax
+quality
+finish

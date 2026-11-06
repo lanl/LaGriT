@@ -1,0 +1,15 @@
+#####################################################################
+# err27_3d_octree_h_lookup_bad_word.lgi
+#
+# EXPECT:
+#   One ERROR block: h_lookup must be hex_grid or octree.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.1 / connect &
+      / h_lookup / octtree
+finish

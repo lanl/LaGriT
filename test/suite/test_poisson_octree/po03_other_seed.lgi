@@ -1,0 +1,17 @@
+# po03_other_seed.lgi -- test_poisson_octree (see 00README)
+# po01 with poisson_seed 2
+cmo / create / mo_src / / / tet
+createpts / xyz / 1 1 1 / 0.3 0.6 0.45 / 0.3 0.6 0.45 / 1 1 1
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.02 / connect / &
+      h_point.mlgi / h_lookup octree / poisson_seed 2
+dump / avs / po03_points.inp / mo_pts / 1 0 0 0
+quality
+finish

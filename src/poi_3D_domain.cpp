@@ -128,6 +128,9 @@ void Domain::initializeVariables() {
     double deltaY = yMax - yMin;
     double deltaZ = zMax - zMin;
     double maxNodes = (1. / h) * (1. / h) * (1. / h) * deltaX * deltaY * deltaZ;
+    // h_lookup octree: h may be far above h_spacing_scalar, so size the
+    // reserve from the octree's h instead
+    if (octree) maxNodes = octEstimateNodes();
     nodes.reserve(maxNodes);
     
     // get initial exclusion radius

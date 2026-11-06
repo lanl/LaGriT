@@ -6,6 +6,7 @@
 #include <random>
 
 #include "poi_2D_polygon.h"
+#include "poi_3D_octree.h"
 
 // /* Point Structure */
 // struct Point {
@@ -132,6 +133,43 @@ class Domain {
     double dfCellSizeY;
     double dfCellSizeZ;
     double lookupH(double x, double y, double z);
+    // h_lookup octree: when set, lookupH reads h from this octree
+    // instead of the lattice (poi_3D_octree.h, poi_3D_octree_lg.cpp)
+    poi_octree::Octree *octree = nullptr;
+    // h_lookup octree: the neighbour grid on the octree leaves, each leaf
+    // split into m x m x m sub-cells of at most the smallest h at its
+    // corners; each sub-cell lists the points inside it
+    // (poi_3D_octree_sampling.cpp)
+    std::vector<int32_t> octOrd;    // octree cell -> leaf number, -1 for a parent
+    std::vector<int32_t> octLeaf;   // leaf number -> octree cell
+    std::vector<int64_t> octOff;    // leaf number -> its first sub-cell
+    std::vector<uint8_t> octM;      // leaf number -> sub-cells per side
+    std::vector<int32_t> octHead;   // sub-cell -> first point in it (nodeNum), 0 none
+    std::vector<int32_t> octNext;   // nodeNum - 1 -> next point in its sub-cell, 0 last, -1 not listed
+    std::vector<int64_t> octEmpty;  // the open sub-cells (findEmptyCells)
+    std::vector<int32_t> octScratch;
+    std::vector<float> octLeafHmax; // leaf number -> largest h at its corners
+    std::vector<float> octLeafReach; // leaf number -> search half side for points in it
+    void octInitReach();
+    double octEstimateNodes();
+    void octInitNeighborGrid();
+    std::vector<int> octGetNeighborCellsRadius(const Point &point);
+    void octTagNeighborCells(const Point &point);
+    void octFindEmptyCells();
+    unsigned int octFillEmptyCells();
+    void octGather(const double c0[3], const double c1[3], double R, std::vector<int> &out);
+    void octSearchLeaves(const double c0[3], const double c1[3], double R);
+    void gatherLeaves(const double c0[3], const double c1[3], std::vector<int> &out);
+    bool octDiskFree(const Point &x);
+    double octSearchR = 0.0;
+    void octNearSubCell(int64_t sc, const double mn[3], double u, std::vector<int> &out);
+    double octLeafH(int32_t L, double x, double y, double z);
+    bool octLocalAccept(Point &x, int32_t L, const std::vector<int> &near);
+    bool octBoxCovered(int32_t L, const double lo[3], const double hi[3], const std::vector<int> &near);
+    bool octSubCellBox(int64_t sc, double lo[3], double hi[3], int32_t &L);
+    bool octOwnCellRejects(const Point &point);
+    int64_t octSubCellAt(double x, double y, double z);
+    void octSubCellMin(int64_t sc, double mn[3], double &size);
     
     // Distance field -> distancefield.cpp
     void loadDistanceField();
