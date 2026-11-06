@@ -87,7 +87,7 @@ LaGriT Commands by Category
 [SETTETS](docs/commands/SETTETS.md) (make child nodes, set element
 material)
 
-[TRIANGULATE](docs/commands/TRIAGN.md) (make triangles)
+[TRIANGULATE](docs/commands/TRIAGN.md) (triangulate a 2D planar convex or concave polygon)
 
 ## Element Modification and Selection:
 [ELTSET](docs/commands/ELTSET2.md) (select, name a set of elements)
@@ -118,7 +118,7 @@ material)
 [DOPING](docs/commands/DOPING1.md) (set an attribute; depreciated, see
 interpolate)
 
-[EXTRACT](docs/commands/EXTRACT1.md) (extract a surface)
+[EXTRACT](docs/commands/EXTRACT1.md) (extract a 2D surface mesh object from a 3D volume mesh object)
 
 [EXTRUDE](docs/commands/extrude.md) (extrude a surface)
 
