@@ -5,12 +5,15 @@ C
 C SUBROUTINE BEGIN ####################################################
       subroutine poi_octree_defaults()
 C #####################################################################
-C     PURPOSE - Set the h lookup options to their defaults (the uniform
-C     hex grid, as before these options existed).
+C     PURPOSE - Set the h lookup options to their defaults.
+C     if_poi_octree = -1 means h_lookup was not given: the 3D driver
+C     then uses the octree when a control file sets h (variable h)
+C     and the uniform hex grid for a uniform h (as before V3.340);
+C     2d_polygon always uses its grid.
 C #####################################################################
       implicit none
       include 'poi_octree_opts.h'
-      if_poi_octree = 0
+      if_poi_octree = -1
       if_poi_oct_key = 0
       poi_oct_k = POI_OCT_K_DEFAULT
       poi_oct_batch = POI_OCT_BATCH_DEFAULT
@@ -209,5 +212,46 @@ C
       call poisson_3d_octree_sample(mo_out,h,box_samp,iseed,
      &     nsamples,nsweeps)
       call poisson_3d_octree_free()
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_3d_choose_lookup(if_h_field_variable)
+C #####################################################################
+C
+C     PURPOSE - 3d_box: when h_lookup was not given, choose it: octree
+C     with a control file (a variable h; a hex grid fine enough for
+C     the smallest h can need far more memory and time), hex_grid for
+C     a uniform h (the octree packs a uniform h about 20% denser and
+C     is slower there), but octree when an octree option is given
+C     (octree_k_factor, octree_batch, octree_dump). Says which, and
+C     why.
+C
+C     INPUT ARGUMENTS -
+C        if_h_field_variable - 1 when a control file sets h
+C
+C #####################################################################
+      implicit none
+      include 'poi_octree_opts.h'
+      integer if_h_field_variable
+      character*80 cmsg
+      integer ierrw
+C
+      if(if_poi_octree .ge. 0) return
+      if(if_h_field_variable .eq. 1)then
+         if_poi_octree = 1
+         cmsg = 'poisson_disk 3d_box: h_lookup octree (the default '//
+     &      'with a control file)'
+      elseif(if_poi_oct_key .eq. 1)then
+C        octree_k_factor, octree_batch or octree_dump given
+         if_poi_octree = 1
+         cmsg = 'poisson_disk 3d_box: h_lookup octree (octree '//
+     &      'options given)'
+      else
+         if_poi_octree = 0
+         cmsg = 'poisson_disk 3d_box: h_lookup hex_grid (the default '//
+     &      'for a uniform h)'
+      endif
+      call writloga('default',0,cmsg,0,ierrw)
       return
       end

@@ -1,0 +1,15 @@
+# po09_default_uniform.lgi -- test_poisson_octree (see 00README)
+# po06 without h_lookup: for a uniform h (no control file) the default
+# lookup is hex_grid, so the vertices are po06_constant_h_hex_grid's.
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 1.0
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.1 / connect / &
+      poisson_seed 1
+dump / avs / po09_points.inp / mo_pts / 1 0 0 0
+finish

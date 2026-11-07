@@ -148,7 +148,9 @@ sit at H_MAX. A large H_MAX makes poisson_disk much slower (see the note
 ## h_lookup octree (with a LaGriT that has it)
 
 `--h-lookup octree` makes poisson_disk look h up in an octree adapted to h,
-instead of a uniform lattice over the box (`hex_grid`, the default). The
+instead of a uniform lattice over the box (`hex_grid`, this script's
+default; the script always gives `h_lookup`, since poisson_disk itself
+now uses the octree by default when a control file sets h). The
 octree also replaces poisson_disk's uniform neighbour grid. Memory and time
 then follow the number of tet vertices, not the box volume / h_spacing_scalar³,
 so a large H_MAX (`--hmax-factor 50`) or a big box is practical. Its fill

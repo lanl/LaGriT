@@ -59,7 +59,7 @@ Default if this option is not used, the mesh will be uniform resolution defined 
 `user_resolution.mlgi` is the name of a LaGriT control file for user defined  resolution.
 The control file  defines a function h(x,y) (2D) or h(x,y,z) (3D) that will be used to control vertex spacing in a variable resolution mesh. See examples below.
 
-When the variable  option is utilized, internal to the module a mesh object, ** mo_poi_h_field**, with a real scalar attribute, **h_field_att**, is created. By default for uniform resolution, **h_field_att**, is set to a constant value of `h_spacing_scalar`, however, when this option is exercised, the user must fill *h_field_att* with their own scalar field h(x,y) or h(x,y,z). In 3D, mo_poi_h_field is a hex mesh covering the box, so the field must be set on every z layer, not only the first. With `h_lookup octree` it is a mesh object of vertices only, with no cells, and the control file runs on it several times, once for each batch of octree vertices (see [3D h Lookup: Octree](#3d-h-lookup-octree)). In addition, internal to the code the command:
+When the variable  option is utilized, internal to the module a mesh object, ** mo_poi_h_field**, with a real scalar attribute, **h_field_att**, is created. By default for uniform resolution, **h_field_att**, is set to a constant value of `h_spacing_scalar`, however, when this option is exercised, the user must fill *h_field_att* with their own scalar field h(x,y) or h(x,y,z). In 3D with `h_lookup hex_grid`, mo_poi_h_field is a hex mesh covering the box, so the field must be set on every z layer, not only the first. With `h_lookup octree` (the default in 3D with a control file) it is a mesh object of vertices only, with no cells, and the control file runs on it several times, once for each batch of octree vertices (see [3D h Lookup: Octree](#3d-h-lookup-octree)). In addition, internal to the code the command:
 ```define / POI_H_FACTOR / h_spacing_scalar```
 so one can access the value of `h_spacing_scalar` by using the variable **POI_H_FACTOR** in the LaGriT control file `user_resolution.mlgi` for setting variable resolution.
 
@@ -144,11 +144,19 @@ createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
 
 ### 3D h Lookup: Octree
 
-By default (`h_lookup hex_grid`) the 3D form reads h from a hex mesh covering the box at about `h_spacing_scalar` / 1.5, and keeps track of the vertices on a grid of cells `h_spacing_scalar` / &radic;3 over the whole box. Both grow with the box volume / `h_spacing_scalar`<sup>3</sup>, whatever h is. With `h_lookup octree`, both are replaced by an octree adapted to h, so memory and time follow the number of vertices instead. Use it when h ranges over more than about a factor of 10, or when the box is large compared with `h_spacing_scalar`.
+With `h_lookup hex_grid` the 3D form reads h from a hex mesh covering the box at about `h_spacing_scalar` / 1.5, and keeps track of the vertices on a grid of cells `h_spacing_scalar` / &radic;3 over the whole box. Both grow with the box volume / `h_spacing_scalar`<sup>3</sup>, whatever h is. With `h_lookup octree`, both are replaced by an octree adapted to h, so memory and time follow the number of vertices instead. The octree is the one to use when h ranges over more than about a factor of 10, or when the box is large compared with `h_spacing_scalar`.
+
+**The default** (when `h_lookup` is not given):
+
+* **With a control file** (`user_resolution.mlgi`, a variable h): `octree`. A hex grid fine enough for the smallest h can need far more memory and time; on the example below, 150 s and 550 MB against 1 s and 15 MB.
+* **Without a control file** (a uniform h): `hex_grid`, the mesh LaGriT made before V3.340. For a uniform h the octree places about 20 to 27% more vertices and is slower (see **The vertices** below).
+* **With `octree_k_factor`, `octree_batch` or `octree_dump`:** `octree`.
+
+LaGriT says which it used, for example `poisson_disk 3d_box: h_lookup octree (the default with a control file)`. Give `h_lookup` to choose. Before V3.340 the default was always `hex_grid`: a deck with a control file and no `h_lookup` now uses the octree, and gives a different, somewhat denser set of vertices. A control file that uses the cells of `mo_poi_h_field` (the hex mesh) needs `h_lookup hex_grid`, since the octree's `mo_poi_h_field` has no cells.
 
 | keyword | value | default |
 | --- | --- | --- |
-| `h_lookup` | `hex_grid` or `octree` | `hex_grid` |
+| `h_lookup` | `hex_grid` or `octree` | `octree` with a control file, `hex_grid` without (above) |
 | `octree_k_factor` | real > 0: an octree leaf is at most h / K; a larger K is a finer, more accurate octree | 0.75 |
 | `octree_batch` | the most octree vertices given to the control file in one run | 8000000 (about 2 GB) |
 | `octree_dump` | a file name: the octree leaves are written there as an AVS hex mesh, with `h_field_att` on the vertices and the level `itetlev` on the cells | not written |

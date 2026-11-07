@@ -42,6 +42,12 @@ DECKS = [
     ("po06_constant_h_hex_grid", "The same with h_lookup hex_grid, the original path, for comparison."),
     ("po07_point_hex_grid",
      "po01 with h_lookup hex_grid, for comparison: the same h field, the original lattice and neighbour grid."),
+    ("po08_default_graded",
+     "po01 without h_lookup: with a control file the default lookup is the octree, so the vertices "
+     "must be exactly po01's."),
+    ("po09_default_uniform",
+     "po06 without h_lookup: for a uniform h the default lookup is hex_grid (the mesh of LaGriT "
+     "before V3.340), so the vertices must be exactly po06_constant_h_hex_grid's."),
 ]
 
 BLUES = ["#dbe9f6", "#b3d1ea", "#7fb0d8", "#4a8cc4", "#2166ac", "#0b3c7a", "#061f45"]
@@ -480,6 +486,16 @@ def main():
                   "smallest %.4f" % si)
     check("po06_constant_h_octree", "1.0 to 1.45 times hex_grid's vertex count",
           ph and 1.0 <= len(po) / len(ph) <= 1.45, "%d against %d" % (len(po), len(ph)))
+
+    # po08, po09: the default lookup (h_lookup not given)
+    p8, p9 = pts("po08_points.inp"), pts("po09_points.inp")
+    check("po08_default_graded", "says h_lookup octree is the default with a control file",
+          "h_lookup octree (the default with a control file)" in out.get("po08_default_graded", ""), "")
+    check("po08_default_graded", "the same vertices as po01", p8 == p1 and len(p8) > 0, "%d vertices" % len(p8))
+    check("po09_default_uniform", "says h_lookup hex_grid is the default for a uniform h",
+          "h_lookup hex_grid (the default for a uniform h)" in out.get("po09_default_uniform", ""), "")
+    check("po09_default_uniform", "the same vertices as po06_constant_h_hex_grid", p9 == ph and len(p9) > 0,
+          "%d vertices" % len(p9))
 
     # po07: the same field with hex_grid
     p7 = pts("po07_points.inp")
