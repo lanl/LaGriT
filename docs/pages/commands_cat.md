@@ -180,7 +180,7 @@ attribute values from nodes or elements )
 [SMOOTH](docs/commands/SMOOTH.md) (node smoothing)
 
 ## Input/Output:
-[DEFINE](docs/commands/DEFINE.md) (give a name to a number)
+[DEFINE](docs/commands/DEFINE.md) (assign a value to a character string)
 
 [DUMP](docs/commands/DUMP2.md) (write output files)
 

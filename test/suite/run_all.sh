@@ -94,6 +94,7 @@ test_triangulate_2d_polygon:run_triangulate_tests.sh:22:triangulate,2d
 test_connect_2d:run_connect_2d_tests.sh:5:connect,2d
 test_lagrit_upstream:run_upstream_tests.sh:30:upstream,2d,3d,slow
 test_interpolate_compute:run_interpolate_tests.sh:10:interpolate,2d,3d
+test_distance_field:run_distance_field_tests.sh:30:interpolate,3d
 test_crush_thin_tets:run_crush_tests.sh:15:quality,3d
 test_element_angles:run_angle_tests.sh:2:quality,2d,3d
 test_improve_tets:run_improve_tests.sh:15:quality,3d

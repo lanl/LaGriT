@@ -1,0 +1,7 @@
+# df06: the vertex option is unchanged: 5 words and 6 words (vertex)
+read / avs / df02_src.inp / mo_src
+read / avs / df02_sink.inp / mo_sink
+compute / distance_field / mo_sink / mo_src / dv5
+compute / distance_field / mo_sink / mo_src / dv6 / vertex
+dump / avs / df06_out.inp / mo_sink
+finish

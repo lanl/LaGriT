@@ -1,0 +1,52 @@
+test_distance_field -- compute / distance_field, vertex and facet (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_distance_field_tests.sh [path-to-lagrit]     8 decks, about 30 s
+  open summary.html
+
+WHAT IS TESTED
+
+  compute / distance_field / mo_sink / mo_src / dfield / facet gives,
+  for every vertex of mo_sink, the exact distance to the nearest point
+  of the cells of mo_src: inside a triangle, on an edge or at a vertex.
+  mo_src holds triangles and line segments, or quads only (cut into 4
+  triangles at their centers by hextotet / 4). Without the sixth word,
+  or with vertex, the command gives the distance to the nearest vertex
+  of mo_src, as before.
+
+  The checker computes every distance again by brute force in plain
+  Python (standard library): for each sink vertex, the facets nearest
+  bounding sphere first, each by projection onto its plane when that
+  falls inside the triangle, else the nearest of the three edges;
+  written independently of the Fortran (closest_pt_tri_lg.f, the
+  barycentric regions). They must agree to 1e-10 of the source's size
+  (the AVS files carry about 12 digits).
+
+  df01  one tilted triangle; a 13^3 grid of sink points around it hits
+        every face, edge and vertex region; 7 points on the triangle
+        (its vertices, edge midpoints, centroid) must give 0; and a
+        dense sample of the triangle (20,301 points) must never be
+        closer than LaGriT's answer (an independent upper bound)
+  df02  a sphere of 320 triangles, 1500 random sink points; the vertex
+        option in the same run: equal to the brute-force nearest
+        vertex, never smaller than the facet distance
+  df03  a warped quad surface (36 quads, not planar)
+  df04  a helix of 80 line segments
+  df05  8 triangles and 2 line segments in one mesh object
+  df06  the vertex option with 5 words and with 6 words (vertex):
+        identical, and equal to the brute-force nearest vertex
+  df07  refused, with an ERROR and no attribute made: a tet source,
+        quads mixed with triangles, a source with no cells, a sixth
+        word that is not vertex or facet; the next command works
+  df08  a sphere of 5120 triangles and a 41^3 grid of sink points
+        (68921); brute force on every 10th sink vertex
+
+FILES
+
+  run_distance_field_tests.sh   runs the decks, then the checker
+  make_distance_inputs.py       writes the AVS inputs into work/
+  df*.lgi                       the LaGriT decks
+  check_distance_field.py       brute-force checks, SVG pictures, summary
+  work/, logs/                  made by the run (not in git)
