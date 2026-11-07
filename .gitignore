@@ -1,0 +1,8 @@
+build/
+test/suite/*/work/
+test/suite/*/logs/
+test/suite/*/summary.html
+test/suite/summary.html
+test/suite/run_all.log
+test/suite/.run_all_*
+__pycache__/
