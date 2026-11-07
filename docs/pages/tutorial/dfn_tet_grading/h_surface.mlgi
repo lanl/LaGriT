@@ -1,0 +1,22 @@
+# h_surface.mlgi: tet h from the edge length of a triangulated surface
+#   h = H_FACTOR * H_STAT(nearest surface vertex) + H_GRADE * distance
+#   kept within [H_MIN, H_MAX]
+# The deck reads the surface as mo_surf with a vertex attribute H_STAT
+# and defines H_FACTOR, H_STAT, H_GRADE, H_MIN, H_MAX.
+# interpolate first, with keepatt: its nearest-vertex lookup (pt_gtg)
+# is then reused by distance_field instead of searching again.
+interpolate / voronoi / mo_poi_h_field h_field_att / 1,0,0 / &
+      mo_surf H_STAT / keepatt
+compute / distance_field / mo_poi_h_field / mo_surf / d_s
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+      mo_poi_h_field / h_field_att / H_FACTOR
+math / multiply / mo_poi_h_field / d_s / 1,0,0 / &
+      mo_poi_h_field / d_s / H_GRADE
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+      mo_poi_h_field / h_field_att / mo_poi_h_field / d_s
+cmo / DELATT / mo_poi_h_field / d_s
+math / floor / mo_poi_h_field / h_field_att / 1,0,0 / &
+      mo_poi_h_field / h_field_att / H_MIN
+math / ceiling / mo_poi_h_field / h_field_att / 1,0,0 / &
+      mo_poi_h_field / h_field_att / H_MAX
+finish

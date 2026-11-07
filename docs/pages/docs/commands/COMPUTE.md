@@ -107,5 +107,7 @@ and the surface - values from the surface are extrapolated "downward" into the m
  finish           
 ```
   
- <img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png" width="300">     
+ <img src="https://lanl.github.io/LaGriT/assets/images/distance_field_01.png" width="300">
+
+See also the tutorial [Tet Mesh Graded by a Surface's Edge Lengths](../../tutorial/dfn_tet_grading/index.md), which uses `distance_field` in a poisson_disk h field.     
                                                                                                            

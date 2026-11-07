@@ -1,0 +1,17 @@
+# surf_h.mlgi: the triangle size of the example surface, for
+# createpts / poisson_disk / 2d_polygon (called by surf.lgi).
+# h = 0.01 at the corner (-0.75,-0.75), growing geometrically along
+# the diagonal to 0.3 at the opposite corner (0.75,0.75):
+#   s = x + y + 1.5  (0 to 3),  h = 0.01 * exp( ln(30)/3 * s )
+define / MO_H_FIELD / mo_poi_h_field
+math / add / MO_H_FIELD / h_field_att / 1,0,0 / &
+      MO_H_FIELD / xic / MO_H_FIELD / yic
+math / add / MO_H_FIELD / h_field_att / 1,0,0 / &
+      MO_H_FIELD / h_field_att / 1.5
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+      MO_H_FIELD / h_field_att / 1.133732
+math / exp / MO_H_FIELD / h_field_att / 1,0,0 / &
+      MO_H_FIELD / h_field_att
+math / multiply / MO_H_FIELD / h_field_att / 1,0,0 / &
+      MO_H_FIELD / h_field_att / 0.01
+finish

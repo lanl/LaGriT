@@ -429,3 +429,5 @@ finish
 ```
 
 `octree_leaves.inp` shows the octree: small leaves near the point, larger ones away from it.
+
+See also the tutorial [Tet Mesh Graded by a Surface's Edge Lengths](../../../tutorial/dfn_tet_grading/index.md): tets sized from the triangle edges of a surface such as a dfnWorks fracture mesh.

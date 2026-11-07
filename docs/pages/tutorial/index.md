@@ -56,6 +56,18 @@
                     </p>
                 </div>
             </a>
+            <a href="{{ "/pages/tutorial/dfn_tet_grading/index.html" | relative_url }}">
+                <div class="uk-card uk-card-default uk-card-body uk-card-hover">
+                    <div class="uk-card-media-top">
+                        <img style="max-height:200px;" src="dfn_tet_grading/images/tet_cut_y2.png" alt="">
+                    </div>
+                    <p> 
+                        <h3 class="uk-card-title">Tet Mesh Graded by a Surface's Edge Lengths</h3>
+                        <p>Tets sized from the triangles of a surface such as a dfnWorks fracture mesh, growing away from it</p>
+                        <span class="uk-badge">Intermediate</span>
+                    </p>
+                </div>
+            </a>
     </div>
 </div>
 <!-- End tutorial card -->
