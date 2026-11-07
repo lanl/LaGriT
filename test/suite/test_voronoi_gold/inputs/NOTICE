@@ -1,0 +1,13 @@
+These meshes and gold files are copied unchanged from lanl/voronoi,
+test/sanity_check (https://github.com/lanl/voronoi, commit bea656e,
+Oct 17 2022), under its BSD-3 license (see LICENSE.md at the top of
+this repository).
+
+  mesh_2D.inp     9 vertices, 8 triangles (a 2 x 2 square)
+  mesh_3D.inp     116 vertices, 384 tets (a cube of side 1e6, graded)
+  simple_3D.inp   8 vertices, 5 tets (a unit cube)
+
+  gold_*.stor     written by LaGriT (matbld2d_stor, matbld3d_nstor),
+                  Aug 29 2018, as their second lines say
+  gold_*.uge      written by lanl/voronoi
+  gold_*_MESH     written by lanl/voronoi
