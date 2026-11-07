@@ -2,6 +2,7 @@ C     poi_octree_opts.h -- the h lookup options of createpts /
 C     poisson_disk, set by poi_parse_options (poi_driver_octree.f):
 C
 C        h_lookup        hex_grid | octree      if_poi_octree 0 | 1
+C                        (-1 until chosen: poi_3d_choose_lookup)
 C        octree_k_factor real > 0               poi_oct_k
 C        octree_batch    integer > 0            poi_oct_batch
 C        octree_dump     file name              poi_oct_dump,

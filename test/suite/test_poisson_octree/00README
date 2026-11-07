@@ -3,7 +3,7 @@ test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
 
 QUICK START
 
-  sh run_poisson_octree_tests.sh [path-to-lagrit]    8 decks, about 15 s
+  sh run_poisson_octree_tests.sh [path-to-lagrit]    10 decks, about 15 s
   open summary.html
 
   The page explains each deck and check, and shows:
@@ -61,6 +61,14 @@ THE DECKS
                       makes 1.0 to 1.45 times hex_grid's vertices (its
                       fill is maximal; hex_grid's cheap cell test
                       rejects more than its rule says)
+
+  po08_default_graded  po01 without h_lookup: with a control file the
+                      default is the octree (it says so); the
+                      vertices are exactly po01's
+  po09_default_uniform po06 without h_lookup: for a uniform h the
+                      default is hex_grid (it says so; the mesh of
+                      LaGriT before V3.340); the vertices are exactly
+                      po06_constant_h_hex_grid's
 
   The error and warning cases of the new keywords are in
   test_poisson_command_errors (err26 to err31, warn06).

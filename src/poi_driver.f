@@ -286,6 +286,8 @@ C
          call poi_err_add('h_lookup, octree_k_factor, octree_batch '//
      &      'and octree_dump are for 3d_box only')
       endif
+C     2D has no octree
+      if_poi_octree = 0
 C
       call poi_err_report(ierror)
       if(ierror .ne. 0) goto 9999
@@ -484,6 +486,11 @@ C
 C
       call poi_err_report(ierror)
       if(ierror .ne. 0) goto 9999
+C
+C     h_lookup not given: the octree when a control file sets h, the
+C     uniform hex grid for a uniform h (the same mesh as before V3.340)
+C
+      call poi_3d_choose_lookup(if_h_field_variable)
 C
 C     1 is 'connect', 2 is 'no_connect'.
 C
