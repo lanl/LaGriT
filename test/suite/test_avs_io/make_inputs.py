@@ -248,6 +248,10 @@ def main():
     std("hex_wide.inp", V, C, cnames=wide_names, ccols=wide_cols)
     # known problems
     std("hex_first_two.inp", V, C, base=2)
+    # a folder with a copy of cells_tet.inp, for a path in read / avs
+    os.makedirs(os.path.join(out, "sub"), exist_ok=True)
+    open(os.path.join(out, "sub", "cells_tet.inp"), "w").write(
+        open(os.path.join(out, "cells_tet.inp")).read())
     std("hex_no_space.inp", V, C, no_space=True)
     std("hex_short.inp", V, C, cut_after_cells=1)
     Vf = list(V)

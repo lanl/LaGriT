@@ -1,0 +1,19 @@
+# a file name with a path: LaGriT splits a command at each /, so the
+# file name read gets is a folder (".." or "sub"), or the command has
+# more words than read / avs or read / gmv takes: an ERROR that says
+# so, nothing read, LaGriT goes on (a Fortran runtime error, "Cannot
+# open file '..': Is a directory", stopped LaGriT with exit status 2)
+# check: finished
+# check: output ERROR read: "\.\." is a folder, not a file
+# check: output ERROR read: "sub" is a folder, not a file
+# check: output ERROR read / avs: 8 words, at most 7
+# check: output ERROR read / gmv: 6 words, at most 5
+# check: output file name cannot hold a path
+# check: model out.inp cells_tet.inp
+read / avs / ../work/sub/cells_tet.inp / mo1
+read / avs / sub/cells_tet.inp / mo1
+read / avs / cells_tet.inp / mo1 / 1 / 1 / 1 / 9
+read / gmv / cells_tet.gmv / mo2 / ascii / x
+read / avs / cells_tet.inp / mo1
+dump / avs / out.inp / mo1
+finish

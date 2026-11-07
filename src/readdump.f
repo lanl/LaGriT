@@ -348,6 +348,15 @@ C***The rest of the code is for handling all other cases
          endif
          lenfile=icharlnf(ifile)
          icmsg=4
+C        a folder, or too many words (a path split at its /): ERROR
+         if (nwds.ge.3 .and. msgtype(3).eq.3) then
+            call read_file_check_lg(ifile(1:lenfile),ioption(1:len1),
+     *           nwds,ierr1)
+            if (ierr1.ne.0) then
+               ierror_return=1
+               go to 9000
+            endif
+         endif
       else
          ifile=cmsgin(2)
          lenfile=icharlnf(ifile)
