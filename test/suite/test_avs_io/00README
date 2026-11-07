@@ -5,7 +5,7 @@ src/readavs.f and src/dumpavs.f)
 
 QUICK START
 
-  sh run_avs_io_tests.sh [path-to-lagrit]     32 decks, about 2 s
+  sh run_avs_io_tests.sh [path-to-lagrit]     33 decks, about 2 s
   open summary.html
 
 WHAT IT TESTS
@@ -76,6 +76,11 @@ THE DECKS
         WARNING (its values were written into the vertex attribute,
         past its end when there are more cells than vertices; found by
         a random test of step 4)
+  ak13  a file name with a path (read / avs / ../dir/file.inp / mo):
+        LaGriT splits it at each /, so the name read gets is a folder
+        or the command has too many words; an ERROR that says so,
+        nothing read, LaGriT goes on (Fortran runtime error "Is a
+        directory" stopped LaGriT, exit status 2)
   A deck may also carry a "# known:" line for a problem not yet fixed:
   it gives KNOWN while a check fails, FIXED once all hold.
 

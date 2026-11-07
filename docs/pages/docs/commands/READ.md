@@ -46,6 +46,8 @@ read / mesh.gmv / mesh_object_name
 
 ```
   
+The file is given by its name, without a path: LaGriT runs in one folder, and a command is split into words at each `/`, so `read / avs / ../dir/file.inp / mo` would give read the file name `..`. A file name that is a folder, or a command with more words than the format takes (avs 7, lagrit 5, gmv 5, gocad 4), is an ERROR and nothing is read. Copy or link the file into the working folder. See [Syntax Conventions](../conventions.md).
+
 Short form syntax does not require file type as the second token. This is supported for the suffixes **`avs inp gmv lg lagrit`**
   
 See links to various formats for more detailed explanations and examples.

@@ -21,6 +21,13 @@ Conventions that apply to all commands include:
   characters with a WARNING; names of mesh objects, attributes and files
   given to a command are therefore limited to 32 characters. A number
   is read in full.
+- **File names, no paths.** LaGriT runs in one folder: a file is given
+  by its name, without a path, since a command is split into words at
+  each "/". `read / avs / ../dir/file.inp / mo` gives read the words
+  `..`, `dir`, `file.inp` and `mo`. read checks for this: a file name
+  that is a folder, or more words than the format takes (avs 7,
+  lagrit 5, gmv 5, gocad 4), is an ERROR and nothing is read. Copy or
+  link the file into the working folder and give its name.
 - Messages about a line give its line number and file, for example
   `ERROR: line 12 of input.lgi is too long:`.
 
