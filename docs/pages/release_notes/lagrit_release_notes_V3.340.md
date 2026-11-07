@@ -39,6 +39,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - TRANS.md had **zero** and **center** swapped and listed a keyword **enter** that does not exist (#318).
 - 3D `recon / 1` no longer writes a file `gmv_refine_edge_3d` in the current folder (a debugging dump left in refine_edge_3d.f).
 - The 3D hull fill (#320) and the 2D one (#322) no longer resize every array of the mesh object in the middle of connect, which made test/level01/refine_recon_quality and test_createpts cp62 fail on macOS.
+- Commands by Category (commands_cat.md): RZBRICK and SETPTS, and RANKVOLUME, SORT and UPSCALE, ran together on one line each; every command is on its own line again. TRIANGULATE and EXTRACT have clearer descriptions (#322).
 
 ### Build and tests
 

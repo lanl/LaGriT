@@ -82,6 +82,7 @@ LaGriT Commands by Category
 [GENIEE](docs/commands/GENIEE.md) (make element connectivity)
 
 [RZBRICK](docs/commands/RZBRICK.md) (create a brick, hex mesh)
+
 [SETPTS](docs/commands/SETPTS.md) (set node type and material)
 
 [SETTETS](docs/commands/SETTETS.md) (make child nodes, set element
@@ -141,10 +142,11 @@ attribute values from nodes or elements )
 
 [QUALITY](docs/commands/QUALITY.md) (evaluate mesh quality)
 
-[RANKVOLUME](docs/commands/rankvolume.md)(list small volume elements)
+[RANKVOLUME](docs/commands/rankvolume.md) (list small volume elements)
+
 [SORT](docs/commands/SORT.md) (sort an attribute)
-[UPSCALE](docs/commands/UPSCALE.md) (attribute from fine to coarse
-grid)
+
+[UPSCALE](docs/commands/UPSCALE.md) (attribute from fine to coarse grid)
 
 ## Optimize or customize the mesh:
 [BUBBLE](docs/commands/bubble.md) (extrude to 3d and extract bndry)
