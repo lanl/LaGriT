@@ -1,0 +1,20 @@
+# surf.lgi: the example surface, standing in for a fracture mesh.
+# A 1.5 x 1.5 sheet, bent (z = 0.15 sin 2.5x) and tilted 30 degrees
+# about y, centered at (2,2,2) inside the box [0,4]^3. Its triangle
+# edges grow from 0.01 at one corner to 0.3 at the other (30 times).
+# Writes surf.inp.
+read / avs / square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_surf / mo_polygon / 0.01 / &
+      connect / surf_h.mlgi / poisson_seed 11
+cmo / select / mo_surf
+# bend: z = 0.15 sin(2.5 x)
+math / multiply / mo_surf / zic / 1,0,0 / mo_surf / xic / 2.5
+math / sin / mo_surf / zic / 1,0,0 / mo_surf / zic
+math / multiply / mo_surf / zic / 1,0,0 / mo_surf / zic / 0.15
+# tilt 30 degrees about the y axis, then move to the box center
+rotateln / 1,0,0 / nocopy / 0. -1. 0. / 0. 1. 0. / 30. / 0. 0. 0.
+trans / 1,0,0 / 0. 0. 0. / 2. 2. 2.
+cmo / addatt / mo_surf / edge_lengths_mean / h_mean
+cmo / printatt / mo_surf / h_mean / minmax
+dump / avs / surf.inp / mo_surf
+finish

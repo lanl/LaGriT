@@ -1,0 +1,40 @@
+# tets.lgi: tets in the box [0,4]^3, graded by the triangle edges of
+# surf.inp:  h = 0.7 h_mean + 0.3 distance, within [H_MIN, H_MAX]
+# (h_surface.mlgi). Writes tet.inp.
+read / avs / surf.inp / mo_surf
+cmo / addatt / mo_surf / edge_lengths_mean / h_mean
+#
+# the box the tets fill
+define / POI_XMIN / 0.
+define / POI_YMIN / 0.
+define / POI_ZMIN / 0.
+define / POI_XMAX / 4.
+define / POI_YMAX / 4.
+define / POI_ZMAX / 4.
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+#
+# h = H_FACTOR * H_STAT(nearest surface vertex) + H_GRADE * distance
+define / H_STAT / h_mean
+define / H_FACTOR / 0.7
+define / H_GRADE / 0.3
+define / H_MIN / 0.009
+define / H_MAX / 0.3
+#
+# the 0.009 here = H_MIN
+createpts / poisson_disk / 3d_box / mo_tet / 0.009 / connect / &
+      h_surface.mlgi / h_lookup octree / poisson_seed 7
+cmo / select / mo_tet
+#
+# check: tet edge / surface edge (ratio) and distance to the surface
+cmo / addatt / mo_tet / edge_lengths_mean / tet_edge
+cmo / addatt / mo_tet / surf_h / VDOUBLE / scalar / nnodes
+interpolate / voronoi / mo_tet surf_h / 1,0,0 / &
+      mo_surf h_mean / keepatt
+cmo / addatt / mo_tet / ratio / VDOUBLE / scalar / nnodes
+math / divide / mo_tet / ratio / 1,0,0 / &
+      mo_tet / tet_edge / mo_tet / surf_h
+compute / distance_field / mo_tet / mo_surf / dist_surf
+quality
+dump / avs / tet.inp / mo_tet
+finish
