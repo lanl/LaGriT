@@ -38,6 +38,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - read with a path in the file name (`read / avs / ../dir/file.inp / mo`) stopped LaGriT with a Fortran runtime error (exit status 2, the message only on the terminal): the command is split at each `/`, so the file name was the folder `..`. read now gives an ERROR when the file name is a folder, or when the command has more words than its format takes (avs 7, lagrit 5, gmv 5, gocad 4), and reads nothing; LaGriT goes on. File names are given without a path (conventions.md, READ.md). test_avs_io deck ak13.
 - TRANS.md had **zero** and **center** swapped and listed a keyword **enter** that does not exist (#318).
 - 3D `recon / 1` no longer writes a file `gmv_refine_edge_3d` in the current folder (a debugging dump left in refine_edge_3d.f).
+- createpts / poisson_disk / 3d_box / connect left the vertices connect could not connect (dudded, itp1 = 21, in no tet) in the output mesh: 8 of 144,992 in a graded mesh. They are now removed with rmpoint / compress, as in 2D.
 - The 3D hull fill (#320) and the 2D one (#322) no longer resize every array of the mesh object in the middle of connect, which made test/level01/refine_recon_quality and test_createpts cp62 fail on macOS.
 - Commands by Category (commands_cat.md): RZBRICK and SETPTS, and RANKVOLUME, SORT and UPSCALE, ran together on one line each; every command is on its own line again. TRIANGULATE and EXTRACT have clearer descriptions (#322).
 
