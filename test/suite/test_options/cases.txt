@@ -1,0 +1,38 @@
+# test_options cases: one per line,  name | exit | arguments
+#
+# Each case runs  del_vor ARGUMENTS  in its own folder work/NAME (the
+# three lanl/voronoi meshes are copied there first); exit is the exit
+# status expected (0 or 1). check_options.py knows what each case
+# must write. Mesh files: mesh_2D.inp, mesh_3D.inp, simple_3D.inp.
+#
+# --- defaults and outputs
+default_out    | 0 | -avs mesh_3D.inp
+three_outputs  | 0 | -avs mesh_3D.inp -stor a.stor -uge a.uge -tough2 a_MESH
+order_a        | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep -compress off -zero_tol 1e-10
+order_b        | 0 | -compress off -zero_tol 1e-10 -stor a.stor -zero_area keep -avs mesh_3D.inp
+# --- zero_area and zero_tol
+keep           | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep
+remove         | 0 | -avs mesh_3D.inp -stor a.stor -zero_area remove
+tol_zero       | 0 | -avs mesh_3D.inp -stor a.stor -zero_tol 0
+tol_big        | 0 | -avs mesh_3D.inp -stor a.stor -zero_tol 0.05
+cube_keep      | 0 | -avs simple_3D.inp -stor a.stor -zero_area keep
+cube_remove    | 0 | -avs simple_3D.inp -stor a.stor
+tri_keep       | 0 | -avs mesh_2D.inp -uge a.uge -zero_area keep
+tri_remove     | 0 | -avs mesh_2D.inp -uge a.uge
+# --- compress
+compress_on    | 0 | -avs mesh_3D.inp -stor a.stor -compress on
+compress_off   | 0 | -avs mesh_3D.inp -stor a.stor -compress off
+# --- lanl/voronoi options
+legacy_type    | 0 | -avs mesh_3D.inp -type pflotran -o a.uge
+legacy_tough   | 0 | -avs simple_3D.inp -type tough2
+legacy_compr   | 0 | -avs mesh_3D.inp -o a.stor -compress
+# --- refused: exit 1, a message naming the token, no output written
+bad_keyword    | 1 | -avs mesh_3D.inp -stor a.stor -zero_areas keep
+no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol
+bad_zero_area  | 1 | -avs mesh_3D.inp -stor a.stor -zero_area drop
+bad_zero_tol   | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol -1
+text_zero_tol  | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol small
+bad_cv         | 1 | -avs mesh_3D.inp -stor a.stor -cv median
+twice          | 1 | -avs mesh_3D.inp -stor a.stor -uge a.stor
+no_mesh        | 1 | -stor a.stor
+missing_mesh   | 1 | -avs nothere.inp -stor a.stor

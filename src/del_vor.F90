@@ -2,95 +2,73 @@
 ! del_vor: Voronoi control volumes and geometric coefficients from a
 ! Delaunay triangle or tet mesh. Standalone driver.
 !
-! Phase 1 command line (the lanl/voronoi options):
+!   del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+!           [-zero_area remove|keep] [-zero_tol X]
+!           [-compress on|off] [-cv voronoi]
 !
-!   del_vor -avs MESH.inp [-type fehm|pflotran|tough2] [-o FILE]
-!           [-compress] [-cv voronoi]
-!
-! Output file defaults, as voronoi: voronoi.stor, pflotran.uge,
-! MESH_VORONOI. The run summary goes to the screen. Exit status is 0
-! on success, 1 on any error.
+! Options are keyword / value pairs in any order (del_vor_options
+! lists them, with their defaults); the LaGriT command will take the
+! same keywords. lanl/voronoi's -type, -o and -compress also work.
+! The run summary goes to the screen. Exit status is 0 on success,
+! 1 on any error (then no output file is written).
 !-----------------------------------------------------------------------
 program del_vor
    use del_vor_kinds, only: ik, rk
    use del_vor_log, only: log_line, errmsg
+   use del_vor_options, only: options_t, parse_options, &
+                              option_keywords
    use del_vor_mesh, only: mesh_t
    use del_vor_read_avs, only: read_avs
    use del_vor_topology, only: build_edge_csr
    use del_vor_policy, only: policy_voronoi
-   use del_vor_assemble, only: assemble, assembly_stats_t
+   use del_vor_assemble, only: assemble, assembly_stats_t, &
+                               zero_area_mask
    use del_vor_report, only: report_run
    use del_vor_write_stor, only: write_stor
    use del_vor_write_uge, only: write_uge
    use del_vor_write_tough, only: write_tough
    implicit none
 
+   type(options_t) :: opt
    type(mesh_t) :: m
    type(assembly_stats_t) :: stats
    integer(ik), allocatable :: iedge_off(:), jedge(:)
    real(rk), allocatable :: area(:), vol(:)
+   logical, allocatable :: zero(:), skip(:)
    integer(ik) :: nedges
-   integer :: ierr, ndim, nargs, ia
-   character(len=1024) :: arg, fin, fout, otype, cv
-   logical :: compress
-
-   fin = ' '
-   fout = ' '
-   otype = 'fehm'
-   cv = 'voronoi'
-   compress = .false.
+   integer :: ierr, ndim, nargs, ia, k
+   character(len=1024), allocatable :: tok(:)
+   character(len=1024) :: arg
 
    nargs = command_argument_count()
    if (nargs == 0) call usage(0)
-   ia = 1
-   do while (ia <= nargs)
+   allocate (tok(nargs))
+   do ia = 1, nargs
       call get_command_argument(ia, arg)
       select case (trim(arg))
-      case ('-avs')
-         call value_of(ia, fin)
-      case ('-o')
-         call value_of(ia, fout)
-      case ('-type')
-         call value_of(ia, otype)
-      case ('-cv')
-         call value_of(ia, cv)
-      case ('-compress')
-         compress = .true.
       case ('-help', '-h', '--help')
          call usage(0)
-      case default
-         call log_line('del_vor: unknown option '//trim(arg))
-         call usage(1)
       end select
-      ia = ia + 1
+      ! keywords are written -keyword here; values are taken as they
+      ! are (a negative number or a file name may start with '-')
+      tok(ia) = arg
+      if (arg(1:1) == '-' .and. is_keyword(arg(2:))) tok(ia) = arg(2:)
    end do
-
-   if (len_trim(fin) == 0) then
+   call parse_options(tok, nargs, opt, ierr)
+   if (ierr /= 0) then
+      call log_line(errmsg)
+      call log_line('del_vor: keywords are '//option_keywords)
+      call log_line('del_vor: del_vor -help lists them')
+      stop 1
+   end if
+   if (len_trim(opt%mesh) == 0) then
       call log_line('del_vor: no mesh given (-avs MESH.inp)')
-      call usage(1)
+      call log_line('del_vor: del_vor -help lists the options')
+      stop 1
    end if
-   if (trim(cv) /= 'voronoi') then
-      call log_line('del_vor: -cv '//trim(cv)// &
-                    ' not available yet; only voronoi')
-      call fail_stop()
-   end if
-   select case (otype(1:4))
-   case ('fehm')
-      otype = 'fehm'
-      if (len_trim(fout) == 0) fout = 'voronoi.stor'
-   case ('pflo')
-      otype = 'pflotran'
-      if (len_trim(fout) == 0) fout = 'pflotran.uge'
-   case ('toug')
-      otype = 'tough2'
-      if (len_trim(fout) == 0) fout = 'MESH_VORONOI'
-   case default
-      call log_line('del_vor: unknown -type '//trim(otype))
-      call fail_stop()
-   end select
 
-   call log_line('del_vor: reading '//trim(fin))
-   call read_avs(fin, m, ierr)
+   call log_line('del_vor: reading '//trim(opt%mesh))
+   call read_avs(opt%mesh, m, ierr)
    if (ierr /= 0) call fail_stop()
    ndim = 3
    if (m%nen == 3) ndim = 2
@@ -105,62 +83,84 @@ program del_vor
                  jedge, area, vol, stats, ierr)
    if (ierr /= 0) call fail_stop()
 
-   call report_run(ndim, m%nnodes, m%nelements, m%xic, m%yic, m%zic, &
-                   iedge_off, jedge, area, vol, stats)
+   allocate (zero(nedges), skip(nedges))
+   call zero_area_mask(m%nen, m%nnodes, m%xic, m%yic, m%zic, &
+                       iedge_off, jedge, area, opt%zero_tol, zero)
+   skip = zero .and. .not. opt%zero_keep
 
-   select case (trim(otype))
-   case ('fehm')
-      call write_stor(fout, ndim, m%nnodes, m%xic, m%yic, m%zic, &
-                      iedge_off, jedge, area, vol, compress, ierr)
-   case ('pflotran')
-      call write_uge(fout, m%nnodes, m%xic, m%yic, m%zic, iedge_off, &
-                     jedge, area, vol, ierr)
-   case ('tough2')
-      call write_tough(fout, m%nnodes, m%xic, m%yic, m%zic, m%imt1, &
-                       iedge_off, jedge, area, vol, ierr)
-   end select
-   if (ierr /= 0) call fail_stop()
-   call log_line('del_vor: wrote '//trim(fout))
+   call report_run(ndim, m%nnodes, m%nelements, m%xic, m%yic, m%zic, &
+                   iedge_off, jedge, area, vol, stats, zero, &
+                   opt%zero_keep, opt%zero_tol)
+
+   do k = 1, opt%nout
+      select case (trim(opt%out_type(k)))
+      case ('stor')
+         call write_stor(opt%out_file(k), ndim, m%nnodes, m%xic, &
+                         m%yic, m%zic, iedge_off, jedge, area, vol, &
+                         skip, opt%compress, ierr)
+      case ('uge')
+         call write_uge(opt%out_file(k), m%nnodes, m%xic, m%yic, &
+                        m%zic, iedge_off, jedge, area, vol, skip, ierr)
+      case ('tough2')
+         call write_tough(opt%out_file(k), m%nnodes, m%xic, m%yic, &
+                          m%zic, m%imt1, iedge_off, jedge, area, vol, &
+                          skip, ierr)
+      end select
+      if (ierr /= 0) call fail_stop()
+      call log_line('del_vor: wrote '//trim(opt%out_type(k))//' '// &
+                    trim(opt%out_file(k)))
+   end do
 
 contains
 
-   subroutine value_of(ia, val)
-      integer, intent(inout) :: ia
-      character(len=*), intent(out) :: val
-      character(len=1024) :: opt
-      call get_command_argument(ia, opt)
-      if (ia + 1 > nargs) then
-         call log_line('del_vor: '//trim(opt)//' needs a value')
-         call usage(1)
-      end if
-      ia = ia + 1
-      call get_command_argument(ia, val)
-   end subroutine value_of
+   logical function is_keyword(s)
+      character(len=*), intent(in) :: s
+      select case (trim(s))
+      case ('avs', 'stor', 'uge', 'tough2', 'zero_area', 'zero_tol', &
+            'compress', 'cv', 'type', 'o')
+         is_keyword = .true.
+      case default
+         is_keyword = .false.
+      end select
+   end function is_keyword
 
+   ! Exit status 1 with the message; no output file has been opened
+   ! before an input or option error.
    subroutine fail_stop()
       if (len_trim(errmsg) > 0) call log_line(errmsg)
-      error stop 1
+      stop 1
    end subroutine fail_stop
 
    subroutine usage(istat)
       integer, intent(in) :: istat
-      call log_line('usage: del_vor -avs MESH.inp '// &
-                    '[-type fehm|pflotran|tough2] [-o FILE]')
-      call log_line('               [-compress] [-cv voronoi]')
-      call log_line('  -avs MESH.inp  AVS UCD mesh, all triangles '// &
-                    'or all tets')
-      call log_line('  -type          output: fehm (.stor, '// &
-                    'default), pflotran (.uge),')
-      call log_line('                 tough2 (MESH)')
-      call log_line('  -o FILE        output file (default '// &
-                    'voronoi.stor, pflotran.uge,')
-      call log_line('                 MESH_VORONOI)')
-      call log_line('  -compress      .stor: write each distinct '// &
-                    'coefficient once')
-      call log_line('  -cv voronoi    control volumes (median and '// &
-                    'hybrid come later)')
+      call log_line('usage: del_vor -avs MESH.inp [-stor FILE] '// &
+                    '[-uge FILE] [-tough2 FILE]')
+      call log_line('               [-zero_area remove|keep] '// &
+                    '[-zero_tol X] [-compress on|off]')
+      call log_line('               [-cv voronoi]')
+      call log_line('  -avs MESH.inp     AVS UCD mesh, all '// &
+                    'triangles or all tets')
+      call log_line('  -stor FILE        FEHM .stor (default '// &
+                    'voronoi.stor if no output given)')
+      call log_line('  -uge FILE         PFLOTRAN .uge')
+      call log_line('  -tough2 FILE      TOUGH2 MESH')
+      call log_line('                    (several outputs in one '// &
+                    'run are fine)')
+      call log_line('  -zero_area MODE   remove (default): leave '// &
+                    'zero-area connections out')
+      call log_line('                    keep: one connection per '// &
+                    'mesh edge')
+      call log_line('  -zero_tol X       zero-area: |A| <= X d^2 '// &
+                    '(tets), X d (triangles);')
+      call log_line('                    default 1e-12')
+      call log_line('  -compress on|off  .stor: each distinct '// &
+                    'value written once (default on)')
+      call log_line('  -cv voronoi       control volumes (median '// &
+                    'and hybrid come later)')
+      call log_line('  lanl/voronoi options -type fehm|pflotran|'// &
+                    'tough2 and -o FILE also work.')
       if (istat == 0) stop
-      error stop 1
+      stop 1
    end subroutine usage
 
 end program del_vor

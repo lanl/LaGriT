@@ -14,9 +14,10 @@
 ! Changes from voronoi:
 ! - Values keep their sign; a negative value is written with one digit
 !   less so it fits its 10 columns (voronoi wrote absolute values).
-! - Zero-area connections are left out when |A| <= 1e-12 times the
-!   largest |A|. Voronoi left out every connection with A < 1e-4,
-!   which drops negative areas and, on small meshes, real ones.
+! - Connections with skip(k) = .true. (zero-area ones, unless
+!   zero_area keep) are left out. Voronoi left out every connection
+!   with A < 1e-4, which drops negative areas and, on small meshes,
+!   real ones.
 !-----------------------------------------------------------------------
 module del_vor_write_tough
    use del_vor_kinds, only: ik, rk
@@ -26,18 +27,18 @@ module del_vor_write_tough
    public :: write_tough, elne_name
 
    integer, parameter :: elne_len = 5
-   real(rk), parameter :: zero_area_rel = 1.0e-12_rk
 
 contains
 
    subroutine write_tough(fname, nnodes, xic, yic, zic, imt1, &
-                          iedge_off, jedge, area, vol, ierr)
+                          iedge_off, jedge, area, vol, skip, ierr)
       character(len=*), intent(in) :: fname
       integer(ik), intent(in) :: nnodes
       real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
       integer(ik), intent(in) :: imt1(nnodes)
       integer(ik), intent(in) :: iedge_off(nnodes + 1), jedge(*)
       real(rk), intent(in) :: area(:), vol(nnodes)
+      logical, intent(in) :: skip(:)
       integer, intent(out) :: ierr
 
       character(len=80) :: rec
@@ -45,7 +46,7 @@ contains
       character(len=12) :: tmp
       integer(ik), allocatable :: ulist(:)
       integer(ik) :: i, j, k, nu, nedges, im
-      real(rk) :: d, cosine, amax
+      real(rk) :: d, cosine
       integer :: lu, ios, isot
 
       ierr = 0
@@ -81,12 +82,10 @@ contains
       write (lu, '(a)') ''
       write (lu, '(a)') 'CONNE----1----*----2----*----3----*----4'// &
          '----*----5----*----6----*----7----*----8'
-      amax = 0.0_rk
-      if (nedges > 0) amax = maxval(abs(area(1:nedges)))
       do i = 1, nnodes
          do k = iedge_off(i), iedge_off(i + 1) - 1
             j = jedge(k)
-            if (abs(area(k)) <= zero_area_rel*amax) cycle
+            if (skip(k)) cycle
             d = norm2([xic(j) - xic(i), yic(j) - yic(i), &
                        zic(j) - zic(i)])
             cosine = (zic(i) - zic(j))/d

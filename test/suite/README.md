@@ -12,7 +12,7 @@ checkout:
 
 ```
 sh run_all.sh                 # every suite, a few seconds
-JOBS=2 sh run_all.sh          # the same, 2 suites at a time
+JOBS=4 sh run_all.sh          # the same, 4 suites at a time
 ONLY=gold sh run_all.sh       # the suites tagged gold (or a name)
 sh run_all.sh /path/to/del_vor
 ```
@@ -32,7 +32,9 @@ Requires: a POSIX shell and Python 3 (standard library only).
 | suite | what it tests | time |
 |---|---|---|
 | `test_kernels` | the triangle and tet kernels against independent formulas (2000 random cells): cotangent formula in 2D, a right-triangle formula and perpendicular pieces in 3D, vertex shares that add up to the cell for any dual points, the same tet at UTM-like coordinates, closed dual cells on three meshes | 1 s |
-| `test_voronoi_gold` | the three lanl/voronoi test meshes written as `.stor` (plain and compressed), `.uge` and TOUGH2 `MESH`, against LaGriT's and voronoi's gold files, the `.stor` layout, the volume balance and the formats against each other | 1 s |
+| `test_voronoi_gold` | the three lanl/voronoi test meshes written as `.stor` (every edge kept, compressed or not; the defaults), `.uge` and TOUGH2 `MESH`, against LaGriT's and voronoi's gold files, the `.stor` layout, the volume balance, the zero-area connections left out, and the formats against each other | 1 s |
+| `test_options` | the keyword options (outputs, `zero_area`, `zero_tol`, `compress`, `cv`, lanl/voronoi's `-type -o -compress`) and refused commands, 26 runs | 1 s |
+| `test_poisson_lagrit` | two 3D Poisson disk meshes from LaGriT's `test_poisson_3d` against the `.stor` files LaGriT wrote: coefficients, volumes, negative and zero-area connections, the box volume | 2 s |
 
 ## Conventions
 

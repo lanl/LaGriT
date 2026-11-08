@@ -3,11 +3,13 @@
 !
 ! Volume balance: the control volumes must add up to the mesh volume
 ! (area in 2D) whatever the dual points, so the relative difference is
-! a check on the whole calculation.
+! a check on the whole calculation. Volumes are never changed by the
+! zero-area filter.
 !
-! Negative coefficients are connections with A(ij) < 0. (lanl/voronoi
-! counted A/d > 0, the positive ones, by mistake.) Zero-area
-! connections are those with |A| <= 1e-12 times the largest |A|.
+! Zero-area connections are those marked by zero_area_mask
+! (|A| <= zero_tol d^2 for tets, zero_tol d for triangles). Negative
+! coefficients are the other connections with A(ij) < 0.
+! (lanl/voronoi counted A/d > 0, the positive ones, by mistake.)
 !-----------------------------------------------------------------------
 module del_vor_report
    use del_vor_kinds, only: ik, rk
@@ -17,22 +19,23 @@ module del_vor_report
    private
    public :: report_run
 
-   real(rk), parameter :: zero_area_rel = 1.0e-12_rk
-
 contains
 
    subroutine report_run(ndim, nnodes, nelements, xic, yic, zic, &
-                         iedge_off, jedge, area, vol, stats)
+                         iedge_off, jedge, area, vol, stats, zero, &
+                         zero_keep, zero_tol)
       integer, intent(in) :: ndim
       integer(ik), intent(in) :: nnodes, nelements
       real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
       integer(ik), intent(in) :: iedge_off(nnodes + 1), jedge(*)
       real(rk), intent(in) :: area(:), vol(nnodes)
       type(assembly_stats_t), intent(in) :: stats
+      logical, intent(in) :: zero(:), zero_keep
+      real(rk), intent(in) :: zero_tol
 
       character(len=80) :: s
       integer(ik) :: nedges, i, k, nneg, nzero, kmin, inegv
-      real(rk) :: amax, cmin, c, sumv, rel
+      real(rk) :: cmin, c, sumv, rel
       character(len=6) :: vname
 
       nedges = iedge_off(nnodes + 1) - 1
@@ -81,18 +84,13 @@ contains
       write (s, '(a,i14)') '  negative volumes   ', inegv
       call log_line(s)
 
-      amax = 0.0_rk
-      if (nedges > 0) amax = maxval(abs(area(1:nedges)))
       nneg = 0
-      nzero = 0
+      nzero = count(zero(1:nedges))
       cmin = huge(1.0_rk)
       kmin = 0
       do i = 1, nnodes
          do k = iedge_off(i), iedge_off(i + 1) - 1
-            if (abs(area(k)) <= zero_area_rel*amax) then
-               nzero = nzero + 1
-               cycle
-            end if
+            if (zero(k)) cycle
             c = area(k)/norm2([xic(jedge(k)) - xic(i), &
                                yic(jedge(k)) - yic(i), &
                                zic(jedge(k)) - zic(i)])
@@ -103,8 +101,16 @@ contains
             end if
          end do
       end do
-      write (s, '(a,i14)') '  zero-area edges    ', nzero
+      write (s, '(a,i14,a,1pe8.1,a)') '  zero-area edges    ', nzero, &
+         '  (zero_tol', zero_tol, ')'
       call log_line(s)
+      if (zero_keep) then
+         call log_line('  zero_area keep: written, one connection '// &
+                       'per edge')
+      else
+         call log_line('  zero_area remove: left out of the '// &
+                       'output files')
+      end if
       write (s, '(a,i14)') '  negative A(ij)     ', nneg
       call log_line(s)
       if (kmin > 0) then

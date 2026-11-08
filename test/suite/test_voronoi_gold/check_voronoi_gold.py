@@ -11,7 +11,13 @@ Measures (all relative, so the size of the mesh does not matter):
   stor_vol_diff     max |V_i - V_i(gold)| / max |V(gold)|
   stor_coef_diff    max |c_ij - c_ij(gold)| / max |c(gold)| over every
                     vertex pair in either file (c = the .stor value,
-                    -A/d); a pair missing from one file counts as 0
+                    -A/d); a pair missing from one file counts as 0.
+                    Checked for zero_area keep with compress off and
+                    on, and for the defaults (zero-area pairs missing,
+                    counted as 0)
+  removed_are_zero  default run: the pairs left out are exactly those
+                    with |A| <= 1e-12 d^2 (tets) or 1e-12 d (triangles)
+  keep_one_per_edge zero_area keep: .uge and MESH list every edge
   stor_layout       the .stor blocks fit together: row pointers,
                     sorted columns with the diagonal in each row, the
                     diagonal pointers, a symmetric matrix, NCON_MAX
@@ -41,6 +47,15 @@ TOL = 1e-12
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
 from svgdraw import Svg, ramp, Projector  # noqa: E402
+
+# Outputs of the runner for each mesh (see run_voronoi_gold_tests.sh):
+#   _keep.stor     zero_area keep, compress off
+#   _keep_c.stor   zero_area keep (compress on, the default)
+#   .stor .uge _MESH            the defaults, in one run
+#   _keep.uge _keep_MESH        zero_area keep
+OUTPUTS = ['_keep.stor', '_keep_c.stor', '.stor', '.uge', '_MESH',
+           '_keep.uge', '_keep_MESH']
+ZERO_TOL = 1e-12      # del_vor's default zero_tol
 
 MESHES = [
     # name, dimension, gold stor, gold uge, gold MESH
@@ -375,47 +390,74 @@ def main():
     for name, ndim, gstor, guge, gmesh in MESHES:
         xyz, cells = read_inp(os.path.join(inputs, name + '.inp'))
         k0 = len(results)
-        f_stor = os.path.join(work, name + '.stor')
-        f_cst = os.path.join(work, name + '_c.stor')
-        f_uge = os.path.join(work, name + '.uge')
-        f_mesh = os.path.join(work, name + '_MESH')
-        missing = [f for f in (f_stor, f_cst, f_uge, f_mesh)
-                   if not os.path.exists(f)]
+        f = {t: os.path.join(work, name + t) for t in OUTPUTS}
+        missing = [t for t in OUTPUTS if not os.path.exists(f[t])]
         if missing:
             put(name + '_outputs', 'missing ' + ' '.join(
-                os.path.basename(f) for f in missing), 'FAIL')
+                name + t for t in missing), 'FAIL')
             rows.append((name, results[k0:]))
             continue
-        put(name + '_outputs', 'all 4 written', 'PASS')
+        put(name + '_outputs', 'all %d written' % len(OUTPUTS), 'PASS')
 
         gs = read_stor(os.path.join(inputs, gstor))
         gc = stor_pairs(gs)
         gv = gs['vol']
         vscale = max(abs(v) for v in gv)
         cscale = max(abs(v) for v in gc.values())
-        s = None
-        c = {}
-        for tag, f in (('stor', f_stor), ('stor_compressed', f_cst)):
-            s = read_stor(f)
+        # zero_area keep: the gold .stor files (LaGriT matbld nstor)
+        # list every edge, zero-area ones included
+        for tag in ('_keep.stor', '_keep_c.stor', '.stor'):
+            s = read_stor(f[tag])
             bad = stor_layout_ok(s)
-            put('%s_%s_layout' % (name, tag), '; '.join(bad) or 'ok',
+            key = name + tag.replace('.', '_')
+            put(key + '_layout', '; '.join(bad) or 'ok',
                 'FAIL' if bad else 'PASS')
             if s['neq'] != gs['neq']:
-                put('%s_%s_neq' % (name, tag), s['neq'], 'FAIL')
+                put(key + '_neq', s['neq'], 'FAIL')
                 continue
             c = stor_pairs(s)
             dv = max(abs(a - b) for a, b in zip(s['vol'], gv)) / vscale
             dc = max(abs(c.get(k, 0.0) - gc.get(k, 0.0))
                      for k in set(c) | set(gc)) / cscale
-            judge('%s_%s_vol_diff' % (name, tag), dv)
-            judge('%s_%s_coef_diff' % (name, tag), dc)
-            put('%s_%s_values_written' % (name, tag), '%d of %d entries'
+            judge(key + '_vol_diff', dv)
+            judge(key + '_coef_diff', dc)
+            put(key + '_values_written', '%d of %d entries'
                 % (s['nw'], s['ncoef']), 'MEASURED')
-        s = read_stor(f_stor)
-        c = stor_pairs(s)
-        vol = s['vol']
+        keep = read_stor(f['_keep.stor'])
+        c = stor_pairs(keep)
+        vol = keep['vol']
         mv = mesh_measure(xyz, cells)
         judge(name + '_balance', abs(sum(vol) - mv) / mv)
+
+        # zero_area remove (the default): the pairs left out are
+        # exactly the zero-area ones, and nothing else changes
+        rem = stor_pairs(read_stor(f['.stor']))
+        dropped = set(c) - set(rem)
+        zero = sorted(k for k in dropped if k[0] < k[1])
+        xyzd = {k: norm(sub(xyz[k[0]], xyz[k[1]])) for k in c}
+        nonzero_dropped = [k for k in dropped
+                           if abs(c[k]) * xyzd[k] > ZERO_TOL *
+                           xyzd[k] ** (ndim - 1)]
+        zero_kept = [k for k in rem
+                     if abs(c[k]) * xyzd[k] <= ZERO_TOL *
+                     xyzd[k] ** (ndim - 1)]
+        put(name + '_removed_are_zero', '%d removed, %d of them not '
+            'zero, %d zero kept' % (len(zero), len(nonzero_dropped) // 2,
+                                    len(zero_kept) // 2),
+            'FAIL' if (nonzero_dropped or zero_kept
+                       or set(rem) - set(c)) else 'PASS')
+        f_uge = f['.uge']
+        f_mesh = f['_MESH']
+
+        # zero_area keep: .uge and MESH have one connection per edge
+        _, con_k = read_uge(f['_keep.uge'])
+        nconn = sum(1 for line in mesh_records(f['_keep_MESH'])
+                    if len(line) > 10 and line[:5].strip()
+                    and not line.startswith(('ELEME', 'CONNE'))) - len(xyz)
+        nedge = len(c) // 2
+        put(name + '_keep_one_per_edge', '%d edges: .uge %d, MESH %d'
+            % (nedge, len(con_k), nconn),
+            'PASS' if len(con_k) == nedge == nconn else 'FAIL')
 
         # .uge
         cells_u, con_u = read_uge(f_uge)
@@ -427,8 +469,6 @@ def main():
         d_vs /= cscale
         d_vs = max(d_vs, max(abs(cells_u[i + 1][3] - vol[i])
                              for i in range(len(vol))) / vscale)
-        zero = [k for k in c if k[0] < k[1]
-                and k not in {(i - 1, j - 1) for (i, j) in con_u}]
         judge(name + '_uge_vs_stor', d_vs)
         if guge:
             gcells, gcon = read_uge(os.path.join(inputs, guge))

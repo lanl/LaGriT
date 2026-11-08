@@ -5,10 +5,12 @@
 !
 ! Every row lists its lower neighbors, itself and its upper neighbors,
 ! in increasing order. Each entry's value is -A(ij)/d(ij); diagonal
-! entries are 0. With compression, equal values are written once and
-! shared through the pointer block; values are equal when they differ
-! by at most 1e-14 times the largest |value| (LaGriT's
-! compressmatrixvalues rule and epsilon).
+! entries are 0. Connections with skip(k) = .true. (zero-area ones,
+! unless zero_area keep) are left out; volumes are not changed.
+! With compression, equal values are written once and shared through
+! the pointer block; values are equal when they differ by at most
+! 1e-14 times the largest |value| (the rule of LaGriT's
+! compressmatrixvalues; LaGriT's anothermatbld3d uses 1e-8).
 !-----------------------------------------------------------------------
 module del_vor_write_stor
    use del_vor_kinds, only: ik, rk
@@ -23,14 +25,15 @@ module del_vor_write_stor
 contains
 
    subroutine write_stor(fname, ndim, nnodes, xic, yic, zic, &
-                         iedge_off, jedge, area, vol, compress, ierr)
+                         iedge_off, jedge, area, vol, skip, compress, &
+                         ierr)
       character(len=*), intent(in) :: fname
       integer, intent(in) :: ndim
       integer(ik), intent(in) :: nnodes
       real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
       integer(ik), intent(in) :: iedge_off(nnodes + 1), jedge(*)
       real(rk), intent(in) :: area(:), vol(nnodes)
-      logical, intent(in) :: compress
+      logical, intent(in) :: skip(:), compress
       integer, intent(out) :: ierr
 
       integer(ik), allocatable :: ilow_off(:), jlow(:), klow(:)
@@ -47,7 +50,7 @@ contains
       ierr = 0
       neq = nnodes
       nedges = iedge_off(nnodes + 1) - 1
-      ncoef = 2*nedges + neq
+      ncoef = 2*count(.not. skip(1:nedges)) + neq
 
       call build_lower(nnodes, iedge_off, jedge, ilow_off, jlow, klow)
 
@@ -56,7 +59,10 @@ contains
       p = 0
       ncon_max = 0
       do i = 1, neq
+         n = 1
          do k = ilow_off(i), ilow_off(i + 1) - 1
+            if (skip(klow(k))) cycle
+            n = n + 1
             p = p + 1
             icol(p) = jlow(k)
             coef(p) = area(klow(k))/dist(i, jlow(k))
@@ -66,12 +72,12 @@ contains
          coef(p) = 0.0_rk
          idiag(i) = neq + 1 + p
          do k = iedge_off(i), iedge_off(i + 1) - 1
+            if (skip(k)) cycle
+            n = n + 1
             p = p + 1
             icol(p) = jedge(k)
             coef(p) = area(k)/dist(i, jedge(k))
          end do
-         n = (ilow_off(i + 1) - ilow_off(i)) + 1 + &
-             (iedge_off(i + 1) - iedge_off(i))
          irow(i + 1) = irow(i) + n
          ncon_max = max(ncon_max, n)
       end do

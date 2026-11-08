@@ -17,9 +17,10 @@ choice, is in the design document (see `notes` in the project folder).
 ## Status
 
 Phase 1 of 6: the lanl/voronoi kernels and writers ported to one
-edge-based sparse structure, without PETSc or MPI. Voronoi control
-volumes only; median and hybrid control volumes, the Delaunay check
-and ParaView output come in later phases.
+edge-based sparse structure, without PETSc or MPI, with keyword
+options for the outputs, zero-area connections and compression.
+Voronoi control volumes only; median and hybrid control volumes, the
+Delaunay check and ParaView output come in later phases.
 
 ## Build
 
@@ -37,22 +38,40 @@ This builds `build/del_vor` and the kernel self test
 ## Run
 
 ```
-del_vor -avs MESH.inp [-type fehm|pflotran|tough2] [-o FILE]
-        [-compress] [-cv voronoi]
+del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+        [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
+        [-cv voronoi]
 ```
 
-| option | meaning |
-|---|---|
-| `-avs MESH.inp` | the mesh: AVS UCD, all triangles or all tets |
-| `-type` | `fehm` (`.stor`, the default), `pflotran` (`.uge`), `tough2` (`MESH`) |
-| `-o FILE` | output file; default `voronoi.stor`, `pflotran.uge` or `MESH_VORONOI` |
-| `-compress` | `.stor` only: write each distinct coefficient once |
-| `-cv voronoi` | control volumes; only `voronoi` for now |
+Options are keyword / value pairs in any order. Several outputs can
+be written in one run; the geometry is computed once.
 
-These are the options of lanl/voronoi. A run prints a summary: sizes,
-the volume balance (control volumes against the mesh volume), and the
-numbers of zero-area and negative coefficients. Exit status 0 on
-success, 1 on any error.
+| keyword | value | default | meaning |
+|---|---|---|---|
+| `avs` | file | | the mesh: AVS UCD, all triangles or all tets |
+| `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
+| `uge` | file | | PFLOTRAN `.uge` |
+| `tough2` | file | | TOUGH2 `MESH` |
+| `zero_area` | `remove`, `keep` | `remove` | `remove`: connections whose Voronoi face has zero area are left out of every file. `keep`: the coefficient matrix has one connection per mesh edge |
+| `zero_tol` | number >= 0 | `1e-12` | a connection has zero area when \|A\| <= zero_tol d² (tets) or zero_tol d (triangles), d the edge length |
+| `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
+| `cv` | `voronoi` | `voronoi` | control volumes; median and hybrid come later |
+
+The zero-area filter changes only which connections are written; the
+control volumes are never changed. lanl/voronoi's options `-type
+fehm|pflotran|tough2`, `-o FILE` and `-compress` (no value) also work.
+
+The LaGriT command (a later phase) will take the same keywords, as
+pairs in any order, written with a comma inside each pair:
+
+```
+del_vor / stor, out.stor / uge, out.uge / zero_area, keep
+```
+
+A run prints a summary: sizes, the volume balance (control volumes
+against the mesh volume), and the numbers of zero-area and negative
+coefficients. Exit status 0 on success; 1 on any error, with a
+message naming the bad option or file, and then no output is written.
 
 ## Tests
 
@@ -69,6 +88,7 @@ then open `test/suite/summary.html`. See `test/suite/README.md`.
 |---|---|
 | `src/del_vor_kinds.F90` | integer and real kinds (64-bit integers) |
 | `src/del_vor_log.F90` | all screen output, so LaGriT can redirect it |
+| `src/del_vor_options.F90` | the keyword options, shared by every front end |
 | `src/del_vor_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`) |
 | `src/del_vor_read_avs.F90` | AVS UCD reader |
 | `src/del_vor_topology.F90` | the edge CSR: one row per vertex, upper triangle |

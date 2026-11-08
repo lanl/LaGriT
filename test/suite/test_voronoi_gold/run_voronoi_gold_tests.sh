@@ -3,7 +3,8 @@
 # run_voronoi_gold_tests.sh [path-to-del_vor]
 #
 # test_voronoi_gold: del_vor on the three lanl/voronoi test meshes,
-# each written as .stor, compressed .stor, .uge and TOUGH2 MESH, judged
+# each written as .stor (every edge kept, compressed or not; the
+# defaults), .uge and TOUGH2 MESH (defaults; every edge kept), judged
 # against the gold files and against answers computed from the meshes.
 # See 00README. POSIX sh, Python 3 (standard library). WORK and LOGS
 # may be set to other folders.
@@ -44,17 +45,26 @@ rm -f summary.html
 
 echo "del_vor : $DEL_VOR"
 rc=0
+# Each mesh: the gold comparison with every edge kept (compress off
+# and on), the defaults with all three outputs in one run, and .uge
+# and MESH with every edge kept.
 for m in mesh_2D mesh_3D simple_3D; do
     cp "inputs/$m.inp" "$WORK"/
-    ( cd "$WORK" &&
-      "$DEL_VOR" -avs "$m.inp" -o "$m.stor" > "$m.stor.out" 2>&1 &&
-      "$DEL_VOR" -avs "$m.inp" -o "${m}_c.stor" -compress \
-          > "${m}_c.stor.out" 2>&1 &&
-      "$DEL_VOR" -avs "$m.inp" -type pflotran -o "$m.uge" \
-          > "$m.uge.out" 2>&1 &&
-      "$DEL_VOR" -avs "$m.inp" -type tough2 -o "${m}_MESH" \
-          > "${m}_MESH.out" 2>&1 ) || { echo "del_vor failed on $m"; rc=1; }
-    cp "$WORK/$m".*.out "$WORK/${m}"_*.out "$LOGDIR"/ 2>/dev/null
+    k=0
+    for opts in \
+        "-stor ${m}_keep.stor -zero_area keep -compress off" \
+        "-stor ${m}_keep_c.stor -zero_area keep" \
+        "-stor $m.stor -uge $m.uge -tough2 ${m}_MESH" \
+        "-uge ${m}_keep.uge -tough2 ${m}_keep_MESH -zero_area keep"
+    do
+        k=$((k + 1))
+        # shellcheck disable=SC2086
+        ( cd "$WORK" && "$DEL_VOR" -avs "$m.inp" $opts \
+              > "$m.run$k.out" 2>&1 ) ||
+            { echo "del_vor failed on $m: $opts"; rc=1; }
+        { echo "del_vor -avs $m.inp $opts"; cat "$WORK/$m.run$k.out"; } \
+            > "$LOGDIR/$m.run$k.out"
+    done
 done
 python3 -I check_voronoi_gold.py "$WORK" "$LOGDIR" inputs || rc=1
 echo

@@ -24,6 +24,7 @@ contains
    subroutine log_line(msg)
       character(len=*), intent(in) :: msg
       write (lu, '(a)') trim(msg)
+      flush (lu)
    end subroutine log_line
 
 end module del_vor_log

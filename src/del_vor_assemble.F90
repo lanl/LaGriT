@@ -19,7 +19,7 @@ module del_vor_assemble
    use del_vor_log, only: errmsg
    implicit none
    private
-   public :: assemble, assembly_stats_t
+   public :: assemble, assembly_stats_t, zero_area_mask
 
    type :: assembly_stats_t
       integer(ik) :: ndegenerate = 0  ! cells with no circumcenter
@@ -117,5 +117,29 @@ contains
          end do
       end do
    end subroutine assemble
+
+   ! zero(k) = .true. when edge k's dual face has zero area:
+   ! |A| <= tol d^2 for tets (an area), |A| <= tol d for triangles
+   ! (a length), d the edge length. Measured against each edge's own
+   ! length, so the test means the same at every mesh size.
+   subroutine zero_area_mask(nen, nnodes, xic, yic, zic, iedge_off, &
+                             jedge, area, tol, zero)
+      integer(ik), intent(in) :: nen, nnodes
+      real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
+      integer(ik), intent(in) :: iedge_off(nnodes + 1), jedge(*)
+      real(rk), intent(in) :: area(:), tol
+      logical, intent(out) :: zero(:)
+      integer(ik) :: i, j, k
+      real(rk) :: d
+      do i = 1, nnodes
+         do k = iedge_off(i), iedge_off(i + 1) - 1
+            j = jedge(k)
+            d = norm2([xic(j) - xic(i), yic(j) - yic(i), &
+                       zic(j) - zic(i)])
+            if (nen == 4) d = d*d
+            zero(k) = abs(area(k)) <= tol*d
+         end do
+      end do
+   end subroutine zero_area_mask
 
 end module del_vor_assemble

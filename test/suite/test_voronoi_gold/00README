@@ -8,10 +8,12 @@ QUICK START
 
 WHAT IS TESTED
 
-  del_vor -avs MESH.inp -o MESH.stor                  FEHM .stor
-  del_vor -avs MESH.inp -o MESH_c.stor -compress      compressed .stor
-  del_vor -avs MESH.inp -type pflotran -o MESH.uge    PFLOTRAN .uge
-  del_vor -avs MESH.inp -type tough2 -o MESH_MESH     TOUGH2 MESH
+  For each mesh, four runs (the logs show each command):
+
+  del_vor -avs M.inp -stor M_keep.stor -zero_area keep -compress off
+  del_vor -avs M.inp -stor M_keep_c.stor -zero_area keep
+  del_vor -avs M.inp -stor M.stor -uge M.uge -tough2 M_MESH
+  del_vor -avs M.inp -uge M_keep.uge -tough2 M_keep_MESH -zero_area keep
 
   on the three meshes of lanl/voronoi test/sanity_check (inputs/,
   copied unchanged, see inputs/NOTICE):
@@ -28,7 +30,11 @@ WHAT IS TESTED
 WHAT IS CHECKED (check_voronoi_gold.py; tolerance 1e-12, relative)
 
   stor        every volume and every vertex-pair coefficient against
-              the gold .stor, plain and compressed
+              the gold .stor (which lists every edge), with every edge
+              kept (compressed or not) and with the defaults
+  removed     the defaults leave out exactly the zero-area pairs
+              (|A| <= 1e-12 d^2, 1e-12 d for triangles)
+  keep        zero_area keep: .uge and MESH list every mesh edge
   layout      the .stor blocks fit together (row and diagonal
               pointers, sorted columns, symmetric matrix, NCON_MAX)
   balance     the control volumes add up to the mesh volume (area),
@@ -44,9 +50,10 @@ WHAT IS CHECKED (check_voronoi_gold.py; tolerance 1e-12, relative)
 
 KNOWN DIFFERENCES FROM THE GOLD FILES (by design, not failures)
 
-  - .uge and MESH leave out zero-area connections (|A| <= 1e-12 of
-    the largest). voronoi's 3D .uge did too; its 2D .uge listed 4.
-    Zero-area connections stay in the .stor (LaGriT's layout).
+  - By default (zero_area remove) every file leaves out the zero-area
+    connections. voronoi's 3D .uge and MESH did too; its 2D .uge
+    listed 4. The gold .stor files list them all, so they are
+    compared with zero_area keep runs.
   - 4 lines of the 3D MESH differ in the last printed digit: values
     exactly halfway (1.5625e16, 3.90625e9) that voronoi's round-off
     pushed up and del_vor rounds to even.

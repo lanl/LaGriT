@@ -54,6 +54,8 @@ rm -f "$PAGE" "$TOP"/.run_all_*.rc "$TOP"/.run_all_*.out
 SUITES="
 test_kernels:run_kernel_tests.sh:1:kernels,2d,3d
 test_voronoi_gold:run_voronoi_gold_tests.sh:1:gold,stor,uge,tough2,2d,3d
+test_options:run_options_tests.sh:2:options,errors,2d,3d
+test_poisson_lagrit:run_poisson_lagrit_tests.sh:2:lagrit,stor,3d
 "
 
 JOBS=${JOBS:-1}
