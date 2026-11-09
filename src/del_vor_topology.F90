@@ -16,7 +16,7 @@ module del_vor_topology
    use del_vor_log, only: errmsg
    implicit none
    private
-   public :: build_edge_csr, edge_index, build_lower
+   public :: build_edge_csr, edge_index, build_lower, build_incidence
 
 contains
 
@@ -30,34 +30,14 @@ contains
       integer, intent(out) :: ierr
 
       integer(ik), allocatable :: inc_off(:), inc(:), mark(:)
-      integer(ik) :: it, k, i, j, iv, n, pos, ic
+      integer(ik) :: it, k, i, j, n, pos, ic
 
       ierr = 0
       nedges = 0
 
-      ! vertex-to-cell incidence: count, then fill
-      allocate (inc_off(nnodes + 1))
-      inc_off = 0
-      do it = 1, nelements
-         do k = 1, nen
-            iv = itet(itetoff(it) + k)
-            inc_off(iv + 1) = inc_off(iv + 1) + 1
-         end do
-      end do
-      inc_off(1) = 1
-      do i = 1, nnodes
-         inc_off(i + 1) = inc_off(i + 1) + inc_off(i)
-      end do
-      allocate (inc(inc_off(nnodes + 1) - 1))
+      call build_incidence(nnodes, nelements, nen, itetoff, itet, &
+                           inc_off, inc)
       allocate (mark(nnodes))
-      mark = inc_off(1:nnodes)
-      do it = 1, nelements
-         do k = 1, nen
-            iv = itet(itetoff(it) + k)
-            inc(mark(iv)) = it
-            mark(iv) = mark(iv) + 1
-         end do
-      end do
 
       ! row lengths: neighbors j > i, counted once each
       allocate (iedge_off(nnodes + 1))
@@ -105,6 +85,40 @@ contains
          errmsg = 'build_edge_csr: mesh has no edges'
       end if
    end subroutine build_edge_csr
+
+   ! Vertex-to-cell incidence: the cells of vertex i are
+   ! inc(inc_off(i) : inc_off(i+1)-1), in increasing order.
+   subroutine build_incidence(nnodes, nelements, nen, itetoff, itet, &
+                              inc_off, inc)
+      integer(ik), intent(in) :: nnodes, nelements, nen
+      integer(ik), intent(in) :: itetoff(nelements), itet(*)
+      integer(ik), allocatable, intent(out) :: inc_off(:), inc(:)
+      integer(ik), allocatable :: pos(:)
+      integer(ik) :: it, k, iv, i
+      allocate (inc_off(nnodes + 1))
+      inc_off = 0
+      do it = 1, nelements
+         do k = 1, nen
+            iv = itet(itetoff(it) + k)
+            inc_off(iv + 1) = inc_off(iv + 1) + 1
+         end do
+      end do
+      inc_off(1) = 1
+      do i = 1, nnodes
+         inc_off(i + 1) = inc_off(i + 1) + inc_off(i)
+      end do
+      allocate (inc(inc_off(nnodes + 1) - 1))
+      allocate (pos(nnodes))
+      pos = inc_off(1:nnodes)
+      do it = 1, nelements
+         do k = 1, nen
+            iv = itet(itetoff(it) + k)
+            inc(pos(iv)) = it
+            pos(iv) = pos(iv) + 1
+         end do
+      end do
+      deallocate (pos)
+   end subroutine build_incidence
 
    ! Position of edge (i,j) in jedge, or 0 if there is no such edge.
    pure function edge_index(i, j, nnodes, iedge_off, jedge) result(k)

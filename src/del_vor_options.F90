@@ -22,6 +22,14 @@
 ! compress   on | off           on        .stor: each distinct A/d
 !                                         value written once
 ! cv         voronoi            voronoi   control volumes
+! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
+!                                         when delta/L < -delaunay_tol
+!                                         (del_vor_delaunay)
+! violations file               violations.vtu  the flagged facets,
+!                                         written when there are any
+! check_only on | off           off       on: check the mesh and stop;
+!                                         no coefficient files
+! report     file                         a copy of the screen summary
 !
 ! (*) with no output keyword: stor voronoi.stor.
 !
@@ -48,10 +56,15 @@ module del_vor_options
       real(rk) :: zero_tol = 1.0e-12_rk
       logical :: compress = .true.
       character(len=16) :: cv = 'voronoi'
+      real(rk) :: delaunay_tol = 1.0e-10_rk
+      character(len=lpath) :: violations = 'violations.vtu'
+      logical :: check_only = .false.
+      character(len=lpath) :: report = ' '
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
-      'avs stor uge tough2 zero_area zero_tol compress cv type o'
+      'avs stor uge tough2 zero_area zero_tol compress cv '// &
+      'delaunay_tol violations check_only report type o'
 
 contains
 
@@ -89,7 +102,8 @@ contains
             i = i + 1
             cycle
          case ('avs', 'stor', 'uge', 'tough2', 'zero_area', &
-               'zero_tol', 'cv', 'type', 'o')
+               'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
+               'violations', 'check_only', 'report')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -125,6 +139,29 @@ contains
                return
             end if
             opt%zero_tol = x
+         case ('delaunay_tol')
+            read (val, *, iostat=ios) x
+            if (ios /= 0 .or. x < 0.0_rk) then
+               call bad('delaunay_tol '//trim(val)// &
+                        ': must be a number >= 0')
+               return
+            end if
+            opt%delaunay_tol = x
+         case ('violations')
+            opt%violations = val
+         case ('report')
+            opt%report = val
+         case ('check_only')
+            select case (trim(lowercase(val)))
+            case ('on')
+               opt%check_only = .true.
+            case ('off')
+               opt%check_only = .false.
+            case default
+               call bad('check_only '//trim(val)// &
+                        ': must be on or off')
+               return
+            end select
          case ('cv')
             if (trim(lowercase(val)) /= 'voronoi') then
                call bad('cv '//trim(val)// &
@@ -171,6 +208,8 @@ contains
 
       if (opt%nout == 0) call add_output(opt, 'stor', &
                                          'voronoi.stor', ierr)
+      if (ierr /= 0) return
+      call check_names(opt, ierr)
 
    contains
 
@@ -205,6 +244,40 @@ contains
       opt%out_type(opt%nout) = otype
       opt%out_file(opt%nout) = ofile
    end subroutine add_output
+
+   subroutine check_names(opt, ierr)
+!     Every file del_vor writes (outputs, report, violations file)
+!     differs from the others and from the mesh.
+      type(options_t), intent(in) :: opt
+      integer, intent(out) :: ierr
+      character(len=lpath) :: f(maxout+2)
+      integer :: n, k, j
+      ierr = 0
+      n = opt%nout
+      f(1:n) = opt%out_file(1:n)
+      n = n + 1
+      f(n) = opt%violations
+      if (len_trim(opt%report) > 0) then
+         n = n + 1
+         f(n) = opt%report
+      end if
+      do k = 1, n
+         if (trim(f(k)) == trim(opt%mesh)) then
+            ierr = 1
+            errmsg = 'del_vor: '//trim(f(k))// &
+                     ' is the mesh; it would be overwritten'
+            return
+         end if
+         do j = 1, k - 1
+            if (trim(f(j)) == trim(f(k))) then
+               ierr = 1
+               errmsg = 'del_vor: output file '//trim(f(k))// &
+                        ' given twice'
+               return
+            end if
+         end do
+      end do
+   end subroutine check_names
 
    function lowercase(s) result(t)
       character(len=*), intent(in) :: s

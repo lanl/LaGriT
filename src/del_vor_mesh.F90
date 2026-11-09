@@ -8,7 +8,15 @@
 !   itet(itetoff(it)+j) vertex j of cell it, 1-based
 !   itettyp             LaGriT cell type: 3 = triangle, 5 = tet
 !   itetclr             cell material or fracture number
-!   imt1                vertex material
+!   imt1, itp1, isn1    vertex material, type, parent/child link
+!   jtetoff, jtet       neighbors: jtet(jtetoff(it)+j) for local face
+!                       j (opposite vertex j) of cell it is
+!                       nen*(jt-1)+jf when face jf of cell jt is the
+!                       same face; mbndry on the exterior boundary;
+!                       mbndry + nen*(jt-1)+jf across a material
+!                       interface (LaGriT's convention; nef = nen
+!                       for triangles and tets)
+!   mbndry              boundary flag, larger than any face code
 !
 ! The core routines take these arrays as arguments; this module only
 ! holds the copy the standalone program reads from an AVS file.
@@ -30,7 +38,9 @@ module del_vor_mesh
       real(rk), allocatable :: xic(:), yic(:), zic(:)
       integer(ik), allocatable :: itet(:), itetoff(:)
       integer(ik), allocatable :: itettyp(:), itetclr(:)
-      integer(ik), allocatable :: imt1(:)
+      integer(ik), allocatable :: imt1(:), itp1(:), isn1(:)
+      integer(ik), allocatable :: jtet(:), jtetoff(:)
+      integer(ik) :: mbndry = 0
    end type mesh_t
 
 contains
@@ -41,6 +51,11 @@ contains
       if (allocated(m%itet)) deallocate (m%itet, m%itetoff)
       if (allocated(m%itettyp)) deallocate (m%itettyp, m%itetclr)
       if (allocated(m%imt1)) deallocate (m%imt1)
+      if (allocated(m%itp1)) deallocate (m%itp1)
+      if (allocated(m%isn1)) deallocate (m%isn1)
+      if (allocated(m%jtet)) deallocate (m%jtet)
+      if (allocated(m%jtetoff)) deallocate (m%jtetoff)
+      m%mbndry = 0
       m%nnodes = 0
       m%nelements = 0
       m%nen = 0
