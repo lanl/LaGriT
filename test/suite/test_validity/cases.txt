@@ -1,0 +1,25 @@
+# test_validity cases: one per line,  name | exit | message | what it does
+#
+# Each case runs, in work/NAME,
+#   del_vor -avs NAME.inp -stor NAME.stor -report NAME.report
+# on the mesh NAME.inp made by make_validity_inputs.py. exit is the
+# exit status expected; message is text the screen output must hold
+# (spaces in a row count as one).
+# A failed run must write no .stor and no violations file; a passing
+# run must write the .stor.
+#
+mixed           | 1 | mixed cell types | A triangle and a tet in one mesh. del_vor takes all triangles or all tets; the reader refuses the second cell type.
+quad            | 1 | cell type quad not allowed | A quad cell: only triangles and tets are allowed.
+missing_vertex  | 1 | cell refers to a vertex that does not exist | A triangle naming vertex 10 in a mesh of 4 vertices.
+inverted        | 1 | tets with zero or negative volume | Two tets sharing a face; the second is inside out (negative volume in LaGriT's vertex order). The message names cell 2.
+flat_tet        | 1 | tets with zero or negative volume | A tet whose 4 vertices lie in one plane: zero volume, no circumcenter.
+repeat_vertex   | 1 | tets with zero or negative volume | A tet that names one vertex twice.
+flat_tri        | 1 | triangles with zero area | A triangle whose 3 vertices lie on one line.
+face_in_3_tets  | 1 | tet faces shared by 3 or more tets | One triangle is a face of three tets (two above, one below): not a conforming mesh.
+edge_in_3_tris  | 1 | edges in 3 or more triangles of one itetclr | Three triangles of the same itetclr share one edge, like the pages of a book. In a fracture network this is legal only when the triangles belong to different fractures (two_fractures).
+flipped_tri     | 1 | oriented differently | Four triangles around a center, one turned over: it runs along its shared edges the same way as its neighbors.
+moebius         | 1 | oriented differently | A Moebius strip of 24 triangles: it cannot be oriented, so somewhere two neighbors must disagree.
+two_fractures   | 0 | fracture intersection edges 1 | Legal: two fractures (itetclr 1 in z = 0, itetclr 2 in x = 0, oriented the other way) cross along one edge shared by 4 triangles, 2 of each. One intersection edge; each fracture checked on its own.
+clockwise       | 0 | mesh checks passed | Legal: every triangle clockwise. A mesh (or fracture) may be oriented either way, as long as it is one way.
+unused_vertex   | 0 | vertices in no cell | Legal with a WARNING: one vertex is in no cell (like LaGriT's dudded vertices); it gets no control volume.
+two_materials   | 0 | faces paired, other itetclr 1 | Legal: two tets of different itetclr share a face, a material interface (jtet = mbndry + the neighbor).

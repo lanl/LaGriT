@@ -2,15 +2,17 @@
 ! del_vor_read_avs: read an AVS UCD (.inp) mesh of triangles or tets.
 !
 ! Reads vertex coordinates, cells with their material (itetclr) and,
-! if present, the vertex attribute imt1. Other attributes are skipped.
+! if present, the vertex attributes imt1, itp1 and isn1 (LaGriT's
+! material, type and parent/child link). Other attributes, and all
+! cell attributes, are skipped.
 ! Vertex and cell numbers in the file must run 1, 2, 3, ... in order,
 ! as LaGriT writes them. A mesh must be all triangles or all tets.
 ! Tet vertices are put in LaGriT order as read / avs does
 ! (avs_cells.f): AVS vertex j is LaGriT vertex lperm_tet(j), so a tet
 ! LaGriT counts as positive has det(x2-x1, x3-x1, x4-x1) > 0.
 !
-! Phase 1 reader: the full checks (jtet, orientation, conformity) come
-! with the phase 2 front end.
+! The checks of the mesh itself (jtet, conformity, orientation, size)
+! are in del_vor_jtet and del_vor_validity.
 !-----------------------------------------------------------------------
 module del_vor_read_avs
    use del_vor_kinds, only: ik, rk
@@ -35,7 +37,7 @@ contains
       character(len=64) :: aname
       integer :: lu, ios, k, icomma
       integer(ik) :: nn, nc, nnd, ncd, nmd, i, id, imat, nen
-      integer(ik) :: v(4), nattr, ncomp_tot, jimt, j
+      integer(ik) :: v(4), nattr, ncomp_tot, jimt, jitp, jisn, j
       integer(ik), allocatable :: ncomp(:)
       real(rk), allocatable :: vals(:)
 
@@ -64,8 +66,10 @@ contains
       m%nnodes = nn
       m%nelements = nc
       allocate (m%xic(nn), m%yic(nn), m%zic(nn))
-      allocate (m%imt1(nn))
+      allocate (m%imt1(nn), m%itp1(nn), m%isn1(nn))
       m%imt1 = 1
+      m%itp1 = 0
+      m%isn1 = 0
 
       ! vertices
       do i = 1, nn
@@ -134,7 +138,7 @@ contains
          m%itetclr(i) = imat
       end do
 
-      ! vertex attributes: keep imt1 if present
+      ! vertex attributes: keep imt1, itp1, isn1 if present
       if (nnd > 0) then
          call next_line(lu, line, ios)
          if (ios == 0) read (line, *, iostat=ios) nattr
@@ -150,6 +154,8 @@ contains
          end if
          ncomp_tot = sum(ncomp)
          jimt = 0
+         jitp = 0
+         jisn = 0
          j = 0
          do k = 1, int(nattr)
             call next_line(lu, line, ios)
@@ -160,8 +166,15 @@ contains
             icomma = index(line, ',')
             if (icomma == 0) icomma = len_trim(line) + 1
             aname = lower(adjustl(line(1:icomma - 1)))
-            if (trim(aname) == 'imt1' .or. trim(aname) == 'imt') then
-               if (ncomp(k) == 1) jimt = j + 1
+            if (ncomp(k) == 1) then
+               select case (trim(aname))
+               case ('imt1', 'imt')
+                  jimt = j + 1
+               case ('itp1', 'itp')
+                  jitp = j + 1
+               case ('isn1', 'isn')
+                  jisn = j + 1
+               end select
             end if
             j = j + ncomp(k)
          end do
@@ -174,6 +187,8 @@ contains
                return
             end if
             if (jimt > 0) m%imt1(i) = nint(vals(jimt), ik)
+            if (jitp > 0) m%itp1(i) = nint(vals(jitp), ik)
+            if (jisn > 0) m%isn1(i) = nint(vals(jisn), ik)
          end do
       end if
 

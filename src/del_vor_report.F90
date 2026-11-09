@@ -15,9 +15,11 @@ module del_vor_report
    use del_vor_kinds, only: ik, rk
    use del_vor_assemble, only: assembly_stats_t
    use del_vor_log, only: log_line
+   use del_vor_delaunay, only: delaunay_t, nhist, hist_edges, &
+                               sliver_ratio
    implicit none
    private
-   public :: report_run
+   public :: report_run, report_delaunay
 
 contains
 
@@ -119,5 +121,106 @@ contains
       end if
       call log_line(' ')
    end subroutine report_run
+
+   ! The Delaunay check: counts, the worst facet, a histogram of
+   ! delta/L, boundary circumcenters, slivers. Returns fatal = .true.
+   ! when a facet violates Delaunay beyond the tolerance.
+   subroutine report_delaunay(nen, d, itetclr, fatal)
+      integer(ik), intent(in) :: nen
+      type(delaunay_t), intent(in) :: d
+      integer(ik), intent(in) :: itetclr(:)
+      logical, intent(out) :: fatal
+      character(len=80) :: s
+      character(len=12) :: lo, hi
+      character(len=8) :: fname
+      integer :: b
+
+      fname = 'faces'
+      if (nen == 3) fname = 'edges'
+      fatal = sum(d%nviol) > 0
+      call log_line(' ')
+      write (s, '(a,1pe8.1,a)') 'del_vor Delaunay check '// &
+         '(delaunay_tol', d%tol, ')'
+      call log_line(s)
+      write (s, '(a,t33,i12)') '  interior '//trim(fname)//' checked', &
+         d%nchecked(1)
+      call log_line(s)
+      if (d%nchecked(2) > 0) then
+         write (s, '(a,t33,i12)') '  interface '//trim(fname)// &
+            ' checked', d%nchecked(2)
+         call log_line(s)
+      end if
+      write (s, '(a,t33,i12)') '  ties (|delta/L| <= tol)', d%nties
+      call log_line(s)
+      write (s, '(a,t33,i12)') '  violations                   ', &
+         sum(d%nviol)
+      call log_line(s)
+      if (d%nviol(2) > 0) then
+         write (s, '(a,t33,i12)') '    across material interfaces ', &
+            d%nviol(2)
+         call log_line(s)
+      end if
+      if (d%worst_cell(1) > 0) then
+         write (s, '(a,1pe12.4,a,i10,a,i10)') '  smallest delta/L', &
+            d%worst, '  cells', d%worst_cell(1), ' and', &
+            d%worst_cell(2)
+         call log_line(s)
+         write (s, '(a,3(1pe14.6),a,i6)') '    at', d%worst_x, &
+            '  itetclr', itetclr(d%worst_cell(1))
+         call log_line(s)
+      end if
+      call log_line('  delta/L histogram')
+      do b = 1, nhist
+         lo = edge_label(b - 1)
+         hi = edge_label(b)
+         write (s, '(a,a9,a,a9,t33,i12)') '    ', lo, ' to ', hi, &
+            d%hist(b)
+         call log_line(s)
+      end do
+      write (s, '(a,t33,i12)') '  boundary '//trim(fname)//' checked', &
+         d%nbound
+      call log_line(s)
+      write (s, '(a,t33,i12)') '  boundary circumcenter outside', &
+         d%nbound_out
+      call log_line(s)
+      if (d%nbound_out > 0) then
+         write (s, '(a,1pe12.4,a,i10)') '    farthest outside, /L', &
+            d%bound_worst, '  cell', d%bound_worst_cell
+         call log_line(s)
+         call log_line('    (negative boundary coefficients are '// &
+                       'likely there; reported, not fatal)')
+      end if
+      write (s, '(a,i0,a,t33,i12)') '  slivers (R/shortest edge > ', &
+         nint(sliver_ratio), ')', d%nsliver
+      call log_line(s)
+      write (s, '(a,t33,1pe12.4)') '  largest R / shortest edge    ', &
+         d%max_ratio
+      call log_line(s)
+      if (fatal) then
+         call log_line('  Delaunay check FAILED: the mesh is not '// &
+                       'Delaunay within delaunay_tol;')
+         call log_line('  no Voronoi coefficients are written. See '// &
+                       'the violations file.')
+      else
+         call log_line('  Delaunay check passed')
+      end if
+   contains
+
+      ! label of histogram edge k: -inf before the first, +inf after
+      ! the last
+      function edge_label(k) result(t)
+         integer, intent(in) :: k
+         character(len=12) :: t
+         if (k < 1) then
+            t = '     -inf'
+         else if (k > nhist - 1) then
+            t = '     +inf'
+         else
+            write (t, '(es9.1)') &
+               hist_edges(min(max(k, 1), nhist - 1))
+         end if
+      end function edge_label
+
+   end subroutine report_delaunay
 
 end module del_vor_report
