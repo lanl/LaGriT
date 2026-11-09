@@ -1,0 +1,25 @@
+# test_delaunay cases: one per line,  name | mesh | extra arguments | what it does
+#
+# Each case runs, in work/NAME,
+#   del_vor -avs MESH -check_only on -violations NAME.vtu -report NAME.report EXTRA
+# (EXTRA may override check_only). A mesh path starting with gen/ is made by
+# make_delaunay_inputs.py; the others are inputs of other suites. The
+# expected results are worked out by check_delaunay.py with exact
+# arithmetic (../exact_check.py), not stored here.
+#
+mesh_2D        | ../test_voronoi_gold/inputs/mesh_2D.inp | | lanl/voronoi's 2 x 2 square of right triangles. Every edge pair is co-circular (4 ties), no violation, and the right angles put boundary circumcenters exactly on the boundary (not outside).
+simple_3D      | ../test_voronoi_gold/inputs/simple_3D.inp | | A unit cube cut into 5 tets: all 8 corners are on one sphere, so the 4 interior faces are ties; no violation.
+mesh_3D        | ../test_voronoi_gold/inputs/mesh_3D.inp | | lanl/voronoi's graded cube (side 1e6, 384 tets): 201 co-spherical ties whose computed delta/L is round-off (down to -2.4e-16), none counted as a violation.
+poi3d_01       | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | | LaGriT test_poisson_3d case 1 (no boundary buffer): Delaunay, no ties; 108 boundary tets have their circumcenter outside the box (reported, not fatal). These are where its negative coefficients come from.
+poi3d_02       | ../test_poisson_lagrit/inputs/test_3d_poi_02.inp | | Case 2 (buffer on the boundary): the boundary vertices lie on a grid, giving 871 co-spherical ties; no boundary circumcenter outside.
+poi2d_01       | ../test_poisson_lagrit/inputs/output01_square_uniform.inp | | LaGriT test_poisson_2d, uniform h: Delaunay, no ties, no obtuse boundary angle.
+poi2d_02       | ../test_poisson_lagrit/inputs/output02_square_var.inp | | test_poisson_2d, variable h (WIDTH_FACTOR 10).
+poi2d_03       | ../test_poisson_lagrit/inputs/output03_square_var.inp | | test_poisson_2d, variable h (WIDTH_FACTOR 20).
+flip2d         | gen/flip2d.inp | | poi2d_01 with 5 interior edges flipped. Each flip makes exactly one edge not Delaunay; del_vor must stop (exit 1) and list exactly those 5 edges in the violations file.
+flip3d         | gen/flip3d.inp | | poi3d_01 with three 2-3 flips (2 tets around a face replaced by 3 around the opposite edge). Each flip breaks 3 faces: 9 violations, which must be exactly the faces the exact test finds.
+kuhn           | gen/kuhn.inp | | A 4 x 3 x 3 grid of unit cubes, 6 tets per cube: 216 of its 366 interior faces are co-spherical ties, the hardest case for false alarms. No violation.
+near_tie       | gen/near_tie.inp | | Two triangles whose diagonal is wrong by a hair: one vertex moved 1e-6 off the common circle, delta/L = -5e-7. Caught with the default delaunay_tol 1e-10.
+near_tie_tol   | gen/near_tie.inp | -delaunay_tol 1e-5 | The same mesh with delaunay_tol 1e-5: the facet is now accepted as a tie ("close to Delaunay is OK") and the run passes.
+utm            | gen/utm.inp | | poi3d_01 moved to (7e5, 3.2e6, 1.5e3), written with 17 digits: the same answers as at the origin (circumcenters relative to a facet vertex).
+flip2d_stor    | gen/flip2d.inp | -check_only off -stor flip2d.stor | A normal run (coefficients wanted) on the flipped mesh: must stop with exit 1 and write no .stor, only the report and the violations file.
+kuhn_stor      | gen/kuhn.inp | -check_only off -stor kuhn.stor | A normal run on the cube grid: passes the check and writes the .stor; its control volumes add up to the grid volume, 36.

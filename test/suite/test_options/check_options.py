@@ -8,7 +8,8 @@ Exit status 1 on any FAIL.
 Every case: the exit status is the one cases.txt expects.
 Cases that must succeed write exactly the files listed in EXPECT
 below and nothing else (no stray voronoi.stor). Refused cases print a
-message naming the offending token and write no output file.
+message naming the offending token and write no output file (or, for
+a mesh that fails the Delaunay check, only the files in EXPECT).
 
 Measures:
   zero set   the vertex pairs a run leaves out are exactly the pairs of
@@ -18,6 +19,9 @@ Measures:
              within 1e-14 of the largest, same volumes
   order      two runs with the same options in a different order write
              identical files (the .stor date line aside)
+  copy       the report file holds the screen output line for line
+  round_off  with delaunay_tol 0, every facet flagged has
+             |delta/L| < 1e-15
 """
 
 import math
@@ -45,6 +49,9 @@ EXPECT = {
     'tri_remove': ['a.uge'], 'compress_on': ['a.stor'],
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
+    'check_only': [], 'report': ['a.report', 'a.stor'],
+    # exit 1 by design, with the violations file
+    'tol_zero_ties': ['ties.vtu'],
 }
 
 # text each refused case's message must contain
@@ -53,6 +60,10 @@ REFUSED = {
     'bad_zero_area': 'drop', 'bad_zero_tol': '-1',
     'text_zero_tol': 'small', 'bad_cv': 'median', 'twice': 'a.stor',
     'no_mesh': 'no mesh', 'missing_mesh': 'nothere.inp',
+    'tol_zero_ties': 'not Delaunay', 'bad_tol': 'delaunay_tol -1',
+    'text_tol': 'delaunay_tol tiny', 'bad_check_only': 'check_only maybe',
+    'report_twice': 'a.stor given twice',
+    'vtu_twice': 'a.uge given twice', 'over_mesh': 'is the mesh',
 }
 
 TOL = 1e-14
@@ -137,8 +148,10 @@ def main():
             put(name, 'files', ' '.join(made) or 'none',
                 'PASS' if made == want else 'FAIL')
         else:
-            put(name, 'no_output', ' '.join(made) or 'none',
-                'PASS' if not made else 'FAIL')
+            want = sorted(EXPECT.get(name, []))
+            put(name, 'no_output' if not want else 'files',
+                ' '.join(made) or 'none',
+                'PASS' if made == want else 'FAIL')
             txt = REFUSED.get(name, '?')
             put(name, 'message', '"%s" in message' % txt,
                 'PASS' if txt in out else 'FAIL')
@@ -234,9 +247,37 @@ def main():
     put('legacy_type', 'uge', '%d connections' % len(ul),
         'PASS' if len(ul) == len(u3) else 'FAIL')
 
+    # the mesh checks (phase 2)
+    rep = open(os.path.join(ran['report'], 'a.report')).read()
+    scr = open(os.path.join(ran['report'], 'run.out')).read()
+    rl = [ln.rstrip() for ln in rep.splitlines()]
+    sl = [ln.rstrip() for ln in scr.splitlines()]
+    put('report', 'copy', '%d report lines, %d on screen' % (len(rl),
+                                                             len(sl)),
+        'PASS' if rl and rl == sl[:len(rl)] and
+        'Delaunay check passed' in rep else 'FAIL')
+    dl = vtu_values(os.path.join(ran['tol_zero_ties'], 'ties.vtu'),
+                    'delta_over_L')
+    put('tol_zero_ties', 'round_off', '%d facets, largest abs(delta/L) '
+        '%.1e' % (len(dl), max(map(abs, dl)) if dl else 0),
+        'PASS' if dl and max(map(abs, dl)) < 1e-15 else 'FAIL')
+    same = (open(os.path.join(ran['over_mesh'], 'mesh_3D.inp')).read() ==
+            open(os.path.join(gold, 'mesh_3D.inp')).read())
+    put('over_mesh', 'mesh_unchanged', 'same as before' if same else
+        'CHANGED', 'PASS' if same else 'FAIL')
+
     write_page(work, logs)
     print('failures %d' % nfail)
     return 1 if nfail else 0
+
+
+def vtu_values(path, name):
+    """The numbers of the cell-data array NAME of an ASCII .vtu."""
+    import xml.etree.ElementTree as ET
+    for a in ET.parse(path).iter('DataArray'):
+        if a.get('Name') == name:
+            return [float(v) for v in (a.text or '').split()]
+    return []
 
 
 def picture_cube(path, mesh, c, zero):

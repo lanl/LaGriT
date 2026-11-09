@@ -1,0 +1,55 @@
+test_dfn -- del_vor on fracture networks (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_dfn_tests.sh [path-to-del_vor]   2 runs (3 with full_mesh),
+                                          about 2 s
+  open summary.html
+
+WHAT IS TESTED
+
+  A fracture network: triangles in several planes, one itetclr per
+  fracture, crossing along shared edges (an intersection edge is in 2
+  triangles of each fracture it belongs to). del_vor pairs each edge
+  with the triangle of the same fracture, checks orientation and the
+  Delaunay property fracture by fracture, and adds every fracture's
+  share into one coefficient per vertex pair.
+
+  dfn3        made by make_dfn_inputs.py: 3 fractures, 1406
+              triangles. Fractures 1 (z = 0.5) and 2 (x = 0.5) cross
+              along 16 intersection edges; fracture 3 is tilted and
+              meets nothing. Each fracture is triangulated with exact
+              Bowyer-Watson, so it is exactly Delaunay.
+  dfn3_flip   the same with one triangle of fracture 2 turned over
+  full_mesh   Carl's 4-fracture dfnWorks example, once it is put in
+              inputs/ (see inputs/README); SKIPPED until then
+
+WHAT IS CHECKED (check_dfn.py; tolerance 1e-12, relative)
+
+  counts        interior and boundary edges, ties, violations and
+                intersection edges equal the exact numbers
+                (../exact_check.py)
+  coefficients  every A/d in the .stor equals the cotangent formula,
+                sum of cot(opposite angle) / 2 over every triangle
+                holding the edge, all fractures together
+  areas         every control area equals the Voronoi share of the
+                vertex, triangle by triangle; they add up to the
+                fractures' area
+  orientation   no orientation error (dfn3); for dfn3_flip: exit 1,
+                the orientation error naming the turned-over triangle,
+                no .stor
+  full_mesh     also 60 intersection edges and 1942 interior edges
+
+PICTURES (logs/)
+
+  NAME.svg  an iso view: each fracture in its own color, the
+            intersection edges black, the triangle a message names red
+
+FILES
+
+  run_dfn_tests.sh     runner (work/, logs/)
+  make_dfn_inputs.py   dfn3.inp, dfn3_flip.inp
+  check_dfn.py         checks, pictures, summary.html
+  cases.txt            name | mesh | arguments | what it does
+  inputs/README        where Carl's example goes

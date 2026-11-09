@@ -1,0 +1,52 @@
+test_validity -- the mesh checks del_vor makes before any geometry (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_validity_tests.sh [path-to-del_vor]   15 runs, under 1 s
+  open summary.html
+
+WHAT IS TESTED
+
+  For each mesh made by make_validity_inputs.py (one per line of
+  cases.txt):
+
+  del_vor -avs NAME.inp -stor NAME.stor -report NAME.report
+
+  Eleven meshes each break one rule; each is a fatal error:
+
+  mixed, quad, missing_vertex      cell types: all triangles or all
+                                   tets, vertices that exist
+  inverted, flat_tet,              cells of positive size (tet volume
+  repeat_vertex, flat_tri          in LaGriT's vertex order, triangle
+                                   area)
+  face_in_3_tets, edge_in_3_tris   conformity: a tet face in at most 2
+                                   tets, a triangle edge in at most 2
+                                   triangles of one itetclr
+  flipped_tri, moebius             orientation: neighboring triangles
+                                   of one itetclr run along their
+                                   shared edge in opposite directions
+
+  Four are legal meshes that look unusual and must run to the end:
+  two_fractures (two itetclr crossing along one edge), clockwise
+  (every triangle clockwise), unused_vertex (a WARNING) and
+  two_materials (a material interface between two tets).
+
+WHAT IS CHECKED (check_validity.py)
+
+  exit      the exit status cases.txt expects (1 or 0)
+  message   the expected text is in the screen output
+  files     a failed run wrote no .stor and no violations file; a
+            passing run wrote its .stor
+
+PICTURES (logs/)
+
+  NAME.svg  every cell's edges, vertex numbers, itetclr 2 in blue,
+            the cells the message names as "first" filled red
+
+FILES
+
+  run_validity_tests.sh     runner (work/, logs/)
+  make_validity_inputs.py   the 15 meshes
+  check_validity.py         checks, pictures, summary.html
+  cases.txt                 name | exit | message | what it does

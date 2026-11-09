@@ -38,3 +38,13 @@ bad_cv         | 1 | -avs mesh_3D.inp -stor a.stor -cv median | Median control v
 twice          | 1 | -avs mesh_3D.inp -stor a.stor -uge a.stor | Two outputs to the same file name would overwrite each other; refused.
 no_mesh        | 1 | -stor a.stor | No mesh given; refused with a hint.
 missing_mesh   | 1 | -avs nothere.inp -stor a.stor | The mesh file does not exist; the message names it, nothing is written.
+# --- the mesh checks (phase 2)
+check_only     | 0 | -avs mesh_3D.inp -check_only on | check_only on: the mesh checks and the Delaunay check run and are reported; no coefficient file is written, not even the default voronoi.stor.
+report         | 0 | -avs mesh_3D.inp -stor a.stor -report a.report | report: a copy of everything del_vor prints, in a file. Checked: a.report holds the screen output line for line, including "Delaunay check passed".
+tol_zero_ties  | 1 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -violations ties.vtu | Why delaunay_tol is not 0: mesh_3D has 201 co-spherical ties, and with no tolerance the 27 whose round-off came out negative count as violations. The run stops and writes only ties.vtu. Checked: every facet in it has abs(delta/L) below 1e-15, round-off, not a real violation.
+bad_tol        | 1 | -avs mesh_3D.inp -delaunay_tol -1 | A negative delaunay_tol is refused.
+text_tol       | 1 | -avs mesh_3D.inp -delaunay_tol tiny | delaunay_tol must be a number; tiny is refused.
+bad_check_only | 1 | -avs mesh_3D.inp -check_only maybe | check_only takes only on or off.
+report_twice   | 1 | -avs mesh_3D.inp -stor a.stor -report a.stor | The report and the .stor given the same name would overwrite each other; refused.
+vtu_twice      | 1 | -avs mesh_3D.inp -uge a.uge -violations a.uge | The violations file and the .uge given the same name; refused.
+over_mesh      | 1 | -avs mesh_3D.inp -stor mesh_3D.inp | An output named like the mesh would overwrite the mesh; refused, and the mesh is unchanged.

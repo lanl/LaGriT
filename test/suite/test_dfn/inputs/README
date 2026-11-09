@@ -1,0 +1,5 @@
+Put Carl's 4-fracture DFN example here as full_mesh.inp (771
+vertices, 1386 triangles; the example of the design document). When
+it is here, run_dfn_tests.sh also runs it: no violations, 60
+intersection edges, 1942 interior edge instances. Until then that
+case is reported as SKIPPED, not failed.
