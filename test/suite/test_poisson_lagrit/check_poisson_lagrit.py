@@ -72,6 +72,36 @@ WRITERS = {
     'matbld2d': (5e-11, 1e-11, 0.0, 1e-12,
                  'tolerance 5e-11 (13-digit .inp)'),
 }
+ABOUT = {
+    'test_3d_poi_01': 'LaGriT built this box with createpts / poisson_disk '
+    '/ 3d_box, h = 0.025, and no buffer on the outside surfaces, so '
+    'boundary tets often have their circumcenters outside the box and '
+    'some coefficients are negative (75 here; red in the picture). '
+    'del_vor runs twice (every edge kept and compress off; the defaults) '
+    'and is compared pair by pair with the .stor LaGriT wrote with '
+    'dump / stor (anothermatbld3d). Purple: two real but tiny '
+    'connections (A/d about 1e-10 of the largest) that LaGriT\'s 1e-8 '
+    'rule left out, with their share of four vertices\' volumes.',
+    'test_3d_poi_02': 'The same box with a buffer of h on the outside '
+    'surfaces: the boundary vertices lie on a grid, so many sets of four '
+    'are co-spherical and 871 boundary connections have zero-area faces '
+    '(orange); there are no negative coefficients. Both codes leave the '
+    'same 871 out.',
+    'output01_square_uniform': 'LaGriT\'s test_poisson_2d: the unit '
+    'square [-0.5, 0.5]^2 filled by createpts / poisson_disk / '
+    '2d_polygon with uniform h = 0.05, triangulated, and written by '
+    'dump / stor (matbld2d, every value written). Compared pair by pair; '
+    'the picture colors each edge by its difference. LaGriT computed '
+    'from full-precision coordinates and the .inp keeps 13 digits, which '
+    'is where the differences of about 1e-13 come from.',
+    'output02_square_var': 'The same square with a variable h: h = 0.01 '
+    'along x = 0, growing as 0.01 x 10 |x| toward the sides '
+    '(user_h_field_att.mlgi, WIDTH_FACTOR 10). The small triangles in the '
+    'middle show the largest differences: the coordinate rounding '
+    'matters most there.',
+    'output03_square_var': 'As output02 with WIDTH_FACTOR 20: h grows '
+    'twice as fast away from x = 0.',
+}
 BOX = (0.4, 0.4, 0.2)  # the 3D cases
 ZERO_TOL = 1e-12       # del_vor's default zero_tol
 
@@ -258,7 +288,7 @@ def picture(path, name, title, xyz, c, neg, zero, real_dropped):
 def histogram(path, name, cd, cl, common, cmax, ctol, lab):
     """Number of vertex pairs by |c - c(LaGriT)| / max |c| (log bins),
     with the tolerance marked."""
-    W, H = 820, 300
+    W, H = 820, 320
     s = Svg(W, H)
     s.text(20, 24, '%s: del_vor against LaGriT, per vertex pair'
            % name, size=14, bold=True)
@@ -295,9 +325,12 @@ def histogram(path, name, cd, cl, common, cmax, ctol, lab):
            color='#c0392b')
     s.text(xe + 6, y0 + 25, ' '.join(words[half:]), size=11,
            color='#c0392b')
-    s.text(20, H - 20, '|A/d difference| / max |A/d|, bins of one '
+    s.text(20, H - 34, '|A/d difference| / max |A/d|, bins of one '
            'decade (left edge shown); first bar: identical values.',
            size=11)
+    s.text(20, H - 16, 'The peak at 1e-13 is the 13 digits of the files: '
+           'the .inp coordinates and .stor values both keep 13 '
+           'significant digits.', size=11)
     s.save(path)
 
 
@@ -313,10 +346,16 @@ def write_page(logs, rows):
          '.PASS{color:#1a7f37;font-weight:bold}'
          '.FAIL{color:#c00;font-weight:bold}.MEASURED{color:#666}',
          'img{max-width:100%;border:1px solid #ccc;margin:8px 0}',
+         'td{vertical-align:top}',
+         'details summary{cursor:pointer;color:#0969da;font-size:12px}',
+         'details p{max-width:800px;margin:4px 0;font-size:13px}',
          '</style></head><body>',
+         '<p style="font-size:13px"><a href="../summary.html">&larr; all '
+         'suites</a></p>',
          '<h1>test_poisson_lagrit: %s</h1>' % ('PASS' if not nfail
                                                else 'FAIL'),
-         "<p>del_vor against LaGriT's own .stor files (dump / stor) on "
+         "<p><b>What it does:</b> del_vor against LaGriT's own .stor "
+         "files (dump / stor) on "
          "five Poisson disk meshes from LaGriT's suites: test_poisson_3d "
          'cases 1 and 2 (box 0.4 x 0.4 x 0.2) and the three meshes of '
          'test_poisson_2d (unit square). In 3D LaGriT\'s anothermatbld3d '
@@ -325,8 +364,10 @@ def write_page(logs, rows):
          'every value, but the .inp files keep 13 digits (5e-11). The '
          'checks allow exactly this. See 00README.</p>']
     for name, title, rs, pics in rows:
-        h.append('<h2>%s: %s</h2><table><tr><th>check</th><th>value'
-                 '</th><th>result</th></tr>' % (name, title))
+        h.append('<h2>%s: %s</h2><details><summary>What it does'
+                 '</summary><p>%s</p></details><table><tr><th>check</th>'
+                 '<th>value</th><th>result</th></tr>'
+                 % (name, title, ABOUT.get(name, '')))
         for k, v, r in rs:
             h.append('<tr><td>%s</td><td>%s</td><td class="%s">%s</td>'
                      '</tr>' % (k, v, r, r))

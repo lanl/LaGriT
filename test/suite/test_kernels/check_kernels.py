@@ -45,6 +45,63 @@ WHAT = {
 }
 
 
+ABOUT = {
+    'cot2d_max_rel_diff': 'For 2000 random triangles, each turned to a '
+    'random plane in 3D, the kernel\'s A/d for each edge is compared '
+    'with cot(angle opposite the edge)/2, the textbook Voronoi '
+    'coefficient (the P1 finite-element stiffness, which is the same '
+    'thing in 2D). Obtuse triangles are included, so negative pieces are '
+    'tested too. The largest difference relative to the largest value.',
+    'circ3d_max_rel_diff': 'For 2000 random tets, the circumcenter del_vor '
+    'computes (relative to vertex 1) must be equally far from all four '
+    'vertices. Largest difference between those distances, relative to '
+    'the radius.',
+    'dual3d_max_rel_diff': 'For each edge ab of 2000 random tets, the '
+    'kernel\'s piece of the Voronoi face is the quadrilateral (edge '
+    'midpoint, circumcenter of face abc, tet circumcenter, circumcenter '
+    'of face abd). It splits into two right triangles, so A/d = (cot t_c '
+    'h_abc + cot t_d h_abd) / 4, with t_c the angle at c in face abc and '
+    'h_abc the signed distance of the tet circumcenter from face abc. '
+    'That formula uses only angles and distances, not the kernel\'s cross '
+    'products, so it is an independent check of the 3D kernel.',
+    'perp3d_max_rel': 'Every Voronoi face piece must be perpendicular to '
+    'its edge: the component of its vector area across the edge, relative '
+    'to the largest A/d.',
+    'p1_3d_max_rel_diff': 'Not judged. In 2D the Voronoi coefficient equals '
+    'the P1 finite-element stiffness; in 3D it does not. This shows how '
+    'far apart they are, as a reminder (the design document says '
+    'otherwise and will be corrected).',
+    'part2d_max_rel_diff': 'With ANY cell point (random, even outside the '
+    'triangle), the three vertex shares must add up to the triangle\'s '
+    'area. The median and hybrid control volumes of later phases move '
+    'the cell point, so this must hold for every point, not just the '
+    'circumcenter.',
+    'part3d_max_rel_diff': 'The same for tets: with random cell and face '
+    'points the four vertex shares add up to the tet\'s volume.',
+    'shift_max_rel_diff': 'The same 2000 tets (size about 1) at the origin '
+    'and moved to (7e5, 3.2e6, 1.5e3), like UTM coordinates. del_vor '
+    'works relative to a vertex of each cell, so A/d must agree to the '
+    'rounding of the moved coordinates themselves (3.2e6 x 2.2e-16 = '
+    '7e-10). Tolerance 1e-8.',
+    'shift_voronoi_det4x4_rel_diff': 'Not judged. The shift test again, '
+    'with lanl/voronoi\'s circumcenter (4 x 4 determinants of absolute '
+    'coordinates and their squares): every digit is lost.',
+    'shift_det4x4_center_error': 'Not judged. How far lanl/voronoi\'s '
+    'circumcenter lands from the true one for a moved tet of size 1.',
+}
+
+
+def about(key):
+    if key in ABOUT:
+        return ABOUT[key]
+    if key.startswith('closure_') and key.endswith('_max_rel'):
+        return ('On the mesh, the vector areas of the Voronoi faces around '
+                'each vertex not on the bounding box must add up to zero: '
+                'the control volume is closed. Largest net vector area '
+                'relative to the largest face.')
+    return ''
+
+
 def what(key):
     if key in WHAT:
         return WHAT[key]
@@ -340,18 +397,30 @@ def main():
          '.PASS{color:#1a7f37;font-weight:bold}'
          '.FAIL{color:#c00;font-weight:bold}.MEASURED,.INFO{color:#666}',
          'img{max-width:100%;border:1px solid #ccc;margin:8px 0}',
+         'td{vertical-align:top}',
+         'details summary{cursor:pointer;color:#0969da;font-size:12px}',
+         'details p{max-width:420px;margin:4px 0}',
          '</style></head><body>',
+         '<p style="font-size:13px"><a href="../summary.html">&larr; all '
+         'suites</a></p>',
          '<h1>test_kernels: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
-         '<p>del_vor_selftest: the geometry kernels against answers '
-         'worked out independently (2000 random cells, fixed seed), and '
-         'the closure of the dual cells on the lanl/voronoi meshes. '
-         'See 00README.</p>',
+         '<p><b>What it does:</b> runs del_vor_selftest, a small program '
+         'built with del_vor, which calls the triangle and tet kernels '
+         'directly on 2000 random cells of each kind (fixed seed, the same '
+         'cells on every machine) and compares every coefficient and '
+         'volume share with an answer worked out another way. It then '
+         'runs the whole calculation on the three lanl/voronoi meshes and '
+         'checks that every control volume is closed. Open "What it does" '
+         'under a check for the details. MEASURED rows are not judged.</p>',
          '<table><tr><th>check</th><th>what</th><th>value</th>'
          '<th>tolerance</th><th>result</th></tr>']
     for key, val, tol, res in table:
-        h.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td>'
+        ab = about(key)
+        det = ('<details><summary>What it does</summary><p>%s</p>'
+               '</details>' % ab) if ab else ''
+        h.append('<tr><td>%s%s</td><td>%s</td><td>%s</td><td>%s</td>'
                  '<td class="%s">%s</td></tr>'
-                 % (key, what(key), val, tol, res, res))
+                 % (key, det, what(key), val, tol, res, res))
     h.append('</table>')
     for p in pics:
         h.append('<img src="%s/%s" alt="%s">' % (rel, p, p))

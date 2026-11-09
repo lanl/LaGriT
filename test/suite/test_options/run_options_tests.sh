@@ -44,7 +44,7 @@ rm -f summary.html
 
 echo "del_vor : $DEL_VOR"
 G=../test_voronoi_gold/inputs
-grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name expect args; do
+grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name expect args about; do
     name=$(echo "$name" | tr -d ' ')
     mkdir -p "$WORK/$name"
     cp "$G/mesh_2D.inp" "$G/mesh_3D.inp" "$G/simple_3D.inp" "$WORK/$name"/

@@ -57,6 +57,28 @@ OUTPUTS = ['_keep.stor', '_keep_c.stor', '.stor', '.uge', '_MESH',
            '_keep.uge', '_keep_MESH']
 ZERO_TOL = 1e-12      # del_vor's default zero_tol
 
+ABOUT = {
+    'mesh_2D': 'A 2 x 2 square of 9 vertices cut into 8 right triangles. '
+    'Every Voronoi cell is a square, so every coefficient is 0.5 or 1 '
+    '(the picture labels them) and the 4 diagonals of the square cells '
+    'have zero-area faces. Four runs: every edge kept with compress off, '
+    'every edge kept with compress on, the defaults with .stor, .uge and '
+    'TOUGH2 MESH written in one run, and .uge and MESH with every edge '
+    'kept. The .stor files are compared value by value with LaGriT\'s '
+    'matbld2d gold file; the .uge and MESH with lanl/voronoi\'s.',
+    'mesh_3D': 'A cube of side 1e6 graded toward one corner (116 vertices, '
+    '384 tets). Coordinates of 1e6 with cells down to 1.56e4 test the '
+    'circumcenters away from the origin; the regular vertex layout gives '
+    '120 zero-area faces. The same four runs, against LaGriT\'s '
+    'matbld3d gold .stor and lanl/voronoi\'s .uge and MESH. Four MESH '
+    'lines differ in the last printed digit by design (values exactly '
+    'halfway, rounded to even).',
+    'simple_3D': 'A unit cube cut into 5 tets: the 6 face diagonals have '
+    'zero area and every cube edge has A/d = 0.25 (labeled in the '
+    'picture). The same four runs, against LaGriT\'s gold .stor; '
+    'lanl/voronoi had no .uge or MESH gold files for it.',
+}
+
 MESHES = [
     # name, dimension, gold stor, gold uge, gold MESH
     ('mesh_2D', 2, 'gold_2D.stor', 'gold_2D.uge', 'gold_2D_MESH'),
@@ -541,16 +563,29 @@ def write_page(suite, logs, rows, pics):
            '.PASS{color:#1a7f37;font-weight:bold}'
            '.FAIL{color:#c00;font-weight:bold}.MEASURED{color:#666}',
            'img{max-width:100%;border:1px solid #ccc;margin:8px 0}',
+           'td{vertical-align:top}',
+           'details summary{cursor:pointer;color:#0969da;font-size:12px}',
+           'details p{max-width:800px;margin:4px 0;font-size:13px}',
            '</style></head><body>',
+           '<p style="font-size:13px"><a href="../summary.html">&larr; all '
+           'suites</a></p>',
            '<h1>test_voronoi_gold: %s</h1>' % ('PASS' if not nfail
                                                else 'FAIL'),
-           '<p>del_vor against the lanl/voronoi test meshes. The .stor '
-           'gold files were written by LaGriT (matbld2d / matbld3d); '
-           'the .uge and MESH gold files by lanl/voronoi. Tolerance '
-           '1e-12, relative. See 00README for each measure.</p>']
+           '<p><b>What it does:</b> runs del_vor on the three test meshes '
+           'of lanl/voronoi and compares the results with that '
+           'project\'s gold files: .stor written by LaGriT (matbld2d / '
+           'matbld3d), .uge and TOUGH2 MESH written by lanl/voronoi. It '
+           'also checks things the gold files cannot: the .stor layout, '
+           'that the control volumes add up to the mesh volume, that the '
+           'default leaves out exactly the zero-area connections, and '
+           'that the formats agree with each other. Tolerance 1e-12, '
+           'relative. Open "What it does" under a mesh for the details; '
+           '00README defines each measure.</p>']
     for name, rs in rows:
-        out.append('<h2>%s</h2><table><tr><th>check</th><th>value</th>'
-                   '<th>result</th></tr>' % name)
+        out.append('<h2>%s</h2><details><summary>What it does</summary>'
+                   '<p>%s</p></details><table><tr><th>check</th>'
+                   '<th>value</th><th>result</th></tr>'
+                   % (name, ABOUT.get(name, '')))
         for k, v, r in rs:
             out.append('<tr><td>%s</td><td>%s</td><td class="%s">%s</td>'
                        '</tr>' % (k, v, r, r))

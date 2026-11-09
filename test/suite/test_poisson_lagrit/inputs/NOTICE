@@ -32,8 +32,8 @@ test/suite/test_poisson_2d, a unit square [-0.5, 0.5]^2.
                                    WIDTH_FACTOR 10 (2109 vertices)
   output03_square_var.inp, .stor   the same, WIDTH_FACTOR 20 (1088)
 
-  (user_h_field_att.mlgi, which the deck calls, was not sent; del_vor
-  needs only the meshes.)
+  user_h_field_att.mlgi            the h field of output02 and 03:
+                                   h = max(h0, h0 WIDTH_FACTOR |x|)
 
 These .stor files were written by matbld2d ("matbld2d_stor"):
 uncompressed, every value written.

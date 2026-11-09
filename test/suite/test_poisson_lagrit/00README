@@ -58,6 +58,13 @@ WHAT IS CHECKED (check_poisson_lagrit.py)
 
 WHAT WAS FOUND (Nov 8 2026)
 
+  - Every histogram peaks at 1e-13. That is the 13 significant digits
+    of the files: the .inp coordinates and the .stor values both keep
+    13. A typical pair differs by about 8 in its 13th digit, and a
+    typical coefficient is 0.1 to 0.4 of the largest, so the
+    difference relative to the largest is about 1e-13. Rounding the
+    coordinates once more at the 13th digit moves del_vor's own
+    results into the same band (1e-14 to 1e-11).
   - Most pairs agree to 1e-13; only those LaGriT's compression merged
     differ, by up to 9.9e-9 of the largest (histograms).
   - Case 1: LaGriT left out two real, tiny connections (1500-1591 and

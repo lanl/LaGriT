@@ -74,8 +74,9 @@ def read_cases():
         for ln in f:
             if ln.startswith('#') or '|' not in ln:
                 continue
-            name, ex, args = [t.strip() for t in ln.split('|', 2)]
-            cases.append((name, int(ex), args))
+            name, ex, args, about = [t.strip()
+                                     for t in ln.split('|', 3)]
+            cases.append((name, int(ex), args, about))
     return cases
 
 
@@ -119,7 +120,7 @@ def main():
             for n in ('mesh_2D', 'mesh_3D', 'simple_3D')}
     cases = read_cases()
     ran = {}
-    for name, expect, args in cases:
+    for name, expect, args, about in cases:
         d = os.path.join(work, name)
         try:
             rc = int(open(os.path.join(d, 'run.rc')).read())
@@ -203,9 +204,9 @@ def main():
     # compress
     on, off = stor('compress_on'), stor('compress_off')
     bad = same_matrix(on, off)
-    put('compress', 'same_matrix', bad or 'same', 'FAIL' if bad
+    put('compress_off', 'same_matrix', bad or 'same', 'FAIL' if bad
         else 'PASS')
-    put('compress', 'values_written', 'on %d, off %d of %d entries'
+    put('compress_off', 'values_written', 'on %d, off %d of %d entries'
         % (on['nw'], off['nw'], off['ncoef']),
         'PASS' if on['nw'] < off['nw'] == off['ncoef'] else 'FAIL')
     lc = stor('legacy_compr')
@@ -215,7 +216,7 @@ def main():
     # order of keywords
     a = open(os.path.join(ran['order_a'], 'a.stor')).read().split('\n')
     b = open(os.path.join(ran['order_b'], 'a.stor')).read().split('\n')
-    put('order', 'identical', 'files equal but the date line',
+    put('order_b', 'identical', 'files equal but the date line',
         'PASS' if a[:1] + a[2:] == b[:1] + b[2:] else 'FAIL')
 
     # several outputs in one run, and legacy outputs
@@ -277,37 +278,70 @@ def picture_cube(path, mesh, c, zero):
     s.save(path)
 
 
+def esc(t):
+    return (str(t).replace('&', '&amp;').replace('<', '&lt;')
+            .replace('>', '&gt;'))
+
+
 def write_page(work, logs):
+    """One row per case: its name with a 'What it does' note that
+    opens, the command, every check with its value and result, and
+    the case's result (FAIL if any check failed)."""
     suite = os.path.dirname(os.path.abspath(logs))
     rel = os.path.relpath(logs, suite)
     h = ['<!doctype html><html><head><meta charset="utf-8">',
          '<title>test_options</title><style>',
          'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
-         'max-width:1100px}',
-         'td,th{padding:3px 8px;border-bottom:1px solid #ddd;'
-         'font-size:13px;text-align:left}',
+         'max-width:1150px}',
+         'td,th{padding:4px 8px;border-bottom:1px solid #ddd;'
+         'font-size:13px;text-align:left;vertical-align:top}',
+         'th{background:#f6f8fa}',
          '.PASS{color:#1a7f37;font-weight:bold}'
          '.FAIL{color:#c00;font-weight:bold}',
+         'details summary{cursor:pointer;color:#0969da;font-size:12px}',
+         'details p{max-width:330px;margin:4px 0}',
          'img{max-width:100%;border:1px solid #ccc;margin:8px 0}',
-         'code{font-size:12px}</style></head><body>',
+         'code{font-size:12px;background:#f6f8fa}</style></head><body>',
+         '<p style="font-size:13px"><a href="../summary.html">&larr; all '
+         'suites</a></p>',
          '<h1>test_options: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
-         '<p>del_vor keyword options, one case per line of cases.txt. '
-         'See 00README.</p>',
-         '<img src="%s/zero_area.svg" alt="zero_area">' % rel]
-    cmd = {n: a for n, _, a in read_cases()}
-    h.append('<table><tr><th>case</th><th>check</th><th>value</th>'
-             '<th>result</th></tr>')
-    last = None
+         '<p><b>What it does:</b> runs del_vor once per case below on the '
+         'three lanl/voronoi meshes and checks each run: the exit status, '
+         'exactly the files it should write (and no others), and what is '
+         'in them. The options are keyword / value pairs in any order: '
+         '<code>stor</code>, <code>uge</code>, <code>tough2</code> '
+         '(outputs), <code>zero_area remove|keep</code>, '
+         '<code>zero_tol</code>, <code>compress on|off</code>, '
+         '<code>cv</code>, and lanl/voronoi\'s <code>-type -o '
+         '-compress</code>. Refused commands must exit 1 with a message '
+         'naming the bad token and write nothing. Open "What it does" '
+         'under a case for the details; the cases are listed in '
+         '<code>cases.txt</code>.</p>',
+         '<p>The picture: the unit cube (5 tets) with '
+         '<code>zero_area keep</code> (left: all 18 edges, the 6 zero-area '
+         'face diagonals dashed) and the default <code>remove</code> '
+         '(right: 12 connections).</p>',
+         '<img src="%s/zero_area.svg" alt="zero_area">' % rel,
+         '<table><tr><th>case</th><th>command</th><th>checks</th>'
+         '<th>result</th></tr>']
+    by_case = {}
     for case, check, val, res in results:
-        lab = case
-        if case != last and case in cmd:
-            lab = '%s<br><code>del_vor %s</code>' % (case, cmd[case])
-        last = case
-        h.append('<tr><td>%s</td><td>%s</td><td>%s</td>'
-                 '<td class="%s">%s</td></tr>'
-                 % (lab, check, val, res, res))
-    h.append('</table><p>Run logs: <a href="%s/">%s/</a></p>'
-             '</body></html>' % (rel, rel))
+        by_case.setdefault(case, []).append((check, val, res))
+    for name, expect, args, about in read_cases():
+        rs = by_case.get(name, [])
+        res = 'FAIL' if any(r == 'FAIL' for _, _, r in rs) or not rs \
+            else 'PASS'
+        checks = '<br>'.join('%s: %s <span class="%s">%s</span>'
+                             % (esc(c), esc(v), r, r) for c, v, r in rs)
+        h.append('<tr><td>%s<details><summary>What it does</summary>'
+                 '<p>%s</p></details></td><td><code>del_vor %s</code><br>'
+                 '<span style="font-size:12px">expected exit %d</span>'
+                 '</td><td>%s</td><td class="%s">%s</td></tr>'
+                 % (esc(name), esc(about), esc(args), expect, checks,
+                    res, res))
+    h.append('</table><p>Run logs (each with its command and screen '
+             'output): <a href="%s/">%s/</a></p></body></html>'
+             % (rel, rel))
     with open(os.path.join(suite, 'summary.html'), 'w') as f:
         f.write('\n'.join(h) + '\n')
 
