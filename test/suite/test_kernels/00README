@@ -1,0 +1,58 @@
+test_kernels -- the geometry kernels against independent answers (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_kernel_tests.sh [path-to-del_vor]    about 1 s
+  open summary.html
+
+  Runs del_vor_selftest (test/del_vor_selftest.F90, built next to
+  del_vor) on 2000 random triangles and 2000 random tets (fixed seed,
+  the same cells on every machine), then on the three meshes of
+  ../test_voronoi_gold/inputs.
+
+WHAT IS CHECKED (tolerance 1e-10 unless stated; all relative)
+
+  cot2d     triangles in random orientations in 3D: the kernel's
+            A(ab)/d(ab) equals cot(angle opposite ab)/2
+  circ3d    the tet circumcenter is equally far from the 4 vertices
+  dual3d    the tet kernel's A(ab)/d(ab) equals
+              (cot(t_c) h_abc + cot(t_d) h_abd) / 4
+            the dual piece of edge ab being two right triangles
+            (midpoint, face circumcenter, tet circumcenter); t_c the
+            angle at c in face abc, h_abc the signed distance of the
+            tet circumcenter from face abc. Computed from angles and
+            distances, not from the kernel's cross products.
+  perp3d    each Voronoi dual piece is perpendicular to its edge
+  part2d    for ANY cell point (random, even outside the triangle) the
+  part3d    vertex shares add up to the cell's area (volume); random
+            cell and face points in 3D. Needed by the median and hybrid
+            policies to come.
+  shift     the same tet at the origin and at (7e5, 3.2e6, 1.5e3),
+            cells of size 1: A/d agree to 1e-8 (the coordinates'
+            own rounding is 7e-10)
+  closure   on each mesh: the dual-face vector areas around every
+            vertex not on the mesh's bounding box add up to zero
+
+  MEASURED
+  p1_3d     the tet A/d against the P1 finite-element stiffness
+            -V grad(phi_a).grad(phi_b): they are NOT equal in 3D (they
+            are in 2D); shows the size of the difference
+  shift_voronoi_det4x4
+            the shift test with lanl/voronoi's 4x4-determinant
+            circumcenter: it loses every digit at these coordinates
+
+PICTURES (logs/)
+
+  cot2d.svg     an obtuse sample triangle, its dual pieces, kernel
+                against cot/2 for each edge
+  dual3d.svg    a sample tet and the 6 dual pieces; kernel against the
+                right-triangle formula (and the P1 stiffness)
+  shift.svg     the shift error, del_vor against voronoi's method
+  closure.svg   mesh_3D with each inner vertex colored by the net
+                vector area of its dual cell
+
+FILES
+
+  run_kernel_tests.sh   runner (work/, logs/)
+  check_kernels.py      reads selftest.out, pictures, summary.html

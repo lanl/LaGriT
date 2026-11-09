@@ -1,0 +1,76 @@
+test_voronoi_gold -- del_vor against the lanl/voronoi test meshes (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_voronoi_gold_tests.sh [path-to-del_vor]   12 runs, about 1 s
+  open summary.html
+
+WHAT IS TESTED
+
+  For each mesh, four runs (the logs show each command):
+
+  del_vor -avs M.inp -stor M_keep.stor -zero_area keep -compress off
+  del_vor -avs M.inp -stor M_keep_c.stor -zero_area keep
+  del_vor -avs M.inp -stor M.stor -uge M.uge -tough2 M_MESH
+  del_vor -avs M.inp -uge M_keep.uge -tough2 M_keep_MESH -zero_area keep
+
+  on the three meshes of lanl/voronoi test/sanity_check (inputs/,
+  copied unchanged, see inputs/NOTICE):
+
+  mesh_2D     9 vertices, 8 triangles: a 2 x 2 square
+  mesh_3D     116 vertices, 384 tets: a cube of side 1e6, graded
+              toward one corner (vertex spacing 1.56e4 to 2.5e5)
+  simple_3D   8 vertices, 5 tets: a unit cube
+
+  The gold .stor files were written by LaGriT (matbld2d_stor,
+  matbld3d_nstor), so matching them is also a first check against
+  LaGriT. The gold .uge and MESH files were written by lanl/voronoi.
+
+WHAT IS CHECKED (check_voronoi_gold.py; tolerance 1e-12, relative)
+
+  stor        every volume and every vertex-pair coefficient against
+              the gold .stor (which lists every edge), with every edge
+              kept (compressed or not) and with the defaults
+  removed     the defaults leave out exactly the zero-area pairs
+              (|A| <= 1e-12 d^2, 1e-12 d for triangles)
+  keep        zero_area keep: .uge and MESH list every mesh edge
+  layout      the .stor blocks fit together (row and diagonal
+              pointers, sorted columns, symmetric matrix, NCON_MAX)
+  balance     the control volumes add up to the mesh volume (area),
+              computed here from the .inp
+  uge         volumes and connection areas against the gold .uge, and
+              against the .stor of the same run (A/d, volumes)
+  MESH        TOUGH2 records field by field against gold (names,
+              material, ISOT equal; numbers within one unit of the
+              last printed digit), and volumes against the .stor
+
+  MEASURED: values written by the compressed .stor; connections in
+  the .uge; MESH lines byte-identical to gold.
+
+KNOWN DIFFERENCES FROM THE GOLD FILES (by design, not failures)
+
+  - By default (zero_area remove) every file leaves out the zero-area
+    connections. voronoi's 3D .uge and MESH did too; its 2D .uge
+    listed 4. The gold .stor files list them all, so they are
+    compared with zero_area keep runs.
+  - 4 lines of the 3D MESH differ in the last printed digit: values
+    exactly halfway (1.5625e16, 3.90625e9) that voronoi's round-off
+    pushed up and del_vor rounds to even.
+  - voronoi's own 3D .uge volumes differ from LaGriT's by 1.5e-13;
+    del_vor's differ from LaGriT's by 1.5e-15 (circumcenters computed
+    relative to a vertex, not from 4x4 determinants).
+
+PICTURES (logs/)
+
+  mesh_2D.svg     the triangles, the Voronoi dual (computed here), A/d
+                  on every edge (green: equal to gold), area per vertex
+  mesh_3D.svg     the tets' edges, vertices colored by control volume,
+                  the 120 zero-area connections dashed
+  simple_3D.svg   the same for the cube, with A/d on every edge
+
+FILES
+
+  run_voronoi_gold_tests.sh   runner (work/, logs/)
+  check_voronoi_gold.py       checks, pictures, summary.html
+  inputs/                     meshes and gold files from lanl/voronoi

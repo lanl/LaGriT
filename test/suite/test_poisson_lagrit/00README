@@ -1,0 +1,94 @@
+test_poisson_lagrit -- del_vor against LaGriT on Poisson disk meshes (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_poisson_lagrit_tests.sh [path-to-del_vor]    10 runs, about 2 s
+  open summary.html
+
+WHAT IS TESTED
+
+  Five meshes from LaGriT's suites (inputs/, from Carl Gable; see
+  inputs/NOTICE). Cases 1 and 2 of test/suite/test_poisson_3d, box
+  reduced to 0.4 x 0.4 x 0.2:
+
+    test_3d_poi_01   1647 vertices, 7788 tets; no buffer on the
+                     outside surfaces: 75 negative coefficients
+    test_3d_poi_02   1870 vertices, 9056 tets; buffer = h: the
+                     boundary vertices lie on a grid, 871 zero-area
+                     connections, no negative coefficients
+
+  and the three meshes of test/suite/test_poisson_2d, unit square:
+
+    output01_square_uniform   257 vertices, 432 triangles, h = 0.05
+    output02_square_var       2109 vertices, 4071 triangles, variable
+                              h (h0 = 0.01, WIDTH_FACTOR 10)
+    output03_square_var       1088 vertices, 2087 triangles,
+                              WIDTH_FACTOR 20
+
+  del_vor -avs MESH.inp -stor MESH_keep.stor -zero_area keep
+          -compress off
+  del_vor -avs MESH.inp -stor MESH.stor          (the defaults)
+
+  against the .stor files LaGriT wrote (dump / stor: anothermatbld3d
+  in 3D, matbld2d in 2D).
+
+WHAT IS CHECKED (check_poisson_lagrit.py)
+
+  The checks allow exactly what LaGriT's writer explains:
+
+  3D  anothermatbld3d merges coefficients within 1e-8 of the largest
+      |A/d| when it compresses, and leaves out coefficients below 1e-8
+      of the largest: coefficients to 1.01e-8.
+  2D  matbld2d writes every value, but LaGriT computed from the full
+      coordinates and the .inp files keep 13 digits. Rounding the
+      coordinates again at the 13th digit moves del_vor's own
+      results by up to 3e-11: coefficients to 5e-11.
+
+  box_volume     del_vor's volumes add up to the exact volume (0.032)
+                 or area (1), to 1e-13
+  pairs          every LaGriT pair is in del_vor's file; every pair
+                 LaGriT left out has |A/d| <= 1e-8 max (3D), none (2D)
+  coef_diff      common pairs within the tolerance above
+  vol_diff       volumes within 1e-11 of the largest, except at the
+                 vertices of nonzero pairs LaGriT left out (MEASURED)
+  negative       the same negative pairs in both files
+  default_zero   del_vor's default leaves out exactly its zero-area
+                 pairs, all of which LaGriT left out too
+
+WHAT WAS FOUND (Nov 8 2026)
+
+  - Every histogram peaks at 1e-13. That is the 13 significant digits
+    of the files: the .inp coordinates and the .stor values both keep
+    13. A typical pair differs by about 8 in its 13th digit, and a
+    typical coefficient is 0.1 to 0.4 of the largest, so the
+    difference relative to the largest is about 1e-13. Rounding the
+    coordinates once more at the 13th digit moves del_vor's own
+    results into the same band (1e-14 to 1e-11).
+  - Most pairs agree to 1e-13; only those LaGriT's compression merged
+    differ, by up to 9.9e-9 of the largest (histograms).
+  - Case 1: LaGriT left out two real, tiny connections (1500-1591 and
+    1186-1266, A/d about 1e-10 and 5e-10 of the largest) and their
+    shares of the four vertices' volumes, so LaGriT's volumes add up
+    to 0.032 + 5.8e-13. del_vor keeps both; its volumes add up to
+    0.032 exactly (2e-15).
+  - Case 2: both codes leave out the same 871 zero-area connections.
+  - 2D: the same connections, no negative or zero-area ones;
+    coefficients agree to 8.4e-12, volumes to 9.3e-13, most pairs to
+    1e-13. The largest differences are in the smallest triangles (the
+    coordinate rounding matters most there).
+
+PICTURES (logs/)
+
+  test_3d_poi_0N.svg        the box and vertices; negative (red),
+                            zero-area (orange) and LaGriT-dropped
+                            (purple) connections
+  output0N_square_*.svg     the triangles, each edge colored by its
+                            |A/d difference| / max |A/d|
+  NAME_diff.svg             pairs by |difference| / max |A/d|
+
+FILES
+
+  run_poisson_lagrit_tests.sh   runner (work/, logs/)
+  check_poisson_lagrit.py       checks, pictures, summary.html
+  inputs/                       meshes, LaGriT .stor files and decks

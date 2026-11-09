@@ -1,0 +1,603 @@
+"""check_voronoi_gold.py WORK LOGS INPUTS
+
+test_voronoi_gold: del_vor's .stor, .uge and TOUGH2 MESH files for the
+three lanl/voronoi test meshes, against the gold files and against
+answers computed here from the mesh itself. Python 3 standard library.
+Prints one "key value" line per quantity; writes summary.html in this
+suite's folder and the pictures in LOGS. Exit status 1 on any FAIL.
+
+Measures (all relative, so the size of the mesh does not matter):
+
+  stor_vol_diff     max |V_i - V_i(gold)| / max |V(gold)|
+  stor_coef_diff    max |c_ij - c_ij(gold)| / max |c(gold)| over every
+                    vertex pair in either file (c = the .stor value,
+                    -A/d); a pair missing from one file counts as 0.
+                    Checked for zero_area keep with compress off and
+                    on, and for the defaults (zero-area pairs missing,
+                    counted as 0)
+  removed_are_zero  default run: the pairs left out are exactly those
+                    with |A| <= 1e-12 d^2 (tets) or 1e-12 d (triangles)
+  keep_one_per_edge zero_area keep: .uge and MESH list every edge
+  stor_layout       the .stor blocks fit together: row pointers,
+                    sorted columns with the diagonal in each row, the
+                    diagonal pointers, a symmetric matrix, NCON_MAX
+  balance           |sum V_i - mesh volume| / mesh volume, the mesh
+                    volume (area) computed here from the .inp
+  uge_vol_diff      as stor_vol_diff, .uge against gold .uge
+  uge_area_diff     max |A_ij - A_ij(gold)| / max |A(gold)| over the
+                    connections in either file; a connection may be
+                    missing from one file only if its area is zero
+                    (|A| <= 1e-12 max |A|)
+  uge_vs_stor       the .uge area / d(ij) and volumes against the
+                    .stor values of the same run
+  mesh_fields       TOUGH2 MESH: every record's names, material and
+                    ISOT equal to gold, every number within one unit of
+                    its last printed digit
+  mesh_identical    MEASURED: lines that are byte-identical to gold
+
+HARD checks: every quantity above except those marked MEASURED; the
+tolerance is 1e-12 for the relative differences.
+"""
+
+import math
+import os
+import sys
+
+TOL = 1e-12
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(HERE))
+from svgdraw import Svg, ramp, Projector  # noqa: E402
+
+# Outputs of the runner for each mesh (see run_voronoi_gold_tests.sh):
+#   _keep.stor     zero_area keep, compress off
+#   _keep_c.stor   zero_area keep (compress on, the default)
+#   .stor .uge _MESH            the defaults, in one run
+#   _keep.uge _keep_MESH        zero_area keep
+OUTPUTS = ['_keep.stor', '_keep_c.stor', '.stor', '.uge', '_MESH',
+           '_keep.uge', '_keep_MESH']
+ZERO_TOL = 1e-12      # del_vor's default zero_tol
+
+ABOUT = {
+    'mesh_2D': 'A 2 x 2 square of 9 vertices cut into 8 right triangles. '
+    'Every Voronoi cell is a square, so every coefficient is 0.5 or 1 '
+    '(the picture labels them) and the 4 diagonals of the square cells '
+    'have zero-area faces. Four runs: every edge kept with compress off, '
+    'every edge kept with compress on, the defaults with .stor, .uge and '
+    'TOUGH2 MESH written in one run, and .uge and MESH with every edge '
+    'kept. The .stor files are compared value by value with LaGriT\'s '
+    'matbld2d gold file; the .uge and MESH with lanl/voronoi\'s.',
+    'mesh_3D': 'A cube of side 1e6 graded toward one corner (116 vertices, '
+    '384 tets). Coordinates of 1e6 with cells down to 1.56e4 test the '
+    'circumcenters away from the origin; the regular vertex layout gives '
+    '120 zero-area faces. The same four runs, against LaGriT\'s '
+    'matbld3d gold .stor and lanl/voronoi\'s .uge and MESH. Four MESH '
+    'lines differ in the last printed digit by design (values exactly '
+    'halfway, rounded to even).',
+    'simple_3D': 'A unit cube cut into 5 tets: the 6 face diagonals have '
+    'zero area and every cube edge has A/d = 0.25 (labeled in the '
+    'picture). The same four runs, against LaGriT\'s gold .stor; '
+    'lanl/voronoi had no .uge or MESH gold files for it.',
+}
+
+MESHES = [
+    # name, dimension, gold stor, gold uge, gold MESH
+    ('mesh_2D', 2, 'gold_2D.stor', 'gold_2D.uge', 'gold_2D_MESH'),
+    ('mesh_3D', 3, 'gold_3D.stor', 'gold_3D.uge', 'gold_3D_MESH'),
+    ('simple_3D', 3, 'gold_simple_3D.stor', None, None),
+]
+
+results = []      # (key, value, verdict)
+nfail = 0
+
+
+def put(key, val, verdict):
+    global nfail
+    if verdict == 'FAIL':
+        nfail += 1
+    results.append((key, val, verdict))
+    print('%s %s %s' % (key, val, verdict))
+
+
+def judge(key, val, tol=TOL):
+    put(key, '%.3e' % val, 'PASS' if val <= tol else 'FAIL')
+
+
+# ---------------------------------------------------------------- readers
+
+def read_inp(path):
+    with open(path) as f:
+        lines = [ln for ln in f if ln.strip()]
+    nn, nc = int(lines[0].split()[0]), int(lines[0].split()[1])
+    xyz = [tuple(float(v) for v in ln.split()[1:4])
+           for ln in lines[1:1 + nn]]
+    cells = []
+    for ln in lines[1 + nn:1 + nn + nc]:
+        t = ln.split()
+        cells.append([int(v) - 1 for v in t[3:]])
+    return xyz, cells
+
+
+def read_stor(path):
+    with open(path) as f:
+        lines = f.read().split('\n')
+    h = [int(v) for v in lines[2].split()]
+    nw, neq, n3, nac = h[:4]
+    ncon_max = h[4] if len(h) > 4 else None
+    ncoef = n3 - neq - 1
+    t = ' '.join(lines[3:]).split()
+    p = 0
+    vol = [float(v) for v in t[p:p + neq]]
+    p += neq
+    rp = [int(v) for v in t[p:p + neq + 1]]
+    p += neq + 1
+    col = [int(v) for v in t[p:p + ncoef]]
+    p += ncoef
+    ptr = [int(v) for v in t[p:p + ncoef]]
+    p += ncoef
+    pad = [int(v) for v in t[p:p + neq + 1]]
+    p += neq + 1
+    dg = [int(v) for v in t[p:p + neq]]
+    p += neq
+    val = [float(v) for v in t[p:p + nw * nac]]
+    return dict(nw=nw, neq=neq, ncoef=ncoef, ncon_max=ncon_max, vol=vol,
+                rp=rp, col=col, ptr=ptr, pad=pad, dg=dg, val=val,
+                ntail=len(t) - p - nw * nac)
+
+
+def stor_pairs(s):
+    c = {}
+    neq = s['neq']
+    for i in range(neq):
+        for q in range(s['rp'][i] - neq - 1, s['rp'][i + 1] - neq - 1):
+            j = s['col'][q] - 1
+            if j != i:
+                k = s['ptr'][q]
+                c[(i, j)] = s['val'][k - 1] if k > 0 else 0.0
+    return c
+
+
+def stor_layout_ok(s):
+    """Return a list of problems with the .stor blocks (empty if none)."""
+    bad = []
+    neq, ncoef = s['neq'], s['ncoef']
+    rp = s['rp']
+    if rp[0] != neq + 1 or rp[-1] != ncoef + neq + 1:
+        bad.append('row pointers do not run from NEQ+1 to NCOEF+NEQ+1')
+    nmax = 0
+    for i in range(neq):
+        cols = s['col'][rp[i] - neq - 1:rp[i + 1] - neq - 1]
+        nmax = max(nmax, len(cols))
+        if cols != sorted(cols) or len(set(cols)) != len(cols):
+            bad.append('row %d columns not sorted' % (i + 1))
+            break
+        if (i + 1) not in cols:
+            bad.append('row %d has no diagonal' % (i + 1))
+            break
+        q = rp[i] - neq - 1 + cols.index(i + 1)
+        if s['dg'][i] != neq + 1 + q + 1:
+            bad.append('diagonal pointer of row %d wrong' % (i + 1))
+            break
+    if s['ncon_max'] is not None and s['ncon_max'] != nmax:
+        bad.append('NCON_MAX %d, longest row %d' % (s['ncon_max'], nmax))
+    if any(v != 0 for v in s['pad']):
+        bad.append('padding block not all 0')
+    if any(k < 0 or k > s['nw'] for k in s['ptr']):
+        bad.append('a pointer outside the value block')
+    if s['ntail'] != 0:
+        bad.append('%d values left after the last block' % s['ntail'])
+    c = stor_pairs(s)
+    for (i, j), v in c.items():
+        if (j, i) not in c or c[(j, i)] != v:
+            bad.append('matrix not symmetric at %d %d' % (i + 1, j + 1))
+            break
+    return bad
+
+
+def read_uge(path):
+    with open(path) as f:
+        rows = [ln.split() for ln in f if ln.strip()]
+    n = int(rows[0][1])
+    cells = {int(r[0]): [float(v) for v in r[1:5]] for r in rows[1:1 + n]}
+    m = int(rows[1 + n][1])
+    con = {(int(r[0]), int(r[1])): [float(v) for v in r[2:6]]
+           for r in rows[2 + n:2 + n + m]}
+    return cells, con
+
+
+def mesh_records(path):
+    with open(path) as f:
+        return f.read().split('\n')
+
+
+def num_ok(a, b):
+    """TOUGH2 fields a (ours) and b (gold): equal, or numbers within
+    one unit of the last printed digit of b."""
+    a, b = a.strip(), b.strip()
+    if a == b:
+        return True
+    if not a or not b:
+        return False
+    try:
+        x, y = float(a), float(b)
+    except ValueError:
+        return False
+    mant = b.upper().split('E')[0]
+    ndec = len(mant.split('.')[1]) if '.' in mant else 0
+    expo = int(b.upper().split('E')[1]) if 'E' in b.upper() else 0
+    unit = 10.0 ** (expo - ndec)
+    return abs(x - y) <= 1.0001 * unit
+
+
+# fields of an ELEME and a CONNE record: (start, end), 0-based
+ELEME_TEXT = [(0, 5), (15, 20)]
+ELEME_NUM = [(20, 30), (30, 40), (50, 60), (60, 70), (70, 80)]
+CONNE_TEXT = [(0, 5), (5, 10), (29, 30)]
+CONNE_NUM = [(30, 40), (40, 50), (50, 60), (60, 70)]
+
+
+def compare_mesh(ours, gold):
+    """Return (problems, identical line count)."""
+    bad = []
+    if len(ours) != len(gold):
+        bad.append('%d lines, gold %d' % (len(ours), len(gold)))
+    same = 0
+    block = None
+    for k, (a, b) in enumerate(zip(ours, gold)):
+        if a == b:
+            same += 1
+        if b.startswith('ELEME'):
+            block = 'E'
+            continue
+        if b.startswith('CONNE'):
+            block = 'C'
+            continue
+        if not b.strip():
+            if a.strip():
+                bad.append('line %d: blank in gold' % (k + 1))
+            continue
+        a = a.ljust(80)
+        b = b.ljust(80)
+        txt, num = ((ELEME_TEXT, ELEME_NUM) if block == 'E'
+                    else (CONNE_TEXT, CONNE_NUM))
+        for s, e in txt:
+            if a[s:e] != b[s:e]:
+                bad.append('line %d cols %d-%d: %r, gold %r'
+                           % (k + 1, s + 1, e, a[s:e], b[s:e]))
+        for s, e in num:
+            if not num_ok(a[s:e], b[s:e]):
+                bad.append('line %d cols %d-%d: %r, gold %r'
+                           % (k + 1, s + 1, e, a[s:e], b[s:e]))
+    return bad, same
+
+
+# ----------------------------------------------------------- geometry here
+
+def sub(a, b):
+    return (a[0] - b[0], a[1] - b[1], a[2] - b[2])
+
+
+def cross(a, b):
+    return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0])
+
+
+def dot(a, b):
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
+
+
+def norm(a):
+    return math.sqrt(dot(a, a))
+
+
+def mesh_measure(xyz, cells):
+    tot = 0.0
+    for c in cells:
+        p = [xyz[i] for i in c]
+        if len(c) == 3:
+            tot += 0.5 * norm(cross(sub(p[1], p[0]), sub(p[2], p[0])))
+        else:
+            tot += abs(dot(sub(p[1], p[0]),
+                           cross(sub(p[2], p[0]), sub(p[3], p[0])))) / 6.0
+    return tot
+
+
+def circumcenter_tri(p1, p2, p3):
+    a, b = sub(p2, p1), sub(p3, p1)
+    axb = cross(a, b)
+    den = 2.0 * dot(axb, axb)
+    u = (dot(a, a) * b[0] - dot(b, b) * a[0],
+         dot(a, a) * b[1] - dot(b, b) * a[1],
+         dot(a, a) * b[2] - dot(b, b) * a[2])
+    w = cross(u, axb)
+    return (p1[0] + w[0] / den, p1[1] + w[1] / den, p1[2] + w[2] / den)
+
+
+def edges_of(cells):
+    e = set()
+    for c in cells:
+        for i in range(len(c)):
+            for j in range(i + 1, len(c)):
+                e.add((min(c[i], c[j]), max(c[i], c[j])))
+    return sorted(e)
+
+
+# ---------------------------------------------------------------- pictures
+
+def fmt(v):
+    if v == 0:
+        return '0'
+    if 1e-3 <= abs(v) < 1e4:
+        return '%.4g' % v
+    return '%.3e' % v
+
+
+def picture_2d(path, xyz, cells, coef, gcoef, vol):
+    """mesh_2D: triangles, the Voronoi dual pieces (circumcenter to
+    edge midpoints, computed here), each edge's coefficient A/d from
+    del_vor's .stor (green: equal to gold, red: not) and each vertex's
+    control volume."""
+    W, H = 640, 600
+    s = Svg(W, H)
+    s.text(20, 24, 'mesh_2D: 8 triangles, Voronoi dual (blue), A/d per '
+           'edge, area per vertex', size=14, bold=True)
+    pr = Projector(xyz, 60, 60, 520, 470, view='plan')
+    for c in cells:
+        s.polygon([pr(xyz[i]) for i in c], fill='#f2f2f2', stroke='#888')
+    for c in cells:
+        cc = circumcenter_tri(*[xyz[i] for i in c])
+        for a, b in ((c[0], c[1]), (c[0], c[2]), (c[1], c[2])):
+            m = tuple(0.5 * (xyz[a][k] + xyz[b][k]) for k in range(3))
+            x1, y1 = pr(cc)
+            x2, y2 = pr(m)
+            s.line(x1, y1, x2, y2, color='#2b6cb0', width=2.0)
+    for (a, b) in edges_of(cells):
+        m = tuple(0.5 * (xyz[a][k] + xyz[b][k]) for k in range(3))
+        x, y = pr(m)
+        v = -coef.get((a, b), 0.0)
+        g = -gcoef.get((a, b), 0.0)
+        ok = abs(v - g) <= TOL * max(1.0, abs(g))
+        s.rect(x - 17, y - 11, 34, 15, fill='white')
+        s.text(x, y, fmt(v), size=11, anchor='middle',
+               color='#1a7f37' if ok else '#c00')
+    for i, p in enumerate(xyz):
+        x, y = pr(p)
+        s.circle(x, y, 5, fill='#222')
+        s.text(x + 8, y - 8, '%d: %s' % (i + 1, fmt(vol[i])), size=11,
+               color='#444')
+    s.text(20, H - 16, 'Edge labels: A/d from del_vor (green = gold value '
+           'to 1e-12). Vertex labels: number: control area.', size=11)
+    s.save(path)
+
+
+def picture_3d(path, title, xyz, cells, coef, vol, zero_pairs, label):
+    """A 3D mesh: every edge (gray), zero-area connections (orange,
+    dashed), vertices colored by control volume (log scale); on a
+    small mesh each other edge is labeled with its A/d."""
+    W, H = 680, 640
+    s = Svg(W, H)
+    s.text(20, 24, title, size=14, bold=True)
+    pr = Projector(xyz, 40, 50, 600, 500, view='iso')
+    for (a, b) in edges_of(cells):
+        x1, y1 = pr(xyz[a])
+        x2, y2 = pr(xyz[b])
+        if (a, b) in zero_pairs:
+            s.line(x1, y1, x2, y2, color='#e67e22', width=1.6, dash='5,3')
+        else:
+            s.line(x1, y1, x2, y2, color='#9aa', width=0.8)
+        if label and (a, b) not in zero_pairs:
+            v = -coef.get((a, b), 0.0)
+            s.text(0.5 * (x1 + x2), 0.5 * (y1 + y2) - 3, fmt(v), size=10,
+                   anchor='middle', color='#555')
+    lv = [math.log10(v) for v in vol if v > 0]
+    lo, hi = (min(lv), max(lv)) if lv else (0.0, 1.0)
+    for i, p in enumerate(xyz):
+        x, y = pr(p)
+        t = (math.log10(vol[i]) - lo) / (hi - lo) if hi > lo else 0.5
+        s.circle(x, y, 4.5, fill=ramp(t), stroke='#333', width=0.6)
+    s.legend(40, H - 58, 260, 12, '%.2e' % 10 ** lo, '%.2e' % 10 ** hi,
+             'control volume (vertex color, log scale)')
+    s.line(340, H - 52, 380, H - 52, color='#e67e22', width=1.6,
+           dash='5,3')
+    s.text(388, H - 48, 'zero-area connection (%d)' % len(zero_pairs),
+           size=11)
+    s.save(path)
+
+
+# -------------------------------------------------------------------- main
+
+def main():
+    work, logs, inputs = sys.argv[1], sys.argv[2], sys.argv[3]
+    pics = []
+    rows = []
+    for name, ndim, gstor, guge, gmesh in MESHES:
+        xyz, cells = read_inp(os.path.join(inputs, name + '.inp'))
+        k0 = len(results)
+        f = {t: os.path.join(work, name + t) for t in OUTPUTS}
+        missing = [t for t in OUTPUTS if not os.path.exists(f[t])]
+        if missing:
+            put(name + '_outputs', 'missing ' + ' '.join(
+                name + t for t in missing), 'FAIL')
+            rows.append((name, results[k0:]))
+            continue
+        put(name + '_outputs', 'all %d written' % len(OUTPUTS), 'PASS')
+
+        gs = read_stor(os.path.join(inputs, gstor))
+        gc = stor_pairs(gs)
+        gv = gs['vol']
+        vscale = max(abs(v) for v in gv)
+        cscale = max(abs(v) for v in gc.values())
+        # zero_area keep: the gold .stor files (LaGriT matbld nstor)
+        # list every edge, zero-area ones included
+        for tag in ('_keep.stor', '_keep_c.stor', '.stor'):
+            s = read_stor(f[tag])
+            bad = stor_layout_ok(s)
+            key = name + tag.replace('.', '_')
+            put(key + '_layout', '; '.join(bad) or 'ok',
+                'FAIL' if bad else 'PASS')
+            if s['neq'] != gs['neq']:
+                put(key + '_neq', s['neq'], 'FAIL')
+                continue
+            c = stor_pairs(s)
+            dv = max(abs(a - b) for a, b in zip(s['vol'], gv)) / vscale
+            dc = max(abs(c.get(k, 0.0) - gc.get(k, 0.0))
+                     for k in set(c) | set(gc)) / cscale
+            judge(key + '_vol_diff', dv)
+            judge(key + '_coef_diff', dc)
+            put(key + '_values_written', '%d of %d entries'
+                % (s['nw'], s['ncoef']), 'MEASURED')
+        keep = read_stor(f['_keep.stor'])
+        c = stor_pairs(keep)
+        vol = keep['vol']
+        mv = mesh_measure(xyz, cells)
+        judge(name + '_balance', abs(sum(vol) - mv) / mv)
+
+        # zero_area remove (the default): the pairs left out are
+        # exactly the zero-area ones, and nothing else changes
+        rem = stor_pairs(read_stor(f['.stor']))
+        dropped = set(c) - set(rem)
+        zero = sorted(k for k in dropped if k[0] < k[1])
+        xyzd = {k: norm(sub(xyz[k[0]], xyz[k[1]])) for k in c}
+        nonzero_dropped = [k for k in dropped
+                           if abs(c[k]) * xyzd[k] > ZERO_TOL *
+                           xyzd[k] ** (ndim - 1)]
+        zero_kept = [k for k in rem
+                     if abs(c[k]) * xyzd[k] <= ZERO_TOL *
+                     xyzd[k] ** (ndim - 1)]
+        put(name + '_removed_are_zero', '%d removed, %d of them not '
+            'zero, %d zero kept' % (len(zero), len(nonzero_dropped) // 2,
+                                    len(zero_kept) // 2),
+            'FAIL' if (nonzero_dropped or zero_kept
+                       or set(rem) - set(c)) else 'PASS')
+        f_uge = f['.uge']
+        f_mesh = f['_MESH']
+
+        # zero_area keep: .uge and MESH have one connection per edge
+        _, con_k = read_uge(f['_keep.uge'])
+        nconn = sum(1 for line in mesh_records(f['_keep_MESH'])
+                    if len(line) > 10 and line[:5].strip()
+                    and not line.startswith(('ELEME', 'CONNE'))) - len(xyz)
+        nedge = len(c) // 2
+        put(name + '_keep_one_per_edge', '%d edges: .uge %d, MESH %d'
+            % (nedge, len(con_k), nconn),
+            'PASS' if len(con_k) == nedge == nconn else 'FAIL')
+
+        # .uge
+        cells_u, con_u = read_uge(f_uge)
+        amax = max(abs(v[3]) for v in con_u.values())
+        d_vs = 0.0
+        for (i, j), v in con_u.items():
+            d = norm(sub(xyz[j - 1], xyz[i - 1]))
+            d_vs = max(d_vs, abs(v[3] / d + c[(i - 1, j - 1)]))
+        d_vs /= cscale
+        d_vs = max(d_vs, max(abs(cells_u[i + 1][3] - vol[i])
+                             for i in range(len(vol))) / vscale)
+        judge(name + '_uge_vs_stor', d_vs)
+        if guge:
+            gcells, gcon = read_uge(os.path.join(inputs, guge))
+            gvs = max(abs(v[3]) for v in gcells.values())
+            gas = max(abs(v[3]) for v in gcon.values())
+            dv = max(abs(cells_u[i][3] - gcells[i][3])
+                     for i in gcells) / gvs
+            da = 0.0
+            for k in set(con_u) | set(gcon):
+                a = con_u.get(k)
+                b = gcon.get(k)
+                if a and b:
+                    da = max(da, abs(a[3] - b[3]) / gas)
+                    da = max(da, max(abs(a[q] - b[q]) for q in range(3))
+                             / max(1.0, max(abs(b[q]) for q in range(3))))
+                elif (a or b)[3] and abs((a or b)[3]) > TOL * gas:
+                    da = max(da, abs((a or b)[3]) / gas)
+            judge(name + '_uge_vol_diff', dv)
+            judge(name + '_uge_area_diff', da)
+            put(name + '_uge_connections', '%d, gold %d (zero-area '
+                'left out: %d)' % (len(con_u), len(gcon), len(zero)),
+                'MEASURED')
+
+        # TOUGH2 MESH
+        ours = mesh_records(f_mesh)
+        if gmesh:
+            gold = mesh_records(os.path.join(inputs, gmesh))
+            bad, same = compare_mesh(ours, gold)
+            put(name + '_mesh_fields', '; '.join(bad[:3]) or 'ok',
+                'FAIL' if bad else 'PASS')
+            put(name + '_mesh_identical', '%d of %d lines' % (
+                same, len(gold)), 'MEASURED')
+        # MESH volumes against .stor: within one unit of the 4th digit
+        bad = 0
+        for i, line in enumerate(ours[1:1 + len(vol)]):
+            v = vol[i]
+            unit = 10.0 ** (math.floor(math.log10(abs(v))) - 3) if v \
+                else 1e-300
+            if abs(float(line[20:30]) - v) > 1.0001 * unit:
+                bad += 1
+        put(name + '_mesh_vs_stor', '%d volumes differ' % bad,
+            'FAIL' if bad else 'PASS')
+
+        # picture
+        zero_pairs = set(zero)
+        png = name + '.svg'
+        if ndim == 2:
+            picture_2d(os.path.join(logs, png), xyz, cells, c, gc, vol)
+        else:
+            title = ('%s: %d tets; vertices colored by control volume'
+                     % (name, len(cells)))
+            picture_3d(os.path.join(logs, png), title, xyz, cells, c, vol,
+                       zero_pairs, label=len(cells) < 10)
+        pics.append((name, png))
+        rows.append((name, results[k0:]))
+
+    write_page(os.path.dirname(os.path.abspath(logs)), logs, rows, pics)
+    print('failures %d' % nfail)
+    return 1 if nfail else 0
+
+
+def write_page(suite, logs, rows, pics):
+    rel = os.path.relpath(logs, suite)
+    out = ['<!doctype html><html><head><meta charset="utf-8">',
+           '<title>test_voronoi_gold</title><style>',
+           'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
+           'max-width:1100px}',
+           'td,th{padding:3px 8px;border-bottom:1px solid #ddd;'
+           'font-size:13px;text-align:left}',
+           '.PASS{color:#1a7f37;font-weight:bold}'
+           '.FAIL{color:#c00;font-weight:bold}.MEASURED{color:#666}',
+           'img{max-width:100%;border:1px solid #ccc;margin:8px 0}',
+           'td{vertical-align:top}',
+           'details summary{cursor:pointer;color:#0969da;font-size:12px}',
+           'details p{max-width:800px;margin:4px 0;font-size:13px}',
+           '</style></head><body>',
+           '<p style="font-size:13px"><a href="../summary.html">&larr; all '
+           'suites</a></p>',
+           '<h1>test_voronoi_gold: %s</h1>' % ('PASS' if not nfail
+                                               else 'FAIL'),
+           '<p><b>What it does:</b> runs del_vor on the three test meshes '
+           'of lanl/voronoi and compares the results with that '
+           'project\'s gold files: .stor written by LaGriT (matbld2d / '
+           'matbld3d), .uge and TOUGH2 MESH written by lanl/voronoi. It '
+           'also checks things the gold files cannot: the .stor layout, '
+           'that the control volumes add up to the mesh volume, that the '
+           'default leaves out exactly the zero-area connections, and '
+           'that the formats agree with each other. Tolerance 1e-12, '
+           'relative. Open "What it does" under a mesh for the details; '
+           '00README defines each measure.</p>']
+    for name, rs in rows:
+        out.append('<h2>%s</h2><details><summary>What it does</summary>'
+                   '<p>%s</p></details><table><tr><th>check</th>'
+                   '<th>value</th><th>result</th></tr>'
+                   % (name, ABOUT.get(name, '')))
+        for k, v, r in rs:
+            out.append('<tr><td>%s</td><td>%s</td><td class="%s">%s</td>'
+                       '</tr>' % (k, v, r, r))
+        out.append('</table>')
+        for n, p in pics:
+            if n == name:
+                out.append('<img src="%s/%s" alt="%s">' % (rel, p, n))
+    out.append('<p>Run logs: <a href="%s/">%s/</a></p>' % (rel, rel))
+    out.append('</body></html>')
+    with open(os.path.join(suite, 'summary.html'), 'w') as f:
+        f.write('\n'.join(out) + '\n')
+
+
+if __name__ == '__main__':
+    sys.exit(main())

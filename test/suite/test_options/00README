@@ -1,0 +1,50 @@
+test_options -- del_vor's keyword options (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_options_tests.sh [path-to-del_vor]    26 runs, about 1 s
+  open summary.html
+
+WHAT IS TESTED
+
+  The keyword / value options, given in any order:
+
+    stor, uge, tough2 FILE    outputs (several in one run)
+    zero_area remove|keep     default remove
+    zero_tol X                default 1e-12 (|A| <= X d^2 for tets,
+                              X d for triangles)
+    compress on|off           default on
+    cv voronoi
+
+  lanl/voronoi's -type, -o and bare -compress, and commands that must
+  be refused. One case per line of cases.txt, run in work/NAME on the
+  lanl/voronoi meshes (../test_voronoi_gold/inputs).
+
+WHAT IS CHECKED (check_options.py)
+
+  every case    the expected exit status; exactly the expected files
+                written, nothing else
+  refused       exit 1, a message naming the bad token, no output
+  zero_area     the pairs left out are exactly those with |A| <=
+                zero_tol d^2 in the zero_area keep run, for zero_tol
+                1e-12 (default) and 0.05; zero_tol 0 leaves out only
+                zero-area pairs; zero_area keep has every mesh edge;
+                volumes never change
+  compress      on and off hold the same matrix (1e-14), on writes
+                fewer values
+  order         the same options in another order write the same file
+  outputs       .stor, .uge and MESH from one run list the same
+                connections
+
+PICTURE (logs/)
+
+  zero_area.svg   the unit cube (5 tets) with zero_area keep (18
+                  connections; the 6 face diagonals have zero area)
+                  and remove (12)
+
+FILES
+
+  run_options_tests.sh   runner (work/, logs/)
+  cases.txt              the cases: name | exit | arguments
+  check_options.py       checks, picture, summary.html

@@ -1,0 +1,40 @@
+# test_options cases: one per line,  name | exit | arguments | what it does
+#
+# Each case runs  del_vor ARGUMENTS  in its own folder work/NAME (the
+# three lanl/voronoi meshes are copied there first); exit is the exit
+# status expected (0 or 1). check_options.py knows what each case
+# must write. Mesh files: mesh_2D.inp (9 vertices, 8 triangles),
+# mesh_3D.inp (116 vertices, 384 tets, 582 edges of which 120 have
+# zero-area Voronoi faces), simple_3D.inp (unit cube, 5 tets).
+#
+# --- defaults and outputs
+default_out    | 0 | -avs mesh_3D.inp | No output keyword: del_vor writes voronoi.stor with the defaults (zero_area remove, compress on) and nothing else. Checked: the 120 zero-area pairs are left out.
+three_outputs  | 0 | -avs mesh_3D.inp -stor a.stor -uge a.uge -tough2 a_MESH | Three outputs from one run (the geometry is computed once). Checked: all three files list the same 462 connections.
+order_a        | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep -compress off -zero_tol 1e-10 | Several options, mesh first. Compared with order_b.
+order_b        | 0 | -compress off -zero_tol 1e-10 -stor a.stor -zero_area keep -avs mesh_3D.inp | The same options as order_a in another order, mesh last. Checked: a.stor is identical to order_a's except the date line.
+# --- zero_area and zero_tol
+keep           | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep | zero_area keep: the matrix has one connection per mesh edge (582), zero-area ones included. This run is the reference for the zero_area checks below.
+remove         | 0 | -avs mesh_3D.inp -stor a.stor -zero_area remove | zero_area remove, written out. Checked: the pairs left out are exactly those of the keep run with abs(A) <= 1e-12 d^2 (120), and the volumes are those of the keep run.
+tol_zero       | 0 | -avs mesh_3D.inp -stor a.stor -zero_tol 0 | zero_tol 0: only faces whose computed area is exactly 0 are left out; round-off-sized ones stay. Checked: every pair left out is among the 120 zero-area ones, and volumes do not change.
+tol_big        | 0 | -avs mesh_3D.inp -stor a.stor -zero_tol 0.05 | A large zero_tol (0.05) also leaves out real small faces. Checked: the pairs left out are exactly those with abs(A) <= 0.05 d^2 in the keep run (160), and volumes do not change.
+cube_keep      | 0 | -avs simple_3D.inp -stor a.stor -zero_area keep | The unit cube, every edge kept: 18 connections, the 6 face diagonals with zero area. Drawn on the left of the picture.
+cube_remove    | 0 | -avs simple_3D.inp -stor a.stor | The unit cube with the default: the 6 face diagonals left out, 12 connections remain. Drawn on the right of the picture.
+tri_keep       | 0 | -avs mesh_2D.inp -uge a.uge -zero_area keep | Triangles, every edge kept, written as .uge: 16 connections. Reference for tri_remove.
+tri_remove     | 0 | -avs mesh_2D.inp -uge a.uge | Triangles with the default. In 2D the face is a length, so the test is abs(A) <= 1e-12 d. Checked: the 4 diagonals of the square cells are left out.
+# --- compress
+compress_on    | 0 | -avs mesh_3D.inp -stor a.stor -compress on | compress on (the default): each distinct A/d value written once and shared through the .stor pointer block.
+compress_off   | 0 | -avs mesh_3D.inp -stor a.stor -compress off | compress off: one value per matrix entry. Checked against compress_on: the same matrix to 1e-14, and compress on writes fewer values (66 against 1040).
+# --- lanl/voronoi options
+legacy_type    | 0 | -avs mesh_3D.inp -type pflotran -o a.uge | lanl/voronoi's -type and -o still work: a .uge with the same connections as three_outputs.
+legacy_tough   | 0 | -avs simple_3D.inp -type tough2 | lanl/voronoi's -type with no -o: its default file name MESH_VORONOI.
+legacy_compr   | 0 | -avs mesh_3D.inp -o a.stor -compress | lanl/voronoi's bare -compress (no value) means on. Checked: the .stor is compressed.
+# --- refused: exit 1, a message naming the token, no output written
+bad_keyword    | 1 | -avs mesh_3D.inp -stor a.stor -zero_areas keep | A misspelled keyword (zero_areas). Must stop with a message naming it and write nothing.
+no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol | A keyword at the end with no value. Must say zero_tol needs a value.
+bad_zero_area  | 1 | -avs mesh_3D.inp -stor a.stor -zero_area drop | zero_area takes only remove or keep; drop is refused.
+bad_zero_tol   | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol -1 | A negative zero_tol is refused.
+text_zero_tol  | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol small | zero_tol must be a number; small is refused.
+bad_cv         | 1 | -avs mesh_3D.inp -stor a.stor -cv median | Median control volumes come in phase 4; for now cv median is refused, not silently ignored.
+twice          | 1 | -avs mesh_3D.inp -stor a.stor -uge a.stor | Two outputs to the same file name would overwrite each other; refused.
+no_mesh        | 1 | -stor a.stor | No mesh given; refused with a hint.
+missing_mesh   | 1 | -avs nothere.inp -stor a.stor | The mesh file does not exist; the message names it, nothing is written.
