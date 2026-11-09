@@ -1,0 +1,6 @@
+# df05: triangles and line segments in one source mesh object
+read / avs / df05_src.inp / mo_src
+read / avs / df05_sink.inp / mo_sink
+compute / distance_field / mo_sink / mo_src / dfacet / facet
+dump / avs / df05_out.inp / mo_sink
+finish

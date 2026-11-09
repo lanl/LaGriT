@@ -1,0 +1,7 @@
+# df08: 5120 triangles, 68921 sink vertices (timing)
+read / avs / df08_src.inp / mo_src
+read / avs / df08_sink.inp / mo_sink
+compute / distance_field / mo_sink / mo_src / dfacet / facet
+compute / distance_field / mo_sink / mo_src / dvert
+dump / avs / df08_out.inp / mo_sink
+finish

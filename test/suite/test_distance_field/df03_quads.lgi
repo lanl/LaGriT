@@ -1,0 +1,7 @@
+# df03: a warped (not planar) quad surface; each quad is cut into
+# 4 triangles at its center (hextotet / 4) for the distance
+read / avs / df03_src.inp / mo_src
+read / avs / df03_sink.inp / mo_sink
+compute / distance_field / mo_sink / mo_src / dfacet / facet
+dump / avs / df03_out.inp / mo_sink
+finish

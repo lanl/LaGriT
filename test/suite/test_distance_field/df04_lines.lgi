@@ -1,0 +1,6 @@
+# df04: a helix of line segments
+read / avs / df04_src.inp / mo_src
+read / avs / df04_sink.inp / mo_sink
+compute / distance_field / mo_sink / mo_src / dfacet / facet
+dump / avs / df04_out.inp / mo_sink
+finish

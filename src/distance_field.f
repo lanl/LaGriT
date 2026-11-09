@@ -14,6 +14,11 @@ C     NOTES -
 C
 C      Syntax for this command:
 C      compute / distance_field / mo_sink / mo_source / distance_field_attribute
+C              [ / vertex | facet ]
+C      vertex (default): distance to the nearest vertex of mo_source.
+C      facet: exact distance to the nearest point of the cells of
+C             mo_source (triangles, lines or quads), done by
+C             distance_field_facet.f.
 C
 C        
 C######################################################################
@@ -44,6 +49,7 @@ C
       character*32  mo_sink
       character*32  mo_src
       character*32  cattribute
+      character*32  coption
       character*132 logmess
       character*256 cmdmess
 C
@@ -60,12 +66,24 @@ C
 C     If we get this far, syntax of argument 1 and 2 is ok. Move on to
 C     arguments 3, 4, 5
 C
-      if(nwds .ne. 5) then
+      if(nwds .ne. 5 .and. nwds .ne. 6) then
          write(logmess,'(a)')
-     &    'ERROR distance_field: Command requires 5 arguments.'
+     &    'ERROR distance_field: Command requires 5 or 6 arguments.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -2
          goto 9999
+      endif
+      coption = 'vertex'
+      if(nwds .eq. 6) then
+         if(msgtype(6) .eq. 3) coption = cmsgin(6)
+         if(msgtype(6) .ne. 3 .or. (coption .ne. 'vertex' .and.
+     &      coption .ne. 'facet')) then
+            write(logmess,'(a)')
+     &      'ERROR distance_field: Argument 6 must be vertex or facet.'
+            call writloga('default',0,logmess,0,ierror)
+            ierror = -2
+            goto 9999
+         endif
       endif
       if(msgtype(3) .ne. 3) then
          write(logmess,'(a)')
@@ -92,7 +110,6 @@ C
       mo_sink = cmsgin(3)
       mo_src  = cmsgin(4)
       cattribute = cmsgin(5)
-      print *, mo_sink, mo_src, cattribute
 C
       call cmo_exist(mo_sink,ierror)
       if(ierror.ne.0) then
@@ -108,6 +125,11 @@ C
      &    'ERROR distance_field: source mesh object does not exist.'
          call writloga('default',0,logmess,0,ierror)
          ierror = -1
+         go to 9999
+      endif
+C
+      if(coption .eq. 'facet') then
+         call distance_field_facet(mo_sink,mo_src,cattribute,ierror)
          go to 9999
       endif
 C

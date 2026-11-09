@@ -20,6 +20,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - **Faster connect** (#314, #316): more than 100 points are inserted in a BRIO order, in 2D and 3D (src/lg_brio_order.c); 3D, 256,000 random points: 2.7 s, was 14.0 s. **connect / old_order** keeps the earlier order.
 - **createpts / poisson_disk / 3d_box / ... / h_lookup octree** (#303): an h-adapted octree holds the h field and the neighbour search instead of the uniform lattice (`hex_grid`; for the default, see Changes in behaviour), with a maximal fill (any vertex that could still be added lies in the boxes it reports). Graded meshes with a large range of h become practical: on a DFN case with H_MAX = 50 x H_MIN, 112 s and 0.21 GB against 1,152 s and 1.99 GB. Options `octree_k_factor`, `octree_batch`, `octree_dump`. New suite test_poisson_octree.
 - **connect options** (#317): **noadd**, **check_interface** and **old_order** may be anywhere in the command, in 2D and 3D, in any combination; `connect / 1,0,0` and `connect / pset,get,name` read the point range as CONNECT1.md shows.
+- **compute / distance_field / ... / facet**: the exact distance to the nearest point of the source's triangles, line segments or quads (inside a cell, on an edge or at a vertex) instead of the distance to its nearest vertex, which can be too large by up to about 0.58 of a triangle's edge next to the surface. A sixth word; `vertex` (or no sixth word) keeps the old result. New suite test_distance_field (against brute force). Also: commands_cat.md describes DEFINE as "assign a value to a character string".
 
 ### Fixes
 

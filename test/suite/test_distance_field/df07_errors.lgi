@@ -1,0 +1,13 @@
+# df07: inputs the facet option refuses; LaGriT must keep going
+read / avs / df02_sink.inp / mo_sink
+read / avs / df07_tet.inp / mo_tet
+read / avs / df07_mixed.inp / mo_mix
+read / avs / df07_nocell.inp / mo_pts
+read / avs / df02_src.inp / mo_src
+compute / distance_field / mo_sink / mo_tet / d1 / facet
+compute / distance_field / mo_sink / mo_mix / d2 / facet
+compute / distance_field / mo_sink / mo_pts / d3 / facet
+compute / distance_field / mo_sink / mo_src / d4 / bogus
+compute / distance_field / mo_sink / mo_src / d5 / facet
+dump / avs / df07_out.inp / mo_sink
+finish
