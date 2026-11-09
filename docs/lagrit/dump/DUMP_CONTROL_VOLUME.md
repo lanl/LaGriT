@@ -1,26 +1,28 @@
 ---
-title: DEL_VOR
-tags: del_vor voronoi stor uge tough2 delaunay control volume
+title: 'DUMP/CONTROL_VOLUME'
+tags: dump control_volume del_vor voronoi stor uge tough2 delaunay
 ---
 
-# DEL_VOR #
+# DUMP/CONTROL_VOLUME #
 
 ------------------------
 
 > **Draft for the LaGriT version of del_vor (phase 6 of 6).** This
 > page describes the command as planned; the standalone program
 > `del_vor` already does everything below. Kept in the del_vor
-> repository (`docs/lagrit/DEL_VOR.md`) until the command is in
-> LaGriT, then moved to `docs/pages/docs/commands/`.
+> repository (`docs/lagrit/dump/DUMP_CONTROL_VOLUME.md`) until the
+> command is in LaGriT, then moved to `docs/pages/docs/commands/dump/`.
 
-**`del_vor`** checks the current mesh object and computes its Voronoi
-control-volume geometry: the control volume of each vertex, and for
-each edge the area of its Voronoi face and its length. It writes
-them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH2 `MESH` files. It is
-meant to replace **`matbld2d`** and **`matbld3d`** (used by
-**`dump/stor`**); both can run on the same mesh to compare.
+**`dump/control_volume`** checks a mesh object and computes its
+control-volume geometry with del_vor: the control volume of each
+vertex, and for each edge the area of its Voronoi face and its
+length. It writes them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH2
+`MESH` files, and keeps the volumes in the vertex attribute
+**cv_volume**. It is the new path beside **`dump/stor`**, which is
+unchanged (it uses **`matbld2d`** and **`matbld3d`**); both can run on
+the same mesh to compare.
 
-Before any geometry **`del_vor`** checks the mesh (cell types, cells
+Before any geometry **`dump/control_volume`** checks the mesh (cell types, cells
 of positive size, conformity, orientation) and tests it for the
 Delaunay property, facet by facet. A mesh that fails is not written:
 Voronoi coefficients of a mesh that is not Delaunay are wrong. The
@@ -32,16 +34,19 @@ itetclr per fracture) or all tets.
 ## SYNTAX ##
 
 <pre>
-<b>del_vor</b> / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough2</b>, file_name] &
-        / [<b>zero_area</b>, <b>remove</b>|<b>keep</b>] / [<b>zero_tol</b>, value] &
-        / [<b>compress</b>, <b>on</b>|<b>off</b>] / [<b>cv</b>, <b>voronoi</b>] &
-        / [<b>delaunay_tol</b>, value] / [<b>violations</b>, file_name] &
-        / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
+<b>dump</b> / <b>control_volume</b> / mo_name &
+     / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough2</b>, file_name] &
+     / [<b>zero_area</b>, <b>remove</b>|<b>keep</b>] / [<b>zero_tol</b>, value] &
+     / [<b>compress</b>, <b>on</b>|<b>off</b>] / [<b>cv</b>, <b>voronoi</b>] &
+     / [<b>delaunay_tol</b>, value] / [<b>violations</b>, file_name] &
+     / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
 </pre>
 
-Each option is a keyword and its value, written with a comma (or a
-space) between them; options are separated by `/` and may come in any
-order. With no output keyword, **`del_vor`** writes `voronoi.stor`.
+mo_name, the mesh object, is required; there is no default (**-def-**
+is not taken). After it, each option is a keyword and its value,
+written with a comma (or a space) between them; options are separated
+by `/` and may come in any order. With no output keyword,
+**`dump/control_volume`** writes `voronoi.stor`.
 
 ## DESCRIPTIONS ##
 
@@ -125,7 +130,7 @@ file is written. Default **`off`**.
 
 **`report`**, file_name
 
-a copy of everything **`del_vor`** prints, in a file.
+a copy of everything **`dump/control_volume`** prints, in a file.
 
 ### Mesh checks ###
 
@@ -146,45 +151,46 @@ material interface. A vertex in no cell gets a warning.
 ## EXAMPLES ##
 
 ```
-del_vor / stor, mesh.stor
+dump / control_volume / mo_mesh / stor, mesh.stor
 ```
-check the current mesh object and write `mesh.stor` with the defaults.
+check mesh object `mo_mesh` and write `mesh.stor` with the defaults;
+the volumes are in **cv_volume**.
 
 ```
-del_vor / stor, mesh.stor / uge, mesh.uge / tough2, MESH
+dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / tough2, MESH
 ```
 three outputs from one command.
 
 ```
-del_vor / check_only, on / report, mesh_check.txt
+dump / control_volume / mo_mesh / check_only, on / report, mesh_check.txt
 ```
 check the mesh only; keep the messages in `mesh_check.txt`; if the
 mesh is not Delaunay, open `violations.vtu` in ParaView.
 
 ```
-del_vor / stor, mesh.stor / zero_area, keep / compress, off
-dump / stor / mesh_matbld / -def- / ascii / none
+dump / control_volume / mo_mesh / stor, mesh.stor / zero_area, keep / compress, off
+dump / stor / mesh_matbld / mo_mesh / ascii / none
 ```
 one matrix entry per mesh edge, every value written, then the same
 mesh through LaGriT's own matrix builder, also uncompressed (**none**),
 to compare `mesh.stor` with `mesh_matbld.stor`.
 
 ```
-del_vor / stor, dfn.stor / delaunay_tol, 1e-8
+read / avs / full_mesh.inp / mo_dfn
+dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
 ```
 a fracture network from dfnWorks: each fracture is checked on its
 own, intersection edges get both fractures' coefficients.
 
 ## OPEN QUESTIONS (draft only) ##
 
-To settle with the LaGriT developers before phase 6:
+Settled (Carl, Nov 8, 2026): the command is **`dump/control_volume`**
+(**`dump/stor`** unchanged); the mesh object is required; the volume
+attribute is **cv_volume**; the face neighbors (**jtet**) are computed
+by del_vor, not taken from LaGriT.
 
-1. The command as above, an option of **`dump/stor`** (the design's
-   plan: the new path behind the existing command, **`matbld`**
-   staying the default for a while), or both.
-2. The mesh: always the current mesh object, or a **`cmo`**, name
-   option.
-3. The control volumes kept in a vertex attribute (the design returns
-   them to LaGriT): its name, and whether it is made by default.
-4. Whether LaGriT's own **jtet** is used as is, or rebuilt by
-   **`del_vor`** (the standalone program builds it from the cells).
+Still open, for phase 6:
+
+1. Is **cv_volume** made on every run, or only when asked for?
+2. Parent/child meshes (**settets/parents**): merge children through
+   their parent (**isn1**) or keep them apart.

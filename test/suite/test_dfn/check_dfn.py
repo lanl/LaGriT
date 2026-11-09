@@ -21,9 +21,8 @@ dfn3 (and full_mesh, when it is there):
 dfn3_flip:
   exit 1, the orientation error, the turned-over triangle named,
   no .stor
-full_mesh (Carl's example, when inputs/full_mesh.inp is there):
-  additionally 60 intersection edges and 1942 interior edge instances
-  (the numbers found while writing the design)
+full_mesh (Carl's dfnWorks example 4_user_rects_uniform,
+inputs/full_mesh.inp, sent Nov 8): additionally the sizes in MESHES
 """
 
 import math
@@ -40,6 +39,9 @@ from svgdraw import Svg, Projector  # noqa: E402
 from check_voronoi_gold import read_stor, stor_pairs  # noqa: E402
 
 TOL = 1e-12
+# Carl's meshes: vertices, triangles, fractures, intersection,
+# interior and boundary edges
+MESHES = {'full_mesh': (771, 1386, 4, 60, 1942, 274)}
 LABELS = [('interior edges checked', 'interior'),
           ('ties (|delta/L| <= tol)', 'ties'),
           ('violations', 'violations'),
@@ -121,11 +123,13 @@ def picture(path, title, m, inter, bad):
         s.line(x1, y1, x2, y2, color='#111', width=2.4)
     y = H - 40
     x = 20
-    for f in sorted(set(m.clr)):
+    fr = sorted(set(m.clr))
+    step = (W - 40) // max(len(fr), 1)
+    for f in fr:
         s.rect(x, y - 10, 14, 10, fill=COLORS.get(f, '#666'))
         s.text(x + 20, y, 'fracture %d: %d triangles' % (f, m.clr.count(f)),
                size=11)
-        x += 170
+        x += step
     s.line(20, y + 16, 50, y + 16, color='#111', width=2.4)
     s.text(58, y + 20, 'intersection edges: %d' % len(inter), size=11)
     s.save(path)
@@ -157,8 +161,8 @@ def main():
             print('%s_%s %s %s' % (name, c, v, res))
 
         if not os.path.exists(os.path.join(d, 'run.rc')):
-            if name == 'full_mesh':
-                put('skipped', 'inputs/full_mesh.inp not added yet',
+            if name in MESHES:
+                put('skipped', 'inputs/%s not there' % m_name,
                     'MEASURED')
             else:
                 put('ran', 'no run.rc', False)
@@ -192,12 +196,15 @@ def main():
             bad_k = [k for k in keys if got.get(k) != want[k]]
             put('counts', ', '.join('%s %s' % (k, got.get(k))
                                     for k in keys), not bad_k)
-            if name == 'full_mesh':
-                put('design', 'intersection edges %s (60), interior '
-                    'edges %s (1942)' % (got.get('intersect'),
-                                         got.get('interior')),
-                    got.get('intersect') == 60 and
-                    got.get('interior') == 1942)
+            if name in MESHES:
+                nf = len(set(m.clr))
+                put('mesh', '%d vertices, %d triangles, %d fractures; '
+                    'intersection %s, interior %s, boundary %s edges'
+                    % (len(m.xyz), len(m.cells), nf, got.get('intersect'),
+                       got.get('interior'), got.get('boundary')),
+                    (len(m.xyz), len(m.cells), nf,
+                     got.get('intersect'), got.get('interior'),
+                     got.get('boundary')) == MESHES[name])
             put('orientation', 'no orientation error',
                 'oriented differently' not in out)
             f = os.path.join(d, name + '.stor')

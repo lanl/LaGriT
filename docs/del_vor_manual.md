@@ -2,7 +2,8 @@
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
 standalone program `del_vor`, as of phase 2 of 6. The LaGriT command
-is described in [`lagrit/DEL_VOR.md`](lagrit/DEL_VOR.md).
+(`dump / control_volume`) is described in
+[`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
 Contents
 

@@ -3,8 +3,7 @@ test_dfn -- del_vor on fracture networks (Nov 2026)
 
 QUICK START
 
-  sh run_dfn_tests.sh [path-to-del_vor]   2 runs (3 with full_mesh),
-                                          about 2 s
+  sh run_dfn_tests.sh [path-to-del_vor]   3 runs, about 2 s
   open summary.html
 
 WHAT IS TESTED
@@ -22,8 +21,9 @@ WHAT IS TESTED
               meets nothing. Each fracture is triangulated with exact
               Bowyer-Watson, so it is exactly Delaunay.
   dfn3_flip   the same with one triangle of fracture 2 turned over
-  full_mesh   Carl's 4-fracture dfnWorks example, once it is put in
-              inputs/ (see inputs/README); SKIPPED until then
+  full_mesh   Carl's 4-fracture dfnWorks example 4_user_rects_uniform,
+              the design's mesh (inputs/, 771 vertices, 1386
+              triangles; no parent/child vertices)
 
 WHAT IS CHECKED (check_dfn.py; tolerance 1e-12, relative)
 
@@ -39,7 +39,9 @@ WHAT IS CHECKED (check_dfn.py; tolerance 1e-12, relative)
   orientation   no orientation error (dfn3); for dfn3_flip: exit 1,
                 the orientation error naming the turned-over triangle,
                 no .stor
-  full_mesh     also 60 intersection edges and 1942 interior edges
+  full_mesh     also the sizes: 771 vertices, 1386 triangles, 4
+                fractures, 60 intersection, 1942 interior, 274
+                boundary edges
 
 PICTURES (logs/)
 

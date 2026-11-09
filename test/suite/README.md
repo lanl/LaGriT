@@ -37,7 +37,7 @@ Requires: a POSIX shell and Python 3 (standard library only).
 | `test_poisson_lagrit` | five Poisson disk meshes from LaGriT's suites (`test_poisson_3d` cases 1 and 2, the three `test_poisson_2d` meshes) against the `.stor` files LaGriT wrote: coefficients, volumes, negative and zero-area connections, the exact volume | 2 s |
 | `test_validity` | the mesh checks made before any geometry: 11 meshes that each break one rule (cell types, positive size, conformity, orientation) must stop with the right message and write nothing; 4 legal but unusual meshes must run | 1 s |
 | `test_delaunay` | the Delaunay check against exact rational arithmetic on 16 runs: ties, violations (flipped edges and faces), a near tie and `delaunay_tol`, boundary circumcenters outside, UTM coordinates, the violations file facet by facet | 3 s |
-| `test_dfn` | fracture networks: intersection edges, orientation fracture by fracture, every coefficient and area against the cotangent formula, a turned-over triangle caught; Carl's dfnWorks example once it is added | 2 s |
+| `test_dfn` | fracture networks: intersection edges, orientation fracture by fracture, every coefficient and area against the cotangent formula, a turned-over triangle caught; Carl's 4-fracture dfnWorks example (60 intersection edges) | 2 s |
 
 ## Conventions
 

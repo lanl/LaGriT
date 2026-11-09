@@ -28,7 +28,7 @@ control volumes come in later phases.
 
 The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
 The LaGriT command page (for the LaGriT version):
-[`docs/lagrit/DEL_VOR.md`](docs/lagrit/DEL_VOR.md).
+[`docs/lagrit/dump/DUMP_CONTROL_VOLUME.md`](docs/lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
 ## Build
 
@@ -74,11 +74,12 @@ The zero-area filter changes only which connections are written; the
 control volumes are never changed. lanl/voronoi's options `-type
 fehm|pflotran|tough2`, `-o FILE` and `-compress` (no value) also work.
 
-The LaGriT command (a later phase) will take the same keywords, as
-pairs in any order, written with a comma inside each pair:
+The LaGriT command (a later phase), `dump / control_volume`, will
+take a mesh object and then the same keywords, as pairs in any order,
+written with a comma inside each pair:
 
 ```
-del_vor / stor, out.stor / uge, out.uge / zero_area, keep
+dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
 ```
 
 A run prints the mesh checks, the Delaunay check and a summary: sizes,
