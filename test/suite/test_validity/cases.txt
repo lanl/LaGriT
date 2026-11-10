@@ -23,3 +23,5 @@ two_fractures   | 0 | fracture intersection edges 1 | Legal: two fractures (itet
 clockwise       | 0 | mesh checks passed | Legal: every triangle clockwise. A mesh (or fracture) may be oriented either way, as long as it is one way.
 unused_vertex   | 0 | vertices in no cell | Legal with a WARNING: one vertex is in no cell (like LaGriT's dudded vertices); it gets no control volume.
 two_materials   | 0 | faces paired, other itetclr 1 | Legal: two tets of different itetclr share a face, a material interface (jtet = mbndry + the neighbor).
+wrapped_attr    | 0 | mesh checks passed | Legal: the vertex data block as LaGriT writes it when a mesh has many vertex attributes (here 5: -def-, imt1, itp1, icr1, isn1): each vertex's values run onto a second line. The reader must read across lines (found on LaGriT's io_agf_simple mesh in test_parity).
+odd_text        | 0 | mesh checks passed | Legal: two_materials written as other tools may write it: Windows line ends (CR LF), a blank line, Fortran D exponents (1.0D+00), tabs between the fields of the cell lines. Its .stor must be the same as two_materials's (checked: same_as).

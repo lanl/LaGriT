@@ -3,7 +3,7 @@ test_validity -- the mesh checks del_vor makes before any geometry (Nov 2026)
 
 QUICK START
 
-  sh run_validity_tests.sh [path-to-del_vor]   15 runs, under 1 s
+  sh run_validity_tests.sh [path-to-del_vor]   17 runs, under 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -27,10 +27,13 @@ WHAT IS TESTED
                                    of one itetclr run along their
                                    shared edge in opposite directions
 
-  Four are legal meshes that look unusual and must run to the end:
+  Six are legal meshes that look unusual and must run to the end:
   two_fractures (two itetclr crossing along one edge), clockwise
-  (every triangle clockwise), unused_vertex (a WARNING) and
-  two_materials (a material interface between two tets).
+  (every triangle clockwise), unused_vertex (a WARNING),
+  two_materials (a material interface between two tets) and
+  wrapped_attr (vertex data running onto a second line, as LaGriT
+  writes it) and odd_text (CR LF line ends, tabs, Fortran D
+  exponents: its .stor must equal two_materials's).
 
 WHAT IS CHECKED (check_validity.py)
 
@@ -38,6 +41,7 @@ WHAT IS CHECKED (check_validity.py)
   message   the expected text is in the screen output
   files     a failed run wrote no .stor and no violations file; a
             passing run wrote its .stor
+  same_as   odd_text's .stor equals two_materials's (date line aside)
 
 PICTURES (logs/)
 
@@ -47,6 +51,6 @@ PICTURES (logs/)
 FILES
 
   run_validity_tests.sh     runner (work/, logs/)
-  make_validity_inputs.py   the 15 meshes
+  make_validity_inputs.py   the 17 meshes
   check_validity.py         checks, pictures, summary.html
   cases.txt                 name | exit | message | what it does

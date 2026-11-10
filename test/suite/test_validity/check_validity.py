@@ -12,6 +12,9 @@ For each case:
            passing run wrote its .stor
   first    (failed mesh checks) the cells the message names as
            "first" are drawn red in the picture
+  same_as  (odd_text) its .stor equals two_materials's, apart from the
+           date line: the reader gives the same numbers for CR LF line
+           ends, tabs and Fortran D exponents
 """
 
 import os
@@ -109,12 +112,24 @@ def main():
         for m in re.finditer(r'first: cells?\s+(\d+)(?:\s+and\s+(\d+))?',
                              out):
             bad |= {int(x) for x in m.groups() if x}
+        if name == 'odd_text':
+            def body(n):
+                f = os.path.join(work, n, n + '.stor')
+                if not os.path.exists(f):
+                    return None
+                return open(f).read().split('\n')[2:]
+            a, b = body('odd_text'), body('two_materials')
+            put('same_as', '.stor equal to two_materials\'s (date '
+                'aside)' if a and a == b else 'differs from '
+                'two_materials\'s', bool(a) and a == b)
+            rows.append((name, about, cmd, checks, None))
+            continue
         xyz, cells = read_mesh(os.path.join(d, name + '.inp'))
         pic = name + '.svg'
         picture(os.path.join(logs, pic), name, xyz, cells, bad)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor on 15 small meshes made by '
+    what = ('runs del_vor on 17 small meshes made by '
             'make_validity_inputs.py. Eleven break one of the rules del_vor '
             'checks before any geometry, each a fatal error: the cell '
             'types (all triangles or all tets), cells of positive size, '
@@ -123,9 +138,10 @@ def main():
             '(neighboring triangles of one itetclr run along their shared '
             'edge in opposite directions). Each must stop with exit 1, '
             'say what is wrong and name the first cell, and write '
-            'nothing. Four are legal meshes that look unusual (crossing '
+            'nothing. Six are legal meshes that look unusual (crossing '
             'fractures, clockwise triangles, an unused vertex, two '
-            'materials) and must run to the end.')
+            'materials, wrapped vertex data, CR LF / tabs / D '
+            'exponents) and must run to the end.')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
                             'test_validity', what, rows)
     print('failures %d' % nfail)
