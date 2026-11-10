@@ -3,7 +3,7 @@ test_options -- del_vor's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    37 runs, about 1 s
+  sh run_options_tests.sh [path-to-del_vor]    39 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -17,6 +17,7 @@ WHAT IS TESTED
     compress on|off           default on
     cv voronoi
     delaunay_tol X            default 1e-10
+    delaunay_fatal X          default 1e-3
     violations FILE           default violations.vtu
     check_only on|off         default off
     report FILE               default none
@@ -38,8 +39,8 @@ WHAT IS CHECKED (check_options.py)
   timing        on: the report ends with the time of each step and
                 the peak memory; the .stor is the same as without it
   delaunay_tol  with 0, mesh_3D's round-off ties (27 facets, all
-                |delta/L| < 1e-15) stop the run: why the default is
-                1e-10
+                |delta/L| < 1e-15) are slightly not Delaunay: a
+                WARNING; with delaunay_fatal 0 too they stop the run
   zero_area     the pairs left out are exactly those with |A| <=
                 zero_tol d^2 in the zero_area keep run, for zero_tol
                 1e-12 (default) and 0.05; zero_tol 0 leaves out only

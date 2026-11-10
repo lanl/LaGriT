@@ -41,9 +41,11 @@ A run has four steps:
    orientation ([section 5](#5-the-mesh-checks)); a failure stops the
    run;
 3. check that it is Delaunay, facet by facet
-   ([section 6](#6-the-delaunay-check)); a violation stops the run,
-   because Voronoi coefficients of a mesh that is not Delaunay are
-   wrong (overlapping Voronoi cells, negative areas);
+   ([section 6](#6-the-delaunay-check)); a facet that is clearly not
+   Delaunay stops the run, because Voronoi coefficients of a mesh
+   that is not Delaunay are wrong (overlapping Voronoi cells,
+   negative areas); a facet only slightly off (nearly co-spherical,
+   as from jitter or round-off) gives a warning;
 4. compute the coefficients and write the output files.
 
 Nothing is written unless every check passes, except the report and
@@ -216,9 +218,13 @@ the units:
 
 | delta/L | the facet is | |
 |---|---|---|
-| < -delaunay_tol | a violation | fatal |
+| < -delaunay_fatal | not Delaunay | fatal: no coefficient file |
+| between -delaunay_fatal and -delaunay_tol | slightly not Delaunay | a WARNING; the run goes on |
 | between -delaunay_tol and delaunay_tol | a tie | accepted |
 | > delaunay_tol | Delaunay | |
+
+Every facet below -delaunay_tol goes to the violations file, warned
+or fatal.
 
 ### delaunay_tol
 
@@ -228,23 +234,49 @@ The default, 1e-10, is set by what was measured on the test meshes
 - True ties (co-circular or co-spherical vertices, common on grids
   and on Poisson disk meshes with a boundary buffer) compute to
   |delta/L| of at most 2.7e-16. With delaunay_tol 0, about one tie in
-  seven comes out negative by round-off and would stop the run.
+  seven comes out negative by round-off.
 - The smallest real |delta/L| found was 4.1e-5 (tets) and 1.4e-4
   (triangles).
 
 1e-10 lies between, with margin for coordinates rounded to 13 digits
 by `dump / avs`.
 
-Meshes from LaGriT's `connect` are not always Delaunay to this
-tolerance. On jittered grids (test_timing), `connect` left 15 facets
-with delta/L < -1e-10 in a mesh of a million tets, the smallest
--3.6e-4 (confirmed in exact arithmetic), and none in the smaller
-meshes. Such a mesh stops del_vor with the default; the violations
-file shows where, and a larger `delaunay_tol` accepts it (its
-coefficients there are then slightly wrong). A larger value accepts meshes that are only close
-to Delaunay: with delaunay_tol 1e-5, a facet whose vertex is 1e-6 off
-the common circle is accepted as a tie. The Voronoi coefficients of
-such a facet are slightly negative; do this knowingly.
+### delaunay_fatal
+
+A mesh is not rejected for a little jitter or round-off. Facets with
+delta/L between -delaunay_fatal (default 1e-3) and -delaunay_tol are
+slightly not Delaunay: their vertices are nearly co-circular or
+co-spherical. del_vor says so and goes on:
+
+```
+  WARNING: 15 faces slightly not Delaunay (delta/L >= -1.0E-03):
+    nearly co-circular / co-spherical; the coefficients there are
+    accurate to about |delta/L| of a typical coefficient (violations file)
+  Delaunay check passed (with the warning above)
+```
+
+Why this is safe: at such a facet the Voronoi edge dual to it has a
+small negative length, delta, instead of a small positive one. That
+changes the Voronoi faces of the facet's edges by about |delta| L, so
+their coefficients by about |delta/L| of a typical coefficient. The
+control volumes still add up to the mesh volume. An edge whose
+coefficient is itself near zero (nearly co-spherical) can carry an
+error as large as its value, so its sign is not reliable there; its
+size stays tiny.
+
+Where it comes from: LaGriT's `connect` does not always make an
+exactly Delaunay mesh. On jittered grids (test_timing) it left 9
+facets with delta/L down to -1.5e-5 in a mesh of 960,000 tets and 15
+down to -3.6e-4 in one of a million tets (both confirmed in exact
+arithmetic). In that million-tet mesh, no coefficient came out
+negative (the smallest A/d was +9.5e-14, a near-zero face); the 45 edges of the 15 facets all kept positive coefficients.
+
+The default 1e-3 leaves a factor of about 3 above the worst seen from
+`connect`. A real fault is far beyond it: a flipped edge or face gives
+delta/L of order -0.1 to -1. `delaunay_fatal` equal to
+`delaunay_tol` makes every facet beyond the tolerance fatal (the
+behavior before phase 3); a `delaunay_fatal` below `delaunay_tol` is
+raised to it.
 
 Circumcenters are computed relative to a vertex of the facet, so the
 check gives the same answer at UTM-size coordinates (tested at
@@ -282,10 +314,11 @@ a real violation; the ratio in the violations file tells them apart.
 ### The report block
 
 ```
-del_vor Delaunay check (delaunay_tol 1.0E-10)
+del_vor Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-03)
   interior faces checked                 685
   ties (|delta/L| <= tol)                201
   violations                               0
+    beyond delaunay_fatal                  0
   smallest delta/L -2.3733E-16  cells       178 and       250
     at  4.166667E+04  3.333333E+05  2.083333E+05  itetclr     1
   delta/L histogram
@@ -312,7 +345,7 @@ close the mesh comes to failing: counts in the three bins below
 When there is a violation the block ends with
 
 ```
-  Delaunay check FAILED: the mesh is not Delaunay within delaunay_tol;
+  Delaunay check FAILED: the mesh is not Delaunay beyond delaunay_fatal;
   no Voronoi coefficients are written. See the violations file.
 ```
 
@@ -499,7 +532,8 @@ del_vor summary
 | `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
 | `cv` | `voronoi` | `voronoi` | control volumes (median and hybrid later) |
-| `delaunay_tol` | number >= 0 | `1e-10` | a facet is a violation when delta/L < -delaunay_tol, a tie within ±delaunay_tol |
+| `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
+| `delaunay_fatal` | number >= 0 | `1e-3` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
 | `report` | file | none | a copy of the screen output |
@@ -526,7 +560,7 @@ Exit status 1, and no coefficient file written:
 | no mesh | `del_vor: no mesh given (-avs MESH.inp)` |
 | the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 5](#5-the-mesh-checks) |
 | a mesh check fails | the ERROR lines of [section 5](#5-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
-| not Delaunay | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written) |
+| not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written) |
 
 gfortran adds the line `STOP 1` after the message.
 

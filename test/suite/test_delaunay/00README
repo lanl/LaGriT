@@ -3,7 +3,7 @@ test_delaunay -- the Delaunay check against exact arithmetic (Nov 2026)
 
 QUICK START
 
-  sh run_delaunay_tests.sh [path-to-del_vor]   16 runs, about 3 s
+  sh run_delaunay_tests.sh [path-to-del_vor]   17 runs, about 3 s
   open summary.html
 
 WHAT IS TESTED
@@ -21,8 +21,9 @@ WHAT IS TESTED
   flip3d      poi3d_01 with three 2-3 flips: 9 violations
   kuhn        a 4 x 3 x 3 grid of cubes, 6 tets each: 216 ties
   near_tie    one vertex 1e-6 off the common circle: delta/L = -5e-7,
-              caught with the default delaunay_tol 1e-10 and accepted
-              with delaunay_tol 1e-5
+              a WARNING with the defaults (slightly not Delaunay,
+              within delaunay_fatal 1e-3), fatal with delaunay_fatal
+              1e-10 (near_tie_strict), a tie with delaunay_tol 1e-5
   utm         poi3d_01 moved to UTM-size coordinates
 
   Two more cases run without check_only: flip2d_stor must stop
@@ -34,8 +35,11 @@ WHAT IS CHECKED (check_delaunay.py, ../exact_check.py)
   coordinates to integers by a power of 2 and finds every facet's
   sign with exact rational arithmetic.
 
-  exit         1 if some facet has delta/L < -tol (exactly
-               computed), else 0, with check_only or without
+  exit         1 if some facet has delta/L < -delaunay_fatal
+               (exactly computed), else 0, with check_only or without
+  warning      the WARNING "slightly not Delaunay" exactly when some
+               facet is below -delaunay_tol and none below
+               -delaunay_fatal
   counts       interior (and interface) facets, ties, violations,
                boundary facets, boundary circumcenters outside, all
                equal to the exact numbers

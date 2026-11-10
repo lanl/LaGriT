@@ -5,7 +5,7 @@
 !   del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
 !           [-zero_area remove|keep] [-zero_tol X]
 !           [-compress on|off] [-cv voronoi]
-!           [-delaunay_tol X] [-violations FILE]
+!           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
 !           [-check_only on|off] [-report FILE] [-timing on|off]
 !
 ! Options are keyword / value pairs in any order (del_vor_options
@@ -121,7 +121,8 @@ program del_vor
    call timer_start('Delaunay check')
    call check_delaunay(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
                        m%zic, m%itetoff, m%itet, m%itetclr, m%jtetoff, &
-                       m%jtet, m%mbndry, opt%delaunay_tol, dst)
+                       m%jtet, m%mbndry, opt%delaunay_tol, &
+                       opt%delaunay_fatal, dst)
    call report_delaunay(m%nen, dst, m%itetclr, not_delaunay)
    call timer_stop()
    if (dst%rec%n > 0) then
@@ -201,7 +202,8 @@ contains
       select case (trim(s))
       case ('avs', 'stor', 'uge', 'tough2', 'zero_area', 'zero_tol', &
             'compress', 'cv', 'type', 'o', 'delaunay_tol', &
-            'violations', 'check_only', 'report', 'timing')
+            'violations', 'check_only', 'report', 'timing', &
+            'delaunay_fatal')
          is_keyword = .true.
       case default
          is_keyword = .false.
@@ -223,9 +225,9 @@ contains
       call log_line('               [-zero_area remove|keep] '// &
                     '[-zero_tol X] [-compress on|off]')
       call log_line('               [-cv voronoi] '// &
-                    '[-delaunay_tol X] [-violations FILE]')
-      call log_line('               [-check_only on|off] '// &
-                    '[-report FILE]')
+                    '[-delaunay_tol X] [-delaunay_fatal X]')
+      call log_line('               [-violations FILE] '// &
+                    '[-check_only on|off] [-report FILE]')
       call log_line('  -avs MESH.inp     AVS UCD mesh, all '// &
                     'triangles or all tets')
       call log_line('  -stor FILE        FEHM .stor (default '// &
@@ -247,6 +249,8 @@ contains
                     'and hybrid come later)')
       call log_line('  -delaunay_tol X   a facet is not Delaunay '// &
                     'when delta/L < -X (default 1e-10)')
+      call log_line('  -delaunay_fatal X down to delta/L = -X: a '// &
+                    'warning; beyond: an error (1e-3)')
       call log_line('  -violations FILE  flagged facets for '// &
                     'ParaView (default violations.vtu)')
       call log_line('  -check_only on    check the mesh only; no '// &

@@ -36,9 +36,11 @@ WHAT IS TESTED
 
   del_vor -avs mesh.inp -stor mesh.stor -delaunay_tol 1 -timing on
     timing on prints the wall and CPU time of each step and the peak
-    memory (development only; off by default). delaunay_tol 1 because
-    LaGriT's connect leaves a few facets that are not Delaunay on
-    these meshes (see below); the check still runs and is timed.
+    memory (development only; off by default). delaunay_tol 1 so the
+    run never stops: LaGriT's connect leaves a few facets that are not
+    Delaunay (see below); with the defaults they are a warning, but a
+    bigger mesh might go beyond delaunay_fatal (1e-3). The check still
+    runs and is timed.
   LaGriT, twice: read / avs alone, and read / avs + dump / stor;
     dump / stor's time is the difference.
 

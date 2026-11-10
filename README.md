@@ -70,7 +70,8 @@ be written in one run; the geometry is computed once.
 | `zero_tol` | number >= 0 | `1e-12` | a connection has zero area when \|A\| <= zero_tol d² (tets) or zero_tol d (triangles), d the edge length |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
 | `cv` | `voronoi` | `voronoi` | control volumes; median and hybrid come later |
-| `delaunay_tol` | number >= 0 | `1e-10` | a facet fails the Delaunay check when δ/L < -delaunay_tol (see the manual) |
+| `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below, a facet is not Delaunay (see the manual) |
+| `delaunay_fatal` | number >= 0 | `1e-3` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the checks only, no coefficient file |
 | `report` | file | none | a copy of everything del_vor prints |

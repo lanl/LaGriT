@@ -12,8 +12,17 @@
 ! facet; it is >= 0 exactly when the facet is locally Delaunay. It is
 ! judged relative to L, the facet's mean edge length (2D: the edge):
 !
-!   delta/L < -tol    violation (fatal for Voronoi control volumes)
-!   |delta/L| <= tol  tie (co-circular, co-spherical): accepted
+!   |delta/L| <= tol             tie (co-circular, co-spherical):
+!                                accepted
+!   -fatal <= delta/L < -tol     slightly not Delaunay (nearly
+!                                co-spherical, as LaGriT's connect
+!                                leaves a few): a warning; the
+!                                coefficients there are off by about
+!                                |delta/L| of a typical coefficient
+!   delta/L < -fatal             not Delaunay: fatal for Voronoi
+!                                control volumes
+! (tol = delaunay_tol, fatal = delaunay_fatal; both kinds are counted
+! as violations and written to the violations file)
 !
 ! Facets between two materials (jtet > mbndry) are tested the same
 ! way and counted as interface facets. In 2D only triangles of one
@@ -67,8 +76,10 @@ module del_vor_delaunay
 
    type :: delaunay_t
       real(rk) :: tol = 0.0_rk
+      real(rk) :: fatal_tol = 0.0_rk
       integer(ik) :: nchecked(2) = 0   ! interior, interface facets
       integer(ik) :: nviol(2) = 0      ! violations beyond tol
+      integer(ik) :: nfatal(2) = 0     ! of them, beyond fatal_tol
       integer(ik) :: nties = 0         ! |delta/L| <= tol
       real(rk) :: worst = huge(1.0_rk) ! smallest delta/L
       integer(ik) :: worst_cell(2) = 0
@@ -88,13 +99,13 @@ contains
 
    subroutine check_delaunay(nnodes, nelements, nen, xic, yic, zic, &
                              itetoff, itet, itetclr, jtetoff, jtet, &
-                             mbndry, tol, d)
+                             mbndry, tol, fatal_tol, d)
       integer(ik), intent(in) :: nnodes, nelements, nen
       real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
       integer(ik), intent(in) :: itetoff(nelements), itet(*)
       integer(ik), intent(in) :: itetclr(nelements)
       integer(ik), intent(in) :: jtetoff(nelements), jtet(*), mbndry
-      real(rk), intent(in) :: tol
+      real(rk), intent(in) :: tol, fatal_tol
       type(delaunay_t), intent(out) :: d
 
       real(rk) :: ref(3), c1(3), c2(3), n(3), w(3), p(3, 3)
@@ -104,6 +115,7 @@ contains
       logical :: ok1, ok2, iface
 
       d%tol = tol
+      d%fatal_tol = max(fatal_tol, tol)
       nf = int(nen) - 1
       call rec_init(d%rec)
 
@@ -175,6 +187,8 @@ contains
             end if
             if (dl < -tol) then
                d%nviol(cls) = d%nviol(cls) + 1
+               if (dl < -d%fatal_tol) &
+                  d%nfatal(cls) = d%nfatal(cls) + 1
                call cell_ratio(it, r1, ok1)
                call cell_ratio(jt, r2, ok2)
                call rec_add(d%rec, fv, [it, jt], &

@@ -41,7 +41,9 @@ missing_mesh   | 1 | -avs nothere.inp -stor a.stor | The mesh file does not exis
 # --- the mesh checks (phase 2)
 check_only     | 0 | -avs mesh_3D.inp -check_only on | check_only on: the mesh checks and the Delaunay check run and are reported; no coefficient file is written, not even the default voronoi.stor.
 report         | 0 | -avs mesh_3D.inp -stor a.stor -report a.report | report: a copy of everything del_vor prints, in a file. Checked: a.report holds the screen output line for line, including "Delaunay check passed".
-tol_zero_ties  | 1 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -violations ties.vtu | Why delaunay_tol is not 0: mesh_3D has 201 co-spherical ties, and with no tolerance the 27 whose round-off came out negative count as violations. The run stops and writes only ties.vtu. Checked: every facet in it has abs(delta/L) below 1e-15, round-off, not a real violation.
+tol_zero_ties  | 0 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -violations ties.vtu | Why delaunay_tol is not 0: mesh_3D has 201 co-spherical ties, and with no tolerance the 27 whose round-off came out negative count as not Delaunay. They are far within delaunay_fatal (1e-3), so the run gives a WARNING and goes on: a.stor and ties.vtu. Checked: every facet in ties.vtu has abs(delta/L) below 1e-15, round-off, not a real violation.
+tol_zero_strict | 1 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -delaunay_fatal 0 -violations ties.vtu | delaunay_tol 0 and delaunay_fatal 0: every facet below 0 is fatal, even round-off. The run stops after writing ties.vtu; no a.stor.
+bad_fatal      | 1 | -avs mesh_3D.inp -delaunay_fatal -1 | A negative delaunay_fatal is refused.
 bad_tol        | 1 | -avs mesh_3D.inp -delaunay_tol -1 | A negative delaunay_tol is refused.
 text_tol       | 1 | -avs mesh_3D.inp -delaunay_tol tiny | delaunay_tol must be a number; tiny is refused.
 bad_check_only | 1 | -avs mesh_3D.inp -check_only maybe | check_only takes only on or off.

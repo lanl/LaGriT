@@ -4,9 +4,10 @@ test_delaunay: judges each case of cases.txt against exact arithmetic
 (../exact_check.py), draws a picture of each, writes summary.html in
 this suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
-For each case, with tol = the case's delaunay_tol (default 1e-10):
+For each case, with tol = the case's delaunay_tol (default 1e-10) and
+fatal = its delaunay_fatal (default 1e-3, raised to tol if below):
 
-  exit      1 if some facet has delta/L < -tol (exactly computed),
+  exit      1 if some facet has delta/L < -fatal (exactly computed),
             else 0
   counts    del_vor's report against the exact numbers: interior
             (and interface) facets checked, ties |delta/L| <= tol,
@@ -49,6 +50,7 @@ LABELS = [('interior faces checked', 'interior'),
           ('interface edges checked', 'interface'),
           ('ties (|delta/L| <= tol)', 'ties'),
           ('violations', 'violations'),
+          ('beyond delaunay_fatal', 'fatal'),
           ('boundary faces checked', 'boundary'),
           ('boundary edges checked', 'boundary'),
           ('boundary circumcenter outside', 'boundary_out')]
@@ -82,6 +84,11 @@ def read_vtu(path):
         key = tuple(sorted(vert[nv * k:nv * (k + 1)]))
         out[key] = (int(arr['kind'][k]), arr['delta_over_L'][k])
     return out
+
+
+def fatal_of(extra, tol):
+    m = re.search(r'-delaunay_fatal\s+(\S+)', extra)
+    return max(float(m.group(1)) if m else 1e-3, tol)
 
 
 def tol_of(extra):
@@ -188,16 +195,28 @@ def main():
         tol = tol_of(extra)
         mm = read_avs(os.path.join(d, m))
         r = analyze(mm)
+        fatal = fatal_of(extra, tol)
         want = counts(r, tol)
         want_flags = flagged(r, tol, mm.nen)
-        put('exit', '%d (expected %d)' % (rc, 1 if want['violations']
-                                          else 0),
-            rc == (1 if want['violations'] else 0))
+        signs = dict(r.interior)
+        signs.update(r.interface)
+        want['fatal'] = sum(1 for k, sg in signs.items()
+                            if sg < 0 and r.dl[k] < -fatal)
+        put('exit', '%d (expected %d)' % (rc, 1 if want['fatal'] else 0),
+            rc == (1 if want['fatal'] else 0))
+        out = ' '.join(open(os.path.join(d, 'run.out')).read().split()) \
+            if os.path.exists(os.path.join(d, 'run.out')) else ''
+        warn = want['violations'] > 0 and not want['fatal']
+        put('warning', ('a WARNING, the run goes on' if warn else
+                        'no warning') + (' (found)' if ('slightly not '
+                                                         'Delaunay' in out)
+                                         == warn else ' (NOT as expected)'),
+            ('slightly not Delaunay' in out) == warn)
         got, worst = read_report(os.path.join(d, name + '.report'))
         if got is None:
             put('report', 'missing', False)
         else:
-            keys = ['interior', 'interface', 'ties', 'violations',
+            keys = ['interior', 'interface', 'ties', 'violations', 'fatal',
                     'boundary', 'boundary_out']
             bad = [k for k in keys if got.get(k) != want[k]]
             put('counts', ', '.join('%s %s' % (k, got.get(k))

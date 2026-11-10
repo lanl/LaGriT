@@ -13,12 +13,13 @@ the machine.
 
 del_vor:  del_vor -avs M.inp -stor M.stor -delaunay_tol 1 -timing on
           (the per-step wall and CPU times and the peak memory are
-          del_vor's own timing block). delaunay_tol 1 because LaGriT's
-          connect leaves a few facets that are not Delaunay on these
-          meshes (delta/L down to -3.6e-4 at a million tets, confirmed
-          in exact arithmetic), which the default 1e-10 rejects. The
-          check still runs in full and is timed; it only does not
-          stop the run. The number of such facets is reported.
+          del_vor's own timing block). delaunay_tol 1 so the run never
+          stops: LaGriT's connect leaves a few facets that are not
+          Delaunay (delta/L down to -3.6e-4 at a million tets,
+          confirmed in exact arithmetic); with the defaults they are a
+          warning, but a bigger mesh might go beyond delaunay_fatal
+          (1e-3). The check still runs in full and is timed; the
+          number of such facets is reported (not_delaunay).
 LaGriT:   two runs: read / avs only, and read / avs + dump / stor;
           dump / stor's time is the difference of the two wall
           times. Peak memory of each from getrusage of the child.
@@ -457,8 +458,9 @@ def write_page(logs, results, checks_all, figs, nfail, lagrit):
          'and dump / stor on the same meshes. Each time is the best of '
          '%d runs. del_vor runs with -delaunay_tol 1: LaGriT\'s connect '
          'leaves a few facets that are not Delaunay (delta/L down to '
-         '-3.6e-4 at a million tets; not_delaunay counts them), which '
-         'the default 1e-10 rejects; the check still runs and is timed. '
+         '-3.6e-4 at a million tets; not_delaunay counts them): with the '
+         'defaults a warning, but a bigger mesh might go beyond '
+         'delaunay_fatal; the check still runs and is timed. '
          'All numbers: '
          '<a href="%s/timing.csv">timing.csv</a>.</p>'
          % (esc(lagrit) if lagrit else 'not given', REPEAT, rel),
