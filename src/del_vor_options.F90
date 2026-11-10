@@ -30,6 +30,9 @@
 ! check_only on | off           off       on: check the mesh and stop;
 !                                         no coefficient files
 ! report     file                         a copy of the screen summary
+! timing     on | off           off       development only: the time
+!                                         of each step and peak memory
+!                                         (del_vor_timing)
 !
 ! (*) with no output keyword: stor voronoi.stor.
 !
@@ -60,11 +63,12 @@ module del_vor_options
       character(len=lpath) :: violations = 'violations.vtu'
       logical :: check_only = .false.
       character(len=lpath) :: report = ' '
+      logical :: timing = .false.
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
       'avs stor uge tough2 zero_area zero_tol compress cv '// &
-      'delaunay_tol violations check_only report type o'
+      'delaunay_tol violations check_only report timing type o'
 
 contains
 
@@ -103,7 +107,7 @@ contains
             cycle
          case ('avs', 'stor', 'uge', 'tough2', 'zero_area', &
                'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
-               'violations', 'check_only', 'report')
+               'violations', 'check_only', 'report', 'timing')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -160,6 +164,16 @@ contains
             case default
                call bad('check_only '//trim(val)// &
                         ': must be on or off')
+               return
+            end select
+         case ('timing')
+            select case (trim(lowercase(val)))
+            case ('on')
+               opt%timing = .true.
+            case ('off')
+               opt%timing = .false.
+            case default
+               call bad('timing '//trim(val)//': must be on or off')
                return
             end select
          case ('cv')

@@ -48,3 +48,6 @@ bad_check_only | 1 | -avs mesh_3D.inp -check_only maybe | check_only takes only 
 report_twice   | 1 | -avs mesh_3D.inp -stor a.stor -report a.stor | The report and the .stor given the same name would overwrite each other; refused.
 vtu_twice      | 1 | -avs mesh_3D.inp -uge a.uge -violations a.uge | The violations file and the .uge given the same name; refused.
 over_mesh      | 1 | -avs mesh_3D.inp -stor mesh_3D.inp | An output named like the mesh would overwrite the mesh; refused, and the mesh is unchanged.
+# --- timing (phase 3, development only)
+timing_on      | 0 | -avs mesh_3D.inp -stor a.stor -timing on | timing on (development only): the report ends with the wall and CPU time of each step and the peak memory. Checked: the lines are there, and a.stor is the same as without timing.
+bad_timing     | 1 | -avs mesh_3D.inp -timing maybe | timing takes only on or off.

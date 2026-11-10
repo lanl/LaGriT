@@ -1,0 +1,80 @@
+test_timing -- del_vor's time and memory against size, and against LaGriT (Nov 2026)
+=======================================================================
+
+For development: not run by the default run_all.sh (it needs LaGriT
+and big meshes, and takes minutes). Run it alone or with
+ONLY=timing sh run_all.sh.
+
+QUICK START
+
+  LAGRIT=/path/to/lagrit sh run_timing_tests.sh [path-to-del_vor]
+  open summary.html
+
+  The first run makes the meshes with LaGriT (make_timing_meshes.sh)
+  in DEL_VOR_BIG/timing (default ~/lagrit_work/del_vor_dev/big_inputs,
+  outside git); later runs reuse them. Without LAGRIT, only del_vor is
+  timed, on meshes already there. With the default sizes: about 3
+  minutes on Claude's sandbox.
+
+  Bigger sizes (Carl's machine), for example up to 30 million tets:
+
+  SIZES_TET="100000 300000 1000000 3000000 10000000 30000000" \
+  SIZES_TRI="100000 1000000 10000000" \
+  LAGRIT=/path/to/lagrit sh run_timing_tests.sh
+
+  then send logs/timing.csv back. Each mesh is made once (a 10
+  million tet .inp is about 0.7 GB); each measurement is the best of
+  REPEAT runs (default 3; REPEAT=1 for the biggest sizes saves time).
+
+WHAT IS TESTED
+
+  tet_N, tri_N   jittered grids of about N tets (triangles), made by
+                 LaGriT: createpts, perturb of the interior vertices
+                 by a fifth of the spacing, connect, dump / avs
+  dfn_*          any fracture network put in DEL_VOR_BIG/timing as
+                 dfn_NAME.inp (dfnWorks full_mesh.inp files)
+
+  del_vor -avs mesh.inp -stor mesh.stor -delaunay_tol 1 -timing on
+    timing on prints the wall and CPU time of each step and the peak
+    memory (development only; off by default). delaunay_tol 1 because
+    LaGriT's connect leaves a few facets that are not Delaunay on
+    these meshes (see below); the check still runs and is timed.
+  LaGriT, twice: read / avs alone, and read / avs + dump / stor;
+    dump / stor's time is the difference.
+
+WHAT IS CHECKED (timing.py)
+
+  slope_total     the slope of log(del_vor's total time) against
+                  log(cells), over the sizes taking at least 0.05 s:
+                  1 is linear. PASS when <= 1.2 (MEASURED when the
+                  sizes are too few or too small to tell)
+  slope STEP      the same for every step that takes 5 % or more of
+                  the total. MEASURED
+  not_delaunay    facets with delta/L < -1e-10 (LaGriT's connect
+                  leaves a few). MEASURED
+  memory          peak memory per cell. MEASURED
+  vs_lagrit       del_vor against LaGriT at the largest size. MEASURED
+
+MEASURED ON CLAUDE'S SANDBOX (Nov 10, 2026; 2 cores)
+
+  1,019,162 tets: del_vor 4.9 s, 266 MB; LaGriT read + dump / stor
+  13.0 s (dump / stor alone 10.6 s; del_vor's steps that do that
+  work, 2.2 s), 467 MB. Slopes: del_vor 1.02 to 1.07 for every step;
+  LaGriT's dump / stor 1.18.
+  996,872 triangles: del_vor 3.7 s, 304 MB; LaGriT 8.2 s, 912 MB.
+  LaGriT's connect left 15 facets with delta/L < -1e-10 in the
+  million-tet mesh (smallest -3.6e-4, confirmed in exact arithmetic
+  by ../exact_check.py).
+
+PICTURES (logs/)
+
+  steps_FAMILY.svg    del_vor's time per step against cells (log-log),
+                      with the fitted slopes and a slope-1 line
+  lagrit_FAMILY.svg   del_vor against LaGriT
+  mesh_FAMILY.svg     the smallest mesh of the family
+
+FILES
+
+  run_timing_tests.sh     runner (work/, logs/)
+  make_timing_meshes.sh   the meshes (needs LaGriT)
+  timing.py               the runs, timing.csv, the checks, the page

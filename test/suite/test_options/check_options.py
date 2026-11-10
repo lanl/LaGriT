@@ -50,6 +50,7 @@ EXPECT = {
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
     'check_only': [], 'report': ['a.report', 'a.stor'],
+    'timing_on': ['a.stor'],
     # exit 1 by design, with the violations file
     'tol_zero_ties': ['ties.vtu'],
 }
@@ -64,6 +65,7 @@ REFUSED = {
     'text_tol': 'delaunay_tol tiny', 'bad_check_only': 'check_only maybe',
     'report_twice': 'a.stor given twice',
     'vtu_twice': 'a.uge given twice', 'over_mesh': 'is the mesh',
+    'bad_timing': 'timing maybe',
 }
 
 TOL = 1e-14
@@ -266,6 +268,19 @@ def main():
     put('over_mesh', 'mesh_unchanged', 'same as before' if same else
         'CHANGED', 'PASS' if same else 'FAIL')
 
+    out = open(os.path.join(ran['timing_on'], 'run.out')).read()
+    need = ['timing  read', 'timing  assembly', 'timing  write stor',
+            'timing  total', 'timing  peak memory']
+    miss = [k for k in need if k not in out]
+    a = open(os.path.join(ran['timing_on'], 'a.stor')).read().split('\n')
+    c = open(os.path.join(ran['default_out'], 'voronoi.stor')).read() \
+        .split('\n')
+    put('timing_on', 'timing lines', 'missing: ' + ', '.join(miss)
+        if miss else 'read, assembly, write stor, total, peak memory',
+        'FAIL' if miss else 'PASS')
+    put('timing_on', 'same_stor', 'same as without timing (date aside)'
+        if a[:1] + a[2:] == c[:1] + c[2:] else 'differs',
+        'PASS' if a[:1] + a[2:] == c[:1] + c[2:] else 'FAIL')
     write_page(work, logs)
     print('failures %d' % nfail)
     return 1 if nfail else 0

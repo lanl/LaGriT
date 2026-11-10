@@ -11,9 +11,10 @@ From this folder, after building del_vor in `build/` at the top of the
 checkout:
 
 ```
-sh run_all.sh                 # every suite, a few seconds
+sh run_all.sh                 # every suite but test_timing, a few seconds
 JOBS=4 sh run_all.sh          # the same, 4 suites at a time
 ONLY=gold sh run_all.sh       # the suites tagged gold (or a name)
+ONLY=timing sh run_all.sh     # test_timing (development; see its 00README)
 sh run_all.sh /path/to/del_vor
 ```
 
@@ -33,11 +34,13 @@ Requires: a POSIX shell and Python 3 (standard library only).
 |---|---|---|
 | `test_kernels` | the triangle and tet kernels against independent formulas (2000 random cells): cotangent formula in 2D, a right-triangle formula and perpendicular pieces in 3D, vertex shares that add up to the cell for any dual points, the same tet at UTM-like coordinates, closed dual cells on three meshes | 1 s |
 | `test_voronoi_gold` | the three lanl/voronoi test meshes written as `.stor` (every edge kept, compressed or not; the defaults), `.uge` and TOUGH2 `MESH`, against LaGriT's and voronoi's gold files, the `.stor` layout, the volume balance, the zero-area connections left out, and the formats against each other | 1 s |
-| `test_options` | the keyword options (outputs, `zero_area`, `zero_tol`, `compress`, `cv`, `delaunay_tol`, `violations`, `check_only`, `report`, lanl/voronoi's `-type -o -compress`) and refused commands, 35 runs | 1 s |
+| `test_options` | the keyword options (outputs, `zero_area`, `zero_tol`, `compress`, `cv`, `delaunay_tol`, `violations`, `check_only`, `report`, `timing`, lanl/voronoi's `-type -o -compress`) and refused commands, 37 runs | 1 s |
 | `test_poisson_lagrit` | five Poisson disk meshes from LaGriT's suites (`test_poisson_3d` cases 1 and 2, the three `test_poisson_2d` meshes) against the `.stor` files LaGriT wrote: coefficients, volumes, negative and zero-area connections, the exact volume | 2 s |
-| `test_validity` | the mesh checks made before any geometry: 11 meshes that each break one rule (cell types, positive size, conformity, orientation) must stop with the right message and write nothing; 4 legal but unusual meshes must run | 1 s |
+| `test_validity` | the mesh checks made before any geometry: 11 meshes that each break one rule (cell types, positive size, conformity, orientation) must stop with the right message and write nothing; 6 legal but unusual meshes must run (LaGriT's wrapped vertex data; CR LF, tabs and D exponents) | 1 s |
 | `test_delaunay` | the Delaunay check against exact rational arithmetic on 16 runs: ties, violations (flipped edges and faces), a near tie and `delaunay_tol`, boundary circumcenters outside, UTM coordinates, the violations file facet by facet | 3 s |
 | `test_dfn` | fracture networks: intersection edges, orientation fracture by fracture, every coefficient and area against the cotangent formula, a turned-over triangle caught; Carl's 4-fracture dfnWorks example (60 intersection edges) | 2 s |
+| `test_parity` | del_vor's `.stor` against LaGriT's `dump / stor` on 14 meshes (2D, 3D, DFN, two materials, UTM coordinates; 15 with dfnWorks TPL_nonuniform outside git); `tools/stor_compare.py` must explain every difference | 10 s |
+| `test_timing` | for development, not run by default (`ONLY=timing sh run_all.sh`): del_vor's time per step and peak memory on meshes of growing size made by LaGriT, the log-log slope (1 = linear), and LaGriT's `dump / stor` on the same meshes | minutes |
 
 ## Conventions
 
