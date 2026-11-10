@@ -53,6 +53,8 @@ WHAT IS CHECKED (timing.py)
   not_delaunay    facets with delta/L < -1e-10 (LaGriT's connect
                   leaves a few). MEASURED
   memory          peak memory per cell. MEASURED
+  memory_units    del_vor's own peak memory within 25 % of the one
+                  measured from outside, at every size
   vs_lagrit       del_vor against LaGriT at the largest size. MEASURED
 
 MEASURED ON CLAUDE'S SANDBOX (Nov 10, 2026; 2 cores)

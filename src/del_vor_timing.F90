@@ -9,7 +9,8 @@
 !
 ! Wall time from system_clock (64-bit counts), CPU time from cpu_time
 ! (the whole process). Peak memory: getrusage's ru_maxrss, the
-! largest resident set so far (kilobytes on Linux, bytes on macOS).
+! largest resident set so far (kilobytes on Linux, bytes on macOS:
+! CMakeLists.txt defines DEL_VOR_MAXRSS_BYTES on Apple).
 ! The report lines start with "timing" and keep one layout, so
 ! test_timing can read them:
 !   timing  STEP                 wall   0.123456 s  cpu   0.123000 s
@@ -118,7 +119,7 @@ contains
       end if
       ! struct rusage: two struct timeval (16 bytes each), then
       ! ru_maxrss
-#ifdef __APPLE__
+#if defined(DEL_VOR_MAXRSS_BYTES) || defined(__APPLE__)
       peak_mb = real(ru(5), real64)/1.0e6_real64
 #else
       peak_mb = real(ru(5), real64)*1024.0_real64/1.0e6_real64

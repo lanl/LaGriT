@@ -33,6 +33,9 @@ Checks (per mesh family, sizes in increasing order):
                 the total at the largest size. MEASURED.
   memory        del_vor's peak memory per cell at the largest size.
                 MEASURED.
+  memory_units  del_vor's own peak memory (timing on) within 25 % of
+                the one measured from outside (getrusage of the child)
+                at every size. PASS / FAIL.
   vs_lagrit     del_vor total, and the steps that stand for dump /
                 stor (edge CSR + assembly + summary + write stor),
                 against LaGriT's dump / stor and read + dump / stor, at
@@ -152,11 +155,12 @@ def measure(dv, lagrit, meshdir, work, logs, name):
             return {'name': name, 'error': 'del_vor exit %d (%s)'
                     % (rc, out)}
         if best is None or st['total'][0] < best[0]['total'][0]:
-            best = (st, pmb, dt, out)
-    st, pmb, dt, out = best
+            best = (st, pmb, dt, out, mb)
+    st, pmb, dt, out, mb_os = best
     res = {'name': name, 'vertices': nv, 'cells': nc,
            'edges': edges_of(out), 'steps': st, 'peak_mb': pmb,
-           'wall_outside': dt, 'not_delaunay': not_delaunay(out)}
+           'wall_outside': dt, 'not_delaunay': not_delaunay(out),
+           'peak_mb_os': mb_os}
     with open(os.path.join(logs, name + '_del_vor.out'), 'w') as f:
         f.write(open(out).read())
     if lagrit:
@@ -363,6 +367,16 @@ def main():
             put('memory', '%.0f MB peak at %d cells: %.0f bytes per cell'
                 % (big['peak_mb'], big['cells'],
                    big['peak_mb'] * 1e6 / big['cells']), 'MEASURED')
+        # del_vor's own peak memory against the one measured from
+        # outside (getrusage of the child): the units of ru_maxrss
+        # differ between systems, so a mistake shows here
+        off = [(r['name'], r['peak_mb'], r['peak_mb_os']) for r in rows
+               if r['peak_mb'] and r['peak_mb_os'] and
+               not 0.8 <= r['peak_mb'] / r['peak_mb_os'] <= 1.25]
+        put('memory_units', 'del_vor\'s peak memory agrees with the one '
+            'measured from outside (within 25 %) at every size' if not off
+            else '; '.join('%s: del_vor %.1f MB, from outside %.1f MB'
+                           % o for o in off), 'FAIL' if off else 'PASS')
         if 'lagrit_read_stor' in big and 'lagrit_read' in big:
             lr, lmb = big['lagrit_read']
             ls, smb = big['lagrit_read_stor']
