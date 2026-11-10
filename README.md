@@ -16,15 +16,20 @@ choice, is in the design document (see `notes` in the project folder).
 
 ## Status
 
-Phase 2 of 6. Phase 1: the lanl/voronoi kernels and writers ported
+Phase 3 of 6. Phase 1: the lanl/voronoi kernels and writers ported
 to one edge-based sparse structure, without PETSc or MPI, with
 keyword options for the outputs, zero-area connections and
 compression. Phase 2: the mesh is checked before any geometry (cell
 types, positive size, conformity, orientation) and tested for the
 Delaunay property; facets that fail are written for ParaView.
 Fracture networks (triangles of several itetclr crossing along shared
-edges) are handled. Voronoi control volumes only; median and hybrid
-control volumes come in later phases.
+edges) are handled. Phase 3: `tools/stor_compare.py` compares any two
+`.stor` files and explains every difference; del_vor agrees with
+LaGriT's `dump / stor` on 14 meshes and dfnWorks networks; a faster
+reader; timing of every step (linear in the mesh size; 2.6 times
+faster than LaGriT's read + `dump / stor` at a million tets). Voronoi
+control volumes only; median and hybrid control volumes come in later
+phases.
 
 The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
 The LaGriT command page (for the LaGriT version):
@@ -69,6 +74,7 @@ be written in one run; the geometry is computed once.
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the checks only, no coefficient file |
 | `report` | file | none | a copy of everything del_vor prints |
+| `timing` | `on`, `off` | `off` | development only: the time of each step and peak memory |
 
 The zero-area filter changes only which connections are written; the
 control volumes are never changed. lanl/voronoi's options `-type
@@ -107,6 +113,8 @@ then open `test/suite/summary.html`. See `test/suite/README.md`.
 | `src/del_vor_options.F90` | the keyword options, shared by every front end |
 | `src/del_vor_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
 | `src/del_vor_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
+| `src/del_vor_scan.F90` | fast text scanner for the reader: blocks of the file, numbers parsed in place (`strtod`) |
+| `src/del_vor_timing.F90` | wall and CPU time per step and peak memory (`timing on`, development only) |
 | `src/del_vor_topology.F90` | the edge CSR: one row per vertex, upper triangle; vertex-to-cell incidence |
 | `src/del_vor_jtet.F90` | face neighbors in LaGriT's `jtet` encoding; conformity and orientation counts |
 | `src/del_vor_validity.F90` | the mesh checks: cell types, positive size, conformity, orientation, unused vertices |
@@ -121,6 +129,7 @@ then open `test/suite/summary.html`. See `test/suite/README.md`.
 | `src/del_vor_report.F90` | the Delaunay report and the run summary |
 | `src/del_vor.F90` | the standalone program |
 | `test/del_vor_selftest.F90` | kernel checks used by `test/suite/test_kernels` |
+| `tools/stor_compare.py` | compares two `.stor` files and labels every difference with what explains it |
 
 ## Origin and license
 

@@ -1,7 +1,7 @@
 # del_vor manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `del_vor`, as of phase 2 of 6. The LaGriT command
+standalone program `del_vor`, as of phase 3 of 6. The LaGriT command
 (`dump / control_volume`) is described in
 [`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -21,6 +21,8 @@ Contents
 12. [Options](#12-options)
 13. [Messages and exit status](#13-messages-and-exit-status)
 14. [Tests](#14-tests)
+15. [Comparing .stor files, and parity with LaGriT](#15-comparing-stor-files-and-parity-with-lagrit)
+16. [Speed and memory](#16-speed-and-memory)
 
 ## 1. What del_vor does
 
@@ -126,7 +128,12 @@ itp1, integer
 - Vertex data named `imt1` (or `imt`), `itp1` (or `itp`) and `isn1`
   (or `isn`) are read; other vertex and cell data are skipped. `imt1`
   gives the TOUGH2 material of each vertex.
-- Coordinates are read as doubles. LaGriT's `dump / avs` writes 13
+- Fields are separated by blanks or tabs; lines may end in LF or
+  CR LF (Windows); blank lines are skipped; reals may have a Fortran
+  `D` exponent (`1.0D+00`); a vertex's data may run onto more lines
+  (LaGriT wraps them when a mesh has many vertex attributes).
+- Coordinates are read as doubles, correctly rounded (the same
+  doubles a Fortran read gives). LaGriT's `dump / avs` writes 13
   significant digits; that rounding shows in ties (see
   [section 6](#6-the-delaunay-check)) and in the last digits of the
   coefficients.
@@ -226,7 +233,15 @@ The default, 1e-10, is set by what was measured on the test meshes
   (triangles).
 
 1e-10 lies between, with margin for coordinates rounded to 13 digits
-by `dump / avs`. A larger value accepts meshes that are only close
+by `dump / avs`.
+
+Meshes from LaGriT's `connect` are not always Delaunay to this
+tolerance. On jittered grids (test_timing), `connect` left 15 facets
+with delta/L < -1e-10 in a mesh of a million tets, the smallest
+-3.6e-4 (confirmed in exact arithmetic), and none in the smaller
+meshes. Such a mesh stops del_vor with the default; the violations
+file shows where, and a larger `delaunay_tol` accepts it (its
+coefficients there are then slightly wrong). A larger value accepts meshes that are only close
 to Delaunay: with delaunay_tol 1e-5, a facet whose vertex is 1e-6 off
 the common circle is accepted as a tie. The Voronoi coefficients of
 such a facet are slightly negative; do this knowingly.
@@ -488,6 +503,7 @@ del_vor summary
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
 | `report` | file | none | a copy of the screen output |
+| `timing` | `on`, `off` | `off` | development only: the wall and CPU time of each step and the peak memory, at the end of the report |
 
 lanl/voronoi's `-type fehm|pflotran|tough2` with `-o FILE` (default
 names `voronoi.stor`, `pflotran.uge`, `MESH_VORONOI`) and `-compress`
@@ -527,4 +543,69 @@ against answers worked out independently (formulas, exact
 arithmetic, LaGriT's and lanl/voronoi's files), draws a picture of
 every case, and has a page with a "What it does" note for each case.
 `test/suite/README.md` lists the suites; each suite's `00README`
-says what it checks and how.
+says what it checks and how. `test_timing`, for development, is not
+run by default (`ONLY=timing sh run_all.sh`; it needs LaGriT and
+makes big meshes).
+
+## 15. Comparing .stor files, and parity with LaGriT
+
+`tools/stor_compare.py` compares two `.stor` files of one mesh, pair
+by pair and vertex by vertex, and labels every difference with what
+explains it. It is how del_vor is compared with LaGriT
+(`test_parity`), and it works on any two `.stor` files.
+
+```
+python3 -I tools/stor_compare.py A.stor B.stor --mesh MESH.inp
+```
+
+It prints the pairs in one file only, the largest differences with
+the pairs and vertices where they are, the volume totals, a layout
+check of each file, and `every difference explained` (exit 0) or
+`UNEXPLAINED differences: N` (exit 1). Options: `--mesh` (needed for
+some labels), `--eps` (LaGriT's `compress_eps`, default 1e-8),
+`--zero_tol`, `--coord_digits`, `--json FILE`, `--worst N`.
+
+| label | explains |
+|---|---|
+| `digits` | the same number printed with 13 significant digits |
+| `round_off` | small values made by cancellation, within 64 u (1.4e-14) of the largest |
+| `coord_digits` | coordinates rounded in the mesh file (with `--coord_digits`) |
+| `merge` | LaGriT's compression stored one value for all within 1e-8 of the largest (anothermatbld3d) |
+| `abs_coords` | LaGriT's 3D writer computes tet volumes from absolute coordinates |
+| `nstor_magnitude` | LaGriT's old 3D writer stores \|A\|/d: negative coefficients come out with the wrong sign |
+| `zero_area` | a zero-area pair left out by one of the codes |
+| `dropped`, `dropped_share` | a pair below 1e-8 of the largest that LaGriT left out, and its share of its vertices' volumes |
+
+`test_parity` compares del_vor with LaGriT's `dump / stor` on 14
+meshes (lanl/voronoi's, LaGriT's Poisson meshes and level01 meshes, a
+two-material mesh, a mesh at UTM-size coordinates, two fracture
+networks) and, outside git, dfnWorks TPL_nonuniform (114,739
+triangles). Every difference is explained; most pairs agree to all 13
+printed digits. Found in LaGriT along the way:
+
+- In 3D, `dump / stor ... / none` uses LaGriT's old writer
+  (`matbld3d_stor`), which stores \|A\|/d: every negative coefficient
+  comes out positive (all 75 of LaGriT's test_poisson_3d case 1).
+  The default `dump / stor` keeps the sign.
+- At UTM-size coordinates, LaGriT's 3D volumes are wrong (a box of
+  volume 0.032 gets -100.5); del_vor gets 0.0319999999944.
+
+## 16. Speed and memory
+
+Every step takes time in proportion to the mesh size: test_timing
+fits log time against log size, and the slopes of del_vor's total
+came out 1.02 to 1.10 over several runs, of single steps 0.92 to 1.19
+(the 2D fits use only two sizes, so they are noisier). Measured on
+Claude's sandbox (2 cores), with `-timing on`:
+
+| mesh | del_vor | peak | LaGriT read + `dump / stor` | peak |
+|---|---|---|---|---|
+| 1,019,162 tets | 4.9 s | 266 MB | 13.0 s | 467 MB |
+| 996,872 triangles | 3.7 s | 304 MB | 8.2 s | 912 MB |
+| TPL_nonuniform, 114,739 triangles | 0.43 s | 40 MB | 0.80 s | not measured |
+
+The steps that do the work of `dump / stor` (edge CSR, assembly,
+writing the `.stor`) take 2.2 s at a million tets, against 10.6 s for
+`dump / stor`; LaGriT's `dump / stor` grows faster than linear (slope
+1.18). The largest steps of del_vor are `jtet` (35 %) and writing the
+`.stor` (32 %).
