@@ -244,12 +244,12 @@ by `dump / avs`.
 ### delaunay_fatal
 
 A mesh is not rejected for a little jitter or round-off. Facets with
-delta/L between -delaunay_fatal (default 1e-3) and -delaunay_tol are
+delta/L between -delaunay_fatal (default 1e-2) and -delaunay_tol are
 slightly not Delaunay: their vertices are nearly co-circular or
 co-spherical. del_vor says so and goes on:
 
 ```
-  WARNING: 15 faces slightly not Delaunay (delta/L >= -1.0E-03):
+  WARNING: 15 faces slightly not Delaunay (delta/L >= -1.0E-02):
     nearly co-circular / co-spherical; the coefficients there are
     accurate to about |delta/L| of a typical coefficient (violations file)
   Delaunay check passed (with the warning above)
@@ -268,12 +268,16 @@ Where it comes from: LaGriT's `connect` does not always make an
 exactly Delaunay mesh. On jittered grids (test_timing) it left 9
 facets with delta/L down to -1.5e-5 in a mesh of 960,000 tets and 15
 down to -3.6e-4 in one of a million tets (both confirmed in exact
-arithmetic). In that million-tet mesh, no coefficient came out
-negative (the smallest A/d was +9.5e-14, a near-zero face); the 45 edges of the 15 facets all kept positive coefficients.
+arithmetic), and on Carl's Mac down to -3.7e-4 at 3 million tets and
+-2.3e-3 at 10.4 million; none in 10 million triangles. In the
+million-tet mesh no coefficient came out negative (the smallest A/d
+was +9.5e-14, a near-zero face); the 45 edges of the 15 facets all
+kept positive coefficients.
 
-The default 1e-3 leaves a factor of about 3 above the worst seen from
-`connect`. A real fault is far beyond it: a flipped edge or face gives
-delta/L of order -0.1 to -1. `delaunay_fatal` equal to
+The default 1e-2 is about 4 times beyond the worst seen from
+`connect`, and a real fault is far beyond it: the flipped edges and
+faces of the test meshes give delta/L from -0.14 to -21. At
+delta/L = -1e-2 a coefficient is off by about 1 % of a typical one. `delaunay_fatal` equal to
 `delaunay_tol` makes every facet beyond the tolerance fatal (the
 behavior before phase 3); a `delaunay_fatal` below `delaunay_tol` is
 raised to it.
@@ -314,7 +318,7 @@ a real violation; the ratio in the violations file tells them apart.
 ### The report block
 
 ```
-del_vor Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-03)
+del_vor Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)
   interior faces checked                 685
   ties (|delta/L| <= tol)                201
   violations                               0
@@ -533,7 +537,7 @@ del_vor summary
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
 | `cv` | `voronoi` | `voronoi` | control volumes (median and hybrid later) |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
-| `delaunay_fatal` | number >= 0 | `1e-3` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
+| `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
 | `report` | file | none | a copy of the screen output |
@@ -626,20 +630,25 @@ printed digits. Found in LaGriT along the way:
 
 ## 16. Speed and memory
 
-Every step takes time in proportion to the mesh size: test_timing
-fits log time against log size, and the slopes of del_vor's total
-came out 1.02 to 1.10 over several runs, of single steps 0.92 to 1.19
-(the 2D fits use only two sizes, so they are noisier). Measured on
-Claude's sandbox (2 cores), with `-timing on`:
+Every step takes time in proportion to the mesh size. test_timing
+fits log time against log size; on Carl's Mac (Intel, 6 cores; Nov
+10, 2026), from 9,126 to 10.4 million tets and from 9,800 to 10
+million triangles, the slope of del_vor's total is 1.02 (tets) and
+1.01 (triangles), and of every step 0.995 to 1.042. LaGriT's
+`dump / stor` alone grows a little faster (slopes 1.08 and 1.06).
 
 | mesh | del_vor | peak | LaGriT read + `dump / stor` | peak |
 |---|---|---|---|---|
-| 1,019,162 tets | 4.9 s | 266 MB | 13.0 s | 467 MB |
-| 996,872 triangles | 3.7 s | 304 MB | 8.2 s | 912 MB |
-| TPL_nonuniform, 114,739 triangles | 0.43 s | 40 MB | 0.80 s | not measured |
+| 1,019,162 tets | 7.2 s | 275 MB | 14.8 s | 424 MB |
+| 3,003,241 tets | 20.3 s | 805 MB | 45.3 s | 1,190 MB |
+| 10,404,079 tets | 74.8 s | 2,317 MB | 175.7 s | 3,459 MB |
+| 996,872 triangles | 5.4 s | 338 MB | 11.6 s | 996 MB |
+| 9,990,450 triangles | 60.4 s | 2,981 MB | 143.2 s | 6,433 MB |
 
-The steps that do the work of `dump / stor` (edge CSR, assembly,
-writing the `.stor`) take 2.2 s at a million tets, against 10.6 s for
-`dump / stor`; LaGriT's `dump / stor` grows faster than linear (slope
-1.18). The largest steps of del_vor are `jtet` (35 %) and writing the
-`.stor` (32 %).
+del_vor is 2.4 times faster at 10 million cells and needs 1.5 (tets)
+to 2.2 (triangles) times less memory: about 220 bytes per tet and 300
+per triangle. The steps that do the work of `dump / stor` (edge CSR,
+assembly, writing the `.stor`) take 37.7 s at 10.4 million tets,
+against 140.2 s for `dump / stor`. del_vor's largest steps at 10
+million cells: writing the `.stor` (37 % for tets, 64 % for
+triangles) and `jtet` (32 % for tets).

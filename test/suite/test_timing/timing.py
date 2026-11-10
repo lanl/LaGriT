@@ -18,7 +18,7 @@ del_vor:  del_vor -avs M.inp -stor M.stor -delaunay_tol 1 -timing on
           Delaunay (delta/L down to -3.6e-4 at a million tets,
           confirmed in exact arithmetic); with the defaults they are a
           warning, but a bigger mesh might go beyond delaunay_fatal
-          (1e-3). The check still runs in full and is timed; the
+          (1e-2). The check still runs in full and is timed; the
           number of such facets is reported (not_delaunay).
 LaGriT:   two runs: read / avs only, and read / avs + dump / stor;
           dump / stor's time is the difference of the two wall

@@ -17,7 +17,7 @@ WHAT IS TESTED
     compress on|off           default on
     cv voronoi
     delaunay_tol X            default 1e-10
-    delaunay_fatal X          default 1e-3
+    delaunay_fatal X          default 1e-2
     violations FILE           default violations.vtu
     check_only on|off         default off
     report FILE               default none

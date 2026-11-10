@@ -25,7 +25,7 @@
 ! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
 !                                         when delta/L < -delaunay_tol
 !                                         (del_vor_delaunay)
-! delaunay_fatal number >= 0    1e-3      slightly not Delaunay
+! delaunay_fatal number >= 0    1e-2      slightly not Delaunay
 !                                         (-delaunay_fatal <= delta/L
 !                                         < -delaunay_tol) is a
 !                                         warning; beyond it, fatal
@@ -66,7 +66,7 @@ module del_vor_options
       logical :: compress = .true.
       character(len=16) :: cv = 'voronoi'
       real(rk) :: delaunay_tol = 1.0e-10_rk
-      real(rk) :: delaunay_fatal = 1.0e-3_rk
+      real(rk) :: delaunay_fatal = 1.0e-2_rk
       character(len=lpath) :: violations = 'violations.vtu'
       logical :: check_only = .false.
       character(len=lpath) :: report = ' '

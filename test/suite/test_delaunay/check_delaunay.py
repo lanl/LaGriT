@@ -5,7 +5,7 @@ test_delaunay: judges each case of cases.txt against exact arithmetic
 this suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
 For each case, with tol = the case's delaunay_tol (default 1e-10) and
-fatal = its delaunay_fatal (default 1e-3, raised to tol if below):
+fatal = its delaunay_fatal (default 1e-2, raised to tol if below):
 
   exit      1 if some facet has delta/L < -fatal (exactly computed),
             else 0
@@ -88,7 +88,7 @@ def read_vtu(path):
 
 def fatal_of(extra, tol):
     m = re.search(r'-delaunay_fatal\s+(\S+)', extra)
-    return max(float(m.group(1)) if m else 1e-3, tol)
+    return max(float(m.group(1)) if m else 1e-2, tol)
 
 
 def tol_of(extra):

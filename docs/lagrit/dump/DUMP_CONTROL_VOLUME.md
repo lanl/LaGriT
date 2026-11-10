@@ -115,8 +115,8 @@ not Delaunay (nearly co-circular or co-spherical, as LaGriT's
 **`connect`** leaves a few); a warning, and the command goes on: the
 coefficients there are accurate to about \|delta/L\| of a typical
 coefficient. Below -value: not Delaunay, and the command stops.
-Default 1e-3 (the worst seen from **`connect`** is about -3.6e-4; a
-flipped edge or face gives -0.1 to -1). Set it equal to
+Default 1e-2 (the worst seen from **`connect`** is -2.3e-3, in a
+10-million-tet mesh; a flipped edge or face gives -0.1 or below). Set it equal to
 **`delaunay_tol`** to make every facet beyond the tolerance fatal.
 
 For a boundary facet, a cell whose circumcenter lies outside the mesh

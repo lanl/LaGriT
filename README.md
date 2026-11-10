@@ -26,10 +26,12 @@ Fracture networks (triangles of several itetclr crossing along shared
 edges) are handled. Phase 3: `tools/stor_compare.py` compares any two
 `.stor` files and explains every difference; del_vor agrees with
 LaGriT's `dump / stor` on 14 meshes and dfnWorks networks; a faster
-reader; timing of every step (linear in the mesh size; 2.6 times
-faster than LaGriT's read + `dump / stor` at a million tets). Voronoi
-control volumes only; median and hybrid control volumes come in later
-phases.
+reader; timing of every step (linear in the mesh size up to 10
+million cells; 2.4 times faster than LaGriT's read + `dump / stor`
+there, with 1.5 to 2.2 times less memory); slightly non-Delaunay
+facets (nearly co-spherical, as LaGriT's `connect` leaves a few) give
+a warning, not an error (`delaunay_fatal`). Voronoi control volumes
+only; median and hybrid control volumes come in later phases.
 
 The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
 The LaGriT command page (for the LaGriT version):
@@ -71,7 +73,7 @@ be written in one run; the geometry is computed once.
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
 | `cv` | `voronoi` | `voronoi` | control volumes; median and hybrid come later |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below, a facet is not Delaunay (see the manual) |
-| `delaunay_fatal` | number >= 0 | `1e-3` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
+| `delaunay_fatal` | number >= 0 | `1e-2` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the checks only, no coefficient file |
 | `report` | file | none | a copy of everything del_vor prints |

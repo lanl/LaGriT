@@ -22,7 +22,7 @@ WHAT IS TESTED
   kuhn        a 4 x 3 x 3 grid of cubes, 6 tets each: 216 ties
   near_tie    one vertex 1e-6 off the common circle: delta/L = -5e-7,
               a WARNING with the defaults (slightly not Delaunay,
-              within delaunay_fatal 1e-3), fatal with delaunay_fatal
+              within delaunay_fatal 1e-2), fatal with delaunay_fatal
               1e-10 (near_tie_strict), a tie with delaunay_tol 1e-5
   utm         poi3d_01 moved to UTM-size coordinates
 

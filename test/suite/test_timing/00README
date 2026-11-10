@@ -39,7 +39,7 @@ WHAT IS TESTED
     memory (development only; off by default). delaunay_tol 1 so the
     run never stops: LaGriT's connect leaves a few facets that are not
     Delaunay (see below); with the defaults they are a warning, but a
-    bigger mesh might go beyond delaunay_fatal (1e-3). The check still
+    bigger mesh might go beyond delaunay_fatal (1e-2). The check still
     runs and is timed.
   LaGriT, twice: read / avs alone, and read / avs + dump / stor;
     dump / stor's time is the difference.
@@ -59,16 +59,17 @@ WHAT IS CHECKED (timing.py)
                   measured from outside, at every size
   vs_lagrit       del_vor against LaGriT at the largest size. MEASURED
 
-MEASURED ON CLAUDE'S SANDBOX (Nov 10, 2026; 2 cores)
+MEASURED ON CARL'S MAC (Nov 10, 2026; Intel, 6 cores)
 
-  1,019,162 tets: del_vor 4.9 s, 266 MB; LaGriT read + dump / stor
-  13.0 s (dump / stor alone 10.6 s; del_vor's steps that do that
-  work, 2.2 s), 467 MB. Slopes: del_vor 1.02 to 1.07 for every step;
-  LaGriT's dump / stor 1.18.
-  996,872 triangles: del_vor 3.7 s, 304 MB; LaGriT 8.2 s, 912 MB.
-  LaGriT's connect left 15 facets with delta/L < -1e-10 in the
-  million-tet mesh (smallest -3.6e-4, confirmed in exact arithmetic
-  by ../exact_check.py).
+  10,404,079 tets: del_vor 74.8 s, 2.3 GB; LaGriT read + dump / stor
+  175.7 s, 3.5 GB (dump / stor alone 140.2 s; del_vor's steps that
+  do that work, 37.7 s). 9,990,450 triangles: del_vor 60.4 s, 3.0 GB;
+  LaGriT 143.2 s, 6.4 GB. Slopes from 1e4 to 1e7 cells: del_vor 1.02
+  (tets), 1.01 (triangles), every step 0.995 to 1.042; LaGriT's dump
+  / stor 1.08 and 1.06.
+  LaGriT's connect: smallest delta/L -3.6e-4 at 1 million tets,
+  -3.7e-4 at 3 million, -2.3e-3 at 10.4 million (confirmed in exact
+  arithmetic at 1 million); within delaunay_fatal's default 1e-2.
 
 PICTURES (logs/)
 

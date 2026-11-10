@@ -250,7 +250,7 @@ contains
       call log_line('  -delaunay_tol X   a facet is not Delaunay '// &
                     'when delta/L < -X (default 1e-10)')
       call log_line('  -delaunay_fatal X down to delta/L = -X: a '// &
-                    'warning; beyond: an error (1e-3)')
+                    'warning; beyond: an error (1e-2)')
       call log_line('  -violations FILE  flagged facets for '// &
                     'ParaView (default violations.vtu)')
       call log_line('  -check_only on    check the mesh only; no '// &
