@@ -6,3 +6,4 @@ test/suite/summary.html
 test/suite/run_all.log
 test/suite/.run_all_*
 __pycache__/
+test/suite/test_parity/work_gold/
