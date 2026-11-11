@@ -37,7 +37,7 @@ module del_vor_geometry
    public :: cross, circumcenter_tri, circumcenter_tet
    public :: kernel_tri, kernel_tet, tet_det, tri_area
    public :: bary_tri, bary_tet
-   public :: iedge_tri, iedge_tet
+   public :: iedge_tri, iedge_tet, icd_tet
 
    ! LaGriT local edge tables (ielmedge1 in blockcom.h)
    integer, parameter :: iedge_tri(2, 3) = &

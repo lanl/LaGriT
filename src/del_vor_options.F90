@@ -37,6 +37,20 @@
 !                                         may give a cell
 ! hybrid_iter integer >= 1      100       limit on stage B passes
 !            (hybrid_tol, alpha_min, hybrid_iter: cv hybrid only)
+! paraview   root                         ParaView files: ROOT.pvd,
+!                                         ROOT_mesh.vtu, ROOT_cells.vtu,
+!                                         ROOT_negative.vtu (if any),
+!                                         ROOT_faces.vtu (if asked)
+! paraview_faces on | off       off       write ROOT_faces.vtu (tets)
+! paraview_subset all | boundary | flagged | material N |
+!            box x1 y1 z1 x2 y2 z2   all  the vertices that get a cell
+!                                         (flagged: a negative
+!                                         coefficient, or a cell with
+!                                         alpha < 1)
+! vtu_format binary | ascii     binary    appended raw data or text
+! vtu_layout new | legacy       new       VTK's polyhedron layout:
+!                                         new (ParaView 6), legacy
+!                                         (ParaView 5, older readers)
 ! alpha_file file                         ParaView file of the mesh
 !                                         with alpha and stage per
 !                                         cell (del_vor_write_vtu)
@@ -88,6 +102,13 @@ module del_vor_options
       real(rk) :: alpha_min = 0.0_rk
       integer :: hybrid_iter = 100
       character(len=lpath) :: alpha_file = ' '
+      character(len=lpath) :: paraview = ' '
+      logical :: paraview_faces = .false.
+      character(len=16) :: subset = 'all'
+      integer :: subset_mat = 0
+      real(rk) :: subset_box(6) = 0.0_rk
+      logical :: vtu_binary = .true.
+      logical :: vtu_legacy = .false.
       real(rk) :: delaunay_tol = 1.0e-10_rk
       real(rk) :: delaunay_fatal = 1.0e-2_rk
       character(len=lpath) :: violations = 'violations.vtu'
@@ -100,6 +121,8 @@ module del_vor_options
       'avs stor uge tough2 zero_area zero_tol compress cv '// &
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
+      'paraview paraview_faces paraview_subset vtu_format '// &
+      'vtu_layout '// &
       'type o'
 
 contains
@@ -125,6 +148,52 @@ contains
       do while (i <= n)
          key = lowercase(adjustl(tokens(i)))
          select case (trim(key))
+         case ('paraview_subset')
+            ! one to seven tokens: all, boundary, flagged,
+            ! material N, box x1 y1 z1 x2 y2 z2
+            if (i == n) then
+               call bad('keyword paraview_subset needs a value')
+               return
+            end if
+            val = lowercase(adjustl(tokens(i + 1)))
+            select case (trim(val))
+            case ('all', 'boundary', 'flagged')
+               opt%subset = trim(val)
+               i = i + 2
+            case ('material')
+               read (tokens(min(i + 2, n)), *, iostat=ios) j
+               if (i + 2 > n .or. ios /= 0) then
+                  call bad('paraview_subset material needs a '// &
+                           'material number')
+                  return
+               end if
+               opt%subset = 'material'
+               opt%subset_mat = j
+               i = i + 3
+            case ('box')
+               if (i + 7 > n) then
+                  call bad('paraview_subset box needs 6 numbers: '// &
+                           'x1 y1 z1 x2 y2 z2')
+                  return
+               end if
+               do j = 1, 6
+                  read (tokens(i + 1 + j), *, iostat=ios) &
+                     opt%subset_box(j)
+                  if (ios /= 0) then
+                     call bad('paraview_subset box: '// &
+                              trim(tokens(i + 1 + j))// &
+                              ' is not a number')
+                     return
+                  end if
+               end do
+               opt%subset = 'box'
+               i = i + 8
+            case default
+               call bad('paraview_subset '//trim(val)//': must be '// &
+                        'all, boundary, flagged, material N or box')
+               return
+            end select
+            cycle
          case ('compress')
             ! value optional, for lanl/voronoi's bare -compress
             opt%compress = .true.
@@ -143,7 +212,8 @@ contains
                'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
                'violations', 'check_only', 'report', 'timing', &
                'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
-               'hybrid_iter', 'alpha_file')
+               'hybrid_iter', 'alpha_file', 'paraview', &
+               'paraview_faces', 'vtu_format', 'vtu_layout')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -267,6 +337,41 @@ contains
             opt%hybrid_iter = j
          case ('alpha_file')
             opt%alpha_file = val
+         case ('paraview')
+            opt%paraview = val
+         case ('paraview_faces')
+            select case (trim(lowercase(val)))
+            case ('on')
+               opt%paraview_faces = .true.
+            case ('off')
+               opt%paraview_faces = .false.
+            case default
+               call bad('paraview_faces '//trim(val)// &
+                        ': must be on or off')
+               return
+            end select
+         case ('vtu_format')
+            select case (trim(lowercase(val)))
+            case ('binary')
+               opt%vtu_binary = .true.
+            case ('ascii')
+               opt%vtu_binary = .false.
+            case default
+               call bad('vtu_format '//trim(val)// &
+                        ': must be binary or ascii')
+               return
+            end select
+         case ('vtu_layout')
+            select case (trim(lowercase(val)))
+            case ('new')
+               opt%vtu_legacy = .false.
+            case ('legacy')
+               opt%vtu_legacy = .true.
+            case default
+               call bad('vtu_layout '//trim(val)// &
+                        ': must be new or legacy')
+               return
+            end select
          case ('type')
             select case (lowercase(val(1:4)))
             case ('fehm')
@@ -367,7 +472,7 @@ contains
 !     differs from the others and from the mesh.
       type(options_t), intent(in) :: opt
       integer, intent(out) :: ierr
-      character(len=lpath) :: f(maxout+3)
+      character(len=lpath) :: f(maxout+8)
       integer :: n, k, j
       ierr = 0
       n = opt%nout
@@ -381,6 +486,14 @@ contains
       if (len_trim(opt%alpha_file) > 0) then
          n = n + 1
          f(n) = opt%alpha_file
+      end if
+      if (len_trim(opt%paraview) > 0) then
+         f(n + 1) = trim(opt%paraview)//'.pvd'
+         f(n + 2) = trim(opt%paraview)//'_mesh.vtu'
+         f(n + 3) = trim(opt%paraview)//'_cells.vtu'
+         f(n + 4) = trim(opt%paraview)//'_negative.vtu'
+         f(n + 5) = trim(opt%paraview)//'_faces.vtu'
+         n = n + 5
       end if
       do k = 1, n
          if (trim(f(k)) == trim(opt%mesh)) then
