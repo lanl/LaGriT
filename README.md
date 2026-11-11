@@ -16,7 +16,7 @@ choice, is in the design document (see `notes` in the project folder).
 
 ## Status
 
-Phase 3 of 6. Phase 1: the lanl/voronoi kernels and writers ported
+Phase 4 of 6. Phase 1: the lanl/voronoi kernels and writers ported
 to one edge-based sparse structure, without PETSc or MPI, with
 keyword options for the outputs, zero-area connections and
 compression. Phase 2: the mesh is checked before any geometry (cell
@@ -30,8 +30,14 @@ reader; timing of every step (linear in the mesh size up to 10
 million cells; 2.4 times faster than LaGriT's read + `dump / stor`
 there, with 1.5 to 2.2 times less memory); slightly non-Delaunay
 facets (nearly co-spherical, as LaGriT's `connect` leaves a few) give
-a warning, not an error (`delaunay_fatal`). Voronoi control volumes
-only; median and hybrid control volumes come in later phases.
+a warning, not an error (`delaunay_fatal`).
+
+Phase 4: control-volume policies (`cv`): median (centroids; the mesh
+need not be Delaunay), blend (one alpha everywhere) and the adaptive
+hybrid, which moves dual points toward the centroid only where a
+coefficient would be negative (stage A, a closed-form clamp at the
+boundary; stage B, cell-by-cell correction), with an alpha file for
+ParaView.
 
 The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
 The LaGriT command page (for the LaGriT version):
@@ -55,7 +61,9 @@ This builds `build/del_vor` and the kernel self test
 ```
 del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
-        [-cv voronoi] [-delaunay_tol X] [-violations FILE]
+        [-cv voronoi|median|blend|hybrid] [-alpha X]
+        [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
+        [-alpha_file FILE] [-delaunay_tol X] [-violations FILE]
         [-check_only on|off] [-report FILE]
 ```
 
@@ -71,7 +79,12 @@ be written in one run; the geometry is computed once.
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: connections whose Voronoi face has zero area are left out of every file. `keep`: the coefficient matrix has one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | a connection has zero area when \|A\| <= zero_tol d² (tets) or zero_tol d (triangles), d the edge length |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
-| `cv` | `voronoi` | `voronoi` | control volumes; median and hybrid come later |
+| `cv` | `voronoi`, `median`, `blend`, `hybrid` | `voronoi` | where each cell's dual point goes: circumcenter; centroid; one alpha everywhere; per cell, toward the centroid only as far as needed for no negative coefficient |
+| `alpha` | 0 to 1 | | `cv blend` only (required): 1 = Voronoi, 0 = median |
+| `hybrid_tol` | number >= 0 | `0` | `cv hybrid` only: how negative a coefficient may stay, relative to the sum of its pieces |
+| `alpha_min` | 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
+| `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most correction passes |
+| `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below, a facet is not Delaunay (see the manual) |
 | `delaunay_fatal` | number >= 0 | `1e-2` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
@@ -131,7 +144,8 @@ downloaded from the run's Summary page (Artifacts).
 | `src/del_vor_delaunay.F90` | the Delaunay check: δ/L per interior facet, boundary circumcenters, slivers |
 | `src/del_vor_write_vtu.F90` | the violations file (VTK XML, ASCII) |
 | `src/del_vor_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
-| `src/del_vor_policy.F90` | where each cell's dual points go (Voronoi for now) |
+| `src/del_vor_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
+| `src/del_vor_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
 | `src/del_vor_assemble.F90` | cell-by-cell accumulation into the CSR |
 | `src/del_vor_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
 | `src/del_vor_write_uge.F90` | PFLOTRAN `.uge` |

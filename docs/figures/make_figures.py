@@ -1,7 +1,8 @@
 """make_figures.py: the figures of the del_vor manual, as hand-written
 SVG computed from the coordinates shown. Python 3 standard library.
 
-  python3 -I make_figures.py      writes delaunay_check.svg here
+  python3 -I make_figures.py      writes delaunay_check.svg and
+                                  policies.svg here
 
 delaunay_check.svg, three panels:
   1. two triangles sharing edge ab, Delaunay: the circumcenters c1, c2
@@ -10,6 +11,14 @@ delaunay_check.svg, three panels:
      c1, delta < 0, a violation
   3. a boundary triangle with an obtuse angle opposite its boundary
      edge: its circumcenter lies outside, s > 0 (reported, not fatal)
+
+policies.svg, three panels: one boundary triangle, obtuse opposite its
+boundary edge, with its cell point P and the dual segments from the
+edge midpoints to P, under cv voronoi (P = C, outside: the boundary
+edge's piece is negative), median (P = G, the centroid) and hybrid
+(stage A: P on the boundary edge, the piece is 0). The value under
+each panel is the boundary edge's piece / its length (signed: toward
+the triangle positive).
 """
 
 import math
@@ -177,5 +186,75 @@ def main():
         f.write('\n'.join(out) + '\n')
 
 
+def policies():
+    out = []
+    W, H = 900, 360
+    out.append('<svg xmlns="http://www.w3.org/2000/svg" width="%d" '
+               'height="%d" viewBox="0 0 %d %d" font-family="Helvetica, '
+               'Arial, sans-serif">' % (W, H, W, H))
+    out.append('<rect width="%d" height="%d" fill="#fff"/>' % (W, H))
+    blue, orange, red, green = '#2b6cb0', '#b7791f', '#c0392b', '#1a7f37'
+
+    def text(x, y, t, size=13, col='#111', bold=False, anchor='start'):
+        out.append('<text x="%.1f" y="%.1f" font-size="%s" fill="%s"%s '
+                   'text-anchor="%s">%s</text>' % (
+                       x, y, size, col, ' font-weight="bold"' if bold
+                       else '', anchor, esc(t)))
+
+    u, v, w = (-1.0, 0.0), (1.0, 0.0), (0.0, 0.45)
+    c = circumcenter(u, v, w)
+    g = ((u[0] + v[0] + w[0]) / 3, (u[1] + v[1] + w[1]) / 3)
+    # stage A: the blend G + a (C - G) that lands on the edge y = 0
+    a = g[1] / (g[1] - c[1])
+    hyb = (g[0] + a * (c[0] - g[0]), g[1] + a * (c[1] - g[1]))
+    mids = [((u[0] + v[0]) / 2, (u[1] + v[1]) / 2),
+            ((v[0] + w[0]) / 2, (v[1] + w[1]) / 2),
+            ((w[0] + u[0]) / 2, (w[1] + u[1]) / 2)]
+    panels = (('cv voronoi: P = C', c, 'C', red),
+              ('cv median: P = G', g, 'G', green),
+              ('cv hybrid (stage A): P on the edge', hyb, 'P', orange))
+    for k, (title, pt, nm, col) in enumerate(panels):
+        pr = Panel(30 + 290 * k, 60, 115, -1.15, 0.75)
+        y0 = pr((0.0, 0.0))[1]
+        out.append('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f" '
+                   'fill="#888" fill-opacity="0.08"/>' % (
+                       pr((-1.15, 0.7))[0], pr((-1.15, 0.7))[1],
+                       2.3 * 115, 0.7 * 115))
+        out.append('<polygon points="%s" fill="%s" fill-opacity="0.15" '
+                   'stroke="#444" stroke-width="1.5"/>' % (
+                       ' '.join('%.1f,%.1f' % pr(q) for q in (u, v, w)),
+                       blue))
+        x1, _ = pr(u)
+        x2, _ = pr(v)
+        out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" '
+                   'stroke="#111" stroke-width="2.5"/>' % (x1, y0, x2, y0))
+        for m in mids:
+            (ax, ay), (bx, by) = pr(m), pr(pt)
+            out.append('<line x1="%.1f" y1="%.1f" x2="%.1f" y2="%.1f" '
+                       'stroke="%s" stroke-width="2.5"/>'
+                       % (ax, ay, bx, by, col))
+            out.append('<circle cx="%.1f" cy="%.1f" r="3" fill="#111"/>'
+                       % (ax, ay))
+        x, y = pr(pt)
+        out.append('<circle cx="%.1f" cy="%.1f" r="5" fill="%s"/>'
+                   % (x, y, col))
+        text(x + 8, y + 16, nm, col=col, bold=True)
+        text(pr.ox, 40, title, size=14, bold=True)
+        text(pr((-1.1, 0.68))[0], pr((-1.1, 0.68))[1] + 14, 'mesh',
+             size=12, col='#555')
+        text(pr((-1.1, -0.05))[0], y0 + 20, 'outside', size=12,
+             col='#555')
+        piece = pt[1] / 2.0
+        text(pr.ox, 320, 'boundary edge: piece / length = %+.3f'
+             % piece, size=13, col=col)
+    text(30, 345, 'Dots: the edge midpoints. Colored: the dual segments '
+         'from each midpoint to the cell point (the triangle\'s share '
+         'of each control-volume boundary).', size=11, col='#555')
+    out.append('</svg>')
+    with open(os.path.join(HERE, 'policies.svg'), 'w') as f:
+        f.write('\n'.join(out) + '\n')
+
+
 if __name__ == '__main__':
     main()
+    policies()
