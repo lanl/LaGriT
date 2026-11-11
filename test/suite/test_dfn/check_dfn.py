@@ -12,11 +12,17 @@ dfn3 (and full_mesh, when it is there):
                 A(ij)/d(ij) = sum over the triangles holding ij of
                 cot(angle opposite ij) / 2, summed over ALL fractures,
                 so an intersection edge gets both fractures' share;
-                max difference / max |A/d| <= 1e-12
+                max difference / max |A/d| <= 2e-14 (the .stor's 17
+                digits, and compression merging values within 1e-14 of
+                the largest; 13 digits would give about 3e-13)
   areas         every control area in the .stor equals
                 sum over its triangles of (|e_ij|^2 cot(k) +
                 |e_ik|^2 cot(j)) / 8 (the Voronoi share of vertex i),
-                and they add up to the fractures' area; 1e-12
+                and they add up to the fractures' area; 2e-14
+  digits        every real in the .stor (and the .uge, when written)
+                has 17 significant digits (enough to give back every
+                double exactly); the .uge volumes equal the .stor
+                volumes exactly
   orientation   no orientation error
 dfn3_flip:
   exit 1, the orientation error, the turned-over triangle named,
@@ -27,6 +33,7 @@ inputs/full_mesh.inp, sent Nov 8): additionally the sizes in MESHES
 
 import math
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +45,9 @@ from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector  # noqa: E402
 from check_voronoi_gold import read_stor, stor_pairs  # noqa: E402
 
-TOL = 1e-12
+TOL = 2e-14
+DIGITS = 17
+REAL = re.compile(r'^[-+]?(\d)\.(\d+)[EeDd]?[-+]\d+$')
 # Carl's meshes: vertices, triangles, fractures, intersection,
 # interior and boundary edges
 MESHES = {'full_mesh': (771, 1386, 4, 60, 1942, 274)}
@@ -49,6 +58,41 @@ LABELS = [('interior edges checked', 'interior'),
           ('fracture intersection edges', 'intersect')]
 COLORS = {1: '#2b6cb0', 2: '#1a7f37', 3: '#b7791f', 4: '#805ad5'}
 
+
+
+def real_digits(tok):
+    """Significant digits of a real written as d.ddd...E+xx, else 0."""
+    mt = REAL.match(tok)
+    return 1 + len(mt.group(2)) if mt else 0
+
+
+def digit_check(put, stor, uge, vol):
+    """17 significant digits in the .stor's and .uge's reals."""
+    with open(stor) as f:
+        lines = f.read().split('\n')
+    toks = [t for ln in lines[3:] for t in ln.split() if '.' in t]
+    bad = [t for t in toks if real_digits(t) != DIGITS]
+    msg = '.stor: %d reals, %d without %d digits' % (len(toks), len(bad),
+                                                     DIGITS)
+    ok = toks and not bad
+    if os.path.exists(uge):
+        uvol, nreal, ubad = [], 0, 0
+        with open(uge) as f:
+            for ln in f:
+                w = ln.split()
+                if not w or w[0] in ('CELLS', 'CONNECTIONS'):
+                    continue
+                for t in w:
+                    if '.' in t:
+                        nreal += 1
+                        ubad += real_digits(t) != DIGITS
+                if len(w) == 5:
+                    uvol.append(float(w[4]))
+        same = uvol == list(vol)
+        msg += '; .uge: %d reals, %d without; volumes %s the .stor\'s' % (
+            nreal, ubad, 'equal to' if same else 'DIFFERENT from')
+        ok = ok and nreal and not ubad and same
+    put('digits', msg, bool(ok))
 
 def read_report(path):
     got = {}
@@ -222,6 +266,8 @@ def main():
                     'fractures %.15g' % (da / amax, sum(st['vol']), total),
                     da <= TOL * amax and
                     abs(sum(st['vol']) - total) <= TOL * total)
+                digit_check(put, f, os.path.join(d, name + '.uge'),
+                            st['vol'])
             else:
                 put('stor', 'missing', False)
         pic = name + '.svg'

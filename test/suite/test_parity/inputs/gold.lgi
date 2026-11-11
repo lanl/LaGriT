@@ -1,0 +1,61 @@
+read / avs / mesh_2D.inp / mo_mesh_2D
+dump / stor / mesh_2D_lg / mo_mesh_2D
+dump / stor / mesh_2D_lg_none / mo_mesh_2D / ascii / none
+cmo / release / mo_mesh_2D
+read / avs / simple_3D.inp / mo_simple_3D
+dump / stor / simple_3D_lg / mo_simple_3D
+dump / stor / simple_3D_lg_none / mo_simple_3D / ascii / none
+cmo / release / mo_simple_3D
+read / avs / mesh_3D.inp / mo_mesh_3D
+dump / stor / mesh_3D_lg / mo_mesh_3D
+dump / stor / mesh_3D_lg_none / mo_mesh_3D / ascii / none
+cmo / release / mo_mesh_3D
+read / avs / poi3d_01.inp / mo_poi3d_01
+dump / stor / poi3d_01_lg / mo_poi3d_01
+dump / stor / poi3d_01_lg_none / mo_poi3d_01 / ascii / none
+cmo / release / mo_poi3d_01
+read / avs / poi3d_02.inp / mo_poi3d_02
+dump / stor / poi3d_02_lg / mo_poi3d_02
+dump / stor / poi3d_02_lg_none / mo_poi3d_02 / ascii / none
+cmo / release / mo_poi3d_02
+read / avs / poi2d_01.inp / mo_poi2d_01
+dump / stor / poi2d_01_lg / mo_poi2d_01
+dump / stor / poi2d_01_lg_none / mo_poi2d_01 / ascii / none
+cmo / release / mo_poi2d_01
+read / avs / poi2d_02.inp / mo_poi2d_02
+dump / stor / poi2d_02_lg / mo_poi2d_02
+dump / stor / poi2d_02_lg_none / mo_poi2d_02 / ascii / none
+cmo / release / mo_poi2d_02
+read / avs / poi2d_03.inp / mo_poi2d_03
+dump / stor / poi2d_03_lg / mo_poi2d_03
+dump / stor / poi2d_03_lg_none / mo_poi2d_03 / ascii / none
+cmo / release / mo_poi2d_03
+read / avs / sample_tet.inp / mo_sample_tet
+dump / stor / sample_tet_lg / mo_sample_tet
+dump / stor / sample_tet_lg_none / mo_sample_tet / ascii / none
+cmo / release / mo_sample_tet
+read / avs / unit_tet.inp / mo_unit_tet
+dump / stor / unit_tet_lg / mo_unit_tet
+dump / stor / unit_tet_lg_none / mo_unit_tet / ascii / none
+cmo / release / mo_unit_tet
+read / avs / two_mat.inp / mo_two_mat
+dump / stor / two_mat_lg / mo_two_mat
+dump / stor / two_mat_lg_none / mo_two_mat / ascii / none
+cmo / release / mo_two_mat
+read / avs / utm_tet.inp / mo_utm_tet
+dump / stor / utm_tet_lg / mo_utm_tet
+dump / stor / utm_tet_lg_none / mo_utm_tet / ascii / none
+cmo / release / mo_utm_tet
+read / avs / tri_dfn.inp / mo_tri_dfn
+dump / stor / tri_dfn_lg / mo_tri_dfn
+dump / stor / tri_dfn_lg_none / mo_tri_dfn / ascii / none
+cmo / release / mo_tri_dfn
+read / avs / full_mesh.inp / mo_full_mesh
+dump / stor / full_mesh_lg / mo_full_mesh
+dump / stor / full_mesh_lg_none / mo_full_mesh / ascii / none
+cmo / release / mo_full_mesh
+read / avs / tpl.inp / mo_tpl
+dump / stor / tpl_lg / mo_tpl
+dump / stor / tpl_lg_none / mo_tpl / ascii / none
+cmo / release / mo_tpl
+finish

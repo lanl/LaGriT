@@ -329,8 +329,8 @@ def histogram(path, name, cd, cl, common, cmax, ctol, lab):
            'decade (left edge shown); first bar: identical values.',
            size=11)
     s.text(20, H - 16, 'The peak at 1e-13 is the 13 digits of the files: '
-           'the .inp coordinates and .stor values both keep 13 '
-           'significant digits.', size=11)
+           'the .inp coordinates and LaGriT\'s .stor values '
+           'keep 13 significant digits.', size=11)
     s.save(path)
 
 

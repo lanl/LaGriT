@@ -137,10 +137,10 @@ contains
 
       fname = 'faces'
       if (nen == 3) fname = 'edges'
-      fatal = sum(d%nviol) > 0
+      fatal = sum(d%nfatal) > 0
       call log_line(' ')
-      write (s, '(a,1pe8.1,a)') 'del_vor Delaunay check '// &
-         '(delaunay_tol', d%tol, ')'
+      write (s, '(a,1pe8.1,a,1pe8.1,a)') 'del_vor Delaunay check '// &
+         '(delaunay_tol', d%tol, ', delaunay_fatal', d%fatal_tol, ')'
       call log_line(s)
       write (s, '(a,t33,i12)') '  interior '//trim(fname)//' checked', &
          d%nchecked(1)
@@ -160,6 +160,9 @@ contains
             d%nviol(2)
          call log_line(s)
       end if
+      write (s, '(a,t33,i12)') '    beyond delaunay_fatal      ', &
+         sum(d%nfatal)
+      call log_line(s)
       if (d%worst_cell(1) > 0) then
          write (s, '(a,1pe12.4,a,i10,a,i10)') '  smallest delta/L', &
             d%worst, '  cells', d%worst_cell(1), ' and', &
@@ -198,9 +201,20 @@ contains
       call log_line(s)
       if (fatal) then
          call log_line('  Delaunay check FAILED: the mesh is not '// &
-                       'Delaunay within delaunay_tol;')
+                       'Delaunay beyond delaunay_fatal;')
          call log_line('  no Voronoi coefficients are written. See '// &
                        'the violations file.')
+      else if (sum(d%nviol) > 0) then
+         write (s, '(a,i0,a,a,1pe8.1,a)') '  WARNING: ', &
+            sum(d%nviol), ' '//trim(fname)//' slightly not ', &
+            'Delaunay (delta/L >= ', -d%fatal_tol, '):'
+         call log_line(s)
+         call log_line('    nearly co-circular / co-spherical; the '// &
+                       'coefficients there are')
+         call log_line('    accurate to about |delta/L| of a '// &
+                       'typical coefficient (violations file)')
+         call log_line('  Delaunay check passed (with the warning '// &
+                       'above)')
       else
          call log_line('  Delaunay check passed')
       end if

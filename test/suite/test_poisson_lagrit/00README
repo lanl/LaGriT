@@ -59,8 +59,8 @@ WHAT IS CHECKED (check_poisson_lagrit.py)
 WHAT WAS FOUND (Nov 8 2026)
 
   - Every histogram peaks at 1e-13. That is the 13 significant digits
-    of the files: the .inp coordinates and the .stor values both keep
-    13. A typical pair differs by about 8 in its 13th digit, and a
+    of the files: the .inp coordinates and LaGriT's .stor values keep
+    13 (del_vor's .stor keeps 17 since Nov 10). A typical pair differs by about 8 in its 13th digit, and a
     typical coefficient is 0.1 to 0.4 of the largest, so the
     difference relative to the largest is about 1e-13. Rounding the
     coordinates once more at the 13th digit moves del_vor's own

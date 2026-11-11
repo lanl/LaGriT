@@ -15,6 +15,10 @@
 #   JOBS=N       run N suites at a time (default 1)
 #   ONLY=a,b     only the suites with one of these tags (or names)
 #
+# Suites tagged dev (test_timing) run only when ONLY names them
+# (ONLY=timing): they are for development, slow, and need LaGriT and
+# big meshes.
+#
 # POSIX sh.
 
 # Default: the del_vor built in this checkout (build/del_vor), else
@@ -59,6 +63,8 @@ test_poisson_lagrit:run_poisson_lagrit_tests.sh:2:lagrit,stor,3d
 test_validity:run_validity_tests.sh:1:checks,errors,2d,3d
 test_delaunay:run_delaunay_tests.sh:3:checks,delaunay,2d,3d
 test_dfn:run_dfn_tests.sh:2:checks,dfn,stor,2d
+test_parity:run_parity_tests.sh:10:parity,lagrit,stor,2d,3d,dfn
+test_timing:run_timing_tests.sh:180:timing,dev
 "
 
 JOBS=${JOBS:-1}
@@ -76,6 +82,9 @@ for s in $SUITES; do
     dir=${s%%:*}; rest=${s#*:}; runner=${rest%%:*}; rest=${rest#*:}
     tags=${rest#*:}
     if [ -n "${ONLY:-}" ] && ! has_tag "$dir,$tags" "$ONLY"; then
+        continue
+    fi
+    if [ -z "${ONLY:-}" ] && has_tag "$tags" dev; then
         continue
     fi
     RUN="$RUN $dir:$runner"

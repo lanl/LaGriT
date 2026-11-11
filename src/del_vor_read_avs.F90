@@ -11,6 +11,10 @@
 ! (avs_cells.f): AVS vertex j is LaGriT vertex lperm_tet(j), so a tet
 ! LaGriT counts as positive has det(x2-x1, x3-x1, x4-x1) > 0.
 !
+! The text is read by del_vor_scan (blocks of the file, numbers parsed
+! in place, reals by strtod: the same doubles as a Fortran read, about
+! 10 times faster).
+!
 ! The checks of the mesh itself (jtet, conformity, orientation, size)
 ! are in del_vor_jtet and del_vor_validity.
 !-----------------------------------------------------------------------
@@ -18,11 +22,14 @@ module del_vor_read_avs
    use del_vor_kinds, only: ik, rk
    use del_vor_mesh, only: mesh_t, mesh_free, ifelmtri, ifelmtet
    use del_vor_log, only: errmsg
+   use del_vor_scan, only: scan_t, scan_open, scan_close, scan_int, &
+                           scan_real, scan_word, scan_line, &
+                           scan_skip_line
    implicit none
    private
    public :: read_avs
 
-   integer, parameter :: maxline = 8192
+   integer, parameter :: maxline = 1024
    integer, parameter :: lperm_tet(4) = [1, 2, 4, 3]
 
 contains
@@ -32,29 +39,33 @@ contains
       type(mesh_t), intent(inout) :: m
       integer, intent(out) :: ierr
 
+      type(scan_t), target :: sc
       character(len=maxline) :: line
       character(len=16) :: ctype
       character(len=64) :: aname
-      integer :: lu, ios, k, icomma
+      integer :: k, icomma, ios
       integer(ik) :: nn, nc, nnd, ncd, nmd, i, id, imat, nen
       integer(ik) :: v(4), nattr, ncomp_tot, jimt, jitp, jisn, j
       integer(ik), allocatable :: ncomp(:)
       real(rk), allocatable :: vals(:)
+      logical :: ok
 
       ierr = 0
       call mesh_free(m)
 
-      open (newunit=lu, file=fname, status='old', action='read', &
-            iostat=ios)
+      call scan_open(fname, sc, ios)
       if (ios /= 0) then
          ierr = 1
          errmsg = 'read_avs: cannot open '//trim(fname)
          return
       end if
 
-      call next_line(lu, line, ios)
-      if (ios == 0) read (line, *, iostat=ios) nn, nc, nnd, ncd, nmd
-      if (ios /= 0) then
+      call scan_int(sc, nn, ok)
+      if (ok) call scan_int(sc, nc, ok)
+      if (ok) call scan_int(sc, nnd, ok)
+      if (ok) call scan_int(sc, ncd, ok)
+      if (ok) call scan_int(sc, nmd, ok)
+      if (.not. ok) then
          call fail('bad header line')
          return
       end if
@@ -73,10 +84,11 @@ contains
 
       ! vertices
       do i = 1, nn
-         call next_line(lu, line, ios)
-         if (ios == 0) read (line, *, iostat=ios) id, m%xic(i), &
-            m%yic(i), m%zic(i)
-         if (ios /= 0) then
+         call scan_int(sc, id, ok)
+         if (ok) call scan_real(sc, m%xic(i), ok)
+         if (ok) call scan_real(sc, m%yic(i), ok)
+         if (ok) call scan_real(sc, m%zic(i), ok)
+         if (.not. ok) then
             call fail('bad vertex line')
             return
          end if
@@ -90,9 +102,10 @@ contains
       allocate (m%itettyp(nc), m%itetclr(nc), m%itetoff(nc))
       nen = 0
       do i = 1, nc
-         call next_line(lu, line, ios)
-         if (ios == 0) read (line, *, iostat=ios) id, imat, ctype
-         if (ios /= 0) then
+         call scan_int(sc, id, ok)
+         if (ok) call scan_int(sc, imat, ok)
+         if (ok) call scan_word(sc, ctype)
+         if (.not. ok .or. len_trim(ctype) == 0) then
             call fail('bad cell line')
             return
          end if
@@ -120,11 +133,13 @@ contains
             call fail('mixed cell types; all triangles or all tets')
             return
          end if
-         read (line, *, iostat=ios) id, imat, ctype, v(1:nen)
-         if (ios /= 0) then
-            call fail('bad cell line')
-            return
-         end if
+         do k = 1, int(nen)
+            call scan_int(sc, v(k), ok)
+            if (.not. ok) then
+               call fail('bad cell line')
+               return
+            end if
+         end do
          if (any(v(1:nen) < 1) .or. any(v(1:nen) > nn)) then
             call fail('cell refers to a vertex that does not exist')
             return
@@ -140,26 +155,28 @@ contains
 
       ! vertex attributes: keep imt1, itp1, isn1 if present
       if (nnd > 0) then
-         call next_line(lu, line, ios)
-         if (ios == 0) read (line, *, iostat=ios) nattr
-         if (ios /= 0 .or. nattr < 1) then
+         call scan_int(sc, nattr, ok)
+         if (.not. ok .or. nattr < 1) then
             call fail('bad vertex attribute header')
             return
          end if
          allocate (ncomp(nattr))
-         read (line, *, iostat=ios) nattr, ncomp
-         if (ios /= 0) then
-            call fail('bad vertex attribute header')
-            return
-         end if
+         do k = 1, int(nattr)
+            call scan_int(sc, ncomp(k), ok)
+            if (.not. ok) then
+               call fail('bad vertex attribute header')
+               return
+            end if
+         end do
+         call scan_skip_line(sc)
          ncomp_tot = sum(ncomp)
          jimt = 0
          jitp = 0
          jisn = 0
          j = 0
          do k = 1, int(nattr)
-            call next_line(lu, line, ios)
-            if (ios /= 0) then
+            call scan_line(sc, line, ok)
+            if (.not. ok) then
                call fail('missing vertex attribute name')
                return
             end if
@@ -179,10 +196,14 @@ contains
             j = j + ncomp(k)
          end do
          allocate (vals(ncomp_tot))
+         ! token by token: LaGriT wraps a vertex's values onto more
+         ! lines when there are many
          do i = 1, nn
-            call next_line(lu, line, ios)
-            if (ios == 0) read (line, *, iostat=ios) id, vals
-            if (ios /= 0) then
+            call scan_int(sc, id, ok)
+            do k = 1, int(ncomp_tot)
+               if (ok) call scan_real(sc, vals(k), ok)
+            end do
+            if (.not. ok) then
                call fail('bad vertex attribute line')
                return
             end if
@@ -192,7 +213,7 @@ contains
          end do
       end if
 
-      close (lu)
+      call scan_close(sc)
 
    contains
 
@@ -201,22 +222,10 @@ contains
          ierr = 1
          write (errmsg, '(a,a,a,a)') 'read_avs: ', trim(fname), &
             ': ', why
-         close (lu)
+         call scan_close(sc)
       end subroutine fail
 
    end subroutine read_avs
-
-   ! Next non-blank line; ios /= 0 at end of file.
-   subroutine next_line(lu, line, ios)
-      integer, intent(in) :: lu
-      character(len=*), intent(out) :: line
-      integer, intent(out) :: ios
-      do
-         read (lu, '(a)', iostat=ios) line
-         if (ios /= 0) return
-         if (len_trim(line) > 0) return
-      end do
-   end subroutine next_line
 
    function lower(s) result(t)
       character(len=*), intent(in) :: s

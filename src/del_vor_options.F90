@@ -25,11 +25,20 @@
 ! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
 !                                         when delta/L < -delaunay_tol
 !                                         (del_vor_delaunay)
+! delaunay_fatal number >= 0    1e-2      slightly not Delaunay
+!                                         (-delaunay_fatal <= delta/L
+!                                         < -delaunay_tol) is a
+!                                         warning; beyond it, fatal
+!                                         (raised to delaunay_tol if
+!                                         below it)
 ! violations file               violations.vtu  the flagged facets,
 !                                         written when there are any
 ! check_only on | off           off       on: check the mesh and stop;
 !                                         no coefficient files
 ! report     file                         a copy of the screen summary
+! timing     on | off           off       development only: the time
+!                                         of each step and peak memory
+!                                         (del_vor_timing)
 !
 ! (*) with no output keyword: stor voronoi.stor.
 !
@@ -57,14 +66,17 @@ module del_vor_options
       logical :: compress = .true.
       character(len=16) :: cv = 'voronoi'
       real(rk) :: delaunay_tol = 1.0e-10_rk
+      real(rk) :: delaunay_fatal = 1.0e-2_rk
       character(len=lpath) :: violations = 'violations.vtu'
       logical :: check_only = .false.
       character(len=lpath) :: report = ' '
+      logical :: timing = .false.
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
       'avs stor uge tough2 zero_area zero_tol compress cv '// &
-      'delaunay_tol violations check_only report type o'
+      'delaunay_tol delaunay_fatal violations check_only report '// &
+      'timing type o'
 
 contains
 
@@ -103,7 +115,8 @@ contains
             cycle
          case ('avs', 'stor', 'uge', 'tough2', 'zero_area', &
                'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
-               'violations', 'check_only', 'report')
+               'violations', 'check_only', 'report', 'timing', &
+               'delaunay_fatal')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -147,6 +160,14 @@ contains
                return
             end if
             opt%delaunay_tol = x
+         case ('delaunay_fatal')
+            read (val, *, iostat=ios) x
+            if (ios /= 0 .or. x < 0.0_rk) then
+               call bad('delaunay_fatal '//trim(val)// &
+                        ': must be a number >= 0')
+               return
+            end if
+            opt%delaunay_fatal = x
          case ('violations')
             opt%violations = val
          case ('report')
@@ -160,6 +181,16 @@ contains
             case default
                call bad('check_only '//trim(val)// &
                         ': must be on or off')
+               return
+            end select
+         case ('timing')
+            select case (trim(lowercase(val)))
+            case ('on')
+               opt%timing = .true.
+            case ('off')
+               opt%timing = .false.
+            case default
+               call bad('timing '//trim(val)//': must be on or off')
                return
             end select
          case ('cv')
@@ -209,6 +240,8 @@ contains
       if (opt%nout == 0) call add_output(opt, 'stor', &
                                          'voronoi.stor', ierr)
       if (ierr /= 0) return
+      ! a delaunay_fatal below delaunay_tol is raised to it
+      ! (del_vor_delaunay), so raising delaunay_tol alone is enough
       call check_names(opt, ierr)
 
    contains

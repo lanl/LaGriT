@@ -121,7 +121,36 @@ def main():
     w('unused_vertex', xyz2 + [(5, 5, 5)], [t1, t2], ['tet', 'tet'])
     # legal: two materials sharing a face
     w('two_materials', xyz2, [t1, t2], ['tet', 'tet'], clr=[1, 2])
-    print('wrote 15 meshes in', out)
+    # legal: vertex data written as LaGriT writes it with many
+    # attributes, each vertex's values wrapped onto a second line
+    with open(os.path.join(out, 'wrapped_attr.inp'), 'w') as f:
+        f.write('%d 2 5 0 0\n' % len(xyz2))
+        for i, p in enumerate(xyz2):
+            f.write('%d %.17g %.17g %.17g\n' % (i + 1, *p))
+        for k, t in enumerate((t1, t2)):
+            v = [t[0], t[1], t[3], t[2]]
+            f.write('%d %d tet %s\n' % (k + 1, k + 1,
+                                         ' '.join(str(x + 1) for x in v)))
+        f.write('00005  1  1  1  1  1\n-def-, no units\nimt1, no units\n'
+                'itp1, no units\nicr1, no units\nisn1, no units\n')
+        for i in range(len(xyz2)):
+            f.write('%010d   0.0E+00   %d.0E+00   0.0E+00\n'
+                    '  0.0E+00   0.0E+00\n' % (i + 1, 1 + i % 2))
+    # legal: two_materials again, as other tools may write it: CR LF
+    # line ends, tabs between fields, Fortran D exponents, blank lines
+    with open(os.path.join(out, 'two_materials.inp')) as f:
+        txt = f.read().split('\n')
+    nn = int(txt[0].split()[0])
+    odd = [txt[0], '']
+    for ln in txt[1:1 + nn]:            # vertices: D exponents
+        t = ln.split()
+        x = ('%.16E' % float(t[1])).replace('E', 'D')
+        odd.append('%s  %s %s  %s' % (t[0], x, repr(float(t[2])), t[3]))
+    for ln in txt[1 + nn:]:             # cells: tabs
+        odd.append('\t'.join(ln.split()))
+    with open(os.path.join(out, 'odd_text.inp'), 'w', newline='') as f:
+        f.write('\r\n'.join(odd))
+    print('wrote 17 meshes in', out)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,26 @@
+# test_parity cases: one per line,  name | mesh | what it does
+#
+# Each case compares del_vor's .stor with LaGriT's .stor of the same
+# mesh, made by make_parity_gold.sh: LaGriT reads the same .inp and
+# writes NAME_lg.stor (dump / stor, its default) and NAME_lg_none.stor
+# (dump / stor ... / ascii / none, uncompressed). del_vor writes
+# NAME_keep.stor (-zero_area keep -compress off) and NAME.stor (the
+# defaults). ../../../tools/stor_compare.py must explain every
+# difference. A mesh path starting with big/ is in the folder
+# DEL_VOR_BIG (outside git); without it the case is SKIPPED.
+#
+mesh_2D     | ../test_voronoi_gold/inputs/mesh_2D.inp | lanl/voronoi's 2 x 2 square of right triangles: every interior edge pair co-circular.
+simple_3D   | ../test_voronoi_gold/inputs/simple_3D.inp | lanl/voronoi's unit cube of 5 tets: all 8 corners on one sphere.
+mesh_3D     | ../test_voronoi_gold/inputs/mesh_3D.inp | lanl/voronoi's graded cube, side 1e6: 120 zero-area connections.
+poi3d_01    | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | LaGriT test_poisson_3d case 1: 75 negative coefficients at the boundary.
+poi3d_02    | ../test_poisson_lagrit/inputs/test_3d_poi_02.inp | test_poisson_3d case 2: 871 zero-area connections on the boundary grid.
+poi2d_01    | ../test_poisson_lagrit/inputs/output01_square_uniform.inp | LaGriT test_poisson_2d, uniform h.
+poi2d_02    | ../test_poisson_lagrit/inputs/output02_square_var.inp | test_poisson_2d, variable h (WIDTH_FACTOR 10).
+poi2d_03    | ../test_poisson_lagrit/inputs/output03_square_var.inp | test_poisson_2d, variable h (WIDTH_FACTOR 20).
+sample_tet  | inputs/sample_tet.inp | LaGriT level01/pflotran_stor's sample tet mesh (60 vertices, 144 tets).
+unit_tet    | inputs/unit_tet.inp | LaGriT level01/io_agf_simple's unit cube of 5 tets (8 vertices, two materials).
+two_mat     | inputs/two_mat.inp | A jittered grid of tets in two materials (imt1 2 above z = 0.31), made by LaGriT (inputs/two_mat.lgi): 170 interface faces.
+utm_tet     | inputs/utm_tet.inp | poi3d_01 moved to UTM-size coordinates (7e5, 3.2e6, 1.5e3), 17 digits: LaGriT's 3D writer computes tet volumes from absolute coordinates there.
+tri_dfn     | inputs/tri_dfn.inp | LaGriT level01/recon1's fracture network (2956 vertices, 5773 triangles).
+full_mesh   | ../test_dfn/inputs/full_mesh.inp | Carl's dfnWorks example 4_user_rects_uniform (771 vertices, 1386 triangles, 60 intersection edges).
+tpl         | big/TPL_nonuniform_full_mesh.inp | dfnWorks TPL_nonuniform (Carl, Nov 2026): 57,257 vertices, 114,739 triangles in 45 fractures. Outside git (DEL_VOR_BIG).

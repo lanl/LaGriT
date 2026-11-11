@@ -5,8 +5,8 @@
 !   del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
 !           [-zero_area remove|keep] [-zero_tol X]
 !           [-compress on|off] [-cv voronoi]
-!           [-delaunay_tol X] [-violations FILE]
-!           [-check_only on|off] [-report FILE]
+!           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
+!           [-check_only on|off] [-report FILE] [-timing on|off]
 !
 ! Options are keyword / value pairs in any order (del_vor_options
 ! lists them, with their defaults); the LaGriT command will take the
@@ -40,6 +40,8 @@ program del_vor
    use del_vor_write_stor, only: write_stor
    use del_vor_write_uge, only: write_uge
    use del_vor_write_tough, only: write_tough
+   use del_vor_timing, only: timer_start, timer_stop, timer_report, &
+                             timing_on
    implicit none
 
    type(options_t) :: opt
@@ -80,6 +82,7 @@ program del_vor
       call log_line('del_vor: del_vor -help lists them')
       stop 1
    end if
+   timing_on = opt%timing
    if (len_trim(opt%report) > 0) then
       call log_copy_open(opt%report, ierr)
       if (ierr /= 0) call fail_stop()
@@ -91,31 +94,42 @@ program del_vor
    end if
 
    call log_line('del_vor: reading '//trim(opt%mesh))
+   call timer_start('read')
    call read_avs(opt%mesh, m, ierr)
+   call timer_stop()
    if (ierr /= 0) call fail_stop()
    ndim = 3
    if (m%nen == 3) ndim = 2
 
    ! neighbors and the mesh checks: fatal in every mode
    m%mbndry = default_mbndry(m%nen, m%nelements)
+   call timer_start('jtet')
    allocate (m%jtetoff(m%nelements), m%jtet(m%nen*m%nelements))
    call build_jtet(m%nnodes, m%nelements, m%nen, m%itetoff, m%itet, &
                    m%itetclr, m%mbndry, m%jtetoff, m%jtet, jst)
+   call timer_stop()
+   call timer_start('mesh checks')
    call check_validity(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
                        m%zic, m%itetoff, m%itet, m%itetclr, jst, vst)
+   call timer_stop()
    if (vst%nfatal > 0) then
       errmsg = 'del_vor: the mesh failed its checks (above)'
       call fail_stop()
    end if
 
    ! the Delaunay check: fatal for Voronoi control volumes
+   call timer_start('Delaunay check')
    call check_delaunay(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
                        m%zic, m%itetoff, m%itet, m%itetclr, m%jtetoff, &
-                       m%jtet, m%mbndry, opt%delaunay_tol, dst)
+                       m%jtet, m%mbndry, opt%delaunay_tol, &
+                       opt%delaunay_fatal, dst)
    call report_delaunay(m%nen, dst, m%itetclr, not_delaunay)
+   call timer_stop()
    if (dst%rec%n > 0) then
+      call timer_start('violations file')
       call write_violations_vtu(opt%violations, m%nen, m%nnodes, &
                                 m%xic, m%yic, m%zic, dst%rec, ierr)
+      call timer_stop()
       if (ierr /= 0) call fail_stop()
       call log_line('del_vor: wrote flagged facets to '// &
                     trim(opt%violations))
@@ -126,30 +140,40 @@ program del_vor
    end if
    if (opt%check_only) then
       call log_line('del_vor: check_only on: no coefficient files')
+      call timer_report()
       call log_copy_close()
       stop
    end if
 
+   call timer_start('edge CSR')
    call build_edge_csr(m%nnodes, m%nelements, m%nen, m%itetoff, &
                        m%itet, iedge_off, jedge, nedges, ierr)
+   call timer_stop()
    if (ierr /= 0) call fail_stop()
 
+   call timer_start('assembly')
    allocate (area(nedges), vol(m%nnodes))
    call assemble(policy_voronoi, m%nnodes, m%nelements, m%nen, &
                  m%xic, m%yic, m%zic, m%itetoff, m%itet, iedge_off, &
                  jedge, area, vol, stats, ierr)
+   call timer_stop()
    if (ierr /= 0) call fail_stop()
 
+   call timer_start('zero-area mask')
    allocate (zero(nedges), skip(nedges))
    call zero_area_mask(m%nen, m%nnodes, m%xic, m%yic, m%zic, &
                        iedge_off, jedge, area, opt%zero_tol, zero)
    skip = zero .and. .not. opt%zero_keep
+   call timer_stop()
 
+   call timer_start('summary')
    call report_run(ndim, m%nnodes, m%nelements, m%xic, m%yic, m%zic, &
                    iedge_off, jedge, area, vol, stats, zero, &
                    opt%zero_keep, opt%zero_tol)
+   call timer_stop()
 
    do k = 1, opt%nout
+      call timer_start('write '//trim(opt%out_type(k)))
       select case (trim(opt%out_type(k)))
       case ('stor')
          call write_stor(opt%out_file(k), ndim, m%nnodes, m%xic, &
@@ -163,10 +187,12 @@ program del_vor
                           m%zic, m%imt1, iedge_off, jedge, area, vol, &
                           skip, ierr)
       end select
+      call timer_stop()
       if (ierr /= 0) call fail_stop()
       call log_line('del_vor: wrote '//trim(opt%out_type(k))//' '// &
                     trim(opt%out_file(k)))
    end do
+   call timer_report()
    call log_copy_close()
 
 contains
@@ -176,7 +202,8 @@ contains
       select case (trim(s))
       case ('avs', 'stor', 'uge', 'tough2', 'zero_area', 'zero_tol', &
             'compress', 'cv', 'type', 'o', 'delaunay_tol', &
-            'violations', 'check_only', 'report')
+            'violations', 'check_only', 'report', 'timing', &
+            'delaunay_fatal')
          is_keyword = .true.
       case default
          is_keyword = .false.
@@ -198,9 +225,9 @@ contains
       call log_line('               [-zero_area remove|keep] '// &
                     '[-zero_tol X] [-compress on|off]')
       call log_line('               [-cv voronoi] '// &
-                    '[-delaunay_tol X] [-violations FILE]')
-      call log_line('               [-check_only on|off] '// &
-                    '[-report FILE]')
+                    '[-delaunay_tol X] [-delaunay_fatal X]')
+      call log_line('               [-violations FILE] '// &
+                    '[-check_only on|off] [-report FILE]')
       call log_line('  -avs MESH.inp     AVS UCD mesh, all '// &
                     'triangles or all tets')
       call log_line('  -stor FILE        FEHM .stor (default '// &
@@ -222,6 +249,8 @@ contains
                     'and hybrid come later)')
       call log_line('  -delaunay_tol X   a facet is not Delaunay '// &
                     'when delta/L < -X (default 1e-10)')
+      call log_line('  -delaunay_fatal X down to delta/L = -X: a '// &
+                    'warning; beyond: an error (1e-2)')
       call log_line('  -violations FILE  flagged facets for '// &
                     'ParaView (default violations.vtu)')
       call log_line('  -check_only on    check the mesh only; no '// &
@@ -230,6 +259,8 @@ contains
                     'summary')
       call log_line('  lanl/voronoi options -type fehm|pflotran|'// &
                     'tough2 and -o FILE also work.')
+      call log_line('  development: -timing on prints the time of '// &
+                    'each step and peak memory.')
       if (istat == 0) stop
       stop 1
    end subroutine usage

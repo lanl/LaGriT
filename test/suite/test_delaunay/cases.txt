@@ -1,5 +1,8 @@
 # test_delaunay cases: one per line,  name | mesh | extra arguments | what it does
 #
+# delaunay_fatal (default 1e-2): delta/L between -delaunay_fatal and
+# -delaunay_tol is a warning; below -delaunay_fatal, fatal.
+#
 # Each case runs, in work/NAME,
 #   del_vor -avs MESH -check_only on -violations NAME.vtu -report NAME.report EXTRA
 # (EXTRA may override check_only). A mesh path starting with gen/ is made by
@@ -18,7 +21,8 @@ poi2d_03       | ../test_poisson_lagrit/inputs/output03_square_var.inp | | test_
 flip2d         | gen/flip2d.inp | | poi2d_01 with 5 interior edges flipped. Each flip makes exactly one edge not Delaunay; del_vor must stop (exit 1) and list exactly those 5 edges in the violations file.
 flip3d         | gen/flip3d.inp | | poi3d_01 with three 2-3 flips (2 tets around a face replaced by 3 around the opposite edge). Each flip breaks 3 faces: 9 violations, which must be exactly the faces the exact test finds.
 kuhn           | gen/kuhn.inp | | A 4 x 3 x 3 grid of unit cubes, 6 tets per cube: 216 of its 366 interior faces are co-spherical ties, the hardest case for false alarms. No violation.
-near_tie       | gen/near_tie.inp | | Two triangles whose diagonal is wrong by a hair: one vertex moved 1e-6 off the common circle, delta/L = -5e-7. Caught with the default delaunay_tol 1e-10.
+near_tie       | gen/near_tie.inp | | Two triangles whose diagonal is wrong by a hair: one vertex moved 1e-6 off the common circle, delta/L = -5e-7. Above delaunay_tol 1e-10 but within delaunay_fatal 1e-2: a WARNING (slightly not Delaunay, nearly co-circular), and the run goes on.
+near_tie_strict | gen/near_tie.inp | -delaunay_fatal 1e-10 | The same mesh with delaunay_fatal 1e-10 (= delaunay_tol): any facet beyond the tolerance is fatal, as before phase 3. Must stop with exit 1.
 near_tie_tol   | gen/near_tie.inp | -delaunay_tol 1e-5 | The same mesh with delaunay_tol 1e-5: the facet is now accepted as a tie ("close to Delaunay is OK") and the run passes.
 utm            | gen/utm.inp | | poi3d_01 moved to (7e5, 3.2e6, 1.5e3), written with 17 digits: the same answers as at the origin (circumcenters relative to a facet vertex).
 flip2d_stor    | gen/flip2d.inp | -check_only off -stor flip2d.stor | A normal run (coefficients wanted) on the flipped mesh: must stop with exit 1 and write no .stor, only the report and the violations file.

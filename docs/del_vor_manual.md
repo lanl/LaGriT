@@ -1,7 +1,7 @@
 # del_vor manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `del_vor`, as of phase 2 of 6. The LaGriT command
+standalone program `del_vor`, as of phase 3 of 6. The LaGriT command
 (`dump / control_volume`) is described in
 [`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -21,6 +21,8 @@ Contents
 12. [Options](#12-options)
 13. [Messages and exit status](#13-messages-and-exit-status)
 14. [Tests](#14-tests)
+15. [Comparing .stor files, and parity with LaGriT](#15-comparing-stor-files-and-parity-with-lagrit)
+16. [Speed and memory](#16-speed-and-memory)
 
 ## 1. What del_vor does
 
@@ -39,9 +41,11 @@ A run has four steps:
    orientation ([section 5](#5-the-mesh-checks)); a failure stops the
    run;
 3. check that it is Delaunay, facet by facet
-   ([section 6](#6-the-delaunay-check)); a violation stops the run,
-   because Voronoi coefficients of a mesh that is not Delaunay are
-   wrong (overlapping Voronoi cells, negative areas);
+   ([section 6](#6-the-delaunay-check)); a facet that is clearly not
+   Delaunay stops the run, because Voronoi coefficients of a mesh
+   that is not Delaunay are wrong (overlapping Voronoi cells,
+   negative areas); a facet only slightly off (nearly co-spherical,
+   as from jitter or round-off) gives a warning;
 4. compute the coefficients and write the output files.
 
 Nothing is written unless every check passes, except the report and
@@ -126,7 +130,12 @@ itp1, integer
 - Vertex data named `imt1` (or `imt`), `itp1` (or `itp`) and `isn1`
   (or `isn`) are read; other vertex and cell data are skipped. `imt1`
   gives the TOUGH2 material of each vertex.
-- Coordinates are read as doubles. LaGriT's `dump / avs` writes 13
+- Fields are separated by blanks or tabs; lines may end in LF or
+  CR LF (Windows); blank lines are skipped; reals may have a Fortran
+  `D` exponent (`1.0D+00`); a vertex's data may run onto more lines
+  (LaGriT wraps them when a mesh has many vertex attributes).
+- Coordinates are read as doubles, correctly rounded (the same
+  doubles a Fortran read gives). LaGriT's `dump / avs` writes 13
   significant digits; that rounding shows in ties (see
   [section 6](#6-the-delaunay-check)) and in the last digits of the
   coefficients.
@@ -209,9 +218,13 @@ the units:
 
 | delta/L | the facet is | |
 |---|---|---|
-| < -delaunay_tol | a violation | fatal |
+| < -delaunay_fatal | not Delaunay | fatal: no coefficient file |
+| between -delaunay_fatal and -delaunay_tol | slightly not Delaunay | a WARNING; the run goes on |
 | between -delaunay_tol and delaunay_tol | a tie | accepted |
 | > delaunay_tol | Delaunay | |
+
+Every facet below -delaunay_tol goes to the violations file, warned
+or fatal.
 
 ### delaunay_tol
 
@@ -221,15 +234,53 @@ The default, 1e-10, is set by what was measured on the test meshes
 - True ties (co-circular or co-spherical vertices, common on grids
   and on Poisson disk meshes with a boundary buffer) compute to
   |delta/L| of at most 2.7e-16. With delaunay_tol 0, about one tie in
-  seven comes out negative by round-off and would stop the run.
+  seven comes out negative by round-off.
 - The smallest real |delta/L| found was 4.1e-5 (tets) and 1.4e-4
   (triangles).
 
 1e-10 lies between, with margin for coordinates rounded to 13 digits
-by `dump / avs`. A larger value accepts meshes that are only close
-to Delaunay: with delaunay_tol 1e-5, a facet whose vertex is 1e-6 off
-the common circle is accepted as a tie. The Voronoi coefficients of
-such a facet are slightly negative; do this knowingly.
+by `dump / avs`.
+
+### delaunay_fatal
+
+A mesh is not rejected for a little jitter or round-off. Facets with
+delta/L between -delaunay_fatal (default 1e-2) and -delaunay_tol are
+slightly not Delaunay: their vertices are nearly co-circular or
+co-spherical. del_vor says so and goes on:
+
+```
+  WARNING: 15 faces slightly not Delaunay (delta/L >= -1.0E-02):
+    nearly co-circular / co-spherical; the coefficients there are
+    accurate to about |delta/L| of a typical coefficient (violations file)
+  Delaunay check passed (with the warning above)
+```
+
+Why this is safe: at such a facet the Voronoi edge dual to it has a
+small negative length, delta, instead of a small positive one. That
+changes the Voronoi faces of the facet's edges by about |delta| L, so
+their coefficients by about |delta/L| of a typical coefficient. The
+control volumes still add up to the mesh volume. An edge whose
+coefficient is itself near zero (nearly co-spherical) can carry an
+error as large as its value, so its sign is not reliable there; its
+size stays tiny.
+
+Where it comes from: LaGriT's `connect` does not always make an
+exactly Delaunay mesh. On jittered grids (test_timing) it left 9
+facets with delta/L down to -1.5e-5 in a mesh of 960,000 tets and 15
+down to -3.6e-4 in one of a million tets (both confirmed in exact
+arithmetic), and on Carl's Mac down to -3.7e-4 at 3 million tets and
+-2.3e-3 at 10.4 million; none in 10 million triangles. In the
+million-tet mesh no coefficient came out negative (the smallest A/d
+was +9.5e-14, a near-zero face); the 45 edges of the 15 facets all
+kept positive coefficients.
+
+The default 1e-2 is about 4 times beyond the worst seen from
+`connect`, and a real fault is far beyond it: the flipped edges and
+faces of the test meshes give delta/L from -0.14 to -21. At
+delta/L = -1e-2 a coefficient is off by about 1 % of a typical one. `delaunay_fatal` equal to
+`delaunay_tol` makes every facet beyond the tolerance fatal (the
+behavior before phase 3); a `delaunay_fatal` below `delaunay_tol` is
+raised to it.
 
 Circumcenters are computed relative to a vertex of the facet, so the
 check gives the same answer at UTM-size coordinates (tested at
@@ -267,10 +318,11 @@ a real violation; the ratio in the violations file tells them apart.
 ### The report block
 
 ```
-del_vor Delaunay check (delaunay_tol 1.0E-10)
+del_vor Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)
   interior faces checked                 685
   ties (|delta/L| <= tol)                201
   violations                               0
+    beyond delaunay_fatal                  0
   smallest delta/L -2.3733E-16  cells       178 and       250
     at  4.166667E+04  3.333333E+05  2.083333E+05  itetclr     1
   delta/L histogram
@@ -297,7 +349,7 @@ close the mesh comes to failing: counts in the three bins below
 When there is a violation the block ends with
 
 ```
-  Delaunay check FAILED: the mesh is not Delaunay within delaunay_tol;
+  Delaunay check FAILED: the mesh is not Delaunay beyond delaunay_fatal;
   no Voronoi coefficients are written. See the violations file.
 ```
 
@@ -379,7 +431,10 @@ no output may be named like the mesh.
 pointers, the column numbers of every row (lower neighbors, itself,
 upper neighbors, in increasing order), the pointers into the values,
 the diagonal pointers, and the values -A(ij)/d(ij) (0 on the
-diagonal). With `-compress on` (the default), values equal within
+diagonal). Volumes and values are written with 17 significant digits
+(`1pe24.16`), enough to give back every double exactly; LaGriT's
+`dump / stor` writes 13. FEHM reads these blocks list-directed, so
+the wider fields need nothing on its side. With `-compress on` (the default), values equal within
 1e-14 of the largest |value| are written once and shared through the
 pointer block (LaGriT's `compressmatrixvalues` rule); with `-compress
 off`, one value per matrix entry.
@@ -394,6 +449,9 @@ i  j  x  y  z  area                one line per edge, i < j
 ```
 
 The connection point is the edge midpoint, as in lanl/voronoi.
+Coordinates, volumes and areas have 17 significant digits; the
+longest line is 128 characters (PFLOTRAN reads input lines of up to
+512).
 
 **TOUGH2 `MESH`** (`-tough2 FILE`): ELEME (one record per vertex:
 name, material, volume, AHTX, x, y, z) and CONNE (one record per edge:
@@ -484,10 +542,12 @@ del_vor summary
 | `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
 | `cv` | `voronoi` | `voronoi` | control volumes (median and hybrid later) |
-| `delaunay_tol` | number >= 0 | `1e-10` | a facet is a violation when delta/L < -delaunay_tol, a tie within ±delaunay_tol |
+| `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
+| `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
 | `report` | file | none | a copy of the screen output |
+| `timing` | `on`, `off` | `off` | development only: the wall and CPU time of each step and the peak memory, at the end of the report |
 
 lanl/voronoi's `-type fehm|pflotran|tough2` with `-o FILE` (default
 names `voronoi.stor`, `pflotran.uge`, `MESH_VORONOI`) and `-compress`
@@ -510,7 +570,7 @@ Exit status 1, and no coefficient file written:
 | no mesh | `del_vor: no mesh given (-avs MESH.inp)` |
 | the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 5](#5-the-mesh-checks) |
 | a mesh check fails | the ERROR lines of [section 5](#5-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
-| not Delaunay | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written) |
+| not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written) |
 
 gfortran adds the line `STOP 1` after the message.
 
@@ -527,4 +587,74 @@ against answers worked out independently (formulas, exact
 arithmetic, LaGriT's and lanl/voronoi's files), draws a picture of
 every case, and has a page with a "What it does" note for each case.
 `test/suite/README.md` lists the suites; each suite's `00README`
-says what it checks and how.
+says what it checks and how. `test_timing`, for development, is not
+run by default (`ONLY=timing sh run_all.sh`; it needs LaGriT and
+makes big meshes).
+
+## 15. Comparing .stor files, and parity with LaGriT
+
+`tools/stor_compare.py` compares two `.stor` files of one mesh, pair
+by pair and vertex by vertex, and labels every difference with what
+explains it. It is how del_vor is compared with LaGriT
+(`test_parity`), and it works on any two `.stor` files.
+
+```
+python3 -I tools/stor_compare.py A.stor B.stor --mesh MESH.inp
+```
+
+It prints the pairs in one file only, the largest differences with
+the pairs and vertices where they are, the volume totals, a layout
+check of each file, and `every difference explained` (exit 0) or
+`UNEXPLAINED differences: N` (exit 1). Options: `--mesh` (needed for
+some labels), `--eps` (LaGriT's `compress_eps`, default 1e-8),
+`--zero_tol`, `--coord_digits`, `--json FILE`, `--worst N`.
+
+| label | explains |
+|---|---|
+| `digits` | the same number printed with the fewer significant digits of the two files (13 for LaGriT, 17 for del_vor) |
+| `round_off` | small values made by cancellation, within 64 u (1.4e-14) of the largest |
+| `coord_digits` | coordinates rounded in the mesh file (with `--coord_digits`) |
+| `merge` | LaGriT's compression stored one value for all within 1e-8 of the largest (anothermatbld3d) |
+| `abs_coords` | LaGriT's 3D writer computes tet volumes from absolute coordinates |
+| `nstor_magnitude` | LaGriT's old 3D writer stores \|A\|/d: negative coefficients come out with the wrong sign |
+| `zero_area` | a zero-area pair left out by one of the codes |
+| `dropped`, `dropped_share` | a pair below 1e-8 of the largest that LaGriT left out, and its share of its vertices' volumes |
+
+`test_parity` compares del_vor with LaGriT's `dump / stor` on 14
+meshes (lanl/voronoi's, LaGriT's Poisson meshes and level01 meshes, a
+two-material mesh, a mesh at UTM-size coordinates, two fracture
+networks) and, outside git, dfnWorks TPL_nonuniform (114,739
+triangles). Every difference is explained; most pairs agree to all 13
+digits LaGriT prints. Found in LaGriT along the way:
+
+- In 3D, `dump / stor ... / none` uses LaGriT's old writer
+  (`matbld3d_stor`), which stores \|A\|/d: every negative coefficient
+  comes out positive (all 75 of LaGriT's test_poisson_3d case 1).
+  The default `dump / stor` keeps the sign.
+- At UTM-size coordinates, LaGriT's 3D volumes are wrong (a box of
+  volume 0.032 gets -100.5); del_vor gets 0.0319999999944.
+
+## 16. Speed and memory
+
+Every step takes time in proportion to the mesh size. test_timing
+fits log time against log size; on Carl's Mac (Intel, 6 cores; Nov
+10, 2026), from 9,126 to 10.4 million tets and from 9,800 to 10
+million triangles, the slope of del_vor's total is 1.02 (tets) and
+1.01 (triangles), and of every step 0.995 to 1.042. LaGriT's
+`dump / stor` alone grows a little faster (slopes 1.08 and 1.06).
+
+| mesh | del_vor | peak | LaGriT read + `dump / stor` | peak |
+|---|---|---|---|---|
+| 1,019,162 tets | 7.2 s | 275 MB | 14.8 s | 424 MB |
+| 3,003,241 tets | 20.3 s | 805 MB | 45.3 s | 1,190 MB |
+| 10,404,079 tets | 74.8 s | 2,317 MB | 175.7 s | 3,459 MB |
+| 996,872 triangles | 5.4 s | 338 MB | 11.6 s | 996 MB |
+| 9,990,450 triangles | 60.4 s | 2,981 MB | 143.2 s | 6,433 MB |
+
+del_vor is 2.4 times faster at 10 million cells and needs 1.5 (tets)
+to 2.2 (triangles) times less memory: about 220 bytes per tet and 300
+per triangle. The steps that do the work of `dump / stor` (edge CSR,
+assembly, writing the `.stor`) take 37.7 s at 10.4 million tets,
+against 140.2 s for `dump / stor`. del_vor's largest steps at 10
+million cells: writing the `.stor` (37 % for tets, 64 % for
+triangles) and `jtet` (32 % for tets).

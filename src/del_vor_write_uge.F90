@@ -45,7 +45,7 @@ contains
 
       write (lu, '(a,1x,i11)') 'CELLS', nnodes
       do i = 1, nnodes
-         write (lu, '(i11,4(2x,1pe20.12))') i, xic(i), yic(i), zic(i), &
+         write (lu, '(i11,4(2x,1pe24.16))') i, xic(i), yic(i), zic(i), &
             vol(i)
       end do
       nkeep = count(.not. skip(1:nedges))
@@ -54,7 +54,7 @@ contains
          do k = iedge_off(i), iedge_off(i + 1) - 1
             if (skip(k)) cycle
             j = jedge(k)
-            write (lu, '(i11,2x,i11,4(2x,1pe20.12))') i, j, &
+            write (lu, '(i11,2x,i11,4(2x,1pe24.16))') i, j, &
                0.5_rk*(xic(i) + xic(j)), 0.5_rk*(yic(i) + yic(j)), &
                0.5_rk*(zic(i) + zic(j)), area(k)
          end do

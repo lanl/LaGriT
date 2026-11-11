@@ -50,8 +50,10 @@ EXPECT = {
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
     'check_only': [], 'report': ['a.report', 'a.stor'],
+    'timing_on': ['a.stor'],
+    'tol_zero_ties': ['a.stor', 'ties.vtu'],
     # exit 1 by design, with the violations file
-    'tol_zero_ties': ['ties.vtu'],
+    'tol_zero_strict': ['ties.vtu'],
 }
 
 # text each refused case's message must contain
@@ -60,10 +62,12 @@ REFUSED = {
     'bad_zero_area': 'drop', 'bad_zero_tol': '-1',
     'text_zero_tol': 'small', 'bad_cv': 'median', 'twice': 'a.stor',
     'no_mesh': 'no mesh', 'missing_mesh': 'nothere.inp',
-    'tol_zero_ties': 'not Delaunay', 'bad_tol': 'delaunay_tol -1',
+    'tol_zero_strict': 'not Delaunay', 'bad_tol': 'delaunay_tol -1',
+    'bad_fatal': 'delaunay_fatal -1',
     'text_tol': 'delaunay_tol tiny', 'bad_check_only': 'check_only maybe',
     'report_twice': 'a.stor given twice',
     'vtu_twice': 'a.uge given twice', 'over_mesh': 'is the mesh',
+    'bad_timing': 'timing maybe',
 }
 
 TOL = 1e-14
@@ -258,6 +262,10 @@ def main():
         'Delaunay check passed' in rep else 'FAIL')
     dl = vtu_values(os.path.join(ran['tol_zero_ties'], 'ties.vtu'),
                     'delta_over_L')
+    tz = open(os.path.join(ran['tol_zero_ties'], 'run.out')).read()
+    put('tol_zero_ties', 'warning', 'WARNING ... slightly not Delaunay'
+        if 'slightly not Delaunay' in tz else 'no warning',
+        'PASS' if 'slightly not Delaunay' in tz else 'FAIL')
     put('tol_zero_ties', 'round_off', '%d facets, largest abs(delta/L) '
         '%.1e' % (len(dl), max(map(abs, dl)) if dl else 0),
         'PASS' if dl and max(map(abs, dl)) < 1e-15 else 'FAIL')
@@ -266,6 +274,19 @@ def main():
     put('over_mesh', 'mesh_unchanged', 'same as before' if same else
         'CHANGED', 'PASS' if same else 'FAIL')
 
+    out = open(os.path.join(ran['timing_on'], 'run.out')).read()
+    need = ['timing  read', 'timing  assembly', 'timing  write stor',
+            'timing  total', 'timing  peak memory']
+    miss = [k for k in need if k not in out]
+    a = open(os.path.join(ran['timing_on'], 'a.stor')).read().split('\n')
+    c = open(os.path.join(ran['default_out'], 'voronoi.stor')).read() \
+        .split('\n')
+    put('timing_on', 'timing lines', 'missing: ' + ', '.join(miss)
+        if miss else 'read, assembly, write stor, total, peak memory',
+        'FAIL' if miss else 'PASS')
+    put('timing_on', 'same_stor', 'same as without timing (date aside)'
+        if a[:1] + a[2:] == c[:1] + c[2:] else 'differs',
+        'PASS' if a[:1] + a[2:] == c[:1] + c[2:] else 'FAIL')
     write_page(work, logs)
     print('failures %d' % nfail)
     return 1 if nfail else 0

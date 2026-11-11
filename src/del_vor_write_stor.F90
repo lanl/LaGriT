@@ -125,14 +125,14 @@ contains
       write (lu, '(a)') ' '//date//' '//model// &
          'Linear Diffusion Model (del_vor)'
       write (lu, '(5i10)') nwritten, neq, ncoef + neq + 1, 1, ncon_max
-      write (lu, '(5(1pe20.12))') vol
+      write (lu, '(5(1pe24.16))') vol
       write (lu, '(5i10)') irow, icol
       write (lu, '(5i10)') iptr, (0_ik, i=1, neq + 1)
       write (lu, '(5i10)') idiag
       if (compress) then
-         write (lu, '(5(1pe20.12))') (-uval(k), k=1, nwritten)
+         write (lu, '(5(1pe24.16))') (-uval(k), k=1, nwritten)
       else
-         write (lu, '(5(1pe20.12))') (-coef(k), k=1, ncoef)
+         write (lu, '(5(1pe24.16))') (-coef(k), k=1, ncoef)
       end if
       close (lu)
 

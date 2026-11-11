@@ -38,7 +38,8 @@ itetclr per fracture) or all tets.
      / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough2</b>, file_name] &
      / [<b>zero_area</b>, <b>remove</b>|<b>keep</b>] / [<b>zero_tol</b>, value] &
      / [<b>compress</b>, <b>on</b>|<b>off</b>] / [<b>cv</b>, <b>voronoi</b>] &
-     / [<b>delaunay_tol</b>, value] / [<b>violations</b>, file_name] &
+     / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
+     / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
 </pre>
 
@@ -54,11 +55,13 @@ by `/` and may come in any order. With no output keyword,
 
 writes the FEHM `.stor` file (ASCII), in the layout of **`dump/stor`**:
 volumes, row pointers, column numbers, value pointers, diagonal
-pointers and the values -A(ij)/d(ij).
+pointers and the values -A(ij)/d(ij), with 17 significant digits
+(**`dump/stor`** writes 13).
 
 **`uge`**, file_name
 
-writes the PFLOTRAN explicit unstructured grid file: `CELLS` (one
+writes the PFLOTRAN explicit unstructured grid file (17 significant
+digits): `CELLS` (one
 line per vertex: id, x, y, z, volume) and `CONNECTIONS` (one line per
 edge: i, j, the edge midpoint, area).
 
@@ -102,11 +105,21 @@ For each facet (tet face, triangle edge) shared by two cells with
 circumcenters c1 and c2, delta = (c2 - c1) . n, n the facet's unit
 normal from cell 1 into cell 2, is the signed length of the Voronoi
 edge dual to the facet; L is the facet's length (mean edge length for
-a tet face). delta/L < -value is a violation and stops the command;
-\|delta/L\| <= value is a tie (co-circular or co-spherical) and is
-accepted. Default 1e-10: true ties compute to about 1e-16, real
-violations are many orders of magnitude larger. A larger value
-accepts meshes that are only close to Delaunay.
+a tet face). \|delta/L\| <= value is a tie (co-circular or
+co-spherical) and is accepted; below -value the facet is not Delaunay
+(see **`delaunay_fatal`**). Default 1e-10: true ties compute to about
+1e-16.
+
+**`delaunay_fatal`**, value
+
+delta/L between -value and -**`delaunay_tol`**: the facet is slightly
+not Delaunay (nearly co-circular or co-spherical, as LaGriT's
+**`connect`** leaves a few); a warning, and the command goes on: the
+coefficients there are accurate to about \|delta/L\| of a typical
+coefficient. Below -value: not Delaunay, and the command stops.
+Default 1e-2 (the worst seen from **`connect`** is -2.3e-3, in a
+10-million-tet mesh; a flipped edge or face gives -0.1 or below). Set it equal to
+**`delaunay_tol`** to make every facet beyond the tolerance fatal.
 
 For a boundary facet, a cell whose circumcenter lies outside the mesh
 (a triangle with an obtuse angle opposite a boundary edge) is counted
