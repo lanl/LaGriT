@@ -51,9 +51,13 @@ The second line shows the short form where `file_type` is recognized by the file
 
 Will write the AVS UCD (Unstructured Cell Data) file format. 
 
-**`avs`**  = **`avs2`** writes data values as real or integer depending on type with spacing dependent on size of values. 
+**`avs`**  = **`avs3`** writes data values as real or integer depending on type, with spacing dependent on size of values, and every real (vertex coordinates, real attributes) with 17 significant digits (1pe24.16). A double written this way reads back exactly, so a dump and read changes no coordinate, also at large (UTM) coordinates. (Since V3.3.4. A vertex line is 12 characters longer than in avs2: a tet mesh file is about 5-10% larger.)
 
-**`avs1`** = old avs writes all data values as real with large spacing (larger file size). 
+**`avs2`** = the same layout with 13 significant digits for the coordinates (1pe20.12) and 12 for real attributes (e20.12): the default before V3.3.4. At x = 3.2e6 the 13th digit is 1e-6, so a dump and read moves the vertices by up to 5e-7.
+
+**`avs1`** = old avs writes all data values as real with large spacing (larger file size), 13 significant digits. 
+
+**`att_node`** and **`att_elem`** write reals with 17 digits as avs3 does (since V3.3.4).
 
 `iopt values` indicate which data to write or skip, default is everything on with `iopt` values = 1 1 1 1.
 
@@ -462,7 +466,8 @@ These zone_outside files are part of a set of files written when the zone or feh
     dump / avs /file_name.inp/cmo_name/1 1 0 0 (output node coordinates and element connectivity)
     dump / avs /file_name.inp/cmo_name/0 0 0 1 (output element attributes)
     dump / avs /file_name.inp/cmo_name/0 0 2 2 (output node and element attributes without node numbers as first column of output)
-    dump / avs2 /file_name.inp/cmo_name/1 1 1 0 (output node coordinates, element connectivity and node attributes)
+    dump / avs2 /file_name.inp/cmo_name/1 1 1 0 (output node coordinates, element connectivity and node attributes, 13 digits)
+    dump / avs3 /file_name.inp/cmo_name (the same as dump / avs: 17 digits)
 
     dump / fehm /file_root/cmo_name/ (write ascii compressed STOR file and full set of fehm input files)
     dump / stor /file_root/cmo_name/ (write ascii compressed STOR file)

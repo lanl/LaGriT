@@ -78,7 +78,7 @@ RESULTS (Nov 4 2026)
          face. Measured, not failed; the vertices, boundary and volume
          are kept.
   KNOWN  rc12: recon / 1 in 3D does not reach its aim: the Voronoi
-         centres outside the domain go from 310 to 454, a Delaunay mesh
+         centers outside the domain go from 310 to 450, a Delaunay mesh
          becomes one with 330 faces not Delaunay, and the obtuse boundary
          angles go from 268 to 524 (each new vertex makes new obtuse angles; there is only
          one pass). Valid, the volume and the boundary surface are kept.

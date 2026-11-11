@@ -621,8 +621,8 @@ def check_case(work, logdir, deck, title, pairs):
     panels = [panel_mesh(xyz, mesh[1], uvol, two_d, 0,
                          deck + ": the mesh tested", nm),
               panel_error(ivol, series, PW, "error per vertex at UTM",
-                          "|LaGriT - Python| / largest volume; Python "
-                          "reads 13 digits: ~1e-12 is its floor")]
+                          "|LaGriT - Python| / largest volume; the .stor "
+                          "has 13 digits: ~1e-13 is the floor")]
     svg = deck + ".svg"
     write_svg(os.path.join(logdir, svg), panels)
     pics.append(svg)

@@ -11,7 +11,8 @@
  *
  * Writing: the number fields dump / avs writes, character for
  * character as Fortran writes them (1pe20.12 and 1pe19.12, e20.12,
- * iN, iN.N), from snprintf, which rounds as libgfortran does. A value
+ * iN, iN.N; avs3: 1pe24.16), from snprintf, which rounds as
+ * libgfortran does. A value
  * Fortran would write differently (not finite, too wide for its field)
  * returns ok = 0, and the caller writes that line with Fortran's
  * formatted write as before.
@@ -303,6 +304,62 @@ void avs_put_row2_(const int64_t *nrow, const int64_t *irow,
             if ((size_t) (n + 20) > llen) return;
             if (!f0pe(line + n, vals[k], 20, 12)) return;
             n += 20;
+        } else {
+            return;
+        }
+    }
+    *nout = n;
+    *ok = 1;
+}
+
+/* avs3 (17 significant digits, so a dump and read gives back the same
+ * doubles): a vertex line with 3 x 1pe24.16 in place of 1pe20.12. */
+void avs_put_vertex3_(const int64_t *iopt, const int64_t *i,
+                      const int64_t *w, const double *xyz, char *line,
+                      int64_t *nout, int64_t *ok, size_t llen)
+{
+    int64_t n = 0;
+    int k;
+    *ok = 0;
+    if ((size_t) (*w + 1 + 72) > llen) return;
+    if (*iopt == 1) {
+        if (!fint(line, *i, (int) *w, 1)) return;
+        n = *w;
+        line[n++] = ' ';
+    }
+    for (k = 0; k < 3; k++) {
+        if (!f1pe(line + n, xyz[k], 24, 16)) return;
+        n += 24;
+    }
+    *nout = n;
+    *ok = 1;
+}
+
+/* avs3: an attribute row as avs_put_row2, the reals as 1pe24.16. */
+void avs_put_row3_(const int64_t *nrow, const int64_t *irow,
+                   const int64_t *nval, const double *vals,
+                   const int64_t *itype, const int64_t *nint_w,
+                   char *line, int64_t *nout, int64_t *ok, size_t llen)
+{
+    int64_t n = 0, k;
+    *ok = 0;
+    if (*nrow > 0) {
+        if ((size_t) *nrow > llen) return;
+        if (!fint(line, *irow, (int) *nrow, 0)) return;
+        n = *nrow;
+    }
+    for (k = 0; k < *nval; k++) {
+        if (itype[k] == 1) {
+            double r = vals[k];
+            if (!isfinite(r) || fabs(r) > 9.0e17) return;
+            if ((size_t) (n + nint_w[k]) > llen) return;
+            if (!fint(line + n, (int64_t) llround(r), (int) nint_w[k], 0))
+                return;
+            n += nint_w[k];
+        } else if (itype[k] == 2) {
+            if ((size_t) (n + 24) > llen) return;
+            if (!f1pe(line + n, vals[k], 24, 16)) return;
+            n += 24;
         } else {
             return;
         }
