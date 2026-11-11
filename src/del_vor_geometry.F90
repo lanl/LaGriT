@@ -36,6 +36,7 @@ module del_vor_geometry
    private
    public :: cross, circumcenter_tri, circumcenter_tet
    public :: kernel_tri, kernel_tet, tet_det, tri_area
+   public :: bary_tri, bary_tet
    public :: iedge_tri, iedge_tet
 
    ! LaGriT local edge tables (ielmedge1 in blockcom.h)
@@ -95,6 +96,51 @@ contains
       c = p1 + cross(dot_product(a, a)*b - dot_product(b, b)*a, axb) &
           /den
    end subroutine circumcenter_tri
+
+   ! Barycentric coordinates lam(k) of point p in triangle x (any
+   ! orientation in 3D; p taken in the triangle's plane): lam(k) is
+   ! the signed area of the triangle with vertex k replaced by p, over
+   ! the triangle's area. lam(k) < 0: p lies beyond the edge opposite
+   ! vertex k. ok = .false. for a degenerate triangle.
+   pure subroutine bary_tri(x, p, lam, ok)
+      real(rk), intent(in) :: x(3, 3), p(3)
+      real(rk), intent(out) :: lam(3)
+      logical, intent(out) :: ok
+      real(rk) :: n(3), nn
+      n = cross(x(:, 2) - x(:, 1), x(:, 3) - x(:, 1))
+      nn = dot_product(n, n)
+      ok = nn > 0.0_rk
+      if (.not. ok) then
+         lam = 0.0_rk
+         return
+      end if
+      lam(1) = dot_product(cross(x(:, 2) - p, x(:, 3) - p), n)/nn
+      lam(2) = dot_product(cross(x(:, 3) - p, x(:, 1) - p), n)/nn
+      lam(3) = 1.0_rk - lam(1) - lam(2)
+   end subroutine bary_tri
+
+   ! Barycentric coordinates lam(k) of point p in tet x: the signed
+   ! volume with vertex k replaced by p, over the tet's volume.
+   ! lam(k) < 0: p lies beyond the face opposite vertex k.
+   pure subroutine bary_tet(x, p, lam, ok)
+      real(rk), intent(in) :: x(3, 4), p(3)
+      real(rk), intent(out) :: lam(4)
+      logical, intent(out) :: ok
+      real(rk) :: y(3, 4), det
+      integer :: k
+      det = tet_det(x)
+      ok = det /= 0.0_rk
+      if (.not. ok) then
+         lam = 0.0_rk
+         return
+      end if
+      do k = 2, 4
+         y = x
+         y(:, k) = p
+         lam(k) = tet_det(y)/det
+      end do
+      lam(1) = 1.0_rk - lam(2) - lam(3) - lam(4)
+   end subroutine bary_tet
 
    ! Circumcenter of tet p1..p4, relative to p1.
    pure subroutine circumcenter_tet(p1, p2, p3, p4, c, ok)

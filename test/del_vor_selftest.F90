@@ -46,8 +46,7 @@ program del_vor_selftest
    use del_vor_geometry, only: cross, kernel_tri, kernel_tet, &
                                circumcenter_tri, circumcenter_tet, &
                                tet_det, tri_area, iedge_tri, iedge_tet
-   use del_vor_policy, only: dual_points_tri, dual_points_tet, &
-                             policy_voronoi
+   use del_vor_policy, only: dual_points_tri, dual_points_tet
    use del_vor_mesh, only: mesh_t
    use del_vor_read_avs, only: read_avs
    use del_vor_topology, only: build_edge_csr
@@ -174,7 +173,7 @@ contains
       done = .false.
       do n = 1, ncells
          call rnd_tri(x)
-         call dual_points_tri(policy_voronoi, x, pc, okp)
+         call dual_points_tri(x, 1.0_rk, pc, okp)
          call kernel_tri(x, pc, avec, wv, ok)
          do ie = 1, 3
             ia = iedge_tri(1, ie)
@@ -215,7 +214,8 @@ contains
       done = .false.
       do n = 1, ncells
          call rnd_tet(x)
-         call dual_points_tet(policy_voronoi, x, pc, pf, okp)
+         call dual_points_tet(x, 1.0_rk, spread(1.0_rk, 1, 4), pc, &
+                              pf, okp)
          call kernel_tet(x, pc, pf, avec, wv, ok)
          r = norm2(pc - x(:, 1))
          do k = 2, 4
@@ -401,7 +401,8 @@ contains
       do k = 1, 4
          z(:, k) = y(:, k) - y(:, 1)
       end do
-      call dual_points_tet(policy_voronoi, z, pc, pf, ok)
+      call dual_points_tet(z, 1.0_rk, spread(1.0_rk, 1, 4), pc, pf, &
+                           ok)
       if (old) pc = det_circumcenter(y) - y(:, 1)
       call kernel_tet(z, pc, pf, avec, wv, ok)
       do k = 1, 6
@@ -487,7 +488,7 @@ contains
                           m%itet, iedge_off, jedge, nedges, ierr)
       allocate (area(nedges), vol(m%nnodes), av(3, nedges))
       allocate (sv(3, m%nnodes))
-      call assemble(policy_voronoi, m%nnodes, m%nelements, m%nen, &
+      call assemble(m%nnodes, m%nelements, m%nen, &
                     m%xic, m%yic, m%zic, m%itetoff, m%itet, &
                     iedge_off, jedge, area, vol, st, ierr, av)
       ! sum of outward vector areas around each vertex

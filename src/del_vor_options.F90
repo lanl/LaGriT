@@ -21,7 +21,25 @@
 !                                         |A| <= zero_tol d (triangles)
 ! compress   on | off           on        .stor: each distinct A/d
 !                                         value written once
-! cv         voronoi            voronoi   control volumes
+! cv         voronoi | median | voronoi   where each cell's dual
+!            blend | hybrid                points go (del_vor_policy):
+!                                         circumcenters; centroids;
+!                                         one alpha everywhere; per
+!                                         cell, toward the centroid
+!                                         only as far as needed
+! alpha      number in [0, 1]             cv blend: 1 = Voronoi,
+!                                         0 = median (required there,
+!                                         refused with other cv)
+! hybrid_tol number >= 0        0         how negative a coefficient
+!                                         may stay, relative to the
+!                                         sum of |its pieces|
+! alpha_min  number in [0, 1]   0         the lowest alpha the hybrid
+!                                         may give a cell
+! hybrid_iter integer >= 1      100       limit on stage B passes
+!            (hybrid_tol, alpha_min, hybrid_iter: cv hybrid only)
+! alpha_file file                         ParaView file of the mesh
+!                                         with alpha and stage per
+!                                         cell (del_vor_write_vtu)
 ! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
 !                                         when delta/L < -delaunay_tol
 !                                         (del_vor_delaunay)
@@ -65,6 +83,11 @@ module del_vor_options
       real(rk) :: zero_tol = 1.0e-12_rk
       logical :: compress = .true.
       character(len=16) :: cv = 'voronoi'
+      real(rk) :: alpha = -1.0_rk          ! < 0: not given
+      real(rk) :: hybrid_tol = 0.0_rk
+      real(rk) :: alpha_min = 0.0_rk
+      integer :: hybrid_iter = 100
+      character(len=lpath) :: alpha_file = ' '
       real(rk) :: delaunay_tol = 1.0e-10_rk
       real(rk) :: delaunay_fatal = 1.0e-2_rk
       character(len=lpath) :: violations = 'violations.vtu'
@@ -76,7 +99,8 @@ module del_vor_options
    character(len=*), parameter :: option_keywords = &
       'avs stor uge tough2 zero_area zero_tol compress cv '// &
       'delaunay_tol delaunay_fatal violations check_only report '// &
-      'timing type o'
+      'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
+      'type o'
 
 contains
 
@@ -89,12 +113,14 @@ contains
       integer, intent(out) :: ierr
 
       character(len=lpath) :: key, val, legacy_type, legacy_file
-      integer :: i, ios
+      integer :: i, ios, j
       real(rk) :: x
+      character(len=16) :: hyb_key
 
       ierr = 0
       legacy_type = ' '
       legacy_file = ' '
+      hyb_key = ' '
       i = 1
       do while (i <= n)
          key = lowercase(adjustl(tokens(i)))
@@ -116,7 +142,8 @@ contains
          case ('avs', 'stor', 'uge', 'tough2', 'zero_area', &
                'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
                'violations', 'check_only', 'report', 'timing', &
-               'delaunay_fatal')
+               'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
+               'hybrid_iter', 'alpha_file')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -194,12 +221,52 @@ contains
                return
             end select
          case ('cv')
-            if (trim(lowercase(val)) /= 'voronoi') then
+            select case (trim(lowercase(val)))
+            case ('voronoi', 'median', 'blend', 'hybrid')
+               opt%cv = trim(lowercase(val))
+            case default
                call bad('cv '//trim(val)// &
-                        ': only voronoi for now')
+                        ': must be voronoi, median, blend or hybrid')
+               return
+            end select
+         case ('alpha')
+            read (val, *, iostat=ios) x
+            if (ios /= 0 .or. x < 0.0_rk .or. x > 1.0_rk) then
+               call bad('alpha '//trim(val)// &
+                        ': must be a number from 0 to 1')
                return
             end if
-            opt%cv = 'voronoi'
+            opt%alpha = x
+         case ('hybrid_tol')
+            hyb_key = 'hybrid_tol'
+            read (val, *, iostat=ios) x
+            if (ios /= 0 .or. x < 0.0_rk) then
+               call bad('hybrid_tol '//trim(val)// &
+                        ': must be a number >= 0')
+               return
+            end if
+            opt%hybrid_tol = x
+         case ('alpha_min')
+            hyb_key = 'alpha_min'
+            read (val, *, iostat=ios) x
+            if (ios /= 0 .or. x < 0.0_rk .or. x > 1.0_rk) then
+               call bad('alpha_min '//trim(val)// &
+                        ': must be a number from 0 to 1')
+               return
+            end if
+            opt%alpha_min = x
+         case ('hybrid_iter')
+            hyb_key = 'hybrid_iter'
+            read (val, *, iostat=ios) j
+            if (ios /= 0 .or. j < 1 .or. &
+                verify(trim(val), '0123456789') /= 0) then
+               call bad('hybrid_iter '//trim(val)// &
+                        ': must be a whole number >= 1')
+               return
+            end if
+            opt%hybrid_iter = j
+         case ('alpha_file')
+            opt%alpha_file = val
          case ('type')
             select case (lowercase(val(1:4)))
             case ('fehm')
@@ -235,6 +302,23 @@ contains
          end if
          call add_output(opt, trim(legacy_type), legacy_file, ierr)
          if (ierr /= 0) return
+      end if
+
+      ! alpha belongs to cv blend, and cv blend needs it
+      if (trim(opt%cv) == 'blend' .and. opt%alpha < 0.0_rk) then
+         call bad('cv blend needs alpha (a number from 0 to 1)')
+         return
+      end if
+      if (trim(opt%cv) /= 'blend' .and. opt%alpha >= 0.0_rk) then
+         call bad('alpha is for cv blend (here cv is '// &
+                  trim(opt%cv)//')')
+         return
+      end if
+
+      if (trim(opt%cv) /= 'hybrid' .and. len_trim(hyb_key) > 0) then
+         call bad(trim(hyb_key)//' is for cv hybrid (here cv is '// &
+                  trim(opt%cv)//')')
+         return
       end if
 
       if (opt%nout == 0) call add_output(opt, 'stor', &
@@ -283,7 +367,7 @@ contains
 !     differs from the others and from the mesh.
       type(options_t), intent(in) :: opt
       integer, intent(out) :: ierr
-      character(len=lpath) :: f(maxout+2)
+      character(len=lpath) :: f(maxout+3)
       integer :: n, k, j
       ierr = 0
       n = opt%nout
@@ -293,6 +377,10 @@ contains
       if (len_trim(opt%report) > 0) then
          n = n + 1
          f(n) = opt%report
+      end if
+      if (len_trim(opt%alpha_file) > 0) then
+         n = n + 1
+         f(n) = opt%alpha_file
       end if
       do k = 1, n
          if (trim(f(k)) == trim(opt%mesh)) then

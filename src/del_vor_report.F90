@@ -19,7 +19,7 @@ module del_vor_report
                                sliver_ratio
    implicit none
    private
-   public :: report_run, report_delaunay
+   public :: report_run, report_delaunay, report_policy
 
 contains
 
@@ -121,6 +121,66 @@ contains
       end if
       call log_line(' ')
    end subroutine report_run
+
+   ! The control-volume policy (cv other than voronoi): negative
+   ! coefficients at each step (del_vor_hybrid's is_negative: below
+   ! -hybrid_tol times the sum of |pieces|, and not zero-area), alpha,
+   ! and the
+   ! non-orthogonality traded for positivity: the angle between each
+   ! dual face's vector area and its edge (0 for Voronoi).
+   subroutine report_policy(cv, nstep, step, nb, ni, rmin, alpha, &
+                            stage, alpha_min, nstage_a, nstage_b, &
+                            npass, stuck, limit, angmax, angmean)
+      character(len=*), intent(in) :: cv
+      integer, intent(in) :: nstep
+      character(len=*), intent(in) :: step(:)
+      integer(ik), intent(in) :: nb(:), ni(:)
+      real(rk), intent(in) :: rmin(:), alpha(:), alpha_min
+      integer, intent(in) :: stage(:)
+      integer(ik), intent(in) :: nstage_a, nstage_b
+      integer, intent(in) :: npass
+      logical, intent(in) :: stuck, limit
+      real(rk), intent(in) :: angmax, angmean
+      character(len=80) :: s
+      integer :: j
+      integer(ik) :: n1, n0
+      call log_line('del_vor control volumes: '//trim(cv))
+      call log_line('  negative coefficients    boundary  interior'// &
+                    '   smallest A/sum|A|')
+      do j = 1, nstep
+         write (s, '(2x,a22,i10,i10,3x,1pe10.2)') step(j), nb(j), &
+            ni(j), rmin(j)
+         call log_line(s)
+      end do
+      n1 = count(alpha >= 1.0_rk)
+      n0 = count(alpha <= 0.0_rk)
+      write (s, '(a,i12,a,i12,a,i12)') '  alpha: 1 in', n1, &
+         ', 0 in', n0, ', between in', size(alpha, kind=ik) - n1 - n0
+      call log_line(s)
+      write (s, '(a,f12.9)') '  smallest alpha      ', minval(alpha)
+      call log_line(s)
+      if (trim(cv) == 'hybrid') then
+         write (s, '(a,i12,a,i12,a)') '  cells lowered: stage A', &
+            nstage_a, ', stage B', nstage_b
+         call log_line(s)
+         write (s, '(a,i6,a,f6.3)') '  stage B passes      ', npass, &
+            '    alpha_min ', alpha_min
+         call log_line(s)
+         if (count(stage > 0 .and. alpha <= alpha_min) > 0) then
+            write (s, '(a,i12)') '  cells at alpha_min  ', &
+               count(stage > 0 .and. alpha <= alpha_min)
+            call log_line(s)
+         end if
+         if (stuck) call log_line('  WARNING: edges still negative'// &
+            ' with every cell around them at alpha_min')
+         if (limit) call log_line('  WARNING: stopped at '// &
+            'hybrid_iter passes with edges still negative')
+      end if
+      write (s, '(a,f7.2,a,f7.3,a)') '  non-orthogonality: max', &
+         angmax, ' deg, area-weighted mean', angmean, ' deg'
+      call log_line(s)
+      call log_line(' ')
+   end subroutine report_policy
 
    ! The Delaunay check: counts, the worst facet, a histogram of
    ! delta/L, boundary circumcenters, slivers. Returns fatal = .true.
