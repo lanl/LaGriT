@@ -54,6 +54,11 @@ EXPECT = {
     'tol_zero_ties': ['a.stor', 'ties.vtu'],
     'cv_hybrid': ['a.stor', 'a.vtu'], 'cv_alpha_vor': ['a.stor', 'a.vtu'],
     'blend_alpha': ['a.uge'],
+    'pv_files': ['a.stor', 'v.pvd', 'v_mesh.vtu', 'v_cells.vtu'],
+    'pv_faces': ['a.stor', 'v.pvd', 'v_mesh.vtu', 'v_cells.vtu',
+                 'v_faces.vtu'],
+    'pv_2d_faces': ['a.uge', 'v.pvd', 'v_mesh.vtu', 'v_cells.vtu'],
+    'pv_box': ['a.stor', 'v.pvd', 'v_mesh.vtu', 'v_cells.vtu'],
     # exit 1 by design, with the violations file
     'tol_zero_strict': ['ties.vtu'],
 }
@@ -75,6 +80,11 @@ REFUSED = {
     'bad_alpha': 'alpha 1.5', 'hyb_tol_median': 'hybrid_tol is for cv hybrid',
     'bad_alpha_min': 'alpha_min -0.1', 'bad_iter': 'hybrid_iter 0',
     'text_iter': 'hybrid_iter 2.5', 'alpha_twice': 'a.stor given twice',
+    'bad_subset': 'paraview_subset corner',
+    'box_short': 'box needs 6 numbers',
+    'mat_text': 'material needs a material number',
+    'bad_format': 'vtu_format hex', 'bad_layout': 'vtu_layout old',
+    'pv_over_stor': 'v_cells.vtu given twice',
 }
 
 TOL = 1e-14

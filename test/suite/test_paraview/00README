@@ -1,0 +1,83 @@
+test_paraview -- the ParaView files (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_paraview_tests.sh [path-to-del_vor]   11 runs, about 5 s
+  open summary.html
+
+WHAT IS TESTED
+
+  del_vor -paraview ROOT writes (design document, section 11):
+
+    ROOT.pvd           opens everything below in ParaView at once
+    ROOT_mesh.vtu      the input cells (itetclr, alpha, stage) and
+                       vertices (volume, imt1, boundary)
+    ROOT_cells.vtu     one cell per control volume: a polygon (2D; one
+                       per vertex per fracture in a network) or a
+                       polyhedron (3D), drawn from the dual points the
+                       coefficients came from (moved ones with cv
+                       hybrid); data: vertex, volume, material,
+                       boundary, nfaces, min_coefficient
+    ROOT_negative.vtu  one segment per negative coefficient (when
+                       there is one): coefficient, class
+    ROOT_faces.vtu     with paraview_faces on (tets): one polygon per
+                       dual face (cv voronoi) or its triangles (other
+                       policies): area, coefficient, angle
+
+  Options: paraview_subset (all, boundary, flagged, material N, box),
+  vtu_format (binary, ascii), vtu_layout (new: file version 2.3, VTK
+  9.4 and later, ParaView 6; legacy: faces / faceoffsets, ParaView 5).
+
+  One case per line of cases.txt, each a run with -paraview NAME.
+
+WHERE THE ANSWERS COME FROM
+
+  vtu_read.py reads the files itself (written from VTK's file format:
+  text and appended raw data, both polyhedron layouts), and measures:
+  a polyhedron's volume by the divergence theorem over its faces, a
+  polygon's area, whether a polyhedron is closed, a face's flatness.
+  The answers are the .stor del_vor wrote in the same run (its volumes
+  and coefficients are checked elsewhere: test_poisson_lagrit,
+  test_parity, test_policy) and the mesh itself (the subsets).
+
+WHAT IS CHECKED
+
+  exit      exit 0; the .pvd lists the files and they exist
+  select    the vertices with a cell are exactly the subset asked for
+  mesh      the mesh file holds the cells that touch them, with the
+            .stor volumes
+  area      2D and networks: polygon areas from their points add up
+            to the .stor volumes (1e-12 of the largest)
+  per       networks: one polygon per vertex per fracture
+  closed    3D: every polyhedron is closed (each face edge matched
+            once, in the opposite direction)
+  volume    3D: the volume from the faces equals the .stor volume
+            (1e-12 of the largest): the faces point outward
+  planar    Voronoi faces are flat (faces with at least 1e-6 of the
+            largest area; a tie's face has no area and no plane);
+            other policies: the kernel's triangles and boundary pieces
+  bisector  with the faces file, every point of the dual face of ij
+            lies on the bisector plane of i and j (2.7e-16 of the
+            mesh size on the Poisson mesh)
+  faces     each edge's dual face area along the edge equals A(ij)
+  layout    the legacy layout holds the same polyhedra as the new one
+  negative  the segments are exactly the negative coefficients
+
+TO LOOK AT IN PARAVIEW
+
+  Every case leaves its files in work/NAME. Open NAME.pvd (File, Open,
+  then Apply). The review package's README lists what each should
+  look like.
+
+PICTURES (logs/)
+
+  NAME.svg   2D and networks: the polygons, each its own color, over
+             the mesh; tets: the outer pieces of the control volumes
+
+FILES
+
+  run_paraview_tests.sh   runner (work/, logs/)
+  cases.txt               the cases: name | mesh | arguments | about
+  vtu_read.py             the reader and the measures
+  check_paraview.py       checks, pictures, summary.html

@@ -65,3 +65,14 @@ bad_alpha_min  | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_min -0.1 | 
 bad_iter       | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 0 | hybrid_iter must be a whole number of at least 1.
 text_iter      | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 2.5 | hybrid_iter 2.5 is not a whole number; refused.
 alpha_twice    | 1 | -avs mesh_3D.inp -stor a.stor -alpha_file a.stor | The alpha file may not share a name with an output; refused before anything is written.
+# --- ParaView files (phase 5; their content: test_paraview)
+pv_files       | 0 | -avs mesh_3D.inp -stor a.stor -paraview v | paraview v: v.pvd, v_mesh.vtu and v_cells.vtu beside the .stor; no negative file (mesh_3D has no negative coefficient), no faces file (not asked).
+pv_faces       | 0 | -avs simple_3D.inp -stor a.stor -paraview v -paraview_faces on -vtu_format ascii -vtu_layout legacy | With paraview_faces on, also v_faces.vtu; text and the legacy layout are accepted.
+pv_2d_faces    | 0 | -avs mesh_2D.inp -uge a.uge -paraview v -paraview_faces on | paraview_faces on a triangle mesh: the faces file is for tets only, so it is not written (a line says so); the rest is.
+pv_box         | 0 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset box -1 -1 -1 5e5 5e5 5e5 | A box subset whose corner has negative coordinates: -1 is a number here, not a keyword.
+bad_subset     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset corner | paraview_subset takes all, boundary, flagged, material N or box with 6 numbers; corner is refused.
+box_short      | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset box 0 0 0 1 1 | A box needs 6 numbers; with 5 it is refused.
+mat_text       | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset material two | material needs a number.
+bad_format     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_format hex | vtu_format is binary or ascii.
+bad_layout     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_layout old | vtu_layout is new or legacy.
+pv_over_stor   | 1 | -avs mesh_3D.inp -stor v_cells.vtu -paraview v | An output named like one of the ParaView files would be overwritten; refused before anything is written.
