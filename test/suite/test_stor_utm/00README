@@ -1,0 +1,67 @@
+test_stor_utm -- dump / stor at UTM coordinates (Nov 2026)
+==========================================================
+
+QUICK START
+
+  sh run_stor_utm_tests.sh [path-to-lagrit]          7 decks, about 2 s
+  open summary.html
+
+  REF_STOR=DIR sh run_stor_utm_tests.sh ...   also draw the volumes of
+  another run (DIR = its work/ folder, e.g. a run with an older lagrit
+  made with WORK=/tmp/old_work) in red in the pictures
+
+WHAT IS TESTED
+
+  Every deck writes one mesh twice: at the origin (files *_o) and moved
+  to UTM-sized coordinates, + (7e5, 3.2e6, 1.5e3) (files *_u). The deck
+  moves the mesh out and back before the first write, so both copies
+  have the same geometry to the last bit (x - 7e5 is exact there); any
+  difference between the two files is the writer's own loss of digits.
+
+  same   the two files hold the same matrix (rows, columns) and the
+         same volumes and coefficients, to 1e-12 of the largest value
+  sum    the Voronoi volumes add up to the volume (2D: area) of the
+         cells, computed by the checker from the mesh file (to 1e-9 of
+         the sum of |Voronoi volume|)
+  indep  the origin copy's volumes and coefficients agree (to 1e-7 of
+         the largest; compression all merges values within 1e-8) with
+         an independent computation in plain Python: for every edge of
+         every cell, its piece of the Voronoi face (3D: the polygon
+         edge midpoint - face circumcenter - cell circumcenter - other
+         face circumcenter; 2D: edge midpoint to circumcenter), signed,
+         gives the coefficient area / length and, as a pyramid over it
+         (height half the edge), the volume of each end vertex
+
+  st01  brick lattice 9 x 7 x 6 (1 x 0.75 x 0.5), interior vertices
+        moved at random; dump / stor: the 3D default (anothermatbld3d.c,
+        compression all)
+  st02  st01's mesh; dump / stor / ... / ascii / scalar / graph
+  st03  st01's mesh; dump / stor / ... / none and / coefs: the older 3D
+        writer (matbld3d_stor.f); two coefs files in one run (the second
+        was broken before Nov 2026: parking lot item 79)
+  st04  random points on the faces of and inside a 1 x 1 x 0.5 box
+        (make_stor_inputs.py); dump / stor / hybrid and without it
+  st05  3D Poisson disk mesh, h = 0.08 in a 1 x 1 x 0.5 box (857
+        vertices); dump / stor
+  st06  2D: a 41 x 31 lattice in 0.04 x 0.03, interior vertices moved;
+        dump / stor (matbld2d_stor.f)
+  st07  st01's mesh; dump / pflotran: .uge volumes and areas (same), the
+        centers u - shift = o to 1e-6 (the .uge has 13 digits)
+
+  KNOWN (reported, not a failure; parking lot item 80): on st04's mesh,
+  whose hull has near-flat tets with far circumcenters, the 3D default
+  writer's volumes add up to 0.5000006, not 0.5 (matbld3d_stor:
+  0.500000000005), at the origin too. Shown as FIXED when it passes;
+  then remove it from KNOWN in check_stor_utm.py.
+
+  With LaGriT before Nov 2026 every deck fails: the 3D default gave
+  volume sums of -113.8 (st01) and 45.8 (st05) at UTM, with hundreds of
+  negative volumes; matbld3d_stor lost about 1e-9 and 2D about 3e-7.
+
+FILES
+
+  run_stor_utm_tests.sh   runs the decks, then the checker
+  make_stor_inputs.py     writes st04's vertex file into work/
+  st*.lgi                 the LaGriT decks
+  check_stor_utm.py       the checks, SVG pictures, summary.html
+  work/, logs/            made by the run (not in git)

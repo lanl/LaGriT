@@ -447,6 +447,12 @@ C
      *        irowcnt, irowoff, irowdag, iamat, itet_vor,
      *        isign_dot, imedian, isolve
       integer if_vor_io
+      integer iflocal
+      real*8 x0loc, y0loc, z0loc
+      pointer (ipxloc, xloc)
+      pointer (ipyloc, yloc)
+      pointer (ipzloc, zloc)
+      real*8 xloc(*), yloc(*), zloc(*)
       integer itmax,icscode,npoints,length,icmotype,ntets,ier,
      *        mbndry,nsdtopo,nsdgeom,nen,nef,
      *        lenisetwd,lenimt1,lenitp1,lenicr1,lenisn1,
@@ -665,6 +671,7 @@ C
 C#######################################################################
 C
       isubname='matbld3d'
+      iflocal = 0
       istatus=0
       icscode = 0 
 C
@@ -723,6 +730,32 @@ C
       call cmo_get_info('xic',cmo,ipxic,lenxic,icmotype,ierror)
       call cmo_get_info('yic',cmo,ipyic,lenyic,icmotype,ierror)
       call cmo_get_info('zic',cmo,ipzic,lenzic,icmotype,ierror)
+C
+C     Work on a copy of the coordinates relative to the minimum
+C     corner of the mesh, so that no digits are lost at large (UTM)
+C     coordinates.  x - x0 is exact when the coordinates are large
+C     compared with the mesh.  The mesh object is not changed.
+C
+      call mmgetblk('xloc',isubname,ipxloc,npoints,2,icscode)
+      call mmgetblk('yloc',isubname,ipyloc,npoints,2,icscode)
+      call mmgetblk('zloc',isubname,ipzloc,npoints,2,icscode)
+      iflocal = 1
+      x0loc = xic(1)
+      y0loc = yic(1)
+      z0loc = zic(1)
+      do i = 2, npoints
+         x0loc = min(x0loc, xic(i))
+         y0loc = min(y0loc, yic(i))
+         z0loc = min(z0loc, zic(i))
+      enddo
+      do i = 1, npoints
+         xloc(i) = xic(i) - x0loc
+         yloc(i) = yic(i) - y0loc
+         zloc(i) = zic(i) - z0loc
+      enddo
+      ipxic = ipxloc
+      ipyic = ipyloc
+      ipzic = ipzloc
       call cmo_get_info('itetclr',cmo,ipitetclr,lenitetclr,icmotype,ier)
       call cmo_get_info('itet',cmo,ipitet,lenitet,icmotype,ierror)
       call cmo_get_info('jtet',cmo,ipjtet,lenjtet,icmotype,ierror)
@@ -3060,6 +3093,12 @@ c     1                     isign_face(i+15*(it-1)), '  tri ',
       goto 9999
 
  9999 continue
+      if (iflocal .eq. 1) then
+         call mmrelblk('xloc',isubname,ipxloc,icscode)
+         call mmrelblk('yloc',isubname,ipyloc,icscode)
+         call mmrelblk('zloc',isubname,ipzloc,icscode)
+         iflocal = 0
+      endif
 
 C convert options to readable strings and report
 C

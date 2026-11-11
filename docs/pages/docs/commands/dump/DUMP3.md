@@ -105,6 +105,14 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
     format is written for FEHM input and is described at this page:   
     [FEHM STOR File Format](../../STOR_Form.md)
 
+    **Large coordinates:** every stor writer (2D and 3D, every
+    compression option, hybrid) computes the geometry of each cell
+    relative to one of its vertices, so a mesh at UTM-sized
+    coordinates (x about 7e5, y about 3.2e6) gets the same volumes and
+    coefficients as the same mesh at the origin (since V3.3.4; before,
+    the 3D default gave wrong volumes and coefficients there).
+    Checked by the suite test/suite/test_stor_utm.
+
 
 
 ## FORMAT:

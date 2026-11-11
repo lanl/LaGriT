@@ -162,16 +162,20 @@ static double volumeOfTet(double a0, double a1, double a2,
 /**************************************************************************/
  
      /*
-	Computes the Volume of the tetrahedron with vertices a,b,c,d
+	Computes the Volume of the tetrahedron with vertices a,b,c,d,
+	from the edge vectors at a (the sign is that of the old
+	24-term expansion: -(b-a).((c-a)x(d-a))/6).  Callers pass
+	coordinates relative to a vertex of the tet, so no digits are
+	lost at large (UTM) coordinates.
 	*/
  
 {
-  return((
- -b0 * c1 * d2 + a0 * c1 * d2 + b1 * c0 *d2 - a1 * c0 * d2 - a0 * b1 * d2
- +a1 * b0 * d2 + b0 * c2 * d1 - a0 * c2 *d1 - b2 * c0 * d1 + a2 * c0 * d1
- +a0 * b2 * d1 - a2 * b0 * d1 - b1 * c2 *d0 + a1 * c2 * d0 + b2 * c1 * d0
- -a2 * c1 * d0 - a1 * b2 * d0 + a2 * b1 *d0 + a0 * b1 * c2 - a1 * b0 * c2
- -a0 * b2 * c1 + a2 * b0 * c1 + a1 * b2 *c0 - a2 * b1 * c0)/6.0);
+  double u0 = b0 - a0, u1 = b1 - a1, u2 = b2 - a2;
+  double v0 = c0 - a0, v1 = c1 - a1, v2 = c2 - a2;
+  double w0 = d0 - a0, w1 = d1 - a1, w2 = d2 - a2;
+  return(-(u0 * (v1 * w2 - v2 * w1)
+         - u1 * (v0 * w2 - v2 * w0)
+         + u2 * (v0 * w1 - v1 * w0))/6.0);
 }
  
  
@@ -250,57 +254,6 @@ static void getCircumcenterOfTetrahedron(double a0, double a1, double a2,
 	       A[2][0],A[2][1],B[2])/deta;
 }
 
-/**************************************************************************/
- 
-static void TranslateTetToZero (double a0, double a1, double a2,
-			 double b0, double b1, double b2,
-			 double c0, double c1, double c2,
-      	    	         double d0, double d1, double d2,
-                         double *xv1_save, double *yv1_save, double *zv1_save,
-                         double *xv2_save, double *yv2_save, double *zv2_save,
-                         double *xk1_save, double *yk1_save, double *zk1_save,
-                         double *xk2_save, double *yk2_save, double *zk2_save)
- 
-/**************************************************************************/
- 
-/*
- Translate a tet so that the local node 0 is at coordinate (0,0,0)
- Return the original coordinates as arguments.
- */
-{
-  *xv1_save = a0;
-  *yv1_save = a1;
-  *zv1_save = a2;
-
-  *xv2_save = b0;
-  *yv2_save = b1;
-  *zv2_save = b2;
-
-  *xk1_save = c0;
-  *yk1_save = c1;
-  *zk1_save = c2;
-
-  *xk2_save = d0;
-  *yk2_save = d1;
-  *zk2_save = d2;
-
-  b0 = b0 - a0;
-  b1 = b1 - a1;
-  b2 = b2 - a2;
-
-  c0 = c0 - a0;
-  c1 = c1 - a1;
-  c2 = c2 - a2;
-
-  d0 = d0 - a0;
-  d1 = d1 - a1;
-  d2 = d2 - a2;
-
-  a0 = a0 - a0;
-  a1 = a1 - a1;
-  a2 = a2 - a2;
-}
-/* end TranslateTetToZero() */
 
 /**************************************************************************/
 
@@ -521,6 +474,7 @@ static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
         double xm, double ym, double zm,
         double xv, double yv, double zv,
         int_ptrsize p1, int_ptrsize p2, int_ptrsize p3,
+        double ox, double oy, double oz,
         double *x, double *y, double *z)
 
 /**************************************************************************/
@@ -531,17 +485,24 @@ static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
  * itet argument. Return 1 if an intersection exists and 0 otherwise. If there
  * is an intersection, the function will return it by placing it in the
  * arguments x, y, and z.
+ * All points (segment, face and result) are relative to (ox, oy, oz).
  */
 
 {
     int_ptrsize flag;
+    double x1, y1, z1, x2, y2, z2, x3, y3, z3;
 
-    lineseg_tri_(
-            &Mesh->xic[itet[p1] - 1], &Mesh->yic[itet[p1] - 1],
-            &Mesh->zic[itet[p1] - 1], &Mesh->xic[itet[p2] - 1],
-            &Mesh->yic[itet[p2] - 1], &Mesh->zic[itet[p2] - 1],
-            &Mesh->xic[itet[p3] - 1], &Mesh->yic[itet[p3] - 1],
-            &Mesh->zic[itet[p3] - 1],
+    x1 = Mesh->xic[itet[p1] - 1] - ox;
+    y1 = Mesh->yic[itet[p1] - 1] - oy;
+    z1 = Mesh->zic[itet[p1] - 1] - oz;
+    x2 = Mesh->xic[itet[p2] - 1] - ox;
+    y2 = Mesh->yic[itet[p2] - 1] - oy;
+    z2 = Mesh->zic[itet[p2] - 1] - oz;
+    x3 = Mesh->xic[itet[p3] - 1] - ox;
+    y3 = Mesh->yic[itet[p3] - 1] - oy;
+    z3 = Mesh->zic[itet[p3] - 1] - oz;
+
+    lineseg_tri_(&x1, &y1, &z1, &x2, &y2, &z2, &x3, &y3, &z3,
             &xm, &ym, &zm, &xv, &yv, &zv, x, y, z, &flag);
 
     if (flag != -1)
@@ -554,6 +515,7 @@ static int_ptrsize intersectSegmentWithFace(int_ptrsize *itet,
 
 static int_ptrsize getHybridPoint(int_ptrsize tet,
         double xv, double yv, double zv,
+        double ox, double oy, double oz,
         double *x, double *y, double *z,
         double *hybrid_factor)
 
@@ -576,6 +538,9 @@ static int_ptrsize getHybridPoint(int_ptrsize tet,
  * will return 1 if it finds an intersection and 0 otherwise. If it returns 0
  * then (assuming nothing went wrong) we don't need to use a hybrid point
  * because the Voronoi center is still within the boundaries of the mesh.
+ *
+ * (xv, yv, zv) and the result are relative to (ox, oy, oz), a vertex of
+ * the tet, so no digits are lost at large (UTM) coordinates.
  */
 
 {
@@ -593,33 +558,37 @@ static int_ptrsize getHybridPoint(int_ptrsize tet,
     /* Compute the median point of the tetrahedron by taking the arithmetic mean
      * of each coordinate across the four vertices of the tet. */
     for (i = 0; i < 4; i++) {
-        xm += Mesh->xic[itet[i] - 1];
+        xm += Mesh->xic[itet[i] - 1] - ox;
     }
     xm /= 4.0;
 
     for (i = 0; i < 4; i++) {
-        ym += Mesh->yic[itet[i] - 1];
+        ym += Mesh->yic[itet[i] - 1] - oy;
     }
     ym /= 4.0;
 
     for (i = 0; i < 4; i++) {
-        zm += Mesh->zic[itet[i] - 1];
+        zm += Mesh->zic[itet[i] - 1] - oz;
     }
     zm /= 4.0;
 
     /* It's not obvious which face the median-Voronoi segment will intersect, so
      * we just try all boundary faces of this tet. */
     if (jtet[0] >= Mesh->mbndry && intersectSegmentWithFace(itet,
-                xm, ym, zm, xv, yv, zv, 1, 2, 3, x, y, z))
+                xm, ym, zm, xv, yv, zv, 1, 2, 3,
+                ox, oy, oz, x, y, z))
         ;
     else if (jtet[1] >= Mesh->mbndry && intersectSegmentWithFace(itet,
-                xm, ym, zm, xv, yv, zv, 0, 2, 3, x, y, z))
+                xm, ym, zm, xv, yv, zv, 0, 2, 3,
+                ox, oy, oz, x, y, z))
         ;
     else if (jtet[2] >= Mesh->mbndry && intersectSegmentWithFace(itet,
-                xm, ym, zm, xv, yv, zv, 0, 1, 3, x, y, z))
+                xm, ym, zm, xv, yv, zv, 0, 1, 3,
+                ox, oy, oz, x, y, z))
         ;
     else if (jtet[3] >= Mesh->mbndry && intersectSegmentWithFace(itet,
-                xm, ym, zm, xv, yv, zv, 0, 1, 2, x, y, z))
+                xm, ym, zm, xv, yv, zv, 0, 1, 2,
+                ox, oy, oz, x, y, z))
         ;
     else
         return 0;
@@ -666,10 +635,9 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
          triCenter1x, triCenter1y, triCenter1z,
          triCenter2x, triCenter2y, triCenter2z,
          tetCenterx,  tetCentery,  tetCenterz;
-  double xv1_save, yv1_save, zv1_save,
-         xv2_save, yv2_save, zv2_save,
-         xk1_save, yk1_save, zk1_save,
-         xk2_save, yk2_save, zk2_save;
+  /* The tet's vertices relative to v1: v1 is (0,0,0), b = v2 - v1,
+     c = k1 - v1, d = k2 - v1. */
+  double ox, oy, oz, a0, a1, a2, b0, b1, b2, c0, c1, c2, d0, d1, d2;
   double xhybrid, yhybrid, zhybrid;
  
   area=0.0;
@@ -694,18 +662,23 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
     getTetVertices(incidentTets[tetIndex],localEdges[tetIndex],
 		   &v1,&v2,&k1,&k2);
 
-    /* Translate each tet to the origin (0,0,0) before
-       all the geometric calculations.
-       The function below translates so that node v1 has coordinates (0,0,0) 
-    */
-    TranslateTetToZero(   Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
-        	       	  Mesh->xic[v2],Mesh->yic[v2],Mesh->zic[v2],
-			  Mesh->xic[k1],Mesh->yic[k1],Mesh->zic[k1],
-			  Mesh->xic[k2],Mesh->yic[k2],Mesh->zic[k2],
-                          &xv1_save, &yv1_save, &zv1_save,
-                          &xv2_save, &yv2_save, &zv2_save,
-                          &xk1_save, &yk1_save, &zk1_save,
-                          &xk2_save, &yk2_save, &zk2_save);
+    /* Do all the geometry relative to v1, so that no digits are lost
+       at large (UTM) coordinates.  (The mesh is not changed.) */
+    ox = Mesh->xic[v1];
+    oy = Mesh->yic[v1];
+    oz = Mesh->zic[v1];
+    a0 = 0.0;
+    a1 = 0.0;
+    a2 = 0.0;
+    b0 = Mesh->xic[v2] - ox;
+    b1 = Mesh->yic[v2] - oy;
+    b2 = Mesh->zic[v2] - oz;
+    c0 = Mesh->xic[k1] - ox;
+    c1 = Mesh->yic[k1] - oy;
+    c2 = Mesh->zic[k1] - oz;
+    d0 = Mesh->xic[k2] - ox;
+    d1 = Mesh->yic[k2] - oy;
+    d2 = Mesh->zic[k2] - oz;
 
     if ((MIN((v1+1),(v2+1)) != MIN(index_i,index_j)) ||
 	(MAX((v1+1),(v2+1)) != MAX(index_i,index_j))) {
@@ -713,14 +686,12 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
     }
  
       /* Compute bisector, and the relevant circumcenters. */
-    bisectorx = (Mesh->xic[v1] + Mesh->xic[v2])/2.0;
-    bisectory = (Mesh->yic[v1] + Mesh->yic[v2])/2.0;
-    bisectorz = (Mesh->zic[v1] + Mesh->zic[v2])/2.0;
+    bisectorx = b0/2.0;
+    bisectory = b1/2.0;
+    bisectorz = b2/2.0;
  
-    getCircumcenterOfTetrahedron(Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
-				 Mesh->xic[v2],Mesh->yic[v2],Mesh->zic[v2],
-				 Mesh->xic[k1],Mesh->yic[k1],Mesh->zic[k1],
-				 Mesh->xic[k2],Mesh->yic[k2],Mesh->zic[k2],
+    getCircumcenterOfTetrahedron(a0, a1, a2, b0, b1, b2,
+				 c0, c1, c2, d0, d1, d2,
 				 &tetCenterx, &tetCentery, &tetCenterz);
  
     /* If the tet is on the boundary and it does not contain its circumcenter,
@@ -731,13 +702,11 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
     if (Mesh->ifhybrid && tetIsOnBoundary(incidentTets[tetIndex] - 1)) {
         /* This call might not be necessary. getHybridPoint will find out later
          * whether or not the circumcenter is inside the tet. */
-        inside_tet_(&Mesh->xic[v1],&Mesh->yic[v1],&Mesh->zic[v1],
-                     &Mesh->xic[v2],&Mesh->yic[v2],&Mesh->zic[v2],
-                     &Mesh->xic[k1],&Mesh->yic[k1],&Mesh->zic[k1],
-                     &Mesh->xic[k2],&Mesh->yic[k2],&Mesh->zic[k2],
-                     &tetCenterx, &tetCentery, &tetCenterz, &flag);
+        inside_tet_(&a0, &a1, &a2, &b0, &b1, &b2,
+                    &c0, &c1, &c2, &d0, &d1, &d2,
+                    &tetCenterx, &tetCentery, &tetCenterz, &flag);
         if (flag == -1 && getHybridPoint(incidentTets[tetIndex] - 1,
-                    tetCenterx, tetCentery, tetCenterz,
+                    tetCenterx, tetCentery, tetCenterz, ox, oy, oz,
                     &xhybrid, &yhybrid, &zhybrid,
                     &Mesh->hybrid_factor[incidentTets[tetIndex] - 1])) {
             tetCenterx = xhybrid;
@@ -746,14 +715,10 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
         }
     }
  
-    getCircumcenterOfTriangle(Mesh->xic[v1], Mesh->yic[v1],Mesh->zic[v1],
-			      Mesh->xic[v2], Mesh->yic[v2],Mesh->zic[v2],
-			      Mesh->xic[k1], Mesh->yic[k1],Mesh->zic[k1],
+    getCircumcenterOfTriangle(a0, a1, a2, b0, b1, b2, c0, c1, c2,
 			      &triCenter1x, &triCenter1y, &triCenter1z);
  
-    getCircumcenterOfTriangle(Mesh->xic[v1], Mesh->yic[v1], Mesh->zic[v1],
-			      Mesh->xic[v2], Mesh->yic[v2], Mesh->zic[v2],
-			      Mesh->xic[k2], Mesh->yic[k2], Mesh->zic[k2],
+    getCircumcenterOfTriangle(a0, a1, a2, b0, b1, b2, d0, d1, d2,
 			      &triCenter2x, &triCenter2y, &triCenter2z);
  
  
@@ -768,7 +733,7 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
      * opposite directions. */
     area1 = fabs(dot(xa, ya, za, edge_unit_x, edge_unit_y, edge_unit_z));
  
-    vol1 =  volumeOfTet(Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
+    vol1 =  volumeOfTet(a0, a1, a2,
 			   bisectorx,bisectory,bisectorz,
 			   triCenter1x,triCenter1y,triCenter1z,
 			   tetCenterx, tetCentery,tetCenterz);
@@ -783,7 +748,7 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
              &xa, &ya, &za);
     area2 = fabs(dot(xa, ya, za, edge_unit_x, edge_unit_y, edge_unit_z));
 	
-    vol2 = volumeOfTet(Mesh->xic[v1],Mesh->yic[v1],Mesh->zic[v1],
+    vol2 = volumeOfTet(a0, a1, a2,
 			    triCenter2x,triCenter2y,triCenter2z,
 			    bisectorx,bisectory,bisectorz,
 			    tetCenterx, tetCentery,tetCenterz);
@@ -799,22 +764,6 @@ static void computescalarVoronoientry(int_ptrsize index_i, int_ptrsize index_j,
   value = -area/edgelength;
  
   setEntry(index_i,index_j,volume,&value);
- /* Undo the translation of node v1 to (0,0,0)  */
-       Mesh->xic[v1] = xv1_save;
-       Mesh->yic[v1] = yv1_save;
-       Mesh->zic[v1] = zv1_save;
-
-       Mesh->xic[v2] = xv2_save;
-       Mesh->yic[v2] = yv2_save;
-       Mesh->zic[v2] = zv2_save;
-
-       Mesh->xic[k1] = xk1_save;
-       Mesh->yic[k1] = yk1_save;
-       Mesh->zic[k1] = zk1_save;
-
-       Mesh->xic[k2] = xk2_save;
-       Mesh->yic[k2] = yk2_save;
-       Mesh->zic[k2] = zk2_save;
 }
  
  
