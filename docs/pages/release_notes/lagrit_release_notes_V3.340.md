@@ -42,6 +42,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - createpts / poisson_disk / 3d_box / connect left the vertices connect could not connect (dudded, itp1 = 21, in no tet) in the output mesh: 8 of 144,992 in a graded mesh. They are now removed with rmpoint / compress, as in 2D.
 - The 3D hull fill (#320) and the 2D one (#322) no longer resize every array of the mesh object in the middle of connect, which made test/level01/refine_recon_quality and test_createpts cp62 fail on macOS.
 - Commands by Category (commands_cat.md): RZBRICK and SETPTS, and RANKVOLUME, SORT and UPSCALE, ran together on one line each; every command is on its own line again. TRIANGULATE and EXTRACT have clearer descriptions (#322).
+- dump / stor / ... / coefs (matbld3d_stor.f) wrote a broken second file when used twice in one run: the coefficient numbering went on from the first file, so the pointers pointed past the values and some values were never set (src/matrix_values_compress.c).
 
 ### Build and tests
 
