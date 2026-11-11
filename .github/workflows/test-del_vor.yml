@@ -1,0 +1,108 @@
+name: del_vor build and test
+
+# Builds del_vor on Linux with GCC 13 (Ubuntu 24.04's own) and GCC 14,
+# and on macOS (Homebrew gfortran), and runs the test suite in
+# test/suite (see test/suite/README.md). The result pages of each run,
+# and the del_vor it built, can be downloaded from the run's Summary
+# page (Artifacts). Modeled on LaGriT's test-lagrit.yml.
+#
+# Runs on pushes to main, on every pull request, and by hand from the
+# Actions tab ("Run workflow"). The suites that need files outside git
+# (DEL_VOR_BIG) say SKIPPED for those cases; test_timing (dev) does
+# not run here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# a newer push to the same branch or pull request cancels the older run
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { label: linux-gcc13, os: ubuntu-24.04, gcc: 13, build: Release }
+          # gcc14 builds Debug: gfortran's run-time checks (-fcheck=all:
+          # array bounds and more) and floating-point traps (invalid,
+          # zero, overflow), so an out-of-range index or a NaN stops the
+          # test instead of passing silently (CMakeLists.txt)
+          - { label: linux-gcc14, os: ubuntu-24.04, gcc: 14, build: Debug }
+          - { label: macos,       os: macos-15,              build: Release }
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install gfortran (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran-${{ matrix.gcc }}
+          echo "FC=gfortran-${{ matrix.gcc }}" >> "$GITHUB_ENV"
+
+      - name: Install gfortran (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew list gcc > /dev/null 2>&1 || brew install gcc
+          fc="$(brew --prefix)/bin/gfortran"
+          [ -x "$fc" ] || fc=$(ls "$(brew --prefix)"/bin/gfortran-[0-9]* | sort -V | tail -1)
+          echo "FC=$fc" >> "$GITHUB_ENV"
+
+      - name: Show compilers
+        run: |
+          "$FC" --version | head -1
+          cmake --version | head -1
+          python3 --version
+
+      - name: Configure
+        run: cmake -S . -B build -D CMAKE_BUILD_TYPE=${{ matrix.build }}
+
+      - name: Build
+        run: cmake --build build --parallel 4
+
+      - name: Test suite
+        working-directory: test/suite
+        env:
+          # JOBS: suites side by side (the runners have 4 cores on Linux, 3 on macOS)
+          JOBS: ${{ runner.os == 'macOS' && '3' || '4' }}
+        run: sh run_all.sh ../../build/del_vor
+
+      - name: Show the rows that did not pass
+        if: failure()
+        working-directory: test/suite
+        run: |
+          echo "Rows that did not pass (all output: run_all.log in the test-results artifact):"
+          grep -E " FAIL" run_all.log | head -100 || true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-results-${{ matrix.label }}
+          path: |
+            test/suite/summary.html
+            test/suite/*/summary.html
+            test/suite/run_all.log
+            test/suite/*/logs/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload del_vor
+        uses: actions/upload-artifact@v6
+        with:
+          name: del_vor-${{ matrix.label }}
+          path: build/del_vor
+          if-no-files-found: error
+          retention-days: 30

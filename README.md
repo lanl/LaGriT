@@ -107,6 +107,13 @@ sh run_all.sh
 
 then open `test/suite/summary.html`. See `test/suite/README.md`.
 
+GitHub builds and tests every push to `main` and every pull request,
+as for LaGriT (`.github/workflows/test-del_vor.yml`): Linux with GCC 13
+and GCC 14, and macOS with Homebrew gfortran. The GCC 14 job builds
+Debug, with gfortran's run-time checks (`-fcheck=all`) and
+floating-point traps. Each run's result pages and its `del_vor` can be
+downloaded from the run's Summary page (Artifacts).
+
 ## Source
 
 | file | contents |
