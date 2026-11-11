@@ -43,7 +43,8 @@ WHAT IS CHECKED (check_parity.py)
   MEASURED       the largest differences, the labels, volume totals
 
   The labels (defined at the top of tools/stor_compare.py): digits
-  (the 13 printed digits), round_off (small values made by
+  (the printed digits: 13 in LaGriT's
+  files, 17 in del_vor's), round_off (small values made by
   cancellation, within 64 u of the largest), merge (LaGriT's 1e-8
   compression), zero_area, dropped (LaGriT's rule: coefficients below
   1e-8 of the largest left out) and dropped_share (those pairs' share

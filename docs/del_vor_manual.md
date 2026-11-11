@@ -431,7 +431,10 @@ no output may be named like the mesh.
 pointers, the column numbers of every row (lower neighbors, itself,
 upper neighbors, in increasing order), the pointers into the values,
 the diagonal pointers, and the values -A(ij)/d(ij) (0 on the
-diagonal). With `-compress on` (the default), values equal within
+diagonal). Volumes and values are written with 17 significant digits
+(`1pe24.16`), enough to give back every double exactly; LaGriT's
+`dump / stor` writes 13. FEHM reads these blocks list-directed, so
+the wider fields need nothing on its side. With `-compress on` (the default), values equal within
 1e-14 of the largest |value| are written once and shared through the
 pointer block (LaGriT's `compressmatrixvalues` rule); with `-compress
 off`, one value per matrix entry.
@@ -446,6 +449,9 @@ i  j  x  y  z  area                one line per edge, i < j
 ```
 
 The connection point is the edge midpoint, as in lanl/voronoi.
+Coordinates, volumes and areas have 17 significant digits; the
+longest line is 128 characters (PFLOTRAN reads input lines of up to
+512).
 
 **TOUGH2 `MESH`** (`-tough2 FILE`): ELEME (one record per vertex:
 name, material, volume, AHTX, x, y, z) and CONNE (one record per edge:
@@ -605,7 +611,7 @@ some labels), `--eps` (LaGriT's `compress_eps`, default 1e-8),
 
 | label | explains |
 |---|---|
-| `digits` | the same number printed with 13 significant digits |
+| `digits` | the same number printed with the fewer significant digits of the two files (13 for LaGriT, 17 for del_vor) |
 | `round_off` | small values made by cancellation, within 64 u (1.4e-14) of the largest |
 | `coord_digits` | coordinates rounded in the mesh file (with `--coord_digits`) |
 | `merge` | LaGriT's compression stored one value for all within 1e-8 of the largest (anothermatbld3d) |
@@ -619,7 +625,7 @@ meshes (lanl/voronoi's, LaGriT's Poisson meshes and level01 meshes, a
 two-material mesh, a mesh at UTM-size coordinates, two fracture
 networks) and, outside git, dfnWorks TPL_nonuniform (114,739
 triangles). Every difference is explained; most pairs agree to all 13
-printed digits. Found in LaGriT along the way:
+digits LaGriT prints. Found in LaGriT along the way:
 
 - In 3D, `dump / stor ... / none` uses LaGriT's old writer
   (`matbld3d_stor`), which stores \|A\|/d: every negative coefficient

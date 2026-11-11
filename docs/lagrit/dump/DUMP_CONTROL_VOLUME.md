@@ -55,11 +55,13 @@ by `/` and may come in any order. With no output keyword,
 
 writes the FEHM `.stor` file (ASCII), in the layout of **`dump/stor`**:
 volumes, row pointers, column numbers, value pointers, diagonal
-pointers and the values -A(ij)/d(ij).
+pointers and the values -A(ij)/d(ij), with 17 significant digits
+(**`dump/stor`** writes 13).
 
 **`uge`**, file_name
 
-writes the PFLOTRAN explicit unstructured grid file: `CELLS` (one
+writes the PFLOTRAN explicit unstructured grid file (17 significant
+digits): `CELLS` (one
 line per vertex: id, x, y, z, volume) and `CONNECTIONS` (one line per
 edge: i, j, the edge midpoint, area).
 

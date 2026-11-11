@@ -31,7 +31,8 @@ Labels, tried in this order (the first that fits is used):
 
   digits       |a - b| <= 10^(1-D) max(|a|, |b|): both are the same
                number printed with D significant digits (D read from
-               the files; 13 for LaGriT and del_vor)
+               the files, the fewer of the two;
+               13 for LaGriT, 17 for del_vor)
   round_off    |a - b| <= 64 u max, u = 2.2e-16: small values that come
                from cancellation (pieces of opposite sign) carry the
                round-off of the large pieces, about u times the largest
@@ -398,13 +399,13 @@ def report(res, A, B):
     p('values      max |a - b| / max %.2e; %s'
       % (res['coef']['max_rel'], labels(res['coef']['labels'])))
     for i, j, a, b, d, lb in res['worst_coef']:
-        p('    pair %d %d  %.13e  %.13e  %.1e  %s' % (i, j, a, b, d, lb))
+        p('    pair %d %d  %.16e  %.16e  %.1e  %s' % (i, j, a, b, d, lb))
     v = res['vol']
     p('volumes     max |a - b| / max %.2e; %s'
       % (v['max_rel'], labels(v['labels'])))
-    p('    sum A %.15g  sum B %.15g' % (v['sum_A'], v['sum_B']))
+    p('    sum A %.17g  sum B %.17g' % (v['sum_A'], v['sum_B']))
     for i, a, b, d, lb in res['worst_vol']:
-        p('    vertex %d  %.13e  %.13e  %.1e  %s' % (i, a, b, d, lb))
+        p('    vertex %d  %.16e  %.16e  %.1e  %s' % (i, a, b, d, lb))
     for tag in ('A', 'B'):
         lp = res['layout_' + tag]
         p('layout %s    %s' % (tag, '; '.join(lp) if lp else 'ok'))
