@@ -25,7 +25,7 @@ WHAT IS TESTED
               the design's mesh (inputs/, 771 vertices, 1386
               triangles; no parent/child vertices)
 
-WHAT IS CHECKED (check_dfn.py; tolerance 1e-12, relative)
+WHAT IS CHECKED (check_dfn.py; tolerance 2e-14, relative)
 
   counts        interior and boundary edges, ties, violations and
                 intersection edges equal the exact numbers
@@ -36,6 +36,8 @@ WHAT IS CHECKED (check_dfn.py; tolerance 1e-12, relative)
   areas         every control area equals the Voronoi share of the
                 vertex, triangle by triangle; they add up to the
                 fractures' area
+  digits        every real in the .stor and .uge has 17 significant
+                digits; the .uge volumes equal the .stor volumes
   orientation   no orientation error (dfn3); for dfn3_flip: exit 1,
                 the orientation error naming the turned-over triangle,
                 no .stor

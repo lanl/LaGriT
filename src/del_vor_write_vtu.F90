@@ -19,6 +19,15 @@
 !                  cells (large = sliver; delta may be round-off)
 ! Point data:
 !   vertex         the mesh vertex number
+!
+! write_alpha_vtu: alpha_file, the whole mesh (one VTK cell per mesh
+! cell, VTK triangles or tets) with cell data
+!   alpha          the cell's weight (1 = circumcenter, 0 = centroid)
+!   stage          0 alpha left at its start, 1 set by the hybrid's
+!                  stage A, 2 by stage B
+!   negative       1 if the cell has an edge whose coefficient is
+!                  still negative (0 when there is none)
+!   itetclr        the cell's material (fracture in a network)
 !-----------------------------------------------------------------------
 module del_vor_write_vtu
    use del_vor_kinds, only: ik, rk
@@ -26,7 +35,7 @@ module del_vor_write_vtu
    use del_vor_log, only: errmsg
    implicit none
    private
-   public :: write_violations_vtu
+   public :: write_violations_vtu, write_alpha_vtu
 
 contains
 
@@ -129,5 +138,87 @@ contains
       end subroutine int_array
 
    end subroutine write_violations_vtu
+
+   subroutine write_alpha_vtu(fname, nen, nnodes, nelements, xic, &
+                              yic, zic, itetoff, itet, itetclr, &
+                              alpha, stage, negative, ierr)
+      character(len=*), intent(in) :: fname
+      integer(ik), intent(in) :: nen, nnodes, nelements
+      real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
+      integer(ik), intent(in) :: itetoff(:), itet(:), itetclr(:)
+      real(rk), intent(in) :: alpha(:)
+      integer, intent(in) :: stage(:)
+      logical, intent(in) :: negative(:)
+      integer, intent(out) :: ierr
+      integer :: lu, ios, j
+      integer(ik) :: i, it
+
+      ierr = 0
+      open (newunit=lu, file=fname, status='replace', action='write', &
+            iostat=ios)
+      if (ios /= 0) then
+         ierr = 1
+         errmsg = 'write_vtu: cannot open '//trim(fname)
+         return
+      end if
+      write (lu, '(a)') '<?xml version="1.0"?>'
+      write (lu, '(a)') '<VTKFile type="UnstructuredGrid" '// &
+         'version="0.1" byte_order="LittleEndian">'
+      write (lu, '(a)') '<UnstructuredGrid>'
+      write (lu, '(a,i0,a,i0,a)') '<Piece NumberOfPoints="', nnodes, &
+         '" NumberOfCells="', nelements, '">'
+      write (lu, '(a)') '<Points>'
+      write (lu, '(a)') '<DataArray type="Float64" '// &
+         'NumberOfComponents="3" format="ascii">'
+      do i = 1, nnodes
+         write (lu, '(3(1x,es24.16e3))') xic(i), yic(i), zic(i)
+      end do
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '</Points>'
+      write (lu, '(a)') '<Cells>'
+      write (lu, '(a)') '<DataArray type="Int64" '// &
+         'Name="connectivity" format="ascii">'
+      do it = 1, nelements
+         write (lu, '(4(1x,i0))') &
+            (itet(itetoff(it) + j) - 1, j=1, int(nen))
+      end do
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '<DataArray type="Int64" Name="offsets" '// &
+         'format="ascii">'
+      write (lu, '(10(1x,i0))') (nen*it, it=1, nelements)
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '<DataArray type="UInt8" Name="types" '// &
+         'format="ascii">'
+      if (nen == 4) then
+         write (lu, '(20(1x,i0))') (10, it=1, nelements)
+      else
+         write (lu, '(20(1x,i0))') (5, it=1, nelements)
+      end if
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '</Cells>'
+      write (lu, '(a)') '<CellData Scalars="alpha">'
+      write (lu, '(a)') '<DataArray type="Float64" Name="alpha" '// &
+         'format="ascii">'
+      write (lu, '(4(1x,es24.16e3))') alpha(1:nelements)
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '<DataArray type="Int64" Name="stage" '// &
+         'format="ascii">'
+      write (lu, '(20(1x,i0))') stage(1:nelements)
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '<DataArray type="Int64" Name="negative" '// &
+         'format="ascii">'
+      write (lu, '(20(1x,i0))') (merge(1, 0, negative(it)), &
+                                  it=1, nelements)
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '<DataArray type="Int64" Name="itetclr" '// &
+         'format="ascii">'
+      write (lu, '(10(1x,i0))') itetclr(1:nelements)
+      write (lu, '(a)') '</DataArray>'
+      write (lu, '(a)') '</CellData>'
+      write (lu, '(a)') '</Piece>'
+      write (lu, '(a)') '</UnstructuredGrid>'
+      write (lu, '(a)') '</VTKFile>'
+      close (lu)
+   end subroutine write_alpha_vtu
 
 end module del_vor_write_vtu

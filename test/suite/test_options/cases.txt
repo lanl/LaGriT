@@ -34,7 +34,7 @@ no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol | A keyword at the 
 bad_zero_area  | 1 | -avs mesh_3D.inp -stor a.stor -zero_area drop | zero_area takes only remove or keep; drop is refused.
 bad_zero_tol   | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol -1 | A negative zero_tol is refused.
 text_zero_tol  | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol small | zero_tol must be a number; small is refused.
-bad_cv         | 1 | -avs mesh_3D.inp -stor a.stor -cv median | Median control volumes come in phase 4; for now cv median is refused, not silently ignored.
+bad_cv         | 1 | -avs mesh_3D.inp -stor a.stor -cv centroid | An unknown control-volume policy is refused (the four are voronoi, median, blend and hybrid), not silently replaced by the default.
 twice          | 1 | -avs mesh_3D.inp -stor a.stor -uge a.stor | Two outputs to the same file name would overwrite each other; refused.
 no_mesh        | 1 | -stor a.stor | No mesh given; refused with a hint.
 missing_mesh   | 1 | -avs nothere.inp -stor a.stor | The mesh file does not exist; the message names it, nothing is written.
@@ -53,3 +53,15 @@ over_mesh      | 1 | -avs mesh_3D.inp -stor mesh_3D.inp | An output named like t
 # --- timing (phase 3, development only)
 timing_on      | 0 | -avs mesh_3D.inp -stor a.stor -timing on | timing on (development only): the report ends with the wall and CPU time of each step and the peak memory. Checked: the lines are there, and a.stor is the same as without timing.
 bad_timing     | 1 | -avs mesh_3D.inp -timing maybe | timing takes only on or off.
+# --- control-volume policies (phase 4; their results: test_policy)
+cv_hybrid      | 0 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_file a.vtu | cv hybrid with an alpha file: both files written. (What the hybrid computes is checked in test_policy.)
+cv_alpha_vor   | 0 | -avs mesh_3D.inp -stor a.stor -alpha_file a.vtu | An alpha file with the default cv voronoi is allowed: every cell has alpha 1.
+blend_alpha    | 0 | -avs mesh_2D.inp -uge a.uge -cv blend -alpha 0.25 | cv blend with alpha: runs and writes the .uge.
+no_alpha       | 1 | -avs mesh_3D.inp -stor a.stor -cv blend | cv blend needs alpha; refused, not run with some default.
+alpha_not_blend | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha 0.5 | alpha belongs to cv blend; with cv hybrid it is refused rather than ignored.
+bad_alpha      | 1 | -avs mesh_3D.inp -stor a.stor -cv blend -alpha 1.5 | alpha must be from 0 to 1.
+hyb_tol_median | 1 | -avs mesh_3D.inp -stor a.stor -cv median -hybrid_tol 0.1 | hybrid_tol belongs to cv hybrid; with cv median it is refused rather than ignored.
+bad_alpha_min  | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_min -0.1 | alpha_min must be from 0 to 1.
+bad_iter       | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 0 | hybrid_iter must be a whole number of at least 1.
+text_iter      | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 2.5 | hybrid_iter 2.5 is not a whole number; refused.
+alpha_twice    | 1 | -avs mesh_3D.inp -stor a.stor -alpha_file a.stor | The alpha file may not share a name with an output; refused before anything is written.

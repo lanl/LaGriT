@@ -1,0 +1,49 @@
+# hextet5.inp for test_policy: LaGriT's demo "hex to tet"
+# (https://lanl.github.io/LaGriT/pages/docs/demos/description_hextet.html),
+# its decks 1 and 2 as published, then dump / avs of the tet mesh.
+# A non-convex wave-shaped volume (x 0 to 9.5, y 0 to 1, z 0 to about
+# 5.3), 3 materials from stack/layers, 1716 hexes each cut into 5
+# tets: 2400 vertices, 8580 tets. Not Delaunay (hex to tet in general
+# is not); LaGriT's dump / stor of it has 4706 negative coefficients.
+#
+#   cd test/suite/test_policy/inputs && lagrit < make_hextet5.lgi
+#
+define / XMAX / 9.5
+define / YMAX / 1.
+define / NX / 40
+define / NY / 5
+cmo / create / mosurf / / / quad
+quadxy /NX NY/0. 0. 0./ XMAX 0. 0./XMAX YMAX 0./0. YMAX 0./ 1 1 1
+createpts/brick/xyz/NX,NY,1/1 0 0 / connect
+cmo / setatt / mosurf / imt / 1 0 0 / 1
+cmo / setatt / mosurf / itetclr / 1 0 0 / 1
+resetpts / itp
+math/cos/mosurf/zic/1,0,0/mosurf/xic
+define ZBOT 0.
+define S1 2.
+define S2 .8
+define S3 1.5
+cmo select mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S1
+dump / surf_wave_low.inp / mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S2
+dump / surf_wave_high.inp / mosurf
+trans /1,0,0/ 0. 0. 0./ 0. 0. S3
+dump / surf_wave_top.inp / mosurf
+cmo/setatt/mosurf/ zic/ ZBOT
+dump / surf_flat_bot.inp / mosurf
+cmo/create/mo_stack
+stack/layers/avs/ &
+  surf_flat_bot.inp 1 &
+  surf_wave_low.inp  2 3 &
+  surf_wave_high.inp 3 2 &
+  surf_wave_top.inp 3  3
+stack/fill/mohex / mo_stack
+cmo select mohex
+resetpts itp
+cmo/select/mohex
+grid2grid/ hextotet5/ motet5 / mohex
+resetpts/itp
+cmo/select/motet5
+dump / avs / hextet5.inp / motet5
+finish

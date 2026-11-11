@@ -1,7 +1,7 @@
 # del_vor manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `del_vor`, as of phase 3 of 6. The LaGriT command
+standalone program `del_vor`, as of phase 4 of 6. The LaGriT command
 (`dump / control_volume`) is described in
 [`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -69,7 +69,9 @@ This builds `build/del_vor` and the kernel self test
 ```
 del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
-        [-cv voronoi] [-delaunay_tol X] [-violations FILE]
+        [-cv voronoi|median|blend|hybrid] [-alpha X]
+        [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
+        [-alpha_file FILE] [-delaunay_tol X] [-violations FILE]
         [-check_only on|off] [-report FILE]
 ```
 
@@ -100,6 +102,13 @@ del_vor -avs mesh.inp -stor mesh.stor -zero_area keep -compress off
 ```
 one matrix entry per mesh edge, zero-area ones included, every value
 written out (the `.stor` most like LaGriT's `matbld2d`).
+
+```
+del_vor -avs mesh.inp -stor mesh.stor -cv hybrid -alpha_file alpha.vtu
+```
+control volumes moved away from Voronoi only where a coefficient
+would be negative ([section 8](#control-volume-policies-cv)), with
+the weight of each cell in `alpha.vtu` for ParaView.
 
 lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 `-compress` with no value also work, so old scripts run unchanged.
@@ -401,8 +410,87 @@ circumcenter is outside gives a negative piece; the sums stay
 correct, but an edge's total A(ij) can come out negative, and the
 summary counts those (`negative A(ij)`).
 
-`-cv voronoi` is the only choice so far; median and hybrid control
-volumes come in a later phase.
+### Control-volume policies (cv)
+
+Where each cell's dual point goes (design document, section 9). A
+cell T gets a weight alpha(T) from 0 to 1 and its point is
+
+    P(T) = G(T) + alpha(T) (C(T) - G(T))
+
+with C the circumcenter and G the centroid. In 3D each face point is
+the same blend of the face's circumcenter and centroid, with
+alpha(f) = min(alpha(T1), alpha(T2)) over the face's two tets, so
+the two halves of a dual face meet and every control volume stays
+closed. Edge midpoints never move. Whatever the points, the volumes
+add up to the mesh volume.
+
+| `cv` | alpha | Delaunay check | use |
+|---|---|---|---|
+| `voronoi` (default) | 1 everywhere | required | true Voronoi control volumes; faces perpendicular to edges |
+| `median` | 0 everywhere | advisory: reported, the run goes on | meshes that are not Delaunay; never negative in 2D |
+| `blend` | `alpha X` everywhere | required | sensitivity studies |
+| `hybrid` | per cell, the largest with no negative coefficient | required | an M-matrix from a mesh that cannot be repaired |
+
+![one obtuse boundary triangle under each policy](figures/policies.svg)
+
+Above: a boundary triangle whose angle opposite the boundary edge is
+obtuse. With Voronoi its circumcenter lies outside, and its piece of
+the boundary edge's coefficient is negative. With median it is
+positive. The hybrid's stage A puts the point on the edge, so the
+piece is 0. (Drawn by `figures/make_figures.py`.)
+
+**The hybrid** keeps alpha = 1 (Voronoi) wherever it can:
+
+1. **Stage A** (closed form, one pass). For a cell with an exterior
+   boundary facet beyond which its circumcenter lies, alpha is set so
+   that P lands on that facet:
+   alpha = b / (b - lam), where lam < 0 is the circumcenter's
+   barycentric coordinate at that facet and b = 1/(d+1) the
+   centroid's (1/3 for triangles, 1/4 for tets). In 3D, a boundary
+   face whose circumcenter lies outside its triangle has its face
+   point clamped into the triangle the same way.
+2. **Stage B** (correction). The coefficients are assembled, and
+   every edge is checked. Inside a Delaunay mesh the Voronoi
+   coefficients are never negative, but moved points (and nearly
+   Delaunay meshes) can make interior edges negative too. On each
+   negative edge, the cell with the most negative piece has its alpha
+   lowered just enough that the edge's total is 1e-3 of the sum of
+   its pieces (aiming slightly above 0 keeps a neighbor's later move
+   from undoing it). Its face points follow. Then only the cells
+   that changed, and their face neighbors, are updated, and the pass
+   repeats. Alpha only decreases, so this ends.
+
+An edge counts as negative when A(ij) < -hybrid_tol times the sum of
+|its cells' pieces|, unless it is a zero-area edge (|A| <= zero_tol
+d², above): round-off on co-spherical ties is not a negative
+coefficient. Edges still negative when every cell around them is at
+`alpha_min`, or when `hybrid_iter` passes are used up, give a
+WARNING; the files are still written.
+
+Measured (test_policy):
+
+- On LaGriT's test_poisson_3d case 1, stage A alone removes all 75
+  negative coefficients; 108 boundary tets get alpha < 1 (the
+  smallest 0.141). The rest stays Voronoi.
+- On random points connected by LaGriT (a square and a cube, with
+  random points on the boundary), stage A fixes the boundary but
+  makes interior edges negative; stage B removes them in 3 (2D) and
+  18 (3D) passes. On a million such tets: 48 passes, 2 s.
+- With nothing to fix, the hybrid's `.stor` is byte for byte the
+  Voronoi one.
+- LaGriT's hex-to-tet demo (a 3-material wave-shaped volume, hexes
+  cut into 5 tets) is not Delaunay: 3432 facets fail, and its
+  Voronoi coefficients would have 4706 negative ones (LaGriT's
+  `dump / stor` reports the same). `cv median` runs on it with none;
+  `cv hybrid` stops.
+- `blend` with alpha 0.5 on the same 3D mesh has 21 negative
+  coefficients, against 75 for Voronoi and 0 for median: in 3D a
+  coefficient is not linear in alpha, because cell and face points
+  both move. In 2D it is linear.
+
+`alpha_file FILE` writes the mesh as a VTK file for ParaView, with
+cell data `alpha`, `stage` (0 untouched, 1 stage A, 2 stage B),
+`negative` (1 on the cells of an edge still negative) and `itetclr`.
 
 ### Zero-area connections
 
@@ -528,7 +616,30 @@ del_vor summary
   minimum A(ij)/d(ij)  4.882812500000E+02
 ```
 
-5. one line for each file written, e.g. `del_vor: wrote stor a.stor`.
+5. with `cv` other than `voronoi`, the policy block, here for the
+   hybrid on test_poisson_3d case 1:
+
+```
+del_vor control volumes: hybrid
+  negative coefficients    boundary  interior   smallest A/sum|A|
+  Voronoi                       75         0    -1.00E+00
+  after stage A                  0         0     0.00E+00
+  after stage B                  0         0     0.00E+00
+  alpha: 1 in        7680, 0 in           0, between in         108
+  smallest alpha       0.140691399
+  cells lowered: stage A         108, stage B           0
+  stage B passes           0    alpha_min  0.000
+  non-orthogonality: max  80.16 deg, area-weighted mean  0.366 deg
+```
+
+   The rows count negative coefficients (as the hybrid judges them)
+   on boundary and interior edges at each step; "smallest A/sum|A|"
+   is the most negative, relative to the sum of its pieces (-1: all
+   pieces negative). Non-orthogonality is the angle between each dual
+   face's vector area and its edge (0 for Voronoi), the price paid
+   for positivity; the mean is weighted by area, because edges of
+   nearly zero area have angles near 90 degrees that say little;
+6. one line for each file written, e.g. `del_vor: wrote stor a.stor`.
 
 ## 12. Options
 
@@ -541,7 +652,12 @@ del_vor summary
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: zero-area connections are left out of every file; `keep`: one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
-| `cv` | `voronoi` | `voronoi` | control volumes (median and hybrid later) |
+| `cv` | `voronoi`, `median`, `blend`, `hybrid` | `voronoi` | where each cell's dual point goes ([section 8](#control-volume-policies-cv)) |
+| `alpha` | number from 0 to 1 | | `cv blend` only, and required there: 1 = Voronoi, 0 = median |
+| `hybrid_tol` | number >= 0 | `0` | `cv hybrid` only: how negative a coefficient may stay, relative to the sum of its pieces |
+| `alpha_min` | number from 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
+| `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most stage B passes |
+| `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
 | `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
@@ -570,7 +686,8 @@ Exit status 1, and no coefficient file written:
 | no mesh | `del_vor: no mesh given (-avs MESH.inp)` |
 | the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 5](#5-the-mesh-checks) |
 | a mesh check fails | the ERROR lines of [section 5](#5-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
-| not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written) |
+| not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written). With `cv median` the run goes on instead: `del_vor: cv median does not need a Delaunay mesh: going on` |
+| a keyword for another `cv` | `del_vor: alpha is for cv blend (here cv is hybrid)`, `del_vor: hybrid_tol is for cv hybrid (here cv is median)`, `del_vor: cv blend needs alpha (a number from 0 to 1)` |
 
 gfortran adds the line `STOP 1` after the message.
 

@@ -1,0 +1,37 @@
+# test_policy cases: one per line,  name | mesh | arguments | what it does
+#
+# Each case runs, in work/NAME,
+#   del_vor -avs MESH -stor NAME.stor -alpha_file NAME.vtu -report NAME.report ARGUMENTS
+# The name says what is checked (check_policy.py): vor_ a Voronoi
+# reference run; med_ cv median; blend_ cv blend; hyb_ cv hybrid. A
+# mesh path starting with gen/ is made by another suite's generator
+# (test_dfn, test_delaunay); inputs/ holds this suite's random meshes.
+# Expected results are computed by check_policy.py's own geometry
+# (Python, independent of del_vor), not stored here.
+#
+vor_sq        | ../test_poisson_lagrit/inputs/output03_square_var.inp | -cv voronoi | LaGriT test_poisson_2d's square with variable spacing, Voronoi: the reference for the other runs on this mesh (it has no negative coefficient).
+med_sq        | ../test_poisson_lagrit/inputs/output03_square_var.inp | -cv median | The same square with median control volumes (every cell point at its centroid). Checked: each vertex's volume is exactly one third of the area of each of its triangles, every coefficient against this suite's own median geometry, and no negative coefficient (in 2D a median piece is one third of the triangle's height over the edge, always positive).
+blend_sq      | ../test_poisson_lagrit/inputs/output03_square_var.inp | -cv blend -alpha 0.5 | The same square, every cell point halfway between centroid and circumcenter. In 2D a coefficient is linear in the cell point, so it must equal the mean of the Voronoi and median coefficients to round-off; also checked against this suite's own geometry.
+hyb_sq        | ../test_poisson_lagrit/inputs/output03_square_var.inp | -cv hybrid | The same square with the adaptive hybrid. It has no negative coefficient and no boundary circumcenter outside, so nothing moves: alpha = 1 everywhere and the .stor is byte for byte the Voronoi one.
+vor_poi3      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv voronoi | LaGriT test_poisson_3d case 1 (no boundary buffer), Voronoi: 75 negative coefficients, all on boundary edges, none inside (on a Delaunay mesh an interior Voronoi coefficient is the area of a real Voronoi face).
+med_poi3      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv median | The same mesh with median control volumes: each vertex's volume is exactly one quarter of each of its tets, every coefficient against this suite's own median geometry (face points at face centroids), and the number of negative coefficients (median is expected, not guaranteed, to be positive in 3D).
+blend_poi3    | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv blend -alpha 0.5 | The same mesh with alpha = 0.5 everywhere, against this suite's own geometry (cell and face points blended). In 3D a coefficient is not linear in alpha (cell and face points both move), so a halfway blend is not halfway in sign: the negative coefficients are measured.
+hyb_poi3      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv hybrid | The gate: the adaptive hybrid on the mesh with 75 negative coefficients. None may be left; alpha < 1 only in cells with a boundary face; every alpha that stage A set equals this suite's own closed form; coefficients and volumes against this suite's own geometry with del_vor's alpha; the dual faces close around every interior vertex.
+hyb_utm       | gen/utm.inp | -cv hybrid | The same mesh moved to (7e5, 3.2e6, 1.5e3): the same alpha in every cell and the same coefficients as at the origin (UTM-size coordinates).
+med_rnd2d     | inputs/rnd2d.inp | -cv median | A Delaunay mesh of random points in the unit square (LaGriT connect; 40 of the points on the sides): median, never negative in 2D.
+hyb_rnd2d     | inputs/rnd2d.inp | -cv hybrid | The same mesh with the hybrid: its 19 negative Voronoi coefficients are on the boundary; stage A fixes them but makes interior ones (moved points break the interior cancellation), which stage B must remove. None may be left.
+med_rnd3d     | inputs/rnd3d.inp | -cv median | A Delaunay mesh of random points in the unit cube (LaGriT connect; 150 points on the faces): median control volumes. The negative coefficients are measured: random boundary points make very flat tets.
+hyb_rnd3d     | inputs/rnd3d.inp | -cv hybrid | The same cube with the hybrid: 418 negative Voronoi coefficients on boundary edges; stage A leaves boundary and interior ones, stage B must remove every one. Also: the dual faces close around every interior vertex.
+hyb_rnd3d_min | inputs/rnd3d.inp | -cv hybrid -alpha_min 0.5 | The same cube with alpha_min 0.5: no cell may go below 0.5, so some negative coefficients stay. del_vor must say so (WARNING), still write the files (exit 0), and report exactly the negative coefficients that are in the .stor.
+hyb_rnd3d_iter | inputs/rnd3d.inp | -cv hybrid -hybrid_iter 5 | The same cube with stage B stopped after 5 passes: a WARNING, files written, the negative coefficients left reported exactly.
+vor_dfn3      | gen/dfn3.inp | -cv voronoi | test_dfn's 3-fracture network, Voronoi: the reference for the other runs on it.
+med_dfn3      | gen/dfn3.inp | -cv median | The network with median control volumes, fracture by fracture (an intersection edge gets both fractures' pieces): coefficients against this suite's own geometry; volumes one third of each triangle.
+blend_dfn3    | gen/dfn3.inp | -cv blend -alpha 0.5 | The network halfway: the mean of Voronoi and median to round-off (linear, as in 2D).
+hyb_dfn3      | gen/dfn3.inp | -cv hybrid | The network with the hybrid: nothing to fix, so the .stor is byte for byte the Voronoi one.
+hyb_tri_dfn   | ../test_parity/inputs/tri_dfn.inp | -cv hybrid | A small fracture network from test_parity with 10 negative Voronoi coefficients on fracture boundaries: none may be left; checked against this suite's own geometry with del_vor's alpha.
+vor_mesh3d    | ../test_voronoi_gold/inputs/mesh_3D.inp | -cv voronoi | lanl/voronoi's graded cube (120 zero-area connections from co-spherical ties), Voronoi: the reference.
+hyb_mesh3d    | ../test_voronoi_gold/inputs/mesh_3D.inp | -cv hybrid | The same cube with the hybrid: round-off on its ties must not count as negative, so nothing moves and the .stor is byte for byte the Voronoi one.
+med_flip3d    | gen/flip3d.inp | -cv median | test_poisson_3d case 1 with three 2-3 flips (not Delaunay): median does not need a Delaunay mesh, so the run goes on (exit 0) with the violations reported, and the coefficients are checked against this suite's own geometry.
+hyb_flip3d    | gen/flip3d.inp | -cv hybrid | The same non-Delaunay mesh with the hybrid: it needs a Delaunay mesh, so the run stops (exit 1) and writes no .stor.
+med_hextet    | inputs/hextet5.inp | -cv median | LaGriT's hex-to-tet demo (Carl, Nov 11): a wave-shaped volume of 3 materials, 1716 hexes cut into 5 tets each (2400 vertices, 8580 tets). Not Delaunay (3432 facets fail; hex to tet in general is not), so Voronoi coefficients do not apply: LaGriT's dump / stor of it has 4706 negative coefficients. Median does not need a Delaunay mesh: the run goes on (exit 0) with the violations reported; coefficients and volumes against this suite's own geometry, across the material interfaces; the negative coefficients are counted.
+hyb_hextet    | inputs/hextet5.inp | -cv hybrid | The same non-Delaunay mesh with the hybrid, which needs a Delaunay mesh (it starts from Voronoi): the run stops (exit 1) and writes no .stor.

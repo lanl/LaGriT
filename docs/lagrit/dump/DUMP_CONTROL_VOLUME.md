@@ -37,7 +37,10 @@ itetclr per fracture) or all tets.
 <b>dump</b> / <b>control_volume</b> / mo_name &
      / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough2</b>, file_name] &
      / [<b>zero_area</b>, <b>remove</b>|<b>keep</b>] / [<b>zero_tol</b>, value] &
-     / [<b>compress</b>, <b>on</b>|<b>off</b>] / [<b>cv</b>, <b>voronoi</b>] &
+     / [<b>compress</b>, <b>on</b>|<b>off</b>] &
+     / [<b>cv</b>, <b>voronoi</b>|<b>median</b>|<b>blend</b>|<b>hybrid</b>] / [<b>alpha</b>, value] &
+     / [<b>hybrid_tol</b>, value] / [<b>alpha_min</b>, value] / [<b>hybrid_iter</b>, n] &
+     / [<b>alpha_file</b>, file_name] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
@@ -94,10 +97,58 @@ an edge has zero area when \|A\| <= value d² (tets) or value d
 largest are written once and shared through the pointer block.
 **`off`**: one value per matrix entry.
 
-**`cv`**, **`voronoi`**
+**`cv`**, **`voronoi`** | **`median`** | **`blend`** | **`hybrid`**
 
-the control volumes. **`voronoi`** is the only choice for now;
-median and hybrid control volumes are planned.
+where each cell's dual point goes. A cell gets a weight alpha from 0
+to 1 and its point is G + alpha (C - G), C the circumcenter, G the
+centroid; in 3D each face point is the same blend of the face's
+circumcenter and centroid, with the smaller alpha of the face's two
+tets, so the control volumes stay closed.
+
+- **`voronoi`** (default): alpha = 1, the Voronoi control volumes.
+- **`median`**: alpha = 0, the centroids. The mesh need not be
+  Delaunay: the Delaunay check is reported but the command goes on.
+  In 2D no coefficient is negative.
+- **`blend`**: the same alpha (keyword **`alpha`**) in every cell.
+- **`hybrid`**: alpha = 1 except where a coefficient would be
+  negative. A boundary cell whose circumcenter lies outside first has
+  its point put on its boundary facet (closed form); then, edge by
+  edge, the cell with the most negative piece of a negative
+  coefficient has its alpha lowered just enough. Interior Voronoi
+  coefficients of a Delaunay mesh are never negative, but moved points
+  can make them so; every edge is checked. Edges still negative at
+  **`alpha_min`** or after **`hybrid_iter`** passes give a WARNING;
+  the files are still written.
+
+The report gives the negative coefficients before and after, the
+cells moved, and the non-orthogonality (the angle between each dual
+face and its edge, 0 for Voronoi).
+
+**`alpha`**, value
+
+**`cv blend`** only, and required there: from 0 (median) to 1
+(Voronoi).
+
+**`hybrid_tol`**, value
+
+**`cv hybrid`** only: a coefficient may stay negative down to -value
+times the sum of its cells' pieces. Default 0. Zero-area connections
+(**`zero_tol`**) are never counted as negative.
+
+**`alpha_min`**, value
+
+**`cv hybrid`** only: the lowest alpha it may give a cell. Default 0.
+
+**`hybrid_iter`**, n
+
+**`cv hybrid`** only: the most correction passes. Default 100.
+
+**`alpha_file`**, file_name
+
+writes the mesh as a VTK file for ParaView, with each cell's alpha,
+the step that set it (0 none, 1 the boundary clamp, 2 the
+correction), whether the cell touches an edge still negative, and
+its **itetclr**.
 
 **`delaunay_tol`**, value
 
@@ -194,6 +245,18 @@ dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
 ```
 a fracture network from dfnWorks: each fracture is checked on its
 own, intersection edges get both fractures' coefficients.
+
+```
+dump / control_volume / mo_mesh / stor, mesh.stor / cv, hybrid / alpha_file, alpha.vtu
+```
+no negative coefficient: the dual points of the cells that would
+make one are moved toward their centroids, only as far as needed;
+`alpha.vtu` shows which cells, and how far.
+
+```
+dump / control_volume / mo_mesh / stor, mesh_med.stor / cv, median
+```
+median control volumes, for a mesh that is not Delaunay.
 
 ## OPEN QUESTIONS (draft only) ##
 
