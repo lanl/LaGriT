@@ -478,6 +478,11 @@ Measured (test_policy):
   18 (3D) passes. On a million such tets: 48 passes, 2 s.
 - With nothing to fix, the hybrid's `.stor` is byte for byte the
   Voronoi one.
+- LaGriT's hex-to-tet demo (a 3-material wave-shaped volume, hexes
+  cut into 5 tets) is not Delaunay: 3432 facets fail, and its
+  Voronoi coefficients would have 4706 negative ones (LaGriT's
+  `dump / stor` reports the same). `cv median` runs on it with none;
+  `cv hybrid` stops.
 - `blend` with alpha 0.5 on the same 3D mesh has 21 negative
   coefficients, against 75 for Voronoi and 0 for median: in 3D a
   coefficient is not linear in alpha, because cell and face points

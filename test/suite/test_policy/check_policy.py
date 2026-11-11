@@ -24,7 +24,8 @@ written from the definitions, not from del_vor's code:
 All geometry relative to each cell's first vertex (UTM-size meshes).
 
 Checks, by the case name's prefix:
-  all       exit status (1 for hyb_flip3d, else 0)
+  all       exit status (1 for the hybrid on a non-Delaunay mesh,
+            STOPS; else 0)
   med_ blend_ hyb_
             geometry   every A/d and volume in the .stor against DUAL
                        with the run's alpha (from its alpha file);
@@ -75,6 +76,10 @@ GATE = {'med_sq', 'med_rnd2d', 'med_dfn3', 'hyb_poi3', 'hyb_utm',
 # hybrid cases whose .stor must be the Voronoi one
 SAME = {'hyb_sq': 'vor_sq', 'hyb_dfn3': 'vor_dfn3',
         'hyb_mesh3d': 'vor_mesh3d'}
+# the hybrid on meshes that are not Delaunay: must stop
+STOPS = {'hyb_flip3d', 'hyb_hextet'}
+# median on meshes that are not Delaunay: must go on
+ADVISORY = {'med_flip3d', 'med_hextet'}
 # 2D linearity: blend case -> (Voronoi case, median case)
 LINEAR = {'blend_sq': ('vor_sq', 'med_sq'),
           'blend_dfn3': ('vor_dfn3', 'med_dfn3')}
@@ -274,15 +279,18 @@ def stage_a_alpha(m, amin=0.0):
 
 
 def measure(m):
-    tot = 0.0
+    """The mesh volume (area), summed exactly (math.fsum): a running
+    sum of many equal cell volumes rounds the same way each time."""
+    parts = []
     for c in m.cells:
         x = [m.xyz[v] for v in c]
         if m.nen == 3:
-            tot += 0.5 * norm(cross(sub(x[1], x[0]), sub(x[2], x[0])))
+            parts.append(0.5 * norm(cross(sub(x[1], x[0]),
+                                          sub(x[2], x[0]))))
         else:
-            tot += abs(det3(sub(x[1], x[0]), sub(x[2], x[0]),
-                            sub(x[3], x[0]))) / 6.0
-    return tot
+            parts.append(abs(det3(sub(x[1], x[0]), sub(x[2], x[0]),
+                                  sub(x[3], x[0]))) / 6.0)
+    return math.fsum(parts)
 
 
 # ---- files -----------------------------------------------------------
@@ -346,31 +354,42 @@ def layers(m, lowered):
 
 # ---- pictures --------------------------------------------------------
 
+MATCOL = ['#4c72b0', '#dd8452', '#55a868', '#c44e52', '#8172b3',
+          '#937860']
+
+
 def picture(path, title, m, alpha, red, black, caption):
     """The mesh colored by alpha (2D and networks: every cell; tets:
     the boundary faces, plus a dot at the centroid of each interior
     cell with alpha < 1); red: negative Voronoi coefficients; black:
-    negative coefficients left."""
+    negative coefficients left. When every cell has the same alpha
+    (median, blend), the cells are colored by material instead."""
     W, H = 640, 600
     s = Svg(W, H)
+    mats = sorted(set(m.clr))
+    if alpha and len(set(alpha)) == 1:
+        colors = [MATCOL[mats.index(c) % len(MATCOL)] for c in m.clr]
+        legend = 'material'
+    else:
+        colors = [ramp(a) for a in alpha] if alpha else \
+            ['#dddddd'] * len(m.cells)
+        legend = 'alpha' if alpha else None
     s.text(16, 22, title, size=13, bold=True)
     view = 'plan' if all(abs(p[2]) < 1e-30 for p in m.xyz) else 'iso'
     pr = Projector(m.xyz, 20, 40, 600, 460, view=view)
     ext, hold = topology(m)
     if m.nen == 3:
         for it, c in enumerate(m.cells):
-            col = ramp(alpha[it]) if alpha else '#dddddd'
-            s.polygon([pr(m.xyz[v]) for v in c], fill=col, stroke='#888',
-                      width=0.3, opacity=0.85)
+            s.polygon([pr(m.xyz[v]) for v in c], fill=colors[it],
+                      stroke='#888', width=0.3, opacity=0.85)
     else:
         for it, c in enumerate(m.cells):
             for k in range(4):
                 if ext[it][k]:
                     f = [c[q] for q in range(4) if q != k]
-                    col = ramp(alpha[it]) if alpha else '#dddddd'
-                    s.polygon([pr(m.xyz[v]) for v in f], fill=col,
+                    s.polygon([pr(m.xyz[v]) for v in f], fill=colors[it],
                               stroke='#999', width=0.2, opacity=0.35)
-        if alpha:
+        if legend == 'alpha':
             for it, c in enumerate(m.cells):
                 if alpha[it] < 1.0 and not any(ext[it]):
                     g = mul(0.25, add(add(m.xyz[c[0]], m.xyz[c[1]]),
@@ -378,16 +397,24 @@ def picture(path, title, m, alpha, red, black, caption):
                     q = pr(g)
                     s.circle(q[0], q[1], 3.0, fill=ramp(alpha[it]),
                              stroke='#000', width=0.5)
+    rw, ro = (1.6, 1.0) if len(red) < 300 else (0.5, 0.5)
     for (i, j) in red:
         a, b = pr(m.xyz[i]), pr(m.xyz[j])
-        s.line(a[0], a[1], b[0], b[1], color='#c0392b', width=1.6)
+        s.line(a[0], a[1], b[0], b[1], color='#c0392b', width=rw,
+               opacity=ro)
     for (i, j) in black:
         a, b = pr(m.xyz[i]), pr(m.xyz[j])
         s.line(a[0], a[1], b[0], b[1], color='#000', width=2.6)
     y = H - 72
-    if alpha:
+    if legend == 'alpha':
         s.legend(20, y, 200, 12, '0 (centroid)', '1 (circumcenter)',
                  'alpha per cell')
+    elif legend == 'material':
+        s.text(20, y - 5, 'material (itetclr); alpha %.3g everywhere'
+               % alpha[0], size=11)
+        for q, c in enumerate(mats[:6]):
+            s.rect(20 + 40 * q, y, 14, 12, fill=MATCOL[q])
+            s.text(38 + 40 * q, y + 10, str(c), size=11)
     s.line(260, y + 4, 290, y + 4, color='#c0392b', width=1.6)
     s.text(296, y + 8, 'negative with Voronoi: %d' % len(red), size=11)
     s.line(260, y + 22, 290, y + 22, color='#000', width=2.6)
@@ -430,7 +457,7 @@ def main():
         m = mesh_of(d, mesh)
         pic = name + '.svg'
         stor = os.path.join(d, name + '.stor')
-        if name == 'hyb_flip3d':
+        if name in STOPS:
             ok('exit', '%d (expected 1)' % rc, rc == 1)
             ok('stopped', 'not Delaunay; no .stor',
                'not Delaunay' in out and not os.path.exists(stor))
@@ -481,8 +508,9 @@ def main():
            'only zero-area' % (worst / cmax, vworst / vmax),
            worst <= TOL * cmax and vworst <= TOL * vmax and missing_ok)
         tot = measure(m)
-        ok('balance', 'sum of volumes %.15g, mesh %.15g' % (sum(vol), tot),
-           abs(sum(vol) - tot) <= 1e-12 * tot)
+        sv = math.fsum(vol)
+        ok('balance', 'sum of volumes %.15g, mesh %.15g: %.1e'
+           % (sv, tot, (sv - tot) / tot), abs(sv - tot) <= 1e-13 * tot)
         rep = report_rows(os.path.join(d, name + '.report'))
         last = rep.get('after stage B') or rep.get('cv ' + kind_cv(kind))
         nrep = sum(last) if last else -1
@@ -509,7 +537,7 @@ def main():
             e = max(abs(a - b) for a, b in zip(vol, share))
             ok('exact', 'volumes = 1/%d of each cell: %.1e of the largest'
                % (n, e / vmax), e <= 1e-13 * vmax)
-            if name == 'med_flip3d':
+            if name in ADVISORY:
                 ok('advisory', 'not Delaunay: goes on',
                    'does not need a Delaunay mesh' in out)
 

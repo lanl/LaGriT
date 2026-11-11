@@ -3,7 +3,7 @@ test_policy -- control-volume policies: median, blend, hybrid (Nov 2026)
 
 QUICK START
 
-  sh run_policy_tests.sh [path-to-del_vor]     25 runs, about 8 s
+  sh run_policy_tests.sh [path-to-del_vor]     27 runs, about 8 s
   open summary.html
 
 WHAT IS TESTED
@@ -26,7 +26,9 @@ WHAT IS TESTED
   small network, lanl/voronoi's graded cube, test_delaunay's UTM and
   flipped meshes (made by their generators), and this suite's two
   random meshes (inputs/: random points in a square and a cube,
-  connected by LaGriT; their many obtuse boundary cells need stage B).
+  connected by LaGriT; their many obtuse boundary cells need stage B),
+  and LaGriT's hex-to-tet demo (inputs/hextet5.inp: 3 materials, not
+  Delaunay; Carl, Nov 11).
 
 WHERE THE ANSWERS COME FROM
 
@@ -43,7 +45,10 @@ WHAT IS CHECKED
   geometry      every A/d and volume in the .stor equals the Python
                 geometry with the run's alpha, to 1e-11 of the
                 largest; pairs left out are zero-area
-  balance       the volumes add up to the mesh volume (area), 1e-12
+  balance       the volumes add up to the mesh volume (area), 1e-13;
+                both sums exact (math.fsum: a running sum of many
+                equal cell volumes, as in a mesh made from a grid,
+                rounds the same way each time, 9e-14 on hextet5)
   negative      no negative coefficient where the case must have none
                 (the hybrid gate, 2D median); else measured; always
                 equal to the report's last row
@@ -68,8 +73,9 @@ WHAT IS CHECKED
                 the same cells
   warning       alpha_min 0.5 and hybrid_iter 5: a WARNING, exit 0,
                 files written, the negatives left reported exactly
-  advisory      median on a mesh that is not Delaunay runs (exit 0);
-                hybrid on it stops (exit 1, no .stor)
+  advisory      median on a mesh that is not Delaunay (flip3d,
+                hextet5) runs (exit 0); the hybrid on it stops (exit
+                1, no .stor)
 
 FOUND (Nov 10 2026)
 
@@ -83,13 +89,19 @@ FOUND (Nov 10 2026)
     (Voronoi 75, median 0): in 3D a coefficient is not linear in
     alpha, since cell and face points both move.
   - Median gave no negative coefficient on any mesh here, 3D included.
+  - LaGriT's hex-to-tet demo mesh (3 materials, wave-shaped): 3432
+    facets not Delaunay; Voronoi coefficients would have 4706 negative
+    ones (counted by this suite's geometry; LaGriT's dump / stor
+    reports the same 4706). Median: none, and the volumes exact. The
+    hybrid stops on it, as it needs a Delaunay mesh.
 
 PICTURES (logs/)
 
   NAME.svg   the mesh colored by alpha per cell (tets: the boundary
-             faces, and a dot for each interior cell with alpha < 1);
-             red: edges negative with Voronoi; black: edges still
-             negative in that run
+             faces, and a dot for each interior cell with alpha < 1),
+             or by material when alpha is the same everywhere (median,
+             blend); red: edges negative with Voronoi; black: edges
+             still negative in that run
 
 FILES
 
@@ -102,3 +114,8 @@ FILES
   inputs/rnd3d.inp       random points in the unit cube (758
                          vertices, 4547 tets)
   inputs/make_random_meshes.py, .lgi   how those two were made
+  inputs/hextet5.inp     LaGriT's hex-to-tet demo (2400 vertices,
+                         8580 tets, 3 materials)
+  inputs/make_hextet5.lgi   the demo's decks, as published, with
+                         dump / avs (remakes hextet5.inp byte for
+                         byte)

@@ -31,7 +31,7 @@ module del_vor_assemble
    implicit none
    private
    public :: assemble, assembly_stats_t, zero_area_mask
-   public :: cell_policy_t, cell_pieces, pieces_t
+   public :: cell_policy_t, cell_pieces, pieces_t, neumaier
 
    type :: assembly_stats_t
       integer(ik) :: ndegenerate = 0  ! cells with no circumcenter
@@ -40,6 +40,7 @@ module del_vor_assemble
       integer(ik) :: npositive = 0
       integer(ik) :: nnegative = 0
       real(rk) :: cell_measure = 0.0_rk  ! sum of cell volumes (areas)
+      real(rk) :: measure_c = 0.0_rk     ! its compensation (neumaier)
    end type assembly_stats_t
 
    ! The dual points of every cell.
@@ -106,7 +107,8 @@ contains
                              itet, iedge_off, jedge, vor, p, ierr)
          end if
          if (ierr /= 0) return
-         stats%cell_measure = stats%cell_measure + p%measure
+         call neumaier(stats%cell_measure, stats%measure_c, &
+                       p%measure)
          if (nen == 4) then
             if (p%det > 0.0_rk) stats%npositive = stats%npositive + 1
             if (p%det < 0.0_rk) stats%nnegative = stats%nnegative + 1
@@ -117,7 +119,26 @@ contains
          end if
          call add_pieces(p, 1.0_rk, area, vol, area_vec, asum)
       end do
+      stats%cell_measure = stats%cell_measure + stats%measure_c
+      stats%measure_c = 0.0_rk
    end subroutine assemble
+
+   ! s + c += x, compensated (Neumaier): c keeps what the rounding of
+   ! s lost. A plain running sum of many equal cell volumes (a mesh
+   ! made from a regular grid) rounds the same way each time: 9e-14
+   ! relative on 8580 tets of LaGriT's hex-to-tet demo.
+   pure subroutine neumaier(s, c, x)
+      real(rk), intent(inout) :: s, c
+      real(rk), intent(in) :: x
+      real(rk) :: t
+      t = s + x
+      if (abs(s) >= abs(x)) then
+         c = c + ((s - t) + x)
+      else
+         c = c + ((x - t) + s)
+      end if
+      s = t
+   end subroutine neumaier
 
    ! Add (sgn = 1) or take out (sgn = -1) one cell's pieces.
    subroutine add_pieces(p, sgn, area, vol, area_vec, asum)

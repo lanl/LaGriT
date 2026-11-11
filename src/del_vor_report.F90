@@ -13,7 +13,7 @@
 !-----------------------------------------------------------------------
 module del_vor_report
    use del_vor_kinds, only: ik, rk
-   use del_vor_assemble, only: assembly_stats_t
+   use del_vor_assemble, only: assembly_stats_t, neumaier
    use del_vor_log, only: log_line
    use del_vor_delaunay, only: delaunay_t, nhist, hist_edges, &
                                sliver_ratio
@@ -37,7 +37,7 @@ contains
 
       character(len=80) :: s
       integer(ik) :: nedges, i, k, nneg, nzero, kmin, inegv
-      real(rk) :: cmin, c, sumv, rel
+      real(rk) :: cmin, c, sumv, sumc, rel
       character(len=6) :: vname
 
       nedges = iedge_off(nnodes + 1) - 1
@@ -71,7 +71,13 @@ contains
          call log_line('  (no circumcenter; left out of the sums)')
       end if
 
-      sumv = sum(vol)
+      ! compensated, as the mesh volume (del_vor_assemble)
+      sumv = 0.0_rk
+      sumc = 0.0_rk
+      do i = 1, nnodes
+         call neumaier(sumv, sumc, vol(i))
+      end do
+      sumv = sumv + sumc
       rel = 0.0_rk
       if (stats%cell_measure > 0.0_rk) &
          rel = (sumv - stats%cell_measure)/stats%cell_measure
