@@ -207,7 +207,9 @@ C
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
       character*24 string, fdate
-      character*32 cmo,isubname, ifilename
+      character*32 cmo,isubname
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       character*72  title_string
       character*132 logmess
 C

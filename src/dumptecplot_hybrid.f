@@ -143,7 +143,9 @@ C
       character*32 cnames(*),clengths(*),cioflags(*)
 
       character*32 cmo
-      character*32 isubname, filename
+      character*32 isubname
+C     a file name: the root (up to 32) and an extension
+      character*256 filename
       character*32  ctype, cinterp, crank,cpers
       character*132 vchlist
       character*132 var

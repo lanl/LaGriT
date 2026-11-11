@@ -55,7 +55,9 @@ c
 c
 c     cmo variables
 c
-      character*32 cmo_name, ifilename
+      character*32 cmo_name
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       integer
      >   ilenimt1
      > , itypimt1

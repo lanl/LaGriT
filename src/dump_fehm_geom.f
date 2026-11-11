@@ -154,7 +154,9 @@ C     top,back,left,right
       data intpairtet / 1,2, 1,3, 1,4, 2,3, 2,4, 3,4 /
 C
 C
-      character*32 isubname, cmo, ifilename
+      character*32 isubname, cmo
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
 C
       data ivoronoi2d / 1 /
       data ivoronoi3d / 0 /

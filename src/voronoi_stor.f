@@ -178,7 +178,9 @@ C
       real*8 xtetvol(4), xedgevol(6)
       real*8 xicvol(100), yicvol(100), zicvol(100)
 C
-      character*32 isubname,  ifilename
+      character*32 isubname
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
 C
 C
 C#######################################################################

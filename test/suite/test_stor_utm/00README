@@ -3,7 +3,7 @@ test_stor_utm -- dump / stor at UTM coordinates (Nov 2026)
 
 QUICK START
 
-  sh run_stor_utm_tests.sh [path-to-lagrit]          7 decks, about 2 s
+  sh run_stor_utm_tests.sh [path-to-lagrit]          8 decks, about 2 s
   open summary.html
 
   REF_STOR=DIR sh run_stor_utm_tests.sh ...   also draw the volumes of
@@ -47,6 +47,11 @@ WHAT IS TESTED
         dump / stor (matbld2d_stor.f)
   st07  st01's mesh; dump / pflotran: .uge volumes and areas (same), the
         centers u - shift = o to 1e-6 (the .uge has 13 digits)
+  st08  file-name roots of 26 to 32 characters (the longest word LaGriT
+        reads) for dump / stor (3D, 2D), pflotran, fehm and tecplot:
+        every file gets its whole root and extension, and no file with a
+        cut name is made (before Nov 2026 the name was built in 32
+        characters: ROOT.s, or ROOT with no extension; item 76)
 
   KNOWN (reported, not a failure; parking lot item 80): on st04's mesh,
   whose hull has near-flat tets with far circumcenters, the 3D default
@@ -54,7 +59,8 @@ WHAT IS TESTED
   0.500000000005), at the origin too. Shown as FIXED when it passes;
   then remove it from KNOWN in check_stor_utm.py.
 
-  With LaGriT before Nov 2026 every deck fails: the 3D default gave
+  With LaGriT before Nov 2026 every deck fails (st08: 9 of its 13 files
+  get cut names): the 3D default gave
   volume sums of -113.8 (st01) and 45.8 (st05) at UTM, with hundreds of
   negative volumes; matbld3d_stor lost about 1e-9 and 2D about 3e-7.
 

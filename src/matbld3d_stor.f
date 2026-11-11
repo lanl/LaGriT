@@ -504,7 +504,9 @@ C
       real*8 volic,vor_pts,ccoef,coef_neg,cpmult,
      * compress_epsilon, area_scale,scale_factor
       real*8 vor_xyz_min_max
-      character*32 cmo, ifilename
+      character*32 cmo
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       character*24 string, fdate
       character*132 logmess
 C

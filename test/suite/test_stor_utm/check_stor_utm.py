@@ -94,6 +94,14 @@ CASES = [
      [("st07", "uge")],
      "st01's mesh, dump / pflotran: the .uge file (cell volumes and "
      "centers, connection areas and centers) from the same 3D code."),
+    ("st08_long_names", "file-name roots of 26 to 32 characters",
+     [("st08", "names")],
+     "dump / stor, pflotran, fehm and tecplot, 3D and 2D, with file-name "
+     "roots of 26 to 32 characters (32 is the longest word LaGriT "
+     "reads). Every file must get its whole root and extension. Before, "
+     "the name was built in 32 characters: a 30-character root gave "
+     "ROOT.s, a 32-character one no extension at all, and the .uge "
+     "overwrote the .stor."),
 ]
 
 
@@ -531,6 +539,42 @@ def check_uge(work, root, mesh, lines):
     return ok and good and good2, [c[1] for c in cu], vol
 
 
+# st08: the files each dump must write (root, extensions)
+LONG_NAMES = [
+    ("st08_stor_26_characters_xx", [".stor"]),
+    ("st08_stor_30_characters_xxxxxx", [".stor"]),
+    ("st08_stor_32_characters_xxxxxxxx", [".stor", ".uge"]),
+    ("st08_fehm_29_characters_xxxxx",
+     [".fehmn", ".stor", "_material.zone", "_outside.zone",
+      "_outside_vor.area", "_multi_mat.zone", "_interface.zone"]),
+    ("st08_tecplot_31_characters_xxxx", [".plt"]),
+    ("st08_2d_stor_31_characters_xxxx", [".stor"]),
+]
+
+
+def check_names(work, lines):
+    """Every expected file exists (with one material the zone files
+    _multi_mat and _interface are empty), and no other st08 file was made (a
+    name cut short)."""
+    ok = True
+    want = set()
+    for root, exts in LONG_NAMES:
+        for e in exts:
+            want.add(root + e)
+            good = os.path.isfile(os.path.join(work, root + e))
+            ok &= good
+            lines.append("%s %s (%d + %d characters)" %
+                         (verdict(good), root + e, len(root), len(e)))
+    extra = sorted(f for f in os.listdir(work)
+                   if f.startswith("st08_") and f not in want and
+                   not f.endswith((".lgi", ".out")))
+    good = not extra
+    ok &= good
+    lines.append("%s no other file (a cut name)%s" %
+                 (verdict(good), ": " + " ".join(extra) if extra else ""))
+    return ok
+
+
 def check_case(work, logdir, deck, title, pairs):
     lines, pics = [], []
     out = os.path.join(work, deck + ".out")
@@ -542,6 +586,11 @@ def check_case(work, logdir, deck, title, pairs):
             lines.append("FAIL LaGriT did not finish (see %s.stdout)"
                          % deck)
             return False, lines, pics, "crash"
+    if pairs[0][1] == "names":                # no mesh, no picture
+        ok = check_names(work, lines)
+        nfail = sum(1 for l in lines if l.startswith("FAIL"))
+        return ok, lines, pics, "%d checks, %d failed" % (len(lines),
+                                                          nfail)
     mesh = read_avs(os.path.join(work, deck[:4] + "_mesh.inp"))
     ok, first = True, None
     for root, kind in pairs:
