@@ -1,0 +1,104 @@
+test_policy -- control-volume policies: median, blend, hybrid (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_policy_tests.sh [path-to-del_vor]     25 runs, about 8 s
+  open summary.html
+
+WHAT IS TESTED
+
+  del_vor's cv keyword (design document, section 9): where each
+  cell's dual points go.
+
+    voronoi   circumcenters (alpha = 1; the default)
+    median    centroids (alpha = 0); face points at face centroids
+    blend     one alpha in every cell (keyword alpha)
+    hybrid    the adaptive hybrid: stage A puts the point of each
+              boundary cell whose circumcenter lies outside on its
+              boundary facet (closed form); stage B lowers alpha cell
+              by cell until no coefficient is negative; alpha = 1
+              elsewhere
+
+  One case per line of cases.txt, each a run with -stor, -alpha_file
+  (alpha and stage per cell) and -report. Meshes: LaGriT's Poisson
+  meshes (test_poisson_lagrit), test_dfn's network, test_parity's
+  small network, lanl/voronoi's graded cube, test_delaunay's UTM and
+  flipped meshes (made by their generators), and this suite's two
+  random meshes (inputs/: random points in a square and a cube,
+  connected by LaGriT; their many obtuse boundary cells need stage B).
+
+WHERE THE ANSWERS COME FROM
+
+  check_policy.py computes the dual geometry itself, in Python, from
+  the definitions (its header says how), with each run's alpha from
+  its alpha file: cell point P = G + alpha (C - G); face point the
+  same blend with alpha(f) = min over the face's two tets; pieces as
+  the dual segment (triangles) or polygon m -> F -> P -> F (tets);
+  circumcenters from their own small linear systems. It shares no
+  code with del_vor.
+
+WHAT IS CHECKED
+
+  geometry      every A/d and volume in the .stor equals the Python
+                geometry with the run's alpha, to 1e-11 of the
+                largest; pairs left out are zero-area
+  balance       the volumes add up to the mesh volume (area), 1e-12
+  negative      no negative coefficient where the case must have none
+                (the hybrid gate, 2D median); else measured; always
+                equal to the report's last row
+  exact         median: each vertex volume is 1/3 (triangles) or 1/4
+                (tets) of each of its cells, 1e-13
+  linear        2D and networks: blend 0.5 = (Voronoi + median) / 2
+                to 1e-13 (a coefficient is linear in the cell point)
+  stage A       every alpha stage A set equals the closed form
+                b / (b - lam), b = 1/(d+1), lam the circumcenter's
+                barycentric coordinate at the boundary facet; alpha 1
+                where neither stage acted; none below alpha_min
+  interior      cells with no boundary face keep alpha 1 (or, where
+                stage B ran, how many it lowered and how many cell
+                layers in: MEASURED)
+  closed        3D: the vector areas around each interior vertex add
+                up to zero (the face points are single-valued), 1e-12
+  same          where nothing needs fixing, the hybrid's .stor equals
+                the Voronoi one byte for byte (after the header)
+  utm           the hybrid at (7e5, 3.2e6, 1.5e3) gives the alpha
+                and A/d of the origin run to 1e-6 (the moved
+                coordinates themselves differ at ~2e-8), and lowers
+                the same cells
+  warning       alpha_min 0.5 and hybrid_iter 5: a WARNING, exit 0,
+                files written, the negatives left reported exactly
+  advisory      median on a mesh that is not Delaunay runs (exit 0);
+                hybrid on it stops (exit 1, no .stor)
+
+FOUND (Nov 10 2026)
+
+  - Stage A alone removes all 75 negative coefficients of LaGriT's
+    Poisson mesh (108 boundary tets lowered, smallest alpha 0.141).
+  - On random points connected by LaGriT, stage A fixes the boundary
+    but makes interior coefficients negative (moved points break the
+    interior cancellation); stage B removes them: 2D 3 passes, 3D 18
+    passes, lowering cells up to 3 (2D) and 6 (3D) layers in.
+  - blend 0.5 on the Poisson mesh has 21 negative coefficients
+    (Voronoi 75, median 0): in 3D a coefficient is not linear in
+    alpha, since cell and face points both move.
+  - Median gave no negative coefficient on any mesh here, 3D included.
+
+PICTURES (logs/)
+
+  NAME.svg   the mesh colored by alpha per cell (tets: the boundary
+             faces, and a dot for each interior cell with alpha < 1);
+             red: edges negative with Voronoi; black: edges still
+             negative in that run
+
+FILES
+
+  run_policy_tests.sh    runner (work/, logs/)
+  cases.txt              the cases: name | mesh | arguments | about
+  check_policy.py        the Python dual geometry, checks, pictures,
+                         summary.html
+  inputs/rnd2d.inp       random points in the unit square (304
+                         vertices, 562 triangles)
+  inputs/rnd3d.inp       random points in the unit cube (758
+                         vertices, 4547 tets)
+  inputs/make_random_meshes.py, .lgi   how those two were made

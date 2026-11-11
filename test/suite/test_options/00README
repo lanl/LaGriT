@@ -3,7 +3,7 @@ test_options -- del_vor's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    39 runs, about 1 s
+  sh run_options_tests.sh [path-to-del_vor]    50 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -15,7 +15,11 @@ WHAT IS TESTED
     zero_tol X                default 1e-12 (|A| <= X d^2 for tets,
                               X d for triangles)
     compress on|off           default on
-    cv voronoi
+    cv voronoi|median|blend|hybrid   default voronoi (test_policy
+                              checks what each computes)
+    alpha X                   cv blend only, 0 to 1
+    hybrid_tol X, alpha_min X, hybrid_iter N   cv hybrid only
+    alpha_file FILE           default none
     delaunay_tol X            default 1e-10
     delaunay_fatal X          default 1e-2
     violations FILE           default violations.vtu

@@ -64,6 +64,7 @@ test_validity:run_validity_tests.sh:1:checks,errors,2d,3d
 test_delaunay:run_delaunay_tests.sh:3:checks,delaunay,2d,3d
 test_dfn:run_dfn_tests.sh:2:checks,dfn,stor,2d
 test_parity:run_parity_tests.sh:10:parity,lagrit,stor,2d,3d,dfn
+test_policy:run_policy_tests.sh:8:policy,hybrid,median,2d,3d,dfn
 test_timing:run_timing_tests.sh:180:timing,dev
 "
 

@@ -52,6 +52,8 @@ EXPECT = {
     'check_only': [], 'report': ['a.report', 'a.stor'],
     'timing_on': ['a.stor'],
     'tol_zero_ties': ['a.stor', 'ties.vtu'],
+    'cv_hybrid': ['a.stor', 'a.vtu'], 'cv_alpha_vor': ['a.stor', 'a.vtu'],
+    'blend_alpha': ['a.uge'],
     # exit 1 by design, with the violations file
     'tol_zero_strict': ['ties.vtu'],
 }
@@ -60,7 +62,7 @@ EXPECT = {
 REFUSED = {
     'bad_keyword': 'zero_areas', 'no_value': 'zero_tol needs a value',
     'bad_zero_area': 'drop', 'bad_zero_tol': '-1',
-    'text_zero_tol': 'small', 'bad_cv': 'median', 'twice': 'a.stor',
+    'text_zero_tol': 'small', 'bad_cv': 'centroid', 'twice': 'a.stor',
     'no_mesh': 'no mesh', 'missing_mesh': 'nothere.inp',
     'tol_zero_strict': 'not Delaunay', 'bad_tol': 'delaunay_tol -1',
     'bad_fatal': 'delaunay_fatal -1',
@@ -68,6 +70,11 @@ REFUSED = {
     'report_twice': 'a.stor given twice',
     'vtu_twice': 'a.uge given twice', 'over_mesh': 'is the mesh',
     'bad_timing': 'timing maybe',
+    'no_alpha': 'cv blend needs alpha',
+    'alpha_not_blend': 'alpha is for cv blend',
+    'bad_alpha': 'alpha 1.5', 'hyb_tol_median': 'hybrid_tol is for cv hybrid',
+    'bad_alpha_min': 'alpha_min -0.1', 'bad_iter': 'hybrid_iter 0',
+    'text_iter': 'hybrid_iter 2.5', 'alpha_twice': 'a.stor given twice',
 }
 
 TOL = 1e-14

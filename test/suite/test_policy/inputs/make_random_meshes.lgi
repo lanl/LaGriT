@@ -1,0 +1,11 @@
+# test_policy's random meshes: points from make_random_meshes.py,
+# connected by LaGriT (Delaunay).
+cmo / create / mo2 / / / triplane
+cmo / readatt / mo2 / xic, yic, zic / 1, 0, 0 / pts2d.txt
+connect
+dump / avs / rnd2d.inp / mo2
+cmo / delete / mo2
+read / avs / pts3d.inp / mo3
+connect
+dump / avs / rnd3d.inp / mo3
+finish
