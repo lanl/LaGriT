@@ -207,7 +207,9 @@ C
       crosz(a,b,c,d,e,f)=a*e-b*d
 C
       character*24 string, fdate
-      character*32 cmo,isubname, ifilename
+      character*32 cmo,isubname
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       character*72  title_string
       character*132 logmess
 C
@@ -423,30 +425,34 @@ c
          i1=itet(1,it)
          i2=itet(2,it)
          i3=itet(3,it)
-         x1=xic(i1)
-         y1=yic(i1)
-         z1=zic(i1)
-         x2=xic(i2)
-         y2=yic(i2)
-         z2=zic(i2)
-         x3=xic(i3)
-         y3=yic(i3)
-         z3=zic(i3)
+c
+c        Work relative to vertex i1, so that no digits are lost at
+c        large (UTM) coordinates.  Areas and lengths do not change.
+c
+         x1=0.0d0
+         y1=0.0d0
+         z1=0.0d0
+         x2=xic(i2)-xic(i1)
+         y2=yic(i2)-yic(i1)
+         z2=zic(i2)-zic(i1)
+         x3=xic(i3)-xic(i1)
+         y3=yic(i3)-yic(i1)
+         z3=zic(i3)-zic(i1)
 c
 c        Median point of triangle
 c
-         xm=(xic(i1)+xic(i2)+xic(i3))/3.0
-         ym=(yic(i1)+yic(i2)+yic(i3))/3.0
-         zm=(zic(i1)+zic(i2)+zic(i3))/3.0
-         xa=xic(i1)
-         ya=yic(i1)
-         za=zic(i1)
-         xb=xic(i2)-xa
-         yb=yic(i2)-ya
-         zb=zic(i2)-za
-         xd=xic(i3)-xa
-         yd=yic(i3)-ya
-         zd=zic(i3)-za
+         xm=(x1+x2+x3)/3.0
+         ym=(y1+y2+y3)/3.0
+         zm=(z1+z2+z3)/3.0
+         xa=x1
+         ya=y1
+         za=z1
+         xb=x2-xa
+         yb=y2-ya
+         zb=z2-za
+         xd=x3-xa
+         yd=y3-ya
+         zd=z3-za
          xn1= crosx(xb,yb,zb,xd,yd,zd)
          yn1= crosy(xb,yb,zb,xd,yd,zd)
          zn1= crosz(xb,yb,zb,xd,yd,zd)
@@ -470,15 +476,15 @@ c
          xv=xl+xa
          yv=yl+ya
          zv=zl+za
-         x12=0.5*(xic(i1)+xic(i2))
-         y12=0.5*(yic(i1)+yic(i2))
-         z12=0.5*(zic(i1)+zic(i2))
-         x13=0.5*(xic(i1)+xic(i3))
-         y13=0.5*(yic(i1)+yic(i3))
-         z13=0.5*(zic(i1)+zic(i3))
-         x23=0.5*(xic(i2)+xic(i3))
-         y23=0.5*(yic(i2)+yic(i3))
-         z23=0.5*(zic(i2)+zic(i3))
+         x12=0.5*(x1+x2)
+         y12=0.5*(y1+y2)
+         z12=0.5*(z1+z2)
+         x13=0.5*(x1+x3)
+         y13=0.5*(y1+y3)
+         z13=0.5*(z1+z3)
+         x23=0.5*(x2+x3)
+         y23=0.5*(y2+y3)
+         z23=0.5*(z2+z3)
          xdot1=(x2-x1)*(x3-x1)+(y2-y1)*(y3-y1)+(z2-z1)*(y3-y1)
          xdot2=(x3-x2)*(x1-x2)+(y3-y2)*(y1-y2)+(z3-z2)*(y1-y2)
          xdot3=(x1-x3)*(x2-x3)+(y1-y3)*(y2-y3)+(z1-z3)*(y2-y3)
@@ -491,9 +497,9 @@ c
          xarea3=sqrt((xv-x23)*(xv-x23)+
      *               (yv-y23)*(yv-y23)+
      *               (zv-z23)*(zv-z23))
-         ds12=sqrt((xic(i2)-xic(i1))**2+
-     *             (yic(i2)-yic(i1))**2+
-     *             (zic(i2)-zic(i1))**2)
+         ds12=sqrt((x2-x1)**2+
+     *             (y2-y1)**2+
+     *             (z2-z1)**2)
          cmx=  (y2-y1)*(zm-z1)-(ym-y1)*(z2-z1)
          cmy=-((x2-x1)*(zm-z1)-(xm-x1)*(z2-z1))
          cmz=  (x2-x1)*(ym-y1)-(xm-x1)*(y2-y1)
@@ -509,9 +515,9 @@ c*****      print *,"negative area 1: ",it,i1,i2,xdot1,xarea1,xdot
             const(it       )= xarea1/ds12
             const(it+ntets)= xarea1/ds12
          endif
-         ds13=sqrt((xic(i3)-xic(i1))**2+
-     *             (yic(i3)-yic(i1))**2+
-     *             (zic(i3)-zic(i1))**2)
+         ds13=sqrt((x3-x1)**2+
+     *             (y3-y1)**2+
+     *             (z3-z1)**2)
          cmx=  (y1-y3)*(zm-z3)-(ym-y3)*(z1-z3)
          cmy=-((x1-x3)*(zm-z3)-(xm-x3)*(z1-z3))
          cmz=  (x1-x3)*(ym-y3)-(xm-x3)*(y1-y3)
@@ -527,9 +533,9 @@ c*****      print *,"negative area 2: ",it,i1,i3,xdot2,xarea2,xdot
             const(it+2*ntets)= xarea2/ds13
             const(it+3*ntets)= xarea2/ds13
          endif
-         ds23=sqrt((xic(i3)-xic(i2))**2+
-     *             (yic(i3)-yic(i2))**2+
-     *             (zic(i3)-zic(i2))**2)
+         ds23=sqrt((x3-x2)**2+
+     *             (y3-y2)**2+
+     *             (z3-z2)**2)
          cmx=  (y3-y2)*(zm-z2)-(ym-y2)*(z3-z2)
          cmy=-((x3-x2)*(zm-z2)-(xm-x2)*(z3-z2))
          cmz=  (x3-x2)*(ym-y2)-(xm-x2)*(y3-y2)

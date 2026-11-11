@@ -1,0 +1,19 @@
+# st04_hybrid.lgi -- test_stor_utm (see 00README)
+# random points on and in a 1 x 1 x 0.5 box (make_stor_inputs.py); dump
+# / stor / hybrid moves the centers of boundary tets that lie outside
+read / avs / st04_pts.inp / mo_box
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+# The same mesh at the origin and at UTM coordinates: move it out and
+# back (x - 7e5 is exact there), so both copies have the same geometry
+# to the last bit, then write it; move it out again and write it again.
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+trans / 1 0 0 / 0. 0. 0. / -700000. -3200000. -1500.
+dump / avs / st04_mesh.inp / mo_box
+dump / stor / st04h_o / mo_box / hybrid
+dump / stor / st04v_o / mo_box
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+dump / stor / st04h_u / mo_box / hybrid
+dump / stor / st04v_u / mo_box
+finish

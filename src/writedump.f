@@ -1018,7 +1018,9 @@ C
             elseif(ioption(1:8).eq.'att_elem')then
                io_format = 4
             else
-               io_format = 2
+C              dump / avs, dump / avs3, dump / file.inp: avs3 (avs2
+C              with 17 significant digits; since V3.3.4)
+               io_format = 5
             endif
 
 C    Warnings for non-standard AVS output

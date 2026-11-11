@@ -1,0 +1,25 @@
+# st05_poisson.lgi -- test_stor_utm (see 00README)
+# a 3D Poisson disk mesh, h = 0.08 in a 1 x 1 x 0.5 box; dump / stor (3D
+# default)
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.5
+define / IF_POI_EDGE_BUFFER / 0
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_box / 0.08 / connect / &
+      h_lookup hex_grid / poisson_seed 1
+cmo / select / mo_box
+resetpts / itp
+# The same mesh at the origin and at UTM coordinates: move it out and
+# back (x - 7e5 is exact there), so both copies have the same geometry
+# to the last bit, then write it; move it out again and write it again.
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+trans / 1 0 0 / 0. 0. 0. / -700000. -3200000. -1500.
+dump / avs / st05_mesh.inp / mo_box
+dump / stor / st05_o / mo_box
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+dump / stor / st05_u / mo_box
+finish

@@ -231,7 +231,9 @@ C     Text buffer for dotask
       character*132 logmess
       character*24 string, fdate
       character*32 isubname
-      character*32 cmo, ifilename
+      character*32 cmo
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       character*32 att_name, cout
       character*32 io_string, coef_string, comp_string
 

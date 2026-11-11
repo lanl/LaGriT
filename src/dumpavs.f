@@ -38,6 +38,10 @@ C
 C        No longer supported but will still write file, replaced with iopt flags
 C        io_format = 3   Node Attributes are written as real and integer, header info lines start with #
 C        io_format = 4   Element Attributes are written as real and integer, header info lines start with #
+C        io_format = 5   avs3 (dump/avs/..., dump/avs3/...): avs2 with
+C                        17 significant digits (1pe24.16) for the
+C                        coordinates and real attributes, so a dump and
+C                        read gives back the same doubles. 3 and 4 too.
 C
 C        Note all flags 2 will produce non-standard AVS files.
 C        Note files without coordinate section is non-standard.
@@ -266,7 +270,8 @@ C
      *  nent, iopt, ihash, nsel, irowlen, len2, itypout, irank,
      *  length, mmlength, lent, ncolumn_max, n_real, n_dec, n_int,
      *  n_space, n_char_string, if_clear, lname, ifelm, nvert,
-     *  njtet, lperm(8), ioff, ivert(8), kc, ktab(0:20), ifk
+     *  njtet, lperm(8), ioff, ivert(8), kc, ktab(0:20), ifk,
+     *  idig17, itype_r, itypw
       character*8 ctab(8)
       integer ltab(8), ntab(8), ptab(8,8), njk
       character*1 cxyz(3)
@@ -333,7 +338,12 @@ C        pt cells for a mesh of vertices only
       elseif (io_format .eq. 4) then
          io_fmt = 2
          io_format_elem = 1
+      elseif (io_format .eq. 5) then
+         io_fmt = 2
       endif
+C     avs3, att_node and att_elem write reals with 17 digits
+      idig17 = 0
+      if (io_format.ge.3 .and. io_format.le.5) idig17 = 1
 C
 C     ******************************************************************
 C     The attributes written: ioflag holds 'a'; length nnodes (vertex
@@ -430,9 +440,14 @@ C     |value| below 1e-30 is written as 0, beyond 1e30 as +-1e30.
 C
       if (iopt_points .ge. 1) then
          iw = avs_width(nnodes)
-         if (iopt_points .eq. 1) then
+         if (iopt_points.eq.1 .and. idig17.eq.1) then
+            write(cfmt_point,'(a,i2.2,a,i2.2,a)') '(i',iw,'.',iw,
+     *         ',1x,3(1pe24.16))'
+         elseif (iopt_points .eq. 1) then
             write(cfmt_point,'(a,i2.2,a,i2.2,a)') '(i',iw,'.',iw,
      *         ',1x,3(1pe20.12))'
+         elseif (idig17 .eq. 1) then
+            cfmt_point = '(3(1pe24.16))'
          else
             cfmt_point = '(3(1pe20.12))'
          endif
@@ -453,8 +468,13 @@ C
 C           the line built by avs_put_vertex (avs_fast.c), else by a
 C           formatted write (the same characters)
             iok = 0
-            if (iopt_points.eq.1 .or. iopt_points.eq.2)
-     *         call avs_put_vertex(iopt_points,i,iw,xyz,cline,nout,iok)
+            if ((iopt_points.eq.1 .or. iopt_points.eq.2) .and.
+     *          idig17.eq.1) then
+               call avs_put_vertex3(iopt_points,i,iw,xyz,cline,nout,
+     *                              iok)
+            elseif (iopt_points.eq.1 .or. iopt_points.eq.2) then
+               call avs_put_vertex(iopt_points,i,iw,xyz,cline,nout,iok)
+            endif
             if (iok .eq. 1) then
                write(iunit,'(a)') cline(1:nout)
             elseif (iopt_points .eq. 1) then
@@ -695,6 +715,13 @@ C           avs1: every value a real, 100 to a line
 C           avs2: integers as integers, packed into ch_string
             n_real   = 20
             n_dec    = 12
+            itype_r  =  2
+            if (idig17 .eq. 1) then
+C              1pe24.16 (itype 5 of string_add_entry_r8)
+               n_real   = 24
+               n_dec    = 16
+               itype_r  =  5
+            endif
             n_space  =  0
             if_clear =  0
             do i = 1, nsel
@@ -704,9 +731,15 @@ C           avs2: integers as integers, packed into ch_string
             nrow = 0
             if (iopt .eq. 1) nrow = nint( alog10( real(nent)+1 ) ) + 3
             do it=1,nent
-               call avs_put_row2(nrow,it,nsel,
-     *            xvalues(1+irowlen*(it-1)),itype_flag,n_int_i,
-     *            ch_string,nout,iok)
+               if (idig17 .eq. 1) then
+                  call avs_put_row3(nrow,it,nsel,
+     *               xvalues(1+irowlen*(it-1)),itype_flag,n_int_i,
+     *               ch_string,nout,iok)
+               else
+                  call avs_put_row2(nrow,it,nsel,
+     *               xvalues(1+irowlen*(it-1)),itype_flag,n_int_i,
+     *               ch_string,nout,iok)
+               endif
                if (iok .eq. 1) then
                   write(iunit,'(a)') ch_string(1:nout)
                   goto 450
@@ -721,9 +754,11 @@ C           avs2: integers as integers, packed into ch_string
                endif
                do i = 1, nsel
                   n_int = n_int_i(i)
+                  itypw = itype_flag(i)
+                  if (itypw .eq. 2) itypw = itype_r
                   call string_add_entry_r8
      1             (ch_string,n_char_string,xvalues(i+irowlen*(it-1)),
-     2              itype_flag(i),n_real,n_dec,n_int,n_space)
+     2              itypw,n_real,n_dec,n_int,n_space)
                enddo
                call string_write(ch_string, n_char_string, iunit,
      *                           if_clear)
@@ -881,6 +916,15 @@ c
          istop = istart + n_real - 1
          write(ch_string(istart:istop),
      *         ch_format_type(4) // 
+     *         ch_format_num(n_real) // 
+     *         ch_format_p // 
+     *         ch_format_numrp(n_dec)
+     *         )r8
+      elseif(itype .eq. 5)then
+C        1pEw.d: one digit before the point (avs3, 17 digits)
+         istop = istart + n_real - 1
+         write(ch_string(istart:istop),
+     *         '(1pe' //
      *         ch_format_num(n_real) // 
      *         ch_format_p // 
      *         ch_format_numrp(n_dec)

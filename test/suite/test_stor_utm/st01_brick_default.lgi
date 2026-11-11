@@ -1,0 +1,22 @@
+# st01_brick_default.lgi -- test_stor_utm (see 00README)
+# a 9 x 7 x 6 lattice in a 1 x 0.75 x 0.5 box, interior vertices moved
+# at random; dump / stor (3D default: anothermatbld3d, compression all)
+cmo / create / mo_box / / / tet
+createpts / xyz / 9 7 6 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+connect
+resetpts / itp
+# The same mesh at the origin and at UTM coordinates: move it out and
+# back (x - 7e5 is exact there), so both copies have the same geometry
+# to the last bit, then write it; move it out again and write it again.
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+trans / 1 0 0 / 0. 0. 0. / -700000. -3200000. -1500.
+dump / avs / st01_mesh.inp / mo_box
+dump / stor / st01_o / mo_box
+trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
+dump / stor / st01_u / mo_box
+finish

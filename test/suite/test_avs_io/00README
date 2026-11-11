@@ -5,7 +5,7 @@ src/readavs.f and src/dumpavs.f)
 
 QUICK START
 
-  sh run_avs_io_tests.sh [path-to-lagrit]     33 decks, about 2 s
+  sh run_avs_io_tests.sh [path-to-lagrit]     34 decks, about 2 s
   open summary.html
 
 WHAT IT TESTS
@@ -19,10 +19,11 @@ WHAT IT TESTS
     vertices (exactly: every coordinate has 13 significant digits,
     which dump / avs keeps), cells (type, material, vertices in AVS
     order) and attributes (type; integers exactly, reals within 1e-11:
-    the default dump / avs, which is avs2, writes 12 significant digits
-    of a real attribute, avs1 writes 13);
+    avs2 writes 12 significant digits of a real attribute, avs1 13; the
+    default dump / avs, avs3 since V3.3.4, writes 17);
   - every file LaGriT wrote is byte-identical to golden/ (written by
-    LaGriT at master 1f5f0de, before any change to read / dump avs):
+    LaGriT at master 1f5f0de, before any change to read / dump avs;
+    rewritten Nov 2026 for avs3, 17 digits: the values are the same):
     a change to readavs.f or dumpavs.f must leave these files exactly
     as they are, unless the change to the output is intended;
   - LaGriT's own file, read back and dumped again, is the same file.
@@ -49,6 +50,11 @@ THE DECKS
              an ERROR, nothing read (the name is required)
   av20       values at the edges of the number formats (three-digit
              exponents, 5e-324, 1.8e308, -0.0, 13-digit integers)
+  av21       dump / avs is avs3 (17 digits): a mesh at UTM-sized
+             coordinates written with avs, avs3, avs2 and att_node;
+             avs = avs3, the exact 17-digit coordinates, avs2's 13
+             digits, and a dump read back and dumped again is the same
+             file
 
   Problems found in a review of readavs.f and dumpavs.f (Nov 2026),
   first added as KNOWN, now fixed; each deck checks the fixed behaviour

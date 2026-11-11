@@ -1,0 +1,29 @@
+# dump / avs writes avs3 (since V3.3.4): avs2 with 17 significant
+# digits (1pe24.16) for coordinates and real attributes, so the doubles
+# come back exactly; dump / avs2 keeps 13 (and 12) digits. A mesh at
+# UTM-sized coordinates, a real vertex attribute.
+# check: finished
+# check: noerror
+# check: same u_avs.inp u_avs3.inp
+# check: same u_avs.inp u_back.inp
+# check: value u_avs.inp vertex 2 x 7.0000034999999998E+05
+# check: value u_avs.inp vertex 2 y 3.2000002999999998E+06
+# check: value u_avs2.inp vertex 2 x 7.000003500000E+05
+# check: golden u_avs.inp
+# check: golden u_avs2.inp
+# check: golden u_att.txt
+cmo / create / mo1 / / / tet
+createpts / xyz / 3 3 2 / 0. 0. 0. / 0.5 0.5 0.25 / 1 1 1
+cmo / setatt / mo1 / imt / 1 0 0 / 1
+connect
+trans / 1 0 0 / 0. 0. 0. / 700000.1 3200000.3 1500.7
+cmo / addatt / mo1 / xr / VDOUBLE / scalar / nnodes
+math / multiply / mo1 / xr / 1,0,0 / mo1 / xic / 1.0000001
+dump / avs / u_avs.inp / mo1
+dump / avs3 / u_avs3.inp / mo1
+dump / avs2 / u_avs2.inp / mo1
+dump / att_node / u_att.txt / mo1
+cmo / create / mo2
+read / avs / u_avs.inp / mo2
+dump / avs / u_back.inp / mo2
+finish

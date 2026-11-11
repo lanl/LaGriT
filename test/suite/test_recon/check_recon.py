@@ -202,12 +202,18 @@ def measure(fn, dim):
     # Voronoi centres (cell circumcentres) outside the domain: the box the
     # vertices span (every mesh here is a box). recon / 1 is meant to bring
     # them all inside (Murphy and Gable 2000): positive coupling coefficients
+    # A center on the boundary to round-off (a right angle there, as
+    # recon / 1 makes) counts as inside: tolerance 1e-12 of the box size
+    # (dump / avs writes 17 digits since V3.3.4, so the files carry the
+    # doubles' round-off; 13 digits used to round it away).
     lo = [min(p[i] for p in Vf) for i in range(dim)]
     hi = [max(p[i] for p in Vf) for i in range(dim)]
+    tol = F(1, 10 ** 12) * max(hi[i] - lo[i] for i in range(dim))
     outc = []
     for t, c in enumerate(C):
         cc = circumcentre([Vf[k] for k in c], dim)
-        if cc is not None and any(cc[i] < lo[i] or cc[i] > hi[i] for i in range(dim)):
+        if cc is not None and any(cc[i] < lo[i] - tol or cc[i] > hi[i] + tol
+                                  for i in range(dim)):
             outc.append(t)
     r["centres_out"] = len(outc)
     r["outc"] = outc

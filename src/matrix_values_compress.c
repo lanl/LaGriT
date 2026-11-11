@@ -649,6 +649,12 @@ void compressmatrixvalues_(int_ptrsize *Ncon, int_ptrsize *Neq, int_ptrsize *MEn
   entry **compressMat, *ec, temp;
   epsilon = *Epsilon;
   matrixEntrySize  = (int_ptrsize)(*MEntrySize);
+
+  /* Number the entries of this matrix from 1.  (entryNumber is a
+     global: without this a second dump / stor / ... / coefs in the
+     same run numbered on from the first file, and wrote pointers past
+     the values and values never set.) */
+  entryNumber = 0;
   
 
 
@@ -733,6 +739,11 @@ void compressmatrixvalues_(int_ptrsize *Ncon, int_ptrsize *Neq, int_ptrsize *MEn
   MatrixInfo->mat  = (double *)malloc(sizeof(double)*numvalues);
 
   DoForSL(compressList,populateX3dMatrixInfo,NULL);
+
+  /* The values are copied: free the list and its entries. */
+  FreeSL(compressList);
+  compressList = NULL;
+  free(compressMat);
 
   *CXmat = MatrixInfo->xmat;
   *CYmat = MatrixInfo->ymat;

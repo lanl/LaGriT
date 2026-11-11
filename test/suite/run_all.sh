@@ -99,6 +99,7 @@ test_crush_thin_tets:run_crush_tests.sh:15:quality,3d
 test_element_angles:run_angle_tests.sh:2:quality,2d,3d
 test_improve_tets:run_improve_tests.sh:15:quality,3d
 test_avs_io:run_avs_io_tests.sh:5:io
+test_stor_utm:run_stor_utm_tests.sh:2:io,stor,2d,3d
 test_hextotet:run_hextotet_tests.sh:1:3d
 test_set_logic:run_set_logic_tests.sh:1:sets
 test_edge_lengths:run_edge_lengths_tests.sh:1:quality,2d,3d

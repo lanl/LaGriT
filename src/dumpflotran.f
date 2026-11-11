@@ -139,7 +139,9 @@ C
       integer jtype
 
       character*24 string, fdate 
-      character*32 isubname, cmonam, cmonam2, ifilename 
+      character*32 isubname, cmonam, cmonam2
+C     a file name: the root (up to 32) and an extension
+      character*256 ifilename
       character*132 logmess 
       character*132 extrudestring
 
