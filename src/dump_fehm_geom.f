@@ -296,41 +296,41 @@ C
                call cmo_get_info('Temperature',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Saturation',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Vapor',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Capillary',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
             elseif(wddl(1:4).eq.'h20 ') then
                call cmo_get_info('Temperature',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Saturation',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Vapor',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
             elseif(wddl(1:4).eq.'air ') then
                call cmo_get_info('Saturation',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
                call cmo_get_info('Vapor',cmo,
      *                           ipxfield,icmolen,icmotype,icscode)
                if(icscode.ne.0) call x3d_error(cmo,'cmo_get_info')
-               write(iunit,'(6(1pe20.12))') (xfield(mi),mi=1,ncount)
+               write(iunit,'(5(1pe24.16))') (xfield(mi),mi=1,ncount)
             endif
             close(iread)
             close(iunit)
@@ -353,7 +353,7 @@ C
       write(iunit,'(i10)') nnodes
       do i=1,nnodes
          write(iunit,9040) i,xic(i),yic(i),zic(i)
- 9040    format(i10,3(1pe20.12))
+ 9040    format(i10,3(1pe24.16))
       enddo
       write(iunit,'(i10)') 0
       write(iunit,'(a4)') 'elem'

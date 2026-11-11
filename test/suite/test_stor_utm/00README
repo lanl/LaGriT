@@ -3,7 +3,7 @@ test_stor_utm -- dump / stor at UTM coordinates (Nov 2026)
 
 QUICK START
 
-  sh run_stor_utm_tests.sh [path-to-lagrit]          8 decks, about 2 s
+  sh run_stor_utm_tests.sh [path-to-lagrit]          9 decks, about 2 s
   open summary.html
 
   REF_STOR=DIR sh run_stor_utm_tests.sh ...   also draw the volumes of
@@ -46,12 +46,15 @@ WHAT IS TESTED
   st06  2D: a 41 x 31 lattice in 0.04 x 0.03, interior vertices moved;
         dump / stor (matbld2d_stor.f)
   st07  st01's mesh; dump / pflotran: .uge volumes and areas (same), the
-        centers u - shift = o to 1e-6 (the .uge has 13 digits)
+        centers u - shift = o to 1e-9 (17 digits; a connection center is
+        a midpoint, rounded at UTM coordinates)
   st08  file-name roots of 26 to 32 characters (the longest word LaGriT
         reads) for dump / stor (3D, 2D), pflotran, fehm and tecplot:
         every file gets its whole root and extension, and no file with a
         cut name is made (before Nov 2026 the name was built in 32
         characters: ROOT.s, or ROOT with no extension; item 76)
+  st09  dump / fehm at UTM coordinates: the coor block of the .fehmn file
+        holds exactly the doubles of dump / avs (both 17 digits)
 
   KNOWN (reported, not a failure; parking lot item 80): on st04's mesh,
   whose hull has near-flat tets with far circumcenters, the 3D default

@@ -18,6 +18,8 @@ The stor file is written with "blocks" of information data in the following form
 
 7. List of Geometric area coefficients. In general this is the area of each face of the Voronoi polygon associate with node i, face j
 
+The ASCII file writes the real numbers (Voronoi volumes, coefficients) with 17 significant digits (1pe24.16, five to a line), so they are the doubles LaGriT computed; FEHM reads these blocks list-directed. LaGriT V3.3.3 and earlier wrote 13 digits (1pe20.12), as in the examples below.
+
 
 ## ASCII Header Lines
 
