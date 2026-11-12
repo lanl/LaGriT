@@ -571,6 +571,17 @@ the boundary, the part of each boundary triangle nearer the vertex.
 Every polyhedron is closed, its faces point outward, and its volume
 is the control volume (test_paraview measures both).
 
+With `cv voronoi` only true corners are written. When an angle
+opposite an edge is obtuse, the circumcenter lies past the edge: the
+edge midpoint (2D), or a face circumcenter (3D), is then on the line
+through its two neighbors but not between them, so it is left out;
+the same holds for an edge midpoint between two coplanar boundary
+triangles, whose boundary pieces are merged into one polygon (a
+vertex inside a flat boundary patch is then no corner either). With
+`cv hybrid`, stage A can put a dual point exactly on a facet; an
+outline then folds back along that facet. This is the geometry of
+the moved points, not a drawing error, and the volumes still match.
+
 - `-paraview_subset` limits the cells: `boundary` (vertices on the
   boundary), `flagged` (vertices of a negative coefficient, or of a
   cell with alpha < 1), `material N` (vertices of cells of itetclr

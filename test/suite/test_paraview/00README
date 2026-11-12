@@ -61,6 +61,14 @@ WHAT IS CHECKED
             lies on the bisector plane of i and j (2.7e-16 of the
             mesh size on the Poisson mesh)
   faces     each edge's dual face area along the edge equals A(ij)
+  spikes    no outline turns straight back on itself (a segment out
+            and back along one line: a point on the line between its
+            neighbors but not between them). Points within 1e-12 of
+            the mesh size count once, outlines with under 1e-6 of the
+            largest area are skipped (ties). With the hybrid, only
+            folds are allowed: the line passes through the cell's own
+            vertex, where stage A put a dual point on a facet. The
+            phase 5 review build had 198 on sq2d, 25,900 on poi3_vor.
   layout    the legacy layout holds the same polyhedra as the new one
   negative  the segments are exactly the negative coefficients
 

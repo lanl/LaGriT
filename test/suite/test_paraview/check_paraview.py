@@ -33,6 +33,12 @@ Checks:
     faces    NAME_faces.vtu: each edge's dual face area along the edge
              equals A(ij) of the .stor (1e-11 of the largest)
     layout   poi3_legacy holds the same polyhedra as poi3_vor
+  spikes     no polygon or face outline turns straight back on itself
+             (out and back along one line): a midpoint or face point
+             between two circumcenters is on their line but not
+             always between them (an obtuse angle), so it is not
+             drawn as a corner (Carl, Nov 11: "edge segments that are
+             not part of the polygon boundary")
   negative   NAME_negative.vtu holds exactly the negative coefficients
              of the .stor at selected vertices (and is absent when
              there are none)
@@ -49,7 +55,7 @@ sys.path.insert(0, HERE)
 sys.path.insert(0, SUITE)
 sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
 from vtu_read import (read_vtu, polyhedron_volume, closed,  # noqa: E402
-                      planarity, sub, cross, dot)
+                      planarity, spikes, sub, cross, dot)
 from exact_check import read_avs  # noqa: E402
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector, ramp  # noqa: E402
@@ -283,6 +289,29 @@ def main():
                 ok('layout', '%s against %s: same points and faces'
                    % (g.layout, a.layout), same and g.layout == 'legacy'
                    and a.layout == 'new')
+
+        # outlines that turn back on themselves: none with Voronoi;
+        # with the hybrid only folds, where stage A put a dual point
+        # on a facet through the cell's vertex
+        size = max(math.dist(a, b) for a in m.xyz[:1] for b in m.xyz)
+        outl = []
+        for c in range(len(g.cells)):
+            own = m.xyz[g.cdata['vertex'][c] - 1]
+            fs = [g.cells[c]] if g.faces[c] is None else g.faces[c]
+            outl += [(f, own) for f in fs]
+        big = max(norm3(vec_area(g.points, f)) for f, _ in outl)
+        nsp = nfo = 0
+        for f, own in outl:
+            a, b = spikes(g.points, f, 1e-12 * size, 1e-6 * big, own)
+            nsp += a
+            nfo += b
+        if '-cv' in args:
+            ok('spikes', '%d outlines turn back on themselves, all folds '
+               'at a dual point on a facet (%d)' % (nsp, nfo),
+               nsp == nfo)
+        else:
+            ok('spikes', '%d outlines turn back on themselves' % nsp,
+               nsp == 0)
 
         # negative coefficients
         want = set(k for k, v in coef.items() if v < 0 and

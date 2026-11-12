@@ -174,3 +174,45 @@ def planarity(pts, face):
         return 0.0
     n = (n[0] / nn, n[1] / nn, n[2] / nn)
     return max(abs(dot(sub(pts[q], p0), n)) for q in face)
+
+
+def spikes(pts, ids, tol, amin, own=None):
+    """Corners where the outline turns straight back on itself: the
+    point q with neighbors p and r, (q - p) and (r - q) collinear and
+    opposite (a segment out and back along the same line). Points
+    within tol of the one before count once (ties: dual points that
+    coincide up to round-off), and an outline of area below amin is
+    skipped (a tie face with nearly no area). Returns (spikes, folds):
+    a fold is a spike whose line passes within tol of own, the cell's
+    vertex (a dual point the hybrid put on a facet through it)."""
+    q = []
+    for i in ids:
+        if q and dot(sub(pts[i], pts[q[-1]]), sub(pts[i], pts[q[-1]])) \
+                ** 0.5 <= tol:
+            continue
+        q.append(i)
+    while len(q) > 1 and dot(sub(pts[q[0]], pts[q[-1]]),
+                             sub(pts[q[0]], pts[q[-1]])) ** 0.5 <= tol:
+        q.pop()
+    n = len(q)
+    if n < 3:
+        return 0, 0
+    t = [0.0, 0.0, 0.0]
+    for a in range(n):
+        c = cross(pts[q[a]], pts[q[(a + 1) % n]])
+        t = [x + y for x, y in zip(t, c)]
+    if 0.5 * dot(t, t) ** 0.5 < amin:
+        return 0, 0
+    out = fold = 0
+    for a in range(n):
+        p, c0, r = pts[q[a - 1]], pts[q[a]], pts[q[(a + 1) % n]]
+        u, v = sub(c0, p), sub(r, c0)
+        nu, nv = dot(u, u) ** 0.5, dot(v, v) ** 0.5
+        c = cross(u, v)
+        if dot(c, c) ** 0.5 <= 1e-9 * nu * nv and dot(u, v) < 0.0:
+            out += 1
+            if own is not None:
+                w = cross(u, sub(own, p))
+                if dot(w, w) ** 0.5 <= tol * nu:
+                    fold += 1
+    return out, fold

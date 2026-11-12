@@ -164,6 +164,11 @@ contains
       integer(ik), allocatable :: fp(:, :), fn(:), fe(:), fj(:), ubuf(:)
       ! the triangles at a vertex (3D): points, edge, other end
       integer(ik), allocatable :: tri(:, :), tre(:), trj(:)
+      ! the boundary pieces at a vertex (3D): the next and previous
+      ! vertex, the face key, the outward normal; flat ends of edges
+      integer(ik), allocatable :: bnx(:), bpv(:), bky(:), bflat(:)
+      real(rk), allocatable :: bnr(:, :)
+      integer :: nflat
       ! unique_points: the last call that took each slot
       integer, allocatable :: stamp(:)
       integer :: ncur
@@ -186,6 +191,8 @@ contains
       call boundary_vertices(m, bv)
       allocate (fp(maxp, maxf), fn(maxf), fe(maxf), fj(maxf), &
                 ubuf(maxp*maxf), tri(3, maxf), tre(maxf), trj(maxf))
+      allocate (bnx(maxf), bpv(maxf), bky(maxf), bflat(maxf), &
+                bnr(3, maxf))
 
       ! the smallest coefficient of each vertex's edges
       allocate (minc(nn))
@@ -371,11 +378,12 @@ contains
          integer(ik), intent(in) :: i
          integer, intent(out) :: nf
          integer(ik) :: v(4), kk, oj
-         integer :: nt, e, li, a, b, c, dd, kf, pz, nx, pv, t, w
+         integer :: nt, e, li, a, b, c, dd, kf, pz, nx, pv, t, w, nb
          real(rk) :: x(3, 4)
          logical :: flip
          nf = 0
          nt = 0
+         nb = 0
          do ip = inc_off(i), inc_off(i + 1) - 1
             it = inc(ip)
             v = m%itet(m%itetoff(it) + 1:m%itetoff(it) + 4)
@@ -423,16 +431,16 @@ contains
                   nx = pv
                   pv = t
                end if
-               nf = nf + 1
-               fn(nf) = 4
-               fe(nf) = 0
-               fj(nf) = 0
-               fp(1:4, nf) = [i, &
-                  s_e + edge_index(i, v(nx), nn, iedge_off, jedge), &
-                  s_f + face_key(m, it, kf), &
-                  s_e + edge_index(i, v(pv), nn, iedge_off, jedge)]
+               if (nb >= maxf) cycle
+               nb = nb + 1
+               bnx(nb) = v(nx)
+               bpv(nb) = v(pv)
+               bky(nb) = face_key(m, it, kf)
+               bnr(:, nb) = cross(x(:, nx) - x(:, li), &
+                                  x(:, pv) - x(:, li))
             end do
          end do
+         call boundary3d(i, nb, nf)
          if (voronoi) then
             call join(tri, tre, trj, nt, nf)
          else
@@ -450,6 +458,88 @@ contains
       ! polygon: a ring A B ... (interior edge), or m A B ... (an
       ! open chain, at the boundary). The triangles are first grouped
       ! by edge (a vertex has few edges), then chained in each group.
+      ! 3D boundary polygons of vertex i: the piece of each exterior
+      ! face nearer i is (x_i, m(i,nx), F, m(i,pv)). With cv voronoi
+      ! the pieces of coplanar faces next to each other are merged
+      ! and the midpoint between them dropped (F, m and F' are on one
+      ! line, m not always between), as in 2D; a vertex inside a flat
+      ! patch is no corner either.
+      subroutine boundary3d(i, nb, nf)
+         integer(ik), intent(in) :: i
+         integer, intent(in) :: nb
+         integer, intent(inout) :: nf
+         integer :: nxt(maxf), p, q, n, st
+         logical :: hasp(maxf), done(maxf)
+         nflat = 0
+         if (.not. voronoi) then
+            do p = 1, nb
+               nf = nf + 1
+               fn(nf) = 4
+               fe(nf) = 0
+               fj(nf) = 0
+               fp(1:4, nf) = [i, mid(i, bnx(p)), s_f + bky(p), &
+                              mid(i, bpv(p))]
+            end do
+            return
+         end if
+         nxt(1:nb) = 0
+         hasp(1:nb) = .false.
+         do p = 1, nb
+            do q = 1, nb
+               if (q == p .or. bnx(q) /= bpv(p)) cycle
+               if (flat(bnr(:, p), bnr(:, q))) then
+                  nxt(p) = q
+                  hasp(q) = .true.
+                  nflat = nflat + 1
+                  bflat(nflat) = bpv(p)
+               end if
+               exit
+            end do
+         end do
+         done(1:nb) = .false.
+         ! open runs first, then rings
+         do st = 1, 2
+            do p = 1, nb
+               if (done(p)) cycle
+               if (st == 1 .and. hasp(p)) cycle
+               nf = nf + 1
+               fe(nf) = 0
+               fj(nf) = 0
+               n = 0
+               if (st == 1) then
+                  fp(1:2, nf) = [i, mid(i, bnx(p))]
+                  n = 2
+               end if
+               q = p
+               do
+                  done(q) = .true.
+                  if (n < maxp) n = n + 1
+                  fp(n, nf) = s_f + bky(q)
+                  if (nxt(q) == 0) exit
+                  if (done(nxt(q))) exit
+                  q = nxt(q)
+               end do
+               if (st == 1 .and. n < maxp) then
+                  n = n + 1
+                  fp(n, nf) = mid(i, bpv(q))
+               end if
+               fn(nf) = n
+            end do
+         end do
+      end subroutine boundary3d
+
+      integer(ik) function mid(i, j)
+         integer(ik), intent(in) :: i, j
+         mid = s_e + edge_index(i, j, nn, iedge_off, jedge)
+      end function mid
+
+      ! two outward normals of the same direction
+      logical function flat(a, b)
+         real(rk), intent(in) :: a(3), b(3)
+         flat = dot_product(a, b) > 0.0_rk .and. &
+                norm2(cross(a, b)) <= 1.0e-10_rk*norm2(a)*norm2(b)
+      end function flat
+
       subroutine join(tri, tre, trj, nt, nf)
          integer(ik), intent(in) :: tri(:, :), tre(:), trj(:)
          integer, intent(in) :: nt
@@ -514,9 +604,14 @@ contains
             fe(nf) = ek(g0)
             fj(nf) = trj(s)
             n = 0
+            ! m starts an open chain, unless the edge's two boundary
+            ! faces are coplanar: then m lies on the line through
+            ! their circumcenters and is no corner
             if (.not. hasb) then
-               n = 1
-               fp(1, nf) = tri(1, s)          ! m
+               if (all(bflat(1:nflat) /= trj(s))) then
+                  n = 1
+                  fp(1, nf) = tri(1, s)       ! m
+               end if
             end if
             n = n + 1
             fp(n, nf) = tri(2, s)
@@ -536,9 +631,54 @@ contains
             end do
             ! a ring ends where it began: drop the repeated point
             if (fp(n, nf) == fp(1, nf)) n = n - 1
+            ! a face point between two circumcenters lies on the line
+            ! through them, but not always between them: not a
+            ! corner, so it is left out (the boundary face points at
+            ! the ends of an open chain stay)
+            call drop_between(nf, n)
             fn(nf) = n
          end do
       end subroutine join
+
+      subroutine drop_between(f, n)
+         integer, intent(in) :: f
+         integer, intent(inout) :: n
+         integer :: a, k, prv, nxt
+         logical :: keep(maxp)
+         do a = 1, n
+            prv = a - 1
+            if (prv == 0) prv = n
+            nxt = mod(a, n) + 1
+            keep(a) = .not. (is_face(fp(a, f)) .and. &
+                             is_cell(fp(prv, f)) .and. &
+                             is_cell(fp(nxt, f)))
+         end do
+         k = 0
+         do a = 1, n
+            if (keep(a)) then
+               k = k + 1
+               fp(k, f) = fp(a, f)
+            end if
+         end do
+         n = k
+      end subroutine drop_between
+
+      logical function is_face(q)
+         integer(ik), intent(in) :: q
+         is_face = q > s_f
+      end function is_face
+
+      logical function is_cell(q)
+         integer(ik), intent(in) :: q
+         is_cell = q > s_c .and. q <= s_f
+      end function is_cell
+
+      ! the cell's point is its circumcenter (alpha 1)
+      logical function vor_cell(it)
+         integer(ik), intent(in) :: it
+         vor_cell = .true.
+         if (allocated(pol%alpha)) vor_cell = pol%alpha(it) >= 1.0_rk
+      end function vor_cell
 
       subroutine put_polyhedron(i, nf)
          integer(ik), intent(in) :: i
@@ -667,9 +807,23 @@ contains
                   jt = (code - 1)/3 + 1
                   s = findloc(tris(1:nt), jt, dim=1)
                   if (s == 0) exit
+                  ! between two circumcenters the midpoint is on the
+                  ! line through them, but not always between them
+                  ! (an obtuse angle puts a circumcenter past the
+                  ! edge): not a corner, so it is left out
+                  if (vor_cell(it) .and. vor_cell(jt)) n = n - 1
                   if (done(s)) exit
                end do
-               if (.not. open .and. fp(n, nf) == fp(1, nf)) n = n - 1
+               if (.not. open .and. fp(n, nf) == fp(1, nf)) then
+                  n = n - 1
+               else if (.not. open) then
+                  ! the ring closed on the start triangle after
+                  ! dropping its midpoint: drop the first one too
+                  if (vor_cell(fe(nf)) .and. vor_cell(it)) then
+                     fp(1:n - 1, nf) = fp(2:n, nf)
+                     n = n - 1
+                  end if
+               end if
                fn(nf) = n
             end do
          end do
