@@ -11,7 +11,8 @@
 !   - for each tet T at i and each edge ij of T, the kernel's two
 !     triangles (m, F(ijk), P(T)) and (m, P(T), F(ijl)), wound with
 !     the normal from i toward j (the orientation of the coefficient
-!     A(ij)). With cv voronoi the triangles of one edge are joined into
+!     A(ij)). Where every cell around the edge has alpha 1 (all of
+!     them with cv voronoi) the triangles of the edge are joined into
 !     one polygon (the Voronoi face, planar); otherwise each triangle
 !     is a face (the dual faces of moved points are not planar);
 !   - for each exterior face of T at i, the part of it nearer i:
@@ -138,12 +139,12 @@ contains
    end subroutine cell_points
 
    ! The control volumes of the selected vertices, into g.
-   ! voronoi: join each edge's triangles into one polygon (3D).
-   subroutine build_cells(m, pol, voronoi, iedge_off, jedge, area, &
+   ! 3D: an edge's triangles joined into one polygon where every
+   ! point of its dual face is a circumcenter.
+   subroutine build_cells(m, pol, iedge_off, jedge, area, &
                           vol, zero, sel, g, faces)
       type(mesh_t), intent(in) :: m
       type(cell_policy_t), intent(in) :: pol
-      logical, intent(in) :: voronoi
       integer(ik), intent(in) :: iedge_off(:), jedge(:)
       real(rk), intent(in) :: area(:), vol(:)
       logical, intent(in) :: zero(:), sel(:)
@@ -169,6 +170,15 @@ contains
       integer(ik), allocatable :: bnx(:), bpv(:), bky(:), bflat(:)
       real(rk), allocatable :: bnr(:, :)
       integer :: nflat
+      ! the edges at a vertex (3D): other end, and whether every cell
+      ! around the edge has its circumcenter (alpha 1): then the dual
+      ! face is planar, one polygon; triangles of those edges
+      integer(ik), allocatable :: ej(:), tri2(:, :), tre2(:), trj2(:)
+      logical, allocatable :: evor(:)
+      ! trd(t): the face point of triangle t lies between two
+      ! circumcenters (an interior face, both cells alpha 1)
+      logical, allocatable :: trd(:)
+      integer :: ne
       ! unique_points: the last call that took each slot
       integer, allocatable :: stamp(:)
       integer :: ncur
@@ -193,6 +203,8 @@ contains
                 ubuf(maxp*maxf), tri(3, maxf), tre(maxf), trj(maxf))
       allocate (bnx(maxf), bpv(maxf), bky(maxf), bflat(maxf), &
                 bnr(3, maxf))
+      allocate (ej(maxf), evor(maxf), tri2(3, maxf), tre2(maxf), &
+                trj2(maxf), trd(maxf))
 
       ! the smallest coefficient of each vertex's edges
       allocate (minc(nn))
@@ -379,11 +391,12 @@ contains
          integer, intent(out) :: nf
          integer(ik) :: v(4), kk, oj
          integer :: nt, e, li, a, b, c, dd, kf, pz, nx, pv, t, w, nb
-         real(rk) :: x(3, 4)
+         real(rk) :: x(3, 4), af(4), at
          logical :: flip
          nf = 0
          nt = 0
          nb = 0
+         ne = 0
          do ip = inc_off(i), inc_off(i + 1) - 1
             it = inc(ip)
             v = m%itet(m%itetoff(it) + 1:m%itetoff(it) + 4)
@@ -392,6 +405,15 @@ contains
                          [m%xic(v(1)), m%yic(v(1)), m%zic(v(1))]
             end do
             li = findloc(v, i, dim=1)
+            ! the cell's alpha and its faces' (a boundary face can be
+            ! clamped below the cell's)
+            at = 1.0_rk
+            af = 1.0_rk
+            if (allocated(pol%alpha)) then
+               at = pol%alpha(it)
+               call face_alphas(it, x, pol%alpha, m%jtetoff, m%jtet, &
+                                m%mbndry, pol%clamp, pol%amin, af)
+            end if
             do e = 1, 6
                a = iedge_tet(1, e)
                b = iedge_tet(2, e)
@@ -402,17 +424,21 @@ contains
                flip = (li == a) .neqv. (tet_det(x) > 0.0_rk)
                oj = v(b)
                if (li == b) oj = v(a)
+               call edge_vor(oj, at >= 1.0_rk .and. af(c) >= 1.0_rk &
+                             .and. af(dd) >= 1.0_rk)
                ! (m, F(abc), P) and (m, P, F(abd)), from a to b
                nt = nt + 1
                tri(:, nt) = [s_e + kk, s_f + face_key(m, it, dd), &
                              s_c + it]
                tre(nt) = kk
                trj(nt) = oj
+               trd(nt) = between(it, dd, af(dd))
                nt = nt + 1
                tri(:, nt) = [s_e + kk, s_c + it, &
                              s_f + face_key(m, it, c)]
                tre(nt) = kk
                trj(nt) = oj
+               trd(nt) = between(it, c, af(c))
                if (flip) then
                   tri(2:3, nt - 1) = tri([3, 2], nt - 1)
                   tri(2:3, nt) = tri([3, 2], nt)
@@ -441,25 +467,99 @@ contains
             end do
          end do
          call boundary3d(i, nb, nf)
-         if (voronoi) then
+         if (all(evor(1:ne))) then
             call join(tri, tre, trj, nt, nf)
          else
+            ! planar faces (every cell alpha 1) joined; the others as
+            ! the kernel's triangles. A face point between two
+            ! circumcenters is left out there too, as join does: its
+            ! two triangles (m, F, P1) and (m, P2, F) become (m, P2,
+            ! P1), the same signed area (F is on the line P1 P2), so
+            ! the faces still close.
+            w = 0
             do t = 1, nt
+               if (vor_edge(trj(t))) then
+                  w = w + 1
+                  tri2(:, w) = tri(:, t)
+                  tre2(w) = tre(t)
+                  trj2(w) = trj(t)
+                  cycle
+               end if
+               if (trd(t)) then
+                  ! (m, F, P1): its partner (m, P2, F), same edge; a
+                  ! triangle (m, P2, F) is written with its partner
+                  if (tri(2, t) <= s_f) cycle
+                  do e = 1, nt
+                     if (e == t .or. tre(e) /= tre(t) .or. &
+                         .not. trd(e)) cycle
+                     if (tri(3, e) == tri(2, t)) then
+                        nf = nf + 1
+                        fn(nf) = 3
+                        fe(nf) = tre(t)
+                        fj(nf) = trj(t)
+                        fp(1:3, nf) = [tri(1, t), tri(2, e), tri(3, t)]
+                        exit
+                     end if
+                  end do
+                  cycle
+               end if
                nf = nf + 1
                fn(nf) = 3
                fe(nf) = tre(t)
                fj(nf) = trj(t)
                fp(1:3, nf) = tri(:, t)
             end do
+            if (w > 0) call join(tri2, tre2, trj2, w, nf)
          end if
       end subroutine faces3d
+
+      ! face kf of cell it: interior, its point a circumcenter (alpha 1
+      ! of the face: both cells alpha 1)
+      logical function between(it, kf, a)
+         integer(ik), intent(in) :: it
+         integer, intent(in) :: kf
+         real(rk), intent(in) :: a
+         between = m%jtet(m%jtetoff(it) + kf) /= m%mbndry .and. &
+                   a >= 1.0_rk
+      end function between
+
+      ! edge (i, j): every cell around it, and their faces at the edge,
+      ! with alpha 1 so far (their points are circumcenters)
+      subroutine edge_vor(j, isvor)
+         integer(ik), intent(in) :: j
+         logical, intent(in) :: isvor
+         integer :: q
+         do q = 1, ne
+            if (ej(q) == j) then
+               evor(q) = evor(q) .and. isvor
+               return
+            end if
+         end do
+         if (ne >= maxf) return
+         ne = ne + 1
+         ej(ne) = j
+         evor(ne) = isvor
+      end subroutine edge_vor
+
+      logical function vor_edge(j)
+         integer(ik), intent(in) :: j
+         integer :: q
+         vor_edge = .false.
+         do q = 1, ne
+            if (ej(q) == j) then
+               vor_edge = evor(q)
+               return
+            end if
+         end do
+      end function vor_edge
 
       ! Voronoi: the triangles (m, A, B) of each edge joined into one
       ! polygon: a ring A B ... (interior edge), or m A B ... (an
       ! open chain, at the boundary). The triangles are first grouped
       ! by edge (a vertex has few edges), then chained in each group.
       ! 3D boundary polygons of vertex i: the piece of each exterior
-      ! face nearer i is (x_i, m(i,nx), F, m(i,pv)). With cv voronoi
+      ! face nearer i is (x_i, m(i,nx), F, m(i,pv)). Where the edge
+      ! between two pieces has a Voronoi face (every cell alpha 1),
       ! the pieces of coplanar faces next to each other are merged
       ! and the midpoint between them dropped (F, m and F' are on one
       ! line, m not always between), as in 2D; a vertex inside a flat
@@ -471,23 +571,13 @@ contains
          integer :: nxt(maxf), p, q, n, st
          logical :: hasp(maxf), done(maxf)
          nflat = 0
-         if (.not. voronoi) then
-            do p = 1, nb
-               nf = nf + 1
-               fn(nf) = 4
-               fe(nf) = 0
-               fj(nf) = 0
-               fp(1:4, nf) = [i, mid(i, bnx(p)), s_f + bky(p), &
-                              mid(i, bpv(p))]
-            end do
-            return
-         end if
          nxt(1:nb) = 0
          hasp(1:nb) = .false.
          do p = 1, nb
             do q = 1, nb
                if (q == p .or. bnx(q) /= bpv(p)) cycle
-               if (flat(bnr(:, p), bnr(:, q))) then
+               if (flat(bnr(:, p), bnr(:, q)) .and. &
+                   vor_edge(bpv(p))) then
                   nxt(p) = q
                   hasp(q) = .true.
                   nflat = nflat + 1

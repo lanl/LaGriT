@@ -565,9 +565,14 @@ look at, clip and color in ParaView. Open `ROOT.pvd`; it loads:
 
 The cells are drawn from exactly the dual points the coefficients
 came from: with `cv hybrid`, the moved points. A polyhedron's faces
-are the Voronoi faces of its edges (planar; with other policies the
-kernel's triangles, since moved dual faces are not planar) and, on
+are the Voronoi faces of its edges, one planar polygon each, and, on
 the boundary, the part of each boundary triangle nearer the vertex.
+A dual face with a moved point (`cv hybrid` near the cells it
+changed, `cv median` and `cv blend` everywhere) is not planar and is
+written as the kernel's triangles; with `cv hybrid`, every edge
+whose cells all kept their circumcenters (alpha 1) still gets its
+one Voronoi polygon, so only the changed region shows triangles
+(poi3: 12,706 triangles instead of 186,912).
 Every polyhedron is closed, its faces point outward, and its volume
 is the control volume (test_paraview measures both).
 
@@ -592,9 +597,10 @@ the moved points, not a drawing error, and the volumes still match.
   read by ParaView 6) or `legacy` (the older layout, for ParaView 5
   and other older readers).
 
-Sizes: a million tets give 157,000 polyhedra, a 410 MB cells file and
-about 9 s and 650 MB more memory (Claude's sandbox); 10 million about
-ten times that. For large meshes, a subset is the way to look:
+Sizes: a million tets give 157,000 polyhedra, a 210 MB cells file
+(Voronoi or hybrid), about 8 s, and a peak of 620 MB for the whole
+run (680 MB hybrid; Claude's sandbox); 10 million about ten times
+that. For large meshes, a subset is the way to look:
 `boundary` on a million tets takes 0.9 s.
 
 Unlike lanl/voronoi, `.uge` and `MESH` keep the sign of volumes and

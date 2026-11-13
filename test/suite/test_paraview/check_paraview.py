@@ -230,20 +230,20 @@ def main():
             ok('volume', 'volume from the faces against the .stor %.1e '
                'of the largest' % (e / vmax), e <= 1e-12 * vmax)
             size = max(math.dist(a, b) for a in m.xyz[:1] for b in m.xyz)
-            if '-cv' not in args:
-                fa = [(norm3(vec_area(g.points, f)), f) for fs in g.faces
-                      for f in fs]
-                big = max(a for a, _ in fa)
-                p = max(planarity(g.points, f) for a, f in fa
-                        if a >= 1e-6 * big)
-                ok('planar', 'Voronoi faces flat to %.1e of the mesh size'
-                   ' (%d of %d faces; the rest have nearly no area)'
-                   % (p / size, sum(1 for a, _ in fa if a >= 1e-6 * big),
-                      len(fa)), p <= 1e-12 * size)
-            else:
-                sizes = set(len(f) for fs in g.faces for f in fs)
-                ok('planar', 'face sizes %s (kernel triangles, boundary '
-                   'pieces)' % sorted(sizes), sizes <= {3, 4})
+            # every face of 4 or more points is flat: Voronoi faces
+            # (with the hybrid, those of edges whose cells all have
+            # alpha 1) and boundary pieces; the hybrid's other faces
+            # are the kernel's triangles
+            fa = [(norm3(vec_area(g.points, f)), f) for fs in g.faces
+                  for f in fs]
+            big = max(a for a, _ in fa)
+            poly = [f for a, f in fa if len(f) > 3 and a >= 1e-6 * big]
+            ntri = sum(1 for _, f in fa if len(f) == 3)
+            p = max([planarity(g.points, f) for f in poly] or [0.0])
+            ok('planar', 'faces of 4 or more points flat to %.1e of the '
+               'mesh size (%d of %d faces; %d triangles; the rest have '
+               'nearly no area)' % (p / size, len(poly), len(fa), ntri),
+               p <= 1e-12 * size)
             fpath = os.path.join(d, name + '_faces.vtu')
             if os.path.exists(fpath):
                 gf = read_vtu(fpath)

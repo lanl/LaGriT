@@ -428,7 +428,7 @@ contains
       character(len=1024) :: files(5)
       integer :: nfile
       integer(ik) :: i, it, kk
-      logical :: faces3, voro
+      logical :: faces3
       allocate (sel(m%nnodes), bedg(nedges), iedg(nedges))
       ! the vertices that get a cell
       select case (trim(opt%subset))
@@ -476,12 +476,11 @@ contains
       faces3 = opt%paraview_faces .and. m%nen == 4
       if (opt%paraview_faces .and. m%nen /= 4) call log_line( &
          'del_vor: paraview_faces: tet meshes only; not written')
-      voro = ipol == policy_voronoi
       if (faces3) then
-         call build_cells(m, pol, voro, iedge_off, jedge, area, vol, &
+         call build_cells(m, pol, iedge_off, jedge, area, vol, &
                           zero, sel, gc, gf)
       else
-         call build_cells(m, pol, voro, iedge_off, jedge, area, vol, &
+         call build_cells(m, pol, iedge_off, jedge, area, vol, &
                           zero, sel, gc)
       end if
       allocate (a1(m%nelements), s0(m%nelements))

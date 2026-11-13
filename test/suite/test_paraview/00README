@@ -54,9 +54,11 @@ WHAT IS CHECKED
             once, in the opposite direction)
   volume    3D: the volume from the faces equals the .stor volume
             (1e-12 of the largest): the faces point outward
-  planar    Voronoi faces are flat (faces with at least 1e-6 of the
-            largest area; a tie's face has no area and no plane);
-            other policies: the kernel's triangles and boundary pieces
+  planar    every face of 4 or more points is flat: Voronoi faces
+            (with the hybrid, those of edges whose cells all have
+            alpha 1) and boundary pieces (faces with at least 1e-6
+            of the largest area; a tie's face has no area and no
+            plane); the rest are the kernel's triangles
   bisector  with the faces file, every point of the dual face of ij
             lies on the bisector plane of i and j (2.7e-16 of the
             mesh size on the Poisson mesh)
