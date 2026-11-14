@@ -51,6 +51,8 @@ EXPECT = {
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
     'imt_short': ['a_MESH'], 'imt_long': ['a_MESH'],
+    'mx_files': ['a.stor', 'm.vtu', 'm.vti'],
+    'mx_noext': ['a.uge', 'mm', 'mm.vti'],
     'check_only': [], 'report': ['a.report', 'a.stor'],
     'timing_on': ['a.stor'],
     'tol_zero_ties': ['a.stor', 'ties.vtu'],
@@ -87,6 +89,9 @@ REFUSED = {
     'mat_text': 'material needs a material number',
     'bad_format': 'vtu_format hex', 'bad_layout': 'vtu_layout old',
     'pv_over_stor': 'v_cells.vtu given twice',
+    'bins_alone': 'matrix_bins needs matrix',
+    'bad_bins': 'matrix_bins 0: must be a whole number >= 1',
+    'mx_twice': 'm.vti given twice',
 }
 
 TOL = 1e-14

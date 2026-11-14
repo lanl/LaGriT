@@ -66,6 +66,7 @@ test_dfn:run_dfn_tests.sh:2:checks,dfn,stor,2d
 test_parity:run_parity_tests.sh:10:parity,lagrit,stor,2d,3d,dfn
 test_policy:run_policy_tests.sh:8:policy,hybrid,median,2d,3d,dfn
 test_paraview:run_paraview_tests.sh:5:paraview,vtu,2d,3d,dfn
+test_matrix:run_matrix_tests.sh:3:matrix,paraview,vtu,2d,3d,dfn
 test_timing:run_timing_tests.sh:180:timing,dev
 "
 

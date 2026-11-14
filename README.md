@@ -28,7 +28,9 @@ polygons (2D, one per vertex per fracture in a network) or closed
 polyhedra (3D), drawn from the dual points the coefficients came
 from, with the mesh, the negative coefficients and optionally the
 dual faces; subsets; binary or text; VTK's new or legacy polyhedron
-layout.
+layout. The coefficient matrix itself can be written for ParaView
+(`-matrix FILE`): a point per `.stor` entry at (j, -i), with its
+values, and with `-matrix_bins N` an N x N image of the whole matrix.
 Fracture networks (triangles of several itetclr crossing along shared
 edges) are handled. Phase 3: `tools/stor_compare.py` compares any two
 `.stor` files and explains every difference; del_vor agrees with
@@ -74,6 +76,7 @@ del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-check_only on|off] [-report FILE] [-paraview ROOT]
         [-paraview_faces on|off] [-paraview_subset S]
         [-vtu_format binary|ascii] [-vtu_layout new|legacy]
+        [-matrix FILE] [-matrix_bins N]
 ```
 
 Options are keyword / value pairs in any order. Several outputs can
@@ -99,6 +102,8 @@ be written in one run; the geometry is computed once.
 | `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
 | `vtu_format` | `binary`, `ascii` | `binary` | |
 | `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: ParaView 6, or ParaView 5 |
+| `matrix` | file | none | the coefficient matrix for ParaView: a point per `.stor` entry at (j, -i), both halves and the diagonal |
+| `matrix_bins` | whole number >= 1 | none | with `matrix`: also an N x N image of the matrix (the file's name with `.vti`) |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below, a facet is not Delaunay (see the manual) |
 | `delaunay_fatal` | number >= 0 | `1e-2` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |

@@ -26,7 +26,7 @@ module del_vor_vtu
    implicit none
    private
    public :: vtu_grid_t, vtu_data_t, write_vtu, add_cdata, add_pdata, &
-             write_pvd
+             write_pvd, write_vti
 
    type :: vtu_data_t
       character(len=32) :: name = ' '
@@ -49,7 +49,7 @@ module del_vor_vtu
       integer(ik), allocatable :: pfaces(:)     ! face ids per cell
       integer(ik), allocatable :: poff(:)       ! (nc) end offsets
       integer :: npd = 0, ncd = 0
-      type(vtu_data_t) :: pdata(12), cdata(12)
+      type(vtu_data_t) :: pdata(16), cdata(16)
    end type vtu_grid_t
 
 contains
@@ -342,6 +342,113 @@ contains
          b = 0
       end do
    end subroutine legacy_arrays
+
+   ! A VTK XML image (.vti) of nx x ny pixels (cells), cell data d(1:nd)
+   ! (x fastest, then y), at origin(3) with spacing(3); ASCII or
+   ! appended raw binary, as write_vtu.
+   subroutine write_vti(fname, nx, ny, origin, spacing, d, nd, binary, &
+                        ierr)
+      character(len=*), intent(in) :: fname
+      integer(ik), intent(in) :: nx, ny
+      real(rk), intent(in) :: origin(3), spacing(3)
+      type(vtu_data_t), intent(in) :: d(:)
+      integer, intent(in) :: nd
+      logical, intent(in) :: binary
+      integer, intent(out) :: ierr
+      integer :: lu, ios, k
+      integer(int64) :: pos
+      character(len=300) :: s
+      character(len=1), parameter :: nl = achar(10)
+      ierr = 0
+      open (newunit=lu, file=fname, status='replace', access='stream', &
+            form='unformatted', action='write', iostat=ios)
+      if (ios /= 0) then
+         ierr = 1
+         errmsg = 'write_vti: cannot open '//trim(fname)
+         return
+      end if
+      pos = 0
+      write (lu) '<?xml version="1.0"?>'//nl
+      write (lu) '<VTKFile type="ImageData" version="1.0" '// &
+         'byte_order="LittleEndian" header_type="UInt64">'//nl
+      write (s, '(a,i0,a,i0,a,3(1x,es24.16e3),a,3(1x,es24.16e3),a)') &
+         '<ImageData WholeExtent="0 ', nx, ' 0 ', ny, &
+         ' 0 0" Origin="', origin, '" Spacing="', spacing, '">'
+      write (lu) trim(s)//nl
+      write (s, '(a,i0,a,i0,a)') '<Piece Extent="0 ', nx, ' 0 ', ny, &
+         ' 0 0">'
+      write (lu) trim(s)//nl
+      write (lu) '<PointData>'//nl//'</PointData>'//nl//'<CellData>'//nl
+      do k = 1, nd
+         if (d(k)%is_real) then
+            call head('Float64', size(d(k)%r, kind=int64))
+         else
+            call head('Int64', size(d(k)%i, kind=int64))
+         end if
+         if (.not. binary) then
+            if (d(k)%is_real) then
+               call text_r(d(k)%r)
+            else
+               call text_i(d(k)%i)
+            end if
+            write (lu) '</DataArray>'//nl
+         end if
+      end do
+      write (lu) '</CellData>'//nl//'</Piece>'//nl//'</ImageData>'//nl
+      if (binary) then
+         write (lu) '<AppendedData encoding="raw">'//nl//'_'
+         do k = 1, nd
+            if (d(k)%is_real) then
+               write (lu) int(8, int64)*size(d(k)%r, kind=int64)
+               write (lu) real(d(k)%r, real64)
+            else
+               write (lu) int(8, int64)*size(d(k)%i, kind=int64)
+               write (lu) int(d(k)%i, int64)
+            end if
+         end do
+         write (lu) nl//'</AppendedData>'//nl
+      end if
+      write (lu) '</VTKFile>'//nl
+      close (lu)
+
+   contains
+
+      subroutine head(typ, n)
+         character(len=*), intent(in) :: typ
+         integer(int64), intent(in) :: n
+         if (binary) then
+            write (s, '(5a,i0,a)') '<DataArray type="', typ, &
+               '" Name="', trim(d(k)%name), &
+               '" format="appended" offset="', pos, '"/>'
+            pos = pos + 8 + 8*n
+         else
+            write (s, '(5a)') '<DataArray type="', typ, '" Name="', &
+               trim(d(k)%name), '" format="ascii">'
+         end if
+         write (lu) trim(s)//nl
+      end subroutine head
+
+      subroutine text_r(a)
+         real(rk), intent(in) :: a(:)
+         integer(ik) :: j, n
+         n = size(a, kind=ik)
+         do j = 1, n, 4
+            write (s, '(*(1x,es24.16e3))') a(j:min(n, j + 3))
+            write (lu) trim(s)//nl
+         end do
+      end subroutine text_r
+
+      subroutine text_i(a)
+         integer(ik), intent(in) :: a(:)
+         integer(ik) :: j, n
+         n = size(a, kind=ik)
+         do j = 1, n, 10
+            write (s, '(*(1x,i0))') a(j:min(n, j + 9))
+            write (lu) trim(s)//nl
+         end do
+      end subroutine text_i
+
+   end subroutine write_vti
 
    ! ROOT.pvd: the files, by name only (they sit beside it).
    subroutine write_pvd(fname, files, n, ierr)
