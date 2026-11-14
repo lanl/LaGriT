@@ -6,7 +6,9 @@
 !           [-zero_area remove|keep] [-zero_tol X]
 !           [-compress on|off] [-cv voronoi|median|blend|hybrid]
 !           [-alpha X] [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
-!           [-alpha_file FILE]
+!           [-alpha_file FILE] [-paraview ROOT] [-paraview_faces on|off]
+!           [-paraview_subset all|boundary|flagged|material N|box ...]
+!           [-vtu_format binary|ascii] [-vtu_layout new|legacy]
 !           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
 !           [-check_only on|off] [-report FILE] [-timing on|off]
 !
@@ -44,6 +46,10 @@ program del_vor
    use del_vor_validity, only: check_validity, validity_t
    use del_vor_delaunay, only: check_delaunay, delaunay_t
    use del_vor_write_vtu, only: write_violations_vtu, write_alpha_vtu
+   use del_vor_vtu, only: vtu_grid_t, write_vtu, write_pvd
+   use del_vor_tess, only: build_cells, build_mesh_grid, &
+                           build_negative_grid, interface_edges, &
+                           boundary_vertices
    use del_vor_log, only: log_copy_open, log_copy_close
    use del_vor_write_stor, only: write_stor
    use del_vor_write_uge, only: write_uge
@@ -206,6 +212,11 @@ program del_vor
    end if
    call timer_stop()
    if (len_trim(opt%alpha_file) > 0) call alpha_file_out()
+   if (len_trim(opt%paraview) > 0) then
+      call timer_start('paraview files')
+      call paraview_out()
+      call timer_stop()
+   end if
 
    do k = 1, opt%nout
       call timer_start('write '//trim(opt%out_type(k)))
@@ -406,6 +417,116 @@ contains
                     trim(opt%alpha_file))
    end subroutine alpha_file_out
 
+   ! The ParaView files (del_vor_tess, del_vor_vtu): the mesh, the
+   ! control volumes, the negative coefficients, the dual faces, and
+   ! ROOT.pvd grouping them with the violations file.
+   subroutine paraview_out()
+      type(vtu_grid_t) :: gm, gc, gn, gf
+      logical, allocatable :: sel(:), bedg(:), iedg(:)
+      real(rk), allocatable :: a1(:)
+      integer, allocatable :: s0(:)
+      character(len=1024) :: files(5)
+      integer :: nfile
+      integer(ik) :: i, it, kk
+      logical :: faces3
+      allocate (sel(m%nnodes), bedg(nedges), iedg(nedges))
+      ! the vertices that get a cell
+      select case (trim(opt%subset))
+      case ('all')
+         sel = .true.
+      case ('boundary')
+         call boundary_vertices(m, sel)
+      case ('flagged')
+         sel = .false.
+         do i = 1, m%nnodes
+            do kk = iedge_off(i), iedge_off(i + 1) - 1
+               if (area(kk) < 0.0_rk .and. .not. zero(kk)) then
+                  sel(i) = .true.
+                  sel(jedge(kk)) = .true.
+               end if
+            end do
+         end do
+         if (allocated(pol%alpha)) then
+            do it = 1, m%nelements
+               if (pol%alpha(it) < 1.0_rk) sel(m%itet(m%itetoff(it) &
+                  + 1:m%itetoff(it) + m%nen)) = .true.
+            end do
+         end if
+      case ('material')
+         sel = .false.
+         do it = 1, m%nelements
+            if (m%itetclr(it) == opt%subset_mat) sel(m%itet( &
+               m%itetoff(it) + 1:m%itetoff(it) + m%nen)) = .true.
+         end do
+      case ('box')
+         do i = 1, m%nnodes
+            sel(i) = m%xic(i) >= opt%subset_box(1) .and. &
+                     m%yic(i) >= opt%subset_box(2) .and. &
+                     m%zic(i) >= opt%subset_box(3) .and. &
+                     m%xic(i) <= opt%subset_box(4) .and. &
+                     m%yic(i) <= opt%subset_box(5) .and. &
+                     m%zic(i) <= opt%subset_box(6)
+         end do
+      end select
+      write (arg, '(a,i0,a,i0,a)') 'del_vor: paraview_subset '// &
+         trim(opt%subset)//': ', count(sel), ' of ', m%nnodes, &
+         ' vertices get a cell'
+      call log_line(trim(arg))
+
+      faces3 = opt%paraview_faces .and. m%nen == 4
+      if (opt%paraview_faces .and. m%nen /= 4) call log_line( &
+         'del_vor: paraview_faces: tet meshes only; not written')
+      if (faces3) then
+         call build_cells(m, pol, iedge_off, jedge, area, vol, &
+                          zero, sel, gc, gf)
+      else
+         call build_cells(m, pol, iedge_off, jedge, area, vol, &
+                          zero, sel, gc)
+      end if
+      allocate (a1(m%nelements), s0(m%nelements))
+      a1 = 1.0_rk
+      s0 = 0
+      if (allocated(pol%alpha)) a1 = pol%alpha
+      if (allocated(stage)) s0 = stage
+      call build_mesh_grid(m, vol, sel, a1, s0, gm)
+      call boundary_edges(m%nnodes, m%nelements, m%nen, m%itetoff, &
+                          m%itet, m%jtetoff, m%jtet, m%mbndry, &
+                          iedge_off, jedge, bedg)
+      call interface_edges(m, iedge_off, jedge, iedg)
+      call build_negative_grid(m, iedge_off, jedge, area, zero, bedg, &
+                               iedg, sel, gn)
+
+      nfile = 0
+      call vtu_one(gm, '_mesh.vtu', files, nfile)
+      call vtu_one(gc, '_cells.vtu', files, nfile)
+      if (gn%nc > 0) call vtu_one(gn, '_negative.vtu', files, nfile)
+      if (faces3) call vtu_one(gf, '_faces.vtu', files, nfile)
+      if (dst%rec%n > 0) then
+         nfile = nfile + 1
+         files(nfile) = opt%violations
+      end if
+      call write_pvd(trim(opt%paraview)//'.pvd', files, nfile, ierr)
+      if (ierr /= 0) call fail_stop()
+      call log_line('del_vor: wrote '//trim(opt%paraview)//'.pvd ('// &
+                    'open it in ParaView)')
+   end subroutine paraview_out
+
+   ! Write one ParaView file ROOT//suffix and list it for the .pvd.
+   subroutine vtu_one(g, suffix, files, nfile)
+      type(vtu_grid_t), intent(in) :: g
+      character(len=*), intent(in) :: suffix
+      character(len=*), intent(inout) :: files(:)
+      integer, intent(inout) :: nfile
+      nfile = nfile + 1
+      files(nfile) = trim(opt%paraview)//suffix
+      call write_vtu(files(nfile), g, opt%vtu_binary, &
+                     opt%vtu_legacy, ierr)
+      if (ierr /= 0) call fail_stop()
+      write (arg, '(a,i0,a)') 'del_vor: wrote '// &
+         trim(files(nfile))//' (', g%nc, ' cells)'
+      call log_line(trim(arg))
+   end subroutine vtu_one
+
    logical function is_keyword(s)
       character(len=*), intent(in) :: s
       select case (trim(s))
@@ -413,7 +534,8 @@ contains
             'compress', 'cv', 'type', 'o', 'delaunay_tol', &
             'violations', 'check_only', 'report', 'timing', &
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
-            'hybrid_iter', 'alpha_file')
+            'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
+            'paraview_subset', 'vtu_format', 'vtu_layout')
          is_keyword = .true.
       case default
          is_keyword = .false.
@@ -477,6 +599,17 @@ contains
                     'limit (default 100)')
       call log_line('  -alpha_file FILE  ParaView file: alpha and '// &
                     'stage per cell')
+      call log_line('  -paraview ROOT    ParaView files: ROOT.pvd, '// &
+                    'the mesh, the control')
+      call log_line('                    volumes, negative '// &
+                    'coefficients')
+      call log_line('  -paraview_faces on   also the dual faces '// &
+                    '(tets)')
+      call log_line('  -paraview_subset S   all, boundary, flagged,'// &
+                    ' material N, box x1 y1 z1 x2 y2 z2')
+      call log_line('  -vtu_format F     binary (default) or ascii')
+      call log_line('  -vtu_layout L     new (ParaView 6, default) '// &
+                    'or legacy (ParaView 5)')
       call log_line('  -delaunay_tol X   a facet is not Delaunay '// &
                     'when delta/L < -X (default 1e-10)')
       call log_line('  -delaunay_fatal X down to delta/L = -X: a '// &

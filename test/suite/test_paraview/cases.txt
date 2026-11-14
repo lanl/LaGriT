@@ -1,0 +1,20 @@
+# test_paraview cases: one per line,  name | mesh | arguments | what it does
+#
+# Each case runs, in work/NAME,
+#   del_vor -avs MESH -stor NAME.stor -paraview NAME -report NAME.report ARGUMENTS
+# and check_paraview.py reads the files back with its own reader
+# (vtu_read.py, written from VTK's file format) and checks them against
+# the .stor. A mesh path starting with gen/ is made by test_dfn's
+# generator.
+#
+sq2d          | ../test_poisson_lagrit/inputs/output03_square_var.inp | -vtu_format ascii | LaGriT's test_poisson_2d square, Voronoi, written as text: one polygon per vertex, the circumcenters and edge midpoints in order around it (closed by the vertex itself on the boundary). Each polygon's area, measured from its points, equals the vertex's volume in the .stor; together they cover the square exactly.
+rnd2d_hyb     | ../test_policy/inputs/rnd2d.inp | -cv hybrid | Random points in the unit square with the adaptive hybrid (binary): the polygons are drawn from the moved points (cells near the boundary pulled inside it), and their areas still equal the .stor volumes.
+dfn3          | gen/dfn3.inp | -vtu_format ascii | test_dfn's 3-fracture network: one polygon per vertex per fracture. A vertex on an intersection has a polygon in each of its 2 fractures; the polygons of a vertex add up to its volume in the .stor, and each lies in its fracture's plane.
+full_mesh     | ../test_dfn/inputs/full_mesh.inp | | Carl's dfnWorks network (4 fractures, 60 intersection edges), binary: the same checks.
+poi3_vor      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -vtu_format ascii -paraview_faces on | LaGriT's test_poisson_3d case 1, Voronoi, as text, with the dual faces: one polyhedron per vertex. Each is closed (every face edge matched once, in the opposite direction), its faces point outward, its volume from its faces equals the .stor volume; its Voronoi faces are planar. The faces file: each dual face's area along its edge equals A(ij) of the .stor; the 75 negative coefficients are the segments of the negative file.
+poi3_legacy   | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -vtu_layout legacy | The same mesh in VTK's legacy polyhedron layout (faces / faceoffsets, for ParaView 5), binary: the same polyhedra, point for point, as poi3_vor.
+poi3_hyb      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv hybrid -paraview_faces on | The same mesh with the hybrid: the dual faces of moved points are not planar, so each is written as the kernel's triangles; the faces of edges whose cells all kept alpha 1 are single Voronoi polygons. The polyhedra are still closed with the .stor volumes; no negative file (none left).
+rnd3d_flagged | ../test_policy/inputs/rnd3d.inp | -cv hybrid -paraview_subset flagged | Random points in the unit cube with the hybrid, only the flagged vertices: those of a cell whose alpha is below 1, or of an edge whose coefficient is negative (none is left). Checked: exactly those vertices get a polyhedron, each closed with its .stor volume.
+two_mat       | ../test_parity/inputs/two_mat.inp | | A two-material tet mesh: the control volumes cross the material interface (merge mode), closed, with the .stor volumes; material is the vertex's imt1.
+hextet_mat2   | ../test_policy/inputs/hextet5.inp | -cv median -paraview_subset material 2 | LaGriT's hex-to-tet demo (3 materials, not Delaunay) with median control volumes, only the vertices of material 2's cells: closed polyhedra with the .stor volumes; the mesh file holds the cells that touch them.
+poi3_box      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -paraview_subset box 0 0 0 0.2 0.2 0.1 | The Poisson mesh, only the vertices inside a box (a corner of the domain): exactly those get a polyhedron.

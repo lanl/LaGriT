@@ -41,6 +41,9 @@ itetclr per fracture) or all tets.
      / [<b>cv</b>, <b>voronoi</b>|<b>median</b>|<b>blend</b>|<b>hybrid</b>] / [<b>alpha</b>, value] &
      / [<b>hybrid_tol</b>, value] / [<b>alpha_min</b>, value] / [<b>hybrid_iter</b>, n] &
      / [<b>alpha_file</b>, file_name] &
+     / [<b>paraview</b>, root] / [<b>paraview_faces</b>, <b>on</b>|<b>off</b>] &
+     / [<b>paraview_subset</b>, <b>all</b>|<b>boundary</b>|<b>flagged</b>|<b>material</b> N|<b>box</b> x1 y1 z1 x2 y2 z2] &
+     / [<b>vtu_format</b>, <b>binary</b>|<b>ascii</b>] / [<b>vtu_layout</b>, <b>new</b>|<b>legacy</b>] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
@@ -142,6 +145,36 @@ times the sum of its cells' pieces. Default 0. Zero-area connections
 **`hybrid_iter`**, n
 
 **`cv hybrid`** only: the most correction passes. Default 100.
+
+**`paraview`**, root
+
+writes the control volumes for ParaView: `root.pvd` (open this), the
+mesh (`root_mesh.vtu`), one cell per control volume
+(`root_cells.vtu`: a polygon for triangles, one per vertex per
+fracture in a network; a polyhedron for tets), and the negative
+coefficients as segments (`root_negative.vtu`, when there are any).
+The cells are drawn from the dual points the coefficients came from
+(moved ones with **`cv, hybrid`**).
+
+**`paraview_faces`**, **`on`** | **`off`**
+
+also writes `root_faces.vtu`, the dual face of each connection (tets).
+Default **`off`**.
+
+**`paraview_subset`**, **`all`** | **`boundary`** | **`flagged`** | **`material`** N | **`box`** x1 y1 z1 x2 y2 z2
+
+which vertices get a cell: all (default), those on the boundary,
+those of a negative coefficient or of a cell with alpha < 1, those of
+cells of itetclr N, or those inside the box.
+
+**`vtu_format`**, **`binary`** | **`ascii`**
+
+binary (default) or text files.
+
+**`vtu_layout`**, **`new`** | **`legacy`**
+
+VTK's polyhedron layout: **`new`** (default; ParaView 6) or
+**`legacy`** (ParaView 5 and older readers).
 
 **`alpha_file`**, file_name
 
@@ -257,6 +290,12 @@ make one are moved toward their centroids, only as far as needed;
 dump / control_volume / mo_mesh / stor, mesh_med.stor / cv, median
 ```
 median control volumes, for a mesh that is not Delaunay.
+
+```
+dump / control_volume / mo_mesh / stor, mesh.stor / paraview, mesh_cv / paraview_subset, boundary
+```
+also the control volumes of the boundary vertices for ParaView: open
+`mesh_cv.pvd`.
 
 ## OPEN QUESTIONS (draft only) ##
 

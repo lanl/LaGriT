@@ -1,7 +1,7 @@
 # del_vor manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `del_vor`, as of phase 4 of 6. The LaGriT command
+standalone program `del_vor`, as of phase 5 of 6. The LaGriT command
 (`dump / control_volume`) is described in
 [`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -73,6 +73,9 @@ del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
         [-alpha_file FILE] [-delaunay_tol X] [-violations FILE]
         [-check_only on|off] [-report FILE]
+        [-paraview ROOT] [-paraview_faces on|off]
+        [-paraview_subset all|boundary|flagged|material N|box ...]
+        [-vtu_format binary|ascii] [-vtu_layout new|legacy]
 ```
 
 Options are keyword / value pairs, in any order; the dash is
@@ -549,6 +552,57 @@ is the rank of the vertex's `imt1` among its distinct values. AHTX is
 written equal to the volume, as lanl/voronoi did; this is an open
 question for TOUGH2 users.
 
+**ParaView** (`-paraview ROOT`): the control volumes as cells, to
+look at, clip and color in ParaView. Open `ROOT.pvd`; it loads:
+
+| file | cells | data |
+|---|---|---|
+| `ROOT_mesh.vtu` | the input triangles or tets | cell: `itetclr`, `alpha`, `stage`; vertex: `vertex`, `volume`, `imt1`, `boundary` |
+| `ROOT_cells.vtu` | one per control volume: a polygon (triangles; in a fracture network one per vertex per fracture) or a polyhedron (tets) | `vertex`, `volume`, `material`, `boundary`, `nfaces`, `min_coefficient` |
+| `ROOT_negative.vtu` | one segment per negative coefficient (written only if there is one) | `coefficient`, `class` (1 boundary, 2 interior, 3 interface), `vertex_i`, `vertex_j` |
+| `ROOT_faces.vtu` | with `-paraview_faces on` (tets): each dual face, one polygon (Voronoi) or its triangles | `vertex_i`, `vertex_j`, `area` (along the edge), `coefficient`, `angle` |
+| the violations file | when the Delaunay check flagged facets | ([section 7](#7-the-violations-file)) |
+
+The cells are drawn from exactly the dual points the coefficients
+came from: with `cv hybrid`, the moved points. A polyhedron's faces
+are the Voronoi faces of its edges, one planar polygon each, and, on
+the boundary, the part of each boundary triangle nearer the vertex.
+A dual face with a moved point (`cv hybrid` near the cells it
+changed, `cv median` and `cv blend` everywhere) is not planar and is
+written as the kernel's triangles; with `cv hybrid`, every edge
+whose cells all kept their circumcenters (alpha 1) still gets its
+one Voronoi polygon, so only the changed region shows triangles
+(poi3: 12,706 triangles instead of 186,912).
+Every polyhedron is closed, its faces point outward, and its volume
+is the control volume (test_paraview measures both).
+
+With `cv voronoi` only true corners are written. When an angle
+opposite an edge is obtuse, the circumcenter lies past the edge: the
+edge midpoint (2D), or a face circumcenter (3D), is then on the line
+through its two neighbors but not between them, so it is left out;
+the same holds for an edge midpoint between two coplanar boundary
+triangles, whose boundary pieces are merged into one polygon (a
+vertex inside a flat boundary patch is then no corner either). With
+`cv hybrid`, stage A can put a dual point exactly on a facet; an
+outline then folds back along that facet. This is the geometry of
+the moved points, not a drawing error, and the volumes still match.
+
+- `-paraview_subset` limits the cells: `boundary` (vertices on the
+  boundary), `flagged` (vertices of a negative coefficient, or of a
+  cell with alpha < 1), `material N` (vertices of cells of itetclr
+  N), `box x1 y1 z1 x2 y2 z2` (vertices inside). The mesh file then
+  holds the cells that touch those vertices.
+- `-vtu_format binary` (default) or `ascii` (text, for small cases).
+- `-vtu_layout new` (default: VTK's polyhedron layout since VTK 9.4,
+  read by ParaView 6) or `legacy` (the older layout, for ParaView 5
+  and other older readers).
+
+Sizes: a million tets give 157,000 polyhedra, a 210 MB cells file
+(Voronoi or hybrid), about 8 s, and a peak of 620 MB for the whole
+run (680 MB hybrid; Claude's sandbox); 10 million about ten times
+that. For large meshes, a subset is the way to look:
+`boundary` on a million tets takes 0.9 s.
+
 Unlike lanl/voronoi, `.uge` and `MESH` keep the sign of volumes and
 areas (voronoi wrote absolute values, which hides negative
 coefficients); a negative TOUGH2 number is written with one digit
@@ -658,6 +712,11 @@ del_vor control volumes: hybrid
 | `alpha_min` | number from 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
 | `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most stage B passes |
 | `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
+| `paraview` | root | none | the ParaView files `ROOT.pvd`, `ROOT_mesh.vtu`, `ROOT_cells.vtu`, `ROOT_negative.vtu` ([section 9](#9-output-files)) |
+| `paraview_faces` | `on`, `off` | `off` | also `ROOT_faces.vtu`, the dual faces (tets) |
+| `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
+| `vtu_format` | `binary`, `ascii` | `binary` | appended raw data, or text |
+| `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: `new` for ParaView 6, `legacy` for ParaView 5 |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
 | `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |

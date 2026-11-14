@@ -16,12 +16,19 @@ choice, is in the design document (see `notes` in the project folder).
 
 ## Status
 
-Phase 4 of 6. Phase 1: the lanl/voronoi kernels and writers ported
+Phase 5 of 6. Phase 1: the lanl/voronoi kernels and writers ported
 to one edge-based sparse structure, without PETSc or MPI, with
 keyword options for the outputs, zero-area connections and
 compression. Phase 2: the mesh is checked before any geometry (cell
 types, positive size, conformity, orientation) and tested for the
 Delaunay property; facets that fail are written for ParaView.
+
+Phase 5: ParaView files (`-paraview ROOT`): the control volumes as
+polygons (2D, one per vertex per fracture in a network) or closed
+polyhedra (3D), drawn from the dual points the coefficients came
+from, with the mesh, the negative coefficients and optionally the
+dual faces; subsets; binary or text; VTK's new or legacy polyhedron
+layout.
 Fracture networks (triangles of several itetclr crossing along shared
 edges) are handled. Phase 3: `tools/stor_compare.py` compares any two
 `.stor` files and explains every difference; del_vor agrees with
@@ -64,7 +71,9 @@ del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-cv voronoi|median|blend|hybrid] [-alpha X]
         [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
         [-alpha_file FILE] [-delaunay_tol X] [-violations FILE]
-        [-check_only on|off] [-report FILE]
+        [-check_only on|off] [-report FILE] [-paraview ROOT]
+        [-paraview_faces on|off] [-paraview_subset S]
+        [-vtu_format binary|ascii] [-vtu_layout new|legacy]
 ```
 
 Options are keyword / value pairs in any order. Several outputs can
@@ -85,6 +94,11 @@ be written in one run; the geometry is computed once.
 | `alpha_min` | 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
 | `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most correction passes |
 | `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
+| `paraview` | root | none | ParaView files: `ROOT.pvd` (open this), the mesh, the control volumes, the negative coefficients |
+| `paraview_faces` | `on`, `off` | `off` | also the dual faces (tets) |
+| `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
+| `vtu_format` | `binary`, `ascii` | `binary` | |
+| `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: ParaView 6, or ParaView 5 |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below, a facet is not Delaunay (see the manual) |
 | `delaunay_fatal` | number >= 0 | `1e-2` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
@@ -146,6 +160,8 @@ downloaded from the run's Summary page (Artifacts).
 | `src/del_vor_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
 | `src/del_vor_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
 | `src/del_vor_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
+| `src/del_vor_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
+| `src/del_vor_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
 | `src/del_vor_assemble.F90` | cell-by-cell accumulation into the CSR |
 | `src/del_vor_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
 | `src/del_vor_write_uge.F90` | PFLOTRAN `.uge` |
