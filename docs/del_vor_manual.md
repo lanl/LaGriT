@@ -138,6 +138,8 @@ lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 | `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
 | `vtu_format` | `binary`, `ascii` | `binary` | appended raw data, or text |
 | `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: `new` for ParaView 6, `legacy` for ParaView 5 |
+| `matrix` | file | none | the coefficient matrix for ParaView ([section 10](#the-matrix-file)) |
+| `matrix_bins` | whole number >= 1 | none | with `matrix`: also an N x N image of the matrix |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
 | `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
@@ -646,6 +648,51 @@ Sizes: a million tets give 157,000 polyhedra, a 210 MB cells file
 run (680 MB hybrid; Claude's sandbox); 10 million about ten times
 that. For large meshes, a subset is the way to look:
 `boundary` on a million tets takes 0.9 s.
+
+### The matrix file
+
+`-matrix FILE` writes the coefficient matrix for ParaView, to see its
+shape: one point per entry of the `.stor` matrix at (x, y, z) =
+(j, -i, 0), so row 1 is at the top, as a printed matrix. Both halves,
+(i, j) and (j, i), and the diagonal (i, i) are written; the entries
+are exactly those of the `.stor` (zero-area connections only with
+`-zero_area keep`, and then flagged). Each point is a VTK vertex
+cell, so Threshold and Extract Selection work on single entries.
+`-paraview_subset` limits the file to the rows of its vertices. The
+file is written on its own: `-paraview` is not needed, and it is not
+listed in `ROOT.pvd` (its coordinates are matrix positions, not
+space).
+
+| point data | meaning |
+|---|---|
+| `i`, `j` | row and column, 1-based as in the `.stor` |
+| `area`, `distance`, `coefficient` | A(ij) (signed), d(ij), A/d; on the diagonal 0 (the `.stor` diagonal value) |
+| `class` | 0 diagonal, 1 boundary, 2 interior, 3 interface (as in `ROOT_negative.vtu`) |
+| `negative`, `zero_area` | 1: A/d < 0; 1: a zero-area connection (`-zero_area keep`) |
+| `alpha_min` | the smallest alpha of the cells around the edge (of the vertex, on the diagonal); 1 with Voronoi |
+| `angle` | degrees between the edge and its dual face's vector area (the sum of the face's pieces): 0 for a Voronoi face, 180 for one that points backward (a negative coefficient), between them for moved points |
+| `material_i`, `material_j` | the vertices' `imt1` |
+| `volume` | the control volume (diagonal points; 0 elsewhere) |
+
+In ParaView: open the file, Apply; set the representation to Point
+Gaussian (fast at millions of points; Shader Preset "Plain square"
+or "Sphere", and a Gaussian Radius of about 0.4) and color by any
+point data. A negative entry: Threshold on `negative`. The report
+gives the bandwidth (the largest |i - j|) and the profile (the sum
+over the rows of i minus the row's first column) of the whole
+matrix, which depend on the vertex numbering.
+
+`-matrix_bins N` also writes an image of the whole matrix (the
+matrix file's name with `.vti`, or `.vti` added): the rows and the
+columns are cut into N groups (at most one per row) and each pixel
+holds the entries of its block: `count`, `negative` (how many are
+negative) and `min_coefficient` (the smallest off-diagonal A/d). It
+lies over the points, so the two can be opened together. For a
+large matrix it shows the shape at a glance; then look closely with
+a subset.
+
+Sizes: a million tets give 2.5 million entries, a 364 MB matrix file
+written in 1.2 s; the image is 24 MB at N = 1000, whatever the mesh.
 
 Unlike lanl/voronoi, `.uge` and `MESH` keep the sign of volumes and
 areas (voronoi wrote absolute values, which hides negative

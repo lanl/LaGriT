@@ -9,6 +9,7 @@
 !           [-alpha_file FILE] [-paraview ROOT] [-paraview_faces on|off]
 !           [-paraview_subset all|boundary|flagged|material N|box ...]
 !           [-vtu_format binary|ascii] [-vtu_layout new|legacy]
+!           [-matrix FILE] [-matrix_bins N]
 !           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
 !           [-check_only on|off] [-report FILE] [-timing on|off]
 !
@@ -30,7 +31,7 @@ program del_vor
    use del_vor_kinds, only: ik, rk
    use del_vor_log, only: log_line, errmsg
    use del_vor_options, only: options_t, parse_options, &
-                              option_keywords
+                              option_keywords, bins_name
    use del_vor_mesh, only: mesh_t
    use del_vor_read_avs, only: read_avs
    use del_vor_topology, only: build_edge_csr, edge_index
@@ -46,7 +47,10 @@ program del_vor
    use del_vor_validity, only: check_validity, validity_t
    use del_vor_delaunay, only: check_delaunay, delaunay_t
    use del_vor_write_vtu, only: write_violations_vtu, write_alpha_vtu
-   use del_vor_vtu, only: vtu_grid_t, write_vtu, write_pvd
+   use del_vor_vtu, only: vtu_grid_t, vtu_data_t, write_vtu, &
+                          write_pvd, write_vti
+   use del_vor_matrix, only: build_matrix_grid, matrix_shape, &
+                             matrix_bins
    use del_vor_tess, only: build_cells, build_mesh_grid, &
                            build_negative_grid, interface_edges, &
                            boundary_vertices
@@ -183,9 +187,17 @@ program del_vor
    allocate (area(nedges), vol(m%nnodes))
    if (ipol == policy_voronoi) then
       call timer_start('assembly')
-      call assemble(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
-                    m%zic, m%itetoff, m%itet, iedge_off, jedge, area, &
-                    vol, stats, ierr)
+      if (len_trim(opt%matrix) > 0) then
+         ! the matrix file's angle needs each face's vector area
+         allocate (avec(3, nedges))
+         call assemble(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
+                       m%zic, m%itetoff, m%itet, iedge_off, jedge, &
+                       area, vol, stats, ierr, area_vec=avec)
+      else
+         call assemble(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
+                       m%zic, m%itetoff, m%itet, iedge_off, jedge, &
+                       area, vol, stats, ierr)
+      end if
       call timer_stop()
       if (ierr /= 0) call fail_stop()
    else
@@ -212,6 +224,11 @@ program del_vor
    end if
    call timer_stop()
    if (len_trim(opt%alpha_file) > 0) call alpha_file_out()
+   if (len_trim(opt%matrix) > 0) then
+      call timer_start('matrix file')
+      call matrix_out()
+      call timer_stop()
+   end if
    if (len_trim(opt%paraview) > 0) then
       call timer_start('paraview files')
       call paraview_out()
@@ -417,20 +434,10 @@ contains
                     trim(opt%alpha_file))
    end subroutine alpha_file_out
 
-   ! The ParaView files (del_vor_tess, del_vor_vtu): the mesh, the
-   ! control volumes, the negative coefficients, the dual faces, and
-   ! ROOT.pvd grouping them with the violations file.
-   subroutine paraview_out()
-      type(vtu_grid_t) :: gm, gc, gn, gf
-      logical, allocatable :: sel(:), bedg(:), iedg(:)
-      real(rk), allocatable :: a1(:)
-      integer, allocatable :: s0(:)
-      character(len=1024) :: files(5)
-      integer :: nfile
+   ! The vertices of paraview_subset (all of them by default).
+   subroutine select_vertices(sel)
+      logical, intent(out) :: sel(:)
       integer(ik) :: i, it, kk
-      logical :: faces3
-      allocate (sel(m%nnodes), bedg(nedges), iedg(nedges))
-      ! the vertices that get a cell
       select case (trim(opt%subset))
       case ('all')
          sel = .true.
@@ -468,6 +475,66 @@ contains
                      m%zic(i) <= opt%subset_box(6)
          end do
       end select
+   end subroutine select_vertices
+
+   ! The matrix file (del_vor_matrix): a point per .stor entry, the
+   ! rows of paraview_subset; with matrix_bins, its image too.
+   subroutine matrix_out()
+      type(vtu_grid_t) :: gx
+      type(vtu_data_t) :: d(3)
+      logical, allocatable :: sel(:), bedg(:), iedg(:)
+      real(rk), allocatable :: a1(:)
+      real(rk) :: org(3), spc(3)
+      integer(ik) :: nent, bw, prof, nbin
+      allocate (sel(m%nnodes), bedg(nedges), iedg(nedges), &
+                a1(m%nelements))
+      call select_vertices(sel)
+      a1 = 1.0_rk
+      if (allocated(pol%alpha)) a1 = pol%alpha
+      call boundary_edges(m%nnodes, m%nelements, m%nen, m%itetoff, &
+                          m%itet, m%jtetoff, m%jtet, m%mbndry, &
+                          iedge_off, jedge, bedg)
+      call interface_edges(m, iedge_off, jedge, iedg)
+      call build_matrix_grid(m, iedge_off, jedge, area, vol, avec, &
+                             zero, opt%zero_keep, bedg, iedg, a1, sel, &
+                             gx)
+      call write_vtu(opt%matrix, gx, opt%vtu_binary, .false., ierr)
+      if (ierr /= 0) call fail_stop()
+      call matrix_shape(m%nnodes, iedge_off, jedge, zero, &
+                        opt%zero_keep, nent, bw, prof)
+      write (arg, '(a,i0,a,i0,a)') 'del_vor: wrote matrix '// &
+         trim(opt%matrix)//' (', gx%np, ' entries in ', count(sel), &
+         ' rows)'
+      call log_line(trim(arg))
+      write (arg, '(a,i0,a,i0,a,i0)') '  matrix entries ', nent, &
+         ', bandwidth ', bw, ', profile ', prof
+      call log_line(trim(arg))
+      if (opt%matrix_bins > 0) then
+         nbin = min(int(opt%matrix_bins, ik), m%nnodes)
+         call matrix_bins(gx, m%nnodes, nbin, d, org, spc)
+         call write_vti(bins_name(opt%matrix), nbin, nbin, org, spc, &
+                        d, 3, opt%vtu_binary, ierr)
+         if (ierr /= 0) call fail_stop()
+         write (arg, '(a,i0,a,i0,a)') 'del_vor: wrote matrix image '// &
+            trim(bins_name(opt%matrix))//' (', nbin, ' x ', nbin, &
+            ' pixels)'
+         call log_line(trim(arg))
+      end if
+   end subroutine matrix_out
+
+   ! The ParaView files (del_vor_tess, del_vor_vtu): the mesh, the
+   ! control volumes, the negative coefficients, the dual faces, and
+   ! ROOT.pvd grouping them with the violations file.
+   subroutine paraview_out()
+      type(vtu_grid_t) :: gm, gc, gn, gf
+      logical, allocatable :: sel(:), bedg(:), iedg(:)
+      real(rk), allocatable :: a1(:)
+      integer, allocatable :: s0(:)
+      character(len=1024) :: files(5)
+      integer :: nfile
+      logical :: faces3
+      allocate (sel(m%nnodes), bedg(nedges), iedg(nedges))
+      call select_vertices(sel)
       write (arg, '(a,i0,a,i0,a)') 'del_vor: paraview_subset '// &
          trim(opt%subset)//': ', count(sel), ' of ', m%nnodes, &
          ' vertices get a cell'
@@ -535,7 +602,8 @@ contains
             'violations', 'check_only', 'report', 'timing', &
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
             'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
-            'paraview_subset', 'vtu_format', 'vtu_layout')
+            'paraview_subset', 'vtu_format', 'vtu_layout', 'matrix', &
+            'matrix_bins')
          is_keyword = .true.
       case default
          is_keyword = .false.
@@ -607,6 +675,10 @@ contains
                     '(tets)')
       call log_line('  -paraview_subset S   all, boundary, flagged,'// &
                     ' material N, box x1 y1 z1 x2 y2 z2')
+      call log_line('  -matrix FILE      ParaView file of the '// &
+                    'matrix: a point per .stor entry')
+      call log_line('  -matrix_bins N    also an N x N image of '// &
+                    'the matrix (FILE.vti)')
       call log_line('  -vtu_format F     binary (default) or ascii')
       call log_line('  -vtu_layout L     new (ParaView 6, default) '// &
                     'or legacy (ParaView 5)')

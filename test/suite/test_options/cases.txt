@@ -78,3 +78,9 @@ mat_text       | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset 
 bad_format     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_format hex | vtu_format is binary or ascii.
 bad_layout     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_layout old | vtu_layout is new or legacy.
 pv_over_stor   | 1 | -avs mesh_3D.inp -stor v_cells.vtu -paraview v | An output named like one of the ParaView files would be overwritten; refused before anything is written.
+# --- matrix file (Nov 2026; its content: test_matrix)
+mx_files       | 0 | -avs mesh_3D.inp -stor a.stor -matrix m.vtu -matrix_bins 4 | matrix m.vtu with matrix_bins 4: the matrix file and its image m.vti (the .vtu's name with .vti) beside the .stor.
+mx_noext       | 0 | -avs mesh_2D.inp -uge a.uge -matrix mm -matrix_bins 3 | A matrix file name with no .vtu: the image gets .vti added (mm.vti).
+bins_alone     | 1 | -avs mesh_3D.inp -stor a.stor -matrix_bins 4 | matrix_bins without matrix: refused, not ignored.
+bad_bins       | 1 | -avs mesh_3D.inp -stor a.stor -matrix m.vtu -matrix_bins 0 | matrix_bins must be a whole number of at least 1.
+mx_twice       | 1 | -avs mesh_3D.inp -stor m.vti -matrix m.vtu -matrix_bins 2 | The matrix image (m.vti) and the .stor given the same name; refused before anything is written.

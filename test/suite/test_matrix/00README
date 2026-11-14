@@ -1,0 +1,79 @@
+test_matrix -- the matrix file (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_matrix_tests.sh [path-to-del_vor]   7 runs, about 3 s
+  open summary.html
+
+WHAT IS TESTED
+
+  del_vor -matrix FILE writes the coefficient matrix for ParaView: one
+  point per entry of the .stor matrix at (j, -i, 0) (row 1 at the
+  top), both halves and the diagonal, each a VTK vertex cell, with
+  point data i, j, area, distance, coefficient, class (0 diagonal, 1
+  boundary, 2 interior, 3 interface), negative, zero_area, alpha_min,
+  angle, material_i, material_j, volume (manual, section 10, "The
+  matrix file"). -matrix_bins N also writes an N x N image (.vti):
+  count, negative and min_coefficient per block of rows and columns.
+
+  Each case runs, in work/NAME,
+    del_vor -avs MESH -stor NAME.stor -matrix NAME_matrix.vtu
+            -paraview NAME -paraview_faces on -report NAME.report ARGS
+  (the ParaView files give the checks their alpha and their faces).
+
+WHERE THE ANSWERS COME FROM
+
+  test_paraview's vtu_read.py reads the files (written from VTK's file
+  format; check_matrix.py reads the image's header itself). The
+  answers come from the .stor of the same run and from the mesh,
+  worked out here, never from del_vor's own code:
+
+  entries    one point per .stor entry of the selected rows, in the
+             .stor's order, at (j, -i, 0), each a vertex cell
+  values     coefficient = A/d of the .stor (which holds -A/d),
+             distance from the mesh, area = A/d times d, the diagonal's
+             volume = the .stor volume (1e-12 of the largest)
+  mirror     (i, j) and (j, i) hold the same values
+  class      from the mesh: tets, a face in one tet makes its edges
+             boundary, a face between two itetclr interface (interface
+             wins); triangles, by the itetclr of the triangles at the
+             edge
+  flags      negative = A/d < 0; zero_area = |A| <= 1e-12 d^2 (tets),
+             1e-12 d (triangles), only with zero_area keep
+  material   imt1 read from the mesh file
+  alpha      the smallest alpha of the cells around the edge, from
+             NAME_mesh.vtu
+  angle      tets: from the sum of the edge's dual faces' vector areas
+             in NAME_faces.vtu (1e-8 degrees; faces with less than
+             1e-6 of the largest area are left out: a tie's face has
+             nearly no area and its direction is round-off); triangles
+             with Voronoi: 0
+  shape      the report's entries, bandwidth and profile equal those of
+             the whole .stor
+  image      the pixels' count, negative and min_coefficient equal
+             those worked out from the points, and the image lies over
+             them (origin and spacing)
+
+WHAT WAS FOUND (Nov 14 2026)
+
+  - With acos, the angle of a Voronoi face came out as large as 2e-6
+    degrees (acos near 1 loses half the digits); del_vor uses atan2 of
+    the cross and dot products: the network's Voronoi angles are now
+    at most 6e-12 degrees.
+  - A Voronoi face of a negative coefficient has angle 180 degrees: it
+    is still perpendicular to its edge, but points backward.
+
+PICTURES (logs/)
+
+  NAME.svg   the matrix, row 1 at the top: black diagonal, blue
+             boundary, gray interior, green interface, red negative,
+             orange rings zero area; beside it, with matrix_bins, the
+             image (color: number of entries, log scale; red: a block
+             with a negative entry)
+
+FILES
+
+  run_matrix_tests.sh   runner (work/, logs/)
+  cases.txt             the cases: name | mesh | arguments | about
+  check_matrix.py       checks, pictures, summary.html

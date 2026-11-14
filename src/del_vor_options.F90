@@ -51,6 +51,11 @@
 ! vtu_layout new | legacy       new       VTK's polyhedron layout:
 !                                         new (ParaView 6), legacy
 !                                         (ParaView 5, older readers)
+! matrix     file                         ParaView file of the matrix:
+!                                         a point per .stor entry at
+!                                         (j, -i) (del_vor_matrix)
+! matrix_bins integer >= 1                 also an N x N image of the
+!                                         matrix, FILE.vti (matrix only)
 ! alpha_file file                         ParaView file of the mesh
 !                                         with alpha and stage per
 !                                         cell (del_vor_write_vtu)
@@ -83,7 +88,8 @@ module del_vor_options
    use del_vor_log, only: errmsg
    implicit none
    private
-   public :: options_t, parse_options, option_keywords, lowercase
+   public :: options_t, parse_options, option_keywords, lowercase, &
+             bins_name
 
    integer, parameter :: lpath = 1024
    integer, parameter :: maxout = 16
@@ -102,6 +108,8 @@ module del_vor_options
       real(rk) :: alpha_min = 0.0_rk
       integer :: hybrid_iter = 100
       character(len=lpath) :: alpha_file = ' '
+      character(len=lpath) :: matrix = ' '
+      integer :: matrix_bins = 0           ! 0: no image
       character(len=lpath) :: paraview = ' '
       logical :: paraview_faces = .false.
       character(len=16) :: subset = 'all'
@@ -122,7 +130,7 @@ module del_vor_options
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
       'paraview paraview_faces paraview_subset vtu_format '// &
-      'vtu_layout '// &
+      'vtu_layout matrix matrix_bins '// &
       'type o'
 
 contains
@@ -213,7 +221,8 @@ contains
                'violations', 'check_only', 'report', 'timing', &
                'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
                'hybrid_iter', 'alpha_file', 'paraview', &
-               'paraview_faces', 'vtu_format', 'vtu_layout')
+               'paraview_faces', 'vtu_format', 'vtu_layout', &
+               'matrix', 'matrix_bins')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -337,6 +346,17 @@ contains
             opt%hybrid_iter = j
          case ('alpha_file')
             opt%alpha_file = val
+         case ('matrix')
+            opt%matrix = val
+         case ('matrix_bins')
+            read (val, *, iostat=ios) j
+            if (ios /= 0 .or. j < 1 .or. &
+                verify(trim(val), '0123456789') /= 0) then
+               call bad('matrix_bins '//trim(val)// &
+                        ': must be a whole number >= 1')
+               return
+            end if
+            opt%matrix_bins = j
          case ('paraview')
             opt%paraview = val
          case ('paraview_faces')
@@ -426,6 +446,11 @@ contains
          return
       end if
 
+      if (opt%matrix_bins > 0 .and. len_trim(opt%matrix) == 0) then
+         call bad('matrix_bins needs matrix (the matrix file)')
+         return
+      end if
+
       if (opt%nout == 0) call add_output(opt, 'stor', &
                                          'voronoi.stor', ierr)
       if (ierr /= 0) return
@@ -472,7 +497,7 @@ contains
 !     differs from the others and from the mesh.
       type(options_t), intent(in) :: opt
       integer, intent(out) :: ierr
-      character(len=lpath) :: f(maxout+8)
+      character(len=lpath) :: f(maxout+10)
       integer :: n, k, j
       ierr = 0
       n = opt%nout
@@ -486,6 +511,14 @@ contains
       if (len_trim(opt%alpha_file) > 0) then
          n = n + 1
          f(n) = opt%alpha_file
+      end if
+      if (len_trim(opt%matrix) > 0) then
+         n = n + 1
+         f(n) = opt%matrix
+         if (opt%matrix_bins > 0) then
+            n = n + 1
+            f(n) = bins_name(opt%matrix)
+         end if
       end if
       if (len_trim(opt%paraview) > 0) then
          f(n + 1) = trim(opt%paraview)//'.pvd'
@@ -512,6 +545,22 @@ contains
          end do
       end do
    end subroutine check_names
+
+   ! The matrix image's name: the matrix file's with .vti for .vtu
+   ! (matrix.vtu -> matrix.vti), else .vti added.
+   function bins_name(f) result(b)
+      character(len=*), intent(in) :: f
+      character(len=lpath) :: b
+      integer :: n
+      n = len_trim(f)
+      if (n > 4) then
+         if (lowercase(f(n - 3:n)) == '.vtu') then
+            b = f(1:n - 1)//'i'
+            return
+         end if
+      end if
+      b = f(1:n)//'.vti'
+   end function bins_name
 
    function lowercase(s) result(t)
       character(len=*), intent(in) :: s

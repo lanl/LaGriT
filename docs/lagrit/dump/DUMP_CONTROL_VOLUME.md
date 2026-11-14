@@ -44,6 +44,7 @@ itetclr per fracture) or all tets.
      / [<b>paraview</b>, root] / [<b>paraview_faces</b>, <b>on</b>|<b>off</b>] &
      / [<b>paraview_subset</b>, <b>all</b>|<b>boundary</b>|<b>flagged</b>|<b>material</b> N|<b>box</b> x1 y1 z1 x2 y2 z2] &
      / [<b>vtu_format</b>, <b>binary</b>|<b>ascii</b>] / [<b>vtu_layout</b>, <b>new</b>|<b>legacy</b>] &
+     / [<b>matrix</b>, file_name] / [<b>matrix_bins</b>, n] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
@@ -175,6 +176,26 @@ binary (default) or text files.
 
 VTK's polyhedron layout: **`new`** (default; ParaView 6) or
 **`legacy`** (ParaView 5 and older readers).
+
+**`matrix`**, file_name
+
+writes the coefficient matrix as a VTK file for ParaView, to see its
+shape: one point per entry of the `.stor` matrix at (j, -i, 0), row 1
+at the top, both halves and the diagonal. Each point holds i, j, the
+area, distance and coefficient, the class (0 diagonal, 1 boundary, 2
+interior, 3 interface), whether it is negative or zero-area, the
+smallest alpha of the cells around the edge, the angle between the
+edge and its dual face, the two vertices' **imt1**, and on the
+diagonal the control volume. **`paraview_subset`** limits it to the
+rows of its vertices. The report gives the matrix's bandwidth and
+profile.
+
+**`matrix_bins`**, n
+
+with **`matrix`**: also an n x n image of the whole matrix (the file
+name with `.vti`): each pixel holds how many entries fall in its
+block of rows and columns, how many are negative, and the smallest
+coefficient.
 
 **`alpha_file`**, file_name
 

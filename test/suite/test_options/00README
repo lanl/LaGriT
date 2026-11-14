@@ -3,7 +3,7 @@ test_options -- del_vor's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    62 runs, about 1 s
+  sh run_options_tests.sh [path-to-del_vor]    67 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -23,6 +23,8 @@ WHAT IS TESTED
     paraview ROOT, paraview_faces on|off, paraview_subset S,
     vtu_format binary|ascii, vtu_layout new|legacy
                               (test_paraview checks the files)
+    matrix FILE, matrix_bins N
+                              (test_matrix checks the files)
     delaunay_tol X            default 1e-10
     delaunay_fatal X          default 1e-2
     violations FILE           default violations.vtu

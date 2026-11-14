@@ -1,0 +1,15 @@
+# test_matrix cases: one per line,  name | mesh | arguments | what it does
+#
+# Each case runs, in work/NAME,
+#   del_vor -avs MESH -stor NAME.stor -matrix NAME_matrix.vtu
+#           -paraview NAME -paraview_faces on -report NAME.report ARGUMENTS
+# and check_matrix.py reads the matrix file back (test_paraview's
+# vtu_read.py) and checks every point against the .stor and the mesh.
+#
+tri2d     | ../test_voronoi_gold/inputs/mesh_2D.inp | -zero_area keep -vtu_format ascii -matrix_bins 100 | lanl/voronoi's 9-vertex square of 8 triangles, every edge kept, written as text: 9 diagonal points and 16 connections in each half. The 4 square diagonals have zero-area faces and are flagged zero_area. matrix_bins 100 asks for more pixels than there are rows, so the image has 9 x 9, one pixel per entry.
+poi3      | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -matrix_bins 40 | LaGriT's 3D Poisson mesh (1647 vertices), Voronoi: 22,117 points. The 75 negative coefficients are flagged, all in boundary rows (class 1); every angle is 0 (Voronoi faces are perpendicular to their edges). A 40 x 40 image of the matrix.
+poi3_hyb  | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv hybrid | The same mesh with the hybrid: no negative entry left; alpha_min is below 1 on the edges of the cells stage A moved, and each angle is that of its dual face's vector area, checked against the faces file.
+rnd3d_med | ../test_policy/inputs/rnd3d.inp | -cv median -matrix_bins 25 | Random points in the cube with median control volumes: alpha_min 0 everywhere and non-zero angles (the dual faces are not perpendicular to their edges), checked against the faces file.
+full_mesh | ../test_dfn/inputs/full_mesh.inp | -matrix_bins 64 | Carl's dfnWorks network (771 vertices, 4 fractures). Fracture boundary edges are class 1.
+two_mat   | ../test_parity/inputs/two_mat.inp | -zero_area keep | Two materials on a grid of tets: the zero-area connections of the grid's ties kept and flagged; edges on the material interface are class 3; material_i and material_j show the two blocks.
+poi3_box  | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -paraview_subset box 0 0 0 0.2 0.2 0.1 -matrix_bins 30 | paraview_subset limits the matrix file to the rows of the vertices in the box; the bandwidth and profile in the report are still those of the whole matrix.
