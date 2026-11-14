@@ -28,6 +28,8 @@ compress_off   | 0 | -avs mesh_3D.inp -stor a.stor -compress off | compress off:
 legacy_type    | 0 | -avs mesh_3D.inp -type pflotran -o a.uge | lanl/voronoi's -type and -o still work: a .uge with the same connections as three_outputs.
 legacy_tough   | 0 | -avs simple_3D.inp -type tough2 | lanl/voronoi's -type with no -o: its default file name MESH_VORONOI.
 legacy_compr   | 0 | -avs mesh_3D.inp -o a.stor -compress | lanl/voronoi's bare -compress (no value) means on. Checked: the .stor is compressed.
+imt_short      | 0 | -avs imt_short.inp -tough2 a_MESH | The vertex material read from the vertex data named imt1: mesh_3D with materials 1 and 2. Reference for imt_long.
+imt_long       | 0 | -avs imt_long.inp -tough2 a_MESH | The same mesh with the vertex material named integer_material_type, another name for imt1. Checked: the TOUGH2 file is the same as imt_short's, with materials 1 and 2.
 # --- refused: exit 1, a message naming the token, no output written
 bad_keyword    | 1 | -avs mesh_3D.inp -stor a.stor -zero_areas keep | A misspelled keyword (zero_areas). Must stop with a message naming it and write nothing.
 no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol | A keyword at the end with no value. Must say zero_tol needs a value.

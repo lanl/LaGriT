@@ -10,15 +10,15 @@ Contents
 1. [What del_vor does](#1-what-del_vor-does)
 2. [Building](#2-building)
 3. [Running](#3-running)
-4. [The mesh file](#4-the-mesh-file)
-5. [The mesh checks](#5-the-mesh-checks)
-6. [The Delaunay check](#6-the-delaunay-check)
-7. [The violations file](#7-the-violations-file)
-8. [Control volumes and coefficients](#8-control-volumes-and-coefficients)
-9. [Output files](#9-output-files)
-10. [Fracture networks](#10-fracture-networks)
-11. [The report](#11-the-report)
-12. [Options](#12-options)
+4. [Options](#4-options)
+5. [The mesh file](#5-the-mesh-file)
+6. [The mesh checks](#6-the-mesh-checks)
+7. [The Delaunay check](#7-the-delaunay-check)
+8. [The violations file](#8-the-violations-file)
+9. [Control volumes and coefficients](#9-control-volumes-and-coefficients)
+10. [Output files](#10-output-files)
+11. [Fracture networks](#11-fracture-networks)
+12. [The report](#12-the-report)
 13. [Messages and exit status](#13-messages-and-exit-status)
 14. [Tests](#14-tests)
 15. [Comparing .stor files, and parity with LaGriT](#15-comparing-stor-files-and-parity-with-lagrit)
@@ -38,10 +38,10 @@ A run has four steps:
 
 1. read the mesh;
 2. check it: cell types, cells of positive size, conformity,
-   orientation ([section 5](#5-the-mesh-checks)); a failure stops the
+   orientation ([section 6](#6-the-mesh-checks)); a failure stops the
    run;
 3. check that it is Delaunay, facet by facet
-   ([section 6](#6-the-delaunay-check)); a facet that is clearly not
+   ([section 7](#7-the-delaunay-check)); a facet that is clearly not
    Delaunay stops the run, because Voronoi coefficients of a mesh
    that is not Delaunay are wrong (overlapping Voronoi cells,
    negative areas); a facet only slightly off (nearly co-spherical,
@@ -80,7 +80,7 @@ del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
 
 Options are keyword / value pairs, in any order; the dash is
 optional (`stor a.stor` is `-stor a.stor`). `del_vor -help` lists
-them. [Section 12](#12-options) has the full table.
+them. [Section 4](#4-options) has the full table.
 
 Examples:
 
@@ -110,13 +110,46 @@ written out (the `.stor` most like LaGriT's `matbld2d`).
 del_vor -avs mesh.inp -stor mesh.stor -cv hybrid -alpha_file alpha.vtu
 ```
 control volumes moved away from Voronoi only where a coefficient
-would be negative ([section 8](#control-volume-policies-cv)), with
+would be negative ([section 9](#control-volume-policies-cv)), with
 the weight of each cell in `alpha.vtu` for ParaView.
 
 lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 `-compress` with no value also work, so old scripts run unchanged.
 
-## 4. The mesh file
+## 4. Options
+
+| keyword | value | default | meaning |
+|---|---|---|---|
+| `avs` | file | (required) | the mesh: AVS UCD, all triangles or all tets |
+| `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
+| `uge` | file | | PFLOTRAN `.uge` |
+| `tough2` | file | | TOUGH2 `MESH` |
+| `zero_area` | `remove`, `keep` | `remove` | `remove`: zero-area connections are left out of every file; `keep`: one connection per mesh edge |
+| `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
+| `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
+| `cv` | `voronoi`, `median`, `blend`, `hybrid` | `voronoi` | where each cell's dual point goes ([section 9](#control-volume-policies-cv)) |
+| `alpha` | number from 0 to 1 | | `cv blend` only, and required there: 1 = Voronoi, 0 = median |
+| `hybrid_tol` | number >= 0 | `0` | `cv hybrid` only: how negative a coefficient may stay, relative to the sum of its pieces |
+| `alpha_min` | number from 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
+| `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most stage B passes |
+| `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
+| `paraview` | root | none | the ParaView files `ROOT.pvd`, `ROOT_mesh.vtu`, `ROOT_cells.vtu`, `ROOT_negative.vtu` ([section 10](#10-output-files)) |
+| `paraview_faces` | `on`, `off` | `off` | also `ROOT_faces.vtu`, the dual faces (tets) |
+| `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
+| `vtu_format` | `binary`, `ascii` | `binary` | appended raw data, or text |
+| `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: `new` for ParaView 6, `legacy` for ParaView 5 |
+| `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
+| `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
+| `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
+| `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
+| `report` | file | none | a copy of the screen output |
+| `timing` | `on`, `off` | `off` | development only: the wall and CPU time of each step and the peak memory, at the end of the report |
+
+lanl/voronoi's `-type fehm|pflotran|tough2` with `-o FILE` (default
+names `voronoi.stor`, `pflotran.uge`, `MESH_VORONOI`) and `-compress`
+with no value are also accepted.
+
+## 5. The mesh file
 
 An AVS UCD file (`.inp`), as LaGriT's `dump / avs` writes it:
 
@@ -135,24 +168,34 @@ itp1, integer
 
 - Cells are all triangles (`tri`) or all tets (`tet`). Other types,
   or a mix, are refused.
-- The cell's second field is its material, `itetclr`.
+- The cell's second field is its material id, a whole number
+  (LaGriT's cell attribute `itetclr`, the name del_vor's messages
+  and files use). Two cells of different material ids sharing a face
+  are a material interface; in a fracture network each fracture has
+  its own material id.
 - Tets are read in AVS vertex order and stored in LaGriT's (AVS
   1 2 3 4 = LaGriT 1 2 4 3, as LaGriT's `avs_cells.f`), so a tet
   LaGriT wrote with positive volume is read with positive volume.
-- Vertex data named `imt1` (or `imt`), `itp1` (or `itp`) and `isn1`
-  (or `isn`) are read; other vertex and cell data are skipped. `imt1`
-  gives the TOUGH2 material of each vertex.
+- Vertex data named `imt1` (or `imt`, `integer_material_type`),
+  `itp1` (or `itp`) and `isn1` (or `isn`) are read; other vertex and
+  cell data are skipped. `imt1` gives the TOUGH2 material of each
+  vertex. These are LaGriT's vertex attributes: the vertex material,
+  the vertex type (boundary, interface, parent) and the parent/child
+  link; LaGriT's
+  [mesh object page](https://lanl.github.io/LaGriT/pages/docs/meshobject.html)
+  describes them, and `itetclr`, in full.
 - Fields are separated by blanks or tabs; lines may end in LF or
   CR LF (Windows); blank lines are skipped; reals may have a Fortran
   `D` exponent (`1.0D+00`); a vertex's data may run onto more lines
   (LaGriT wraps them when a mesh has many vertex attributes).
 - Coordinates are read as doubles, correctly rounded (the same
-  doubles a Fortran read gives). LaGriT's `dump / avs` writes 13
-  significant digits; that rounding shows in ties (see
-  [section 6](#6-the-delaunay-check)) and in the last digits of the
+  doubles a Fortran read gives). LaGriT's `dump / avs` now writes 17
+  significant digits, which keeps every double exactly. Older files
+  have 13; that rounding shows in ties (see
+  [section 7](#7-the-delaunay-check)) and in the last digits of the
   coefficients.
 
-## 5. The mesh checks
+## 6. The mesh checks
 
 Before any geometry, del_vor builds the face neighbors of every cell
 (LaGriT's `jtet`) and checks the mesh. Each of these is fatal: the
@@ -176,13 +219,13 @@ ParaView.
 Not errors:
 
 - A triangle mesh may run clockwise or counterclockwise, as long as
-  each itetclr runs one way. Triangles are not compared across
-  itetclr.
-- Two tets of different itetclr sharing a face are a material
+  each material id runs one way. Triangles are not compared across
+  material ids.
+- Two tets of different material ids sharing a face are a material
   interface (`jtet` = `mbndry` + the neighbor, as in LaGriT).
-- An edge in triangles of 2 or more itetclr, 3 or more triangles in
-  all, is a fracture intersection edge ([section
-  10](#10-fracture-networks)).
+- An edge in triangles of 2 or more material ids, 3 or more
+  triangles in all, is a fracture intersection edge
+  ([section 11](#11-fracture-networks)).
 - A vertex in no cell gets a WARNING (`vertices in no cell`; LaGriT's
   dudded vertices look like this) and no control volume.
 
@@ -199,7 +242,7 @@ del_vor mesh checks
 (for triangles: `edges paired`, `boundary edges`, and the number of
 fracture intersection edges).
 
-## 6. The Delaunay check
+## 7. The Delaunay check
 
 ![delta for a Delaunay pair, a flipped pair, and a boundary circumcenter outside](figures/delaunay_check.svg)
 
@@ -251,6 +294,7 @@ The default, 1e-10, is set by what was measured on the test meshes
   (triangles).
 
 1e-10 lies between, with margin for coordinates rounded to 13 digits
+(older LaGriT files)
 by `dump / avs`.
 
 ### delaunay_fatal
@@ -300,10 +344,10 @@ check gives the same answer at UTM-size coordinates (tested at
 
 ### Facets between materials
 
-A facet between two itetclr (a material interface) is tested the
-same way and counted separately. In a triangle mesh only triangles of
-one itetclr are paired, so a fracture network is tested fracture by
-fracture.
+A facet between two material ids (a material interface) is tested
+the same way and counted separately. In a triangle mesh only
+triangles of one material id are paired, so a fracture network is
+tested fracture by fracture.
 
 ### Boundary facets
 
@@ -368,7 +412,7 @@ When there is a violation the block ends with
 and the run stops with exit status 1, after writing the violations
 file and the report.
 
-## 7. The violations file
+## 8. The violations file
 
 When the Delaunay check flags any facet (a violation, or a boundary
 circumcenter outside), del_vor writes the flagged facets to
@@ -397,7 +441,7 @@ In ParaView: color by `kind` or `delta_over_L`; use Threshold on
 `kind` to see only the violations; select a cell to read `cell1`,
 `cell2` and the vertex numbers.
 
-## 8. Control volumes and coefficients
+## 9. Control volumes and coefficients
 
 For each cell, del_vor computes the Voronoi pieces from the cell's
 circumcenter, its faces' and edges' circumcenters, and adds them to
@@ -511,7 +555,7 @@ with zero_tol 1e-12 by default. True zeros measured on the test
 meshes are at most 1.3e-16 (relative), the smallest real faces 5.7e-10.
 The control volumes are never changed by this choice.
 
-## 9. Output files
+## 10. Output files
 
 Several outputs can be written in one run; with none given, del_vor
 writes `voronoi.stor`. No two files of one run may share a name, and
@@ -561,7 +605,7 @@ look at, clip and color in ParaView. Open `ROOT.pvd`; it loads:
 | `ROOT_cells.vtu` | one per control volume: a polygon (triangles; in a fracture network one per vertex per fracture) or a polyhedron (tets) | `vertex`, `volume`, `material`, `boundary`, `nfaces`, `min_coefficient` |
 | `ROOT_negative.vtu` | one segment per negative coefficient (written only if there is one) | `coefficient`, `class` (1 boundary, 2 interior, 3 interface), `vertex_i`, `vertex_j` |
 | `ROOT_faces.vtu` | with `-paraview_faces on` (tets): each dual face, one polygon (Voronoi) or its triangles | `vertex_i`, `vertex_j`, `area` (along the edge), `coefficient`, `angle` |
-| the violations file | when the Delaunay check flagged facets | ([section 7](#7-the-violations-file)) |
+| the violations file | when the Delaunay check flagged facets | ([section 8](#8-the-violations-file)) |
 
 The cells are drawn from exactly the dual points the coefficients
 came from: with `cv hybrid`, the moved points. A polyhedron's faces
@@ -589,8 +633,8 @@ the moved points, not a drawing error, and the volumes still match.
 
 - `-paraview_subset` limits the cells: `boundary` (vertices on the
   boundary), `flagged` (vertices of a negative coefficient, or of a
-  cell with alpha < 1), `material N` (vertices of cells of itetclr
-  N), `box x1 y1 z1 x2 y2 z2` (vertices inside). The mesh file then
+  cell with alpha < 1), `material N` (vertices of cells of material
+  id N), `box x1 y1 z1 x2 y2 z2` (vertices inside). The mesh file then
   holds the cells that touch those vertices.
 - `-vtu_format binary` (default) or `ascii` (text, for small cases).
 - `-vtu_layout new` (default: VTK's polyhedron layout since VTK 9.4,
@@ -609,16 +653,17 @@ coefficients); a negative TOUGH2 number is written with one digit
 less to fit its 10 columns. Whether this is what PFLOTRAN and TOUGH2
 users want is also an open question.
 
-## 10. Fracture networks
+## 11. Fracture networks
 
 A fracture network from dfnWorks or LaGriT is a triangle mesh in 3D:
-each fracture is a planar triangle mesh with its own itetclr, and
+each fracture is a planar triangle mesh with its own material id
+(`itetclr`), and
 fractures cross along shared edges. An intersection edge is in two
 triangles of each fracture that crosses there.
 
 del_vor handles this directly:
 
-- each edge is paired with the triangle of the same itetclr across
+- each edge is paired with the triangle of the same material id across
   it, so each fracture keeps its own neighbors;
 - orientation is checked fracture by fracture: each fracture may run
   either way, independently of the others;
@@ -639,18 +684,18 @@ del_vor mesh checks
   mesh checks passed
 ```
 
-An edge in 3 or more triangles of one itetclr is still an error: it
+An edge in 3 or more triangles of one material id is still an error: it
 is a fork within one fracture, not an intersection.
 
-## 11. The report
+## 12. The report
 
 Everything del_vor prints goes to the screen. `-report FILE` writes a
 copy of it, line for line, to FILE, which is useful for scripts and
 for runs whose screen output is lost. A run prints, in order:
 
 1. `del_vor: reading MESH`;
-2. the mesh checks ([section 5](#5-the-mesh-checks));
-3. the Delaunay check ([section 6](#6-the-delaunay-check));
+2. the mesh checks ([section 6](#6-the-mesh-checks));
+3. the Delaunay check ([section 7](#7-the-delaunay-check));
 4. the summary (not with `check_only on`):
 
 ```
@@ -695,39 +740,6 @@ del_vor control volumes: hybrid
    nearly zero area have angles near 90 degrees that say little;
 6. one line for each file written, e.g. `del_vor: wrote stor a.stor`.
 
-## 12. Options
-
-| keyword | value | default | meaning |
-|---|---|---|---|
-| `avs` | file | (required) | the mesh: AVS UCD, all triangles or all tets |
-| `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
-| `uge` | file | | PFLOTRAN `.uge` |
-| `tough2` | file | | TOUGH2 `MESH` |
-| `zero_area` | `remove`, `keep` | `remove` | `remove`: zero-area connections are left out of every file; `keep`: one connection per mesh edge |
-| `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
-| `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
-| `cv` | `voronoi`, `median`, `blend`, `hybrid` | `voronoi` | where each cell's dual point goes ([section 8](#control-volume-policies-cv)) |
-| `alpha` | number from 0 to 1 | | `cv blend` only, and required there: 1 = Voronoi, 0 = median |
-| `hybrid_tol` | number >= 0 | `0` | `cv hybrid` only: how negative a coefficient may stay, relative to the sum of its pieces |
-| `alpha_min` | number from 0 to 1 | `0` | `cv hybrid` only: the lowest alpha it may give a cell |
-| `hybrid_iter` | whole number >= 1 | `100` | `cv hybrid` only: the most stage B passes |
-| `alpha_file` | file | none | the mesh with alpha and stage per cell, for ParaView |
-| `paraview` | root | none | the ParaView files `ROOT.pvd`, `ROOT_mesh.vtu`, `ROOT_cells.vtu`, `ROOT_negative.vtu` ([section 9](#9-output-files)) |
-| `paraview_faces` | `on`, `off` | `off` | also `ROOT_faces.vtu`, the dual faces (tets) |
-| `paraview_subset` | `all`, `boundary`, `flagged`, `material N`, `box x1 y1 z1 x2 y2 z2` | `all` | the vertices that get a cell |
-| `vtu_format` | `binary`, `ascii` | `binary` | appended raw data, or text |
-| `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: `new` for ParaView 6, `legacy` for ParaView 5 |
-| `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
-| `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
-| `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
-| `check_only` | `on`, `off` | `off` | `on`: the mesh and Delaunay checks only; no coefficient file is written |
-| `report` | file | none | a copy of the screen output |
-| `timing` | `on`, `off` | `off` | development only: the wall and CPU time of each step and the peak memory, at the end of the report |
-
-lanl/voronoi's `-type fehm|pflotran|tough2` with `-o FILE` (default
-names `voronoi.stor`, `pflotran.uge`, `MESH_VORONOI`) and `-compress`
-with no value are also accepted.
-
 ## 13. Messages and exit status
 
 Exit status 0: every check passed and every file was written (with
@@ -743,8 +755,8 @@ Exit status 1, and no coefficient file written:
 | two files with one name | `del_vor: output file a.stor given twice` |
 | an output named like the mesh | `del_vor: mesh.inp is the mesh; it would be overwritten` |
 | no mesh | `del_vor: no mesh given (-avs MESH.inp)` |
-| the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 5](#5-the-mesh-checks) |
-| a mesh check fails | the ERROR lines of [section 5](#5-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
+| the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 6](#6-the-mesh-checks) |
+| a mesh check fails | the ERROR lines of [section 6](#6-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
 | not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written). With `cv median` the run goes on instead: `del_vor: cv median does not need a Delaunay mesh: going on` |
 | a keyword for another `cv` | `del_vor: alpha is for cv blend (here cv is hybrid)`, `del_vor: hybrid_tol is for cv hybrid (here cv is median)`, `del_vor: cv blend needs alpha (a number from 0 to 1)` |
 

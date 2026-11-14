@@ -3,7 +3,7 @@ test_options -- del_vor's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    60 runs, about 1 s
+  sh run_options_tests.sh [path-to-del_vor]    62 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -32,7 +32,10 @@ WHAT IS TESTED
 
   lanl/voronoi's -type, -o and bare -compress, and commands that must
   be refused. One case per line of cases.txt, run in work/NAME on the
-  lanl/voronoi meshes (../test_voronoi_gold/inputs).
+  lanl/voronoi meshes (../test_voronoi_gold/inputs). Also the vertex
+  material read under either name, imt1 or integer_material_type
+  (imt_short, imt_long: mesh_3D with materials 1 and 2, made by
+  make_imt_inputs.py).
 
 WHAT IS CHECKED (check_options.py)
 
@@ -70,3 +73,4 @@ FILES
   run_options_tests.sh   runner (work/, logs/)
   cases.txt              the cases: name | exit | arguments
   check_options.py       checks, picture, summary.html
+  make_imt_inputs.py     the two meshes of imt_short and imt_long

@@ -44,10 +44,14 @@ rm -f summary.html
 
 echo "del_vor : $DEL_VOR"
 G=../test_voronoi_gold/inputs
+# mesh_3D with two vertex materials, the attribute named imt1 and
+# integer_material_type (the imt_short and imt_long cases)
+python3 -I make_imt_inputs.py "$G/mesh_3D.inp" "$WORK" || exit 2
 grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name expect args about; do
     name=$(echo "$name" | tr -d ' ')
     mkdir -p "$WORK/$name"
-    cp "$G/mesh_2D.inp" "$G/mesh_3D.inp" "$G/simple_3D.inp" "$WORK/$name"/
+    cp "$G/mesh_2D.inp" "$G/mesh_3D.inp" "$G/simple_3D.inp" \
+       "$WORK/imt_short.inp" "$WORK/imt_long.inp" "$WORK/$name"/
     # shellcheck disable=SC2086
     ( cd "$WORK/$name" && "$DEL_VOR" $args > run.out 2>&1
       echo $? > run.rc )
