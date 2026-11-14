@@ -185,7 +185,7 @@ contains
             aname = lower(adjustl(line(1:icomma - 1)))
             if (ncomp(k) == 1) then
                select case (trim(aname))
-               case ('imt1', 'imt')
+               case ('imt1', 'imt', 'integer_material_type')
                   jimt = j + 1
                case ('itp1', 'itp')
                   jitp = j + 1

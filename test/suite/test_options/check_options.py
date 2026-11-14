@@ -36,6 +36,7 @@ from check_voronoi_gold import (read_stor, stor_pairs, read_uge,  # noqa
                                 read_inp, edges_of)
 
 INPUTS = {'mesh_2D.inp', 'mesh_3D.inp', 'simple_3D.inp', 'run.out',
+          'imt_short.inp', 'imt_long.inp',
           'run.rc'}
 
 # files each successful case must write (and no others)
@@ -49,6 +50,7 @@ EXPECT = {
     'tri_remove': ['a.uge'], 'compress_on': ['a.stor'],
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
+    'imt_short': ['a_MESH'], 'imt_long': ['a_MESH'],
     'check_only': [], 'report': ['a.report', 'a.stor'],
     'timing_on': ['a.stor'],
     'tol_zero_ties': ['a.stor', 'ties.vtu'],
@@ -179,6 +181,17 @@ def main():
 
     def stor(case):
         return read_stor(os.path.join(ran[case], 'a.stor'))
+
+    # the vertex material read under either name (imt1 or
+    # integer_material_type): the same TOUGH2 file, 2 materials
+    if 'imt_short' in ran and 'imt_long' in ran:
+        a = open(os.path.join(ran['imt_short'], 'a_MESH')).read()
+        b = open(os.path.join(ran['imt_long'], 'a_MESH')).read()
+        ele = a.split('CONNE')[0].split('\n')[1:]
+        mats = set(ln[15:20].strip() for ln in ele if ln.strip())
+        put('imt_long', 'material', 'the same MESH as imt_short; '
+            'materials %s' % ' '.join(sorted(mats)),
+            'PASS' if a == b and mats == {'1', '2'} else 'FAIL')
 
     # zero_area and zero_tol on mesh_3D, against the keep run
     xyz3 = mesh['mesh_3D'][0]
