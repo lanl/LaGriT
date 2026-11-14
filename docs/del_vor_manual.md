@@ -576,6 +576,25 @@ the wider fields need nothing on its side. With `-compress on` (the default), va
 pointer block (LaGriT's `compressmatrixvalues` rule); with `-compress
 off`, one value per matrix entry.
 
+The two header lines say how the file was made (FEHM reads 72
+characters of each and ignores them, so they can hold anything).
+Line 1 names the policy: `Voronoi`, `Median`, `Blend` or `Hybrid
+Coefficients`. Line 2 is LaGriT's date and model text, then in
+parentheses the command that made the file, as it was typed:
+
+```
+fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients
+ Sun Nov 15 15:14:31 2026 3-D Linear Diffusion Model (del_vor -avs mesh.inp -stor mesh.stor -zero_area keep -compress off)
+```
+
+An argument holding a blank, a quote or a parenthesis is shown in
+single quotes, as a shell needs it, so the command can be run again
+as it stands. The first word in the parentheses is the writer's name,
+which `tools/stor_compare.py` reads (LaGriT's files have
+`(matbld3d_astor)` and the like). Options left at their defaults do
+not appear here; the report lists every option of the run, defaults
+included ([section 12](#12-the-report)).
+
 **PFLOTRAN `.uge`** (`-uge FILE`):
 
 ```
@@ -740,7 +759,9 @@ Everything del_vor prints goes to the screen. `-report FILE` writes a
 copy of it, line for line, to FILE, which is useful for scripts and
 for runs whose screen output is lost. A run prints, in order:
 
-1. `del_vor: reading MESH`;
+1. `del_vor: options`, then every option of the run as keyword=value,
+   defaults included, in lines of at most 78 characters (the mesh with
+   its full path); and `del_vor: reading MESH`;
 2. the mesh checks ([section 6](#6-the-mesh-checks));
 3. the Delaunay check ([section 7](#7-the-delaunay-check));
 4. the summary (not with `check_only on`):

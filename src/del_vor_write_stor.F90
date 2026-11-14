@@ -11,6 +11,14 @@
 ! the pointer block; values are equal when they differ by at most
 ! 1e-14 times the largest |value| (the rule of LaGriT's
 ! compressmatrixvalues; LaGriT's anothermatbld3d uses 1e-8).
+!
+! The two header lines are free text to FEHM (storsx_read.f reads 72
+! characters of each and ignores them). Line 1 names the policy
+! (Voronoi, Median, Blend or Hybrid Coefficients); line 2 is LaGriT's
+! date and model text, then in parentheses the writer's name and the
+! command that made the file (settings): "(del_vor -avs mesh.inp
+! -stor mesh.stor ...)". tools/stor_compare.py reads the writer's
+! name: the first word in the parentheses.
 !-----------------------------------------------------------------------
 module del_vor_write_stor
    use del_vor_kinds, only: ik, rk
@@ -26,8 +34,9 @@ contains
 
    subroutine write_stor(fname, ndim, nnodes, xic, yic, zic, &
                          iedge_off, jedge, area, vol, skip, compress, &
-                         ierr)
+                         ierr, policy, settings)
       character(len=*), intent(in) :: fname
+      character(len=*), intent(in), optional :: policy, settings
       integer, intent(in) :: ndim
       integer(ik), intent(in) :: nnodes
       real(rk), intent(in) :: xic(nnodes), yic(nnodes), zic(nnodes)
@@ -120,10 +129,20 @@ contains
       model = '3-D '
       if (ndim == 2) model = '2-D '
       date = stor_date()
-      write (lu, '(a)') &
-         'fehmstor ascir8i4 LaGriT Sparse Matrix Voronoi Coefficients'
-      write (lu, '(a)') ' '//date//' '//model// &
-         'Linear Diffusion Model (del_vor)'
+      if (present(policy)) then
+         write (lu, '(a)') 'fehmstor ascir8i4 LaGriT Sparse Matrix '// &
+            trim(policy)//' Coefficients'
+      else
+         write (lu, '(a)') 'fehmstor ascir8i4 LaGriT Sparse Matrix '// &
+            'Voronoi Coefficients'
+      end if
+      if (present(settings)) then
+         write (lu, '(a)') ' '//date//' '//model// &
+            'Linear Diffusion Model ('//trim(settings)//')'
+      else
+         write (lu, '(a)') ' '//date//' '//model// &
+            'Linear Diffusion Model (del_vor)'
+      end if
       write (lu, '(5i10)') nwritten, neq, ncoef + neq + 1, 1, ncon_max
       write (lu, '(5(1pe24.16))') vol
       write (lu, '(5i10)') irow, icol

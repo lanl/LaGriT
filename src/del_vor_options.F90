@@ -89,7 +89,7 @@ module del_vor_options
    implicit none
    private
    public :: options_t, parse_options, option_keywords, lowercase, &
-             bins_name
+             bins_name, all_settings, policy_word
 
    integer, parameter :: lpath = 1024
    integer, parameter :: maxout = 16
@@ -561,6 +561,112 @@ contains
       end if
       b = f(1:n)//'.vti'
    end function bins_name
+
+   ! cv and its parameters, zero_area, zero_tol, compress.
+   function cv_settings(opt) result(t)
+      type(options_t), intent(in) :: opt
+      character(len=:), allocatable :: t
+      t = 'cv='//trim(opt%cv)
+      select case (trim(opt%cv))
+      case ('blend')
+         t = t//' alpha='//num(opt%alpha)
+      case ('hybrid')
+         t = t//' hybrid_tol='//num(opt%hybrid_tol)//' alpha_min='// &
+             num(opt%alpha_min)//' hybrid_iter='//inum(opt%hybrid_iter)
+      end select
+      t = t//' zero_area='//merge('keep  ', 'remove', opt%zero_keep)
+      t = trim(t)//' zero_tol='//num(opt%zero_tol)//' compress='// &
+          trim(merge('on ', 'off', opt%compress))
+   end function cv_settings
+
+   ! Every option of the run, keyword=value (the report's options
+   ! line): the mesh, the outputs, cv_settings' and the rest.
+   function all_settings(opt) result(t)
+      type(options_t), intent(in) :: opt
+      character(len=:), allocatable :: t
+      integer :: k
+      t = 'avs='//trim(opt%mesh)
+      do k = 1, opt%nout
+         t = t//' '//trim(opt%out_type(k))//'='//trim(opt%out_file(k))
+      end do
+      t = t//' '//cv_settings(opt)
+      t = t//' delaunay_tol='//num(opt%delaunay_tol)// &
+          ' delaunay_fatal='//num(opt%delaunay_fatal)// &
+          ' violations='//trim(opt%violations)
+      if (len_trim(opt%alpha_file) > 0) &
+         t = t//' alpha_file='//trim(opt%alpha_file)
+      if (len_trim(opt%paraview) > 0) then
+         t = t//' paraview='//trim(opt%paraview)//' paraview_faces='// &
+             trim(merge('on ', 'off', opt%paraview_faces))// &
+             ' paraview_subset='//trim(opt%subset)
+         if (trim(opt%subset) == 'material') &
+            t = t//' '//inum(opt%subset_mat)
+         if (trim(opt%subset) == 'box') t = t//' '// &
+            num(opt%subset_box(1))//' '//num(opt%subset_box(2))//' '// &
+            num(opt%subset_box(3))//' '//num(opt%subset_box(4))//' '// &
+            num(opt%subset_box(5))//' '//num(opt%subset_box(6))
+      end if
+      if (len_trim(opt%paraview) > 0 .or. len_trim(opt%matrix) > 0 &
+          .or. len_trim(opt%alpha_file) > 0) &
+         t = t//' vtu_format='// &
+             trim(merge('binary', 'ascii ', opt%vtu_binary))// &
+             ' vtu_layout='//trim(merge('legacy', 'new   ', &
+                                        opt%vtu_legacy))
+      if (len_trim(opt%matrix) > 0) then
+         t = t//' matrix='//trim(opt%matrix)
+         if (opt%matrix_bins > 0) &
+            t = t//' matrix_bins='//inum(opt%matrix_bins)
+      end if
+      t = t//' check_only='//trim(merge('on ', 'off', opt%check_only))
+      if (len_trim(opt%report) > 0) t = t//' report='//trim(opt%report)
+      if (opt%timing) t = t//' timing=on'
+   end function all_settings
+
+   ! The policy's name for the .stor's first line.
+   function policy_word(cv) result(w)
+      character(len=*), intent(in) :: cv
+      character(len=8) :: w
+      select case (trim(cv))
+      case ('median')
+         w = 'Median'
+      case ('blend')
+         w = 'Blend'
+      case ('hybrid')
+         w = 'Hybrid'
+      case default
+         w = 'Voronoi'
+      end select
+   end function policy_word
+
+   ! The shortest es form that reads back to x (1.0E-12, 2.5E-01).
+   function num(x) result(t)
+      real(rk), intent(in) :: x
+      character(len=:), allocatable :: t
+      character(len=40) :: s, fm
+      real(rk) :: y
+      integer :: d, ie
+      do d = 1, 16
+         write (fm, '(a,i0,a)') '(es40.', d, 'e3)'
+         write (s, fm) x
+         read (s, *) y
+         if (y == x) exit
+      end do
+      s = adjustl(s)
+      ! exponent: E-012 -> E-12, E+000 -> E+00
+      ie = index(s, 'E')
+      if (ie > 0) then
+         if (s(ie + 2:ie + 2) == '0') s = s(1:ie + 1)//s(ie + 3:)
+      end if
+      t = trim(s)
+   end function num
+
+   function inum(n) result(t)
+      integer, intent(in) :: n
+      character(len=:), allocatable :: t
+      character(len=24) :: s
+      write (s, '(i0)') n
+      t = trim(s)
+   end function inum
 
    function lowercase(s) result(t)
       character(len=*), intent(in) :: s

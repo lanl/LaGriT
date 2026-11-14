@@ -32,6 +32,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'test_voronoi_gold'))
 from svgdraw import Svg, Projector  # noqa: E402
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+    os.path.dirname(HERE))), 'tools'))
+import stor_compare  # noqa: E402
 from check_voronoi_gold import (read_stor, stor_pairs, read_uge,  # noqa
                                 read_inp, edges_of)
 
@@ -53,6 +56,8 @@ EXPECT = {
     'imt_short': ['a_MESH'], 'imt_long': ['a_MESH'],
     'mx_files': ['a.stor', 'm.vtu', 'm.vti'],
     'mx_noext': ['a.uge', 'mm', 'mm.vti'],
+    'hdr_blend': ['a.stor'], 'hdr_median': ['a.stor'],
+    'hdr_hybrid': ['a.stor'],
     'check_only': [], 'report': ['a.report', 'a.stor'],
     'timing_on': ['a.stor'],
     'tol_zero_ties': ['a.stor', 'ties.vtu'],
@@ -117,6 +122,35 @@ def read_cases():
                                      for t in ln.split('|', 3)]
             cases.append((name, int(ex), args, about))
     return cases
+
+
+POLICY = {'voronoi': 'Voronoi', 'median': 'Median', 'blend': 'Blend',
+          'hybrid': 'Hybrid'}
+
+
+def header_ok(path, args):
+    """'as the arguments', or what differs: line 1 names the policy,
+    line 2 ends with the command, (del_vor ARGUMENTS)."""
+    a = args.split()
+    kv = {}
+    for k, t in enumerate(a):
+        if t.startswith('-') and len(t) > 1 and not t[1].isdigit():
+            nxt = a[k + 1] if k + 1 < len(a) else ''
+            kv[t[1:]] = nxt if not nxt.startswith('-') or \
+                nxt[1:2].isdigit() else ''
+    cv = kv.get('cv', 'voronoi')
+    with open(path) as fh:
+        l1 = fh.readline().rstrip('\n')
+        l2 = fh.readline().rstrip('\n')
+    if l1 != ('fehmstor ascir8i4 LaGriT Sparse Matrix %s Coefficients'
+              % POLICY[cv]):
+        return 'line 1 is %r' % l1
+    want2 = ' Linear Diffusion Model (del_vor %s)' % ' '.join(args.split())
+    if l2[26:30] not in ('2-D ', '3-D ') or not l2.endswith(want2):
+        return 'line 2 is %r' % l2
+    if stor_compare.read_stor(path)['writer'] != 'del_vor':
+        return 'stor_compare does not find the writer'
+    return 'as the arguments'
 
 
 def dist(xyz, i, j):
@@ -197,6 +231,34 @@ def main():
         put('imt_long', 'material', 'the same MESH as imt_short; '
             'materials %s' % ' '.join(sorted(mats)),
             'PASS' if a == b and mats == {'1', '2'} else 'FAIL')
+
+    # every .stor's header: line 1 names the policy; line 2 is LaGriT's
+    # text ending (del_vor), then the run's settings (from the
+    # case's arguments here); stor_compare still finds the writer
+    for name, expect, args, about in cases:
+        if name not in ran or expect != 0:
+            continue
+        out = open(os.path.join(ran[name], 'run.out')).read()
+        ol = [ln for ln in out.split('\n')]
+        k = next((q for q, ln in enumerate(ol)
+                  if ln.startswith('del_vor: options')), None)
+        opts = ''
+        if k is not None:
+            q = k + 1
+            while q < len(ol) and ol[q].startswith('  '):
+                q += 1
+            opts = ' '.join(' '.join(ol[k:q]).split()[2:])
+        put(name, 'options', 'the report lists every option, lines of '
+            'at most 78', 'PASS' if opts.startswith('avs=') and
+            'cv=' in opts and 'zero_tol=' in opts and
+            all(len(ln) <= 78 for ln in ol[k:q]) else 'FAIL')
+        for f in sorted(os.listdir(ran[name])):
+            if not f.endswith('.stor'):
+                continue
+            path = os.path.join(ran[name], f)
+            put(name, 'header', f + ': ' + header_ok(path, args),
+                'PASS' if header_ok(path, args) == 'as the arguments'
+                else 'FAIL')
 
     # zero_area and zero_tol on mesh_3D, against the keep run
     xyz3 = mesh['mesh_3D'][0]
