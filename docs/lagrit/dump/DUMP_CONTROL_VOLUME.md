@@ -262,7 +262,10 @@ Each of these stops the command and nothing is written:
 - a tet face shared by 3 or more tets; an edge in 3 or more triangles
   of one itetclr;
 - two neighboring triangles of one itetclr oriented differently
-  (each itetclr may be oriented either way, as long as it is one way).
+  (each itetclr may be oriented either way, as long as it is one way);
+- parent/child chains: a vertex with **itp1** = 41 (a parent, as
+  **`settets/parents`** leaves an interface). Run **`resetpts/parent`**
+  first; split control volumes are not built yet.
 
 An edge in triangles of two or more itetclr is a fracture
 intersection edge: legal, counted, and its coefficients are the sum
@@ -328,8 +331,11 @@ Settled (Carl, Nov 8, 2026): the command is **`dump/control_volume`**
 attribute is **cv_volume**; the face neighbors (**jtet**) are computed
 by del_vor, not taken from LaGriT.
 
-Still open, for phase 6:
-
-1. Is **cv_volume** made on every run, or only when asked for?
-2. Parent/child meshes (**settets/parents**): merge children through
-   their parent (**isn1**) or keep them apart.
+Settled (Carl, Nov 15, 2026): **cv_volume** is not made by default;
+the keyword **`attribute`**, name (phase 6c) asks for the control
+volumes in a vertex attribute of that name. A mesh with parent/child
+chains (**itp1** = 41) is refused with a message; merging or
+splitting control volumes at parents waits for the FEHM and PFLOTRAN
+developers. The command calls the same code as the program, through
+the entry point **del_vor_lagrit_entry** (phase 6a; manual, section
+17).
