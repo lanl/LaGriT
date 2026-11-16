@@ -1,0 +1,74 @@
+test_entry -- the LaGriT entry point (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_entry_tests.sh [path-to-del_vor]   23 cases, about 2 s
+  open summary.html
+
+WHAT IS TESTED
+
+  del_vor_lagrit_entry (src/del_vor_entry.F90), the routine LaGriT's
+  dump / control_volume will call (phase 6c), with the mesh object's
+  own arrays (used in place, never copied or changed) and the options
+  as one string. The harness del_vor_entry_test (built by CMake next to
+  del_vor; source in harness/) reads a mesh with del_vor's reader and
+  calls the entry point through call_entry.f: fixed-form Fortran
+  compiled with LaGriT's gfortran flags (-fdefault-integer-8
+  -std=legacy ...), with no interface block, as LaGriT will.
+
+    del_vor_entry_test MESH vol.txt [-sink] [-tamper WHAT] CALL ...
+
+  one call per CALL string, in one process. -sink sends every log line
+  through del_vor_log's hook (printed as "lagrit| line"; LaGriT's
+  writloga will take its place).
+
+  Each case of cases.txt runs, in work/NAME,
+    prog/   del_vor -avs MESH ARGUMENTS     (the program, if any)
+    entry/  the harness with the case's calls
+
+  Cases that must work (tri2d ... twice): every output format, every
+  cv, the ParaView and matrix files, a near-tie mesh (violations file),
+  a non-Delaunay mesh with cv median, check_only, the options in
+  LaGriT's keyword, value / form, no hook, and two calls in one
+  process. Cases that must fail cleanly (bad_option ... tamper_nen):
+  bad options, avs given, errors found inside the run (not Delaunay,
+  failed mesh checks), parent/child chains (itp1 = 41), and LaGriT
+  arrays not in the layout del_vor takes (a hex among triangles,
+  itetoff not nen*(cell-1), a vertex number past nnodes, nen 5).
+
+WHAT IS CHECKED (check_entry.py)
+
+  ierr      each call returns the ierr cases.txt expects, and nothing
+            stops (the harness exits 0, or 3 when its last call
+            returned an error)
+  message   the expected text is in the output
+  program   the program ran with exit 0
+  files     the entry point wrote the same files as the program; in
+            the error cases, none at all
+  bytes     every file equal byte for byte, apart from the .stor's line
+            2 (date; the command) and the report's options lines (the
+            program names its mesh file)
+  line2     the .stor's line 2 ends with (del_vor OPTIONS)
+  screen    the last call's lines equal the program's screen output;
+            with -sink every line came through the hook
+  volumes   the volumes returned equal the .stor's, every digit; none
+            with check_only on (the caller's array is left as it was)
+
+  The meshes of not_delaunay, flip_median and near_tie come from
+  test_delaunay's generator, those of bad_mesh and parent from
+  test_validity's (run into work/gen_d, work/gen_v).
+
+PICTURES (logs/)
+
+  NAME.svg  the mesh (a large tet mesh by its boundary faces), its
+            vertices colored by the control volume the entry point
+            returned (gray when none came back); red rings on parent
+            vertices, cell 1 red when the harness spoiled it
+
+FILES
+
+  run_entry_tests.sh       runner (work/, logs/)
+  cases.txt                the cases
+  check_entry.py           checks, pictures, summary.html
+  harness/                 del_vor_entry_test.F90, call_entry.f

@@ -150,7 +150,22 @@ def main():
         odd.append('\t'.join(ln.split()))
     with open(os.path.join(out, 'odd_text.inp'), 'w', newline='') as f:
         f.write('\r\n'.join(odd))
-    print('wrote 17 meshes in', out)
+    # fatal: two_materials as LaGriT's settets / parents leaves it,
+    # the 3 vertices of the shared face marked parents (itp1 = 41);
+    # del_vor does not take parent/child chains yet (phase 6)
+    with open(os.path.join(out, 'two_materials.inp')) as f:
+        txt = f.read().rstrip('\n').split('\n')
+    hdr = txt[0].split()
+    nn = int(hdr[0])
+    shared = set(t1) & set(t2)
+    txt[0] = '%s %s 3 0 0' % (hdr[0], hdr[1])
+    txt += ['00003  1  1  1', 'imt1, integer', 'itp1, integer',
+            'isn1, integer']
+    for i in range(nn):
+        txt.append('%d %d %d 0' % (i + 1, 1, 41 if i in shared else 0))
+    with open(os.path.join(out, 'parent.inp'), 'w') as f:
+        f.write('\n'.join(txt) + '\n')
+    print('wrote 18 meshes in', out)
 
 
 if __name__ == '__main__':

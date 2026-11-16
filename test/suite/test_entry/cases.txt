@@ -1,0 +1,36 @@
+# test_entry cases: one per line,
+#   name | mesh | arguments | flags | calls | ierr | message | what it does
+#
+# Each case runs, in work/NAME,
+#   prog/:  del_vor -avs MESH ARGUMENTS                 (not if ARGUMENTS is -)
+#   entry/: del_vor_entry_test MESH vol.txt FLAGS CALL1 CALL2 ...
+# The harness reads MESH and calls the LaGriT entry point once per call
+# (calls separated by ';', = means ARGUMENTS), in one process. ierr: the
+# ierr each call must return. message: text the harness output must hold
+# (- for none). FLAGS: -sink (log lines through the LaGriT hook),
+# -tamper WHAT, or - for none. Meshes under work/gen_* are made by
+# test_validity's and test_delaunay's generators.
+#
+tri2d       | ../test_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor -uge s.uge -tough2 s.mesh -zero_area keep -report s.report | -sink | = | 0 | - | lanl/voronoi's 9-vertex square, every output format, zero-area connections kept: the .stor, .uge, TOUGH2 MESH and report from the entry point equal the program's byte for byte.
+tet3d       | ../test_voronoi_gold/inputs/mesh_3D.inp | -stor s.stor -uge s.uge -tough2 s.mesh -compress off | -sink | = | 0 | - | lanl/voronoi's graded cube (384 tets, 201 co-spherical ties), uncompressed .stor.
+poi3_vor    | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -stor s.stor -matrix m.vtu -matrix_bins 20 -paraview pv -paraview_faces on -report s.report | -sink | = | 0 | - | LaGriT's 3D Poisson mesh with Voronoi control volumes: the .stor, the matrix file and image, and every ParaView file (mesh, cells, negative coefficients, faces, .pvd) equal the program's.
+poi3_hyb    | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv hybrid -stor s.stor -alpha_file a.vtu -paraview pv | -sink | = | 0 | - | The same mesh with the hybrid (stages A and B): the .stor, alpha file and ParaView files equal the program's.
+poi3_med    | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv median -stor s.stor -uge s.uge | -sink | = | 0 | - | Median control volumes.
+poi2d_blend | ../test_poisson_lagrit/inputs/output02_square_var.inp | -cv blend -alpha 0.5 -stor s.stor | -sink | = | 0 | - | LaGriT's graded 2D Poisson mesh with cv blend, alpha 0.5.
+dfn         | ../test_dfn/inputs/full_mesh.inp | -stor s.stor -paraview pv -matrix m.vtu | -sink | = | 0 | - | Carl's dfnWorks network (4 fractures, 771 vertices): one polygon per vertex per fracture in the ParaView files.
+near_tie    | work/gen_d/near_tie.inp | -stor s.stor -report s.report | -sink | = | 0 | - | test_delaunay's near_tie mesh: a facet just past delaunay_tol, a warning; the violations file is written by both, equal.
+flip_median | work/gen_d/flip3d.inp | -cv median -stor s.stor | -sink | = | 0 | - | test_delaunay's flip3d (not Delaunay): cv median does not need a Delaunay mesh and goes on; the violations file and .stor equal the program's.
+check_only  | ../test_parity/inputs/two_mat.inp | -stor s.stor -check_only on | -sink | = | 0 | - | check_only on: the mesh is checked, no .stor is written, and the volumes the caller passed are left as they were (the harness writes no vol.txt).
+lagrit_form | ../test_voronoi_gold/inputs/mesh_3D.inp | -stor s.stor -zero_area keep -cv median | -sink | stor, s.stor / zero_area, keep / cv, median | 0 | - | The options in LaGriT's form, keyword, value pairs between slashes ("stor, s.stor / zero_area, keep / cv, median"): the same files as the program's -keyword value form.
+no_sink     | ../test_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | - | = | 0 | - | No log hook: the entry point writes its lines to the screen as the program does.
+twice       | ../test_poisson_lagrit/inputs/test_3d_poi_01.inp | -stor s.stor -report s.report | -sink | -cv hybrid -stor s.stor -report s.report -timing on; = | 0 0 | - | Two calls in one process: first the hybrid with timing on, then plain Voronoi. Nothing carries over from the first call: the second's files and screen output equal the program's.
+bad_option  | ../test_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | -sink | bogus, 1 / stor, bad.stor; = | 1 0 | unknown keyword bogus | An unknown keyword: the first call returns ierr 1 with the program's message and writes nothing (no bad.stor); LaGriT goes on, and the next call works.
+bad_value   | ../test_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | -sink | zero_area, maybe / stor, bad.stor; = | 1 0 | zero_area | A bad value (zero_area maybe): ierr 1, nothing written, the next call works.
+avs_given   | ../test_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | -sink | avs, m.inp / stor, bad.stor; = | 1 0 | avs: not here | avs is the program's mesh file; through the entry point the mesh is the mesh object, so avs is refused.
+not_delaunay | work/gen_d/flip3d.inp | -stor s.stor -cv median | -sink | stor, bad.stor; = | 1 0 | not Delaunay | An error inside the run: flip3d with Voronoi is refused (not Delaunay) after its violations file, with ierr 1 and no .stor; then cv median on the same mesh works.
+bad_mesh    | work/gen_v/inverted.inp | - | -sink | stor, bad.stor | 1 | the mesh failed its checks | test_validity's inverted tet: the mesh checks fail inside the run; ierr 1, no file.
+parent      | work/gen_v/parent.inp | - | -sink | stor, bad.stor | 1 | this mesh has parent/child chains | test_validity's parent mesh (3 vertices with itp1 = 41, LaGriT's parents): refused before any work, ierr 1, no file.
+tamper_type | ../test_voronoi_gold/inputs/mesh_2D.inp | - | -sink -tamper type | stor, bad.stor | 1 | mixed cell types | LaGriT's arrays with cell 1 a hex (itettyp 8) among triangles: refused (all triangles or all tets).
+tamper_offset | ../test_voronoi_gold/inputs/mesh_2D.inp | - | -sink -tamper offset | stor, bad.stor | 1 | itetoff is not nen*(cell-1) | itetoff(1) = 1 instead of 0: refused, since cell it is read from itet(nen*(it-1)+1) on.
+tamper_vertex | ../test_voronoi_gold/inputs/mesh_2D.inp | - | -sink -tamper vertex | stor, bad.stor | 1 | refers to a vertex that does not exist | itet(1) = nnodes + 1: refused before any array is read with it.
+tamper_nen  | ../test_voronoi_gold/inputs/mesh_2D.inp | - | -sink -tamper nen | stor, bad.stor | 1 | triangles or tets only | nen = 5 passed: refused (triangles or tets only).
