@@ -63,7 +63,10 @@ by `/` and may come in any order. With no output keyword,
 writes the FEHM `.stor` file (ASCII), in the layout of **`dump/stor`**:
 volumes, row pointers, column numbers, value pointers, diagonal
 pointers and the values -A(ij)/d(ij), with 17 significant digits
-(**`dump/stor`** writes 13).
+(**`dump/stor`** writes 13). Its first line names the policy
+(Voronoi, Median, Blend or Hybrid Coefficients) and its second line
+ends with the command that made the file, in parentheses; FEHM
+ignores both lines.
 
 **`uge`**, file_name
 

@@ -84,3 +84,7 @@ mx_noext       | 0 | -avs mesh_2D.inp -uge a.uge -matrix mm -matrix_bins 3 | A m
 bins_alone     | 1 | -avs mesh_3D.inp -stor a.stor -matrix_bins 4 | matrix_bins without matrix: refused, not ignored.
 bad_bins       | 1 | -avs mesh_3D.inp -stor a.stor -matrix m.vtu -matrix_bins 0 | matrix_bins must be a whole number of at least 1.
 mx_twice       | 1 | -avs mesh_3D.inp -stor m.vti -matrix m.vtu -matrix_bins 2 | The matrix image (m.vti) and the .stor given the same name; refused before anything is written.
+# --- the .stor header (Nov 2026; checked on every .stor written here)
+hdr_blend      | 0 | -avs mesh_2D.inp -stor a.stor -cv blend -alpha 0.25 | cv blend: the .stor's first line says Blend Coefficients; the second line ends with the settings, alpha=2.5E-01 among them.
+hdr_median     | 0 | -avs mesh_3D.inp -stor a.stor -cv median -zero_area keep -zero_tol 3.3e-11 | cv median with zero_area keep and zero_tol 3.3e-11: Median Coefficients, and the settings carry zero_area=keep zero_tol=3.3E-11.
+hdr_hybrid     | 0 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_tol 0.001 -alpha_min 0.2 -hybrid_iter 7 -compress off | cv hybrid with every parameter changed: Hybrid Coefficients, and the settings carry hybrid_tol, alpha_min, hybrid_iter and compress=off.

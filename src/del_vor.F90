@@ -31,7 +31,9 @@ program del_vor
    use del_vor_kinds, only: ik, rk
    use del_vor_log, only: log_line, errmsg
    use del_vor_options, only: options_t, parse_options, &
-                              option_keywords, bins_name
+                              option_keywords, bins_name, &
+                              all_settings, &
+                              policy_word
    use del_vor_mesh, only: mesh_t
    use del_vor_read_avs, only: read_avs
    use del_vor_topology, only: build_edge_csr, edge_index
@@ -121,6 +123,7 @@ program del_vor
       stop 1
    end if
 
+   call log_options(all_settings(opt))
    call log_line('del_vor: reading '//trim(opt%mesh))
    call timer_start('read')
    call read_avs(opt%mesh, m, ierr)
@@ -241,7 +244,9 @@ program del_vor
       case ('stor')
          call write_stor(opt%out_file(k), ndim, m%nnodes, m%xic, &
                          m%yic, m%zic, iedge_off, jedge, area, vol, &
-                         skip, opt%compress, ierr)
+                         skip, opt%compress, ierr, &
+                         policy=trim(policy_word(opt%cv)), &
+                         settings=command_line())
       case ('uge')
          call write_uge(opt%out_file(k), m%nnodes, m%xic, m%yic, &
                         m%zic, iedge_off, jedge, area, vol, skip, ierr)
@@ -259,6 +264,62 @@ program del_vor
    call log_copy_close()
 
 contains
+
+   ! The command as typed, for the .stor's second line:
+   ! "del_vor -avs mesh.inp -stor mesh.stor ...". An argument holding
+   ! a blank, a quote or a parenthesis is put in single quotes (a
+   ! quote in it as '\''), as a shell would need it.
+   function command_line() result(t)
+      character(len=:), allocatable :: t
+      character(len=1024) :: a
+      integer :: ia, k
+      t = 'del_vor'
+      do ia = 1, command_argument_count()
+         call get_command_argument(ia, a)
+         if (scan(trim(a), " '""()") == 0 .and. len_trim(a) > 0) then
+            t = t//' '//trim(a)
+         else
+            t = t//" '"
+            do k = 1, len_trim(a)
+               if (a(k:k) == "'") then
+                  t = t//"'\''"
+               else
+                  t = t//a(k:k)
+               end if
+            end do
+            t = t//"'"
+         end if
+      end do
+   end function command_line
+
+   ! The run's options, keyword=value, wrapped at 78 columns.
+   subroutine log_options(t)
+      character(len=*), intent(in) :: t
+      character(len=80) :: ln
+      integer :: p, q, n
+      ln = 'del_vor: options'
+      n = len_trim(ln)
+      p = 1
+      do while (p <= len(t))
+         q = index(t(p:), ' ')
+         if (q == 0) then
+            q = len(t) + 1
+         else
+            q = p + q - 1
+         end if
+         if (q > p) then
+            if (n + 1 + (q - p) > 78 .and. n > 1) then
+               call log_line(ln(1:n))
+               ln = ' '
+               n = 1
+            end if
+            ln(n + 2:) = t(p:q - 1)
+            n = n + 1 + (q - p)
+         end if
+         p = q + 1
+      end do
+      call log_line(ln(1:n))
+   end subroutine log_options
 
    ! Place the dual points for cv median, blend or hybrid, and
    ! assemble: area, vol, stats, plus asum and avec for the report.

@@ -74,6 +74,7 @@ Labels, tried in this order (the first that fits is used):
 
 import json
 import math
+import re
 import sys
 
 U = 2.220446049250313e-16
@@ -98,9 +99,12 @@ def read_stor(path):
     lines = text.split('\n')
     if len(lines) < 4 or not lines[0].startswith('fehmstor'):
         die('%s: not an ASCII .stor (first line %r)' % (path, lines[0][:40]))
+    # the writer: the first word in the second line's parentheses,
+    # "(matbld3d_astor)" or "(del_vor -avs mesh.inp ...)"
     writer = 'unknown'
-    if '(' in lines[1] and ')' in lines[1]:
-        writer = lines[1][lines[1].rindex('(') + 1:lines[1].rindex(')')]
+    mw = re.search(r'\(([^\s()]+)', lines[1])
+    if mw:
+        writer = mw.group(1)
     h = [int(v) for v in lines[2].split()]
     nw, neq, n3, nac = h[:4]
     ncoef = n3 - neq - 1

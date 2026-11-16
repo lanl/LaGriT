@@ -3,7 +3,7 @@ test_options -- del_vor's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    67 runs, about 1 s
+  sh run_options_tests.sh [path-to-del_vor]    70 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -38,6 +38,13 @@ WHAT IS TESTED
   material read under either name, imt1 or integer_material_type
   (imt_short, imt_long: mesh_3D with materials 1 and 2, made by
   make_imt_inputs.py).
+  Every .stor written here has its header checked: line 1 names the
+  policy (Voronoi, Median, Blend or Hybrid Coefficients); line 2 is
+  LaGriT's date and model text, then the command in parentheses,
+  (del_vor ARGUMENTS) with the case's arguments; and
+  tools/stor_compare.py still finds the writer's name, del_vor. Every run's
+  report lists all its options (del_vor: options ...), in lines of at
+  most 78 characters.
 
 WHAT IS CHECKED (check_options.py)
 
