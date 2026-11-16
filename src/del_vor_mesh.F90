@@ -18,8 +18,10 @@
 !                       for triangles and tets)
 !   mbndry              boundary flag, larger than any face code
 !
-! The core routines take these arrays as arguments; this module only
-! holds the copy the standalone program reads from an AVS file.
+! The arrays are pointers: the standalone program allocates them
+! (read_avs; own_input true), the LaGriT entry point points them at
+! LaGriT's own arrays (own_input false), which are used in place and
+! never freed here. jtetoff and jtet are always del_vor's own.
 !-----------------------------------------------------------------------
 module del_vor_mesh
    use del_vor_kinds, only: ik, rk
@@ -35,26 +37,43 @@ module del_vor_mesh
       integer(ik) :: nnodes = 0
       integer(ik) :: nelements = 0
       integer(ik) :: nen = 0
-      real(rk), allocatable :: xic(:), yic(:), zic(:)
-      integer(ik), allocatable :: itet(:), itetoff(:)
-      integer(ik), allocatable :: itettyp(:), itetclr(:)
-      integer(ik), allocatable :: imt1(:), itp1(:), isn1(:)
-      integer(ik), allocatable :: jtet(:), jtetoff(:)
+      real(rk), pointer, contiguous :: xic(:) => null(), &
+                                        yic(:) => null(), &
+                                        zic(:) => null()
+      integer(ik), pointer, contiguous :: itet(:) => null(), &
+                                           itetoff(:) => null()
+      integer(ik), pointer, contiguous :: itettyp(:) => null(), &
+                                           itetclr(:) => null()
+      integer(ik), pointer, contiguous :: imt1(:) => null(), &
+                                           itp1(:) => null(), &
+                                           isn1(:) => null()
+      integer(ik), pointer, contiguous :: jtet(:) => null(), &
+                                           jtetoff(:) => null()
       integer(ik) :: mbndry = 0
+      logical :: own_input = .true.
    end type mesh_t
 
 contains
 
    subroutine mesh_free(m)
       type(mesh_t), intent(inout) :: m
-      if (allocated(m%xic)) deallocate (m%xic, m%yic, m%zic)
-      if (allocated(m%itet)) deallocate (m%itet, m%itetoff)
-      if (allocated(m%itettyp)) deallocate (m%itettyp, m%itetclr)
-      if (allocated(m%imt1)) deallocate (m%imt1)
-      if (allocated(m%itp1)) deallocate (m%itp1)
-      if (allocated(m%isn1)) deallocate (m%isn1)
-      if (allocated(m%jtet)) deallocate (m%jtet)
-      if (allocated(m%jtetoff)) deallocate (m%jtetoff)
+      if (m%own_input) then
+         if (associated(m%xic)) deallocate (m%xic)
+         if (associated(m%yic)) deallocate (m%yic)
+         if (associated(m%zic)) deallocate (m%zic)
+         if (associated(m%itet)) deallocate (m%itet)
+         if (associated(m%itetoff)) deallocate (m%itetoff)
+         if (associated(m%itettyp)) deallocate (m%itettyp)
+         if (associated(m%itetclr)) deallocate (m%itetclr)
+         if (associated(m%imt1)) deallocate (m%imt1)
+         if (associated(m%itp1)) deallocate (m%itp1)
+         if (associated(m%isn1)) deallocate (m%isn1)
+      end if
+      nullify (m%xic, m%yic, m%zic, m%itet, m%itetoff, m%itettyp, &
+               m%itetclr, m%imt1, m%itp1, m%isn1)
+      if (associated(m%jtet)) deallocate (m%jtet)
+      if (associated(m%jtetoff)) deallocate (m%jtetoff)
+      m%own_input = .true.
       m%mbndry = 0
       m%nnodes = 0
       m%nelements = 0

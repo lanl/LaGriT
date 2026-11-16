@@ -190,7 +190,7 @@ contains
       integer(ik) function mat(q)
          integer(ik), intent(in) :: q
          mat = 0
-         if (allocated(m%imt1)) mat = m%imt1(q)
+         if (associated(m%imt1)) mat = m%imt1(q)
       end function mat
 
    end subroutine build_matrix_grid

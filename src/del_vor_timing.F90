@@ -22,7 +22,8 @@ module del_vor_timing
    use del_vor_log, only: log_line
    implicit none
    private
-   public :: timer_start, timer_stop, timer_report, timing_on
+   public :: timer_start, timer_stop, timer_report, timing_on, &
+             timer_reset
 
    logical, save :: timing_on = .false.
    integer, parameter :: maxstep = 32
@@ -43,6 +44,13 @@ module del_vor_timing
    end interface
 
 contains
+
+   ! Forget earlier runs (a library called more than once).
+   subroutine timer_reset()
+      nstep = 0
+      icur = 0
+      ctot0 = -1
+   end subroutine timer_reset
 
    subroutine timer_start(name)
       character(len=*), intent(in) :: name

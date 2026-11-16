@@ -89,7 +89,7 @@ module del_vor_options
    implicit none
    private
    public :: options_t, parse_options, option_keywords, lowercase, &
-             bins_name, all_settings, policy_word
+             bins_name, all_settings, policy_word, is_keyword
 
    integer, parameter :: lpath = 1024
    integer, parameter :: maxout = 16
@@ -585,11 +585,13 @@ contains
       type(options_t), intent(in) :: opt
       character(len=:), allocatable :: t
       integer :: k
-      t = 'avs='//trim(opt%mesh)
+      ! (no mesh file when the mesh comes from LaGriT)
+      t = ''
+      if (len_trim(opt%mesh) > 0) t = 'avs='//trim(opt%mesh)//' '
       do k = 1, opt%nout
-         t = t//' '//trim(opt%out_type(k))//'='//trim(opt%out_file(k))
+         t = t//trim(opt%out_type(k))//'='//trim(opt%out_file(k))//' '
       end do
-      t = t//' '//cv_settings(opt)
+      t = t//cv_settings(opt)
       t = t//' delaunay_tol='//num(opt%delaunay_tol)// &
           ' delaunay_fatal='//num(opt%delaunay_fatal)// &
           ' violations='//trim(opt%violations)
@@ -621,6 +623,24 @@ contains
       if (len_trim(opt%report) > 0) t = t//' report='//trim(opt%report)
       if (opt%timing) t = t//' timing=on'
    end function all_settings
+
+   ! Is s (written without its dash) a keyword? A value may start
+   ! with '-' (a negative number, a file name): only keywords lose it.
+   logical function is_keyword(s)
+      character(len=*), intent(in) :: s
+      select case (trim(s))
+      case ('avs', 'stor', 'uge', 'tough2', 'zero_area', 'zero_tol', &
+            'compress', 'cv', 'type', 'o', 'delaunay_tol', &
+            'violations', 'check_only', 'report', 'timing', &
+            'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
+            'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
+            'paraview_subset', 'vtu_format', 'vtu_layout', 'matrix', &
+            'matrix_bins')
+         is_keyword = .true.
+      case default
+         is_keyword = .false.
+      end select
+   end function is_keyword
 
    ! The policy's name for the .stor's first line.
    function policy_word(cv) result(w)
