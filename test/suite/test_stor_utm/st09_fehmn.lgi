@@ -1,0 +1,14 @@
+# st09_fehmn.lgi -- test_stor_utm (see 00README)
+# dump / fehm at UTM coordinates: the coor block of the .fehmn file
+# must hold the same doubles as dump / avs (both 17 digits).
+cmo / create / mo_box / / / tet
+createpts / xyz / 5 4 3 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+trans / 1 0 0 / 0. 0. 0. / 700000.1 3200000.3 1500.7
+dump / avs / st09_mesh.inp / mo_box
+dump / fehm / st09_f / mo_box
+finish

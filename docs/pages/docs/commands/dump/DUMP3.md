@@ -113,6 +113,13 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
     the 3D default gave wrong volumes and coefficients there).
     Checked by the suite test/suite/test_stor_utm.
 
+    **17 digits:** the ASCII .stor, the .uge (dump / pflotran) and the
+    coordinates of the .fehmn file are written with 17 significant
+    digits (1pe24.16), so a value read back is the double LaGriT
+    computed (since V3.3.4; before, 13 digits: at UTM coordinates a
+    vertex was rounded to 1e-6). FEHM and PFLOTRAN read these files
+    by white space, so the wider fields need no change there.
+
 
 
 ## FORMAT:

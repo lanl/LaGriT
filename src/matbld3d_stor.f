@@ -2659,7 +2659,7 @@ C
          write(iunit)      (volic(i),i=1,neq)
       elseif(io_type .eq. 2)then
          write(iunit,9000) (volic(i),i=1,neq)
- 9000    format(5(1pe20.12))
+ 9000    format(5(1pe24.16))
       endif
 C
       do i=1,neq

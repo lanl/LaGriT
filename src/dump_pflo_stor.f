@@ -87,7 +87,7 @@ C     COORDINATES and VORONOI VOLUMES
 
 c     print*," -Done writing cells: ",nnodes
 
- 9000 format(i10,4(1x,1pe20.12))
+ 9000 format(i10,4(1x,1pe24.16))
 
  9999 return
       end
@@ -418,8 +418,8 @@ c      total and final number of coefs written
 
 
 
- 9001 format(i10,1x,i10,4(1x,1pe20.12))
- 9003 format(i10,1x,i10,5(1x,1pe20.12))
+ 9001 format(i10,1x,i10,4(1x,1pe24.16))
+ 9003 format(i10,1x,i10,5(1x,1pe24.16))
 
 
  9999 return

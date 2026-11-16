@@ -773,7 +773,7 @@ ccccccccccccccccccccccccccc
       elseif(io_type .eq. 2)then
 
          write(iunit,9000) (volic(i),i=1,neq)
- 9000    format(5(1pe20.12))
+ 9000    format(5(1pe24.16))
 
       elseif(io_type .eq. 5)then
 

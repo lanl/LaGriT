@@ -23,8 +23,9 @@ there). For every pair of files:
           and, as a pyramid over it, the volume of each end vertex
 
 st07 (dump / pflotran, .uge) checks the volumes and connection areas
-the same way, and the centers: u - SHIFT = o to 1e-6 (the .uge writes
-13 digits: at 3.2e6 that is 1e-6).
+the same way, and the centers: u - SHIFT = o to 1e-9 (the .uge writes
+17 digits; a connection center is the midpoint of two vertices, which
+rounds at 3.2e6 by up to 2.3e-10).
 
 Writes LOGDIR/<deck>.check, LOGDIR/table.txt, LOGDIR/summary.html and
 the pictures LOGDIR/<deck>.svg (the mesh, its vertices colored by
@@ -90,6 +91,12 @@ CASES = [
      "interior vertices moved at random, triangulated. dump / stor on a "
      "triangle mesh: matbld2d_stor.f. It lost about 7e-9 at UTM "
      "coordinates."),
+    ("st09_fehmn", "dump / fehm at UTM: .fehmn coordinates",
+     [("st09", "fehmn")],
+     "A small tet mesh moved to (7e5, 3.2e6, 1.5e3), written with dump / "
+     "fehm and dump / avs. The coor block of the .fehmn file must hold "
+     "exactly the doubles of the AVS file (both write 17 digits; with 13, "
+     "the coordinates at 3.2e6 were rounded to 1e-6)."),
     ("st07_pflotran", "brick lattice, dump / pflotran (.uge)",
      [("st07", "uge")],
      "st01's mesh, dump / pflotran: the .uge file (cell volumes and "
@@ -522,10 +529,10 @@ def check_uge(work, root, mesh, lines):
     dx = max(max(abs(b[0][k] - SHIFT[k] - a[0][k]) for k in range(3))
              for a, b in zip(co + [(c[2], 0) for c in no],
                              cu + [(c[2], 0) for c in nu]))
-    ok = dv <= TOL_SAME and da <= TOL_SAME and dx <= 1e-6
+    ok = dv <= TOL_SAME and da <= TOL_SAME and dx <= 1e-9
     lines.append("%s %s same: origin vs UTM, volumes %.1e, areas %.1e "
-                 "(tol %.0e); centers u - SHIFT - o %.1e (tol 1e-6, "
-                 "13 digits)" % (verdict(ok), root, dv, da, TOL_SAME, dx))
+                 "(tol %.0e); centers u - SHIFT - o %.1e (tol 1e-9)" %
+                 (verdict(ok), root, dv, da, TOL_SAME, dx))
     xyz, cells = mesh
     vol, coef, total = voronoi_3d(xyz, cells)
     d = abs(sum(c[1] for c in cu) - total) / sum(abs(c[1]) for c in cu)
@@ -575,6 +582,40 @@ def check_names(work, lines):
     return ok
 
 
+def check_fehmn(work, root, lines):
+    """The coor block of ROOT_f.fehmn against ROOT_mesh.inp, exactly."""
+    xyz = read_avs(os.path.join(work, root + "_mesh.inp"))[0]
+    with open(os.path.join(work, root + "_f.fehmn")) as f:
+        w = f.read().split("\n")
+    k = next(i for i, l in enumerate(w) if l.strip() == "coor")
+    n = int(w[k + 1].split()[0])
+    got = [tuple(real(v) for v in w[k + 2 + i].split()[1:4])
+           for i in range(n)]
+    ok = n == len(xyz)
+    lines.append("%s %s coor: %d vertices, mesh %d" %
+                 (verdict(ok), root, n, len(xyz)))
+    # 17 significant digits in every coordinate field (d.dddE+ee: 16
+    # after the point); with 13 the AVS file (also 13 before V3.3.4)
+    # would agree with it and hide the rounding
+    nd = [len(m.group(1)) for i in range(n)
+          for m in [re.match(r"-?\d\.(\d+)", v)
+                    for v in w[k + 2 + i].split()[1:4]] if m]
+    good = len(nd) == 3 * n and min(nd) >= 16
+    ok &= good
+    lines.append("%s %s coor written with 17 digits (%s after the point)"
+                 % (verdict(good), root,
+                    "%d to %d" % (min(nd), max(nd)) if nd else "none"))
+    if ok:
+        nd = sum(1 for a, b in zip(got, xyz) if a != b)
+        dx = max(abs(a[i] - b[i]) for a, b in zip(got, xyz)
+                 for i in range(3))
+        good = nd == 0
+        ok &= good
+        lines.append("%s %s coor = AVS coordinates exactly: %d differ "
+                     "(largest %.1e)" % (verdict(good), root, nd, dx))
+    return ok
+
+
 def check_case(work, logdir, deck, title, pairs):
     lines, pics = [], []
     out = os.path.join(work, deck + ".out")
@@ -586,8 +627,11 @@ def check_case(work, logdir, deck, title, pairs):
             lines.append("FAIL LaGriT did not finish (see %s.stdout)"
                          % deck)
             return False, lines, pics, "crash"
-    if pairs[0][1] == "names":                # no mesh, no picture
-        ok = check_names(work, lines)
+    if pairs[0][1] in ("names", "fehmn"):      # no picture
+        if pairs[0][1] == "names":
+            ok = check_names(work, lines)
+        else:
+            ok = check_fehmn(work, pairs[0][0], lines)
         nfail = sum(1 for l in lines if l.startswith("FAIL"))
         return ok, lines, pics, "%d checks, %d failed" % (len(lines),
                                                           nfail)
@@ -621,8 +665,8 @@ def check_case(work, logdir, deck, title, pairs):
     panels = [panel_mesh(xyz, mesh[1], uvol, two_d, 0,
                          deck + ": the mesh tested", nm),
               panel_error(ivol, series, PW, "error per vertex at UTM",
-                          "|LaGriT - Python| / largest volume; the .stor "
-                          "has 13 digits: ~1e-13 is the floor")]
+                          "|LaGriT - Python| / largest volume (the "
+                          ".stor has 17 digits)")]
     svg = deck + ".svg"
     write_svg(os.path.join(logdir, svg), panels)
     pics.append(svg)

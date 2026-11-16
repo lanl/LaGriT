@@ -60,6 +60,12 @@ operation. The user must often use the commands
  mesh2 is found, elements that overlap are deleted from mesh1 and mesh2
  is appended to mesh1 to create mesh3.
 
+ `add` also writes the file `polygon.inp` (AVS) in the current folder:
+ two surfaces, the inner boundary of the background mesh (around the
+ hole made for mesh2) and the outer boundary of mesh2, for use in
+ reconnecting the two meshes. A file of that name is overwritten
+ without a warning.
+
  **`merge`** - Append `mesh2` to to `mesh1` and create `mesh3`. Essentially
  this just concatenates two mesh objects.
 
