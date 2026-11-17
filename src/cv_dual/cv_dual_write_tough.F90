@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_write_tough: TOUGH2 MESH file (ELEME and CONNE blocks).
+! cv_dual_write_tough: TOUGH2 MESH file (ELEME and CONNE blocks).
 !
 ! Ported from lanl/voronoi GridWriteTOUGH2 and its helpers, so files
 ! match voronoi's column for column:
@@ -19,9 +19,9 @@
 !   with A < 1e-4, which drops negative areas and, on small meshes,
 !   real ones.
 !-----------------------------------------------------------------------
-module del_vor_write_tough
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: errmsg
+module cv_dual_write_tough
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: write_tough, elne_name
@@ -236,4 +236,4 @@ contains
       end do
    end function rank_of
 
-end module del_vor_write_tough
+end module cv_dual_write_tough

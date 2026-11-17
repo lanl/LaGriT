@@ -1,32 +1,37 @@
 #!/bin/sh
 #
-# run_voronoi_gold_tests.sh [path-to-del_vor]
+# run_voronoi_gold_tests.sh [path-to-cv_dual]
 #
-# test_voronoi_gold: del_vor on the three lanl/voronoi test meshes,
+# test_cv_dual_voronoi_gold: cv_dual on the three lanl/voronoi test meshes,
 # each written as .stor (every edge kept, compressed or not; the
 # defaults), .uge and TOUGH2 MESH (defaults; every edge kept), judged
 # against the gold files and against answers computed from the meshes.
 # See 00README. POSIX sh, Python 3 (standard library). WORK and LOGS
 # may be set to other folders.
 
-# Default: the del_vor built in this checkout (build/del_vor), else
-# del_vor on PATH; or pass a path as the first argument.
+# Default: the cv_dual built in this checkout (build/cv_dual), else
+# cv_dual on PATH; or pass a path as the first argument.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
 if [ -n "${1:-}" ]; then
-    DEL_VOR=$1
-elif [ -n "$_root" ] && [ -x "$_root/build/del_vor" ]; then
-    DEL_VOR=$_root/build/del_vor
+    CV_DUAL=$1
+    # from LaGriT's run_all.sh: lagrit's path; cv_dual is beside it
+    case $(basename "$1") in
+        cv_dual*) ;;
+        *) CV_DUAL=$(dirname "$1")/cv_dual ;;
+    esac
+elif [ -n "$_root" ] && [ -x "$_root/build/cv_dual" ]; then
+    CV_DUAL=$_root/build/cv_dual
 else
-    DEL_VOR=del_vor
+    CV_DUAL=cv_dual
 fi
-case $DEL_VOR in
-    */*) [ -f "$DEL_VOR" ] &&
-         DEL_VOR="$(cd "$(dirname "$DEL_VOR")" && pwd)/$(basename "$DEL_VOR")" ;;
-    *)   _p=$(command -v "$DEL_VOR" 2>/dev/null) && DEL_VOR=$_p ;;
+case $CV_DUAL in
+    */*) [ -f "$CV_DUAL" ] &&
+         CV_DUAL="$(cd "$(dirname "$CV_DUAL")" && pwd)/$(basename "$CV_DUAL")" ;;
+    *)   _p=$(command -v "$CV_DUAL" 2>/dev/null) && CV_DUAL=$_p ;;
 esac
-if [ ! -f "$DEL_VOR" ] || [ ! -x "$DEL_VOR" ]; then
-    echo "cannot run del_vor '$DEL_VOR': not an executable file," >&2
-    echo "nor a command on PATH. Pass a path, e.g. ../../../build/del_vor" >&2
+if [ ! -f "$CV_DUAL" ] || [ ! -x "$CV_DUAL" ]; then
+    echo "cannot run cv_dual '$CV_DUAL': not an executable file," >&2
+    echo "nor a command on PATH. Pass a path, e.g. ../../../build/cv_dual" >&2
     exit 2
 fi
 
@@ -43,7 +48,7 @@ mkdir -p "$WORK" "$LOGDIR"
 rm -rf "${WORK:?}"/* "${LOGDIR:?}"/*
 rm -f summary.html
 
-echo "del_vor : $DEL_VOR"
+echo "cv_dual : $CV_DUAL"
 rc=0
 # Each mesh: the gold comparison with every edge kept (compress off
 # and on), the defaults with all three outputs in one run, and .uge
@@ -59,10 +64,10 @@ for m in mesh_2D mesh_3D simple_3D; do
     do
         k=$((k + 1))
         # shellcheck disable=SC2086
-        ( cd "$WORK" && "$DEL_VOR" -avs "$m.inp" $opts \
+        ( cd "$WORK" && "$CV_DUAL" -avs "$m.inp" $opts \
               > "$m.run$k.out" 2>&1 ) ||
-            { echo "del_vor failed on $m: $opts"; rc=1; }
-        { echo "del_vor -avs $m.inp $opts"; cat "$WORK/$m.run$k.out"; } \
+            { echo "cv_dual failed on $m: $opts"; rc=1; }
+        { echo "cv_dual -avs $m.inp $opts"; cat "$WORK/$m.run$k.out"; } \
             > "$LOGDIR/$m.run$k.out"
     done
 done

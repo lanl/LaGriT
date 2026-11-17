@@ -1,7 +1,7 @@
 !-----------------------------------------------------------------------
-! del_vor_run: one del_vor run on a mesh already in memory, for the
-! standalone program (del_vor.F90) and the LaGriT entry point
-! (del_vor_entry.F90). Nothing here stops: every error comes back in
+! cv_dual_run: one cv_dual run on a mesh already in memory, for the
+! standalone program (cv_dual.F90) and the LaGriT entry point
+! (cv_dual_entry.F90). Nothing here stops: every error comes back in
 ! ierr, with its message already written to the log.
 !
 !   call run_start(opt, ierr)      timing, the report file
@@ -14,45 +14,45 @@
 ! report file closed); the caller does not call run_finish.
 !
 ! run_mesh's order of work: refuse parent/child chains; build jtet
-! and check the mesh (del_vor_validity: fatal); check Delaunay
-! (del_vor_delaunay: fatal for every cv but median, where it is
+! and check the mesh (cv_dual_validity: fatal); check Delaunay
+! (cv_dual_delaunay: fatal for every cv but median, where it is
 ! advisory); write the violations file if any facet was flagged;
 ! stop here with check_only on (vol then stays unallocated); else
-! place the dual points (del_vor_policy; the hybrid's stages in
-! del_vor_hybrid), compute and write the coefficient files. cmd is
+! place the dual points (cv_dual_policy; the hybrid's stages in
+! cv_dual_hybrid), compute and write the coefficient files. cmd is
 ! the command for the .stor's second line. vol: the control volumes.
 ! m%jtetoff and m%jtet are left built (mesh_free frees them).
 !-----------------------------------------------------------------------
-module del_vor_run
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: log_line, errmsg, log_copy_open, &
+module cv_dual_run
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: log_line, errmsg, log_copy_open, &
                           log_copy_close
-   use del_vor_options, only: options_t, bins_name, policy_word
-   use del_vor_mesh, only: mesh_t
-   use del_vor_topology, only: build_edge_csr, edge_index
-   use del_vor_policy, only: policy_voronoi, policy_median, &
+   use cv_dual_options, only: options_t, bins_name, policy_word
+   use cv_dual_mesh, only: mesh_t
+   use cv_dual_topology, only: build_edge_csr, edge_index
+   use cv_dual_policy, only: policy_voronoi, policy_median, &
                              policy_blend, policy_hybrid, policy_code
-   use del_vor_assemble, only: assemble, assembly_stats_t, &
+   use cv_dual_assemble, only: assemble, assembly_stats_t, &
                                zero_area_mask, cell_policy_t
-   use del_vor_hybrid, only: hybrid_t, stage_a, stage_b, &
+   use cv_dual_hybrid, only: hybrid_t, stage_a, stage_b, &
                              boundary_edges, is_negative
-   use del_vor_report, only: report_run, report_delaunay, &
+   use cv_dual_report, only: report_run, report_delaunay, &
                              report_policy
-   use del_vor_jtet, only: build_jtet, jtet_stats_t, default_mbndry
-   use del_vor_validity, only: check_validity, validity_t
-   use del_vor_delaunay, only: check_delaunay, delaunay_t
-   use del_vor_write_vtu, only: write_violations_vtu, write_alpha_vtu
-   use del_vor_vtu, only: vtu_grid_t, vtu_data_t, write_vtu, &
+   use cv_dual_jtet, only: build_jtet, jtet_stats_t, default_mbndry
+   use cv_dual_validity, only: check_validity, validity_t
+   use cv_dual_delaunay, only: check_delaunay, delaunay_t
+   use cv_dual_write_vtu, only: write_violations_vtu, write_alpha_vtu
+   use cv_dual_vtu, only: vtu_grid_t, vtu_data_t, write_vtu, &
                           write_pvd, write_vti
-   use del_vor_matrix, only: build_matrix_grid, matrix_shape, &
+   use cv_dual_matrix, only: build_matrix_grid, matrix_shape, &
                              matrix_bins
-   use del_vor_tess, only: build_cells, build_mesh_grid, &
+   use cv_dual_tess, only: build_cells, build_mesh_grid, &
                            build_negative_grid, interface_edges, &
                            boundary_vertices
-   use del_vor_write_stor, only: write_stor
-   use del_vor_write_uge, only: write_uge
-   use del_vor_write_tough, only: write_tough
-   use del_vor_timing, only: timer_start, timer_stop, timer_report, &
+   use cv_dual_write_stor, only: write_stor
+   use cv_dual_write_uge, only: write_uge
+   use cv_dual_write_tough, only: write_tough
+   use cv_dual_timing, only: timer_start, timer_stop, timer_report, &
                              timing_on, timer_reset
    implicit none
    private
@@ -94,7 +94,7 @@ contains
       character(len=*), intent(in) :: t
       character(len=80) :: ln
       integer :: p, q, n
-      ln = 'del_vor: options'
+      ln = 'cv_dual: options'
       n = len_trim(ln)
       p = 1
       do while (p <= len(t))
@@ -155,10 +155,10 @@ contains
       ! parent/child chains (split control volumes): not yet
       npar = count(m%itp1(1:m%nnodes) == itp_parent)
       if (npar > 0) then
-         write (arg, '(a,i0,a)') 'del_vor: this mesh has parent/'// &
+         write (arg, '(a,i0,a)') 'cv_dual: this mesh has parent/'// &
             'child chains (', npar, ' vertices with itp1 = 41)'
          call log_line(trim(arg))
-         errmsg = 'del_vor: run resetpts / parent first; nothing '// &
+         errmsg = 'cv_dual: run resetpts / parent first; nothing '// &
                   'is written'
          go to 900
       end if
@@ -177,7 +177,7 @@ contains
                           m%zic, m%itetoff, m%itet, m%itetclr, jst, vst)
       call timer_stop()
       if (vst%nfatal > 0) then
-         errmsg = 'del_vor: the mesh failed its checks (above)'
+         errmsg = 'cv_dual: the mesh failed its checks (above)'
          go to 900
       end if
 
@@ -195,20 +195,20 @@ contains
                                    m%xic, m%yic, m%zic, dst%rec, ierr)
          call timer_stop()
          if (ierr /= 0) go to 900
-         call log_line('del_vor: wrote flagged facets to '// &
+         call log_line('cv_dual: wrote flagged facets to '// &
                        trim(opt%violations))
       end if
       ipol = policy_code(trim(opt%cv))
       if (not_delaunay) then
          if (ipol /= policy_median) then
-            errmsg = 'del_vor: not Delaunay; nothing else is written'
+            errmsg = 'cv_dual: not Delaunay; nothing else is written'
             go to 900
          end if
-         call log_line('del_vor: cv median does not need a '// &
+         call log_line('cv_dual: cv median does not need a '// &
                        'Delaunay mesh: going on')
       end if
       if (opt%check_only) then
-         call log_line('del_vor: check_only on: no coefficient files')
+         call log_line('cv_dual: check_only on: no coefficient files')
          return
       end if
 
@@ -295,7 +295,7 @@ contains
          end select
          call timer_stop()
          if (ierr /= 0) go to 900
-         call log_line('del_vor: wrote '//trim(opt%out_type(k))// &
+         call log_line('cv_dual: wrote '//trim(opt%out_type(k))// &
                        ' '//trim(opt%out_file(k)))
       end do
       return
@@ -401,7 +401,7 @@ contains
          end do
       end subroutine tally
 
-      ! del_vor_hybrid's test, on edge kk of row i
+      ! cv_dual_hybrid's test, on edge kk of row i
       logical function edge_negative(i, kk)
          integer(ik), intent(in) :: i, kk
          integer(ik) :: j
@@ -482,7 +482,7 @@ contains
                                  neg, ierr)
          end if
          if (ierr /= 0) return
-         call log_line('del_vor: wrote alpha per cell to '// &
+         call log_line('cv_dual: wrote alpha per cell to '// &
                        trim(opt%alpha_file))
       end subroutine alpha_file_out
 
@@ -529,7 +529,7 @@ contains
          end select
       end subroutine select_vertices
 
-      ! The matrix file (del_vor_matrix): a point per .stor entry, the
+      ! The matrix file (cv_dual_matrix): a point per .stor entry, the
       ! rows of paraview_subset; with matrix_bins, its image too.
       subroutine matrix_out()
          type(vtu_grid_t) :: gx
@@ -554,7 +554,7 @@ contains
          if (ierr /= 0) return
          call matrix_shape(m%nnodes, iedge_off, jedge, zero, &
                            opt%zero_keep, nent, bw, prof)
-         write (arg, '(a,i0,a,i0,a)') 'del_vor: wrote matrix '// &
+         write (arg, '(a,i0,a,i0,a)') 'cv_dual: wrote matrix '// &
             trim(opt%matrix)//' (', gx%np, ' entries in ', count(sel), &
             ' rows)'
          call log_line(trim(arg))
@@ -567,14 +567,14 @@ contains
             call write_vti(bins_name(opt%matrix), nbin, nbin, org, &
                            spc, d, 3, opt%vtu_binary, ierr)
             if (ierr /= 0) return
-            write (arg, '(a,i0,a,i0,a)') 'del_vor: wrote matrix '// &
+            write (arg, '(a,i0,a,i0,a)') 'cv_dual: wrote matrix '// &
                'image '//trim(bins_name(opt%matrix))//' (', nbin, &
                ' x ', nbin, ' pixels)'
             call log_line(trim(arg))
          end if
       end subroutine matrix_out
 
-      ! The ParaView files (del_vor_tess, del_vor_vtu): the mesh, the
+      ! The ParaView files (cv_dual_tess, cv_dual_vtu): the mesh, the
       ! control volumes, the negative coefficients, the dual faces,
       ! and ROOT.pvd grouping them with the violations file.
       subroutine paraview_out()
@@ -587,14 +587,14 @@ contains
          logical :: faces3
          allocate (sel(m%nnodes), bedg(nedges), iedg(nedges))
          call select_vertices(sel)
-         write (arg, '(a,i0,a,i0,a)') 'del_vor: paraview_subset '// &
+         write (arg, '(a,i0,a,i0,a)') 'cv_dual: paraview_subset '// &
             trim(opt%subset)//': ', count(sel), ' of ', m%nnodes, &
             ' vertices get a cell'
          call log_line(trim(arg))
 
          faces3 = opt%paraview_faces .and. m%nen == 4
          if (opt%paraview_faces .and. m%nen /= 4) call log_line( &
-            'del_vor: paraview_faces: tet meshes only; not written')
+            'cv_dual: paraview_faces: tet meshes only; not written')
          if (faces3) then
             call build_cells(m, pol, iedge_off, jedge, area, vol, &
                              zero, sel, gc, gf)
@@ -634,7 +634,7 @@ contains
          end if
          call write_pvd(trim(opt%paraview)//'.pvd', files, nfile, ierr)
          if (ierr /= 0) return
-         call log_line('del_vor: wrote '//trim(opt%paraview)// &
+         call log_line('cv_dual: wrote '//trim(opt%paraview)// &
                        '.pvd (open it in ParaView)')
       end subroutine paraview_out
 
@@ -649,11 +649,11 @@ contains
          call write_vtu(files(nfile), g, opt%vtu_binary, &
                         opt%vtu_legacy, ierr)
          if (ierr /= 0) return
-         write (arg, '(a,i0,a)') 'del_vor: wrote '// &
+         write (arg, '(a,i0,a)') 'cv_dual: wrote '// &
             trim(files(nfile))//' (', g%nc, ' cells)'
          call log_line(trim(arg))
       end subroutine vtu_one
 
    end subroutine run_mesh
 
-end module del_vor_run
+end module cv_dual_run

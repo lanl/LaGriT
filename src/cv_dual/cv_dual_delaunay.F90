@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_delaunay: the Delaunay check, facet by facet.
+! cv_dual_delaunay: the Delaunay check, facet by facet.
 !
 ! Interior facet shared by cells T1 and T2 (one face of a tet, one
 ! edge of a triangle):
@@ -26,7 +26,7 @@
 !
 ! Facets between two materials (jtet > mbndry) are tested the same
 ! way and counted as interface facets. In 2D only triangles of one
-! itetclr are paired (del_vor_jtet), so a fracture network is tested
+! itetclr are paired (cv_dual_jtet), so a fracture network is tested
 ! fracture by fracture.
 !
 ! Boundary facet (jtet = mbndry) of cell T: how far T's circumcenter
@@ -40,11 +40,11 @@
 ! larger ratio of its cells, so a large |delta| caused by round-off in
 ! a sliver can be told from a real violation.
 !-----------------------------------------------------------------------
-module del_vor_delaunay
-   use del_vor_kinds, only: ik, rk
-   use del_vor_geometry, only: cross, circumcenter_tri, &
+module cv_dual_delaunay
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_geometry, only: cross, circumcenter_tri, &
                                circumcenter_tet
-   use del_vor_jtet, only: iface_tri, iface_tet
+   use cv_dual_jtet, only: iface_tri, iface_tet
    implicit none
    private
    public :: check_delaunay, delaunay_t, facet_rec_t, nhist, &
@@ -344,4 +344,4 @@ contains
       r%ratio(r%n) = ratio
    end subroutine rec_add
 
-end module del_vor_delaunay
+end module cv_dual_delaunay

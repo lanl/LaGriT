@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_write_stor: FEHM .stor file (ASCII), in the layout LaGriT's
+! cv_dual_write_stor: FEHM .stor file (ASCII), in the layout LaGriT's
 ! matbld2d_stor / matbld3d_stor write. The format is documented at the
 ! top of LaGriT's src/matbld3d_stor.f.
 !
@@ -16,14 +16,14 @@
 ! characters of each and ignores them). Line 1 names the policy
 ! (Voronoi, Median, Blend or Hybrid Coefficients); line 2 is LaGriT's
 ! date and model text, then in parentheses the writer's name and the
-! command that made the file (settings): "(del_vor -avs mesh.inp
-! -stor mesh.stor ...)". tools/stor_compare.py reads the writer's
+! command that made the file (settings): "(cv_dual -avs mesh.inp
+! -stor mesh.stor ...)". stor_compare.py reads the writer's
 ! name: the first word in the parentheses.
 !-----------------------------------------------------------------------
-module del_vor_write_stor
-   use del_vor_kinds, only: ik, rk
-   use del_vor_topology, only: build_lower
-   use del_vor_log, only: errmsg
+module cv_dual_write_stor
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_topology, only: build_lower
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: write_stor, stor_date
@@ -141,7 +141,7 @@ contains
             'Linear Diffusion Model ('//trim(settings)//')'
       else
          write (lu, '(a)') ' '//date//' '//model// &
-            'Linear Diffusion Model (del_vor)'
+            'Linear Diffusion Model (cv_dual)'
       end if
       write (lu, '(5i10)') nwritten, neq, ncoef + neq + 1, 1, ncon_max
       write (lu, '(5(1pe24.16))') vol
@@ -236,4 +236,4 @@ contains
       deallocate (tmp)
    end subroutine sort_index
 
-end module del_vor_write_stor
+end module cv_dual_write_stor

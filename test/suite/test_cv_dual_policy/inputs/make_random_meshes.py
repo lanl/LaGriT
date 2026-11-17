@@ -1,10 +1,10 @@
-"""make_random_meshes.py: the points of test_policy's random meshes.
+"""make_random_meshes.py: the points of test_cv_dual_policy's random meshes.
 
 Writes pts2d.txt and pts3d.txt here (Python 3 standard library, fixed
 seeds, so the same points on every machine). LaGriT's connect then
 makes the meshes (make_random_meshes.lgi):
 
-  cd test/suite/test_policy/inputs
+  cd test/suite/test_cv_dual_policy/inputs
   python3 -I make_random_meshes.py
   lagrit < make_random_meshes.lgi
 

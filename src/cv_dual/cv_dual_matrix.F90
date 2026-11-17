@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_matrix: the coefficient matrix as a ParaView file, to see
+! cv_dual_matrix: the coefficient matrix as a ParaView file, to see
 ! its shape (keyword matrix).
 !
 ! One point per entry of the .stor matrix, at (x, y, z) = (j, -i, 0)
@@ -29,12 +29,12 @@
 ! smallest off-diagonal A/d; 0 if none). It lies over the points:
 ! pixel edges at half-integers.
 !-----------------------------------------------------------------------
-module del_vor_matrix
-   use del_vor_kinds, only: ik, rk
-   use del_vor_mesh, only: mesh_t
-   use del_vor_topology, only: build_lower, edge_index
-   use del_vor_geometry, only: cross
-   use del_vor_vtu, only: vtu_grid_t, vtu_data_t, add_pdata
+module cv_dual_matrix
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_mesh, only: mesh_t
+   use cv_dual_topology, only: build_lower, edge_index
+   use cv_dual_geometry, only: cross
+   use cv_dual_vtu, only: vtu_grid_t, vtu_data_t, add_pdata
    implicit none
    private
    public :: build_matrix_grid, matrix_shape, matrix_bins
@@ -273,4 +273,4 @@ contains
       origin = [0.5_rk, -(real(nn, rk) + 0.5_rk), 0.0_rk]
    end subroutine matrix_bins
 
-end module del_vor_matrix
+end module cv_dual_matrix

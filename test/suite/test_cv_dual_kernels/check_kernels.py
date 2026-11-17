@@ -1,12 +1,12 @@
 """check_kernels.py WORK LOGS
 
-test_kernels: reads del_vor_selftest's output (WORK/selftest.out) and
+test_cv_dual_kernels: reads cv_dual_selftest's output (WORK/selftest.out) and
 sample cells (WORK/selftest_samples.txt), checks that every expected
 check ran and passed, draws the pictures in LOGS and writes
 summary.html in this suite's folder. Python 3 standard library.
 Exit status 1 on any FAIL.
 
-The measures are defined at the top of test/del_vor_selftest.F90 and
+The measures are defined at the top of test/cv_dual_selftest.F90 and
 in 00README. Lines ending in PASS or FAIL are HARD; MEASURED lines are
 reported, not judged. A check missing from the output is a FAIL.
 """
@@ -17,6 +17,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'cv_dual_tools'))
 from svgdraw import Svg, ramp, Projector  # noqa: E402
 
 EXPECTED = [
@@ -52,7 +53,7 @@ ABOUT = {
     'coefficient (the P1 finite-element stiffness, which is the same '
     'thing in 2D). Obtuse triangles are included, so negative pieces are '
     'tested too. The largest difference relative to the largest value.',
-    'circ3d_max_rel_diff': 'For 2000 random tets, the circumcenter del_vor '
+    'circ3d_max_rel_diff': 'For 2000 random tets, the circumcenter cv_dual '
     'computes (relative to vertex 1) must be equally far from all four '
     'vertices. Largest difference between those distances, relative to '
     'the radius.',
@@ -79,7 +80,7 @@ ABOUT = {
     'part3d_max_rel_diff': 'The same for tets: with random cell and face '
     'points the four vertex shares add up to the tet\'s volume.',
     'shift_max_rel_diff': 'The same 2000 tets (size about 1) at the origin '
-    'and moved to (7e5, 3.2e6, 1.5e3), like UTM coordinates. del_vor '
+    'and moved to (7e5, 3.2e6, 1.5e3), like UTM coordinates. cv_dual '
     'works relative to a vertex of each cell, so A/d must agree to the '
     'rounding of the moved coordinates themselves (3.2e6 x 2.2e-16 = '
     '7e-10). Tolerance 1e-8.',
@@ -271,7 +272,7 @@ def pic_tet(path, tet):
 
 def pic_shift(path, vals):
     """Relative difference of A/d between a tet at the origin and the
-    same tet at (7e5, 3.2e6, 1.5e3): del_vor against lanl/voronoi's
+    same tet at (7e5, 3.2e6, 1.5e3): cv_dual against lanl/voronoi's
     circumcenter, log scale."""
     W, H = 640, 300
     s = Svg(W, H)
@@ -283,7 +284,7 @@ def pic_shift(path, vals):
         x = x0 + (p - lo) / (hi - lo) * (x1 - x0)
         s.line(x, 60, x, 200, color='#ddd')
         s.text(x, 216, '1e%d' % p, size=10, anchor='middle')
-    bars = [('del_vor', vals.get('shift_max_rel_diff'), '#2b6cb0'),
+    bars = [('cv_dual', vals.get('shift_max_rel_diff'), '#2b6cb0'),
             ('lanl/voronoi det4x4', vals.get('shift_voronoi_det4x4_rel_diff'),
              '#c0392b')]
     for k, (lab, v, col) in enumerate(bars):
@@ -297,7 +298,7 @@ def pic_shift(path, vals):
         s.rect(x0, y, w, 26, fill=col)
         s.text(x0 + w + 6, y + 18, '%.2e' % v, size=12)
     s.text(20, 250, 'Largest |A/d difference| / largest |A/d| over 2000 '
-           'random tets. del_vor is limited by the rounding of the', size=11)
+           'random tets. cv_dual is limited by the rounding of the', size=11)
     s.text(20, 266, 'coordinates themselves (3.2e6 x 2.2e-16 = 7e-10); '
            'voronoi\'s 4x4 determinants lose every digit.', size=11)
     s.save(path)
@@ -389,7 +390,7 @@ def main():
     suite = os.path.dirname(os.path.abspath(logs))
     rel = os.path.relpath(logs, suite)
     h = ['<!doctype html><html><head><meta charset="utf-8">',
-         '<title>test_kernels</title><style>',
+         '<title>test_cv_dual_kernels</title><style>',
          'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
          'max-width:1100px}',
          'td,th{padding:3px 8px;border-bottom:1px solid #ddd;'
@@ -403,9 +404,9 @@ def main():
          '</style></head><body>',
          '<p style="font-size:13px"><a href="../summary.html">&larr; all '
          'suites</a></p>',
-         '<h1>test_kernels: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
-         '<p><b>What it does:</b> runs del_vor_selftest, a small program '
-         'built with del_vor, which calls the triangle and tet kernels '
+         '<h1>test_cv_dual_kernels: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
+         '<p><b>What it does:</b> runs cv_dual_selftest, a small program '
+         'built with cv_dual, which calls the triangle and tet kernels '
          'directly on 2000 random cells of each kind (fixed seed, the same '
          'cells on every machine) and compares every coefficient and '
          'volume share with an answer worked out another way. It then '

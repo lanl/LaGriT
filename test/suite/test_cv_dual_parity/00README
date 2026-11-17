@@ -1,21 +1,21 @@
-test_parity -- del_vor's .stor against LaGriT's dump / stor (Nov 2026)
+test_cv_dual_parity -- cv_dual's .stor against LaGriT's dump / stor (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_parity_tests.sh [path-to-del_vor]   14 meshes (15 with the
+  sh run_parity_tests.sh [path-to-cv_dual]   14 meshes (15 with the
                                               big one), about 10 s
   open summary.html
 
 WHAT IS TESTED
 
-  For each mesh of cases.txt, LaGriT's dump / stor and del_vor write a
-  .stor of the same .inp, and ../../../tools/stor_compare.py compares
+  For each mesh of cases.txt, LaGriT's dump / stor and cv_dual write a
+  .stor of the same .inp, and ../cv_dual_tools/stor_compare.py compares
   them pair by pair and vertex by vertex. Every difference must have
   an explanation; one that has none fails the case.
 
-  del_vor -avs NAME.inp -stor NAME_keep.stor -zero_area keep -compress off
-  del_vor -avs NAME.inp -stor NAME.stor
+  cv_dual -avs NAME.inp -stor NAME_keep.stor -zero_area keep -compress off
+  cv_dual -avs NAME.inp -stor NAME.stor
 
   compared with LaGriT's files (made once by make_parity_gold.sh, in
   inputs/):
@@ -36,22 +36,22 @@ WHAT IS TESTED
 
 WHAT IS CHECKED (check_parity.py)
 
-  exit           both del_vor runs exit 0
+  exit           both cv_dual runs exit 0
   keep_vs_lg     every difference against LaGriT's default explained
   keep_vs_none   the same against LaGriT's uncompressed 3D file
-  default_vs_lg  del_vor's defaults against LaGriT's default
+  default_vs_lg  cv_dual's defaults against LaGriT's default
   MEASURED       the largest differences, the labels, volume totals
 
-  The labels (defined at the top of tools/stor_compare.py): digits
+  The labels (defined at the top of ../cv_dual_tools/stor_compare.py): digits
   (the printed digits: 13 in LaGriT's
-  files, 17 in del_vor's), round_off (small values made by
+  files, 17 in cv_dual's), round_off (small values made by
   cancellation, within 64 u of the largest), merge (LaGriT's 1e-8
   compression), zero_area, dropped (LaGriT's rule: coefficients below
   1e-8 of the largest left out) and dropped_share (those pairs' share
   of their vertices' volumes), abs_coords (LaGriT computes 3D tet
   volumes from absolute coordinates), nstor_magnitude (see below).
 
-FOUND IN LAGRIT (not del_vor's; explained, so the cases pass)
+FOUND IN LAGRIT (not cv_dual's; explained, so the cases pass)
 
   - dump / stor ... / none in 3D (matbld3d_stor.f, header
     matbld3d_nstor) writes |A|/d, the magnitude of the area vector
@@ -59,15 +59,15 @@ FOUND IN LAGRIT (not del_vor's; explained, so the cases pass)
     coefficient comes out positive. poi3d_01: all 75 negative
     coefficients hidden. LaGriT's default writer keeps the sign.
   - At UTM-size coordinates LaGriT's 3D volumes are wrong (utm_tet:
-    total -100.5 for a box of volume 0.032; del_vor 0.0319999999944);
+    total -100.5 for a box of volume 0.032; cv_dual 0.0319999999944);
     anothermatbld3d's TranslateTetToZero does not translate (reported
     to Carl, notes/lagrit_reports/anothermatbld3d_translate_bug.md).
 
 BIG CASES (outside git)
 
-  A mesh path starting with big/ is in the folder DEL_VOR_BIG
+  A mesh path starting with big/ is in the folder CV_DUAL_BIG
   (default ~/lagrit_work/del_vor_dev/big_inputs); LaGriT's .stor files
-  for it are in DEL_VOR_BIG/parity. Without them the case is SKIPPED.
+  for it are in CV_DUAL_BIG/parity. Without them the case is SKIPPED.
   To make them:
 
     sh make_parity_gold.sh /path/to/lagrit ~/lagrit_work/del_vor_dev/big_inputs

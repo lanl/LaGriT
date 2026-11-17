@@ -1,6 +1,6 @@
-# test_options cases: one per line,  name | exit | arguments | what it does
+# test_cv_dual_options cases: one per line,  name | exit | arguments | what it does
 #
-# Each case runs  del_vor ARGUMENTS  in its own folder work/NAME (the
+# Each case runs  cv_dual ARGUMENTS  in its own folder work/NAME (the
 # three lanl/voronoi meshes are copied there first); exit is the exit
 # status expected (0 or 1). check_options.py knows what each case
 # must write. Mesh files: mesh_2D.inp (9 vertices, 8 triangles),
@@ -8,7 +8,7 @@
 # zero-area Voronoi faces), simple_3D.inp (unit cube, 5 tets).
 #
 # --- defaults and outputs
-default_out    | 0 | -avs mesh_3D.inp | No output keyword: del_vor writes voronoi.stor with the defaults (zero_area remove, compress on) and nothing else. Checked: the 120 zero-area pairs are left out.
+default_out    | 0 | -avs mesh_3D.inp | No output keyword: cv_dual writes voronoi.stor with the defaults (zero_area remove, compress on) and nothing else. Checked: the 120 zero-area pairs are left out.
 three_outputs  | 0 | -avs mesh_3D.inp -stor a.stor -uge a.uge -tough2 a_MESH | Three outputs from one run (the geometry is computed once). Checked: all three files list the same 462 connections.
 order_a        | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep -compress off -zero_tol 1e-10 | Several options, mesh first. Compared with order_b.
 order_b        | 0 | -compress off -zero_tol 1e-10 -stor a.stor -zero_area keep -avs mesh_3D.inp | The same options as order_a in another order, mesh last. Checked: a.stor is identical to order_a's except the date line.
@@ -42,7 +42,7 @@ no_mesh        | 1 | -stor a.stor | No mesh given; refused with a hint.
 missing_mesh   | 1 | -avs nothere.inp -stor a.stor | The mesh file does not exist; the message names it, nothing is written.
 # --- the mesh checks (phase 2)
 check_only     | 0 | -avs mesh_3D.inp -check_only on | check_only on: the mesh checks and the Delaunay check run and are reported; no coefficient file is written, not even the default voronoi.stor.
-report         | 0 | -avs mesh_3D.inp -stor a.stor -report a.report | report: a copy of everything del_vor prints, in a file. Checked: a.report holds the screen output line for line, including "Delaunay check passed".
+report         | 0 | -avs mesh_3D.inp -stor a.stor -report a.report | report: a copy of everything cv_dual prints, in a file. Checked: a.report holds the screen output line for line, including "Delaunay check passed".
 tol_zero_ties  | 0 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -violations ties.vtu | Why delaunay_tol is not 0: mesh_3D has 201 co-spherical ties, and with no tolerance the 27 whose round-off came out negative count as not Delaunay. They are far within delaunay_fatal (1e-2), so the run gives a WARNING and goes on: a.stor and ties.vtu. Checked: every facet in ties.vtu has abs(delta/L) below 1e-15, round-off, not a real violation.
 tol_zero_strict | 1 | -avs mesh_3D.inp -stor a.stor -delaunay_tol 0 -delaunay_fatal 0 -violations ties.vtu | delaunay_tol 0 and delaunay_fatal 0: every facet below 0 is fatal, even round-off. The run stops after writing ties.vtu; no a.stor.
 bad_fatal      | 1 | -avs mesh_3D.inp -delaunay_fatal -1 | A negative delaunay_fatal is refused.
@@ -55,8 +55,8 @@ over_mesh      | 1 | -avs mesh_3D.inp -stor mesh_3D.inp | An output named like t
 # --- timing (phase 3, development only)
 timing_on      | 0 | -avs mesh_3D.inp -stor a.stor -timing on | timing on (development only): the report ends with the wall and CPU time of each step and the peak memory. Checked: the lines are there, and a.stor is the same as without timing.
 bad_timing     | 1 | -avs mesh_3D.inp -timing maybe | timing takes only on or off.
-# --- control-volume policies (phase 4; their results: test_policy)
-cv_hybrid      | 0 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_file a.vtu | cv hybrid with an alpha file: both files written. (What the hybrid computes is checked in test_policy.)
+# --- control-volume policies (phase 4; their results: test_cv_dual_policy)
+cv_hybrid      | 0 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_file a.vtu | cv hybrid with an alpha file: both files written. (What the hybrid computes is checked in test_cv_dual_policy.)
 cv_alpha_vor   | 0 | -avs mesh_3D.inp -stor a.stor -alpha_file a.vtu | An alpha file with the default cv voronoi is allowed: every cell has alpha 1.
 blend_alpha    | 0 | -avs mesh_2D.inp -uge a.uge -cv blend -alpha 0.25 | cv blend with alpha: runs and writes the .uge.
 no_alpha       | 1 | -avs mesh_3D.inp -stor a.stor -cv blend | cv blend needs alpha; refused, not run with some default.
@@ -67,7 +67,7 @@ bad_alpha_min  | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -alpha_min -0.1 | 
 bad_iter       | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 0 | hybrid_iter must be a whole number of at least 1.
 text_iter      | 1 | -avs mesh_3D.inp -stor a.stor -cv hybrid -hybrid_iter 2.5 | hybrid_iter 2.5 is not a whole number; refused.
 alpha_twice    | 1 | -avs mesh_3D.inp -stor a.stor -alpha_file a.stor | The alpha file may not share a name with an output; refused before anything is written.
-# --- ParaView files (phase 5; their content: test_paraview)
+# --- ParaView files (phase 5; their content: test_cv_dual_paraview)
 pv_files       | 0 | -avs mesh_3D.inp -stor a.stor -paraview v | paraview v: v.pvd, v_mesh.vtu and v_cells.vtu beside the .stor; no negative file (mesh_3D has no negative coefficient), no faces file (not asked).
 pv_faces       | 0 | -avs simple_3D.inp -stor a.stor -paraview v -paraview_faces on -vtu_format ascii -vtu_layout legacy | With paraview_faces on, also v_faces.vtu; text and the legacy layout are accepted.
 pv_2d_faces    | 0 | -avs mesh_2D.inp -uge a.uge -paraview v -paraview_faces on | paraview_faces on a triangle mesh: the faces file is for tets only, so it is not written (a line says so); the rest is.
@@ -78,7 +78,7 @@ mat_text       | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -paraview_subset 
 bad_format     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_format hex | vtu_format is binary or ascii.
 bad_layout     | 1 | -avs mesh_3D.inp -stor a.stor -paraview v -vtu_layout old | vtu_layout is new or legacy.
 pv_over_stor   | 1 | -avs mesh_3D.inp -stor v_cells.vtu -paraview v | An output named like one of the ParaView files would be overwritten; refused before anything is written.
-# --- matrix file (Nov 2026; its content: test_matrix)
+# --- matrix file (Nov 2026; its content: test_cv_dual_matrix)
 mx_files       | 0 | -avs mesh_3D.inp -stor a.stor -matrix m.vtu -matrix_bins 4 | matrix m.vtu with matrix_bins 4: the matrix file and its image m.vti (the .vtu's name with .vti) beside the .stor.
 mx_noext       | 0 | -avs mesh_2D.inp -uge a.uge -matrix mm -matrix_bins 3 | A matrix file name with no .vtu: the image gets .vti added (mm.vti).
 bins_alone     | 1 | -avs mesh_3D.inp -stor a.stor -matrix_bins 4 | matrix_bins without matrix: refused, not ignored.

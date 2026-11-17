@@ -1,6 +1,6 @@
 """check_poisson_lagrit.py WORK LOGS INPUTS
 
-test_poisson_lagrit: del_vor against LaGriT's own .stor files on five
+test_cv_dual_poisson_lagrit: cv_dual against LaGriT's own .stor files on five
 Poisson disk meshes from LaGriT's suites: test_poisson_3d cases 1 and
 2 (box 0.4 x 0.4 x 0.2) and the three meshes of test_poisson_2d (unit
 square). Python 3 standard library. Prints one "key value result"
@@ -15,15 +15,15 @@ The checks allow exactly the differences the LaGriT writer explains
       and leaves out coefficients below 1e-8 of the largest.
   2D: matbld2d ("matbld2d_stor") writes every value, uncompressed.
       LaGriT computed from the full coordinates; the .inp files keep
-      13 digits, which moves del_vor's results by up to 3e-11 of the
+      13 digits, which moves cv_dual's results by up to 3e-11 of the
       largest (measured by rounding the coordinates again), so the
       tolerances are 5e-11 (coefficients) and 1e-11 (volumes).
 
-  box_volume      |sum of del_vor volumes - exact| / exact, the box
+  box_volume      |sum of cv_dual volumes - exact| / exact, the box
                   volume (unit square area) known exactly. HARD, 1e-13.
-  pairs_lagrit    no pair is in LaGriT's .stor and not in del_vor's
+  pairs_lagrit    no pair is in LaGriT's .stor and not in cv_dual's
                   (zero_area keep). HARD.
-  pairs_dropped   every pair in del_vor's and not LaGriT's has
+  pairs_dropped   every pair in cv_dual's and not LaGriT's has
                   |A/d| <= drop * max |A/d| (the writer's zero rule;
                   0 for matbld2d). HARD.
   coef_diff       max |c - c(LaGriT)| / max |c| over the common pairs,
@@ -34,7 +34,7 @@ The checks allow exactly the differences the LaGriT writer explains
                   share of their volumes too.
   negative        the pairs with A < 0 beyond the writer's tolerance are
                   the same in both files. HARD.
-  default_zero    del_vor with the default zero_area remove leaves out
+  default_zero    cv_dual with the default zero_area remove leaves out
                   exactly its zero-area pairs (|A| <= 1e-12 d^2 for
                   tets, 1e-12 d for triangles), all of which LaGriT left
                   out too. HARD.
@@ -47,7 +47,8 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'test_cv_dual_voronoi_gold'))
 from svgdraw import Svg, Projector, ramp  # noqa: E402
 from check_voronoi_gold import read_stor, stor_pairs, read_inp  # noqa
 
@@ -77,7 +78,7 @@ ABOUT = {
     '/ 3d_box, h = 0.025, and no buffer on the outside surfaces, so '
     'boundary tets often have their circumcenters outside the box and '
     'some coefficients are negative (75 here; red in the picture). '
-    'del_vor runs twice (every edge kept and compress off; the defaults) '
+    'cv_dual runs twice (every edge kept and compress off; the defaults) '
     'and is compared pair by pair with the .stor LaGriT wrote with '
     'dump / stor (anothermatbld3d). Purple: two real but tiny '
     'connections (A/d about 1e-10 of the largest) that LaGriT\'s 1e-8 '
@@ -103,7 +104,7 @@ ABOUT = {
     'twice as fast away from x = 0.',
 }
 BOX = (0.4, 0.4, 0.2)  # the 3D cases
-ZERO_TOL = 1e-12       # del_vor's default zero_tol
+ZERO_TOL = 1e-12       # cv_dual's default zero_tol
 
 results = []
 nfail = 0
@@ -183,14 +184,14 @@ def main():
         neg_d = {k for k in upper(cd) if cd[k] > negt * cmax}
         neg_l = {k for k in upper(cl) if cl[k] > negt * cmax}
         mind = -max(cd[k] for k in upper(cd) if k not in want)
-        put(name + '_negative', '%d in del_vor, %d in LaGriT; minimum '
+        put(name + '_negative', '%d in cv_dual, %d in LaGriT; minimum '
             'A/d %.6e and %.6e (zero-area pairs aside)'
             % (len(neg_d), len(neg_l), mind,
                -max(cl[k] for k in upper(cl))),
             'PASS' if neg_d == neg_l else 'FAIL')
 
         gone = upper(cd) - upper(ce)
-        put(name + '_default_zero', '%d left out by del_vor (zero-area), '
+        put(name + '_default_zero', '%d left out by cv_dual (zero-area), '
             '%d by LaGriT' % (len(gone), len(dropped)),
             'PASS' if gone == want and gone <= set(dropped) else 'FAIL')
 
@@ -277,7 +278,7 @@ def picture(path, name, title, xyz, c, neg, zero, real_dropped):
                          len(neg)),
                         ('zero area, left out by both codes', '#e67e22',
                          len(zero)),
-                        ('A/d ~ 1e-9 of max: kept by del_vor, left out '
+                        ('A/d ~ 1e-9 of max: kept by cv_dual, left out '
                          'by LaGriT', '#7d3c98', len(real_dropped))):
         s.line(30, y - 4, 60, y - 4, color=col, width=3)
         s.text(68, y, '%s: %d' % (lab, n), size=12)
@@ -290,7 +291,7 @@ def histogram(path, name, cd, cl, common, cmax, ctol, lab):
     with the tolerance marked."""
     W, H = 820, 320
     s = Svg(W, H)
-    s.text(20, 24, '%s: del_vor against LaGriT, per vertex pair'
+    s.text(20, 24, '%s: cv_dual against LaGriT, per vertex pair'
            % name, size=14, bold=True)
     lo, hi = -18, -6
     bins = [0] * (hi - lo)
@@ -338,7 +339,7 @@ def write_page(logs, rows):
     suite = os.path.dirname(os.path.abspath(logs))
     rel = os.path.relpath(logs, suite)
     h = ['<!doctype html><html><head><meta charset="utf-8">',
-         '<title>test_poisson_lagrit</title><style>',
+         '<title>test_cv_dual_poisson_lagrit</title><style>',
          'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
          'max-width:1100px}',
          'td,th{padding:3px 8px;border-bottom:1px solid #ddd;'
@@ -352,9 +353,9 @@ def write_page(logs, rows):
          '</style></head><body>',
          '<p style="font-size:13px"><a href="../summary.html">&larr; all '
          'suites</a></p>',
-         '<h1>test_poisson_lagrit: %s</h1>' % ('PASS' if not nfail
+         '<h1>test_cv_dual_poisson_lagrit: %s</h1>' % ('PASS' if not nfail
                                                else 'FAIL'),
-         "<p><b>What it does:</b> del_vor against LaGriT's own .stor "
+         "<p><b>What it does:</b> cv_dual against LaGriT's own .stor "
          "files (dump / stor) on "
          "five Poisson disk meshes from LaGriT's suites: test_poisson_3d "
          'cases 1 and 2 (box 0.4 x 0.4 x 0.2) and the three meshes of '

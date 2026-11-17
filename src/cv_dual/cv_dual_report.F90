@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_report: the run summary, printed through log_line.
+! cv_dual_report: the run summary, printed through log_line.
 !
 ! Volume balance: the control volumes must add up to the mesh volume
 ! (area in 2D) whatever the dual points, so the relative difference is
@@ -11,11 +11,11 @@
 ! coefficients are the other connections with A(ij) < 0.
 ! (lanl/voronoi counted A/d > 0, the positive ones, by mistake.)
 !-----------------------------------------------------------------------
-module del_vor_report
-   use del_vor_kinds, only: ik, rk
-   use del_vor_assemble, only: assembly_stats_t, neumaier
-   use del_vor_log, only: log_line
-   use del_vor_delaunay, only: delaunay_t, nhist, hist_edges, &
+module cv_dual_report
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_assemble, only: assembly_stats_t, neumaier
+   use cv_dual_log, only: log_line
+   use cv_dual_delaunay, only: delaunay_t, nhist, hist_edges, &
                                sliver_ratio
    implicit none
    private
@@ -45,7 +45,7 @@ contains
       if (ndim == 2) vname = 'area'
 
       call log_line(' ')
-      call log_line('del_vor summary')
+      call log_line('cv_dual summary')
       write (s, '(a,i14)') '  vertices           ', nnodes
       call log_line(s)
       if (ndim == 2) then
@@ -71,7 +71,7 @@ contains
          call log_line('  (no circumcenter; left out of the sums)')
       end if
 
-      ! compensated, as the mesh volume (del_vor_assemble)
+      ! compensated, as the mesh volume (cv_dual_assemble)
       sumv = 0.0_rk
       sumc = 0.0_rk
       do i = 1, nnodes
@@ -129,7 +129,7 @@ contains
    end subroutine report_run
 
    ! The control-volume policy (cv other than voronoi): negative
-   ! coefficients at each step (del_vor_hybrid's is_negative: below
+   ! coefficients at each step (cv_dual_hybrid's is_negative: below
    ! -hybrid_tol times the sum of |pieces|, and not zero-area), alpha,
    ! and the
    ! non-orthogonality traded for positivity: the angle between each
@@ -150,7 +150,7 @@ contains
       character(len=80) :: s
       integer :: j
       integer(ik) :: n1, n0
-      call log_line('del_vor control volumes: '//trim(cv))
+      call log_line('cv_dual control volumes: '//trim(cv))
       call log_line('  negative coefficients    boundary  interior'// &
                     '   smallest A/sum|A|')
       do j = 1, nstep
@@ -205,7 +205,7 @@ contains
       if (nen == 3) fname = 'edges'
       fatal = sum(d%nfatal) > 0
       call log_line(' ')
-      write (s, '(a,1pe8.1,a,1pe8.1,a)') 'del_vor Delaunay check '// &
+      write (s, '(a,1pe8.1,a,1pe8.1,a)') 'cv_dual Delaunay check '// &
          '(delaunay_tol', d%tol, ', delaunay_fatal', d%fatal_tol, ')'
       call log_line(s)
       write (s, '(a,t33,i12)') '  interior '//trim(fname)//' checked', &
@@ -303,4 +303,4 @@ contains
 
    end subroutine report_delaunay
 
-end module del_vor_report
+end module cv_dual_report

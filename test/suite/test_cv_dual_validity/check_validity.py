@@ -1,6 +1,6 @@
 """check_validity.py WORK LOGS
 
-test_validity: judges each case of cases.txt (run in WORK/NAME by
+test_cv_dual_validity: judges each case of cases.txt (run in WORK/NAME by
 run_validity_tests.sh), draws each mesh, writes summary.html in this
 suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
@@ -24,6 +24,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector  # noqa: E402
 
@@ -81,7 +82,7 @@ def main():
     for name, expect, msg, about in read_cases(
             os.path.join(HERE, 'cases.txt'), 4):
         d = os.path.join(work, name)
-        cmd = ('del_vor -avs %s.inp -stor %s.stor -report %s.report'
+        cmd = ('cv_dual -avs %s.inp -stor %s.stor -report %s.report'
                % (name, name, name))
         checks = []
 
@@ -129,8 +130,8 @@ def main():
         picture(os.path.join(logs, pic), name, xyz, cells, bad)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor on 18 small meshes made by '
-            'make_validity_inputs.py. Twelve break one of the rules del_vor '
+    what = ('runs cv_dual on 18 small meshes made by '
+            'make_validity_inputs.py. Twelve break one of the rules cv_dual '
             'checks before any geometry, each a fatal error: the cell '
             'types (all triangles or all tets), cells of positive size, '
             'conformity (a tet face in at most 2 tets; a triangle edge in '
@@ -144,7 +145,7 @@ def main():
             'materials, wrapped vertex data, CR LF / tabs / D '
             'exponents) and must run to the end.')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
-                            'test_validity', what, rows)
+                            'test_cv_dual_validity', what, rows)
     print('failures %d' % nfail)
     return 1 if nfail else 0
 

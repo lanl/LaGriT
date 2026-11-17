@@ -1,19 +1,19 @@
-test_voronoi_gold -- del_vor against the lanl/voronoi test meshes (Nov 2026)
+test_cv_dual_voronoi_gold -- cv_dual against the lanl/voronoi test meshes (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_voronoi_gold_tests.sh [path-to-del_vor]   12 runs, about 1 s
+  sh run_voronoi_gold_tests.sh [path-to-cv_dual]   12 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
 
   For each mesh, four runs (the logs show each command):
 
-  del_vor -avs M.inp -stor M_keep.stor -zero_area keep -compress off
-  del_vor -avs M.inp -stor M_keep_c.stor -zero_area keep
-  del_vor -avs M.inp -stor M.stor -uge M.uge -tough2 M_MESH
-  del_vor -avs M.inp -uge M_keep.uge -tough2 M_keep_MESH -zero_area keep
+  cv_dual -avs M.inp -stor M_keep.stor -zero_area keep -compress off
+  cv_dual -avs M.inp -stor M_keep_c.stor -zero_area keep
+  cv_dual -avs M.inp -stor M.stor -uge M.uge -tough2 M_MESH
+  cv_dual -avs M.inp -uge M_keep.uge -tough2 M_keep_MESH -zero_area keep
 
   on the three meshes of lanl/voronoi test/sanity_check (inputs/,
   copied unchanged, see inputs/NOTICE):
@@ -56,9 +56,9 @@ KNOWN DIFFERENCES FROM THE GOLD FILES (by design, not failures)
     compared with zero_area keep runs.
   - 4 lines of the 3D MESH differ in the last printed digit: values
     exactly halfway (1.5625e16, 3.90625e9) that voronoi's round-off
-    pushed up and del_vor rounds to even.
+    pushed up and cv_dual rounds to even.
   - voronoi's own 3D .uge volumes differ from LaGriT's by 1.5e-13;
-    del_vor's differ from LaGriT's by 1.5e-15 (circumcenters computed
+    cv_dual's differ from LaGriT's by 1.5e-15 (circumcenters computed
     relative to a vertex, not from 4x4 determinants).
 
 PICTURES (logs/)

@@ -1,9 +1,9 @@
-test_validity -- the mesh checks del_vor makes before any geometry (Nov 2026)
+test_cv_dual_validity -- the mesh checks cv_dual makes before any geometry (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_validity_tests.sh [path-to-del_vor]   18 runs, under 1 s
+  sh run_validity_tests.sh [path-to-cv_dual]   18 runs, under 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -11,7 +11,7 @@ WHAT IS TESTED
   For each mesh made by make_validity_inputs.py (one per line of
   cases.txt):
 
-  del_vor -avs NAME.inp -stor NAME.stor -report NAME.report
+  cv_dual -avs NAME.inp -stor NAME.stor -report NAME.report
 
   Twelve meshes each break one rule; each is a fatal error:
 

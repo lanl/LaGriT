@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_read_avs: read an AVS UCD (.inp) mesh of triangles or tets.
+! cv_dual_read_avs: read an AVS UCD (.inp) mesh of triangles or tets.
 !
 ! Reads vertex coordinates, cells with their material (itetclr) and,
 ! if present, the vertex attributes imt1, itp1 and isn1 (LaGriT's
@@ -11,18 +11,18 @@
 ! (avs_cells.f): AVS vertex j is LaGriT vertex lperm_tet(j), so a tet
 ! LaGriT counts as positive has det(x2-x1, x3-x1, x4-x1) > 0.
 !
-! The text is read by del_vor_scan (blocks of the file, numbers parsed
+! The text is read by cv_dual_scan (blocks of the file, numbers parsed
 ! in place, reals by strtod: the same doubles as a Fortran read, about
 ! 10 times faster).
 !
 ! The checks of the mesh itself (jtet, conformity, orientation, size)
-! are in del_vor_jtet and del_vor_validity.
+! are in cv_dual_jtet and cv_dual_validity.
 !-----------------------------------------------------------------------
-module del_vor_read_avs
-   use del_vor_kinds, only: ik, rk
-   use del_vor_mesh, only: mesh_t, mesh_free, ifelmtri, ifelmtet
-   use del_vor_log, only: errmsg
-   use del_vor_scan, only: scan_t, scan_open, scan_close, scan_int, &
+module cv_dual_read_avs
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_mesh, only: mesh_t, mesh_free, ifelmtri, ifelmtet
+   use cv_dual_log, only: errmsg
+   use cv_dual_scan, only: scan_t, scan_open, scan_close, scan_int, &
                            scan_real, scan_word, scan_line, &
                            scan_skip_line
    implicit none
@@ -238,4 +238,4 @@ contains
       end do
    end function lower
 
-end module del_vor_read_avs
+end module cv_dual_read_avs

@@ -2,7 +2,7 @@
 #
 # make_timing_meshes.sh /path/to/lagrit OUTDIR
 #
-# The meshes of test_timing, made by LaGriT (createpts, a jitter of
+# The meshes of test_cv_dual_timing, made by LaGriT (createpts, a jitter of
 # the interior vertices, connect, dump / avs), written to OUTDIR as
 #   tet_N.inp   about N tets: an n x n x n jittered grid in the unit
 #               cube, n = round((N / 6.45)^(1/3))

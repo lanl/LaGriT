@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_assemble: accumulate the cells' contributions into the edge
+! cv_dual_assemble: accumulate the cells' contributions into the edge
 ! CSR, one cell at a time. Nothing is stored per cell.
 !
 !   area(k)   scalar area of the dual face of edge k (the projection of
@@ -9,9 +9,9 @@
 !             oriented from the lower to the higher vertex number
 !   asum      optional, (nedges): the sum of |each cell's piece| of
 !             area(k), the scale against which the hybrid judges a
-!             negative area(k) (del_vor_hybrid)
+!             negative area(k) (cv_dual_hybrid)
 !
-! The dual points come from pol (del_vor_policy): with no pol, or no
+! The dual points come from pol (cv_dual_policy): with no pol, or no
 ! alpha in it, they are the circumcenters (Voronoi). With alpha, a
 ! 3D run also needs jtet to give each face its weight.
 !
@@ -20,14 +20,14 @@
 !
 ! Summation order is fixed, so results are the same run to run.
 !-----------------------------------------------------------------------
-module del_vor_assemble
-   use del_vor_kinds, only: ik, rk
-   use del_vor_geometry, only: kernel_tri, kernel_tet, tet_det, &
+module cv_dual_assemble
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_geometry, only: kernel_tri, kernel_tet, tet_det, &
                                tri_area, iedge_tri, iedge_tet
-   use del_vor_policy, only: dual_points_tri, dual_points_tet, &
+   use cv_dual_policy, only: dual_points_tri, dual_points_tet, &
                              face_alphas, policy_voronoi
-   use del_vor_topology, only: edge_index
-   use del_vor_log, only: errmsg
+   use cv_dual_topology, only: edge_index
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: assemble, assembly_stats_t, zero_area_mask
@@ -269,4 +269,4 @@ contains
       end do
    end subroutine zero_area_mask
 
-end module del_vor_assemble
+end module cv_dual_assemble

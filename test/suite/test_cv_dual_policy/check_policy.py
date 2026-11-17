@@ -1,11 +1,11 @@
 """check_policy.py WORK LOGS
 
-test_policy: judges each case of cases.txt (run in WORK/NAME by
+test_cv_dual_policy: judges each case of cases.txt (run in WORK/NAME by
 run_policy_tests.sh), draws each mesh, writes summary.html in this
 suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
 The answers come from this file's own dual geometry (DUAL below),
-written from the definitions, not from del_vor's code:
+written from the definitions, not from cv_dual's code:
 
   cell point   P = G + alpha (C - G): C the circumcenter, G the
                centroid; alpha 1 and 0 give C and G exactly
@@ -61,14 +61,15 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from exact_check import read_avs  # noqa: E402
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector, ramp  # noqa: E402
 from check_voronoi_gold import read_stor, stor_pairs  # noqa: E402
 
-TOL = 1e-11          # DUAL against del_vor, of the largest value
-ZTOL = 1e-12         # del_vor's zero_tol default
+TOL = 1e-11          # DUAL against cv_dual, of the largest value
+ZTOL = 1e-12         # cv_dual's zero_tol default
 # cases that must end with no negative coefficient
 GATE = {'med_sq', 'med_rnd2d', 'med_dfn3', 'hyb_poi3', 'hyb_utm',
         'hyb_rnd2d', 'hyb_rnd3d', 'hyb_tri_dfn', 'hyb_sq', 'hyb_dfn3',
@@ -442,7 +443,7 @@ def main():
     for name, mesh, args, about in cases:
         d = os.path.join(work, name)
         mname = os.path.basename(mesh)
-        cmd = ('del_vor -avs %s -stor %s.stor -alpha_file %s.vtu '
+        cmd = ('cv_dual -avs %s -stor %s.stor -alpha_file %s.vtu '
                '-report %s.report %s' % (mname, name, name, name, args))
         checks = []
 
@@ -627,7 +628,7 @@ def main():
                 % (os.path.basename(mesh), min(alpha), max(alpha)))
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor with each control-volume policy (cv median, '
+    what = ('runs cv_dual with each control-volume policy (cv median, '
             'blend and hybrid) and checks every coefficient and volume '
             'against this suite\'s own dual geometry, written from the '
             'definitions in Python (cell points blended between centroid '
@@ -639,7 +640,7 @@ def main():
             'the boundary. In the pictures, cells are colored by alpha; '
             'red edges are negative with Voronoi; black edges are still '
             'negative in that run.')
-    nfail = write_case_page(HERE, logs, 'test_policy', what, rows)
+    nfail = write_case_page(HERE, logs, 'test_cv_dual_policy', what, rows)
     sys.exit(1 if nfail else 0)
 
 

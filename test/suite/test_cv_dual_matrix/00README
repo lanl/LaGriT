@@ -1,14 +1,14 @@
-test_matrix -- the matrix file (Nov 2026)
+test_cv_dual_matrix -- the matrix file (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_matrix_tests.sh [path-to-del_vor]   7 runs, about 3 s
+  sh run_matrix_tests.sh [path-to-cv_dual]   7 runs, about 3 s
   open summary.html
 
 WHAT IS TESTED
 
-  del_vor -matrix FILE writes the coefficient matrix for ParaView: one
+  cv_dual -matrix FILE writes the coefficient matrix for ParaView: one
   point per entry of the .stor matrix at (j, -i, 0) (row 1 at the
   top), both halves and the diagonal, each a VTK vertex cell, with
   point data i, j, area, distance, coefficient, class (0 diagonal, 1
@@ -18,16 +18,16 @@ WHAT IS TESTED
   count, negative and min_coefficient per block of rows and columns.
 
   Each case runs, in work/NAME,
-    del_vor -avs MESH -stor NAME.stor -matrix NAME_matrix.vtu
+    cv_dual -avs MESH -stor NAME.stor -matrix NAME_matrix.vtu
             -paraview NAME -paraview_faces on -report NAME.report ARGS
   (the ParaView files give the checks their alpha and their faces).
 
 WHERE THE ANSWERS COME FROM
 
-  test_paraview's vtu_read.py reads the files (written from VTK's file
+  test_cv_dual_paraview's vtu_read.py reads the files (written from VTK's file
   format; check_matrix.py reads the image's header itself). The
   answers come from the .stor of the same run and from the mesh,
-  worked out here, never from del_vor's own code:
+  worked out here, never from cv_dual's own code:
 
   entries    one point per .stor entry of the selected rows, in the
              .stor's order, at (j, -i, 0), each a vertex cell
@@ -58,7 +58,7 @@ WHERE THE ANSWERS COME FROM
 WHAT WAS FOUND (Nov 14 2026)
 
   - With acos, the angle of a Voronoi face came out as large as 2e-6
-    degrees (acos near 1 loses half the digits); del_vor uses atan2 of
+    degrees (acos near 1 loses half the digits); cv_dual uses atan2 of
     the cross and dot products: the network's Voronoi angles are now
     at most 6e-12 degrees.
   - A Voronoi face of a negative coefficient has angle 180 degrees: it

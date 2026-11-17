@@ -1,8 +1,8 @@
 """check_matrix.py WORK LOGS
 
-test_matrix: judges each case of cases.txt (run in WORK/NAME by
+test_cv_dual_matrix: judges each case of cases.txt (run in WORK/NAME by
 run_matrix_tests.sh). It reads the matrix file NAME_matrix.vtu (and
-NAME_matrix.vti with matrix_bins) with test_paraview's reader, and
+NAME_matrix.vti with matrix_bins) with test_cv_dual_paraview's reader, and
 checks every point against the .stor and the mesh, worked out here.
 Draws each matrix, writes summary.html in this suite's folder.
 Python 3 standard library. Exit 1 on any FAIL.
@@ -43,8 +43,9 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_paraview'))
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_paraview'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from vtu_read import read_vtu, _arrays  # noqa: E402
 from exact_check import read_avs  # noqa: E402
 from pagekit import read_cases, write_case_page  # noqa: E402
@@ -94,7 +95,7 @@ def read_vti(path):
 
 def edge_classes(m):
     """(a, b) -> 1 boundary, 2 interior, 3 interface (a < b, 0-based),
-    as del_vor defines them (an interface edge wins over boundary)."""
+    as cv_dual defines them (an interface edge wins over boundary)."""
     cls = {}
     if len(m.cells[0]) == 4:
         faces = {}
@@ -165,7 +166,7 @@ def main():
             os.path.join(HERE, 'cases.txt'), 4):
         d = os.path.join(work, name)
         mname = os.path.basename(mesh)
-        cmd = ('del_vor -avs %s -stor %s.stor -matrix %s_matrix.vtu '
+        cmd = ('cv_dual -avs %s -stor %s.stor -matrix %s_matrix.vtu '
                '-paraview %s -paraview_faces on -report %s.report %s'
                % (mname, name, name, name, name, args))
         checks = []
@@ -346,7 +347,7 @@ def main():
                 ne = math.sqrt(sum(x * x for x in e))
                 if na < 1e-6 * big:
                     # a tie's face: nearly no area, its direction is
-                    # round-off (as test_paraview's planar check)
+                    # round-off (as test_cv_dual_paraview's planar check)
                     nskip += 1
                     continue
                 cr = (va[1] * e[2] - va[2] * e[1],
@@ -412,15 +413,15 @@ def main():
                 '%s: %s' % (mname, args or 'defaults'))
         rows_out.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor with -matrix (and -matrix_bins), reads the '
-            'matrix file back with test_paraview\'s reader, and checks '
+    what = ('runs cv_dual with -matrix (and -matrix_bins), reads the '
+            'matrix file back with test_cv_dual_paraview\'s reader, and checks '
             'every point against the .stor and the mesh: one point per '
             '.stor entry at (j, -i), both halves and the diagonal, with '
             'its coefficient, distance, area, class, flags, materials, '
             'alpha and angle; and the image\'s pixels against the '
             'points. The pictures are the matrices, row 1 at the top. '
             'Open NAME_matrix.vtu in ParaView (00README says how).')
-    nfail = write_case_page(HERE, logs, 'test_matrix', what, rows_out)
+    nfail = write_case_page(HERE, logs, 'test_cv_dual_matrix', what, rows_out)
     sys.exit(1 if nfail else 0)
 
 

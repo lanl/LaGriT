@@ -1,8 +1,8 @@
 !-----------------------------------------------------------------------
-! del_vor: Voronoi control volumes and geometric coefficients from a
+! cv_dual: Voronoi control volumes and geometric coefficients from a
 ! Delaunay triangle or tet mesh. Standalone driver.
 !
-!   del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+!   cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
 !           [-zero_area remove|keep] [-zero_tol X]
 !           [-compress on|off] [-cv voronoi|median|blend|hybrid]
 !           [-alpha X] [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
@@ -13,26 +13,26 @@
 !           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
 !           [-check_only on|off] [-report FILE] [-timing on|off]
 !
-! Options are keyword / value pairs in any order (del_vor_options
+! Options are keyword / value pairs in any order (cv_dual_options
 ! lists them, with their defaults); the LaGriT command will take the
 ! same keywords. lanl/voronoi's -type, -o and -compress also work.
 !
 ! This program parses the options, reads the AVS file and calls
-! del_vor_run (the library the LaGriT entry point calls too), which
+! cv_dual_run (the library the LaGriT entry point calls too), which
 ! does the work; its header lists the order. The summary goes to the
 ! screen (and to the report file). Exit status 0 on success, 1 on any
 ! error; after an error no coefficient file is written.
 !-----------------------------------------------------------------------
-program del_vor
-   use del_vor_kinds, only: rk
-   use del_vor_log, only: log_line, errmsg
-   use del_vor_options, only: options_t, parse_options, &
+program cv_dual
+   use cv_dual_kinds, only: rk
+   use cv_dual_log, only: log_line, errmsg
+   use cv_dual_options, only: options_t, parse_options, &
                               option_keywords, all_settings, is_keyword
-   use del_vor_mesh, only: mesh_t, mesh_free
-   use del_vor_read_avs, only: read_avs
-   use del_vor_run, only: run_start, run_mesh, run_finish, &
+   use cv_dual_mesh, only: mesh_t, mesh_free
+   use cv_dual_read_avs, only: read_avs
+   use cv_dual_run, only: run_start, run_mesh, run_finish, &
                           run_abandon, log_options
-   use del_vor_timing, only: timer_start, timer_stop
+   use cv_dual_timing, only: timer_start, timer_stop
    implicit none
 
    type(options_t) :: opt
@@ -60,21 +60,21 @@ program del_vor
    call parse_options(tok, nargs, opt, ierr)
    if (ierr /= 0) then
       call log_line(errmsg)
-      call log_line('del_vor: keywords are')
+      call log_line('cv_dual: keywords are')
       call log_line('  '//option_keywords)
-      call log_line('del_vor: del_vor -help lists them')
+      call log_line('cv_dual: cv_dual -help lists them')
       stop 1
    end if
    call run_start(opt, ierr)
    if (ierr /= 0) stop 1
    if (len_trim(opt%mesh) == 0) then
-      call log_line('del_vor: no mesh given (-avs MESH.inp)')
-      call log_line('del_vor: del_vor -help lists the options')
+      call log_line('cv_dual: no mesh given (-avs MESH.inp)')
+      call log_line('cv_dual: cv_dual -help lists the options')
       stop 1
    end if
 
    call log_options(all_settings(opt))
-   call log_line('del_vor: reading '//trim(opt%mesh))
+   call log_line('cv_dual: reading '//trim(opt%mesh))
    call timer_start('read')
    call read_avs(opt%mesh, m, ierr)
    call timer_stop()
@@ -91,14 +91,14 @@ program del_vor
 contains
 
    ! The command as typed, for the .stor's second line:
-   ! "del_vor -avs mesh.inp -stor mesh.stor ...". An argument holding
+   ! "cv_dual -avs mesh.inp -stor mesh.stor ...". An argument holding
    ! a blank, a quote or a parenthesis is put in single quotes (a
    ! quote in it as '\''), as a shell would need it.
    function command_line() result(t)
       character(len=:), allocatable :: t
       character(len=1024) :: a
       integer :: ia, k
-      t = 'del_vor'
+      t = 'cv_dual'
       do ia = 1, command_argument_count()
          call get_command_argument(ia, a)
          if (scan(trim(a), " '""()") == 0 .and. len_trim(a) > 0) then
@@ -119,7 +119,7 @@ contains
 
    subroutine usage(istat)
       integer, intent(in) :: istat
-      call log_line('usage: del_vor -avs MESH.inp [-stor FILE] '// &
+      call log_line('usage: cv_dual -avs MESH.inp [-stor FILE] '// &
                     '[-uge FILE] [-tough2 FILE]')
       call log_line('               [-zero_area remove|keep] '// &
                     '[-zero_tol X] [-compress on|off]')
@@ -199,4 +199,4 @@ contains
       stop 1
    end subroutine usage
 
-end program del_vor
+end program cv_dual

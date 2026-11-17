@@ -1,14 +1,14 @@
-test_paraview -- the ParaView files (Nov 2026)
+test_cv_dual_paraview -- the ParaView files (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_paraview_tests.sh [path-to-del_vor]   11 runs, about 5 s
+  sh run_paraview_tests.sh [path-to-cv_dual]   11 runs, about 5 s
   open summary.html
 
 WHAT IS TESTED
 
-  del_vor -paraview ROOT writes (design document, section 11):
+  cv_dual -paraview ROOT writes (design document, section 11):
 
     ROOT.pvd           opens everything below in ParaView at once
     ROOT_mesh.vtu      the input cells (itetclr, alpha, stage) and
@@ -37,9 +37,9 @@ WHERE THE ANSWERS COME FROM
   text and appended raw data, both polyhedron layouts), and measures:
   a polyhedron's volume by the divergence theorem over its faces, a
   polygon's area, whether a polyhedron is closed, a face's flatness.
-  The answers are the .stor del_vor wrote in the same run (its volumes
-  and coefficients are checked elsewhere: test_poisson_lagrit,
-  test_parity, test_policy) and the mesh itself (the subsets).
+  The answers are the .stor cv_dual wrote in the same run (its volumes
+  and coefficients are checked elsewhere: test_cv_dual_poisson_lagrit,
+  test_cv_dual_parity, test_cv_dual_policy) and the mesh itself (the subsets).
 
 WHAT IS CHECKED
 

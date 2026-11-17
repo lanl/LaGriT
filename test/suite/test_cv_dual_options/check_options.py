@@ -1,6 +1,6 @@
 """check_options.py WORK LOGS
 
-test_options: judges each case of cases.txt (run by
+test_cv_dual_options: judges each case of cases.txt (run by
 run_options_tests.sh in WORK/NAME) and writes summary.html in this
 suite's folder, with a picture in LOGS. Python 3 standard library.
 Exit status 1 on any FAIL.
@@ -30,10 +30,10 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'test_cv_dual_voronoi_gold'))
 from svgdraw import Svg, Projector  # noqa: E402
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
-    os.path.dirname(HERE))), 'tools'))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'cv_dual_tools'))
 import stor_compare  # noqa: E402
 from check_voronoi_gold import (read_stor, stor_pairs, read_uge,  # noqa
                                 read_inp, edges_of)
@@ -130,7 +130,7 @@ POLICY = {'voronoi': 'Voronoi', 'median': 'Median', 'blend': 'Blend',
 
 def header_ok(path, args):
     """'as the arguments', or what differs: line 1 names the policy,
-    line 2 ends with the command, (del_vor ARGUMENTS)."""
+    line 2 ends with the command, (cv_dual ARGUMENTS)."""
     a = args.split()
     kv = {}
     for k, t in enumerate(a):
@@ -145,10 +145,10 @@ def header_ok(path, args):
     if l1 != ('fehmstor ascir8i4 LaGriT Sparse Matrix %s Coefficients'
               % POLICY[cv]):
         return 'line 1 is %r' % l1
-    want2 = ' Linear Diffusion Model (del_vor %s)' % ' '.join(args.split())
+    want2 = ' Linear Diffusion Model (cv_dual %s)' % ' '.join(args.split())
     if l2[26:30] not in ('2-D ', '3-D ') or not l2.endswith(want2):
         return 'line 2 is %r' % l2
-    if stor_compare.read_stor(path)['writer'] != 'del_vor':
+    if stor_compare.read_stor(path)['writer'] != 'cv_dual':
         return 'stor_compare does not find the writer'
     return 'as the arguments'
 
@@ -187,7 +187,7 @@ def same_matrix(s1, s2):
 
 def main():
     work, logs = sys.argv[1], sys.argv[2]
-    gold = os.path.join(os.path.dirname(HERE), 'test_voronoi_gold',
+    gold = os.path.join(os.path.dirname(HERE), 'test_cv_dual_voronoi_gold',
                         'inputs')
     mesh = {n: read_inp(os.path.join(gold, n + '.inp'))
             for n in ('mesh_2D', 'mesh_3D', 'simple_3D')}
@@ -233,7 +233,7 @@ def main():
             'PASS' if a == b and mats == {'1', '2'} else 'FAIL')
 
     # every .stor's header: line 1 names the policy; line 2 is LaGriT's
-    # text ending (del_vor), then the run's settings (from the
+    # text ending (cv_dual), then the run's settings (from the
     # case's arguments here); stor_compare still finds the writer
     for name, expect, args, about in cases:
         if name not in ran or expect != 0:
@@ -241,7 +241,7 @@ def main():
         out = open(os.path.join(ran[name], 'run.out')).read()
         ol = [ln for ln in out.split('\n')]
         k = next((q for q, ln in enumerate(ol)
-                  if ln.startswith('del_vor: options')), None)
+                  if ln.startswith('cv_dual: options')), None)
         opts = ''
         if k is not None:
             q = k + 1
@@ -449,7 +449,7 @@ def write_page(work, logs):
     suite = os.path.dirname(os.path.abspath(logs))
     rel = os.path.relpath(logs, suite)
     h = ['<!doctype html><html><head><meta charset="utf-8">',
-         '<title>test_options</title><style>',
+         '<title>test_cv_dual_options</title><style>',
          'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
          'max-width:1150px}',
          'td,th{padding:4px 8px;border-bottom:1px solid #ddd;'
@@ -463,8 +463,8 @@ def write_page(work, logs):
          'code{font-size:12px;background:#f6f8fa}</style></head><body>',
          '<p style="font-size:13px"><a href="../summary.html">&larr; all '
          'suites</a></p>',
-         '<h1>test_options: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
-         '<p><b>What it does:</b> runs del_vor once per case below on the '
+         '<h1>test_cv_dual_options: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
+         '<p><b>What it does:</b> runs cv_dual once per case below on the '
          'three lanl/voronoi meshes and checks each run: the exit status, '
          'exactly the files it should write (and no others), and what is '
          'in them. The options are keyword / value pairs in any order: '
@@ -493,7 +493,7 @@ def write_page(work, logs):
         checks = '<br>'.join('%s: %s <span class="%s">%s</span>'
                              % (esc(c), esc(v), r, r) for c, v, r in rs)
         h.append('<tr><td>%s<details><summary>What it does</summary>'
-                 '<p>%s</p></details></td><td><code>del_vor %s</code><br>'
+                 '<p>%s</p></details></td><td><code>cv_dual %s</code><br>'
                  '<span style="font-size:12px">expected exit %d</span>'
                  '</td><td>%s</td><td class="%s">%s</td></tr>'
                  % (esc(name), esc(about), esc(args), expect, checks,

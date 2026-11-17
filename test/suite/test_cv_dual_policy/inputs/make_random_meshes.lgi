@@ -1,4 +1,4 @@
-# test_policy's random meshes: points from make_random_meshes.py,
+# test_cv_dual_policy's random meshes: points from make_random_meshes.py,
 # connected by LaGriT (Delaunay).
 cmo / create / mo2 / / / triplane
 cmo / readatt / mo2 / xic, yic, zic / 1, 0, 0 / pts2d.txt

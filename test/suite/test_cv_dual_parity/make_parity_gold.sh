@@ -2,8 +2,8 @@
 #
 # make_parity_gold.sh /path/to/lagrit [BIG_FOLDER]
 #
-# Makes the LaGriT .stor files of test_parity: for every mesh of
-# cases.txt, LaGriT reads the same .inp del_vor reads and writes
+# Makes the LaGriT .stor files of test_cv_dual_parity: for every mesh of
+# cases.txt, LaGriT reads the same .inp cv_dual reads and writes
 #   NAME_lg.stor        dump / stor / NAME_lg / mo   (LaGriT's default)
 #   NAME_lg_none.stor   dump / stor / NAME_lg_none / mo / ascii / none
 # into inputs/, with the deck (inputs/gold.lgi), LaGriT's screen output
@@ -11,22 +11,22 @@
 # It also makes the generated meshes (two_mat.inp by LaGriT, utm_tet.inp
 # by make_utm_mesh.py).
 #
-# With BIG_FOLDER (or DEL_VOR_BIG set): also the big cases (cases with
+# With BIG_FOLDER (or CV_DUAL_BIG set): also the big cases (cases with
 # a mesh path starting with big/), into BIG_FOLDER/parity/.
 #
 # The suite itself does not need LaGriT: run_parity_tests.sh compares
-# del_vor with the files made here. Run this only to remake them (a
+# cv_dual with the files made here. Run this only to remake them (a
 # new LaGriT, a new case). About 1 minute (more with the big cases).
 # POSIX sh.
 
 LAGRIT=${1:-}
-BIG=${2:-${DEL_VOR_BIG:-}}
+BIG=${2:-${CV_DUAL_BIG:-}}
 [ -n "$LAGRIT" ] && [ -x "$LAGRIT" ] || {
     echo "usage: sh make_parity_gold.sh /path/to/lagrit [BIG_FOLDER]" >&2
     exit 2; }
 case $LAGRIT in /*) ;; *) LAGRIT=$(pwd)/$LAGRIT ;; esac
 cd "$(dirname "$0")" || exit 2
-[ -f ./make_parity_gold.sh ] || { echo "not in test_parity" >&2; exit 2; }
+[ -f ./make_parity_gold.sh ] || { echo "not in test_cv_dual_parity" >&2; exit 2; }
 HERE=$(pwd)
 IN=$HERE/inputs
 T=$HERE/work_gold
@@ -51,7 +51,7 @@ EOF
 ( cd "$T" && "$LAGRIT" < two_mat.lgi > two_mat.out 2>&1 ) ||
     { echo "LaGriT failed on two_mat.lgi; see $T/two_mat.out" >&2; exit 1; }
 cp "$T/two_mat.inp" "$T/two_mat.lgi" "$IN/"
-python3 -I make_utm_mesh.py ../test_poisson_lagrit/inputs/test_3d_poi_01.inp \
+python3 -I make_utm_mesh.py ../test_cv_dual_poisson_lagrit/inputs/test_3d_poi_01.inp \
     "$IN/utm_tet.inp" || exit 1
 
 # one deck for every case: read, dump / stor twice, release

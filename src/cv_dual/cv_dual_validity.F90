@@ -1,23 +1,23 @@
 !-----------------------------------------------------------------------
-! del_vor_validity: the checks every run makes before any geometry.
+! cv_dual_validity: the checks every run makes before any geometry.
 ! A failure is fatal in every mode: the program reports and stops.
 !
 !   positive size   tets: det(x2-x1, x3-x1, x4-x1) > 0 in LaGriT's
 !                   vertex order; triangles: area > 0
 !   conformity      a tet face in at most 2 tets; a triangle edge in
-!                   at most 2 triangles of one itetclr (del_vor_jtet)
+!                   at most 2 triangles of one itetclr (cv_dual_jtet)
 !   orientation     neighboring triangles of one itetclr run along
 !                   their shared edge in opposite directions
-!                   (del_vor_jtet); each fracture may be either way
+!                   (cv_dual_jtet); each fracture may be either way
 !
 ! Not fatal: vertices in no cell (for example LaGriT's dudded
 ! vertices) are counted and get no control volume.
 !-----------------------------------------------------------------------
-module del_vor_validity
-   use del_vor_kinds, only: ik, rk
-   use del_vor_geometry, only: tet_det, tri_area
-   use del_vor_jtet, only: jtet_stats_t
-   use del_vor_log, only: log_line
+module cv_dual_validity
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_geometry, only: tet_det, tri_area
+   use cv_dual_jtet, only: jtet_stats_t
+   use cv_dual_log, only: log_line
    implicit none
    private
    public :: check_validity, validity_t
@@ -78,7 +78,7 @@ contains
       deallocate (used)
 
       call log_line(' ')
-      call log_line('del_vor mesh checks')
+      call log_line('cv_dual mesh checks')
       if (v%nbad_size > 0) then
          v%nfatal = v%nfatal + 1
          if (nen == 4) then
@@ -149,4 +149,4 @@ contains
       end if
    end subroutine check_validity
 
-end module del_vor_validity
+end module cv_dual_validity

@@ -1,16 +1,16 @@
-test_delaunay -- the Delaunay check against exact arithmetic (Nov 2026)
+test_cv_dual_delaunay -- the Delaunay check against exact arithmetic (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_delaunay_tests.sh [path-to-del_vor]   17 runs, about 3 s
+  sh run_delaunay_tests.sh [path-to-cv_dual]   17 runs, about 3 s
   open summary.html
 
 WHAT IS TESTED
 
   For each line of cases.txt:
 
-  del_vor -avs MESH -check_only on -violations NAME.vtu \
+  cv_dual -avs MESH -check_only on -violations NAME.vtu \
           -report NAME.report EXTRA
 
   on the meshes of the other suites (lanl/voronoi's three, LaGriT's

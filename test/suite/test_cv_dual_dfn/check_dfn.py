@@ -1,6 +1,6 @@
 """check_dfn.py WORK LOGS
 
-test_dfn: judges each case of cases.txt (run in WORK/NAME by
+test_cv_dual_dfn: judges each case of cases.txt (run in WORK/NAME by
 run_dfn_tests.sh), draws each network, writes summary.html in this
 suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
@@ -39,7 +39,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from exact_check import read_avs, analyze, counts  # noqa: E402
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector  # noqa: E402
@@ -196,7 +197,7 @@ def main():
             os.path.join(HERE, 'cases.txt'), 4):
         d = os.path.join(work, name)
         m_name = os.path.basename(mesh)
-        cmd = 'del_vor -avs %s %s -report %s.report' % (m_name, args, name)
+        cmd = 'cv_dual -avs %s %s -report %s.report' % (m_name, args, name)
         checks = []
 
         def put(c, v, ok):
@@ -275,10 +276,10 @@ def main():
                 inter, bad)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor on fracture networks: triangles in several '
+    what = ('runs cv_dual on fracture networks: triangles in several '
             'planes, one itetclr per fracture, crossing along shared '
             'edges (each intersection edge is in 2 triangles of each '
-            'fracture). del_vor pairs each edge with the triangle of the '
+            'fracture). cv_dual pairs each edge with the triangle of the '
             'same fracture, checks orientation fracture by fracture '
             '(either way is fine), runs the Delaunay check within each '
             'fracture, and adds every fracture\'s share into one '
@@ -288,7 +289,7 @@ def main():
             'coefficient and area against the cotangent formula. Carl\'s '
             'dfnWorks example runs too once it is in inputs/.')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
-                            'test_dfn', what, rows)
+                            'test_cv_dual_dfn', what, rows)
     print('failures %d' % nfail)
     return 1 if nfail else 0
 

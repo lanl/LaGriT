@@ -1,4 +1,4 @@
-# hextet5.inp for test_policy: LaGriT's demo "hex to tet"
+# hextet5.inp for test_cv_dual_policy: LaGriT's demo "hex to tet"
 # (https://lanl.github.io/LaGriT/pages/docs/demos/description_hextet.html),
 # its decks 1 and 2 as published, then dump / avs of the tet mesh.
 # A non-convex wave-shaped volume (x 0 to 9.5, y 0 to 1, z 0 to about
@@ -6,7 +6,7 @@
 # tets: 2400 vertices, 8580 tets. Not Delaunay (hex to tet in general
 # is not); LaGriT's dump / stor of it has 4706 negative coefficients.
 #
-#   cd test/suite/test_policy/inputs && lagrit < make_hextet5.lgi
+#   cd test/suite/test_cv_dual_policy/inputs && lagrit < make_hextet5.lgi
 #
 define / XMAX / 9.5
 define / YMAX / 1.

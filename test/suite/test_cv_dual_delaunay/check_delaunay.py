@@ -1,6 +1,6 @@
 """check_delaunay.py WORK LOGS
 
-test_delaunay: judges each case of cases.txt against exact arithmetic
+test_cv_dual_delaunay: judges each case of cases.txt against exact arithmetic
 (../exact_check.py), draws a picture of each, writes summary.html in
 this suite's folder. Python 3 standard library. Exit 1 on any FAIL.
 
@@ -9,7 +9,7 @@ fatal = its delaunay_fatal (default 1e-2, raised to tol if below):
 
   exit      1 if some facet has delta/L < -fatal (exactly computed),
             else 0
-  counts    del_vor's report against the exact numbers: interior
+  counts    cv_dual's report against the exact numbers: interior
             (and interface) facets checked, ties |delta/L| <= tol,
             violations, boundary facets checked, boundary
             circumcenters outside (s/L > tol)
@@ -34,7 +34,8 @@ import xml.etree.ElementTree as ET
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from exact_check import (read_avs, analyze, counts, flagged,  # noqa
                          facet_key)
 from pagekit import read_cases, write_case_page  # noqa: E402
@@ -178,7 +179,7 @@ def main():
             os.path.join(HERE, 'cases.txt'), 4):
         d = os.path.join(work, name)
         m = os.path.basename(mesh)
-        cmd = ('del_vor -avs %s -check_only on -violations %s.vtu '
+        cmd = ('cv_dual -avs %s -check_only on -violations %s.vtu '
                '-report %s.report %s' % (m, name, name, extra)).strip()
         checks = []
 
@@ -266,7 +267,7 @@ def main():
                 want_flags)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor\'s Delaunay check (<code>check_only on</code>) '
+    what = ('runs cv_dual\'s Delaunay check (<code>check_only on</code>) '
             'on 16 cases: the 8 meshes of the other suites, which must '
             'pass, and meshes made by make_delaunay_inputs.py with '
             'facets broken on purpose (2-2 flips in 2D, 2-3 flips in '
@@ -274,13 +275,13 @@ def main():
             'near-tie on each side of the tolerance, and a mesh at '
             'UTM-like coordinates. The answers are worked out here with '
             'exact integer arithmetic (<code>exact_check.py</code>), '
-            'independently of del_vor: the exit status, every count in '
-            'del_vor\'s report, and exactly which facets its violations '
+            'independently of cv_dual: the exit status, every count in '
+            'cv_dual\'s report, and exactly which facets its violations '
             'file lists, with their values. Pictures: red = not '
             'Delaunay, orange = a boundary cell whose circumcenter lies '
             'outside (reported, not fatal).')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
-                            'test_delaunay', what, rows)
+                            'test_cv_dual_delaunay', what, rows)
     print('failures %d' % nfail)
     return 1 if nfail else 0
 

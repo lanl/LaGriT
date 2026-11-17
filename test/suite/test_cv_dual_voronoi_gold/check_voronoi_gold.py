@@ -1,6 +1,6 @@
 """check_voronoi_gold.py WORK LOGS INPUTS
 
-test_voronoi_gold: del_vor's .stor, .uge and TOUGH2 MESH files for the
+test_cv_dual_voronoi_gold: cv_dual's .stor, .uge and TOUGH2 MESH files for the
 three lanl/voronoi test meshes, against the gold files and against
 answers computed here from the mesh itself. Python 3 standard library.
 Prints one "key value" line per quantity; writes summary.html in this
@@ -46,6 +46,7 @@ import sys
 TOL = 1e-12
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.dirname(HERE))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), 'cv_dual_tools'))
 from svgdraw import Svg, ramp, Projector  # noqa: E402
 
 # Outputs of the runner for each mesh (see run_voronoi_gold_tests.sh):
@@ -55,7 +56,7 @@ from svgdraw import Svg, ramp, Projector  # noqa: E402
 #   _keep.uge _keep_MESH        zero_area keep
 OUTPUTS = ['_keep.stor', '_keep_c.stor', '.stor', '.uge', '_MESH',
            '_keep.uge', '_keep_MESH']
-ZERO_TOL = 1e-12      # del_vor's default zero_tol
+ZERO_TOL = 1e-12      # cv_dual's default zero_tol
 
 ABOUT = {
     'mesh_2D': 'A 2 x 2 square of 9 vertices cut into 8 right triangles. '
@@ -334,7 +335,7 @@ def fmt(v):
 def picture_2d(path, xyz, cells, coef, gcoef, vol):
     """mesh_2D: triangles, the Voronoi dual pieces (circumcenter to
     edge midpoints, computed here), each edge's coefficient A/d from
-    del_vor's .stor (green: equal to gold, red: not) and each vertex's
+    cv_dual's .stor (green: equal to gold, red: not) and each vertex's
     control volume."""
     W, H = 640, 600
     s = Svg(W, H)
@@ -364,7 +365,7 @@ def picture_2d(path, xyz, cells, coef, gcoef, vol):
         s.circle(x, y, 5, fill='#222')
         s.text(x + 8, y - 8, '%d: %s' % (i + 1, fmt(vol[i])), size=11,
                color='#444')
-    s.text(20, H - 16, 'Edge labels: A/d from del_vor (green = gold value '
+    s.text(20, H - 16, 'Edge labels: A/d from cv_dual (green = gold value '
            'to 1e-12). Vertex labels: number: control area.', size=11)
     s.save(path)
 
@@ -555,7 +556,7 @@ def main():
 def write_page(suite, logs, rows, pics):
     rel = os.path.relpath(logs, suite)
     out = ['<!doctype html><html><head><meta charset="utf-8">',
-           '<title>test_voronoi_gold</title><style>',
+           '<title>test_cv_dual_voronoi_gold</title><style>',
            'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
            'max-width:1100px}',
            'td,th{padding:3px 8px;border-bottom:1px solid #ddd;'
@@ -569,9 +570,9 @@ def write_page(suite, logs, rows, pics):
            '</style></head><body>',
            '<p style="font-size:13px"><a href="../summary.html">&larr; all '
            'suites</a></p>',
-           '<h1>test_voronoi_gold: %s</h1>' % ('PASS' if not nfail
+           '<h1>test_cv_dual_voronoi_gold: %s</h1>' % ('PASS' if not nfail
                                                else 'FAIL'),
-           '<p><b>What it does:</b> runs del_vor on the three test meshes '
+           '<p><b>What it does:</b> runs cv_dual on the three test meshes '
            'of lanl/voronoi and compares the results with that '
            'project\'s gold files: .stor written by LaGriT (matbld2d / '
            'matbld3d), .uge and TOUGH2 MESH written by lanl/voronoi. It '

@@ -4,8 +4,8 @@ Compares two FEHM .stor files of one mesh, pair by pair and vertex by
 vertex, and labels every difference with what explains it. Python 3
 standard library; run as  python3 -I stor_compare.py ...
 
-Usually A is del_vor's file and B is LaGriT's (dump / stor), but any
-two .stor files work (del_vor against del_vor, LaGriT against LaGriT).
+Usually A is cv_dual's file and B is LaGriT's (dump / stor), but any
+two .stor files work (cv_dual against cv_dual, LaGriT against LaGriT).
 
 Options:
   --mesh MESH.inp    the mesh (AVS UCD). Needed for the zero-area rule
@@ -15,7 +15,7 @@ Options:
   --eps X            LaGriT's compress_eps (default 1e-8, as
                      anothermatbld3d; set it if the run used
                      cmo / setatt / epsilon)
-  --zero_tol X       del_vor's zero_tol (default 1e-12)
+  --zero_tol X       cv_dual's zero_tol (default 1e-12)
   --coord_digits N   the significant digits of the mesh file's
                      coordinates, when B was computed from coordinates
                      with more digits than the mesh file holds (LaGriT
@@ -32,7 +32,7 @@ Labels, tried in this order (the first that fits is used):
   digits       |a - b| <= 10^(1-D) max(|a|, |b|): both are the same
                number printed with D significant digits (D read from
                the files, the fewer of the two;
-               13 for LaGriT, 17 for del_vor)
+               13 for LaGriT, 17 for cv_dual)
   round_off    |a - b| <= 64 u max, u = 2.2e-16: small values that come
                from cancellation (pieces of opposite sign) carry the
                round-off of the large pieces, about u times the largest
@@ -51,9 +51,9 @@ Labels, tried in this order (the first that fits is used):
                the largest volume, u = 2.2e-16. Used for volumes and
                coefficients when that allowance exceeds the others.
   zero_area    a pair in one file only whose Voronoi face has zero area
-               by del_vor's rule (|A| <= zero_tol d^2 for tets,
+               by cv_dual's rule (|A| <= zero_tol d^2 for tets,
                zero_tol d for triangles; A = |value| d): left out by
-               del_vor's zero_area remove or LaGriT's zero rule (needs
+               cv_dual's zero_area remove or LaGriT's zero rule (needs
                --mesh in 3D)
   nstor_magnitude
                a = -b, |a| = |b| to the printed digits, when one file is
@@ -100,7 +100,7 @@ def read_stor(path):
     if len(lines) < 4 or not lines[0].startswith('fehmstor'):
         die('%s: not an ASCII .stor (first line %r)' % (path, lines[0][:40]))
     # the writer: the first word in the second line's parentheses,
-    # "(matbld3d_astor)" or "(del_vor -avs mesh.inp ...)"
+    # "(matbld3d_astor)" or "(cv_dual -avs mesh.inp ...)"
     writer = 'unknown'
     mw = re.search(r'\(([^\s()]+)', lines[1])
     if mw:

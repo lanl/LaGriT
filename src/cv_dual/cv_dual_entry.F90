@@ -1,9 +1,9 @@
 !-----------------------------------------------------------------------
-! del_vor_entry: the LaGriT entry point, del_vor_lagrit_entry, an
+! cv_dual_entry: the LaGriT entry point, cv_dual_lagrit_entry, an
 ! external subroutine (no module) so that LaGriT's fixed-form code
 ! calls it with no interface block:
 !
-!   call del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
+!   call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
 !  *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
 !  *     options, vol, ierr)
 !
@@ -30,20 +30,20 @@
 !   vol                out: the control volumes (nnodes); unchanged
 !                      with check_only on or after an error
 !   ierr               out: 0, or 1 after an error, whose message is
-!                      already in the log; del_vor never stops
+!                      already in the log; cv_dual never stops
 !
-! Every line goes through del_vor_log (log_set_sink sends it to
-! LaGriT's log). The .stor's second line ends with (del_vor OPTIONS).
+! Every line goes through cv_dual_log (log_set_sink sends it to
+! LaGriT's log). The .stor's second line ends with (cv_dual OPTIONS).
 !-----------------------------------------------------------------------
-subroutine del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, &
+subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
                                 zic, itettyp, itetoff, itet, itetclr, &
                                 imt1, itp1, isn1, options, vol, ierr)
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: log_line, errmsg
-   use del_vor_options, only: options_t, parse_options, &
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: log_line, errmsg
+   use cv_dual_options, only: options_t, parse_options, &
                               option_keywords, all_settings, is_keyword
-   use del_vor_mesh, only: mesh_t, mesh_free, ifelmtri, ifelmtet
-   use del_vor_run, only: run_start, run_mesh, run_finish, &
+   use cv_dual_mesh, only: mesh_t, mesh_free, ifelmtri, ifelmtet
+   use cv_dual_run, only: run_start, run_mesh, run_finish, &
                           run_abandon, log_options
    implicit none
    integer(ik), intent(in) :: nnodes, nelements, nen
@@ -70,11 +70,11 @@ subroutine del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    call parse_options(tok, ntok, opt, ie)
    if (ie == 0 .and. len_trim(opt%mesh) > 0) then
       ie = 1
-      errmsg = 'del_vor: avs: not here (the mesh is the mesh object)'
+      errmsg = 'cv_dual: avs: not here (the mesh is the mesh object)'
    end if
    if (ie /= 0) then
       call log_line(errmsg)
-      call log_line('del_vor: keywords are')
+      call log_line('cv_dual: keywords are')
       call log_line('  '//option_keywords)
       ierr = 1
       return
@@ -82,7 +82,7 @@ subroutine del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, &
 
    ! the mesh: all triangles or all tets, LaGriT's usual layout
    if (nnodes < 1 .or. nelements < 1) then
-      call refuse('del_vor: the mesh has no vertices or no cells')
+      call refuse('cv_dual: the mesh has no vertices or no cells')
       return
    end if
    if (nen == 3) then
@@ -90,24 +90,24 @@ subroutine del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    else if (nen == 4) then
       ityp = ifelmtet
    else
-      call refuse('del_vor: triangles or tets only (nen is not 3 '// &
+      call refuse('cv_dual: triangles or tets only (nen is not 3 '// &
                   'or 4)')
       return
    end if
    do it = 1, nelements
       if (itettyp(it) /= ityp) then
-         call refuse('del_vor: mixed cell types; all triangles or '// &
+         call refuse('cv_dual: mixed cell types; all triangles or '// &
                      'all tets')
          return
       end if
       if (itetoff(it) /= nen*(it - 1)) then
-         call refuse('del_vor: itetoff is not nen*(cell-1); '// &
+         call refuse('cv_dual: itetoff is not nen*(cell-1); '// &
                      'compress the mesh first')
          return
       end if
    end do
    if (any(itet < 1) .or. any(itet > nnodes)) then
-      call refuse('del_vor: a cell refers to a vertex that does '// &
+      call refuse('cv_dual: a cell refers to a vertex that does '// &
                   'not exist')
       return
    end if
@@ -134,7 +134,7 @@ subroutine del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    m%itp1 => itp1
    m%isn1 => isn1
 
-   call run_mesh(m, opt, 'del_vor '//trim(adjustl(options)), v, ie)
+   call run_mesh(m, opt, 'cv_dual '//trim(adjustl(options)), v, ie)
    if (ie /= 0) then
       ierr = 1
    else
@@ -183,4 +183,4 @@ contains
       end do
    end subroutine split_words
 
-end subroutine del_vor_lagrit_entry
+end subroutine cv_dual_lagrit_entry

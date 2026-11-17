@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_scan: a fast reader of whitespace-separated text, for the
+! cv_dual_scan: a fast reader of whitespace-separated text, for the
 ! AVS reader. The file is read in blocks of a fixed size (stream
 ! access), so memory does not grow with the file, and numbers are
 ! parsed in place:
@@ -10,12 +10,12 @@
 ! Tokens are separated by blanks, tabs and line ends (LF, CR LF).
 ! A token must be shorter than maxtok characters.
 !-----------------------------------------------------------------------
-module del_vor_scan
+module cv_dual_scan
    use, intrinsic :: iso_fortran_env, only: int64
    use, intrinsic :: iso_c_binding, only: c_char, c_double, c_ptr, &
                                           c_loc, c_null_char, &
                                           c_intptr_t
-   use del_vor_kinds, only: ik, rk
+   use cv_dual_kinds, only: ik, rk
    implicit none
    private
    public :: scan_t, scan_open, scan_close, scan_int, scan_real, &
@@ -224,4 +224,4 @@ contains
       end do
    end subroutine scan_skip_line
 
-end module del_vor_scan
+end module cv_dual_scan

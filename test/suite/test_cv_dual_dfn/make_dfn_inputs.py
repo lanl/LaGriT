@@ -1,6 +1,6 @@
 """make_dfn_inputs.py OUTDIR
 
-The fracture networks of test_dfn (the same on every machine: a fixed
+The fracture networks of test_cv_dual_dfn (the same on every machine: a fixed
 pseudo-random sequence, exact arithmetic). Python 3 standard library.
 
   dfn3.inp       three fractures (itetclr 1, 2, 3):

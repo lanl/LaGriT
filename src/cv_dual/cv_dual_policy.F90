@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_policy: where each cell's dual points go (design section 9).
+! cv_dual_policy: where each cell's dual points go (design section 9).
 !
 ! A cell T gets a weight alpha(T) in [0, 1] and its point is
 !
@@ -17,7 +17,7 @@
 !   median     0 in every cell
 !   blend      the same value in every cell (keyword alpha)
 !   hybrid     per cell, the largest that gives no negative
-!              coefficient (del_vor_hybrid)
+!              coefficient (cv_dual_hybrid)
 !
 ! Stage A of the hybrid (closed form): for a cell with an exterior
 ! boundary facet k beyond which its circumcenter lies (barycentric
@@ -30,11 +30,11 @@
 ! All coordinates are relative to the cell's vertex 1 (the caller
 ! shifts them).
 !-----------------------------------------------------------------------
-module del_vor_policy
-   use del_vor_kinds, only: ik, rk
-   use del_vor_geometry, only: circumcenter_tri, circumcenter_tet, &
+module cv_dual_policy
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_geometry, only: circumcenter_tri, circumcenter_tet, &
                                bary_tri, bary_tet
-   use del_vor_jtet, only: iface_tet
+   use cv_dual_jtet, only: iface_tet
    implicit none
    private
    public :: dual_points_tri, dual_points_tet, face_alphas
@@ -203,4 +203,4 @@ contains
       end do
    end function stage_a_alpha_tet
 
-end module del_vor_policy
+end module cv_dual_policy

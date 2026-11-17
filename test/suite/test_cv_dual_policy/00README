@@ -1,14 +1,14 @@
-test_policy -- control-volume policies: median, blend, hybrid (Nov 2026)
+test_cv_dual_policy -- control-volume policies: median, blend, hybrid (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_policy_tests.sh [path-to-del_vor]     27 runs, about 8 s
+  sh run_policy_tests.sh [path-to-cv_dual]     27 runs, about 8 s
   open summary.html
 
 WHAT IS TESTED
 
-  del_vor's cv keyword (design document, section 9): where each
+  cv_dual's cv keyword (design document, section 9): where each
   cell's dual points go.
 
     voronoi   circumcenters (alpha = 1; the default)
@@ -22,8 +22,8 @@ WHAT IS TESTED
 
   One case per line of cases.txt, each a run with -stor, -alpha_file
   (alpha and stage per cell) and -report. Meshes: LaGriT's Poisson
-  meshes (test_poisson_lagrit), test_dfn's network, test_parity's
-  small network, lanl/voronoi's graded cube, test_delaunay's UTM and
+  meshes (test_cv_dual_poisson_lagrit), test_cv_dual_dfn's network, test_cv_dual_parity's
+  small network, lanl/voronoi's graded cube, test_cv_dual_delaunay's UTM and
   flipped meshes (made by their generators), and this suite's two
   random meshes (inputs/: random points in a square and a cube,
   connected by LaGriT; their many obtuse boundary cells need stage B),
@@ -38,7 +38,7 @@ WHERE THE ANSWERS COME FROM
   same blend with alpha(f) = min over the face's two tets; pieces as
   the dual segment (triangles) or polygon m -> F -> P -> F (tets);
   circumcenters from their own small linear systems. It shares no
-  code with del_vor.
+  code with cv_dual.
 
 WHAT IS CHECKED
 

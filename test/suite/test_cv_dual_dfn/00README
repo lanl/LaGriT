@@ -1,16 +1,16 @@
-test_dfn -- del_vor on fracture networks (Nov 2026)
+test_cv_dual_dfn -- cv_dual on fracture networks (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_dfn_tests.sh [path-to-del_vor]   3 runs, about 2 s
+  sh run_dfn_tests.sh [path-to-cv_dual]   3 runs, about 2 s
   open summary.html
 
 WHAT IS TESTED
 
   A fracture network: triangles in several planes, one itetclr per
   fracture, crossing along shared edges (an intersection edge is in 2
-  triangles of each fracture it belongs to). del_vor pairs each edge
+  triangles of each fracture it belongs to). cv_dual pairs each edge
   with the triangle of the same fracture, checks orientation and the
   Delaunay property fracture by fracture, and adds every fracture's
   share into one coefficient per vertex pair.

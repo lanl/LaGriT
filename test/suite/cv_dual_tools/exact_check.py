@@ -7,7 +7,7 @@ read_avs(path)  -> Mesh: xyz (floats), cells (0-based vertex lists in
                    the file's order), clr (itetclr), nen
 analyze(mesh)   -> Result:
     interior   {facet: sign}   facet = sorted tuple of vertex numbers
-                               (1-based, as del_vor writes them);
+                               (1-based, as cv_dual writes them);
                                sign of delta = (c2 - c1) . n: -1 the
                                facet is not locally Delaunay (the
                                opposite vertex is strictly inside the
@@ -32,12 +32,12 @@ sign of delta is the sign of an integer expression. Facet normals are
 left unnormalized (only signs are needed). Python integers have no
 size limit, so nothing is rounded anywhere.
 
-Pairing follows the same rules del_vor documents (del_vor_jtet): a
+Pairing follows the same rules cv_dual documents (cv_dual_jtet): a
 tet face pairs with the other tet holding it; a triangle edge pairs
 with the triangle of the same itetclr holding it; with none of the
 same itetclr and exactly one of another, it is an interface edge;
 otherwise a boundary edge of that triangle. This file shares no code
-with del_vor.
+with cv_dual.
 """
 
 import math
@@ -55,7 +55,7 @@ class Result:
 def read_avs(path):
     """AVS UCD: vertices, cells (tri or tet), itetclr. Tet vertices are
     put in LaGriT's order (AVS 1 2 3 4 -> LaGriT 1 2 4 3), as LaGriT's
-    read / avs and del_vor do."""
+    read / avs and cv_dual do."""
     with open(path) as f:
         lines = [ln for ln in f if ln.strip()]
     h = lines[0].split()
@@ -135,7 +135,7 @@ def _sign(x):
     return (x > 0) - (x < 0)
 
 
-# local faces, as del_vor_jtet / LaGriT's ielmface1: face j opposite
+# local faces, as cv_dual_jtet / LaGriT's ielmface1: face j opposite
 # vertex j
 FACE_TRI = [(1, 2), (2, 0), (0, 1)]
 FACE_TET = [(1, 2, 3), (0, 3, 2), (0, 1, 3), (0, 2, 1)]
@@ -235,7 +235,7 @@ def analyze(m):
 
 
 def counts(r, tol=1e-10):
-    """Summary numbers to compare with del_vor's report, for the
+    """Summary numbers to compare with cv_dual's report, for the
     tolerance tol: a violation is delta/L < -tol, a tie
     |delta/L| <= tol, a boundary circumcenter outside s/L > tol."""
     pairs = list(r.interior) + list(r.interface)
@@ -250,7 +250,7 @@ def counts(r, tol=1e-10):
 
 
 def flagged(r, tol=1e-10, nen=4):
-    """The facets del_vor must write to the violations file, as
+    """The facets cv_dual must write to the violations file, as
     {(sorted vertex numbers): kind}: 1 interior violation, 2 interface
     violation, 3 boundary circumcenter outside."""
     out = {}

@@ -2,7 +2,7 @@
 
 Writes IN.inp moved by (7e5, 3.2e6, 1.5e3), a UTM-size offset, with
 17 significant digits so every coordinate is the exact double of the
-moved value. test_parity's utm_tet case: the same tets as
+moved value. test_cv_dual_parity's utm_tet case: the same tets as
 test_3d_poi_01, far from the origin, where LaGriT's 3D writer loses
 digits (it computes tet volumes from absolute coordinates).
 Python 3 standard library.

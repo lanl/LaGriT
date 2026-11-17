@@ -1,9 +1,9 @@
-test_options -- del_vor's keyword options (Nov 2026)
+test_cv_dual_options -- cv_dual's keyword options (Nov 2026)
 =======================================================================
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-del_vor]    70 runs, about 1 s
+  sh run_options_tests.sh [path-to-cv_dual]    70 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -15,16 +15,16 @@ WHAT IS TESTED
     zero_tol X                default 1e-12 (|A| <= X d^2 for tets,
                               X d for triangles)
     compress on|off           default on
-    cv voronoi|median|blend|hybrid   default voronoi (test_policy
+    cv voronoi|median|blend|hybrid   default voronoi (test_cv_dual_policy
                               checks what each computes)
     alpha X                   cv blend only, 0 to 1
     hybrid_tol X, alpha_min X, hybrid_iter N   cv hybrid only
     alpha_file FILE           default none
     paraview ROOT, paraview_faces on|off, paraview_subset S,
     vtu_format binary|ascii, vtu_layout new|legacy
-                              (test_paraview checks the files)
+                              (test_cv_dual_paraview checks the files)
     matrix FILE, matrix_bins N
-                              (test_matrix checks the files)
+                              (test_cv_dual_matrix checks the files)
     delaunay_tol X            default 1e-10
     delaunay_fatal X          default 1e-2
     violations FILE           default violations.vtu
@@ -34,16 +34,16 @@ WHAT IS TESTED
 
   lanl/voronoi's -type, -o and bare -compress, and commands that must
   be refused. One case per line of cases.txt, run in work/NAME on the
-  lanl/voronoi meshes (../test_voronoi_gold/inputs). Also the vertex
+  lanl/voronoi meshes (../test_cv_dual_voronoi_gold/inputs). Also the vertex
   material read under either name, imt1 or integer_material_type
   (imt_short, imt_long: mesh_3D with materials 1 and 2, made by
   make_imt_inputs.py).
   Every .stor written here has its header checked: line 1 names the
   policy (Voronoi, Median, Blend or Hybrid Coefficients); line 2 is
   LaGriT's date and model text, then the command in parentheses,
-  (del_vor ARGUMENTS) with the case's arguments; and
-  tools/stor_compare.py still finds the writer's name, del_vor. Every run's
-  report lists all its options (del_vor: options ...), in lines of at
+  (cv_dual ARGUMENTS) with the case's arguments; and
+  cv_dual_tools/stor_compare.py still finds the writer's name, cv_dual. Every run's
+  report lists all its options (cv_dual: options ...), in lines of at
   most 78 characters.
 
 WHAT IS CHECKED (check_options.py)

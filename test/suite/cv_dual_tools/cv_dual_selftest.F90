@@ -1,11 +1,11 @@
 !-----------------------------------------------------------------------
-! del_vor_selftest: checks of the geometry kernels against answers
+! cv_dual_selftest: checks of the geometry kernels against answers
 ! worked out independently. Prints one "key value" line per quantity
 ! and, with a mesh, the closure check. Exit status 0 if every HARD
 ! check passes, 1 otherwise.
 !
-!   del_vor_selftest                  kernel checks only
-!   del_vor_selftest MESH.inp ...     plus closure on each mesh
+!   cv_dual_selftest                  kernel checks only
+!   cv_dual_selftest MESH.inp ...     plus closure on each mesh
 !
 ! Also writes selftest_samples.txt (in the current folder): one obtuse
 ! sample triangle, one sample tet and the closure error at each inner
@@ -41,17 +41,17 @@
 !          vertex not on the bounding box, relative to the largest
 !          |vector area|. Must be 0 (the dual cell is closed).
 !-----------------------------------------------------------------------
-program del_vor_selftest
-   use del_vor_kinds, only: ik, rk
-   use del_vor_geometry, only: cross, kernel_tri, kernel_tet, &
+program cv_dual_selftest
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_geometry, only: cross, kernel_tri, kernel_tet, &
                                circumcenter_tri, circumcenter_tet, &
                                tet_det, tri_area, iedge_tri, iedge_tet
-   use del_vor_policy, only: dual_points_tri, dual_points_tet
-   use del_vor_mesh, only: mesh_t
-   use del_vor_read_avs, only: read_avs
-   use del_vor_topology, only: build_edge_csr
-   use del_vor_assemble, only: assemble, assembly_stats_t
-   use del_vor_log, only: errmsg
+   use cv_dual_policy, only: dual_points_tri, dual_points_tet
+   use cv_dual_mesh, only: mesh_t
+   use cv_dual_read_avs, only: read_avs
+   use cv_dual_topology, only: build_edge_csr
+   use cv_dual_assemble, only: assemble, assembly_stats_t
+   use cv_dual_log, only: errmsg
    implicit none
 
    integer, parameter :: ncells = 2000
@@ -535,4 +535,4 @@ contains
       b = f(i + 1:)
    end function basename
 
-end program del_vor_selftest
+end program cv_dual_selftest

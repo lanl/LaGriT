@@ -1,6 +1,6 @@
 """make_delaunay_inputs.py OUTDIR
 
-The generated meshes of test_delaunay (the same on every machine; no
+The generated meshes of test_cv_dual_delaunay (the same on every machine; no
 random numbers). Python 3 standard library.
 
   flip2d.inp   output01_square_uniform (LaGriT test_poisson_2d) with 5
@@ -28,9 +28,10 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
 from exact_check import read_avs, analyze  # noqa: E402
 
-LAGRIT = os.path.join(SUITE, 'test_poisson_lagrit', 'inputs')
+LAGRIT = os.path.join(SUITE, 'test_cv_dual_poisson_lagrit', 'inputs')
 
 
 def write_avs(path, xyz, cells, clr, kind, digits=13):

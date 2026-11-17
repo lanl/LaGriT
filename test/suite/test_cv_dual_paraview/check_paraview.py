@@ -1,6 +1,6 @@
 """check_paraview.py WORK LOGS
 
-test_paraview: judges each case of cases.txt (run in WORK/NAME by
+test_cv_dual_paraview: judges each case of cases.txt (run in WORK/NAME by
 run_paraview_tests.sh), reading the ParaView files back with
 vtu_read.py (this suite's own reader, written from VTK's file format),
 draws each tessellation, writes summary.html in this suite's folder.
@@ -53,7 +53,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from vtu_read import (read_vtu, polyhedron_volume, closed,  # noqa: E402
                       planarity, spikes, sub, cross, dot)
 from exact_check import read_avs  # noqa: E402
@@ -123,7 +124,7 @@ def main():
     for name, mesh, args, about in cases:
         d = os.path.join(work, name)
         mname = os.path.basename(mesh)
-        cmd = ('del_vor -avs %s -stor %s.stor -paraview %s -report '
+        cmd = ('cv_dual -avs %s -stor %s.stor -paraview %s -report '
                '%s.report %s' % (mname, name, name, name, args))
         checks = []
 
@@ -332,7 +333,7 @@ def main():
                 '%s: %s' % (mname, args or 'defaults'))
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor with -paraview and reads the files back with '
+    what = ('runs cv_dual with -paraview and reads the files back with '
             'this suite\'s own reader (vtu_read.py, written from VTK\'s '
             'file format, both polyhedron layouts, text and binary). '
             'Every control volume must be closed and have the volume of '
@@ -340,7 +341,7 @@ def main():
             'subsets, the mesh file, the dual faces and the negative '
             'coefficients must match the .stor. Open the .pvd files in '
             'ParaView to see them (00README says how).')
-    nfail = write_case_page(HERE, logs, 'test_paraview', what, rows)
+    nfail = write_case_page(HERE, logs, 'test_cv_dual_paraview', what, rows)
     sys.exit(1 if nfail else 0)
 
 

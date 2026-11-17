@@ -1,20 +1,20 @@
 ---
 title: 'DUMP/CONTROL_VOLUME'
-tags: dump control_volume del_vor voronoi stor uge tough2 delaunay
+tags: dump control_volume cv_dual voronoi stor uge tough2 delaunay
 ---
 
 # DUMP/CONTROL_VOLUME #
 
 ------------------------
 
-> **Draft for the LaGriT version of del_vor (phase 6 of 6).** This
+> **Draft for the LaGriT version of cv_dual (phase 6 of 6).** This
 > page describes the command as planned; the standalone program
-> `del_vor` already does everything below. Kept in the del_vor
+> `cv_dual` already does everything below. Kept in the cv_dual
 > repository (`docs/lagrit/dump/DUMP_CONTROL_VOLUME.md`) until the
 > command is in LaGriT, then moved to `docs/pages/docs/commands/dump/`.
 
 **`dump/control_volume`** checks a mesh object and computes its
-control-volume geometry with del_vor: the control volume of each
+control-volume geometry with cv_dual: the control volume of each
 vertex, and for each edge the area of its Voronoi face and its
 length. It writes them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH2
 `MESH` files, and keeps the volumes in the vertex attribute
@@ -329,7 +329,7 @@ also the control volumes of the boundary vertices for ParaView: open
 Settled (Carl, Nov 8, 2026): the command is **`dump/control_volume`**
 (**`dump/stor`** unchanged); the mesh object is required; the volume
 attribute is **cv_volume**; the face neighbors (**jtet**) are computed
-by del_vor, not taken from LaGriT.
+by cv_dual, not taken from LaGriT.
 
 Settled (Carl, Nov 15, 2026): **cv_volume** is not made by default;
 the keyword **`attribute`**, name (phase 6c) asks for the control
@@ -337,5 +337,5 @@ volumes in a vertex attribute of that name. A mesh with parent/child
 chains (**itp1** = 41) is refused with a message; merging or
 splitting control volumes at parents waits for the FEHM and PFLOTRAN
 developers. The command calls the same code as the program, through
-the entry point **del_vor_lagrit_entry** (phase 6a; manual, section
+the entry point **cv_dual_lagrit_entry** (phase 6a; manual, section
 17).

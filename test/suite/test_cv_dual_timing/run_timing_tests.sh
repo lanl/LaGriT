@@ -1,17 +1,17 @@
 #!/bin/sh
 #
-# run_timing_tests.sh [path-to-del_vor]
+# run_timing_tests.sh [path-to-cv_dual]
 #
-# test_timing: del_vor's time per step and peak memory on meshes of
+# test_cv_dual_timing: cv_dual's time per step and peak memory on meshes of
 # growing size, and LaGriT's dump / stor on the same meshes. For
 # development; not part of the default run_all.sh (run it with
 # ONLY=timing sh run_all.sh, or alone). See 00README.
 #
 # Settings (environment variables):
 #   LAGRIT=/path/to/lagrit   makes the meshes (if missing) and times
-#                            LaGriT; without it only del_vor is timed,
+#                            LaGriT; without it only cv_dual is timed,
 #                            on meshes already in the mesh folder
-#   DEL_VOR_BIG=FOLDER       big files outside git (default
+#   CV_DUAL_BIG=FOLDER       big files outside git (default
 #                            ~/lagrit_work/del_vor_dev/big_inputs);
 #                            meshes in FOLDER/timing
 #   SIZES_TET="1e4 ..."      tets per mesh (default 10000 30000 100000
@@ -27,23 +27,28 @@
 
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
 if [ -n "${1:-}" ]; then
-    DEL_VOR=$1
-elif [ -n "$_root" ] && [ -x "$_root/build/del_vor" ]; then
-    DEL_VOR=$_root/build/del_vor
+    CV_DUAL=$1
+    # from LaGriT's run_all.sh: lagrit's path; cv_dual is beside it
+    case $(basename "$1") in
+        cv_dual*) ;;
+        *) CV_DUAL=$(dirname "$1")/cv_dual ;;
+    esac
+elif [ -n "$_root" ] && [ -x "$_root/build/cv_dual" ]; then
+    CV_DUAL=$_root/build/cv_dual
 else
-    DEL_VOR=del_vor
+    CV_DUAL=cv_dual
 fi
-case $DEL_VOR in
-    */*) [ -f "$DEL_VOR" ] &&
-         DEL_VOR="$(cd "$(dirname "$DEL_VOR")" && pwd)/$(basename "$DEL_VOR")" ;;
-    *)   _p=$(command -v "$DEL_VOR" 2>/dev/null) && DEL_VOR=$_p ;;
+case $CV_DUAL in
+    */*) [ -f "$CV_DUAL" ] &&
+         CV_DUAL="$(cd "$(dirname "$CV_DUAL")" && pwd)/$(basename "$CV_DUAL")" ;;
+    *)   _p=$(command -v "$CV_DUAL" 2>/dev/null) && CV_DUAL=$_p ;;
 esac
-if [ ! -f "$DEL_VOR" ] || [ ! -x "$DEL_VOR" ]; then
-    echo "cannot run del_vor '$DEL_VOR': not an executable file," >&2
-    echo "nor a command on PATH. Pass a path, e.g. ../../../build/del_vor" >&2
+if [ ! -f "$CV_DUAL" ] || [ ! -x "$CV_DUAL" ]; then
+    echo "cannot run cv_dual '$CV_DUAL': not an executable file," >&2
+    echo "nor a command on PATH. Pass a path, e.g. ../../../build/cv_dual" >&2
     exit 2
 fi
-BIG=${DEL_VOR_BIG:-$HOME/lagrit_work/del_vor_dev/big_inputs}
+BIG=${CV_DUAL_BIG:-$HOME/lagrit_work/del_vor_dev/big_inputs}
 MESHES=$BIG/timing
 
 cd "$(dirname "$0")" || exit 2
@@ -57,8 +62,8 @@ mkdir -p "$WORK" "$LOGDIR"
 rm -rf "${WORK:?}"/* "${LOGDIR:?}"/*
 rm -f summary.html
 
-echo "del_vor : $DEL_VOR"
-echo "lagrit  : ${LAGRIT:-not given (del_vor only)}"
+echo "cv_dual : $CV_DUAL"
+echo "lagrit  : ${LAGRIT:-not given (cv_dual only)}"
 echo "meshes  : $MESHES"
 if [ -n "${LAGRIT:-}" ]; then
     case $LAGRIT in /*) ;; *) LAGRIT=$(pwd)/$LAGRIT ;; esac
@@ -68,7 +73,7 @@ if ! ls "$MESHES"/*.inp > /dev/null 2>&1; then
     echo "no meshes in $MESHES: set LAGRIT=/path/to/lagrit to make them" >&2
     exit 1
 fi
-python3 -I timing.py "$DEL_VOR" "$MESHES" "$WORK" "$LOGDIR" "${LAGRIT:-}"
+python3 -I timing.py "$CV_DUAL" "$MESHES" "$WORK" "$LOGDIR" "${LAGRIT:-}"
 rc=$?
 echo
 exit $rc

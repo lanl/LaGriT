@@ -1,6 +1,6 @@
 """check_entry.py WORK LOGS
 
-test_entry: judges each case of cases.txt (run by run_entry_tests.sh:
+test_cv_dual_entry: judges each case of cases.txt (run by run_entry_tests.sh:
 the program in WORK/NAME/prog, the harness calling the LaGriT entry
 point in WORK/NAME/entry). Draws each mesh with its control volumes,
 writes summary.html in this suite's folder. Python 3 standard library.
@@ -9,7 +9,7 @@ Exit 1 on any FAIL.
 Checks:
   ierr     each call returned the ierr cases.txt expects (the harness
            prints 'harness: call K: ierr = N'), and the harness did not
-           stop (del_vor never stops: exit 0, or 3 when the last call
+           stop (cv_dual never stops: exit 0, or 3 when the last call
            returned an error)
   message  the expected text is in the harness output
   program  the program ran with exit 0 (cases with arguments)
@@ -19,7 +19,7 @@ Checks:
   bytes    every file equal byte for byte, apart from the .stor's line
            2 (date and command) and the report's options lines (the
            program names its mesh file and says it is reading it)
-  line2    the .stor's line 2 ends with (del_vor OPTIONS), the options
+  line2    the .stor's line 2 ends with (cv_dual OPTIONS), the options
            of the last call
   screen   the last call's log lines equal the program's screen output
            (options lines aside); with -sink every one came through the
@@ -35,7 +35,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
 from exact_check import read_avs  # noqa: E402
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, ramp, Projector  # noqa: E402
@@ -45,18 +46,18 @@ RUNFILES = {'run.out', 'run.rc', 'vol.txt'}
 
 
 def drop_options(lines):
-    """Lines without the options block (del_vor: options and its
-    indented continuation lines) and the 'del_vor: reading' line."""
+    """Lines without the options block (cv_dual: options and its
+    indented continuation lines) and the 'cv_dual: reading' line."""
     out = []
     in_opt = False
     for ln in lines:
-        if ln.startswith('del_vor: options'):
+        if ln.startswith('cv_dual: options'):
             in_opt = True
             continue
         if in_opt and ln.startswith('  '):
             continue
         in_opt = False
-        if ln.startswith('del_vor: reading '):
+        if ln.startswith('cv_dual: reading '):
             continue
         out.append(ln)
     return out
@@ -97,11 +98,11 @@ def main():
         dp = os.path.join(work, name, 'prog')
         call_list = [c.strip() for c in calls.split(';')]
         call_list = [args if c == '=' else c for c in call_list]
-        cmd = 'del_vor_entry_test %s vol.txt %s %s' % (
+        cmd = 'cv_dual_entry_test %s vol.txt %s %s' % (
             mname, '' if flags == '-' else flags,
             ' '.join("'%s'" % c for c in call_list))
         if args != '-':
-            cmd = 'del_vor -avs %s %s<br>' % (mname, args) + cmd
+            cmd = 'cv_dual -avs %s %s<br>' % (mname, args) + cmd
         try:
             rc = int(open(os.path.join(de, 'run.rc')).read())
             out = open(os.path.join(de, 'run.out')).read().split('\n')
@@ -151,7 +152,7 @@ def main():
                     stors.append(f)
                     la, lb = a.split(b'\n'), b.split(b'\n')
                     same = la[:1] + la[2:] == lb[:1] + lb[2:]
-                    tail = '(del_vor %s)' % call_list[-1].strip()
+                    tail = '(cv_dual %s)' % call_list[-1].strip()
                     l2 = la[1].decode('latin-1').rstrip()
                     put('line2', '%s: ...%s' % (f, l2[-60:]),
                         l2.endswith(tail))
@@ -202,7 +203,7 @@ def main():
             nfail_cases += 1
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('calls the LaGriT entry point, del_vor_lagrit_entry, from a '
+    what = ('calls the LaGriT entry point, cv_dual_lagrit_entry, from a '
             'harness the way LaGriT will (fixed-form Fortran built with '
             'LaGriT\'s gfortran flags, 8-byte integers, no interface), '
             'with the mesh arrays used in place. Each case runs the '
@@ -215,7 +216,7 @@ def main():
             'back in ierr with a message, write nothing, and leave the '
             'next call working. The pictures show each mesh, colored by '
             'the control volume the entry point returned.')
-    nfail = write_case_page(HERE, logs, 'test_entry', what, rows)
+    nfail = write_case_page(HERE, logs, 'test_cv_dual_entry', what, rows)
     sys.exit(1 if nfail else 0)
 
 

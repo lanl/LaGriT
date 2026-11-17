@@ -1,37 +1,42 @@
 #!/bin/sh
 #
-# run_entry_tests.sh [path-to-del_vor]
+# run_entry_tests.sh [path-to-cv_dual]
 #
-# test_entry: the LaGriT entry point, del_vor_lagrit_entry, called by
-# the harness del_vor_entry_test (built next to del_vor) the way LaGriT
+# test_cv_dual_entry: the LaGriT entry point, cv_dual_lagrit_entry, called by
+# the harness cv_dual_entry_test (built next to cv_dual) the way LaGriT
 # will call it; each case of cases.txt compared with the program. See
 # 00README. POSIX sh, Python 3 (standard library). WORK and LOGS may
 # be set to other folders.
 
-# Default: the del_vor built in this checkout (build/del_vor), else
-# del_vor on PATH; or pass a path as the first argument. The harness
-# is the del_vor_entry_test in the same folder.
+# Default: the cv_dual built in this checkout (build/cv_dual), else
+# cv_dual on PATH; or pass a path as the first argument. The harness
+# is the cv_dual_entry_test in the same folder.
 _root=$(cd "$(dirname "$0")/../../.." 2>/dev/null && pwd)
 if [ -n "${1:-}" ]; then
-    DEL_VOR=$1
-elif [ -n "$_root" ] && [ -x "$_root/build/del_vor" ]; then
-    DEL_VOR=$_root/build/del_vor
+    CV_DUAL=$1
+    # from LaGriT's run_all.sh: lagrit's path; cv_dual is beside it
+    case $(basename "$1") in
+        cv_dual*) ;;
+        *) CV_DUAL=$(dirname "$1")/cv_dual ;;
+    esac
+elif [ -n "$_root" ] && [ -x "$_root/build/cv_dual" ]; then
+    CV_DUAL=$_root/build/cv_dual
 else
-    DEL_VOR=del_vor
+    CV_DUAL=cv_dual
 fi
-case $DEL_VOR in
-    */*) [ -f "$DEL_VOR" ] &&
-         DEL_VOR="$(cd "$(dirname "$DEL_VOR")" && pwd)/$(basename "$DEL_VOR")" ;;
-    *)   _p=$(command -v "$DEL_VOR" 2>/dev/null) && DEL_VOR=$_p ;;
+case $CV_DUAL in
+    */*) [ -f "$CV_DUAL" ] &&
+         CV_DUAL="$(cd "$(dirname "$CV_DUAL")" && pwd)/$(basename "$CV_DUAL")" ;;
+    *)   _p=$(command -v "$CV_DUAL" 2>/dev/null) && CV_DUAL=$_p ;;
 esac
-if [ ! -f "$DEL_VOR" ] || [ ! -x "$DEL_VOR" ]; then
-    echo "cannot run del_vor '$DEL_VOR': not an executable file," >&2
-    echo "nor a command on PATH. Pass a path, e.g. ../../../build/del_vor" >&2
+if [ ! -f "$CV_DUAL" ] || [ ! -x "$CV_DUAL" ]; then
+    echo "cannot run cv_dual '$CV_DUAL': not an executable file," >&2
+    echo "nor a command on PATH. Pass a path, e.g. ../../../build/cv_dual" >&2
     exit 2
 fi
-HARNESS=$(dirname "$DEL_VOR")/del_vor_entry_test
+HARNESS=$(dirname "$CV_DUAL")/cv_dual_entry_test
 if [ ! -x "$HARNESS" ]; then
-    echo "no harness $HARNESS (built with del_vor by CMake)" >&2
+    echo "no harness $HARNESS (built with cv_dual by CMake)" >&2
     exit 2
 fi
 
@@ -48,12 +53,12 @@ mkdir -p "$WORK" "$LOGDIR"
 rm -rf "${WORK:?}"/* "${LOGDIR:?}"/*
 rm -f summary.html
 
-echo "del_vor : $DEL_VOR"
+echo "cv_dual : $CV_DUAL"
 echo "harness : $HARNESS"
 # meshes borrowed from two other suites' generators
-python3 -I ../test_validity/make_validity_inputs.py "$WORK/gen_v" \
+python3 -I ../test_cv_dual_validity/make_validity_inputs.py "$WORK/gen_v" \
     > "$LOGDIR/make_inputs.out" || exit 1
-python3 -I ../test_delaunay/make_delaunay_inputs.py "$WORK/gen_d" \
+python3 -I ../test_cv_dual_delaunay/make_delaunay_inputs.py "$WORK/gen_d" \
     >> "$LOGDIR/make_inputs.out" || exit 1
 
 grep -v '^#' cases.txt | grep '|' |
@@ -69,7 +74,7 @@ while IFS='|' read -r name mesh args flags calls ierr msg about; do
         mkdir -p "$WORK/$name/prog"
         cp "$mesh" "$WORK/$name/prog/"
         # shellcheck disable=SC2086
-        ( cd "$WORK/$name/prog" && "$DEL_VOR" -avs "$m" $args \
+        ( cd "$WORK/$name/prog" && "$CV_DUAL" -avs "$m" $args \
               > run.out 2>&1 < /dev/null
           echo $? > run.rc )
     fi
@@ -88,7 +93,7 @@ while IFS='|' read -r name mesh args flags calls ierr msg about; do
     done
     ( cd "$WORK/$name/entry" && "$HARNESS" "$@" > run.out 2>&1 < /dev/null
       echo $? > run.rc )
-    { echo "del_vor_entry_test $*"
+    { echo "cv_dual_entry_test $*"
       cat "$WORK/$name/entry/run.out"; } > "$LOGDIR/$name.out"
 done
 python3 -I check_entry.py "$WORK" "$LOGDIR"

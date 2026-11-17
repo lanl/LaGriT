@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_timing: wall and CPU time of each step, and peak memory, for
+! cv_dual_timing: wall and CPU time of each step, and peak memory, for
 ! development (keyword timing on; off by default, so a production run
 ! prints nothing more and costs nothing more than two clock reads per
 ! step).
@@ -10,16 +10,16 @@
 ! Wall time from system_clock (64-bit counts), CPU time from cpu_time
 ! (the whole process). Peak memory: getrusage's ru_maxrss, the
 ! largest resident set so far (kilobytes on Linux, bytes on macOS:
-! CMakeLists.txt defines DEL_VOR_MAXRSS_BYTES on Apple).
+! CMakeLists.txt defines CV_DUAL_MAXRSS_BYTES on Apple).
 ! The report lines start with "timing" and keep one layout, so
-! test_timing can read them:
+! test_cv_dual_timing can read them:
 !   timing  STEP                 wall   0.123456 s  cpu   0.123000 s
 !   timing  peak memory       1234.5 MB
 !-----------------------------------------------------------------------
-module del_vor_timing
+module cv_dual_timing
    use, intrinsic :: iso_fortran_env, only: int64, real64
    use, intrinsic :: iso_c_binding, only: c_int, c_long
-   use del_vor_log, only: log_line
+   use cv_dual_log, only: log_line
    implicit none
    private
    public :: timer_start, timer_stop, timer_report, timing_on, &
@@ -97,7 +97,7 @@ contains
       call system_clock(c1, rate)
       call cpu_time(p1)
       call log_line(' ')
-      call log_line('del_vor timing (timing on)')
+      call log_line('cv_dual timing (timing on)')
       do k = 1, nstep
          write (msg, '(a,a20,a,f11.6,a,f11.6,a)') 'timing  ', &
             sname(k), ' wall', swall(k), ' s  cpu', scpu(k), ' s'
@@ -127,11 +127,11 @@ contains
       end if
       ! struct rusage: two struct timeval (16 bytes each), then
       ! ru_maxrss
-#if defined(DEL_VOR_MAXRSS_BYTES) || defined(__APPLE__)
+#if defined(CV_DUAL_MAXRSS_BYTES) || defined(__APPLE__)
       peak_mb = real(ru(5), real64)/1.0e6_real64
 #else
       peak_mb = real(ru(5), real64)*1024.0_real64/1.0e6_real64
 #endif
    end function peak_mb
 
-end module del_vor_timing
+end module cv_dual_timing

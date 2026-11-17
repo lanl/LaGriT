@@ -1,6 +1,6 @@
-"""vtu_read.py: a reader for the .vtu files del_vor writes, and the
-measures test_paraview checks. Python 3 standard library (struct for
-binary), written from VTK's file format, not from del_vor's code.
+"""vtu_read.py: a reader for the .vtu files cv_dual writes, and the
+measures test_cv_dual_paraview checks. Python 3 standard library (struct for
+binary), written from VTK's file format, not from cv_dual's code.
 
     from vtu_read import read_vtu
     g = read_vtu('out_cells.vtu')

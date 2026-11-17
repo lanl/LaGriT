@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_write_vtu: violations.vtu, the facets the Delaunay check
+! cv_dual_write_vtu: violations.vtu, the facets the Delaunay check
 ! flagged, as a VTK XML unstructured grid (ASCII, written by hand, no
 ! VTK library). ParaView opens it directly; open the mesh .inp with it
 ! (ParaView reads AVS UCD) to see where the facets are.
@@ -29,10 +29,10 @@
 !                  still negative (0 when there is none)
 !   itetclr        the cell's material (fracture in a network)
 !-----------------------------------------------------------------------
-module del_vor_write_vtu
-   use del_vor_kinds, only: ik, rk
-   use del_vor_delaunay, only: facet_rec_t
-   use del_vor_log, only: errmsg
+module cv_dual_write_vtu
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_delaunay, only: facet_rec_t
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: write_violations_vtu, write_alpha_vtu
@@ -221,4 +221,4 @@ contains
       close (lu)
    end subroutine write_alpha_vtu
 
-end module del_vor_write_vtu
+end module cv_dual_write_vtu

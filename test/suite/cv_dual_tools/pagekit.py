@@ -1,7 +1,7 @@
 """pagekit.py: the summary.html of a suite whose tests are cases, one
 row per case: its name with a "What it does" note that opens, the
 command, every check with its value and result, a picture. Python 3
-standard library. Used by test_delaunay, test_validity, test_dfn.
+standard library. Used by test_cv_dual_delaunay, test_cv_dual_validity, test_cv_dual_dfn.
 
     from pagekit import read_cases, write_case_page
 """

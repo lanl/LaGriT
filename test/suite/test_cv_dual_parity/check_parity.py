@@ -1,18 +1,18 @@
 """check_parity.py WORK LOGS BIG
 
-test_parity: for each case of cases.txt (run in WORK/NAME by
-run_parity_tests.sh), compares del_vor's .stor files with LaGriT's by
-../../../tools/stor_compare.py, draws the mesh with every difference
+test_cv_dual_parity: for each case of cases.txt (run in WORK/NAME by
+run_parity_tests.sh), compares cv_dual's .stor files with LaGriT's by
+../cv_dual_tools/stor_compare.py, draws the mesh with every difference
 that is not printed digits, writes summary.html in this suite's
 folder. Python 3 standard library. Exit 1 on any FAIL.
 
 For each case:
-  exit          both del_vor runs exit 0
-  keep_vs_lg    del_vor (-zero_area keep -compress off) against LaGriT's
+  exit          both cv_dual runs exit 0
+  keep_vs_lg    cv_dual (-zero_area keep -compress off) against LaGriT's
                 default dump / stor: every difference explained
   keep_vs_none  the same against LaGriT's uncompressed file (3D only;
                 LaGriT's 2D writer does not compress)
-  default_vs_lg del_vor's defaults (zero-area pairs left out, compressed)
+  default_vs_lg cv_dual's defaults (zero-area pairs left out, compressed)
                 against LaGriT's default: every difference explained
   MEASURED      the largest coefficient and volume differences, the
                 labels found, the volume totals of both codes
@@ -26,8 +26,8 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(SUITE)),
-                                'tools'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
 from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, Projector  # noqa: E402
 import stor_compare  # noqa: E402
@@ -123,8 +123,8 @@ def main():
     rows = []
     for name, mesh, about in read_cases(os.path.join(HERE, 'cases.txt'), 3):
         d = os.path.join(work, name)
-        cmd = ('del_vor -avs %s.inp -stor %s_keep.stor -zero_area keep '
-               '-compress off; del_vor -avs %s.inp -stor %s.stor'
+        cmd = ('cv_dual -avs %s.inp -stor %s_keep.stor -zero_area keep '
+               '-compress off; cv_dual -avs %s.inp -stor %s.stor'
                % (name, name, name, name))
         checks = []
 
@@ -135,7 +135,7 @@ def main():
 
         if not os.path.exists(os.path.join(d, 'run.rc')):
             if mesh.startswith('big/'):
-                put('skipped', 'not in DEL_VOR_BIG (%s)' % big, 'MEASURED')
+                put('skipped', 'not in CV_DUAL_BIG (%s)' % big, 'MEASURED')
             else:
                 put('ran', 'no run.rc', False)
             rows.append((name, about, cmd, checks, None))
@@ -159,7 +159,7 @@ def main():
             res, A, B = stor_compare.compare(a, b, mesh=m)
             first = first or (res, A, B)
             pp = res['pairs']
-            put(tag, 'pairs %d common, only del_vor %d (%s), only LaGriT %d'
+            put(tag, 'pairs %d common, only cv_dual %d (%s), only LaGriT %d'
                 ' (%s); values %s; volumes %s%s'
                 % (pp['common'], pp['only_A'], labels(pp['only_A_labels']),
                    pp['only_B'], labels(pp['only_B_labels']),
@@ -171,19 +171,19 @@ def main():
                 not res['bad'])
         res, A, B = first
         put('largest', 'values %.1e, volumes %.1e of the largest; volume '
-            'totals del_vor %.15g, LaGriT %.15g; LaGriT writer %s'
+            'totals cv_dual %.15g, LaGriT %.15g; LaGriT writer %s'
             % (res['coef']['max_rel'], res['vol']['max_rel'],
                res['vol']['sum_A'], res['vol']['sum_B'], B['writer']),
             'MEASURED')
         pic = name + '.svg'
-        picture(os.path.join(logs, pic), '%s: del_vor against LaGriT '
+        picture(os.path.join(logs, pic), '%s: cv_dual against LaGriT '
                 '(%s)' % (name, B['writer']), m, res)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('compares del_vor\'s .stor files with the ones LaGriT\'s '
+    what = ('compares cv_dual\'s .stor files with the ones LaGriT\'s '
             'dump / stor wrote for the same mesh (LaGriT read the same '
             '.inp; make_parity_gold.sh made the files, with the LaGriT '
-            'named in inputs/LAGRIT_VERSION). tools/stor_compare.py '
+            'named in inputs/LAGRIT_VERSION). cv_dual_tools/stor_compare.py '
             'compares them pair by pair and vertex by vertex and labels '
             'each difference with what explains it: the 13 printed '
             'digits, round-off of small values made by cancellation, '
@@ -194,7 +194,7 @@ def main():
             'case. The picture shows where on the mesh the differences '
             'beyond the printed digits are.')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
-                            'test_parity', what, rows)
+                            'test_cv_dual_parity', what, rows)
     print('failures %d' % nfail)
     return 1 if nfail else 0
 

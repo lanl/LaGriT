@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_topology: the edge CSR.
+! cv_dual_topology: the edge CSR.
 !
 ! The off-diagonal sparsity of the coefficient matrix is exactly the
 ! mesh's edge graph. It is stored once, upper triangle only:
@@ -11,9 +11,9 @@
 ! which is freed before return. edge_index finds edge (i,j) by binary
 ! search in row min(i,j).
 !-----------------------------------------------------------------------
-module del_vor_topology
-   use del_vor_kinds, only: ik
-   use del_vor_log, only: errmsg
+module cv_dual_topology
+   use cv_dual_kinds, only: ik
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: build_edge_csr, edge_index, build_lower, build_incidence
@@ -198,4 +198,4 @@ contains
       end do
    end subroutine isort
 
-end module del_vor_topology
+end module cv_dual_topology

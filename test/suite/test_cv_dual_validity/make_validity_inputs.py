@@ -1,6 +1,6 @@
 """make_validity_inputs.py OUTDIR
 
-The small meshes of test_validity, each breaking one rule (or, for the
+The small meshes of test_cv_dual_validity, each breaking one rule (or, for the
 last few, legal meshes that look unusual). Python 3 standard library.
 Tets are given here in LaGriT's vertex order and written in AVS order
 (LaGriT 1 2 3 4 = AVS 1 2 4 3), as LaGriT's dump / avs does.
@@ -152,7 +152,7 @@ def main():
         f.write('\r\n'.join(odd))
     # fatal: two_materials as LaGriT's settets / parents leaves it,
     # the 3 vertices of the shared face marked parents (itp1 = 41);
-    # del_vor does not take parent/child chains yet (phase 6)
+    # cv_dual does not take parent/child chains yet (phase 6)
     with open(os.path.join(out, 'two_materials.inp')) as f:
         txt = f.read().rstrip('\n').split('\n')
     hdr = txt[0].split()

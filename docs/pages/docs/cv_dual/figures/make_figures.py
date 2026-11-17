@@ -1,4 +1,4 @@
-"""make_figures.py: the figures of the del_vor manual, as hand-written
+"""make_figures.py: the figures of the cv_dual manual, as hand-written
 SVG computed from the coordinates shown. Python 3 standard library.
 
   python3 -I make_figures.py      writes delaunay_check.svg and

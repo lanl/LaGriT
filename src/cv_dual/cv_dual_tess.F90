@@ -1,7 +1,7 @@
 !-----------------------------------------------------------------------
-! del_vor_tess: the control volumes as cells for ParaView (design
+! cv_dual_tess: the control volumes as cells for ParaView (design
 ! section 11), built from exactly the dual points the coefficients
-! came from (del_vor_policy: Voronoi, median, blend or hybrid).
+! came from (cv_dual_policy: Voronoi, median, blend or hybrid).
 !
 ! Points: the mesh vertices, the edge midpoints, the cell points P(T)
 ! and (tets) the face points F(f), each once. A face point belongs to
@@ -26,17 +26,17 @@
 !
 ! A selection sel(i) says which vertices get a cell.
 !-----------------------------------------------------------------------
-module del_vor_tess
+module cv_dual_tess
    use, intrinsic :: iso_fortran_env, only: int8
-   use del_vor_kinds, only: ik, rk
-   use del_vor_mesh, only: mesh_t
-   use del_vor_assemble, only: cell_policy_t
-   use del_vor_policy, only: dual_points_tri, dual_points_tet, &
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_mesh, only: mesh_t
+   use cv_dual_assemble, only: cell_policy_t
+   use cv_dual_policy, only: dual_points_tri, dual_points_tet, &
                              face_alphas
-   use del_vor_geometry, only: tet_det, cross, iedge_tet, icd_tet
-   use del_vor_jtet, only: iface_tet
-   use del_vor_topology, only: edge_index, build_incidence
-   use del_vor_vtu, only: vtu_grid_t, add_cdata, add_pdata
+   use cv_dual_geometry, only: tet_det, cross, iedge_tet, icd_tet
+   use cv_dual_jtet, only: iface_tet
+   use cv_dual_topology, only: edge_index, build_incidence
+   use cv_dual_vtu, only: vtu_grid_t, add_cdata, add_pdata
    implicit none
    private
    public :: build_cells, build_mesh_grid, build_negative_grid, &
@@ -1085,4 +1085,4 @@ contains
       end function neg
    end subroutine build_negative_grid
 
-end module del_vor_tess
+end module cv_dual_tess

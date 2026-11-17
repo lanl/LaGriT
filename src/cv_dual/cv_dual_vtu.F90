@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_vtu: a VTK XML unstructured grid (.vtu) writer, by hand, no
+! cv_dual_vtu: a VTK XML unstructured grid (.vtu) writer, by hand, no
 ! VTK library. Points, cells of any type, polyhedra, point and cell
 ! data; ASCII or appended raw binary (little endian, UInt64 headers).
 !
@@ -19,10 +19,10 @@
 ! The caller fills a vtu_grid_t with 1-based point ids; they are
 ! written 0-based.
 !-----------------------------------------------------------------------
-module del_vor_vtu
+module cv_dual_vtu
    use, intrinsic :: iso_fortran_env, only: int8, int64, real64
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: errmsg
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: vtu_grid_t, vtu_data_t, write_vtu, add_cdata, add_pdata, &
@@ -494,4 +494,4 @@ contains
       s = trim(t)
    end function itoa
 
-end module del_vor_vtu
+end module cv_dual_vtu

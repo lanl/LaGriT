@@ -1,6 +1,6 @@
-"""timing.py DEL_VOR MESHDIR WORK LOGS [LAGRIT]
+"""timing.py CV_DUAL MESHDIR WORK LOGS [LAGRIT]
 
-test_timing: times del_vor, step by step, on the meshes of MESHDIR
+test_cv_dual_timing: times cv_dual, step by step, on the meshes of MESHDIR
 (tet_N.inp, tri_N.inp, from make_timing_meshes.sh; and dfn_*.inp, any
 fracture networks put there), and LaGriT's dump / stor on the same
 meshes when LAGRIT is given. Writes LOGS/timing.csv (one row per
@@ -11,9 +11,9 @@ Each measurement is the best (smallest) of REPEAT runs (environment,
 default 3): the best run is the one least disturbed by other work on
 the machine.
 
-del_vor:  del_vor -avs M.inp -stor M.stor -delaunay_tol 1 -timing on
+cv_dual:  cv_dual -avs M.inp -stor M.stor -delaunay_tol 1 -timing on
           (the per-step wall and CPU times and the peak memory are
-          del_vor's own timing block). delaunay_tol 1 so the run never
+          cv_dual's own timing block). delaunay_tol 1 so the run never
           stops: LaGriT's connect leaves a few facets that are not
           Delaunay (delta/L down to -3.6e-4 at a million tets,
           confirmed in exact arithmetic); with the defaults they are a
@@ -25,19 +25,19 @@ LaGriT:   two runs: read / avs only, and read / avs + dump / stor;
           times. Peak memory of each from getrusage of the child.
 
 Checks (per mesh family, sizes in increasing order):
-  slope_total   the slope of log(time) against log(cells) of del_vor's
+  slope_total   the slope of log(time) against log(cells) of cv_dual's
                 total wall time, fitted over the sizes whose total is
                 at least 0.05 s: 1 means linear. PASS when <= 1.2.
                 MEASURED (not judged) with fewer than 3 such sizes or
                 a largest time under 0.5 s: too small to tell.
   slope_STEP    the same for every step that takes at least 5 % of
                 the total at the largest size. MEASURED.
-  memory        del_vor's peak memory per cell at the largest size.
+  memory        cv_dual's peak memory per cell at the largest size.
                 MEASURED.
-  memory_units  del_vor's own peak memory (timing on) within 25 % of
+  memory_units  cv_dual's own peak memory (timing on) within 25 % of
                 the one measured from outside (getrusage of the child)
                 at every size. PASS / FAIL.
-  vs_lagrit     del_vor total, and the steps that stand for dump /
+  vs_lagrit     cv_dual total, and the steps that stand for dump /
                 stor (edge CSR + assembly + summary + write stor),
                 against LaGriT's dump / stor and read + dump / stor, at
                 the largest size. MEASURED.
@@ -53,6 +53,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SUITE = os.path.dirname(HERE)
 sys.path.insert(0, SUITE)
+sys.path.insert(0, os.path.join(SUITE, 'cv_dual_tools'))
 from svgdraw import Svg  # noqa: E402
 
 REPEAT = int(os.environ.get('REPEAT', '3'))
@@ -88,7 +89,7 @@ def mesh_size(path):
     return int(t[0]), int(t[1])
 
 
-def del_vor_steps(path):
+def cv_dual_steps(path):
     st, mb = {}, None
     for ln in open(path):
         m = re.match(r'timing  (.{20}) wall\s+([\d.]+) s  cpu\s+([\d.]+)',
@@ -147,13 +148,13 @@ def measure(dv, lagrit, meshdir, work, logs, name):
         os.symlink(src, inp)
     best = None
     for k in range(REPEAT):
-        out = os.path.join(d, 'del_vor_%d.out' % k)
+        out = os.path.join(d, 'cv_dual_%d.out' % k)
         rc, dt, mb = run(d, [dv, '-avs', 'mesh.inp', '-stor', 'mesh.stor',
                              '-delaunay_tol', '1', '-timing', 'on'],
                          out)
-        st, pmb = del_vor_steps(out)
+        st, pmb = cv_dual_steps(out)
         if rc != 0 or 'total' not in st:
-            return {'name': name, 'error': 'del_vor exit %d (%s)'
+            return {'name': name, 'error': 'cv_dual exit %d (%s)'
                     % (rc, out)}
         if best is None or st['total'][0] < best[0]['total'][0]:
             best = (st, pmb, dt, out, mb)
@@ -162,7 +163,7 @@ def measure(dv, lagrit, meshdir, work, logs, name):
            'edges': edges_of(out), 'steps': st, 'peak_mb': pmb,
            'wall_outside': dt, 'not_delaunay': not_delaunay(out),
            'peak_mb_os': mb_os}
-    with open(os.path.join(logs, name + '_del_vor.out'), 'w') as f:
+    with open(os.path.join(logs, name + '_cv_dual.out'), 'w') as f:
         f.write(open(out).read())
     if lagrit:
         for tag, deck in (('read', 'read / avs / mesh.inp / mo\nfinish\n'),
@@ -252,7 +253,7 @@ def plot(path, title, fam, rows, keys, getter):
 def picture_mesh(path, title, meshfile):
     """The smallest mesh of a family: every edge (2D) or the boundary
     edges (3D), in an oblique view."""
-    sys.path.insert(0, os.path.join(SUITE, 'test_voronoi_gold'))
+    sys.path.insert(0, os.path.join(SUITE, 'test_cv_dual_voronoi_gold'))
     from svgdraw import Projector
     from check_voronoi_gold import read_inp
     xyz, cells = read_inp(meshfile)
@@ -295,7 +296,7 @@ def main():
         r = measure(dv, lagrit, meshdir, work, logs, n)
         print('timing_%s %s (%.1f s)' % (n, 'error: ' + r['error'] if
                                         'error' in r else '%d cells, '
-                                        'del_vor %.3f s' % (r['cells'],
+                                        'cv_dual %.3f s' % (r['cells'],
                                         r['steps']['total'][0]),
                                         time.perf_counter() - t0))
         results.append(r)
@@ -311,7 +312,7 @@ def main():
             base = '%s,%d,%d,%d' % (r['name'], r['vertices'], r['cells'],
                                     r['edges'])
             for k, (w, c) in r['steps'].items():
-                f.write('%s,del_vor,%s,%.6f,%.6f,%s\n' % (
+                f.write('%s,cv_dual,%s,%.6f,%.6f,%s\n' % (
                     base, k, w, c, r['peak_mb'] if k == 'total' else ''))
             for tag in ('read', 'read_stor'):
                 if 'lagrit_' + tag in r:
@@ -368,21 +369,21 @@ def main():
             put('memory', '%.0f MB peak at %d cells: %.0f bytes per cell'
                 % (big['peak_mb'], big['cells'],
                    big['peak_mb'] * 1e6 / big['cells']), 'MEASURED')
-        # del_vor's own peak memory against the one measured from
+        # cv_dual's own peak memory against the one measured from
         # outside (getrusage of the child): the units of ru_maxrss
         # differ between systems, so a mistake shows here
         off = [(r['name'], r['peak_mb'], r['peak_mb_os']) for r in rows
                if r['peak_mb'] and r['peak_mb_os'] and
                not 0.8 <= r['peak_mb'] / r['peak_mb_os'] <= 1.25]
-        put('memory_units', 'del_vor\'s peak memory agrees with the one '
+        put('memory_units', 'cv_dual\'s peak memory agrees with the one '
             'measured from outside (within 25 %) at every size' if not off
-            else '; '.join('%s: del_vor %.1f MB, from outside %.1f MB'
+            else '; '.join('%s: cv_dual %.1f MB, from outside %.1f MB'
                            % o for o in off), 'FAIL' if off else 'PASS')
         if 'lagrit_read_stor' in big and 'lagrit_read' in big:
             lr, lmb = big['lagrit_read']
             ls, smb = big['lagrit_read_stor']
             dvs = sum(big['steps'].get(k, (0,))[0] for k in STOR_STEPS)
-            put('vs_lagrit', 'at %d cells: del_vor total %.2f s (read '
+            put('vs_lagrit', 'at %d cells: cv_dual total %.2f s (read '
                 '%.2f, coefficients and .stor %.2f), peak %.0f MB; '
                 'LaGriT read %.2f s, read + dump / stor %.2f s (dump / '
                 'stor %.2f), peak %.0f MB'
@@ -392,14 +393,14 @@ def main():
         keys = ['total'] + [k for k in big['steps'] if k != 'total' and
                             big['steps'][k][0] >= 0.02 * tot]
         f1 = 'steps_%s.svg' % fam
-        plot(os.path.join(logs, f1), 'del_vor wall time per step: %s'
+        plot(os.path.join(logs, f1), 'cv_dual wall time per step: %s'
              % fam, fam, rows, keys,
              lambda r, k: r['steps'].get(k, (None,))[0])
         figs.append(f1)
         if any('lagrit_read_stor' in r for r in rows):
             f2 = 'lagrit_%s.svg' % fam
-            g = {'del_vor total': lambda r: r['steps']['total'][0],
-                 'del_vor coefficients + .stor':
+            g = {'cv_dual total': lambda r: r['steps']['total'][0],
+                 'cv_dual coefficients + .stor':
                  lambda r: sum(r['steps'].get(k, (0,))[0]
                                for k in STOR_STEPS),
                  'LaGriT read + dump / stor':
@@ -407,7 +408,7 @@ def main():
                  'LaGriT dump / stor':
                  lambda r: (r['lagrit_read_stor'][0] - r['lagrit_read'][0])
                  if 'lagrit_read' in r else None}
-            plot(os.path.join(logs, f2), 'del_vor against LaGriT: %s'
+            plot(os.path.join(logs, f2), 'cv_dual against LaGriT: %s'
                  % fam, fam, rows, list(g), lambda r, k: g[k](r))
             figs.append(f2)
         f3 = 'mesh_%s.svg' % fam
@@ -432,7 +433,7 @@ def write_page(logs, results, checks_all, figs, nfail, lagrit):
     about = {
         'tri': 'Jittered square grids of triangles made by LaGriT '
         '(make_timing_meshes.sh: createpts, perturb, connect on a '
-        'triplane mesh object). Each size runs del_vor -timing on and, '
+        'triplane mesh object). Each size runs cv_dual -timing on and, '
         'with LaGriT, read / avs alone and read / avs + dump / stor.',
         'tet': 'Jittered cube grids of tets made by LaGriT the same '
         'way. 10 million tets is about 1.6 million vertices and a '
@@ -440,7 +441,7 @@ def write_page(logs, results, checks_all, figs, nfail, lagrit):
         'dfn': 'Fracture networks put in the mesh folder as dfn_*.inp '
         '(dfnWorks full_mesh.inp files).'}
     h = ['<!doctype html><html><head><meta charset="utf-8">',
-         '<title>test_timing</title><style>',
+         '<title>test_cv_dual_timing</title><style>',
          'body{font-family:Helvetica,Arial,sans-serif;margin:24px;'
          'max-width:1250px}',
          'td,th{padding:4px 8px;border-bottom:1px solid #ddd;'
@@ -451,12 +452,12 @@ def write_page(logs, results, checks_all, figs, nfail, lagrit):
          'img{border:1px solid #ccc;margin:4px}</style></head><body>',
          '<p style="font-size:13px"><a href="../summary.html">&larr; all '
          'suites</a></p>',
-         '<h1>test_timing: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
-         '<p><b>What it does:</b> times del_vor step by step on meshes of '
+         '<h1>test_cv_dual_timing: %s</h1>' % ('PASS' if not nfail else 'FAIL'),
+         '<p><b>What it does:</b> times cv_dual step by step on meshes of '
          'growing size and fits log(time) against log(cells): a slope of '
          '1 is linear. With LaGriT (%s) it also times LaGriT\'s read / avs '
          'and dump / stor on the same meshes. Each time is the best of '
-         '%d runs. del_vor runs with -delaunay_tol 1: LaGriT\'s connect '
+         '%d runs. cv_dual runs with -delaunay_tol 1: LaGriT\'s connect '
          'leaves a few facets that are not Delaunay (delta/L down to '
          '-3.6e-4 at a million tets; not_delaunay counts them): with the '
          'defaults a warning, but a bigger mesh might go beyond '
@@ -473,7 +474,7 @@ def write_page(logs, results, checks_all, figs, nfail, lagrit):
                  '<td>%s</td></tr>' % (fam, esc(about[fam]), cl))
     h.append('</table><h2>Sizes</h2><table><tr><th>mesh</th>'
              '<th>vertices</th><th>cells</th><th>edges</th>'
-             '<th>del_vor s</th><th>peak MB</th><th>LaGriT read s</th>'
+             '<th>cv_dual s</th><th>peak MB</th><th>LaGriT read s</th>'
              '<th>LaGriT read + dump/stor s</th></tr>')
     for r in results:
         if 'error' in r:

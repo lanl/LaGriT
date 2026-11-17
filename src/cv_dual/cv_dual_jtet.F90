@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_jtet: cell neighbors (jtet) in LaGriT's convention, and the
+! cv_dual_jtet: cell neighbors (jtet) in LaGriT's convention, and the
 ! conformity and orientation checks made while building them.
 !
 ! Local faces as LaGriT's ielmface1 (blockcom.h): face j is the face
@@ -27,9 +27,9 @@
 !   orientation    two neighboring triangles of one itetclr that run
 !                  along their shared edge in the same direction
 !-----------------------------------------------------------------------
-module del_vor_jtet
-   use del_vor_kinds, only: ik
-   use del_vor_topology, only: build_incidence
+module cv_dual_jtet
+   use cv_dual_kinds, only: ik
+   use cv_dual_topology, only: build_incidence
    implicit none
    private
    public :: build_jtet, jtet_stats_t, iface_tri, iface_tet, &
@@ -250,4 +250,4 @@ contains
 
    end subroutine build_jtet
 
-end module del_vor_jtet
+end module cv_dual_jtet

@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_geometry: circumcenters, centroids and the cell kernels.
+! cv_dual_geometry: circumcenters, centroids and the cell kernels.
 !
 ! All routines expect coordinates already shifted so that vertex 1 of
 ! the cell is at the origin (the caller subtracts it). This keeps the
@@ -30,8 +30,8 @@
 !
 ! Results do not depend on the cell's orientation.
 !-----------------------------------------------------------------------
-module del_vor_geometry
-   use del_vor_kinds, only: rk
+module cv_dual_geometry
+   use cv_dual_kinds, only: rk
    implicit none
    private
    public :: cross, circumcenter_tri, circumcenter_tet
@@ -224,4 +224,4 @@ contains
       end do
    end subroutine kernel_tet
 
-end module del_vor_geometry
+end module cv_dual_geometry

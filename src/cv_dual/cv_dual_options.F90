@@ -1,12 +1,12 @@
 !-----------------------------------------------------------------------
-! del_vor_options: the run options, as keyword / value pairs.
+! cv_dual_options: the run options, as keyword / value pairs.
 !
 ! One keyword set for every front end. The standalone program passes
 ! its command line with the leading '-' removed; the LaGriT command
 ! will pass its tokens. Pairs may come in any order; the last one
 ! given wins (outputs add up). Written in LaGriT decks as
 !
-!   del_vor / stor, out.stor / zero_area, keep / compress, off
+!   cv_dual / stor, out.stor / zero_area, keep / compress, off
 !
 ! keyword    value              default   meaning
 ! stor       file               (*)       FEHM .stor
@@ -22,7 +22,7 @@
 ! compress   on | off           on        .stor: each distinct A/d
 !                                         value written once
 ! cv         voronoi | median | voronoi   where each cell's dual
-!            blend | hybrid                points go (del_vor_policy):
+!            blend | hybrid                points go (cv_dual_policy):
 !                                         circumcenters; centroids;
 !                                         one alpha everywhere; per
 !                                         cell, toward the centroid
@@ -53,15 +53,15 @@
 !                                         (ParaView 5, older readers)
 ! matrix     file                         ParaView file of the matrix:
 !                                         a point per .stor entry at
-!                                         (j, -i) (del_vor_matrix)
+!                                         (j, -i) (cv_dual_matrix)
 ! matrix_bins integer >= 1                 also an N x N image of the
 !                                         matrix, FILE.vti (matrix only)
 ! alpha_file file                         ParaView file of the mesh
 !                                         with alpha and stage per
-!                                         cell (del_vor_write_vtu)
+!                                         cell (cv_dual_write_vtu)
 ! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
 !                                         when delta/L < -delaunay_tol
-!                                         (del_vor_delaunay)
+!                                         (cv_dual_delaunay)
 ! delaunay_fatal number >= 0    1e-2      slightly not Delaunay
 !                                         (-delaunay_fatal <= delta/L
 !                                         < -delaunay_tol) is a
@@ -75,7 +75,7 @@
 ! report     file                         a copy of the screen summary
 ! timing     on | off           off       development only: the time
 !                                         of each step and peak memory
-!                                         (del_vor_timing)
+!                                         (cv_dual_timing)
 !
 ! (*) with no output keyword: stor voronoi.stor.
 !
@@ -83,9 +83,9 @@
 !   type fehm|pflotran|tough2, o FILE (one output), compress with no
 !   value (= on).
 !-----------------------------------------------------------------------
-module del_vor_options
-   use del_vor_kinds, only: rk
-   use del_vor_log, only: errmsg
+module cv_dual_options
+   use cv_dual_kinds, only: rk
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: options_t, parse_options, option_keywords, lowercase, &
@@ -455,7 +455,7 @@ contains
                                          'voronoi.stor', ierr)
       if (ierr /= 0) return
       ! a delaunay_fatal below delaunay_tol is raised to it
-      ! (del_vor_delaunay), so raising delaunay_tol alone is enough
+      ! (cv_dual_delaunay), so raising delaunay_tol alone is enough
       call check_names(opt, ierr)
 
    contains
@@ -463,7 +463,7 @@ contains
       subroutine bad(why)
          character(len=*), intent(in) :: why
          ierr = 1
-         errmsg = 'del_vor: '//why
+         errmsg = 'cv_dual: '//why
       end subroutine bad
 
    end subroutine parse_options
@@ -477,14 +477,14 @@ contains
       do k = 1, opt%nout
          if (trim(opt%out_file(k)) == trim(ofile)) then
             ierr = 1
-            errmsg = 'del_vor: output file '//trim(ofile)// &
+            errmsg = 'cv_dual: output file '//trim(ofile)// &
                      ' given twice'
             return
          end if
       end do
       if (opt%nout == maxout) then
          ierr = 1
-         errmsg = 'del_vor: too many output files'
+         errmsg = 'cv_dual: too many output files'
          return
       end if
       opt%nout = opt%nout + 1
@@ -493,7 +493,7 @@ contains
    end subroutine add_output
 
    subroutine check_names(opt, ierr)
-!     Every file del_vor writes (outputs, report, violations file)
+!     Every file cv_dual writes (outputs, report, violations file)
 !     differs from the others and from the mesh.
       type(options_t), intent(in) :: opt
       integer, intent(out) :: ierr
@@ -531,14 +531,14 @@ contains
       do k = 1, n
          if (trim(f(k)) == trim(opt%mesh)) then
             ierr = 1
-            errmsg = 'del_vor: '//trim(f(k))// &
+            errmsg = 'cv_dual: '//trim(f(k))// &
                      ' is the mesh; it would be overwritten'
             return
          end if
          do j = 1, k - 1
             if (trim(f(j)) == trim(f(k))) then
                ierr = 1
-               errmsg = 'del_vor: output file '//trim(f(k))// &
+               errmsg = 'cv_dual: output file '//trim(f(k))// &
                         ' given twice'
                return
             end if
@@ -699,4 +699,4 @@ contains
       end do
    end function lowercase
 
-end module del_vor_options
+end module cv_dual_options

@@ -1,10 +1,10 @@
 !-----------------------------------------------------------------------
-! del_vor_entry_test: test_entry's harness. It reads an AVS mesh with
-! del_vor's reader, then calls the LaGriT entry point through
+! cv_dual_entry_test: test_cv_dual_entry's harness. It reads an AVS mesh
+! with cv_dual's reader, then calls the LaGriT entry point through
 ! call_entry.f (fixed form, LaGriT's flags, no interface), once per
 ! OPTIONS argument, in one process:
 !
-!   del_vor_entry_test MESH.inp VOLFILE [-sink] [-tamper WHAT]
+!   cv_dual_entry_test MESH.inp VOLFILE [-sink] [-tamper WHAT]
 !                      OPTIONS [OPTIONS ...]
 !
 ! -sink         every log line goes through log_set_sink to a routine
@@ -17,7 +17,7 @@
 ! Prints 'harness: call K: ierr = N' after each call; writes the
 ! volumes of the last call that returned 0 to VOLFILE (one per line,
 ! 17 digits; not written if no call did). Exit 0 if the last call
-! returned 0, 3 otherwise (del_vor itself never stops).
+! returned 0, 3 otherwise (cv_dual itself never stops).
 !-----------------------------------------------------------------------
 module entry_test_sink
    implicit none
@@ -30,12 +30,12 @@ contains
    end subroutine to_lagrit
 end module entry_test_sink
 
-program del_vor_entry_test
+program cv_dual_entry_test
    use entry_test_sink, only: to_lagrit
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: log_set_sink
-   use del_vor_mesh, only: mesh_t
-   use del_vor_read_avs, only: read_avs
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: log_set_sink
+   use cv_dual_mesh, only: mesh_t
+   use cv_dual_read_avs, only: read_avs
    implicit none
    external :: call_entry
    type(mesh_t) :: m
@@ -46,7 +46,7 @@ program del_vor_entry_test
 
    na = command_argument_count()
    if (na < 3) then
-      write (*, '(a)') 'usage: del_vor_entry_test MESH VOLFILE '// &
+      write (*, '(a)') 'usage: cv_dual_entry_test MESH VOLFILE '// &
          '[-sink] [-tamper WHAT] OPTIONS ...'
       stop 2
    end if
@@ -113,4 +113,4 @@ program del_vor_entry_test
    end do
    if (ierr /= 0) stop 3
 
-end program del_vor_entry_test
+end program cv_dual_entry_test

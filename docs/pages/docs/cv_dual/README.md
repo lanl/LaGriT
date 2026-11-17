@@ -1,15 +1,15 @@
-# del_vor
+# cv_dual
 
 Voronoi control volumes from Delaunay meshes.
 
-del_vor reads a triangle mesh (2D, including fracture networks in 3D)
+cv_dual reads a triangle mesh (2D, including fracture networks in 3D)
 or a tet mesh (3D) and computes the Voronoi control-volume geometry:
 the volume of each vertex's control volume, the area of each Voronoi
 face and the connection distances. These are the geometric
 coefficients of two-point-flux finite-volume codes, written as FEHM
 `.stor`, PFLOTRAN `.uge` and TOUGH2 `MESH` files.
 
-One core library, two front ends: the standalone program `del_vor`
+One core library, two front ends: the standalone program `cv_dual`
 (AVS UCD `.inp` input) and, later, a LaGriT entry point that replaces
 `matbld2d` and `matbld3d`. The design, with the reasons for each
 choice, is in the design document (see `notes` in the project folder).
@@ -32,8 +32,8 @@ layout. The coefficient matrix itself can be written for ParaView
 (`-matrix FILE`): a point per `.stor` entry at (j, -i), with its
 values, and with `-matrix_bins N` an N x N image of the whole matrix.
 Fracture networks (triangles of several itetclr crossing along shared
-edges) are handled. Phase 3: `tools/stor_compare.py` compares any two
-`.stor` files and explains every difference; del_vor agrees with
+edges) are handled. Phase 3: `test/suite/cv_dual_tools/stor_compare.py` compares any two
+`.stor` files and explains every difference; cv_dual agrees with
 LaGriT's `dump / stor` on 14 meshes and dfnWorks networks; a faster
 reader; timing of every step (linear in the mesh size up to 10
 million cells; 2.4 times faster than LaGriT's read + `dump / stor`
@@ -49,12 +49,12 @@ boundary; stage B, cell-by-cell correction), with an alpha file for
 ParaView.
 
 Phase 6a: the run is a library routine that never stops, and LaGriT
-can call it through `del_vor_lagrit_entry` with its own mesh arrays
+can call it through `cv_dual_lagrit_entry` with its own mesh arrays
 in place (manual, section 17); a mesh with parent/child chains
-(`itp1` = 41) is refused. Next: del_vor moves into LaGriT, renamed
+(`itp1` = 41) is refused. Next: cv_dual moves into LaGriT, renamed
 cv_dual (6b), and becomes `dump / control_volume` (6c).
 
-The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
+The manual: [`docs/cv_dual_manual.md`](docs/cv_dual_manual.md).
 The LaGriT command page (for the LaGriT version):
 [`docs/lagrit/dump/DUMP_CONTROL_VOLUME.md`](docs/lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -68,13 +68,13 @@ cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
 cmake --build build --parallel 6
 ```
 
-This builds `build/del_vor` and the kernel self test
-`build/del_vor_selftest`.
+This builds `build/cv_dual` and the kernel self test
+`build/cv_dual_selftest`.
 
 ## Run
 
 ```
-del_vor -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
         [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
         [-cv voronoi|median|blend|hybrid] [-alpha X]
         [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
@@ -114,7 +114,7 @@ be written in one run; the geometry is computed once.
 | `delaunay_fatal` | number >= 0 | `1e-2` | δ/L down to -delaunay_fatal: a warning (nearly co-spherical) and the run goes on; below it: fatal |
 | `violations` | file | `violations.vtu` | the facets that fail, for ParaView; written only when some facet is flagged |
 | `check_only` | `on`, `off` | `off` | `on`: the checks only, no coefficient file |
-| `report` | file | none | a copy of everything del_vor prints |
+| `report` | file | none | a copy of everything cv_dual prints |
 | `timing` | `on`, `off` | `off` | development only: the time of each step and peak memory |
 
 The zero-area filter changes only which connections are written; the
@@ -146,48 +146,48 @@ sh run_all.sh
 then open `test/suite/summary.html`. See `test/suite/README.md`.
 
 GitHub builds and tests every push to `main` and every pull request,
-as for LaGriT (`.github/workflows/test-del_vor.yml`): Linux with GCC 13
+as for LaGriT (`.github/workflows/test-cv_dual.yml`): Linux with GCC 13
 and GCC 14, and macOS with Homebrew gfortran. The GCC 14 job builds
 Debug, with gfortran's run-time checks (`-fcheck=all`) and
-floating-point traps. Each run's result pages and its `del_vor` can be
+floating-point traps. Each run's result pages and its `cv_dual` can be
 downloaded from the run's Summary page (Artifacts).
 
 ## Source
 
 | file | contents |
 |---|---|
-| `src/del_vor_kinds.F90` | integer and real kinds (64-bit integers) |
-| `src/del_vor_log.F90` | all screen output, so LaGriT can redirect it (`log_set_sink`) |
-| `src/del_vor_options.F90` | the keyword options, shared by every front end |
-| `src/del_vor_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
-| `src/del_vor_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
-| `src/del_vor_scan.F90` | fast text scanner for the reader: blocks of the file, numbers parsed in place (`strtod`) |
-| `src/del_vor_timing.F90` | wall and CPU time per step and peak memory (`timing on`, development only) |
-| `src/del_vor_topology.F90` | the edge CSR: one row per vertex, upper triangle; vertex-to-cell incidence |
-| `src/del_vor_jtet.F90` | face neighbors in LaGriT's `jtet` encoding; conformity and orientation counts |
-| `src/del_vor_validity.F90` | the mesh checks: cell types, positive size, conformity, orientation, unused vertices |
-| `src/del_vor_delaunay.F90` | the Delaunay check: δ/L per interior facet, boundary circumcenters, slivers |
-| `src/del_vor_write_vtu.F90` | the violations file (VTK XML, ASCII) |
-| `src/del_vor_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
-| `src/del_vor_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
-| `src/del_vor_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
-| `src/del_vor_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
-| `src/del_vor_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
-| `src/del_vor_assemble.F90` | cell-by-cell accumulation into the CSR |
-| `src/del_vor_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
-| `src/del_vor_write_uge.F90` | PFLOTRAN `.uge` |
-| `src/del_vor_write_tough.F90` | TOUGH2 `MESH` |
-| `src/del_vor_report.F90` | the Delaunay report and the run summary |
-| `src/del_vor_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
-| `src/del_vor_entry.F90` | the LaGriT entry point `del_vor_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
-| `src/del_vor.F90` | the standalone program: options, the AVS file, then `del_vor_run` |
-| `test/suite/test_entry/harness/` | `del_vor_entry_test`: calls the entry point as LaGriT will (used by `test_entry`) |
-| `test/del_vor_selftest.F90` | kernel checks used by `test/suite/test_kernels` |
-| `tools/stor_compare.py` | compares two `.stor` files and labels every difference with what explains it |
+| `src/cv_dual_kinds.F90` | integer and real kinds (64-bit integers) |
+| `src/cv_dual_log.F90` | all screen output, so LaGriT can redirect it (`log_set_sink`) |
+| `src/cv_dual_options.F90` | the keyword options, shared by every front end |
+| `src/cv_dual_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
+| `src/cv_dual_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
+| `src/cv_dual_scan.F90` | fast text scanner for the reader: blocks of the file, numbers parsed in place (`strtod`) |
+| `src/cv_dual_timing.F90` | wall and CPU time per step and peak memory (`timing on`, development only) |
+| `src/cv_dual_topology.F90` | the edge CSR: one row per vertex, upper triangle; vertex-to-cell incidence |
+| `src/cv_dual_jtet.F90` | face neighbors in LaGriT's `jtet` encoding; conformity and orientation counts |
+| `src/cv_dual_validity.F90` | the mesh checks: cell types, positive size, conformity, orientation, unused vertices |
+| `src/cv_dual_delaunay.F90` | the Delaunay check: δ/L per interior facet, boundary circumcenters, slivers |
+| `src/cv_dual_write_vtu.F90` | the violations file (VTK XML, ASCII) |
+| `src/cv_dual_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
+| `src/cv_dual_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
+| `src/cv_dual_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
+| `src/cv_dual_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
+| `src/cv_dual_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
+| `src/cv_dual_assemble.F90` | cell-by-cell accumulation into the CSR |
+| `src/cv_dual_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
+| `src/cv_dual_write_uge.F90` | PFLOTRAN `.uge` |
+| `src/cv_dual_write_tough.F90` | TOUGH2 `MESH` |
+| `src/cv_dual_report.F90` | the Delaunay report and the run summary |
+| `src/cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
+| `src/cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
+| `src/cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
+| `test/suite/test_cv_dual_entry/harness/` | `cv_dual_entry_test`: calls the entry point as LaGriT will (used by `test_cv_dual_entry`) |
+| `test/cv_dual_selftest.F90` | kernel checks used by `test/suite/test_cv_dual_kernels` |
+| `test/suite/cv_dual_tools/stor_compare.py` | compares two `.stor` files and labels every difference with what explains it |
 
 ## Origin and license
 
 The kernels and writers are ported from
 [lanl/voronoi](https://github.com/lanl/voronoi) (LANL C19012), and
-the test meshes and gold files in `test/suite/test_voronoi_gold/inputs`
+the test meshes and gold files in `test/suite/test_cv_dual_voronoi_gold/inputs`
 are copied from it. BSD-3; see `LICENSE.md`.

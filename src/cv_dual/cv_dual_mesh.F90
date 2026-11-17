@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_mesh: the mesh arrays, named and laid out as in a LaGriT
+! cv_dual_mesh: the mesh arrays, named and laid out as in a LaGriT
 ! mesh object, so the LaGriT entry point can pass its own arrays.
 !
 !   nnodes, nelements   numbers of vertices and cells
@@ -21,10 +21,10 @@
 ! The arrays are pointers: the standalone program allocates them
 ! (read_avs; own_input true), the LaGriT entry point points them at
 ! LaGriT's own arrays (own_input false), which are used in place and
-! never freed here. jtetoff and jtet are always del_vor's own.
+! never freed here. jtetoff and jtet are always cv_dual's own.
 !-----------------------------------------------------------------------
-module del_vor_mesh
-   use del_vor_kinds, only: ik, rk
+module cv_dual_mesh
+   use cv_dual_kinds, only: ik, rk
    implicit none
    private
    public :: mesh_t, mesh_free, ifelmtri, ifelmtet
@@ -80,4 +80,4 @@ contains
       m%nen = 0
    end subroutine mesh_free
 
-end module del_vor_mesh
+end module cv_dual_mesh

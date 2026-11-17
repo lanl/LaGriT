@@ -1,10 +1,10 @@
 !-----------------------------------------------------------------------
-! del_vor_hybrid: the adaptive hybrid (design section 9): the largest
+! cv_dual_hybrid: the adaptive hybrid (design section 9): the largest
 ! alpha per cell that leaves no coefficient negative.
 !
 ! Stage A (stage_a): closed form, one pass. A cell with an exterior
 ! boundary facet beyond which its circumcenter lies gets the alpha
-! that puts its point on that facet (del_vor_policy), but not below
+! that puts its point on that facet (cv_dual_policy), but not below
 ! alpha_min. Other cells keep alpha = 1.
 !
 ! Stage B (stage_b): correction. An edge is negative (is_negative)
@@ -14,7 +14,7 @@
 !
 ! with asum(k) the sum of |each cell's piece| of area(k), d the edge
 ! length, p = 2 for tets and 1 for triangles: the second condition is
-! del_vor's zero-area test (zero_area_mask), so round-off on
+! cv_dual's zero-area test (zero_area_mask), so round-off on
 ! co-spherical ties, where the true area is 0, is not counted as
 ! negative. On each negative edge, the cell
 ! whose piece is most negative and whose alpha is above alpha_min has
@@ -39,11 +39,11 @@
 ! Work per pass is one scan over the cells; only cells with a vertex
 ! on a negative edge compute anything. No vertex-to-cell lists.
 !-----------------------------------------------------------------------
-module del_vor_hybrid
-   use del_vor_kinds, only: ik, rk
-   use del_vor_assemble, only: cell_policy_t, cell_pieces, pieces_t
-   use del_vor_policy, only: stage_a_alpha_tri, stage_a_alpha_tet
-   use del_vor_jtet, only: iface_tri, iface_tet
+module cv_dual_hybrid
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_assemble, only: cell_policy_t, cell_pieces, pieces_t
+   use cv_dual_policy, only: stage_a_alpha_tri, stage_a_alpha_tet
+   use cv_dual_jtet, only: iface_tri, iface_tet
    implicit none
    private
    public :: hybrid_t, stage_a, stage_b, boundary_edges, is_negative
@@ -320,7 +320,7 @@ contains
    subroutine boundary_edges(nnodes, nelements, nen, itetoff, itet, &
                              jtetoff, jtet, mbndry, iedge_off, jedge, &
                              bedge)
-      use del_vor_topology, only: edge_index
+      use cv_dual_topology, only: edge_index
       integer(ik), intent(in) :: nnodes, nelements, nen
       integer(ik), intent(in) :: itetoff(:), itet(:), jtetoff(:), &
                                  jtet(:), mbndry
@@ -370,4 +370,4 @@ contains
       end do
    end function find
 
-end module del_vor_hybrid
+end module cv_dual_hybrid

@@ -1,6 +1,6 @@
-# test_dfn cases: one per line,  name | mesh | arguments | what it does
+# test_cv_dual_dfn cases: one per line,  name | mesh | arguments | what it does
 #
-# Each case runs, in work/NAME,  del_vor -avs MESH ARGUMENTS -report NAME.report
+# Each case runs, in work/NAME,  cv_dual -avs MESH ARGUMENTS -report NAME.report
 # A mesh path starting with gen/ is made by make_dfn_inputs.py; inputs/
 # holds Carl's DFN example when it has been added (else that case is
 # SKIPPED).

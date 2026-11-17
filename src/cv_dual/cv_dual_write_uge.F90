@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! del_vor_write_uge: PFLOTRAN explicit unstructured grid (.uge) file.
+! cv_dual_write_uge: PFLOTRAN explicit unstructured grid (.uge) file.
 !
 !   CELLS n
 !   id  x  y  z  volume                  one line per vertex
@@ -12,9 +12,9 @@
 ! their sign (voronoi wrote absolute values, which hides negative
 ! coefficients).
 !-----------------------------------------------------------------------
-module del_vor_write_uge
-   use del_vor_kinds, only: ik, rk
-   use del_vor_log, only: errmsg
+module cv_dual_write_uge
+   use cv_dual_kinds, only: ik, rk
+   use cv_dual_log, only: errmsg
    implicit none
    private
    public :: write_uge
@@ -62,4 +62,4 @@ contains
       close (lu)
    end subroutine write_uge
 
-end module del_vor_write_uge
+end module cv_dual_write_uge
