@@ -129,9 +129,11 @@ The zero-area filter changes only which connections are written; the
 control volumes are never changed. lanl/voronoi's options `-type
 fehm|pflotran|tough`, `-o FILE` and `-compress` (no value) also work.
 
-The LaGriT command (a later phase), `dump / control_volume`, will
-take a mesh object and then the same keywords, as pairs in any order,
-written with a comma inside each pair:
+In LaGriT, the command `dump / control_volume` takes a mesh object
+and then the same keywords, as pairs in any order, written with a
+comma inside each pair, and `attribute_cv_volume` [, name] for the
+control volumes in a vertex attribute
+([its page](../commands/dump/DUMP_CONTROL_VOLUME.md)):
 
 ```
 dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
@@ -146,7 +148,7 @@ where, and then no coefficient file is written.
 
 ## Tests
 
-cv_dual's 13 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
+cv_dual's 14 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
 
 ```
 cd test/suite
@@ -186,6 +188,7 @@ runs them on every pull request.
 | `src/cv_dual/cv_dual_report.F90` | the Delaunay report and the run summary |
 | `src/cv_dual/cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
 | `src/cv_dual/cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
+| `src/dump_control_volume.f90` | LaGriT's command `dump / control_volume` (in liblagrit): the mesh object's arrays, the options, the log, the attribute |
 | `src/cv_dual/cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
 | `test/suite/test_cv_dual_entry/harness/` | `cv_dual_entry_test`: calls the entry point as LaGriT will (used by `test_cv_dual_entry`) |
 | `test/suite/cv_dual_tools/cv_dual_selftest.F90` | kernel checks used by `test/suite/test_cv_dual_kernels` |

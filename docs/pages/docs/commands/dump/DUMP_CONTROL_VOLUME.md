@@ -7,28 +7,29 @@ tags: dump control_volume cv_dual voronoi stor uge tough delaunay
 
 ------------------------
 
-> **Draft: the command is not in LaGriT yet (phase 6c).** This page
-> describes it as planned; the program `cv_dual` (built with LaGriT,
-> `build/cv_dual`) already does everything below. The program's
-> manual: [cv_dual manual](../../cv_dual/cv_dual_manual.md).
-
 **`dump/control_volume`** checks a mesh object and computes its
-control-volume geometry with cv_dual: the control volume of each
-vertex, and for each edge the area of its Voronoi face and its
-length. It writes them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH
-`MESH` files, and keeps the volumes in the vertex attribute
-**cv_volume**. It is the new path beside **`dump/stor`**, which is
-unchanged (it uses **`matbld2d`** and **`matbld3d`**); both can run on
-the same mesh to compare.
+control volumes and their geometric coefficients with cv_dual:
+Voronoi control volumes (the default), median control volumes, or a
+hybrid between the two. For each vertex it computes its control
+volume, and for each edge the area of the face between the two
+control volumes and the edge length. It writes them as FEHM `.stor`,
+PFLOTRAN `.uge` or TOUGH `MESH` files and, when asked, puts the
+volumes in a vertex attribute. It is the new path beside
+**`dump/stor`**, which is unchanged (it uses **`matbld2d`** and
+**`matbld3d`**); both can run on the same mesh to compare. The same
+code is the stand-alone program `cv_dual` (built with LaGriT,
+`build/cv_dual`; its [manual](../../cv_dual/cv_dual_manual.md)).
 
-Before any geometry **`dump/control_volume`** checks the mesh (cell types, cells
-of positive size, conformity, orientation) and tests it for the
+Before any geometry **`dump/control_volume`** checks the mesh (cell
+types, cells of positive area/volume, conformity, orientation) and tests it for the
 Delaunay property, facet by facet. A mesh that fails is not written:
 Voronoi coefficients of a mesh that is not Delaunay are wrong. The
 facets that fail are written to a file for ParaView.
 
 The mesh is all triangles (2D, or a fracture network in 3D: one
-itetclr per fracture) or all tets.
+itetclr per fracture) or all tets. Its arrays are used in place: the
+command changes nothing in the mesh object, except the attribute of
+**`attribute_cv_volume`**.
 
 ## SYNTAX ##
 
@@ -46,14 +47,21 @@ itetclr per fracture) or all tets.
      / [<b>matrix</b>, file_name] / [<b>matrix_bins</b>, n] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
-     / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name]
+     / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name] &
+     / [<b>attribute_cv_volume</b> [, attribute_name]]
 </pre>
 
 mo_name, the mesh object, is required; there is no default (**-def-**
 is not taken). After it, each option is a keyword and its value,
 written with a comma (or a space) between them; options are separated
 by `/` and may come in any order. With no output keyword,
-**`dump/control_volume`** writes `voronoi.stor`.
+**`dump/control_volume`** writes `voronoi.stor`. File names are LaGriT
+words: at most 32 characters, no path (LaGriT works in one folder).
+
+The messages go to the screen and LaGriT's log (outx3dgen). An error
+(a bad keyword or value, a missing mesh object, a mesh the checks
+refuse) prints what is wrong and an ERROR line; nothing is written
+and LaGriT goes on with the next command.
 
 ## DESCRIPTIONS ##
 
@@ -64,8 +72,9 @@ volumes, row pointers, column numbers, value pointers, diagonal
 pointers and the values -A(ij)/d(ij), with 17 significant digits
 (**`dump/stor`** writes 13). Its first line names the policy
 (Voronoi, Median, Blend or Hybrid Coefficients) and its second line
-ends with the command that made the file, in parentheses; FEHM
-ignores both lines.
+ends with the command that made the file, in parentheses, as
+`(cv_dual dump / control_volume / mo_name / stor, mesh.stor / ...)`;
+FEHM ignores both lines.
 
 **`uge`**, file_name
 
@@ -252,6 +261,17 @@ file is written. Default **`off`**.
 
 a copy of everything **`dump/control_volume`** prints, in a file.
 
+**`attribute_cv_volume`** [, attribute_name]
+
+puts the control volumes (areas for triangles) in a vertex attribute
+of the mesh object: **cv_volume**, or attribute_name when one is
+given. It is made (VDOUBLE, scalar, nnodes; written by **`dump/avs`**)
+if the mesh object does not have it; an existing attribute of that
+name must be such a real vertex attribute (else an error, before
+anything is written), and is overwritten. With **`check_only, on`** no
+volumes are computed and the attribute is not set. Without
+**`attribute_cv_volume`** the mesh object is not changed.
+
 ### Mesh checks ###
 
 Each of these stops the command and nothing is written:
@@ -264,7 +284,9 @@ Each of these stops the command and nothing is written:
   (each itetclr may be oriented either way, as long as it is one way);
 - parent/child chains: a vertex with **itp1** = 41 (a parent, as
   **`settets/parents`** leaves an interface). Run **`resetpts/parent`**
-  first; split control volumes are not built yet.
+  (the children become dudded vertices, in no cell), then
+  **`rmpoint/compress`** (they are removed); split control volumes are
+  not built yet.
 
 An edge in triangles of two or more itetclr is a fracture
 intersection edge: legal, counted, and its coefficients are the sum
@@ -276,8 +298,15 @@ material interface. A vertex in no cell gets a warning.
 ```
 dump / control_volume / mo_mesh / stor, mesh.stor
 ```
-check mesh object `mo_mesh` and write `mesh.stor` with the defaults;
-the volumes are in **cv_volume**.
+check mesh object `mo_mesh` and write `mesh.stor` with the defaults.
+
+```
+dump / control_volume / mo_mesh / stor, mesh.stor / attribute_cv_volume
+dump / avs / mesh_cv.inp / mo_mesh
+```
+also put the control volumes in the vertex attribute **cv_volume**,
+and write the mesh with it (`/ attribute_cv_volume, vol_vor /` names
+it **vol_vor**).
 
 ```
 dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / tough, MESH
@@ -316,6 +345,15 @@ make one are moved toward their centroids, only as far as needed;
 dump / control_volume / mo_mesh / stor, mesh_med.stor / cv, median
 ```
 median control volumes, for a mesh that is not Delaunay.
+
+```
+settets / parents
+resetpts / parent
+rmpoint / compress
+dump / control_volume / mo_mesh / stor, mesh.stor
+```
+a mesh with material interfaces made into parent/child chains: the
+chains taken out first (the command refuses them).
 
 ```
 dump / control_volume / mo_mesh / stor, mesh.stor / paraview, mesh_cv / paraview_subset, boundary
