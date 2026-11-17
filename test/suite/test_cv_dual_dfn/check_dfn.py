@@ -27,7 +27,7 @@ dfn3 (and full_mesh, when it is there):
 dfn3_flip:
   exit 1, the orientation error, the turned-over triangle named,
   no .stor
-full_mesh (Carl's dfnWorks example 4_user_rects_uniform,
+full_mesh (the dfnWorks example 4_user_rects_uniform,
 inputs/full_mesh.inp, sent Nov 8): additionally the sizes in MESHES
 """
 
@@ -49,7 +49,7 @@ from check_voronoi_gold import read_stor, stor_pairs  # noqa: E402
 TOL = 2e-14
 DIGITS = 17
 REAL = re.compile(r'^[-+]?(\d)\.(\d+)[EeDd]?[-+]\d+$')
-# Carl's meshes: vertices, triangles, fractures, intersection,
+# the dfnWorks meshes: vertices, triangles, fractures, intersection,
 # interior and boundary edges
 MESHES = {'full_mesh': (771, 1386, 4, 60, 1942, 274)}
 LABELS = [('interior edges checked', 'interior'),
@@ -286,7 +286,7 @@ def main():
             'coefficient per vertex pair. The network dfn3 is made by '
             'make_dfn_inputs.py, exactly Delaunay by construction; its '
             'counts are checked against exact arithmetic and every '
-            'coefficient and area against the cotangent formula. Carl\'s '
+            'coefficient and area against the cotangent formula. The '
             'dfnWorks example runs too once it is in inputs/.')
     nfail = write_case_page(os.path.dirname(os.path.abspath(logs)), logs,
                             'test_cv_dual_dfn', what, rows)

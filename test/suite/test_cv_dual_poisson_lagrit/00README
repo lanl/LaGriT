@@ -8,8 +8,7 @@ QUICK START
 
 WHAT IS TESTED
 
-  Five meshes from LaGriT's suites (inputs/, from Carl Gable; see
-  inputs/NOTICE). Cases 1 and 2 of test/suite/test_poisson_3d, box
+  Five meshes from LaGriT's suites (inputs/; see inputs/NOTICE). Cases 1 and 2 of test/suite/test_poisson_3d, box
   reduced to 0.4 x 0.4 x 0.2:
 
     test_3d_poi_01   1647 vertices, 7788 tets; no buffer on the

@@ -15,9 +15,10 @@ QUICK START
   in CV_DUAL_BIG/timing (default ~/lagrit_work/del_vor_dev/big_inputs,
   outside git); later runs reuse them. Without LAGRIT, only cv_dual is
   timed, on meshes already there. With the default sizes: about 3
-  minutes on Claude's sandbox.
+  minutes on a Linux workstation.
 
-  Bigger sizes (Carl's machine), for example up to 30 million tets:
+  Bigger sizes (they need a machine with 16 GB), for example up to
+  30 million tets:
 
   SIZES_TET="100000 300000 1000000 3000000 10000000 30000000" \
   SIZES_TRI="100000 1000000 10000000" \
@@ -60,7 +61,7 @@ WHAT IS CHECKED (timing.py)
                   measured from outside, at every size
   vs_lagrit       cv_dual against LaGriT at the largest size. MEASURED
 
-MEASURED ON CARL'S MAC (Nov 10, 2026; Intel, 6 cores)
+MEASURED ON AN INTEL MAC (Nov 10, 2026; 6 cores, 16 GB)
 
   10,404,079 tets: cv_dual 74.8 s, 2.3 GB; LaGriT read + dump / stor
   175.7 s, 3.5 GB (dump / stor alone 140.2 s; cv_dual's steps that

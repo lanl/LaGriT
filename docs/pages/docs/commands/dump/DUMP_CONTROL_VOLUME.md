@@ -322,19 +322,3 @@ dump / control_volume / mo_mesh / stor, mesh.stor / paraview, mesh_cv / paraview
 ```
 also the control volumes of the boundary vertices for ParaView: open
 `mesh_cv.pvd`.
-
-## OPEN QUESTIONS (draft only) ##
-
-Settled (Carl, Nov 8, 2026): the command is **`dump/control_volume`**
-(**`dump/stor`** unchanged); the mesh object is required; the volume
-attribute is **cv_volume**; the face neighbors (**jtet**) are computed
-by cv_dual, not taken from LaGriT.
-
-Settled (Carl, Nov 15, 2026): **cv_volume** is not made by default;
-the keyword **`attribute`**, name (phase 6c) asks for the control
-volumes in a vertex attribute of that name. A mesh with parent/child
-chains (**itp1** = 41) is refused with a message; merging or
-splitting control volumes at parents waits for the FEHM and PFLOTRAN
-developers. The command calls the same code as the program, through
-the entry point **cv_dual_lagrit_entry** (phase 6a; manual, section
-17).

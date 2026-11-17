@@ -53,7 +53,7 @@ grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name mesh args about; 
     name=$(echo "$name" | tr -d ' ')
     mesh=$(echo "$mesh" | tr -d ' ')
     case $mesh in gen/*) src=$WORK/$mesh ;; *) src=$mesh ;; esac
-    [ -f "$src" ] || continue          # Carl's example not added yet
+    [ -f "$src" ] || continue          # the dfnWorks example not added yet
     mkdir -p "$WORK/$name"
     cp "$src" "$WORK/$name/"
     m=$(basename "$mesh")

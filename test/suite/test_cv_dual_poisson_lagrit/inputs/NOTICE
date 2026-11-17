@@ -1,4 +1,4 @@
-From Carl Gable, Nov 8 2026: cases 1 and 2 of LaGriT's suite
+Cases 1 and 2 of LaGriT's suite
 test/suite/test_poisson_3d, with the box reduced to 0.4 x 0.4 x 0.2
 (x, y, z in [0, 0.4] x [0, 0.4] x [0, 0.2]) to keep the files small.
 
@@ -17,11 +17,11 @@ anothermatbld3d ("matbld3d_astor" on line 2): compressed, with
 coefficients equal within 1e-8 of the largest merged, and coefficients
 below 1e-8 of the largest left out.
 
-Added Nov 8 2026, also from Carl: the three meshes of LaGriT's suite
+The three meshes of LaGriT's suite
 test/suite/test_poisson_2d, a unit square [-0.5, 0.5]^2.
 
   test_Poisson_2D.lgi              the deck, with dump / stor lines
-                                   added by Carl and output names
+                                   added and output names
                                    shortened (the long names were cut
                                    off by dump / stor)
   unit_square.poly                 the polygon it reads

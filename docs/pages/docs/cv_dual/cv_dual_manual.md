@@ -715,7 +715,7 @@ the moved points, not a drawing error, and the volumes still match.
 
 Sizes: a million tets give 157,000 polyhedra, a 210 MB cells file
 (Voronoi or hybrid), about 8 s, and a peak of 620 MB for the whole
-run (680 MB hybrid; Claude's sandbox); 10 million about ten times
+run (680 MB hybrid; a Linux workstation); 10 million about ten times
 that. For large meshes, a subset is the way to look:
 `boundary` on a million tets takes 0.9 s.
 

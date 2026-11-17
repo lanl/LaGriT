@@ -22,5 +22,5 @@ unit_tet    | inputs/unit_tet.inp | LaGriT level01/io_agf_simple's unit cube of 
 two_mat     | inputs/two_mat.inp | A jittered grid of tets in two materials (imt1 2 above z = 0.31), made by LaGriT (inputs/two_mat.lgi): 170 interface faces.
 utm_tet     | inputs/utm_tet.inp | poi3d_01 moved to UTM-size coordinates (7e5, 3.2e6, 1.5e3), 17 digits: LaGriT's 3D writer computes tet volumes from absolute coordinates there.
 tri_dfn     | inputs/tri_dfn.inp | LaGriT level01/recon1's fracture network (2956 vertices, 5773 triangles).
-full_mesh   | ../test_cv_dual_dfn/inputs/full_mesh.inp | Carl's dfnWorks example 4_user_rects_uniform (771 vertices, 1386 triangles, 60 intersection edges).
-tpl         | big/TPL_nonuniform_full_mesh.inp | dfnWorks TPL_nonuniform (Carl, Nov 2026): 57,257 vertices, 114,739 triangles in 45 fractures. Outside git (CV_DUAL_BIG).
+full_mesh   | ../test_cv_dual_dfn/inputs/full_mesh.inp | the dfnWorks example 4_user_rects_uniform (771 vertices, 1386 triangles, 60 intersection edges).
+tpl         | big/TPL_nonuniform_full_mesh.inp | dfnWorks TPL_nonuniform: 57,257 vertices, 114,739 triangles in 45 fractures. Outside git (CV_DUAL_BIG).

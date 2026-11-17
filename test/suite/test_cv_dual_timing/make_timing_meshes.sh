@@ -13,8 +13,8 @@
 # fifth of the grid spacing, so the vertices are in general position
 # away from the boundary, like a mesh of real points.
 #
-# Time: LaGriT's connect is about 7 s per million tets on Claude's
-# sandbox; a 10-million-tet mesh is about 0.7 GB of .inp.
+# Time: LaGriT's connect is about 7 s per million tets on a Linux
+# workstation; a 10-million-tet mesh is about 0.7 GB of .inp.
 # POSIX sh.
 
 LAGRIT=${1:-}

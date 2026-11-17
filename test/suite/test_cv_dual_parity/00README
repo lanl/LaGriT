@@ -31,7 +31,7 @@ WHAT IS TESTED
   and the three test_poisson_2d meshes; LaGriT level01 meshes
   (pflotran_stor, io_agf_simple, recon1's fracture network); a
   two-material jittered grid made by LaGriT; poi3d_01 at UTM-size
-  coordinates; Carl's dfnWorks 4_user_rects_uniform; and, outside git,
+  coordinates; the dfnWorks example 4_user_rects_uniform; and, outside git,
   dfnWorks TPL_nonuniform (57,257 vertices, 114,739 triangles).
 
 WHAT IS CHECKED (check_parity.py)
@@ -60,8 +60,8 @@ FOUND IN LAGRIT (not cv_dual's; explained, so the cases pass)
     coefficients hidden. LaGriT's default writer keeps the sign.
   - At UTM-size coordinates LaGriT's 3D volumes are wrong (utm_tet:
     total -100.5 for a box of volume 0.032; cv_dual 0.0319999999944);
-    anothermatbld3d's TranslateTetToZero does not translate (reported
-    to Carl, notes/lagrit_reports/anothermatbld3d_translate_bug.md).
+    anothermatbld3d's TranslateTetToZero did not translate (fixed in
+    LaGriT PR #333).
 
 BIG CASES (outside git)
 

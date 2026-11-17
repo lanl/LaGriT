@@ -37,8 +37,8 @@ Checks:
              (out and back along one line): a midpoint or face point
              between two circumcenters is on their line but not
              always between them (an obtuse angle), so it is not
-             drawn as a corner (Carl, Nov 11: "edge segments that are
-             not part of the polygon boundary")
+             drawn as a corner (it would be an edge segment that is
+             not part of the polygon boundary)
   negative   NAME_negative.vtu holds exactly the negative coefficients
              of the .stor at selected vertices (and is absent when
              there are none)

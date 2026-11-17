@@ -19,7 +19,7 @@
 #                            100000 1000000); integers
 #   REPEAT=3                 runs per measurement (the best is kept)
 #
-# Time on Claude's sandbox with the defaults: about 3 minutes (1
+# Time on a Linux workstation with the defaults: about 3 minutes (1
 # minute of it making the meshes, once). 10 million tets: LaGriT's
 # connect takes about a minute per million tets on a laptop; plan an
 # hour for SIZES_TET up to 3e7.

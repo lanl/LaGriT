@@ -28,7 +28,7 @@ WHAT IS TESTED
   random meshes (inputs/: random points in a square and a cube,
   connected by LaGriT; their many obtuse boundary cells need stage B),
   and LaGriT's hex-to-tet demo (inputs/hextet5.inp: 3 materials, not
-  Delaunay; Carl, Nov 11).
+  Delaunay).
 
 WHERE THE ANSWERS COME FROM
 
