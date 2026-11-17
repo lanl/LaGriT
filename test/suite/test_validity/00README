@@ -3,7 +3,7 @@ test_validity -- the mesh checks del_vor makes before any geometry (Nov 2026)
 
 QUICK START
 
-  sh run_validity_tests.sh [path-to-del_vor]   17 runs, under 1 s
+  sh run_validity_tests.sh [path-to-del_vor]   18 runs, under 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -13,7 +13,7 @@ WHAT IS TESTED
 
   del_vor -avs NAME.inp -stor NAME.stor -report NAME.report
 
-  Eleven meshes each break one rule; each is a fatal error:
+  Twelve meshes each break one rule; each is a fatal error:
 
   mixed, quad, missing_vertex      cell types: all triangles or all
                                    tets, vertices that exist
@@ -26,6 +26,9 @@ WHAT IS TESTED
   flipped_tri, moebius             orientation: neighboring triangles
                                    of one itetclr run along their
                                    shared edge in opposite directions
+  parent                           parent/child chains: a vertex with
+                                   itp1 = 41 (LaGriT's parent); split
+                                   control volumes are not built yet
 
   Six are legal meshes that look unusual and must run to the end:
   two_fractures (two itetclr crossing along one edge), clockwise

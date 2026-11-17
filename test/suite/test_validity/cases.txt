@@ -18,6 +18,7 @@ flat_tri        | 1 | triangles with zero area | A triangle whose 3 vertices lie
 face_in_3_tets  | 1 | tet faces shared by 3 or more tets | One triangle is a face of three tets (two above, one below): not a conforming mesh.
 edge_in_3_tris  | 1 | edges in 3 or more triangles of one itetclr | Three triangles of the same itetclr share one edge, like the pages of a book. In a fracture network this is legal only when the triangles belong to different fractures (two_fractures).
 flipped_tri     | 1 | oriented differently | Four triangles around a center, one turned over: it runs along its shared edges the same way as its neighbors.
+parent          | 1 | this mesh has parent/child chains (3 vertices with itp1 = 41) | Two tets of different materials whose shared face's 3 vertices are marked as parents (itp1 = 41), as LaGriT's settets / parents leaves an interface. Split control volumes are not built yet (parking lot 28), so del_vor refuses the mesh, says to run resetpts / parent first, and writes nothing.
 moebius         | 1 | oriented differently | A Moebius strip of 24 triangles: it cannot be oriented, so somewhere two neighbors must disagree.
 two_fractures   | 0 | fracture intersection edges 1 | Legal: two fractures (itetclr 1 in z = 0, itetclr 2 in x = 0, oriented the other way) cross along one edge shared by 4 triangles, 2 of each. One intersection edge; each fracture checked on its own.
 clockwise       | 0 | mesh checks passed | Legal: every triangle clockwise. A mesh (or fracture) may be oriented either way, as long as it is one way.

@@ -1,7 +1,8 @@
 # del_vor manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `del_vor`, as of phase 5 of 6. The LaGriT command
+standalone program `del_vor`, as of phase 6a (the library and its
+LaGriT entry point, [section 17](#17-the-library-and-the-lagrit-entry-point)). The LaGriT command
 (`dump / control_volume`) is described in
 [`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -23,6 +24,7 @@ Contents
 14. [Tests](#14-tests)
 15. [Comparing .stor files, and parity with LaGriT](#15-comparing-stor-files-and-parity-with-lagrit)
 16. [Speed and memory](#16-speed-and-memory)
+17. [The library and the LaGriT entry point](#17-the-library-and-the-lagrit-entry-point)
 
 ## 1. What del_vor does
 
@@ -213,6 +215,7 @@ run stops with exit status 1 and writes nothing.
 | conformity | `ERROR: N tet faces shared by 3 or more tets` | not a conforming tet mesh |
 | | `ERROR: N edges in 3 or more triangles of one itetclr` | a "book" of triangles in one surface |
 | orientation | `ERROR: N pairs of neighboring triangles oriented differently` | two neighbors of one itetclr run along their shared edge the same way: one is turned over (or the surface, like a Moebius strip, cannot be oriented) |
+| parent/child chains | `del_vor: this mesh has parent/child chains (N vertices with itp1 = 41)`, then `del_vor: run resetpts / parent first; nothing is written` | vertices with `itp1` = 41, LaGriT's parents (`settets / parents` makes them at interfaces); split control volumes are not built yet. Checked before the others |
 
 Each ERROR line is followed by `first: cell ...` naming the first
 cell (or pair of cells) found, so it can be looked at in LaGriT or
@@ -824,6 +827,7 @@ Exit status 1, and no coefficient file written:
 | an output named like the mesh | `del_vor: mesh.inp is the mesh; it would be overwritten` |
 | no mesh | `del_vor: no mesh given (-avs MESH.inp)` |
 | the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 6](#6-the-mesh-checks) |
+| parent/child chains | `del_vor: this mesh has parent/child chains (3 vertices with itp1 = 41)`, `del_vor: run resetpts / parent first; nothing is written` |
 | a mesh check fails | the ERROR lines of [section 6](#6-the-mesh-checks), then `del_vor: the mesh failed its checks (above)` |
 | not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `del_vor: not Delaunay; nothing else is written` (the violations file and the report are written). With `cv median` the run goes on instead: `del_vor: cv median does not need a Delaunay mesh: going on` |
 | a keyword for another `cv` | `del_vor: alpha is for cv blend (here cv is hybrid)`, `del_vor: hybrid_tol is for cv hybrid (here cv is median)`, `del_vor: cv blend needs alpha (a number from 0 to 1)` |
@@ -914,3 +918,46 @@ assembly, writing the `.stor`) take 37.7 s at 10.4 million tets,
 against 140.2 s for `dump / stor`. del_vor's largest steps at 10
 million cells: writing the `.stor` (37 % for tets, 64 % for
 triangles) and `jtet` (32 % for tets).
+
+## 17. The library and the LaGriT entry point
+
+Everything after the mesh is read is one library routine,
+`run_mesh` (`src/del_vor_run.F90`); the program (`src/del_vor.F90`)
+parses the options, reads the AVS file and calls it. The library
+never stops: an error comes back in `ierr`, its message already
+written, and nothing more is written. LaGriT calls the same routine
+through the entry point `del_vor_lagrit_entry`
+(`src/del_vor_entry.F90`), an external subroutine its fixed-form code
+calls with no interface block:
+
+```fortran
+      call del_vor_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
+     *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
+     *     options, vol, ierr)
+```
+
+- The mesh is the mesh object's own arrays (8-byte integers, as
+  LaGriT builds with `-fdefault-integer-8`; 8-byte reals), used in
+  place: never copied, never changed. The cells must be all triangles
+  (`nen` 3, `itettyp` 3) or all tets (`nen` 4, `itettyp` 5), with
+  `itetoff(it) = nen*(it-1)`. `jtet` is built inside.
+- `options` is one string of the program's keywords and values,
+  separated by blanks, commas or slashes, a keyword's dash optional:
+  `'stor, mesh.stor / zero_area, keep'`. Same parser, defaults and
+  messages as the program; `avs` is refused (the mesh is the
+  arguments). The `.stor`'s second line ends with
+  `(del_vor OPTIONS)`.
+- `vol` (`nnodes`) gets the control volumes; with `check_only on` or
+  after an error it is left as it was. `ierr` is 0, or 1 after an
+  error.
+- Every line goes through `del_vor_log`; `log_set_sink(p)` sends the
+  lines to a routine `p(line)` instead of the screen (inside LaGriT,
+  one that calls `writloga`).
+- A mesh with parent/child chains is refused, in the program and in
+  LaGriT ([section 6](#6-the-mesh-checks)).
+
+The suite `test_entry` calls the entry point from fixed-form Fortran
+compiled with LaGriT's flags (the harness `del_vor_entry_test`, built
+next to `del_vor`) and checks that every file, the screen output and
+the volumes equal the program's on the same mesh, and that errors
+come back cleanly and the next call works.

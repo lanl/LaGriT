@@ -798,7 +798,7 @@ contains
          cid(ncell) = i
          cvol(ncell) = vol(i)
          cmat(ncell) = 0
-         if (allocated(m%imt1)) cmat(ncell) = m%imt1(i)
+         if (associated(m%imt1)) cmat(ncell) = m%imt1(i)
          cbnd(ncell) = merge(1_ik, 0_ik, bv(i))
          cface(ncell) = nf
          cmin(ncell) = minc(i)
@@ -1003,7 +1003,7 @@ contains
          pid(ren(i)) = i
          pv(ren(i)) = vol(i)
          pimt(ren(i)) = 0
-         if (allocated(m%imt1)) pimt(ren(i)) = m%imt1(i)
+         if (associated(m%imt1)) pimt(ren(i)) = m%imt1(i)
          pb(ren(i)) = merge(1_ik, 0_ik, bv(i))
       end do
       allocate (g%conn(nc*m%nen), g%off(nc), g%types(nc), clr(nc), &

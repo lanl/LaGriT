@@ -129,14 +129,15 @@ def main():
         picture(os.path.join(logs, pic), name, xyz, cells, bad)
         rows.append((name, about, cmd, checks, pic))
 
-    what = ('runs del_vor on 17 small meshes made by '
-            'make_validity_inputs.py. Eleven break one of the rules del_vor '
+    what = ('runs del_vor on 18 small meshes made by '
+            'make_validity_inputs.py. Twelve break one of the rules del_vor '
             'checks before any geometry, each a fatal error: the cell '
             'types (all triangles or all tets), cells of positive size, '
             'conformity (a tet face in at most 2 tets; a triangle edge in '
-            'at most 2 triangles of one itetclr) and orientation '
+            'at most 2 triangles of one itetclr), orientation '
             '(neighboring triangles of one itetclr run along their shared '
-            'edge in opposite directions). Each must stop with exit 1, '
+            'edge in opposite directions) and no parent/child chains '
+            '(itp1 = 41). Each must stop with exit 1, '
             'say what is wrong and name the first cell, and write '
             'nothing. Six are legal meshes that look unusual (crossing '
             'fractures, clockwise triangles, an unused vertex, two '

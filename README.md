@@ -16,7 +16,7 @@ choice, is in the design document (see `notes` in the project folder).
 
 ## Status
 
-Phase 5 of 6. Phase 1: the lanl/voronoi kernels and writers ported
+Phase 6a of 6. Phase 1: the lanl/voronoi kernels and writers ported
 to one edge-based sparse structure, without PETSc or MPI, with
 keyword options for the outputs, zero-area connections and
 compression. Phase 2: the mesh is checked before any geometry (cell
@@ -47,6 +47,12 @@ hybrid, which moves dual points toward the centroid only where a
 coefficient would be negative (stage A, a closed-form clamp at the
 boundary; stage B, cell-by-cell correction), with an alpha file for
 ParaView.
+
+Phase 6a: the run is a library routine that never stops, and LaGriT
+can call it through `del_vor_lagrit_entry` with its own mesh arrays
+in place (manual, section 17); a mesh with parent/child chains
+(`itp1` = 41) is refused. Next: del_vor moves into LaGriT, renamed
+cv_dual (6b), and becomes `dump / control_volume` (6c).
 
 The manual: [`docs/del_vor_manual.md`](docs/del_vor_manual.md).
 The LaGriT command page (for the LaGriT version):
@@ -151,7 +157,7 @@ downloaded from the run's Summary page (Artifacts).
 | file | contents |
 |---|---|
 | `src/del_vor_kinds.F90` | integer and real kinds (64-bit integers) |
-| `src/del_vor_log.F90` | all screen output, so LaGriT can redirect it |
+| `src/del_vor_log.F90` | all screen output, so LaGriT can redirect it (`log_set_sink`) |
 | `src/del_vor_options.F90` | the keyword options, shared by every front end |
 | `src/del_vor_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
 | `src/del_vor_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
@@ -172,7 +178,10 @@ downloaded from the run's Summary page (Artifacts).
 | `src/del_vor_write_uge.F90` | PFLOTRAN `.uge` |
 | `src/del_vor_write_tough.F90` | TOUGH2 `MESH` |
 | `src/del_vor_report.F90` | the Delaunay report and the run summary |
-| `src/del_vor.F90` | the standalone program |
+| `src/del_vor_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
+| `src/del_vor_entry.F90` | the LaGriT entry point `del_vor_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
+| `src/del_vor.F90` | the standalone program: options, the AVS file, then `del_vor_run` |
+| `test/suite/test_entry/harness/` | `del_vor_entry_test`: calls the entry point as LaGriT will (used by `test_entry`) |
 | `test/del_vor_selftest.F90` | kernel checks used by `test/suite/test_kernels` |
 | `tools/stor_compare.py` | compares two `.stor` files and labels every difference with what explains it |
 

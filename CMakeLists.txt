@@ -36,3 +36,21 @@ add_executable(del_vor_selftest test/del_vor_selftest.F90)
 target_link_libraries(del_vor_selftest del_vor_core)
 
 install(TARGETS del_vor RUNTIME DESTINATION bin)
+
+# test_entry's harness: calls the LaGriT entry point from fixed-form
+# Fortran compiled with LaGriT's gfortran flags and no interface, as
+# LaGriT will (test/suite/test_entry); not installed.
+add_executable(del_vor_entry_test
+  test/suite/test_entry/harness/del_vor_entry_test.F90
+  test/suite/test_entry/harness/call_entry.f)
+target_link_libraries(del_vor_entry_test del_vor_core)
+set_source_files_properties(test/suite/test_entry/harness/call_entry.f
+  PROPERTIES Fortran_FORMAT FIXED)
+if(CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+  set_source_files_properties(test/suite/test_entry/harness/call_entry.f
+    PROPERTIES COMPILE_OPTIONS
+    "-ffixed-form;-fcray-pointer;-fdefault-integer-8;-std=legacy;-fno-sign-zero;-fno-range-check")
+elseif(CMAKE_Fortran_COMPILER_ID MATCHES "Intel")
+  set_source_files_properties(test/suite/test_entry/harness/call_entry.f
+    PROPERTIES COMPILE_OPTIONS "-fixed;-integer-size=64")
+endif()
