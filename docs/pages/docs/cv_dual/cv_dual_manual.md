@@ -352,7 +352,7 @@ Where it comes from: LaGriT's `connect` does not always make an
 exactly Delaunay mesh. On jittered grids (test_cv_dual_timing) it left 9
 facets with delta/L down to -1.5e-5 in a mesh of 960,000 tets and 15
 down to -3.6e-4 in one of a million tets (both confirmed in exact
-arithmetic), and on Carl's Mac down to -3.7e-4 at 3 million tets and
+arithmetic), and down to -3.7e-4 at 3 million tets and
 -2.3e-3 at 10.4 million; none in 10 million triangles. In the
 million-tet mesh no coefficient came out negative (the smallest A/d
 was +9.5e-14, a near-zero face); the 45 edges of the 15 facets all
@@ -945,7 +945,7 @@ digits LaGriT prints. Found in LaGriT along the way:
 ## 16. Speed and memory
 
 Every step takes time in proportion to the mesh size. test_cv_dual_timing
-fits log time against log size; on Carl's Mac (Intel, 6 cores; Nov
+fits log time against log size; on an Intel Mac (6 cores; Nov
 10, 2026), from 9,126 to 10.4 million tets and from 9,800 to 10
 million triangles, the slope of cv_dual's total is 1.02 (tets) and
 1.01 (triangles), and of every step 0.995 to 1.042. LaGriT's
