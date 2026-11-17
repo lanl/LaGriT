@@ -1,30 +1,35 @@
-# cv_dual test suite
+# cv_dual's test suites
 
 Tests that judge cv_dual's results against answers worked out
 independently, not only against a stored copy of an earlier output.
-Each suite is a folder with its own `00README`, runner, checker and a
-results page with pictures. The layout follows LaGriT's `test/suite`.
+Each suite is a folder `test/suite/test_cv_dual_*` with its own
+`00README`, runner, checker and a results page with pictures, in the
+layout of LaGriT's suites. This folder (`cv_dual_tools`) holds what
+they share: `pagekit.py` (the results pages), `svgdraw.py` (the
+pictures), `exact_check.py` (the exact Delaunay oracle),
+`cv_dual_selftest.F90` (the kernel checks) and `stor_compare.py`.
 
 ## Quick start
 
-From this folder, after building cv_dual in `build/` at the top of the
-checkout:
+LaGriT's `run_all.sh` runs them, from `test/suite`, after building
+LaGriT in `build/` at the top of the checkout (cv_dual is built with
+it):
 
 ```
-sh run_all.sh                 # every suite but test_cv_dual_timing, a few seconds
-JOBS=4 sh run_all.sh          # the same, 4 suites at a time
-ONLY=gold sh run_all.sh       # the suites tagged gold (or a name)
-ONLY=timing sh run_all.sh     # test_cv_dual_timing (development; see its 00README)
-sh run_all.sh /path/to/cv_dual
+ONLY=cv_dual JOBS=6 sh run_all.sh    # cv_dual's 12 suites, about 15 s
+JOBS=6 sh run_all.sh                 # with every LaGriT suite
+BIG=1 ONLY=test_cv_dual_timing sh run_all.sh   # timing (development)
 ```
 
-Then open `summary.html` in this folder: one row per suite, linking to
+Then open `test/suite/summary.html`: one row per suite, linking to
 each suite's own page. Every runner can also be run alone from its
-folder (for example `sh test_cv_dual_kernels/run_kernel_tests.sh`) and writes
-`summary.html` there.
+folder (for example `sh test_cv_dual_kernels/run_kernel_tests.sh`) and
+writes `summary.html` there.
 
 Each runner uses `build/cv_dual` of this checkout if it exists, else
-`cv_dual` on `PATH`, unless a path is given as the first argument.
+`cv_dual` on `PATH`, unless a path is given as the first argument;
+given LaGriT's `lagrit` (as `run_all.sh` passes it), it uses the
+`cv_dual` beside it.
 `test_cv_dual_kernels` runs `cv_dual_selftest` and `test_cv_dual_entry` runs
 `cv_dual_entry_test`, both built next to `cv_dual`.
 Requires: a POSIX shell and Python 3 (standard library only).
@@ -45,7 +50,7 @@ Requires: a POSIX shell and Python 3 (standard library only).
 | `test_cv_dual_matrix` | the matrix file (`-matrix FILE`, `-matrix_bins N`) read back: one point per `.stor` entry at (j, -i) in the selected rows, both halves and the diagonal; every value against the `.stor` and the mesh (coefficient, distance, area, class, flags, materials, alpha from the mesh file, angle from the faces file); the report's bandwidth and profile; the image's pixels against the points | 3 s |
 | `test_cv_dual_entry` | the LaGriT entry point (`cv_dual_lagrit_entry`) called by a harness the way LaGriT will (fixed-form Fortran with LaGriT's flags, no interface, the mesh arrays in place): every file, the screen output (through the log hook) and the returned volumes equal the program's; bad options, bad meshes, parent/child chains and arrays in the wrong layout come back in `ierr` with a message, write nothing, and the next call works | 2 s |
 | `test_cv_dual_paraview` | the ParaView files (`-paraview ROOT`) read back by the suite's own reader (`vtu_read.py`): every control volume (polygon in 2D and fracture networks, polyhedron in 3D) closed, outward, with the `.stor` volume measured from its own faces; Voronoi faces on their bisector planes; the subsets; the dual faces' areas; the negative coefficients; both polyhedron layouts, text and binary | 5 s |
-| `test_cv_dual_timing` | for development, not run by default (`ONLY=timing sh run_all.sh`): cv_dual's time per step and peak memory on meshes of growing size made by LaGriT, the log-log slope (1 = linear), and LaGriT's `dump / stor` on the same meshes | minutes |
+| `test_cv_dual_timing` | for development, only with `BIG=1` (tag `big`): cv_dual's time per step and peak memory on meshes of growing size made by LaGriT, the log-log slope (1 = linear), and LaGriT's `dump / stor` on the same meshes | minutes |
 
 ## Conventions
 
@@ -70,4 +75,4 @@ Meshes have VERTICES and CELLS.
 ## What git keeps
 
 Only inputs, scripts and READMEs. Everything a run writes (`work/`,
-`logs/`, `summary.html`, `run_all.log`) is listed in `.gitignore`.
+`logs/`, `summary.html`) is listed in LaGriT's `test/suite/.gitignore`.

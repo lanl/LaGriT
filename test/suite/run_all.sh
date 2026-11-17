@@ -5,8 +5,10 @@
 # Runs every test suite (seven for createpts/poisson_disk, one for the
 # other createpts options, one for triangulate, one for interpolate and
 # compute, one for read / dump avs, LaGriT's level01 tests from
-# ../level01, and, with BIG=1 only, the connect timing suite), one
-# after another, and prints one line per suite. Each suite's own
+# ../level01, the 13 suites of cv_dual (test_cv_dual_*; ONLY=cv_dual
+# runs them alone), and, with BIG=1 only, the connect timing suite and
+# cv_dual's timing suite), one after another, and prints one line per
+# suite. Each suite's own
 # runner, logs and summary page are unchanged; this only calls them.
 # See README.md.
 #
@@ -109,6 +111,19 @@ test_connect_exact:run_connect_exact_tests.sh:40:connect,3d,slow
 test_predicates:run_predicates_tests.sh:10:connect,2d,3d
 test_connect_hull:run_connect_hull_tests.sh:20:connect,3d,slow
 test_recon:run_recon_tests.sh:10:recon,2d,3d
+test_cv_dual_kernels:run_kernel_tests.sh:1:cv_dual,2d,3d
+test_cv_dual_voronoi_gold:run_voronoi_gold_tests.sh:1:cv_dual,stor,2d,3d
+test_cv_dual_options:run_options_tests.sh:2:cv_dual,errors,2d,3d
+test_cv_dual_poisson_lagrit:run_poisson_lagrit_tests.sh:2:cv_dual,stor,3d
+test_cv_dual_validity:run_validity_tests.sh:1:cv_dual,errors,2d,3d
+test_cv_dual_delaunay:run_delaunay_tests.sh:3:cv_dual,2d,3d
+test_cv_dual_dfn:run_dfn_tests.sh:5:cv_dual,dfn,2d
+test_cv_dual_parity:run_parity_tests.sh:15:cv_dual,stor,2d,3d,dfn
+test_cv_dual_policy:run_policy_tests.sh:15:cv_dual,2d,3d,dfn
+test_cv_dual_paraview:run_paraview_tests.sh:12:cv_dual,2d,3d,dfn
+test_cv_dual_matrix:run_matrix_tests.sh:6:cv_dual,2d,3d,dfn
+test_cv_dual_entry:run_entry_tests.sh:7:cv_dual,errors,stor,2d,3d,dfn
+test_cv_dual_timing:run_timing_tests.sh:180:cv_dual,2d,3d,big
 test_connect_timing:run_connect_timing.sh:290:connect,2d,3d,big
 "
 

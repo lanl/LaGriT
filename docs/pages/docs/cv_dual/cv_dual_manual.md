@@ -1,10 +1,14 @@
 # cv_dual manual
 
 Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `cv_dual`, as of phase 6a (the library and its
-LaGriT entry point, [section 17](#17-the-library-and-the-lagrit-entry-point)). The LaGriT command
-(`dump / control_volume`) is described in
-[`lagrit/dump/DUMP_CONTROL_VOLUME.md`](lagrit/dump/DUMP_CONTROL_VOLUME.md).
+standalone program `cv_dual`, part of LaGriT since phase 6b, and its
+library and LaGriT entry point
+([section 17](#17-the-library-and-the-lagrit-entry-point)). The
+LaGriT command (`dump / control_volume`) is described in
+[`DUMP_CONTROL_VOLUME.md`](../commands/dump/DUMP_CONTROL_VOLUME.md).
+cv_dual was developed as del_vor in
+[github.com/cwgable/del_vor](https://github.com/cwgable/del_vor)
+(archived; its history is in LaGriT's).
 
 Contents
 
@@ -55,16 +59,20 @@ the violations file, which say why.
 
 ## 2. Building
 
-CMake 3.16 or later and a Fortran 2008 compiler (gfortran 9 or later,
-or Intel Fortran). No libraries.
+cv_dual is built with LaGriT, from the top of the LaGriT checkout:
 
 ```
 cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
 cmake --build build --parallel 6
 ```
 
-This builds `build/cv_dual` and the kernel self test
-`build/cv_dual_selftest`.
+This builds `build/lagrit` and, beside it, `build/cv_dual` and the two
+programs the test suites use, `build/cv_dual_selftest` and
+`build/cv_dual_entry_test`. The source is in `src/cv_dual/`; it needs
+no LaGriT library, only a Fortran 2008 compiler (gfortran 9 or later,
+or Intel Fortran), and is compiled with LaGriT's flags (8-byte
+integers; a zero is written `0.0000000000000000E+00`, without a
+sign).
 
 ## 3. Running
 
@@ -838,18 +846,18 @@ gfortran adds the line `STOP 1` after the message.
 
 ```
 cd test/suite
-sh run_all.sh                  # every suite, a few seconds
-JOBS=6 sh run_all.sh           # 6 suites at a time
+ONLY=cv_dual JOBS=6 sh run_all.sh   # cv_dual's 12 suites, about 15 s
+JOBS=6 sh run_all.sh                # with every LaGriT suite
 ```
 
-then open `test/suite/summary.html`. Each suite judges cv_dual
+then open `test/suite/summary.html` (LaGriT's `run_all.sh`). Each suite judges cv_dual
 against answers worked out independently (formulas, exact
 arithmetic, LaGriT's and lanl/voronoi's files), draws a picture of
 every case, and has a page with a "What it does" note for each case.
-`test/suite/README.md` lists the suites; each suite's `00README`
-says what it checks and how. `test_cv_dual_timing`, for development, is not
-run by default (`ONLY=timing sh run_all.sh`; it needs LaGriT and
-makes big meshes).
+`test/suite/cv_dual_tools/README.md` lists the suites; each suite's
+`00README` says what it checks and how. `test_cv_dual_timing`, for
+development, runs only with `BIG=1` (`BIG=1 ONLY=test_cv_dual_timing
+sh run_all.sh`; it needs LaGriT and makes big meshes).
 
 ## 15. Comparing .stor files, and parity with LaGriT
 

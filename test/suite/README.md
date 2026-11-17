@@ -113,6 +113,7 @@ run_all.sh`.
 | `test_connect_hull` | 3D `connect` fills to the convex hull: random, graded, thin, UTM-sized and jittered-grid point sets with plain connect, `exact` and `nohull`; validity, the hull volume covered (an independent hull), exact Delaunay | 20 s |
 | `test_recon` | `recon / 0` and `recon / 1` in 2D and 3D, one and two materials: Delaunay after the flips, obtuse boundary angles, where added vertices go, the boundary, the area or volume of each material (exact rational checks); KNOWN: `recon / 1` in 3D breaks Delaunay and writes a stray GMV file, a mesh without parent / child vertices stops LaGriT | 10 s |
 | `test_connect_timing` | `BIG=1` only: connect time against vertex count for four vertex orders; every mesh checked | 5 min |
+| `test_cv_dual_*` (13) | cv_dual (`src/cv_dual`, built as `build/cv_dual`): Voronoi control volumes and coefficients from Delaunay meshes; its kernels, options, mesh and Delaunay checks, fracture networks, parity with `dump / stor`, the control-volume policies, ParaView and matrix files, and the LaGriT entry point. `ONLY=cv_dual` runs them alone; `test_cv_dual_timing` only with `BIG=1`. Listed in `cv_dual_tools/README.md` | 15 s |
 
 Times are for a Release build on a recent Mac.
 

@@ -4,8 +4,8 @@
 #
 # test_cv_dual_timing: cv_dual's time per step and peak memory on meshes of
 # growing size, and LaGriT's dump / stor on the same meshes. For
-# development; not part of the default run_all.sh (run it with
-# ONLY=timing sh run_all.sh, or alone). See 00README.
+# development; LaGriT's run_all.sh runs it only with BIG=1 (BIG=1
+# ONLY=test_cv_dual_timing sh run_all.sh), or run it alone. See 00README.
 #
 # Settings (environment variables):
 #   LAGRIT=/path/to/lagrit   makes the meshes (if missing) and times
@@ -31,7 +31,9 @@ if [ -n "${1:-}" ]; then
     # from LaGriT's run_all.sh: lagrit's path; cv_dual is beside it
     case $(basename "$1") in
         cv_dual*) ;;
-        *) CV_DUAL=$(dirname "$1")/cv_dual ;;
+        *) CV_DUAL=$(dirname "$1")/cv_dual
+           # and that lagrit makes and times the meshes
+           LAGRIT=${LAGRIT:-$1} ;;
     esac
 elif [ -n "$_root" ] && [ -x "$_root/build/cv_dual" ]; then
     CV_DUAL=$_root/build/cv_dual

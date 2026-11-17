@@ -247,6 +247,9 @@ file(
     "${SRC_CORE}/*.F"
     "${SRC_CORE}/*.f90"
 )
+# src/cv_dual/ is built on its own (cv_dual_core, below): keep it out of
+# liblagrit, also where the file system ignores case (*.f90 = *.F90)
+list(FILTER SRC_CORE_FILES EXCLUDE REGEX "/cv_dual/")
 
 # Files we don't want compiled
 list(FILTER SRC_UTIL_FILES EXCLUDE REGEX ".*mm2000_header.F$")
@@ -353,5 +356,46 @@ install(
 install(
     TARGETS liblagrit
     DESTINATION "lib"
+)
+
+# ////////// cv_dual: Voronoi control volumes and coefficients //////////
+# src/cv_dual/ (docs/pages/docs/cv_dual/): the library cv_dual_core, the
+# stand-alone program cv_dual, and two programs for its test suites
+# (test/suite/test_cv_dual_*): cv_dual_selftest (the kernels) and
+# cv_dual_entry_test (calls the LaGriT entry point
+# cv_dual_lagrit_entry from fixed-form Fortran, as LaGriT will). All
+# four go in the build folder next to lagrit.
+file(GLOB CV_DUAL_CORE_FILES "${SRC_CORE}/cv_dual/cv_dual_*.F90")
+add_library(cv_dual_core STATIC ${CV_DUAL_CORE_FILES})
+set_target_properties(cv_dual_core PROPERTIES
+  Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules_cv_dual/")
+target_include_directories(cv_dual_core
+  PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/modules_cv_dual/")
+# getrusage's ru_maxrss is in bytes on macOS, kilobytes elsewhere
+# (cv_dual_timing); gfortran does not always predefine __APPLE__
+if(APPLE)
+  target_compile_definitions(cv_dual_core PRIVATE CV_DUAL_MAXRSS_BYTES)
+endif()
+
+add_executable(cv_dual ${SRC_CORE}/cv_dual/cv_dual.F90)
+target_link_libraries(cv_dual PRIVATE cv_dual_core)
+set_target_properties(cv_dual PROPERTIES LINKER_LANGUAGE Fortran)
+
+set(CV_DUAL_TESTS "${CMAKE_CURRENT_SOURCE_DIR}/test/suite")
+add_executable(cv_dual_selftest
+  ${CV_DUAL_TESTS}/cv_dual_tools/cv_dual_selftest.F90)
+target_link_libraries(cv_dual_selftest PRIVATE cv_dual_core)
+add_executable(cv_dual_entry_test
+  ${CV_DUAL_TESTS}/test_cv_dual_entry/harness/cv_dual_entry_test.F90
+  ${CV_DUAL_TESTS}/test_cv_dual_entry/harness/call_entry.f)
+target_link_libraries(cv_dual_entry_test PRIVATE cv_dual_core)
+if (WIN32)
+  set_target_properties(cv_dual cv_dual_selftest cv_dual_entry_test
+    PROPERTIES SUFFIX ".exe")
+endif()
+
+install(
+    TARGETS cv_dual
+    DESTINATION "bin"
 )
 

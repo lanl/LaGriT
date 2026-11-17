@@ -1,9 +1,10 @@
 test_cv_dual_timing -- cv_dual's time and memory against size, and against LaGriT (Nov 2026)
 =======================================================================
 
-For development: not run by the default run_all.sh (it needs LaGriT
-and big meshes, and takes minutes). Run it alone or with
-ONLY=timing sh run_all.sh.
+For development: LaGriT's run_all.sh runs it only with BIG=1 (it needs
+LaGriT and big meshes, and takes minutes): from test/suite,
+BIG=1 ONLY=test_cv_dual_timing sh run_all.sh (the lagrit given to
+run_all.sh makes and times the meshes), or alone as below.
 
 QUICK START
 

@@ -7,11 +7,10 @@ tags: dump control_volume cv_dual voronoi stor uge tough2 delaunay
 
 ------------------------
 
-> **Draft for the LaGriT version of cv_dual (phase 6 of 6).** This
-> page describes the command as planned; the standalone program
-> `cv_dual` already does everything below. Kept in the cv_dual
-> repository (`docs/lagrit/dump/DUMP_CONTROL_VOLUME.md`) until the
-> command is in LaGriT, then moved to `docs/pages/docs/commands/dump/`.
+> **Draft: the command is not in LaGriT yet (phase 6c).** This page
+> describes it as planned; the program `cv_dual` (built with LaGriT,
+> `build/cv_dual`) already does everything below. The program's
+> manual: [cv_dual manual](../../cv_dual/cv_dual_manual.md).
 
 **`dump/control_volume`** checks a mesh object and computes its
 control-volume geometry with cv_dual: the control volume of each
