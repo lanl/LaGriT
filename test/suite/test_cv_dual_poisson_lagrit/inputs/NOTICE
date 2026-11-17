@@ -1,0 +1,39 @@
+From Carl Gable, Nov 8 2026: cases 1 and 2 of LaGriT's suite
+test/suite/test_poisson_3d, with the box reduced to 0.4 x 0.4 x 0.2
+(x, y, z in [0, 0.4] x [0, 0.4] x [0, 0.2]) to keep the files small.
+
+  test_Poisson_3D_c1_c2.lgi        the LaGriT deck (runs cases 1, 2)
+  test_run_createpts_poisson.mlgi  the macro it calls: createpts /
+                                   poisson_disk / 3d_box ... connect,
+                                   dump / avs, dump / stor
+  test_3d_poi_01.inp, .stor        case 1: h = 0.025, no buffer on the
+                                   outside surfaces (negative
+                                   coefficients expected)
+  test_3d_poi_02.inp, .stor        case 2: h = 0.025, buffer = h on the
+                                   outside surfaces
+
+The .stor files were written by LaGriT's dump / stor default,
+anothermatbld3d ("matbld3d_astor" on line 2): compressed, with
+coefficients equal within 1e-8 of the largest merged, and coefficients
+below 1e-8 of the largest left out.
+
+Added Nov 8 2026, also from Carl: the three meshes of LaGriT's suite
+test/suite/test_poisson_2d, a unit square [-0.5, 0.5]^2.
+
+  test_Poisson_2D.lgi              the deck, with dump / stor lines
+                                   added by Carl and output names
+                                   shortened (the long names were cut
+                                   off by dump / stor)
+  unit_square.poly                 the polygon it reads
+  00README_test_poisson_2d         that suite's README
+  output01_square_uniform.inp      uniform h = 0.05 (257 vertices)
+    with output_01_square_uniform.stor
+  output02_square_var.inp, .stor   variable h, h0 = 0.01,
+                                   WIDTH_FACTOR 10 (2109 vertices)
+  output03_square_var.inp, .stor   the same, WIDTH_FACTOR 20 (1088)
+
+  user_h_field_att.mlgi            the h field of output02 and 03:
+                                   h = max(h0, h0 WIDTH_FACTOR |x|)
+
+These .stor files were written by matbld2d ("matbld2d_stor"):
+uncompressed, every value written.

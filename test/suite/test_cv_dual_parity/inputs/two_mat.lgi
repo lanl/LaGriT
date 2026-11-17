@@ -1,0 +1,12 @@
+* two_mat: a jittered 7 x 7 x 5 grid, imt1 2 above z = 0.31,
+* connected (LaGriT puts the material interface on tet faces)
+cmo / create / mo1 / / / tet
+createpts / xyz / 7 7 5 / 0. 0. 0. / 1. 1. 0.6 / 1 1 1
+cmo / setatt / mo1 / imt1 / 1 0 0 / 1
+pset / ptop / attribute / zic / 1 0 0 / gt 0.31
+cmo / setatt / mo1 / imt1 / pset get ptop / 2
+pset / pin / geom / xyz / 1 0 0 / 0.05 0.05 0.05 / 0.95 0.95 0.55
+perturb / pset get pin / 0.03 0.03 0.03
+connect
+dump / avs / two_mat.inp / mo1
+finish

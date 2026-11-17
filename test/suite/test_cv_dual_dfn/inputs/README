@@ -1,0 +1,7 @@
+full_mesh.inp: Carl's 4-fracture DFN example from dfnWorks, test case
+4_user_rects_uniform (sent Nov 8, 2026); the mesh of the design
+document. 771 vertices, 1386 triangles (fractures 1 to 4: 303, 443,
+320, 320), 60 intersection edges, no parent/child vertices. No
+violation; coefficients and areas match the cotangent formula; total
+area 3.1000000715. If the file is missing, that case is reported as
+SKIPPED, not failed.
