@@ -158,8 +158,8 @@ contains
          write (arg, '(a,i0,a)') 'cv_dual: this mesh has parent/'// &
             'child chains (', npar, ' vertices with itp1 = 41)'
          call log_line(trim(arg))
-         errmsg = 'cv_dual: run resetpts / parent first; nothing '// &
-                  'is written'
+         errmsg = 'cv_dual: run resetpts / parent, then rmpoint / '// &
+                  'compress; nothing is written'
          go to 900
       end if
 

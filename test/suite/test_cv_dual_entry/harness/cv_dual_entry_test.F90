@@ -5,7 +5,7 @@
 ! OPTIONS argument, in one process:
 !
 !   cv_dual_entry_test MESH.inp VOLFILE [-sink] [-tamper WHAT]
-!                      OPTIONS [OPTIONS ...]
+!                      [-command TEXT] OPTIONS [OPTIONS ...]
 !
 ! -sink         every log line goes through log_set_sink to a routine
 !               that prints it as 'lagrit| line' (LaGriT's writloga
@@ -13,6 +13,8 @@
 ! -tamper WHAT  spoil the mesh first: type (cell 1 a hex), offset
 !               (itetoff(1) = 1), vertex (itet(1) = nnodes + 1), nen
 !               (nen 5)
+! -command TEXT the command for the .stor's second line (as LaGriT
+!               passes its command); default blank
 !
 ! Prints 'harness: call K: ierr = N' after each call; writes the
 ! volumes of the last call that returned 0 to VOLFILE (one per line,
@@ -40,7 +42,7 @@ program cv_dual_entry_test
    external :: call_entry
    type(mesh_t) :: m
    real(rk), allocatable :: vol(:)
-   character(len=4096) :: arg, mesh, volfile, tamper
+   character(len=4096) :: arg, mesh, volfile, tamper, command
    integer :: na, ia, ierr4, lu, ncall
    integer(ik) :: ierr, nen
 
@@ -59,6 +61,7 @@ program cv_dual_entry_test
    end if
    nen = m%nen
    tamper = ' '
+   command = ' '
    ia = 3
    do while (ia <= na)
       call get_command_argument(ia, arg)
@@ -67,6 +70,9 @@ program cv_dual_entry_test
       else if (trim(arg) == '-tamper') then
          ia = ia + 1
          call get_command_argument(ia, tamper)
+      else if (trim(arg) == '-command') then
+         ia = ia + 1
+         call get_command_argument(ia, command)
       else
          exit
       end if
@@ -95,12 +101,12 @@ program cv_dual_entry_test
          call call_entry(m%nnodes, m%nelements, nen, m%xic, m%yic, &
                          m%zic, m%itettyp, m%itetoff, m%itet, &
                          m%itetclr, m%imt1, m%itp1, m%isn1, trim(arg), &
-                         vol, ierr)
+                         trim(command), vol, ierr)
       else
          call call_entry(m%nnodes, m%nelements, m%nen, m%xic, m%yic, &
                          m%zic, m%itettyp, m%itetoff, m%itet, &
                          m%itetclr, m%imt1, m%itp1, m%isn1, trim(arg), &
-                         vol, ierr)
+                         trim(command), vol, ierr)
       end if
       write (*, '(a,i0,a,i0)') 'harness: call ', ncall, ': ierr = ', &
          ierr

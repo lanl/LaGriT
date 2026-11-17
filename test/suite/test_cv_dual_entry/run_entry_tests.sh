@@ -81,8 +81,13 @@ while IFS='|' read -r name mesh args flags calls ierr msg about; do
     mkdir -p "$WORK/$name/entry"
     cp "$mesh" "$WORK/$name/entry/"
     set -- "$m" vol.txt
-    # shellcheck disable=SC2086
-    [ "$flags" != "-" ] && set -- "$@" $flags
+    # flags, one word each; a ~ in a word stands for a blank (the
+    # -command text of a LaGriT command)
+    if [ "$flags" != "-" ]; then
+        for w in $flags; do
+            set -- "$@" "$(echo "$w" | tr '~' ' ')"
+        done
+    fi
     rest=$calls
     while [ -n "$rest" ]; do
         c=${rest%%;*}

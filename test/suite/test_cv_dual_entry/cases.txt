@@ -8,7 +8,7 @@
 # (calls separated by ';', = means ARGUMENTS), in one process. ierr: the
 # ierr each call must return. message: text the harness output must hold
 # (- for none). FLAGS: -sink (log lines through the LaGriT hook),
-# -tamper WHAT, or - for none. Meshes under work/gen_* are made by
+# -tamper WHAT, -command TEXT (a ~ for each blank), or - for none. Meshes under work/gen_* are made by
 # test_cv_dual_validity's and test_cv_dual_delaunay's generators.
 #
 tri2d       | ../test_cv_dual_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor -uge s.uge -tough s.mesh -zero_area keep -report s.report | -sink | = | 0 | - | lanl/voronoi's 9-vertex square, every output format, zero-area connections kept: the .stor, .uge, TOUGH MESH and report from the entry point equal the program's byte for byte.
@@ -22,6 +22,7 @@ near_tie    | work/gen_d/near_tie.inp | -stor s.stor -report s.report | -sink | 
 flip_median | work/gen_d/flip3d.inp | -cv median -stor s.stor | -sink | = | 0 | - | test_cv_dual_delaunay's flip3d (not Delaunay): cv median does not need a Delaunay mesh and goes on; the violations file and .stor equal the program's.
 check_only  | ../test_cv_dual_parity/inputs/two_mat.inp | -stor s.stor -check_only on | -sink | = | 0 | - | check_only on: the mesh is checked, no .stor is written, and the volumes the caller passed are left as they were (the harness writes no vol.txt).
 lagrit_form | ../test_cv_dual_voronoi_gold/inputs/mesh_3D.inp | -stor s.stor -zero_area keep -cv median | -sink | stor, s.stor / zero_area, keep / cv, median | 0 | - | The options in LaGriT's form, keyword, value pairs between slashes ("stor, s.stor / zero_area, keep / cv, median"): the same files as the program's -keyword value form.
+lagrit_cmd  | ../test_cv_dual_voronoi_gold/inputs/mesh_3D.inp | -stor s.stor -zero_area keep | -sink -command cv_dual~dump~/~control_volume~/~mo_tet~/~stor,~s.stor~/~zero_area,~keep | stor, s.stor / zero_area, keep | 0 | - | The command text LaGriT passes (the 16th argument): the .stor's second line ends with (cv_dual dump / control_volume / mo_tet / stor, s.stor / zero_area, keep), the command as typed; every other byte as the program's.
 no_sink     | ../test_cv_dual_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | - | = | 0 | - | No log hook: the entry point writes its lines to the screen as the program does.
 twice       | ../test_cv_dual_poisson_lagrit/inputs/test_3d_poi_01.inp | -stor s.stor -report s.report | -sink | -cv hybrid -stor s.stor -report s.report -timing on; = | 0 0 | - | Two calls in one process: first the hybrid with timing on, then plain Voronoi. Nothing carries over from the first call: the second's files and screen output equal the program's.
 bad_option  | ../test_cv_dual_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor | -sink | bogus, 1 / stor, bad.stor; = | 1 0 | unknown keyword bogus | An unknown keyword: the first call returns ierr 1 with the program's message and writes nothing (no bad.stor); LaGriT goes on, and the next call works.
