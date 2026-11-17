@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="360" viewBox="0 0 900 360" font-family="Helvetica, Arial, sans-serif">
+<rect width="900" height="360" fill="#fff"/>
+<rect x="30.0" y="65.8" width="264.5" height="80.5" fill="#888" fill-opacity="0.08"/>
+<polygon points="47.2,146.2 277.2,146.2 162.2,94.5" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<line x1="47.2" y1="146.2" x2="277.2" y2="146.2" stroke="#111" stroke-width="2.5"/>
+<line x1="162.2" y1="146.2" x2="162.2" y2="248.2" stroke="#c0392b" stroke-width="2.5"/>
+<circle cx="162.2" cy="146.2" r="3" fill="#111"/>
+<line x1="219.8" y1="120.4" x2="162.2" y2="248.2" stroke="#c0392b" stroke-width="2.5"/>
+<circle cx="219.8" cy="120.4" r="3" fill="#111"/>
+<line x1="104.7" y1="120.4" x2="162.2" y2="248.2" stroke="#c0392b" stroke-width="2.5"/>
+<circle cx="104.7" cy="120.4" r="3" fill="#111"/>
+<circle cx="162.2" cy="248.2" r="5" fill="#c0392b"/>
+<text x="170.2" y="264.2" font-size="13" fill="#c0392b" font-weight="bold" text-anchor="start">C</text>
+<text x="30.0" y="40.0" font-size="14" fill="#111" font-weight="bold" text-anchor="start">cv voronoi: P = C</text>
+<text x="35.7" y="82.0" font-size="12" fill="#555" text-anchor="start">mesh</text>
+<text x="35.7" y="166.2" font-size="12" fill="#555" text-anchor="start">outside</text>
+<text x="30.0" y="320.0" font-size="13" fill="#c0392b" text-anchor="start">boundary edge: piece / length = -0.443</text>
+<rect x="320.0" y="65.8" width="264.5" height="80.5" fill="#888" fill-opacity="0.08"/>
+<polygon points="337.2,146.2 567.2,146.2 452.2,94.5" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<line x1="337.2" y1="146.2" x2="567.2" y2="146.2" stroke="#111" stroke-width="2.5"/>
+<line x1="452.2" y1="146.2" x2="452.2" y2="129.0" stroke="#1a7f37" stroke-width="2.5"/>
+<circle cx="452.2" cy="146.2" r="3" fill="#111"/>
+<line x1="509.8" y1="120.4" x2="452.2" y2="129.0" stroke="#1a7f37" stroke-width="2.5"/>
+<circle cx="509.8" cy="120.4" r="3" fill="#111"/>
+<line x1="394.8" y1="120.4" x2="452.2" y2="129.0" stroke="#1a7f37" stroke-width="2.5"/>
+<circle cx="394.8" cy="120.4" r="3" fill="#111"/>
+<circle cx="452.2" cy="129.0" r="5" fill="#1a7f37"/>
+<text x="460.2" y="145.0" font-size="13" fill="#1a7f37" font-weight="bold" text-anchor="start">G</text>
+<text x="320.0" y="40.0" font-size="14" fill="#111" font-weight="bold" text-anchor="start">cv median: P = G</text>
+<text x="325.8" y="82.0" font-size="12" fill="#555" text-anchor="start">mesh</text>
+<text x="325.8" y="166.2" font-size="12" fill="#555" text-anchor="start">outside</text>
+<text x="320.0" y="320.0" font-size="13" fill="#1a7f37" text-anchor="start">boundary edge: piece / length = +0.075</text>
+<rect x="610.0" y="65.8" width="264.5" height="80.5" fill="#888" fill-opacity="0.08"/>
+<polygon points="627.2,146.2 857.2,146.2 742.2,94.5" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<line x1="627.2" y1="146.2" x2="857.2" y2="146.2" stroke="#111" stroke-width="2.5"/>
+<line x1="742.2" y1="146.2" x2="742.2" y2="146.2" stroke="#b7791f" stroke-width="2.5"/>
+<circle cx="742.2" cy="146.2" r="3" fill="#111"/>
+<line x1="799.8" y1="120.4" x2="742.2" y2="146.2" stroke="#b7791f" stroke-width="2.5"/>
+<circle cx="799.8" cy="120.4" r="3" fill="#111"/>
+<line x1="684.8" y1="120.4" x2="742.2" y2="146.2" stroke="#b7791f" stroke-width="2.5"/>
+<circle cx="684.8" cy="120.4" r="3" fill="#111"/>
+<circle cx="742.2" cy="146.2" r="5" fill="#b7791f"/>
+<text x="750.2" y="162.2" font-size="13" fill="#b7791f" font-weight="bold" text-anchor="start">P</text>
+<text x="610.0" y="40.0" font-size="14" fill="#111" font-weight="bold" text-anchor="start">cv hybrid (stage A): P on the edge</text>
+<text x="615.8" y="82.0" font-size="12" fill="#555" text-anchor="start">mesh</text>
+<text x="615.8" y="166.2" font-size="12" fill="#555" text-anchor="start">outside</text>
+<text x="610.0" y="320.0" font-size="13" fill="#b7791f" text-anchor="start">boundary edge: piece / length = +0.000</text>
+<text x="30.0" y="345.0" font-size="11" fill="#555" text-anchor="start">Dots: the edge midpoints. Colored: the dual segments from each midpoint to the cell point (the triangle's share of each control-volume boundary).</text>
+</svg>

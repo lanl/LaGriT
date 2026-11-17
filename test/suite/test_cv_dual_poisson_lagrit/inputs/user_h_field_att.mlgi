@@ -1,0 +1,33 @@
+#####################################################
+# User defined h field function assignment
+#####################################################
+#
+# h_field_att is already set to POI_H_FACTOR
+#
+define / MO_H_FIELD / mo_poi_h_field
+#
+# x**2
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / &
+               MO_H_FIELD / xic / 2.0
+cmo/printatt/MO_H_FIELD/h_field_att/minmax
+# sqrt(x**2)
+math / power / MO_H_FIELD / h_field_att / 1,0,0 / &
+               MO_H_FIELD / h_field_att / 0.5
+cmo / printatt/MO_H_FIELD/h_field_att/minmax
+# POI_H_FACTOR*sqrt(x**2)
+math/multiply/MO_H_FIELD/h_field_att/1,0,0/ &
+              MO_H_FIELD/h_field_att/ POI_H_FACTOR
+math/multiply/MO_H_FIELD/h_field_att/1,0,0/ &
+              MO_H_FIELD/h_field_att/ WIDTH_FACTOR
+cmo / printatt/MO_H_FIELD/h_field_att/minmax
+math / floor / MO_H_FIELD/h_field_att/1,0,0/ &
+               MO_H_FIELD/h_field_att/POI_H_FACTOR
+cmo/printatt/MO_H_FIELD/h_field_att/minmax
+cmo / status / brief
+#
+# As a diagnostic one can output MO_H_FIELD and view
+# the h(x,y) attribute that will be used to set resolution.
+#
+dump / avs / h_field_out.inp / MO_H_FIELD
+#
+finish

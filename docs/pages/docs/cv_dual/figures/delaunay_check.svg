@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="380" viewBox="0 0 900 380" font-family="Helvetica, Arial, sans-serif">
+<rect width="900" height="380" fill="#fff"/>
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<polygon points="157.8,307.0 157.8,117.0 62.7,197.8" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<polygon points="157.8,117.0 157.8,307.0 276.5,231.0" fill="#b7791f" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<circle cx="156.7" cy="212.0" r="95.0" fill="none" stroke="#2b6cb0" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="180.6" cy="212.0" r="97.7" fill="none" stroke="#b7791f" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="157.8" y1="307.0" x2="157.8" y2="117.0" stroke="#111" stroke-width="2.5"/>
+<line x1="157.8" y1="155.0" x2="195.8" y2="155.0" stroke="#111" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="200.8" y="160.0" font-size="13" fill="#111" text-anchor="start">n</text>
+<line x1="156.7" y1="212.0" x2="180.6" y2="212.0" stroke="#1a7f37" stroke-width="3"/>
+<circle cx="156.7" cy="212.0" r="4" fill="#2b6cb0"/>
+<circle cx="180.6" cy="212.0" r="4" fill="#b7791f"/>
+<text x="156.7" y="237.9" font-size="13" fill="#2b6cb0" text-anchor="middle">c1</text>
+<text x="180.6" y="237.9" font-size="13" fill="#b7791f" text-anchor="middle">c2</text>
+<text x="100.8" y="208.4" font-size="14" fill="#2b6cb0" text-anchor="middle">T1</text>
+<text x="229.0" y="228.4" font-size="14" fill="#b7791f" text-anchor="middle">T2</text>
+<text x="30.0" y="40.0" font-size="15" fill="#111" font-weight="bold" text-anchor="start">Delaunay: delta &gt; 0</text>
+<text x="30.0" y="340.0" font-size="13" fill="#1a7f37" text-anchor="start">delta/L = (c2 - c1) . n / L = +0.126</text>
+<text x="30.0" y="358.0" font-size="11" fill="#555" text-anchor="start">the shared edge (black), the Voronoi edge c1 c2</text>
+<polygon points="362.8,197.8 576.5,231.0 457.8,117.0" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<polygon points="576.5,231.0 362.8,197.8 457.8,307.0" fill="#b7791f" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<circle cx="467.9" cy="225.2" r="108.7" fill="none" stroke="#2b6cb0" stroke-width="1" stroke-dasharray="4 3"/>
+<circle cx="472.1" cy="198.6" r="109.3" fill="none" stroke="#b7791f" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="362.8" y1="197.8" x2="576.5" y2="231.0" stroke="#111" stroke-width="2.5"/>
+<line x1="533.8" y1="224.4" x2="527.9" y2="261.9" stroke="#111" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="532.9" y="266.9" font-size="13" fill="#111" text-anchor="start">n</text>
+<line x1="467.9" y1="225.2" x2="472.1" y2="198.6" stroke="#c0392b" stroke-width="3"/>
+<circle cx="467.9" cy="225.2" r="4" fill="#2b6cb0"/>
+<circle cx="472.1" cy="198.6" r="4" fill="#b7791f"/>
+<text x="447.3" y="227.0" font-size="13" fill="#2b6cb0" text-anchor="middle">c1</text>
+<text x="451.4" y="200.4" font-size="13" fill="#b7791f" text-anchor="middle">c2</text>
+<text x="462.5" y="161.0" font-size="14" fill="#2b6cb0" text-anchor="middle">T1</text>
+<text x="462.5" y="274.9" font-size="14" fill="#b7791f" text-anchor="middle">T2</text>
+<text x="330.0" y="40.0" font-size="15" fill="#111" font-weight="bold" text-anchor="start">not Delaunay: delta &lt; 0</text>
+<text x="330.0" y="340.0" font-size="13" fill="#c0392b" text-anchor="start">delta/L = (c2 - c1) . n / L = -0.125</text>
+<text x="330.0" y="358.0" font-size="11" fill="#555" text-anchor="start">the shared edge (black), the Voronoi edge c1 c2</text>
+<rect x="640.0" y="64.8" width="237.5" height="90.2" fill="#888" fill-opacity="0.08"/>
+<polygon points="663.8,155.0 853.8,155.0 758.8,98.0" fill="#2b6cb0" fill-opacity="0.15" stroke="#444" stroke-width="1.5"/>
+<circle cx="758.8" cy="205.7" r="107.7" fill="none" stroke="#2b6cb0" stroke-width="1" stroke-dasharray="4 3"/>
+<line x1="663.8" y1="155.0" x2="853.8" y2="155.0" stroke="#111" stroke-width="2.5"/>
+<line x1="811.0" y1="155.0" x2="811.0" y2="193.0" stroke="#111" stroke-width="1.5" marker-end="url(#ar)"/>
+<text x="817.0" y="197.0" font-size="13" fill="#111" text-anchor="start">n_out</text>
+<line x1="758.8" y1="155.0" x2="758.8" y2="205.7" stroke="#b7791f" stroke-width="3"/>
+<circle cx="758.8" cy="205.7" r="4" fill="#b7791f"/>
+<text x="742.8" y="210.7" font-size="13" fill="#b7791f" text-anchor="start">c</text>
+<text x="753.8" y="140.0" font-size="14" fill="#2b6cb0" text-anchor="start">T</text>
+<text x="644.8" y="83.5" font-size="12" fill="#555" text-anchor="start">mesh</text>
+<text x="644.8" y="177.8" font-size="12" fill="#555" text-anchor="start">outside</text>
+<text x="744.8" y="171.0" font-size="12" fill="#111" text-anchor="start">x</text>
+<text x="650.0" y="40.0" font-size="15" fill="#111" font-weight="bold" text-anchor="start">boundary: circumcenter outside</text>
+<text x="650.0" y="340.0" font-size="13" fill="#b7791f" text-anchor="start">s/L = (c - x) . n_out / L = +0.267</text>
+<text x="650.0" y="358.0" font-size="11" fill="#555" text-anchor="start">reported, not fatal: a negative A/d is likely here</text>
+</svg>

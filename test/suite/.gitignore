@@ -30,6 +30,8 @@ test_predicates/work/
 test_connect_hull/work/
 test_recon/work/
 test_poisson_octree/work/
+test_cv_dual_*/work/
+test_cv_dual_parity/work_gold/
 logs/
 out_*
 lagrit.out
