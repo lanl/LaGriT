@@ -1,9 +1,10 @@
 # cv_dual manual
 
-Voronoi control volumes from Delaunay meshes. This manual covers the
-standalone program `cv_dual`, part of LaGriT since phase 6b, and its
-library and LaGriT entry point
-([section 17](#17-the-library-and-the-lagrit-entry-point)). The
+Control volumes and their geometric coefficients from Delaunay
+triangle and tet meshes: Voronoi control volumes, median control
+volumes, or a hybrid between Voronoi and median. This manual covers
+the stand-alone program `cv_dual` and its library and LaGriT entry
+point ([section 17](#17-the-library-and-the-lagrit-entry-point)). The
 LaGriT command (`dump / control_volume`) is described in
 [`DUMP_CONTROL_VOLUME.md`](../commands/dump/DUMP_CONTROL_VOLUME.md).
 cv_dual was developed as del_vor in
@@ -33,17 +34,29 @@ Contents
 ## 1. What cv_dual does
 
 cv_dual reads a mesh of triangles (a 2D mesh, or a fracture network
-in 3D) or of tets, and computes, for every vertex, its control volume
-(the cell of the Voronoi diagram around it, cut to the mesh), and for
-every mesh edge ij, the area A(ij) of the Voronoi face between i and
-j and the edge length d(ij). These are the geometric coefficients of
-two-point-flux finite-volume codes. cv_dual writes them as FEHM
-`.stor`, PFLOTRAN `.uge` and TOUGH2 `MESH` files.
+in 3D) or of tets, and computes, for every vertex, its control volume,
+and for every mesh edge ij, the area A(ij) of the face between the
+control volumes of i and j and the edge length d(ij). These are the
+geometric coefficients of two-point-flux finite-volume codes. cv_dual
+writes them as FEHM `.stor`, PFLOTRAN `.uge` and TOUGH2 `MESH` files.
+
+The option `cv` chooses the control volumes
+([section 9](#9-control-volumes-and-coefficients)):
+
+- `voronoi` (the default): the cell of the Voronoi diagram around each
+  vertex, cut to the mesh (the dual points are the circumcenters);
+- `median`: the median control volume (the dual points are the
+  centroids); the mesh need not be Delaunay;
+- `hybrid`: Voronoi wherever that gives no negative coefficient, moved
+  toward median only in the cells, and only as far, as needed to
+  remove the negative ones;
+- `blend`: one fixed mix of the two everywhere (`alpha`, 1 = Voronoi,
+  0 = median).
 
 A run has four steps:
 
 1. read the mesh;
-2. check it: cell types, cells of positive size, conformity,
+2. check it: cell types, cells of positive area/volume, conformity,
    orientation ([section 6](#6-the-mesh-checks)); a failure stops the
    run;
 3. check that it is Delaunay, facet by facet
@@ -51,8 +64,10 @@ A run has four steps:
    Delaunay stops the run, because Voronoi coefficients of a mesh
    that is not Delaunay are wrong (overlapping Voronoi cells,
    negative areas); a facet only slightly off (nearly co-spherical,
-   as from jitter or round-off) gives a warning;
-4. compute the coefficients and write the output files.
+   as from jitter or round-off) gives a warning. With `cv median` the
+   run goes on (median control volumes need no Delaunay mesh);
+4. compute the volume, area, and distance coefficients and write the
+   output files.
 
 Nothing is written unless every check passes, except the report and
 the violations file, which say why.
@@ -218,7 +233,7 @@ run stops with exit status 1 and writes nothing.
 | cell types | `mixed cell types; all triangles or all tets` | triangles and tets in one mesh |
 | | `cell type quad not allowed; triangles or tets only` | any other cell type |
 | | `cell refers to a vertex that does not exist` | a vertex number above the vertex count |
-| positive size | `ERROR: N tets with zero or negative volume` | an inverted tet (negative volume in LaGriT's vertex order), a flat one, or one naming a vertex twice |
+| positive area/volume | `ERROR: N tets with zero or negative volume` | an inverted tet (negative volume in LaGriT's vertex order), a flat one, or one naming a vertex twice |
 | | `ERROR: N triangles with zero area` | three vertices on one line |
 | conformity | `ERROR: N tet faces shared by 3 or more tets` | not a conforming tet mesh |
 | | `ERROR: N edges in 3 or more triangles of one itetclr` | a "book" of triangles in one surface |
@@ -346,10 +361,10 @@ kept positive coefficients.
 The default 1e-2 is about 4 times beyond the worst seen from
 `connect`, and a real fault is far beyond it: the flipped edges and
 faces of the test meshes give delta/L from -0.14 to -21. At
-delta/L = -1e-2 a coefficient is off by about 1 % of a typical one. `delaunay_fatal` equal to
-`delaunay_tol` makes every facet beyond the tolerance fatal (the
-behavior before phase 3); a `delaunay_fatal` below `delaunay_tol` is
-raised to it.
+delta/L = -1e-2 a coefficient is off by about 1 % of a typical one.
+`delaunay_fatal` equal to `delaunay_tol` makes every facet beyond the
+tolerance fatal; a `delaunay_fatal` below `delaunay_tol` is raised to
+it.
 
 Circumcenters are computed relative to a vertex of the facet, so the
 check gives the same answer at UTM-size coordinates (tested at
