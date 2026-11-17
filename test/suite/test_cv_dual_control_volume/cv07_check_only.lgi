@@ -1,0 +1,16 @@
+# cv07_check_only.lgi -- test_cv_dual_control_volume (see 00README)
+# check_only on: the mesh is checked, nothing written, and the
+# attribute is not made (there are no control volumes)
+cmo / create / mo_box / / / tet
+createpts / xyz / 9 7 6 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / control_volume / mo_box / check_only, on / stor, a.stor / attribute_cv_volume
+dump / avs / after.inp / mo_box
+finish

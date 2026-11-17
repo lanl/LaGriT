@@ -1,0 +1,23 @@
+# cv08_parents.lgi -- test_cv_dual_control_volume (see 00README)
+# two materials across an interface plane; settets / parents makes
+# parent/child chains (itp1 = 41), which cv_dual refuses; after
+# resetpts / parent (the children become dudded vertices, in no cell)
+# and rmpoint / compress (they are removed) the same command runs
+cmo / create / mo_pc / / / tet
+surface / s_box / reflect / box / 0. 0. 0. / 1. 1. 1.
+surface / s_mid / intrface / plane / 0. 0. 0.5 / 1. 0. 0.5 / 1. 1. 0.5
+region / r1 / le s_box and lt s_mid
+region / r2 / le s_box and gt s_mid
+mregion / m1 / le s_box and lt s_mid
+mregion / m2 / le s_box and gt s_mid
+createpts / xyz / 5 5 5 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+setpts
+connect
+settets / parents
+dump / control_volume / mo_pc / stor, bad.stor
+resetpts / parent
+rmpoint / compress
+dump / avs / mesh.inp / mo_pc
+dump / control_volume / mo_pc / stor, a.stor / attribute_cv_volume
+dump / avs / after.inp / mo_pc
+finish

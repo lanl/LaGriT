@@ -368,7 +368,8 @@ install(
 file(GLOB CV_DUAL_CORE_FILES "${SRC_CORE}/cv_dual/cv_dual_*.F90")
 add_library(cv_dual_core STATIC ${CV_DUAL_CORE_FILES})
 set_target_properties(cv_dual_core PROPERTIES
-  Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules_cv_dual/")
+  Fortran_MODULE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/modules_cv_dual/"
+  POSITION_INDEPENDENT_CODE ON)
 target_include_directories(cv_dual_core
   PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/modules_cv_dual/")
 # getrusage's ru_maxrss is in bytes on macOS, kilobytes elsewhere
@@ -376,6 +377,10 @@ target_include_directories(cv_dual_core
 if(APPLE)
   target_compile_definitions(cv_dual_core PRIVATE CV_DUAL_MAXRSS_BYTES)
 endif()
+
+# lagrit's dump / control_volume (src/dump_control_volume.f90) calls
+# cv_dual through its entry point and log module
+target_link_libraries(liblagrit PUBLIC cv_dual_core)
 
 add_executable(cv_dual ${SRC_CORE}/cv_dual/cv_dual.F90)
 target_link_libraries(cv_dual PRIVATE cv_dual_core)

@@ -1,0 +1,9 @@
+# cv03_poisson_hybrid.lgi -- test_cv_dual_control_volume (see 00README)
+# LaGriT's Poisson disk tet mesh (test_poisson_3d case 1, 75 negative
+# Voronoi coefficients on its boundary): the hybrid, its alpha file and
+# ParaView files; the control volumes into the attribute cv_hyb
+read / avs / test_3d_poi_01.inp / mo_poi
+dump / avs / mesh.inp / mo_poi
+dump / control_volume / mo_poi / cv, hybrid / stor, a.stor / alpha_file, a.vtu / paraview, pv / attribute_cv_volume, cv_hyb
+dump / avs / after.inp / mo_poi
+finish

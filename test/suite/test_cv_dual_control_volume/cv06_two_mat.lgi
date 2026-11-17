@@ -1,0 +1,8 @@
+# cv06_two_mat.lgi -- test_cv_dual_control_volume (see 00README)
+# two materials on a grid of tets (a material interface, no parents);
+# zero-area connections kept, zero_tol a real number
+read / avs / two_mat.inp / mo_two
+dump / avs / mesh.inp / mo_two
+dump / control_volume / mo_two / stor, a.stor / zero_area, keep / zero_tol, 1e-13 / attribute_cv_volume
+dump / avs / after.inp / mo_two
+finish

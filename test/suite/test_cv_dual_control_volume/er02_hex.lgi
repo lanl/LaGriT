@@ -1,0 +1,8 @@
+# er02_hex.lgi -- test_cv_dual_control_volume (see 00README)
+# a hex mesh: cv_dual takes triangles or tets only
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 4 4 4 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / avs / mesh.inp / mo_hex
+dump / control_volume / mo_hex / stor, bad.stor
+dump / avs / after.inp / mo_hex
+finish

@@ -1,0 +1,9 @@
+# cv05_dfn.lgi -- test_cv_dual_control_volume (see 00README)
+# a fracture network from dfnWorks (4_user_rects_uniform: 4 fractures,
+# 771 vertices, 1386 triangles in 3D): .stor, .uge, ParaView files, the
+# attribute cv_volume (an area per vertex)
+read / avs / full_mesh.inp / mo_dfn
+dump / avs / mesh.inp / mo_dfn
+dump / control_volume / mo_dfn / stor, a.stor / uge, a.uge / paraview, pv / attribute_cv_volume
+dump / avs / after.inp / mo_dfn
+finish

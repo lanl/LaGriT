@@ -1,0 +1,16 @@
+# cv01_box3d.lgi -- test_cv_dual_control_volume (see 00README)
+# a 9 x 7 x 6 lattice of tets, interior vertices moved; every output
+# format, the control volumes into the attribute cv_volume
+cmo / create / mo_box / / / tet
+createpts / xyz / 9 7 6 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / control_volume / mo_box / stor, a.stor / uge, a.uge / tough, a_MESH / attribute_cv_volume
+dump / avs / after.inp / mo_box
+finish

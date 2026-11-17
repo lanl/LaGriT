@@ -1,0 +1,16 @@
+# cv02_square2d.lgi -- test_cv_dual_control_volume (see 00README)
+# a 2D triangle mesh, 21 x 16 lattice, interior vertices moved; every
+# connection kept, uncompressed; no attribute (mesh object unchanged)
+cmo / create / mo_sq / / / triplane
+createpts / xyz / 21 16 1 / 0. 0. 0. / 0.04 0.03 0. / 1 1 1
+cmo / setatt / mo_sq / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.0006 0.0006 0.
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_sq
+dump / control_volume / mo_sq / stor, a.stor / zero_area, keep / compress, off
+dump / avs / after.inp / mo_sq
+finish
