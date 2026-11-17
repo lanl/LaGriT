@@ -92,7 +92,7 @@ sign).
 ## 3. Running
 
 ```
-cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough FILE]
         [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
         [-cv voronoi|median|blend|hybrid] [-alpha X]
         [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
@@ -115,7 +115,7 @@ cv_dual -avs mesh.inp -stor mesh.stor
 checks `mesh.inp` and writes the FEHM `.stor`.
 
 ```
-cv_dual -avs mesh.inp -stor mesh.stor -uge mesh.uge -tough2 MESH
+cv_dual -avs mesh.inp -stor mesh.stor -uge mesh.uge -tough MESH
 ```
 three outputs from one run; the geometry is computed once.
 
@@ -138,7 +138,7 @@ control volumes moved away from Voronoi only where a coefficient
 would be negative ([section 9](#control-volume-policies-cv)), with
 the weight of each cell in `alpha.vtu` for ParaView.
 
-lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
+lanl/voronoi's options `-type fehm|pflotran|tough`, `-o FILE` and
 `-compress` with no value also work, so old scripts run unchanged.
 
 ## 4. Options
@@ -148,7 +148,7 @@ lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 | `avs` | file | (required) | the mesh: AVS UCD, all triangles or all tets |
 | `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
 | `uge` | file | | PFLOTRAN `.uge` |
-| `tough2` | file | | TOUGH `MESH` |
+| `tough` | file | | TOUGH `MESH` (`tough2`, the older name, also works) |
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: zero-area connections are left out of every file; `keep`: one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
@@ -172,7 +172,7 @@ lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 | `report` | file | none | a copy of the screen output |
 | `timing` | `on`, `off` | `off` | development only: the wall and CPU time of each step and the peak memory, at the end of the report |
 
-lanl/voronoi's `-type fehm|pflotran|tough2` with `-o FILE` (default
+lanl/voronoi's `-type fehm|pflotran|tough` with `-o FILE` (default
 names `voronoi.stor`, `pflotran.uge`, `MESH_VORONOI`) and `-compress`
 with no value are also accepted.
 
@@ -635,7 +635,7 @@ Coordinates, volumes and areas have 17 significant digits; the
 longest line is 128 characters (PFLOTRAN reads input lines of up to
 512).
 
-**TOUGH `MESH`** (`-tough2 FILE`): ELEME (one record per vertex:
+**TOUGH `MESH`** (`-tough FILE`): ELEME (one record per vertex:
 name, material, volume, AHTX, x, y, z) and CONNE (one record per edge:
 names, ISOT, d1 = d2 = d/2, area, BETAX = cos of the angle to
 gravity), column for column as lanl/voronoi wrote them. The material

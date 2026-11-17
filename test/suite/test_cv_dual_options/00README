@@ -10,7 +10,8 @@ WHAT IS TESTED
 
   The keyword / value options, given in any order:
 
-    stor, uge, tough2 FILE    outputs (several in one run)
+    stor, uge, tough FILE     outputs (several in one run; tough2 =
+                              tough)
     zero_area remove|keep     default remove
     zero_tol X                default 1e-12 (|A| <= X d^2 for tets,
                               X d for triangles)

@@ -82,7 +82,7 @@ Fortran 2008 compiler (gfortran 9 or later, or Intel Fortran).
 ## Run
 
 ```
-cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough FILE]
         [-zero_area remove|keep] [-zero_tol X] [-compress on|off]
         [-cv voronoi|median|blend|hybrid] [-alpha X]
         [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
@@ -101,7 +101,7 @@ be written in one run; the geometry is computed once.
 | `avs` | file | | the mesh: AVS UCD, all triangles or all tets |
 | `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
 | `uge` | file | | PFLOTRAN `.uge` |
-| `tough2` | file | | TOUGH `MESH` |
+| `tough` | file | | TOUGH `MESH` (`tough2`, the older name, also works) |
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: connections whose Voronoi face has zero area are left out of every file. `keep`: the coefficient matrix has one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | a connection has zero area when \|A\| <= zero_tol d² (tets) or zero_tol d (triangles), d the edge length |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
@@ -127,7 +127,7 @@ be written in one run; the geometry is computed once.
 
 The zero-area filter changes only which connections are written; the
 control volumes are never changed. lanl/voronoi's options `-type
-fehm|pflotran|tough2`, `-o FILE` and `-compress` (no value) also work.
+fehm|pflotran|tough`, `-o FILE` and `-compress` (no value) also work.
 
 The LaGriT command (a later phase), `dump / control_volume`, will
 take a mesh object and then the same keywords, as pairs in any order,

@@ -9,7 +9,8 @@
 #
 # --- defaults and outputs
 default_out    | 0 | -avs mesh_3D.inp | No output keyword: cv_dual writes voronoi.stor with the defaults (zero_area remove, compress on) and nothing else. Checked: the 120 zero-area pairs are left out.
-three_outputs  | 0 | -avs mesh_3D.inp -stor a.stor -uge a.uge -tough2 a_MESH | Three outputs from one run (the geometry is computed once). Checked: all three files list the same 462 connections.
+three_outputs  | 0 | -avs mesh_3D.inp -stor a.stor -uge a.uge -tough a_MESH | Three outputs from one run (the geometry is computed once). Checked: all three files list the same 462 connections.
+tough2_alias   | 0 | -avs mesh_3D.inp -tough2 a_MESH | The keyword's older name, tough2, still works: the same TOUGH MESH file as tough writes (three_outputs's a_MESH, byte for byte).
 order_a        | 0 | -avs mesh_3D.inp -stor a.stor -zero_area keep -compress off -zero_tol 1e-10 | Several options, mesh first. Compared with order_b.
 order_b        | 0 | -compress off -zero_tol 1e-10 -stor a.stor -zero_area keep -avs mesh_3D.inp | The same options as order_a in another order, mesh last. Checked: a.stor is identical to order_a's except the date line.
 # --- zero_area and zero_tol
@@ -26,10 +27,10 @@ compress_on    | 0 | -avs mesh_3D.inp -stor a.stor -compress on | compress on (t
 compress_off   | 0 | -avs mesh_3D.inp -stor a.stor -compress off | compress off: one value per matrix entry. Checked against compress_on: the same matrix to 1e-14, and compress on writes fewer values (66 against 1040).
 # --- lanl/voronoi options
 legacy_type    | 0 | -avs mesh_3D.inp -type pflotran -o a.uge | lanl/voronoi's -type and -o still work: a .uge with the same connections as three_outputs.
-legacy_tough   | 0 | -avs simple_3D.inp -type tough2 | lanl/voronoi's -type with no -o: its default file name MESH_VORONOI.
+legacy_tough   | 0 | -avs simple_3D.inp -type tough | lanl/voronoi's -type with no -o: its default file name MESH_VORONOI.
 legacy_compr   | 0 | -avs mesh_3D.inp -o a.stor -compress | lanl/voronoi's bare -compress (no value) means on. Checked: the .stor is compressed.
-imt_short      | 0 | -avs imt_short.inp -tough2 a_MESH | The vertex material read from the vertex data named imt1: mesh_3D with materials 1 and 2. Reference for imt_long.
-imt_long       | 0 | -avs imt_long.inp -tough2 a_MESH | The same mesh with the vertex material named integer_material_type, another name for imt1. Checked: the TOUGH file is the same as imt_short's, with materials 1 and 2.
+imt_short      | 0 | -avs imt_short.inp -tough a_MESH | The vertex material read from the vertex data named imt1: mesh_3D with materials 1 and 2. Reference for imt_long.
+imt_long       | 0 | -avs imt_long.inp -tough a_MESH | The same mesh with the vertex material named integer_material_type, another name for imt1. Checked: the TOUGH file is the same as imt_short's, with materials 1 and 2.
 # --- refused: exit 1, a message naming the token, no output written
 bad_keyword    | 1 | -avs mesh_3D.inp -stor a.stor -zero_areas keep | A misspelled keyword (zero_areas). Must stop with a message naming it and write nothing.
 no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol | A keyword at the end with no value. Must say zero_tol needs a value.

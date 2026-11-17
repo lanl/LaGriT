@@ -59,8 +59,8 @@ for m in mesh_2D mesh_3D simple_3D; do
     for opts in \
         "-stor ${m}_keep.stor -zero_area keep -compress off" \
         "-stor ${m}_keep_c.stor -zero_area keep" \
-        "-stor $m.stor -uge $m.uge -tough2 ${m}_MESH" \
-        "-uge ${m}_keep.uge -tough2 ${m}_keep_MESH -zero_area keep"
+        "-stor $m.stor -uge $m.uge -tough ${m}_MESH" \
+        "-uge ${m}_keep.uge -tough ${m}_keep_MESH -zero_area keep"
     do
         k=$((k + 1))
         # shellcheck disable=SC2086

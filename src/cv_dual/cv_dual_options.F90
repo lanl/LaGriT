@@ -11,7 +11,8 @@
 ! keyword    value              default   meaning
 ! stor       file               (*)       FEHM .stor
 ! uge        file                         PFLOTRAN .uge
-! tough2     file                         TOUGH MESH
+! tough      file                         TOUGH MESH (tough2: the
+!                                         same)
 ! zero_area  remove | keep      remove    remove: zero-area connections
 !                                         are left out of every file;
 !                                         keep: the matrix has one
@@ -80,7 +81,8 @@
 ! (*) with no output keyword: stor voronoi.stor.
 !
 ! lanl/voronoi's options are also accepted, as before:
-!   type fehm|pflotran|tough2, o FILE (one output), compress with no
+!   type fehm|pflotran|tough (or tough2), o FILE (one output),
+!   compress with no
 !   value (= on).
 !-----------------------------------------------------------------------
 module cv_dual_options
@@ -126,12 +128,12 @@ module cv_dual_options
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
-      'avs stor uge tough2 zero_area zero_tol compress cv '// &
+      'avs stor uge tough zero_area zero_tol compress cv '// &
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
       'paraview paraview_faces paraview_subset vtu_format '// &
       'vtu_layout matrix matrix_bins '// &
-      'type o'
+      'type o tough2'
 
 contains
 
@@ -216,7 +218,7 @@ contains
             end if
             i = i + 1
             cycle
-         case ('avs', 'stor', 'uge', 'tough2', 'zero_area', &
+         case ('avs', 'stor', 'uge', 'tough', 'tough2', 'zero_area', &
                'zero_tol', 'cv', 'type', 'o', 'delaunay_tol', &
                'violations', 'check_only', 'report', 'timing', &
                'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
@@ -236,8 +238,12 @@ contains
          select case (trim(key))
          case ('avs')
             opt%mesh = val
-         case ('stor', 'uge', 'tough2')
+         case ('stor', 'uge')
             call add_output(opt, trim(key), val, ierr)
+            if (ierr /= 0) return
+         case ('tough', 'tough2')
+            ! tough2: the name before Nov 2026, still taken
+            call add_output(opt, 'tough', val, ierr)
             if (ierr /= 0) return
          case ('zero_area')
             select case (trim(lowercase(val)))
@@ -399,10 +405,10 @@ contains
             case ('pflo')
                legacy_type = 'uge'
             case ('toug')
-               legacy_type = 'tough2'
+               legacy_type = 'tough'
             case default
                call bad('type '//trim(val)// &
-                        ': must be fehm, pflotran or tough2')
+                        ': must be fehm, pflotran or tough')
                return
             end select
          case ('o')
@@ -421,7 +427,7 @@ contains
                legacy_file = 'voronoi.stor'
             case ('uge')
                legacy_file = 'pflotran.uge'
-            case ('tough2')
+            case ('tough')
                legacy_file = 'MESH_VORONOI'
             end select
          end if
@@ -629,7 +635,8 @@ contains
    logical function is_keyword(s)
       character(len=*), intent(in) :: s
       select case (trim(s))
-      case ('avs', 'stor', 'uge', 'tough2', 'zero_area', 'zero_tol', &
+      case ('avs', 'stor', 'uge', 'tough', 'tough2', 'zero_area', &
+            'zero_tol', &
             'compress', 'cv', 'type', 'o', 'delaunay_tol', &
             'violations', 'check_only', 'report', 'timing', &
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &

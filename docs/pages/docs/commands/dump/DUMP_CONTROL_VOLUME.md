@@ -1,6 +1,6 @@
 ---
 title: 'DUMP/CONTROL_VOLUME'
-tags: dump control_volume cv_dual voronoi stor uge tough2 delaunay
+tags: dump control_volume cv_dual voronoi stor uge tough delaunay
 ---
 
 # DUMP/CONTROL_VOLUME #
@@ -34,7 +34,7 @@ itetclr per fracture) or all tets.
 
 <pre>
 <b>dump</b> / <b>control_volume</b> / mo_name &
-     / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough2</b>, file_name] &
+     / [<b>stor</b>, file_name] / [<b>uge</b>, file_name] / [<b>tough</b>, file_name] &
      / [<b>zero_area</b>, <b>remove</b>|<b>keep</b>] / [<b>zero_tol</b>, value] &
      / [<b>compress</b>, <b>on</b>|<b>off</b>] &
      / [<b>cv</b>, <b>voronoi</b>|<b>median</b>|<b>blend</b>|<b>hybrid</b>] / [<b>alpha</b>, value] &
@@ -74,7 +74,7 @@ digits): `CELLS` (one
 line per vertex: id, x, y, z, volume) and `CONNECTIONS` (one line per
 edge: i, j, the edge midpoint, area).
 
-**`tough2`**, file_name
+**`tough`**, file_name (**`tough2`**, the older name, also works)
 
 writes the TOUGH `MESH` file: `ELEME` (one record per vertex) and
 `CONNE` (one record per edge), as lanl/voronoi wrote them. The
@@ -280,7 +280,7 @@ check mesh object `mo_mesh` and write `mesh.stor` with the defaults;
 the volumes are in **cv_volume**.
 
 ```
-dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / tough2, MESH
+dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / tough, MESH
 ```
 three outputs from one command.
 

@@ -288,7 +288,7 @@ contains
             call write_uge(opt%out_file(k), m%nnodes, m%xic, m%yic, &
                            m%zic, iedge_off, jedge, area, vol, skip, &
                            ierr)
-         case ('tough2')
+         case ('tough')
             call write_tough(opt%out_file(k), m%nnodes, m%xic, m%yic, &
                              m%zic, m%imt1, iedge_off, jedge, area, &
                              vol, skip, ierr)

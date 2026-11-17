@@ -2,7 +2,7 @@
 ! cv_dual: Voronoi control volumes and geometric coefficients from a
 ! Delaunay triangle or tet mesh. Standalone driver.
 !
-!   cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough2 FILE]
+!   cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough FILE]
 !           [-zero_area remove|keep] [-zero_tol X]
 !           [-compress on|off] [-cv voronoi|median|blend|hybrid]
 !           [-alpha X] [-hybrid_tol X] [-alpha_min X] [-hybrid_iter N]
@@ -120,7 +120,7 @@ contains
    subroutine usage(istat)
       integer, intent(in) :: istat
       call log_line('usage: cv_dual -avs MESH.inp [-stor FILE] '// &
-                    '[-uge FILE] [-tough2 FILE]')
+                    '[-uge FILE] [-tough FILE]')
       call log_line('               [-zero_area remove|keep] '// &
                     '[-zero_tol X] [-compress on|off]')
       call log_line('               [-cv voronoi|median|blend|'// &
@@ -136,7 +136,8 @@ contains
       call log_line('  -stor FILE        FEHM .stor (default '// &
                     'voronoi.stor if no output given)')
       call log_line('  -uge FILE         PFLOTRAN .uge')
-      call log_line('  -tough2 FILE      TOUGH MESH')
+      call log_line('  -tough FILE       TOUGH MESH (-tough2 also '// &
+                    'works)')
       call log_line('                    (several outputs in one '// &
                     'run are fine)')
       call log_line('  -zero_area MODE   remove (default): leave '// &
@@ -192,7 +193,7 @@ contains
       call log_line('  -report FILE      a copy of the screen '// &
                     'summary')
       call log_line('  lanl/voronoi options -type fehm|pflotran|'// &
-                    'tough2 and -o FILE also work.')
+                    'tough and -o FILE also work.')
       call log_line('  development: -timing on prints the time of '// &
                     'each step and peak memory.')
       if (istat == 0) stop

@@ -46,6 +46,7 @@ INPUTS = {'mesh_2D.inp', 'mesh_3D.inp', 'simple_3D.inp', 'run.out',
 EXPECT = {
     'default_out': ['voronoi.stor'],
     'three_outputs': ['a.stor', 'a.uge', 'a_MESH'],
+    'tough2_alias': ['a_MESH'],
     'order_a': ['a.stor'], 'order_b': ['a.stor'],
     'keep': ['a.stor'], 'remove': ['a.stor'], 'tol_zero': ['a.stor'],
     'tol_big': ['a.stor'], 'cube_keep': ['a.stor'],
@@ -220,6 +221,14 @@ def main():
 
     def stor(case):
         return read_stor(os.path.join(ran[case], 'a.stor'))
+
+    # tough2, the keyword's older name: the same MESH as tough
+    if 'tough2_alias' in ran and 'three_outputs' in ran:
+        a = open(os.path.join(ran['three_outputs'], 'a_MESH')).read()
+        b = open(os.path.join(ran['tough2_alias'], 'a_MESH')).read()
+        put('tough2_alias', 'same', 'MESH equal to three_outputs\'s '
+            '(tough)' if a == b else 'MESH differs from tough\'s',
+            'PASS' if a == b else 'FAIL')
 
     # the vertex material read under either name (imt1 or
     # integer_material_type): the same TOUGH file, 2 materials
@@ -468,7 +477,7 @@ def write_page(work, logs):
          'three lanl/voronoi meshes and checks each run: the exit status, '
          'exactly the files it should write (and no others), and what is '
          'in them. The options are keyword / value pairs in any order: '
-         '<code>stor</code>, <code>uge</code>, <code>tough2</code> '
+         '<code>stor</code>, <code>uge</code>, <code>tough</code> '
          '(outputs), <code>zero_area remove|keep</code>, '
          '<code>zero_tol</code>, <code>compress on|off</code>, '
          '<code>cv</code>, and lanl/voronoi\'s <code>-type -o '

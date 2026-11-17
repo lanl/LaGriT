@@ -12,8 +12,8 @@ WHAT IS TESTED
 
   cv_dual -avs M.inp -stor M_keep.stor -zero_area keep -compress off
   cv_dual -avs M.inp -stor M_keep_c.stor -zero_area keep
-  cv_dual -avs M.inp -stor M.stor -uge M.uge -tough2 M_MESH
-  cv_dual -avs M.inp -uge M_keep.uge -tough2 M_keep_MESH -zero_area keep
+  cv_dual -avs M.inp -stor M.stor -uge M.uge -tough M_MESH
+  cv_dual -avs M.inp -uge M_keep.uge -tough M_keep_MESH -zero_area keep
 
   on the three meshes of lanl/voronoi test/sanity_check (inputs/,
   copied unchanged, see inputs/NOTICE):
