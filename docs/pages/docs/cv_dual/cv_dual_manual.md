@@ -425,10 +425,20 @@ cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)
   Delaunay check passed
 ```
 
-This is lanl/voronoi's `mesh_3D`: 201 ties, all within round-off (27
-of them slightly negative), no violation. The histogram shows how
-close the mesh comes to failing: counts in the three bins below
--1e-10 are violations; counts just above are near ties.
+This is the block for `mesh_3D.inp`, a test mesh of
+[lanl/voronoi](https://github.com/lanl/voronoi), the code cv_dual's
+kernels and writers were ported from (the file:
+[test/sanity_check/mesh_3D.inp](https://github.com/lanl/voronoi/blob/master/test/sanity_check/mesh_3D.inp);
+cv_dual's tests have a copy,
+`test/suite/test_cv_dual_voronoi_gold/inputs/mesh_3D.inp`). It is a
+cube of side 1e6 cut into 384 tets on 116 vertices, graded toward one
+corner. Many of its vertices lie on common spheres, so 201 interior
+facets are ties: delta/L is exactly 0 in exact arithmetic, and
+computed it is within round-off of 0 (27 of the 201 come out slightly
+negative, by at most 2.4e-16). None is a violation. The histogram
+shows how close the mesh comes to failing: a facet counted in the
+three bins below -1e-10 (`delaunay_tol`) would be a violation; the
+facets just above it are the near ties.
 
 When there is a violation the block ends with
 
@@ -471,23 +481,38 @@ In ParaView: color by `kind` or `delta_over_L`; use Threshold on
 
 ## 9. Control volumes and coefficients
 
-For each cell, cv_dual computes the Voronoi pieces from the cell's
-circumcenter, its faces' and edges' circumcenters, and adds them to
-the cell's vertices and edges. The cell-by-cell sums give, for every
-vertex i, its control volume V(i) (an area for triangles), and for
-every edge ij, the Voronoi face area A(ij) (a length for triangles)
-and d(ij) = |x(j) - x(i)|. A(ij)/d(ij) is the coefficient of the
-two-point flux between i and j.
+For each cell, cv_dual computes the cell's share, or piece, of the
+control volume of each of its vertices and of the dual face of each
+of its edges, from the cell's dual point (for Voronoi, its
+circumcenter) and those of its faces and edges, and adds the pieces
+up over all cells. The sums give, for every vertex i, its control
+volume V(i) (an area for triangles), and for every edge ij, the area
+A(ij) of the dual face between the control volumes of i and j (a
+length for triangles) and d(ij) = |x(j) - x(i)|. A(ij)/d(ij) is the
+coefficient of the two-point flux between i and j (the .stor stores
+-A(ij)/d(ij)).
 
-The control volumes add up to the mesh volume; each run prints the
-relative difference (round-off, about 1e-15). A boundary cell whose
-circumcenter is outside gives a negative piece; the sums stay
-correct, but an edge's total A(ij) can come out negative, and the
-summary counts those (`negative A(ij)`).
+A piece can be negative. When a cell's circumcenter lies outside the
+cell (an obtuse triangle, or a tet whose circumcenter is outside it),
+the cell's piece of A(ij) is negative for one or more of its edges
+(in a triangle, the edge opposite the obtuse angle): that part of the
+dual face points backward. With Voronoi control volumes on a
+Delaunay mesh, the pieces of an interior edge always add up to
+A(ij) >= 0; an edge on the boundary has fewer cells around it, and
+its sum A(ij) can come out negative. A **negative coefficient**, in
+this manual, means exactly that: a negative face area A(ij), and so a
+negative A(ij)/d(ij), with which the two-point flux between i and j
+would run from the lower value to the higher. The
+summary counts them (`negative A(ij)`); the policies below, the
+hybrid above all, are there to remove them.
+
+The control volumes still add up to the mesh volume, negative pieces
+included; each run prints the relative difference (round-off, about
+1e-15).
 
 ### Control-volume policies (cv)
 
-Where each cell's dual point goes (design document, section 9). A
+Where each cell's dual point goes. A
 cell T gets a weight alpha(T) from 0 to 1 and its point is
 
     P(T) = G(T) + alpha(T) (C(T) - G(T))
