@@ -136,7 +136,7 @@ contains
       call log_line('  -stor FILE        FEHM .stor (default '// &
                     'voronoi.stor if no output given)')
       call log_line('  -uge FILE         PFLOTRAN .uge')
-      call log_line('  -tough2 FILE      TOUGH2 MESH')
+      call log_line('  -tough2 FILE      TOUGH MESH')
       call log_line('                    (several outputs in one '// &
                     'run are fine)')
       call log_line('  -zero_area MODE   remove (default): leave '// &

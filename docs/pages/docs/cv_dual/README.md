@@ -7,7 +7,7 @@ or a tet mesh (3D) and computes the Voronoi control-volume geometry:
 the volume of each vertex's control volume, the area of each Voronoi
 face and the connection distances. These are the geometric
 coefficients of two-point-flux finite-volume codes, written as FEHM
-`.stor`, PFLOTRAN `.uge` and TOUGH2 `MESH` files.
+`.stor`, PFLOTRAN `.uge` and TOUGH `MESH` files.
 
 One core library, two front ends: the standalone program `cv_dual`
 (AVS UCD `.inp` input) and the LaGriT entry point
@@ -101,7 +101,7 @@ be written in one run; the geometry is computed once.
 | `avs` | file | | the mesh: AVS UCD, all triangles or all tets |
 | `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
 | `uge` | file | | PFLOTRAN `.uge` |
-| `tough2` | file | | TOUGH2 `MESH` |
+| `tough2` | file | | TOUGH `MESH` |
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: connections whose Voronoi face has zero area are left out of every file. `keep`: the coefficient matrix has one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | a connection has zero area when \|A\| <= zero_tol d² (tets) or zero_tol d (triangles), d the edge length |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct A/d value is written once and shared through the pointer block |
@@ -182,7 +182,7 @@ runs them on every pull request.
 | `src/cv_dual/cv_dual_assemble.F90` | cell-by-cell accumulation into the CSR |
 | `src/cv_dual/cv_dual_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
 | `src/cv_dual/cv_dual_write_uge.F90` | PFLOTRAN `.uge` |
-| `src/cv_dual/cv_dual_write_tough.F90` | TOUGH2 `MESH` |
+| `src/cv_dual/cv_dual_write_tough.F90` | TOUGH `MESH` |
 | `src/cv_dual/cv_dual_report.F90` | the Delaunay report and the run summary |
 | `src/cv_dual/cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
 | `src/cv_dual/cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |

@@ -15,7 +15,7 @@ tags: dump control_volume cv_dual voronoi stor uge tough2 delaunay
 **`dump/control_volume`** checks a mesh object and computes its
 control-volume geometry with cv_dual: the control volume of each
 vertex, and for each edge the area of its Voronoi face and its
-length. It writes them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH2
+length. It writes them as FEHM `.stor`, PFLOTRAN `.uge` or TOUGH
 `MESH` files, and keeps the volumes in the vertex attribute
 **cv_volume**. It is the new path beside **`dump/stor`**, which is
 unchanged (it uses **`matbld2d`** and **`matbld3d`**); both can run on
@@ -76,7 +76,7 @@ edge: i, j, the edge midpoint, area).
 
 **`tough2`**, file_name
 
-writes the TOUGH2 `MESH` file: `ELEME` (one record per vertex) and
+writes the TOUGH `MESH` file: `ELEME` (one record per vertex) and
 `CONNE` (one record per edge), as lanl/voronoi wrote them. The
 material of a vertex is the rank of its **imt1** among the distinct
 values.

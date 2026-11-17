@@ -11,7 +11,7 @@
 ! keyword    value              default   meaning
 ! stor       file               (*)       FEHM .stor
 ! uge        file                         PFLOTRAN .uge
-! tough2     file                         TOUGH2 MESH
+! tough2     file                         TOUGH MESH
 ! zero_area  remove | keep      remove    remove: zero-area connections
 !                                         are left out of every file;
 !                                         keep: the matrix has one

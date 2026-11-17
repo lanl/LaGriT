@@ -1,5 +1,5 @@
 !-----------------------------------------------------------------------
-! cv_dual_write_tough: TOUGH2 MESH file (ELEME and CONNE blocks).
+! cv_dual_write_tough: TOUGH MESH file (ELEME and CONNE blocks).
 !
 ! Ported from lanl/voronoi GridWriteTOUGH2 and its helpers, so files
 ! match voronoi's column for column:

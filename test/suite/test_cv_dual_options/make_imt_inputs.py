@@ -3,7 +3,7 @@
 Writes OUTDIR/imt_short.inp and OUTDIR/imt_long.inp: mesh_3D.inp with
 its vertex material set to 1 or 2 (by vertex number), the attribute
 named imt1 in the first and integer_material_type in the second. The
-imt_short and imt_long cases run both: the TOUGH2 files must be the
+imt_short and imt_long cases run both: the TOUGH files must be the
 same, with 2 materials. Python 3 standard library."""
 import os
 import sys

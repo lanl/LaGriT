@@ -4,7 +4,7 @@
 #
 # test_cv_dual_voronoi_gold: cv_dual on the three lanl/voronoi test meshes,
 # each written as .stor (every edge kept, compressed or not; the
-# defaults), .uge and TOUGH2 MESH (defaults; every edge kept), judged
+# defaults), .uge and TOUGH MESH (defaults; every edge kept), judged
 # against the gold files and against answers computed from the meshes.
 # See 00README. POSIX sh, Python 3 (standard library). WORK and LOGS
 # may be set to other folders.

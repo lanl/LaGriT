@@ -38,7 +38,7 @@ in 3D) or of tets, and computes, for every vertex, its control volume,
 and for every mesh edge ij, the area A(ij) of the face between the
 control volumes of i and j and the edge length d(ij). These are the
 geometric coefficients of two-point-flux finite-volume codes. cv_dual
-writes them as FEHM `.stor`, PFLOTRAN `.uge` and TOUGH2 `MESH` files.
+writes them as FEHM `.stor`, PFLOTRAN `.uge` and TOUGH `MESH` files.
 
 The option `cv` chooses the control volumes
 ([section 9](#9-control-volumes-and-coefficients)):
@@ -148,7 +148,7 @@ lanl/voronoi's options `-type fehm|pflotran|tough2`, `-o FILE` and
 | `avs` | file | (required) | the mesh: AVS UCD, all triangles or all tets |
 | `stor` | file | `voronoi.stor` if no output is given | FEHM `.stor` |
 | `uge` | file | | PFLOTRAN `.uge` |
-| `tough2` | file | | TOUGH2 `MESH` |
+| `tough2` | file | | TOUGH `MESH` |
 | `zero_area` | `remove`, `keep` | `remove` | `remove`: zero-area connections are left out of every file; `keep`: one connection per mesh edge |
 | `zero_tol` | number >= 0 | `1e-12` | zero area: \|A\| <= zero_tol d² (tets), zero_tol d (triangles) |
 | `compress` | `on`, `off` | `on` | `.stor`: each distinct value written once |
@@ -205,7 +205,7 @@ itp1, integer
   LaGriT wrote with positive volume is read with positive volume.
 - Vertex data named `imt1` (or `imt`, `integer_material_type`),
   `itp1` (or `itp`) and `isn1` (or `isn`) are read; other vertex and
-  cell data are skipped. `imt1` gives the TOUGH2 material of each
+  cell data are skipped. `imt1` gives the TOUGH material of each
   vertex. These are LaGriT's vertex attributes: the vertex material,
   the vertex type (boundary, interface, parent) and the parent/child
   link; LaGriT's
@@ -635,13 +635,13 @@ Coordinates, volumes and areas have 17 significant digits; the
 longest line is 128 characters (PFLOTRAN reads input lines of up to
 512).
 
-**TOUGH2 `MESH`** (`-tough2 FILE`): ELEME (one record per vertex:
+**TOUGH `MESH`** (`-tough2 FILE`): ELEME (one record per vertex:
 name, material, volume, AHTX, x, y, z) and CONNE (one record per edge:
 names, ISOT, d1 = d2 = d/2, area, BETAX = cos of the angle to
 gravity), column for column as lanl/voronoi wrote them. The material
 is the rank of the vertex's `imt1` among its distinct values. AHTX is
 written equal to the volume, as lanl/voronoi did; this is an open
-question for TOUGH2 users.
+question for TOUGH users.
 
 **ParaView** (`-paraview ROOT`): the control volumes as cells, to
 look at, clip and color in ParaView. Open `ROOT.pvd`; it loads:
@@ -741,8 +741,8 @@ written in 1.2 s; the image is 24 MB at N = 1000, whatever the mesh.
 
 Unlike lanl/voronoi, `.uge` and `MESH` keep the sign of volumes and
 areas (voronoi wrote absolute values, which hides negative
-coefficients); a negative TOUGH2 number is written with one digit
-less to fit its 10 columns. Whether this is what PFLOTRAN and TOUGH2
+coefficients); a negative TOUGH number is written with one digit
+less to fit its 10 columns. Whether this is what PFLOTRAN and TOUGH
 users want is also an open question.
 
 ## 11. Fracture networks

@@ -11,7 +11,7 @@
 # -tamper WHAT, or - for none. Meshes under work/gen_* are made by
 # test_cv_dual_validity's and test_cv_dual_delaunay's generators.
 #
-tri2d       | ../test_cv_dual_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor -uge s.uge -tough2 s.mesh -zero_area keep -report s.report | -sink | = | 0 | - | lanl/voronoi's 9-vertex square, every output format, zero-area connections kept: the .stor, .uge, TOUGH2 MESH and report from the entry point equal the program's byte for byte.
+tri2d       | ../test_cv_dual_voronoi_gold/inputs/mesh_2D.inp | -stor s.stor -uge s.uge -tough2 s.mesh -zero_area keep -report s.report | -sink | = | 0 | - | lanl/voronoi's 9-vertex square, every output format, zero-area connections kept: the .stor, .uge, TOUGH MESH and report from the entry point equal the program's byte for byte.
 tet3d       | ../test_cv_dual_voronoi_gold/inputs/mesh_3D.inp | -stor s.stor -uge s.uge -tough2 s.mesh -compress off | -sink | = | 0 | - | lanl/voronoi's graded cube (384 tets, 201 co-spherical ties), uncompressed .stor.
 poi3_vor    | ../test_cv_dual_poisson_lagrit/inputs/test_3d_poi_01.inp | -stor s.stor -matrix m.vtu -matrix_bins 20 -paraview pv -paraview_faces on -report s.report | -sink | = | 0 | - | LaGriT's 3D Poisson mesh with Voronoi control volumes: the .stor, the matrix file and image, and every ParaView file (mesh, cells, negative coefficients, faces, .pvd) equal the program's.
 poi3_hyb    | ../test_cv_dual_poisson_lagrit/inputs/test_3d_poi_01.inp | -cv hybrid -stor s.stor -alpha_file a.vtu -paraview pv | -sink | = | 0 | - | The same mesh with the hybrid (stages A and B): the .stor, alpha file and ParaView files equal the program's.

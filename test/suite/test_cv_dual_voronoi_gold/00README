@@ -41,7 +41,7 @@ WHAT IS CHECKED (check_voronoi_gold.py; tolerance 1e-12, relative)
               computed here from the .inp
   uge         volumes and connection areas against the gold .uge, and
               against the .stor of the same run (A/d, volumes)
-  MESH        TOUGH2 records field by field against gold (names,
+  MESH        TOUGH records field by field against gold (names,
               material, ISOT equal; numbers within one unit of the
               last printed digit), and volumes against the .stor
 

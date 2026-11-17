@@ -1,6 +1,6 @@
 """check_voronoi_gold.py WORK LOGS INPUTS
 
-test_cv_dual_voronoi_gold: cv_dual's .stor, .uge and TOUGH2 MESH files for the
+test_cv_dual_voronoi_gold: cv_dual's .stor, .uge and TOUGH MESH files for the
 three lanl/voronoi test meshes, against the gold files and against
 answers computed here from the mesh itself. Python 3 standard library.
 Prints one "key value" line per quantity; writes summary.html in this
@@ -30,7 +30,7 @@ Measures (all relative, so the size of the mesh does not matter):
                     (|A| <= 1e-12 max |A|)
   uge_vs_stor       the .uge area / d(ij) and volumes against the
                     .stor values of the same run
-  mesh_fields       TOUGH2 MESH: every record's names, material and
+  mesh_fields       TOUGH MESH: every record's names, material and
                     ISOT equal to gold, every number within one unit of
                     its last printed digit
   mesh_identical    MEASURED: lines that are byte-identical to gold
@@ -64,7 +64,7 @@ ABOUT = {
     '(the picture labels them) and the 4 diagonals of the square cells '
     'have zero-area faces. Four runs: every edge kept with compress off, '
     'every edge kept with compress on, the defaults with .stor, .uge and '
-    'TOUGH2 MESH written in one run, and .uge and MESH with every edge '
+    'TOUGH MESH written in one run, and .uge and MESH with every edge '
     'kept. The .stor files are compared value by value with LaGriT\'s '
     'matbld2d gold file; the .uge and MESH with lanl/voronoi\'s.',
     'mesh_3D': 'A cube of side 1e6 graded toward one corner (116 vertices, '
@@ -211,7 +211,7 @@ def mesh_records(path):
 
 
 def num_ok(a, b):
-    """TOUGH2 fields a (ours) and b (gold): equal, or numbers within
+    """TOUGH fields a (ours) and b (gold): equal, or numbers within
     one unit of the last printed digit of b."""
     a, b = a.strip(), b.strip()
     if a == b:
@@ -515,7 +515,7 @@ def main():
                 'left out: %d)' % (len(con_u), len(gcon), len(zero)),
                 'MEASURED')
 
-        # TOUGH2 MESH
+        # TOUGH MESH
         ours = mesh_records(f_mesh)
         if gmesh:
             gold = mesh_records(os.path.join(inputs, gmesh))
@@ -575,7 +575,7 @@ def write_page(suite, logs, rows, pics):
            '<p><b>What it does:</b> runs cv_dual on the three test meshes '
            'of lanl/voronoi and compares the results with that '
            'project\'s gold files: .stor written by LaGriT (matbld2d / '
-           'matbld3d), .uge and TOUGH2 MESH written by lanl/voronoi. It '
+           'matbld3d), .uge and TOUGH MESH written by lanl/voronoi. It '
            'also checks things the gold files cannot: the .stor layout, '
            'that the control volumes add up to the mesh volume, that the '
            'default leaves out exactly the zero-area connections, and '

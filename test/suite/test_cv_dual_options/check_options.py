@@ -222,7 +222,7 @@ def main():
         return read_stor(os.path.join(ran[case], 'a.stor'))
 
     # the vertex material read under either name (imt1 or
-    # integer_material_type): the same TOUGH2 file, 2 materials
+    # integer_material_type): the same TOUGH file, 2 materials
     if 'imt_short' in ran and 'imt_long' in ran:
         a = open(os.path.join(ran['imt_short'], 'a_MESH')).read()
         b = open(os.path.join(ran['imt_long'], 'a_MESH')).read()
