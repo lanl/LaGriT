@@ -1,0 +1,25 @@
+# test_cv_dual_vs_matbld cases: one per line,
+#   name | deck (relative to test/) | what it is
+#
+# Each case's deck runs twice, in work/NAME/matbld as written and in
+# work/NAME/cv_dual with / cv_dual on each dump / stor, fehm, pflotran
+# and zone_outside line (prepare_decks.py), with every file of the
+# deck's folder beside it. check_vs_matbld.py compares the two runs'
+# files and must explain every difference.
+#
+hybrid_volume        | level01/hybrid_volume/input.lgi        | LaGriT's level01 test of dump / stor and dump / fehm with hybrid and nohybrid: tet lattices and meshes read from AVS, and a hex mesh.
+io_agf_simple        | level01/io_agf_simple/input.lgi        | LaGriT's level01 test of dump / fehm, coord, zone_imt and zone_outside on a unit tet mesh.
+pflotran_stor        | level01/pflotran_stor/input.lgi        | LaGriT's level01 test of dump / stor and dump / pflotran (filtered and not) on 2D squares and a sample tet mesh.
+zone_outside         | level01/zone_outside/input.lgi         | LaGriT's level01 test of dump / zone_outside with keepatt on a mesh chunk.
+stor_precision_diff  | level03/stor_precision_diff/input.lgi  | LaGriT's level03 test: dump / stor and dump / pflotran on a small hex-derived tet mesh.
+st01_brick_default   | suite/test_stor_utm/st01_brick_default.lgi | test_stor_utm: a moved lattice of tets at the origin and at UTM coordinates (x 7e5, y 3.2e6), dump / stor (default).
+st02_brick_graph     | suite/test_stor_utm/st02_brick_graph.lgi   | test_stor_utm: the same with graph compression.
+st03_brick_matbld3d  | suite/test_stor_utm/st03_brick_matbld3d.lgi | test_stor_utm: the same through matbld3d_stor (coefs, none).
+st04_hybrid          | suite/test_stor_utm/st04_hybrid.lgi       | test_stor_utm: random points in a box, hybrid and not, at the origin and at UTM coordinates.
+st05_poisson         | suite/test_stor_utm/st05_poisson.lgi      | test_stor_utm: a 3D Poisson disk mesh at the origin and at UTM coordinates.
+st06_2d              | suite/test_stor_utm/st06_2d.lgi           | test_stor_utm: 2D triangles (matbld2d_stor) at the origin and at UTM coordinates.
+st07_pflotran        | suite/test_stor_utm/st07_pflotran.lgi     | test_stor_utm: dump / pflotran at the origin and at UTM coordinates.
+st08_long_names      | suite/test_stor_utm/st08_long_names.lgi   | test_stor_utm: file roots of 26 to 32 characters, every writer.
+st09_fehmn           | suite/test_stor_utm/st09_fehmn.lgi        | test_stor_utm: dump / fehm at UTM coordinates.
+vm01_poisson_hybrid  | suite/test_cv_dual_vs_matbld/decks/vm01_poisson_hybrid.lgi | This suite's deck: LaGriT's Poisson disk mesh of test_poisson_3d case 1 (75 negative Voronoi coefficients), dump / stor with Voronoi and with hybrid.
+vm02_parents         | suite/test_cv_dual_vs_matbld/decks/vm02_parents.lgi | This suite's deck: two materials across a plane; settets / parents makes parent/child chains (itp1 = 41) at the interface. dump / stor on that mesh (cv_dual refuses it), then after resetpts / parent and rmpoint / compress.
