@@ -1,0 +1,11 @@
+# d06_zone_outside.lgi -- test_cv_dual_dump_keyword (see 00README)
+# the Poisson mesh: dump / zone_outside with cv_dual (voronoi, and
+# hybrid keeping the area attributes) and with matbld
+read / avs / test_3d_poi_01.inp / mo_poi
+resetpts / itp
+dump / avs / mesh.inp / mo_poi
+dump / zone_outside / z_vor / mo_poi / cv_dual
+dump / zone_outside / z_mb / mo_poi
+dump / zone_outside / z_hyb / mo_poi / keepatt_voronoi / cv_dual / hybrid
+dump / avs / after.inp / mo_poi
+finish

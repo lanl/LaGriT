@@ -1,0 +1,91 @@
+test_cv_dual_dump_keyword -- cv_dual | matbld on LaGriT's dump commands (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_dump_keyword_tests.sh [path-to-lagrit]   8 cases, about 2 s
+  open summary.html
+
+  (cv_dual is the one beside lagrit: build/cv_dual)
+
+WHAT IS TESTED
+
+  dump / stor, dump / fehm, dump / pflotran and dump / zone_outside
+  take the keyword cv_dual or matbld (src/dump_cv_dual.f90, called by
+  writedump.f). matbld, the default, is LaGriT's code as before. With
+  cv_dual the .stor (stor, fehm), the .uge (pflotran) and the boundary
+  areas (_outside_vor.area, _med, _hyb: fehm, zone_outside) come from
+  cv_dual on the mesh object, with voronoi (default), median or hybrid
+  control volumes. Each case is a LaGriT deck, NAME.lgi, run in
+  work/NAME; the deck writes the mesh with dump / avs (mesh.inp) before
+  the dump commands. Then the cv_dual program runs on mesh.inp once per
+  argument list of the case (work/NAME/prog1, prog2, ...), with
+  -outside_area to list each boundary vertex's vector area.
+
+  d01 dump / stor on a moved lattice of tets: compressed and none;
+      matbld by default and by name give the same file.
+  d02 dump / fehm on LaGriT's Poisson disk mesh in a box: voronoi,
+      median, hybrid against matbld (and matbld's keepatt_median).
+  d03 dump / pflotran: filter_zero (default) and nofilter_zero.
+  d04 2D triangles: dump / fehm and dump / pflotran.
+  d05 a dfnWorks fracture network: dump / fehm.
+  d06 dump / zone_outside: voronoi, and hybrid with keepatt_voronoi
+      (the areas follow the control volumes; xn_harea ... kept).
+  d07 options cv_dual does not have (vector, both, pflotran verbose):
+      matbld writes the dump, with one line saying so; a keyword as
+      the sixth token of dump / fehm.
+  er01 six commands that must fail: median without cv_dual, cv_dual
+      with matbld, two kinds of control volumes, median with binary,
+      dump / fehm on a mesh that is not Delaunay and on hexes.
+
+WHAT IS CHECKED (check_dump_keyword.py; cases.txt lists each case's)
+
+  ran        LaGriT ran the whole deck (after.inp exists)
+  errors     the number of "ERROR: dump/" lines
+  message    each text cases.txt names is in LaGriT's output
+  nothing    no file named bad* (the failing commands' outputs)
+  progK      each file program run K wrote equals the deck's, byte for
+             byte, the .stor's line 2 aside, which must end with
+             (cv_dual dump / ...), the command
+  eq         two roots' files equal byte for byte (matbld by name and
+             not; a fallback and plain matbld)
+  zones      the geometry and zone files equal matbld's byte for byte
+  areaeq     boundary areas equal matbld's to their 13 digits
+             (Voronoi, median)
+  arealist   each vertex's boundary area in LaGriT's zone and area files
+             equals the program's outside_area list
+  boxsum     on a box each side's signed areas along its normal add up
+             to its area (a uniform infiltration sums exactly), for
+             every kind of control volume
+  att, exists, cvline2   an attribute kept, a file written, a .stor's
+             line 2
+
+  The meshes come from other suites: test_cv_dual_dfn (full_mesh.inp),
+  test_cv_dual_poisson_lagrit (test_3d_poi_01.inp) and
+  test_cv_dual_delaunay's generator (flip3d.inp, made in work/gen).
+
+WHAT WAS FOUND (Nov 18 2026)
+
+  - Voronoi boundary areas: LaGriT's get_xcontab splits each boundary
+    triangle at its own circumcenter; cv_dual's Voronoi control volumes
+    meet the boundary at the same points. The two agree to rounding
+    (1e-16 on the Poisson mesh), and so do the median ones (thirds).
+    In 2D and on a fracture's edges both give each vertex half of each
+    boundary edge.
+  - dump / fehm took its sixth token as an FEHM .ini file to read
+    unless it was -def-: dump / fehm / root / mo / ascii / keepatt read
+    a file named keepatt and stopped. A keyword there is now a keyword.
+  - The outside zones need itp1: after read / avs, resetpts / itp.
+
+PICTURES (logs/)
+
+  NAME.svg   the mesh (a large tet mesh by its boundary faces), its
+             boundary vertices colored by the size of their boundary
+             area (from the case's first outside_area list)
+
+FILES
+
+  run_dump_keyword_tests.sh     runner (work/, logs/)
+  cases.txt                     the cases
+  check_dump_keyword.py         checks, pictures, summary.html
+  d*.lgi, er*.lgi               the decks

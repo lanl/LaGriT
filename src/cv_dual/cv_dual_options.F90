@@ -60,6 +60,10 @@
 ! alpha_file file                         ParaView file of the mesh
 !                                         with alpha and stage per
 !                                         cell (cv_dual_write_vtu)
+! outside_area file                       each boundary vertex's
+!                                         vector area: the boundary
+!                                         part of its control volume
+!                                         (cv_dual_boundary)
 ! delaunay_tol number >= 0      1e-10     a facet violates Delaunay
 !                                         when delta/L < -delaunay_tol
 !                                         (cv_dual_delaunay)
@@ -78,7 +82,7 @@
 !                                         of each step and peak memory
 !                                         (cv_dual_timing)
 !
-! (*) with no output keyword: stor voronoi.stor.
+! (*) with no output keyword (nor outside_area): stor voronoi.stor.
 !
 ! lanl/voronoi's options are also accepted, as before:
 !   type fehm|pflotran|tough (or tough2), o FILE (one output),
@@ -110,6 +114,8 @@ module cv_dual_options
       real(rk) :: alpha_min = 0.0_rk
       integer :: hybrid_iter = 100
       character(len=lpath) :: alpha_file = ' '
+      character(len=lpath) :: outside_area = ' '
+      logical :: default_out = .false.     ! voronoi.stor, none named
       character(len=lpath) :: matrix = ' '
       integer :: matrix_bins = 0           ! 0: no image
       character(len=lpath) :: paraview = ' '
@@ -132,7 +138,7 @@ module cv_dual_options
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
       'paraview paraview_faces paraview_subset vtu_format '// &
-      'vtu_layout matrix matrix_bins '// &
+      'vtu_layout matrix matrix_bins outside_area '// &
       'type o tough2'
 
 contains
@@ -224,7 +230,7 @@ contains
                'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
                'hybrid_iter', 'alpha_file', 'paraview', &
                'paraview_faces', 'vtu_format', 'vtu_layout', &
-               'matrix', 'matrix_bins')
+               'matrix', 'matrix_bins', 'outside_area')
             if (i == n) then
                call bad('keyword '//trim(key)//' needs a value')
                return
@@ -352,6 +358,8 @@ contains
             opt%hybrid_iter = j
          case ('alpha_file')
             opt%alpha_file = val
+         case ('outside_area')
+            opt%outside_area = val
          case ('matrix')
             opt%matrix = val
          case ('matrix_bins')
@@ -457,8 +465,11 @@ contains
          return
       end if
 
-      if (opt%nout == 0) call add_output(opt, 'stor', &
-                                         'voronoi.stor', ierr)
+      ! no output named (outside_area is one): voronoi.stor
+      if (opt%nout == 0 .and. len_trim(opt%outside_area) == 0) then
+         call add_output(opt, 'stor', 'voronoi.stor', ierr)
+         opt%default_out = .true.
+      end if
       if (ierr /= 0) return
       ! a delaunay_fatal below delaunay_tol is raised to it
       ! (cv_dual_delaunay), so raising delaunay_tol alone is enough
@@ -503,7 +514,7 @@ contains
 !     differs from the others and from the mesh.
       type(options_t), intent(in) :: opt
       integer, intent(out) :: ierr
-      character(len=lpath) :: f(maxout+10)
+      character(len=lpath) :: f(maxout+12)
       integer :: n, k, j
       ierr = 0
       n = opt%nout
@@ -517,6 +528,10 @@ contains
       if (len_trim(opt%alpha_file) > 0) then
          n = n + 1
          f(n) = opt%alpha_file
+      end if
+      if (len_trim(opt%outside_area) > 0) then
+         n = n + 1
+         f(n) = opt%outside_area
       end if
       if (len_trim(opt%matrix) > 0) then
          n = n + 1
@@ -603,6 +618,8 @@ contains
           ' violations='//trim(opt%violations)
       if (len_trim(opt%alpha_file) > 0) &
          t = t//' alpha_file='//trim(opt%alpha_file)
+      if (len_trim(opt%outside_area) > 0) &
+         t = t//' outside_area='//trim(opt%outside_area)
       if (len_trim(opt%paraview) > 0) then
          t = t//' paraview='//trim(opt%paraview)//' paraview_faces='// &
              trim(merge('on ', 'off', opt%paraview_faces))// &
@@ -642,7 +659,7 @@ contains
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
             'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
             'paraview_subset', 'vtu_format', 'vtu_layout', 'matrix', &
-            'matrix_bins')
+            'matrix_bins', 'outside_area')
          is_keyword = .true.
       case default
          is_keyword = .false.

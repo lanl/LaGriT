@@ -9,7 +9,7 @@
 !           [-alpha_file FILE] [-paraview ROOT] [-paraview_faces on|off]
 !           [-paraview_subset all|boundary|flagged|material N|box ...]
 !           [-vtu_format binary|ascii] [-vtu_layout new|legacy]
-!           [-matrix FILE] [-matrix_bins N]
+!           [-matrix FILE] [-matrix_bins N] [-outside_area FILE]
 !           [-delaunay_tol X] [-delaunay_fatal X] [-violations FILE]
 !           [-check_only on|off] [-report FILE] [-timing on|off]
 !
@@ -167,6 +167,8 @@ contains
                     'limit (default 100)')
       call log_line('  -alpha_file FILE  ParaView file: alpha and '// &
                     'stage per cell')
+      call log_line('  -outside_area FILE  each boundary vertex''s '// &
+                    'vector area')
       call log_line('  -paraview ROOT    ParaView files: ROOT.pvd, '// &
                     'the mesh, the control')
       call log_line('                    volumes, negative '// &

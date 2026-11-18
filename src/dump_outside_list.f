@@ -1,4 +1,9 @@
       subroutine dump_outside_list(ifile,attrib_option,area_option)
+C     cv_dual's boundary areas, when the dump commands give them
+C     (dump_control_volume.f90: cv_tag 'vor', 'med', 'hyb' or 'bld';
+C     blank: get_xcontab as before)
+      use dump_control_volume_lg, only: cv_barea, cv_tag,
+     *    cv_tag_word, cv_area_attribute
 C
 C #####################################################################
 C
@@ -107,6 +112,7 @@ c
      >   icharlnf, len, ilen, itype 
 
       integer ipat(64)
+      integer icv
       pointer (ipout,outs)
       real*8 outs(*)
       pointer (ipxatt,xatt)
@@ -310,13 +316,20 @@ C     Set options for boundary area attributes
 
 c
 c
+      icv = 0
+      if (cv_tag(1:1).ne.' ') icv = 1
       write(log_io,100)
   100 format('*********dump_outside_list********')
       call writloga('default',0,log_io,0,ierror)
+      if (icv.ne.0) then
+        write(log_io,'(a)') 'cv_dual '//
+     *    cv_tag_word(cv_tag)//' areas used for outside faces.'
+      else
       if (iout_voronoi.ne.0) write(log_io,'(a)')
      *    "Voronoi Areas used for outside faces."
       if (iout_voronoi.eq.0) write(log_io,'(a)')
      *    "Median  Area used for outside faces."
+      endif
       call writloga('default',0,log_io,0,ierror)
 c
       call cmo_get_name
@@ -383,7 +396,10 @@ c
 
 c     open file to output-area zone lists
 c
-      if (iout_voronoi.gt.0) then
+      if (icv.ne.0) then
+        ifilename=ifile(1:icharlnf(ifile)) // '_outside_' //
+     *            cv_tag // '.area'
+      else if (iout_voronoi.gt.0) then
         ifilename=ifile(1:icharlnf(ifile)) // '_outside_vor.area'
       else
         ifilename=ifile(1:icharlnf(ifile)) // '_outside_med.area'
@@ -408,7 +424,16 @@ C
 C     Allocate MO arrays to hold x,y,z components of node area vector
 C     check for existance of old attributes, then add if not exist
 C
-       if (iattrib_area.ne.0) then
+       if (iattrib_area.ne.0 .and. icv.ne.0) then
+C        cv_dual: xn_Larea, yn_Larea, zn_Larea, L the tag's letter
+         ierr_att = 0
+         call cv_area_attribute('xn_'//cv_tag(1:1)//'area',cmo_name,
+     *                          ipxn_area,ierr_att)
+         call cv_area_attribute('yn_'//cv_tag(1:1)//'area',cmo_name,
+     *                          ipyn_area,ierr_att)
+         call cv_area_attribute('zn_'//cv_tag(1:1)//'area',cmo_name,
+     *                          ipzn_area,ierr_att)
+       else if (iattrib_area.ne.0) then
        if (iout_voronoi.ne.0) then
          ierr_att = 0
 
@@ -500,7 +525,13 @@ C      median areas must be chosen explicitly through keepatt_median
 C     default uses voronoi version of outside faces
 C     only use median if keepatt_median is used
 
-      if (iout_voronoi.gt.0) then
+      if (icv.ne.0) then
+        do i = 1, nnodes
+          xcontab_node(1,i) = cv_barea(1,i)
+          xcontab_node(2,i) = cv_barea(2,i)
+          xcontab_node(3,i) = cv_barea(3,i)
+        enddo
+      else if (iout_voronoi.gt.0) then
         call get_xcontab('area_voronoi',cmo_name,ipxcontab_node)
       else
         call get_xcontab('area_vector',cmo_name,ipxcontab_node)
@@ -790,6 +821,14 @@ c175        format(i5.5,2x,a)
 
             tstring = "   Sum MEDIAN vectors:  "
             if(iout_voronoi .ne. 0) tstring = "   Sum VORONOI vectors: "
+            if(icv.ne.0 .and. cv_tag.eq.'hyb')
+     *         tstring = "   Sum HYBRID vectors:  "
+            if(icv.ne.0 .and. cv_tag.eq.'bld')
+     *         tstring = "   Sum BLEND vectors:   "
+            if(icv.ne.0 .and. cv_tag.eq.'med')
+     *         tstring = "   Sum MEDIAN vectors:  "
+            if(icv.ne.0 .and. cv_tag.eq.'vor')
+     *         tstring = "   Sum VORONOI vectors: "
             write(iunit2,175)
      >       ntests,
      >       ibndflag_name(ntests)(1:icharlnf(ibndflag_name(ntests)))
@@ -818,6 +857,7 @@ c    *                                   n=1,icount)
 
              tstring = " Sum Median   "
              if(iout_voronoi .ne. 0) tstring = " Sum Voronoi "
+             if(icv.ne.0) tstring = " Sum "//cv_tag_word(cv_tag)
 
 C           WRITE zone information to screen output
             write(log_io,920)ibndflag_name(ntests),tstring

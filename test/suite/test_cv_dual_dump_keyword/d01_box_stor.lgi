@@ -1,0 +1,20 @@
+# d01_box_stor.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a 9 x 7 x 6 lattice of tets, interior vertices moved: dump / stor
+# with cv_dual (compressed, and none), with matbld by default and by
+# name
+cmo / create / mo_box / / / tet
+createpts / xyz / 9 7 6 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / stor / s_cv / mo_box / cv_dual
+dump / stor / s_none / mo_box / cv_dual / none
+dump / stor / s_mb / mo_box
+dump / stor / s_mb2 / mo_box / matbld
+dump / avs / after.inp / mo_box
+finish

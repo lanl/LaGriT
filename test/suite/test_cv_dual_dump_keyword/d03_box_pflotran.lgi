@@ -1,0 +1,18 @@
+# d03_box_pflotran.lgi -- test_cv_dual_dump_keyword (see 00README)
+# the moved lattice of d01 (a smaller one): dump / pflotran with
+# cv_dual, zero-area connections filtered (the default) and kept
+cmo / create / mo_box / / / tet
+createpts / xyz / 6 5 4 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.03 0.03 0.03
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / pflotran / p_cv / mo_box / cv_dual
+dump / pflotran / p_all / mo_box / cv_dual / nofilter_zero
+dump / pflotran / p_mb / mo_box
+dump / avs / after.inp / mo_box
+finish

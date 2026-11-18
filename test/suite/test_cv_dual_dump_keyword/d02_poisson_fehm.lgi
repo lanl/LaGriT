@@ -1,0 +1,13 @@
+# d02_poisson_fehm.lgi -- test_cv_dual_dump_keyword (see 00README)
+# LaGriT's Poisson disk mesh in a box (test_poisson_3d case 1): every
+# FEHM file with cv_dual (voronoi, median, hybrid) and with matbld
+read / avs / test_3d_poi_01.inp / mo_poi
+resetpts / itp
+dump / avs / mesh.inp / mo_poi
+dump / fehm / f_vor / mo_poi / cv_dual
+dump / fehm / f_med / mo_poi / cv_dual / median
+dump / fehm / f_hyb / mo_poi / cv_dual / hybrid
+dump / fehm / f_mb / mo_poi
+dump / fehm / f_mbmed / mo_poi / keepatt_median
+dump / avs / after.inp / mo_poi
+finish

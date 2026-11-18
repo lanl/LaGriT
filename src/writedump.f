@@ -268,6 +268,10 @@ C
 
       integer ierrw, ierror,icscode, if_cmo_exist, if_def_cmo
       integer ii,len,leno,lenfile,length,lenidsb
+C     dump_cv_dual: the keyword cv_dual | matbld
+      integer ihandled, ifirst
+      logical dump_fehm_word
+      external dump_fehm_word
       integer imt_select,npoints,ntets,mbndry,nsdtopo,nsdgeom,
      *  nen,nef,iopt_elements,iopt_values_node,iopt_values_elem,
      *  ist1,io_format,ihcycle,time,dthydro,icmotype,iopt_points             
@@ -1312,13 +1316,30 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
             endif
            enddo
 
+C          cv_dual | matbld (dump_cv_dual.f90): with cv_dual the
+C          files come from cv_dual (ihandled 1); matbld, the default,
+C          goes on below unchanged
+
+C          token 6 is an FEHM .ini file only if it is not a keyword
+           if (dump_fehm_word(ioption2)) ioption2 = ' '
+
+           ifirst = 5
+           if (idsb(1:lenidsb).eq.'dumpfehm') ifirst = 4
+           call dump_cv_dual(imsgin,xmsgin,cmsgin,msgtype,nwds,ifirst,
+     *          ioption, ifile(1:icharlnf(ifile)),
+     *          ioption2(1:icharlnf(ioption2)), iomode,
+     *          ioption3, ioption4, ioption5, ioption6, ioption7,
+     *          ihandled, ierror_return)
+
 C          dumpfehm writes FEHM files including dump_fehm_geom
 
+           if (ihandled .eq. 0) then
            call dumpfehm(ifile(1:icharlnf(ifile)),
      *          ioption2(1:icharlnf(ioption2)),
      *          ioption, iomode,
      *          ioption3, ioption4, ioption5, ioption6, ioption7)
            ierror_return = 0
+           endif
             
          endif
 
@@ -1366,9 +1387,16 @@ C
 
          if(if_cmo_exist.eq.0) then
           len=icharlnf(cmo)
+C         cv_dual | matbld (dump_cv_dual.f90)
+          call dump_cv_dual(imsgin,xmsgin,cmsgin,msgtype,nwds,5,
+     *          ioption, ifile(1:lenfile), ' ', 'ascii',
+     *          'scalar', 'all', ioption5, ioption6, 'nohybrid',
+     *          ihandled, ierror_return)
+          if (ihandled .eq. 0) then
           call dump_outside_list(ifile(1:lenfile),
      *                      ioption5,ioption6)
           ierror_return = 0
+          endif
          endif
 
 C     DUMP / zone_outside_minmax (for fehm)
