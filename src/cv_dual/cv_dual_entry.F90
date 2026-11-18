@@ -5,7 +5,7 @@
 !
 !   call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
 !  *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
-!  *     options, command, vol, ierr)
+!  *     options, command, vol, want_area, barea, ierr)
 !
 ! The arguments are a LaGriT mesh object's own arrays, used in place
 ! (never copied, never changed). Integers are 8 bytes (LaGriT builds
@@ -33,6 +33,13 @@
 !                      mo_name / ...', the command as typed
 !   vol                out: the control volumes (nnodes); unchanged
 !                      with check_only on or after an error
+!   want_area          1: also fill barea; 0: barea is not touched.
+!                      With 1 and no output named in options, no
+!                      file is written (no default voronoi.stor)
+!   barea              out: (3, nnodes) each vertex's boundary vector
+!                      area, the boundary part of its control volume
+!                      (cv_dual_boundary; 0 inside); unchanged with
+!                      check_only on or after an error
 !   ierr               out: 0, or 1 after an error, whose message is
 !                      already in the log; cv_dual never stops
 !
@@ -42,7 +49,7 @@
 subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
                                 zic, itettyp, itetoff, itet, itetclr, &
                                 imt1, itp1, isn1, options, command, &
-                                vol, ierr)
+                                vol, want_area, barea, ierr)
    use cv_dual_kinds, only: ik, rk
    use cv_dual_log, only: log_line, errmsg
    use cv_dual_options, only: options_t, parse_options, &
@@ -58,11 +65,14 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    integer(ik), target :: imt1(nnodes), itp1(nnodes), isn1(nnodes)
    character(len=*), intent(in) :: options, command
    real(rk), intent(inout) :: vol(nnodes)
+   integer(ik), intent(in) :: want_area
+   real(rk), intent(inout) :: barea(3, *)
    integer(ik), intent(out) :: ierr
 
    type(options_t) :: opt
    type(mesh_t) :: m
-   real(rk), allocatable :: v(:)
+   real(rk), allocatable :: v(:), ba(:, :)
+   character(len=:), allocatable :: cmd
    character(len=1024), allocatable :: tok(:)
    integer :: ntok, ie
    integer(ik) :: it, ityp
@@ -119,6 +129,10 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
       return
    end if
 
+   ! only the areas asked for (LaGriT's dump / zone_outside): no
+   ! default voronoi.stor
+   if (want_area == 1 .and. opt%default_out) opt%nout = 0
+
    call run_start(opt, ie)
    if (ie /= 0) then
       ierr = 1
@@ -142,14 +156,20 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    m%isn1 => isn1
 
    if (len_trim(command) > 0) then
-      call run_mesh(m, opt, trim(adjustl(command)), v, ie)
+      cmd = trim(adjustl(command))
    else
-      call run_mesh(m, opt, 'cv_dual '//trim(adjustl(options)), v, ie)
+      cmd = 'cv_dual '//trim(adjustl(options))
+   end if
+   if (want_area == 1) then
+      call run_mesh(m, opt, cmd, v, ie, barea=ba)
+   else
+      call run_mesh(m, opt, cmd, v, ie)
    end if
    if (ie /= 0) then
       ierr = 1
    else
       if (allocated(v)) vol = v
+      if (allocated(ba)) barea(:, 1:nnodes) = ba
       call run_finish()
    end if
    call mesh_free(m)

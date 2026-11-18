@@ -40,7 +40,7 @@ module cv_dual_tess
    implicit none
    private
    public :: build_cells, build_mesh_grid, build_negative_grid, &
-             boundary_vertices, interface_edges
+             boundary_vertices, interface_edges, cell_points
 
    integer, parameter :: maxf = 4096   ! faces of one polyhedron
    integer, parameter :: maxp = 64     ! points of one face

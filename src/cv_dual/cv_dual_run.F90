@@ -51,6 +51,7 @@ module cv_dual_run
                            boundary_vertices
    use cv_dual_write_stor, only: write_stor
    use cv_dual_write_uge, only: write_uge
+   use cv_dual_boundary, only: boundary_areas, write_outside_area
    use cv_dual_write_tough, only: write_tough
    use cv_dual_timing, only: timer_start, timer_stop, timer_report, &
                              timing_on, timer_reset
@@ -118,12 +119,14 @@ contains
       call log_line(ln(1:n))
    end subroutine log_options
 
-   subroutine run_mesh(m, opt, cmd, vol, ierr)
+   subroutine run_mesh(m, opt, cmd, vol, ierr, barea)
       type(mesh_t), intent(inout) :: m
       type(options_t), intent(in) :: opt
       character(len=*), intent(in) :: cmd
       real(rk), allocatable, intent(out) :: vol(:)
       integer, intent(out) :: ierr
+      ! the boundary vector areas (cv_dual_boundary), when asked
+      real(rk), allocatable, intent(out), optional :: barea(:, :)
 
       type(assembly_stats_t) :: stats
       type(jtet_stats_t) :: jst
@@ -140,7 +143,7 @@ contains
       type(cell_policy_t) :: pol
       type(hybrid_t) :: hs
       integer, allocatable :: stage(:)
-      real(rk), allocatable :: asum(:), avec(:, :)
+      real(rk), allocatable :: asum(:), avec(:, :), bar(:, :)
       logical, allocatable :: bedge(:)
       character(len=22) :: step(3)
       integer(ik) :: nb(3), ni(3)
@@ -298,12 +301,31 @@ contains
          call log_line('cv_dual: wrote '//trim(opt%out_type(k))// &
                        ' '//trim(opt%out_file(k)))
       end do
+
+      ! the boundary vector areas: the outside_area file, the caller
+      if (len_trim(opt%outside_area) > 0 .or. present(barea)) then
+         call timer_start('boundary areas')
+         allocate (bar(3, m%nnodes))
+         call boundary_areas(m, pol, bar)
+         call timer_stop()
+         if (len_trim(opt%outside_area) > 0) then
+            call write_outside_area(opt%outside_area, m, bar, &
+                                    trim(policy_word(opt%cv)), ierr)
+            if (ierr /= 0) go to 900
+            call log_line('cv_dual: wrote outside_area '// &
+                          trim(opt%outside_area))
+         end if
+         if (present(barea)) call move_alloc(bar, barea)
+      end if
       return
 
       ! every error: its message, the report file closed, no volumes
 900   continue
       if (ierr == 0) ierr = 1
       if (allocated(vol)) deallocate (vol)
+      if (present(barea)) then
+         if (allocated(barea)) deallocate (barea)
+      end if
       call run_abandon()
       return
 

@@ -14,8 +14,14 @@ c-----------------------------------------------------------------------
       integer itet(nen*nelements), itetclr(nelements)
       integer imt1(nnodes), itp1(nnodes), isn1(nnodes)
       character*(*) options, command
+      integer want_area
+      real*8 barea(3)
+c     the boundary areas are not asked for here (want_area 0: barea
+c     is not touched); dump / fehm and the suite
+c     test_cv_dual_dump_keyword check them
+      want_area = 0
       call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
      *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
-     *     options, command, vol, ierr)
+     *     options, command, vol, want_area, barea, ierr)
       return
       end
