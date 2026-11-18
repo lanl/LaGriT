@@ -1,0 +1,9 @@
+# d05_dfn.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a dfnWorks fracture network: dump / fehm with cv_dual and matbld
+read / avs / full_mesh.inp / mo_dfn
+resetpts / itp
+dump / avs / mesh.inp / mo_dfn
+dump / fehm / f_vor / mo_dfn / cv_dual
+dump / fehm / f_mb / mo_dfn
+dump / avs / after.inp / mo_dfn
+finish

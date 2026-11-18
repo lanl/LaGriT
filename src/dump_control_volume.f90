@@ -25,8 +25,122 @@ module dump_control_volume_lg
    implicit none
    private
    public :: to_writloga, num_text, say
+   public :: cv_barea, cv_tag, cv_tag_word, cv_area_attribute, &
+             cv_dual_mo_run
+
+   ! cv_dual's boundary vector areas (3, nnodes) for dump_outside_list,
+   ! with the control volumes' tag ('vor', 'med', 'hyb', 'bld'); a
+   ! blank tag: dump_outside_list computes its own (get_xcontab)
+   real*8, allocatable :: cv_barea(:, :)
+   character(len=3) :: cv_tag = '   '
 
 contains
+
+   ! The control volumes' name for a tag, for messages and files.
+   function cv_tag_word(tag) result(w)
+      character(len=*), intent(in) :: tag
+      character(len=:), allocatable :: w
+      select case (tag)
+      case ('vor')
+         w = 'Voronoi'
+      case ('med')
+         w = 'Median'
+      case ('hyb')
+         w = 'Hybrid'
+      case ('bld')
+         w = 'Blend'
+      case default
+         w = trim(tag)
+      end select
+   end function cv_tag_word
+
+   ! Find or make the real vertex attribute aname of the current mesh
+   ! object; ip its pointer. ierr_att = 1 if it cannot be made.
+   subroutine cv_area_attribute(aname, cmo, ip, ierr_att)
+      character(len=*), intent(in) :: aname, cmo
+      integer :: ip, ierr_att
+      integer :: ilen, ityp, ierr, ics
+      call mmfindbk(aname, cmo, ip, ilen, ierr)
+      if (ierr /= 0) then
+         call dotask('cmo/addatt/-def-/'//aname// &
+                     '/vdouble/scalar/nnodes;finish', ics)
+         call cmo_get_info(aname, cmo, ip, ilen, ityp, ierr)
+         if (ierr /= 0) ierr_att = 1
+      else
+         call to_writloga('attribute already exists, will overwrite: '// &
+                          aname)
+      end if
+   end subroutine cv_area_attribute
+
+   ! cv_dual on the mesh object mo (its arrays in place): options and
+   ! command as for cv_dual_lagrit_entry. With want_area 1 the
+   ! boundary areas go into cv_barea. ierr 0, or 1 after an error (the
+   ! message already in the log); nnodes 0 if mo has no vertices or
+   ! cells.
+   subroutine cv_dual_mo_run(mo, options, command, want_area, nnodes, &
+                             ierr)
+      use cv_dual_log, only: log_set_sink
+      character(len=*), intent(in) :: mo, options, command
+      integer, intent(in) :: want_area
+      integer, intent(out) :: nnodes, ierr
+      external cv_dual_lagrit_entry
+      pointer (ipxic, xic)
+      pointer (ipyic, yic)
+      pointer (ipzic, zic)
+      pointer (ipitettyp, itettyp)
+      pointer (ipitetoff, itetoff)
+      pointer (ipitet, itet)
+      pointer (ipitetclr, itetclr)
+      pointer (ipimt1, imt1)
+      pointer (ipitp1, itp1)
+      pointer (ipisn1, isn1)
+      real*8 :: xic(*), yic(*), zic(*)
+      integer :: itettyp(*), itetoff(*), itet(*), itetclr(*)
+      integer :: imt1(*), itp1(*), isn1(*)
+      real*8, allocatable :: vol(:)
+      real*8 :: dummy(3)
+      integer :: nelements, nen, ilen, ityp
+
+      ierr = 0
+      call cmo_get_info('nnodes', mo, nnodes, ilen, ityp, ierr)
+      call cmo_get_info('nelements', mo, nelements, ilen, ityp, ierr)
+      call cmo_get_info('nodes_per_element', mo, nen, ilen, ityp, ierr)
+      if (nnodes < 1 .or. nelements < 1) then
+         nnodes = 0
+         ierr = 1
+         return
+      end if
+      call cmo_get_info('xic', mo, ipxic, ilen, ityp, ierr)
+      call cmo_get_info('yic', mo, ipyic, ilen, ityp, ierr)
+      call cmo_get_info('zic', mo, ipzic, ilen, ityp, ierr)
+      call cmo_get_info('itettyp', mo, ipitettyp, ilen, ityp, ierr)
+      call cmo_get_info('itetoff', mo, ipitetoff, ilen, ityp, ierr)
+      call cmo_get_info('itet', mo, ipitet, ilen, ityp, ierr)
+      call cmo_get_info('itetclr', mo, ipitetclr, ilen, ityp, ierr)
+      call cmo_get_info('imt1', mo, ipimt1, ilen, ityp, ierr)
+      call cmo_get_info('itp1', mo, ipitp1, ilen, ityp, ierr)
+      call cmo_get_info('isn1', mo, ipisn1, ilen, ityp, ierr)
+
+      allocate (vol(nnodes))
+      vol = 0.0d0
+      if (allocated(cv_barea)) deallocate (cv_barea)
+      call log_set_sink(to_writloga)
+      if (want_area == 1) then
+         allocate (cv_barea(3, nnodes))
+         cv_barea = 0.0d0
+         call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
+                                   zic, itettyp, itetoff, itet, &
+                                   itetclr, imt1, itp1, isn1, options, &
+                                   command, vol, 1, cv_barea, ierr)
+      else
+         call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
+                                   zic, itettyp, itetoff, itet, &
+                                   itetclr, imt1, itp1, isn1, options, &
+                                   command, vol, 0, dummy, ierr)
+      end if
+      call log_set_sink()
+      if (ierr /= 0 .and. allocated(cv_barea)) deallocate (cv_barea)
+   end subroutine cv_dual_mo_run
 
    ! cv_dual's log hook: every line to LaGriT's log and screen. The
    ! line goes in a buffer of at least 80 characters: writlogb writes
@@ -120,6 +234,7 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
    character(len=256) :: cbuf
    character(len=132) :: logmess
    real*8, allocatable :: vol(:)
+   real*8 :: dummy(3)
    integer :: nnodes, nelements, nen, ilen, ityp, ierr, k, ind
    logical :: want_att, in_group, have_att
    real*8, parameter :: unset = -huge(1.0d0)
@@ -231,7 +346,7 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
    call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic, &
                              itettyp, itetoff, itet, itetclr, imt1, &
                              itp1, isn1, trim(adjustl(options)), &
-                             trim(command), vol, ierr)
+                             trim(command), vol, 0, dummy, ierr)
    call log_set_sink()
    if (ierr /= 0) then
       call fail('dump/control_volume: cv_dual stopped (see above); '// &

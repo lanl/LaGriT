@@ -1,0 +1,19 @@
+# d07_fallback.lgi -- test_cv_dual_dump_keyword (see 00README)
+# options cv_dual does not have: matbld writes the dump, with one
+# line saying so; a keyword in token 6 of dump / fehm
+cmo / create / mo_box / / / tet
+createpts / xyz / 5 4 4 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / stor / s_vec / mo_box / cv_dual / vector
+dump / stor / s_vec0 / mo_box / vector
+dump / stor / s_asc / mo_box / cv_dual / ascii / both
+dump / stor / s_asc0 / mo_box / ascii / both
+dump / pflotran / p_verb / mo_box / cv_dual / verbose
+dump / pflotran / p_verb0 / mo_box / verbose
+dump / fehm / f_t6 / mo_box / ascii / keepatt
+dump / fehm / f_t6cv / mo_box / ascii / cv_dual
+dump / avs / after.inp / mo_box
+finish

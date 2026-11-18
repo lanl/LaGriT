@@ -1,0 +1,21 @@
+# er01_errors.lgi -- test_cv_dual_dump_keyword (see 00README)
+# commands that must fail: an ERROR line each, nothing written,
+# LaGriT goes on
+cmo / create / mo_box / / / tet
+createpts / xyz / 4 4 4 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mo_box / imt / 1 0 0 / 1
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_box
+dump / stor / bad1 / mo_box / median
+dump / stor / bad2 / mo_box / cv_dual / matbld
+dump / stor / bad3 / mo_box / cv_dual / voronoi / hybrid
+dump / stor / bad4 / mo_box / cv_dual / median / binary
+read / avs / flip3d.inp / mo_flip
+resetpts / itp
+dump / fehm / bad5 / mo_flip / cv_dual
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / fehm / bad6 / mo_hex / cv_dual
+dump / avs / after.inp / mo_box
+finish

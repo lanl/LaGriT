@@ -1,0 +1,36 @@
+# test_cv_dual_dump_keyword cases: one per line,
+#   name | program runs | checks | errors | messages | what it does
+#
+# Each case runs LaGriT on its deck NAME.lgi in work/NAME (the deck
+# writes mesh.inp before the dump commands and after.inp at the end).
+# program runs: argument lists separated by ;; (- for none); run k is
+#   cv_dual -avs mesh.inp ARGUMENTS in work/NAME/progK, and every file
+#   it writes must equal the deck's file of that name, byte for byte
+#   (a .stor's second line aside; outside_area lists, *.txt, are used
+#   by the checks below instead).
+# checks (blank separated):
+#   eq:R1,R2          every file R1* equals R2* (same suffixes), byte
+#                     for byte (a .stor's second line aside)
+#   zones:R1,R2       the geometry and zone files of R1 and R2 (.fehmn,
+#                     _material, _interface, _multi_mat, _outside,
+#                     _parent .zone, those written) equal byte for byte
+#   areaeq:F1,F2      the boundary areas of two .area files: the same
+#                     vertices, the numbers equal to their 13 digits
+#   arealist:R,T,L    R_outside.zone with R_outside_T.area against the
+#                     program's outside_area list L, vertex by vertex
+#   boxsum:R,T        a box: each zone's signed area along its normal
+#                     adds up to that side's area (top: Az = Lx Ly ...)
+#   att:NAME          after.inp has the vertex attribute NAME
+#   exists:FILE       the deck wrote FILE
+#   cvline2:FILE      FILE's second line ends with (cv_dual dump / ...)
+# errors: the number of "ERROR: dump/" lines the run must print.
+# messages: text LaGriT's output must hold, separated by ;; (- none).
+#
+d01_box_stor      | -stor s_cv.stor -zero_area keep ;; -stor s_none.stor -zero_area keep -compress off | eq:s_mb,s_mb2 | 0 | cv_dual: wrote stor s_cv.stor | A 9 x 7 x 6 lattice of tets, interior vertices moved. dump / stor with cv_dual writes the .stor the cv_dual program writes on the same mesh (one connection per mesh edge, as matbld: zero_area keep; compressed, and with none not), byte for byte but the second line, which ends with the LaGriT command. Without a keyword and with matbld named, matbld writes the same file.
+d02_poisson_fehm  | -stor f_vor.stor -zero_area keep -outside_area o_vor.txt ;; -cv median -stor f_med.stor -zero_area keep -outside_area o_med.txt ;; -cv hybrid -stor f_hyb.stor -zero_area keep -outside_area o_hyb.txt | zones:f_vor,f_mb zones:f_med,f_mb zones:f_hyb,f_mb areaeq:f_vor_outside_vor.area,f_mb_outside_vor.area areaeq:f_med_outside_med.area,f_mbmed_outside_med.area arealist:f_vor,vor,o_vor.txt arealist:f_med,med,o_med.txt arealist:f_hyb,hyb,o_hyb.txt boxsum:f_vor,vor boxsum:f_med,med boxsum:f_hyb,hyb | 0 | cv_dual Voronoi areas used for outside faces ;; cv_dual Hybrid areas used for outside faces | LaGriT's Poisson disk mesh in a box (test_poisson_3d case 1), dump / fehm with cv_dual: voronoi, median and hybrid. The .stor equals the program's; the geometry and zone files equal matbld's byte for byte; the boundary areas (_outside_vor, _med, _hyb.area) equal the program's outside_area lists, the Voronoi and median ones equal matbld's to their 13 digits, and each side of the box adds up to its area for every method.
+d03_box_pflotran  | -uge p_cv.uge ;; -uge p_all.uge -zero_area keep | - | 0 | cv_dual: wrote uge p_cv.uge | A moved lattice of tets, dump / pflotran with cv_dual: zero-area connections left out (filter_zero, the default) or kept (nofilter_zero); each .uge equals the program's.
+d04_square2d      | -stor f_vor.stor -zero_area keep -outside_area o_vor.txt ;; -uge p_cv.uge | zones:f_vor,f_mb areaeq:f_vor_outside_vor.area,f_mb_outside_vor.area arealist:f_vor,vor,o_vor.txt boxsum:f_vor,vor | 0 | - | A 2D triangle mesh, interior vertices moved: dump / fehm and dump / pflotran with cv_dual. In 2D each boundary vertex gets half of each boundary edge, as a length vector: equal to matbld's, and the sides of the rectangle add up to their lengths.
+d05_dfn           | -stor f_vor.stor -zero_area keep -outside_area o_vor.txt | zones:f_vor,f_mb areaeq:f_vor_outside_vor.area,f_mb_outside_vor.area arealist:f_vor,vor,o_vor.txt | 0 | - | A dfnWorks fracture network (4 fractures, triangles in 3D), dump / fehm with cv_dual: the .stor equals the program's, the zone files matbld's, and each fracture's boundary edges give the same length vectors as matbld's.
+d06_zone_outside  | -outside_area o_vor.txt ;; -cv hybrid -outside_area o_hyb.txt | zones:z_vor,z_mb areaeq:z_vor_outside_vor.area,z_mb_outside_vor.area arealist:z_vor,vor,o_vor.txt arealist:z_hyb,hyb,o_hyb.txt att:xn_harea att:yn_harea att:zn_harea | 0 | with cv_dual the boundary areas follow the control volumes (hybrid) | The Poisson mesh, dump / zone_outside with cv_dual: only the outside zone and its areas, no .stor. With hybrid and keepatt_voronoi the areas follow the control volumes (one line says so) and are kept in xn_harea, yn_harea, zn_harea.
+d07_fallback      | -stor f_t6cv.stor -zero_area keep | eq:s_vec,s_vec0 eq:s_asc,s_asc0 eq:p_verb,p_verb0 exists:f_t6.stor exists:f_t6_outside.zone cvline2:f_t6cv.stor | 0 | dump/stor: cv_dual does not have vector; matbld writes this dump ;; dump/stor: cv_dual does not have both; matbld writes this dump ;; dump/pflotran: cv_dual does not have verbose; matbld writes this dump | Options cv_dual does not have (vector and both area coefficients, pflotran's verbose): matbld writes the dump, the same files as without cv_dual, with one line saying so. A keyword as the sixth token of dump / fehm (ascii / keepatt, ascii / cv_dual) is a keyword, not an FEHM .ini file to read: LaGriT used to stop there.
+er01_errors       | - | - | 6 | median needs cv_dual ;; cv_dual or matbld, not both ;; one of voronoi, median, hybrid ;; cv_dual does not have binary and matbld has no median ;; not Delaunay ;; triangles or tets only | Six commands that must fail: median without cv_dual, cv_dual with matbld, two kinds of control volumes, median with binary (matbld would write it, and has no median), dump / fehm on a mesh that is not Delaunay and on a hex mesh. Each gives an ERROR line and writes nothing (with dump / fehm not the geometry and zone files either), and LaGriT goes on.

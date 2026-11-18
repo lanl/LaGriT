@@ -1,0 +1,18 @@
+# d04_square2d.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a 2D triangle mesh, interior vertices moved: dump / fehm, stor and
+# pflotran with cv_dual; dump / fehm with matbld
+cmo / create / mo_sq / / / triplane
+createpts / xyz / 21 16 1 / 0. 0. 0. / 0.04 0.03 0. / 1 1 1
+cmo / setatt / mo_sq / imt / 1 0 0 / 1
+connect
+resetpts / itp
+pset / p_in / attribute / itp / 1 0 0 / eq / 0
+perturb / pset get p_in / 0.0006 0.0006 0.
+connect
+resetpts / itp
+dump / avs / mesh.inp / mo_sq
+dump / fehm / f_vor / mo_sq / cv_dual
+dump / fehm / f_mb / mo_sq
+dump / pflotran / p_cv / mo_sq / cv_dual
+dump / avs / after.inp / mo_sq
+finish

@@ -124,6 +124,7 @@ test_cv_dual_paraview:run_paraview_tests.sh:12:cv_dual,2d,3d,dfn
 test_cv_dual_matrix:run_matrix_tests.sh:6:cv_dual,2d,3d,dfn
 test_cv_dual_entry:run_entry_tests.sh:7:cv_dual,errors,stor,2d,3d,dfn
 test_cv_dual_control_volume:run_control_volume_tests.sh:2:cv_dual,stor,errors,2d,3d,dfn
+test_cv_dual_dump_keyword:run_dump_keyword_tests.sh:2:cv_dual,stor,fehm,errors,2d,3d,dfn
 test_cv_dual_timing:run_timing_tests.sh:180:cv_dual,2d,3d,big
 test_connect_timing:run_connect_timing.sh:290:connect,2d,3d,big
 "
