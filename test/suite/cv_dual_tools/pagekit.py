@@ -46,6 +46,8 @@ def write_case_page(suite_dir, logs, title, what_html, rows, extra_html=''):
          'details summary{cursor:pointer;color:#0969da;font-size:12px}',
          'details p{max-width:300px;margin:4px 0}',
          'code{font-size:12px;background:#f6f8fa}',
+         'pre.cmd{font-size:12px;background:#f6f8fa;margin:0;padding:4px 6px;'
+         'max-width:420px;overflow-x:auto;white-space:pre}',
          'img{border:1px solid #ccc}</style></head><body>',
          '<p style="font-size:13px"><a href="../summary.html">&larr; all '
          'suites</a></p>',
@@ -61,7 +63,7 @@ def write_case_page(suite_dir, logs, title, what_html, rows, extra_html=''):
         img = ('<a href="%s/%s"><img src="%s/%s" width="300"></a>'
                % (rel, pic, rel, pic)) if pic else ''
         h.append('<tr><td>%s<details><summary>What it does</summary>'
-                 '<p>%s</p></details></td><td><code>%s</code></td>'
+                 '<p>%s</p></details></td><td><pre class="cmd">%s</pre></td>'
                  '<td>%s</td><td class="%s">%s</td><td>%s</td></tr>'
                  % (esc(name), esc(about), esc(cmd), cl, res, res, img))
     h.append('</table><p>Run logs (each with its command and screen '

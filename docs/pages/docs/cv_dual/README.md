@@ -162,34 +162,36 @@ runs them on every pull request.
 
 ## Source
 
+The files are in `src/cv_dual`.
+
 | file | contents |
 |---|---|
-| `src/cv_dual/cv_dual_kinds.F90` | integer and real kinds (64-bit integers) |
-| `src/cv_dual/cv_dual_log.F90` | all screen output, so LaGriT can redirect it (`log_set_sink`) |
-| `src/cv_dual/cv_dual_options.F90` | the keyword options, shared by every front end |
-| `src/cv_dual/cv_dual_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
-| `src/cv_dual/cv_dual_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
-| `src/cv_dual/cv_dual_scan.F90` | fast text scanner for the reader: blocks of the file, numbers parsed in place (`strtod`) |
-| `src/cv_dual/cv_dual_timing.F90` | wall and CPU time per step and peak memory (`timing on`, development only) |
-| `src/cv_dual/cv_dual_topology.F90` | the edge CSR: one row per vertex, upper triangle; vertex-to-cell incidence |
-| `src/cv_dual/cv_dual_jtet.F90` | face neighbors in LaGriT's `jtet` encoding; conformity and orientation counts |
-| `src/cv_dual/cv_dual_validity.F90` | the mesh checks: cell types, positive size, conformity, orientation, unused vertices |
-| `src/cv_dual/cv_dual_delaunay.F90` | the Delaunay check: δ/L per interior facet, boundary circumcenters, slivers |
-| `src/cv_dual/cv_dual_write_vtu.F90` | the violations file (VTK XML, ASCII) |
-| `src/cv_dual/cv_dual_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
-| `src/cv_dual/cv_dual_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
-| `src/cv_dual/cv_dual_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
-| `src/cv_dual/cv_dual_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
-| `src/cv_dual/cv_dual_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
-| `src/cv_dual/cv_dual_assemble.F90` | cell-by-cell accumulation into the CSR |
-| `src/cv_dual/cv_dual_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
-| `src/cv_dual/cv_dual_write_uge.F90` | PFLOTRAN `.uge` |
-| `src/cv_dual/cv_dual_write_tough.F90` | TOUGH `MESH` |
-| `src/cv_dual/cv_dual_report.F90` | the Delaunay report and the run summary |
-| `src/cv_dual/cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
-| `src/cv_dual/cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
+| `cv_dual_kinds.F90` | integer and real kinds (64-bit integers) |
+| `cv_dual_log.F90` | all screen output, so LaGriT can redirect it (`log_set_sink`) |
+| `cv_dual_options.F90` | the keyword options, shared by every front end |
+| `cv_dual_mesh.F90` | mesh arrays with LaGriT names (`xic`, `itet`, `itetoff`, `itetclr`, `imt1`, `itp1`, `isn1`, `jtet`) |
+| `cv_dual_read_avs.F90` | AVS UCD reader (vertex data `imt1`, `itp1`, `isn1`) |
+| `cv_dual_scan.F90` | fast text scanner for the reader: blocks of the file, numbers parsed in place (`strtod`) |
+| `cv_dual_timing.F90` | wall and CPU time per step and peak memory (`timing on`, development only) |
+| `cv_dual_topology.F90` | the edge CSR: one row per vertex, upper triangle; vertex-to-cell incidence |
+| `cv_dual_jtet.F90` | face neighbors in LaGriT's `jtet` encoding; conformity and orientation counts |
+| `cv_dual_validity.F90` | the mesh checks: cell types, positive size, conformity, orientation, unused vertices |
+| `cv_dual_delaunay.F90` | the Delaunay check: δ/L per interior facet, boundary circumcenters, slivers |
+| `cv_dual_write_vtu.F90` | the violations file (VTK XML, ASCII) |
+| `cv_dual_geometry.F90` | circumcenters (relative to a vertex) and the cell kernels |
+| `cv_dual_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
+| `cv_dual_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
+| `cv_dual_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
+| `cv_dual_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
+| `cv_dual_assemble.F90` | cell-by-cell accumulation into the CSR |
+| `cv_dual_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
+| `cv_dual_write_uge.F90` | PFLOTRAN `.uge` |
+| `cv_dual_write_tough.F90` | TOUGH `MESH` |
+| `cv_dual_report.F90` | the Delaunay report and the run summary |
+| `cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
+| `cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
 | `src/dump_control_volume.f90` | LaGriT's command `dump / control_volume` (in liblagrit): the mesh object's arrays, the options, the log, the attribute |
-| `src/cv_dual/cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
+| `cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
 | `test/suite/test_cv_dual_entry/harness/` | `cv_dual_entry_test`: calls the entry point as LaGriT will (used by `test_cv_dual_entry`) |
 | `test/suite/cv_dual_tools/cv_dual_selftest.F90` | kernel checks used by `test/suite/test_cv_dual_kernels` |
 | `test/suite/cv_dual_tools/stor_compare.py` | compares two `.stor` files and labels every difference with what explains it |
