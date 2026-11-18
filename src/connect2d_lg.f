@@ -704,6 +704,21 @@ C
       if(.not.lifadd) go to 9900
       call multi_material2d_lg()
 C
+C  refresh pointers again: multi_material2d_lg can enlarge lstptl (and
+C  the other work arrays), which can move them; the code below used the
+C  old addresses (heap-use-after-free; test_createpts cp62 failed now
+C  and then on macOS). lstptlen gets the block's present length.
+C
+      call mmfindbk('lstptl',blkname,iplstptl,lstptlen,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk lstptl')
+      call mmfindbk('xvor',blkname,ipxvor,lennew,icscode)
+      call mmfindbk('yvor',blkname,ipyvor,lennew,icscode)
+      call mmfindbk('zvor',blkname,ipzvor,lennew,icscode)
+      call mmfindbk('lsttts',blkname,iplsttts,lennew,icscode)
+      call mmfindbk('vol',blkname,ipvol,lennew,icscode)
+      call mmfindbk('lstfail',blkname,iplstfal,lennew,icscode)
+      if (icscode.ne.0)call x3d_warn(isubname,'mmfindblk lstfail')
+C
 C
       call cmo_get_info('nelements',cmo,ntets,icmotype,leni,icscode)
       call cmo_get_info('nnodes',cmo,npoints,icmotype,leni,icscode)
@@ -757,6 +772,16 @@ C
          ntetmax=ntets
          call delaunay_connect2d_lg (npoints,ntets,
      *      epsilon,ntetmax,nlsttts)
+C        fix_small_triangles_lg (called inside) can enlarge lstptl and
+C        lstfail, and adding points enlarges the mesh object: their
+C        memory can move, so look the pointers and lstptlen up again
+C        (as connect.f does in 3D). Without this, the loops below wrote
+C        through freed memory (heap-use-after-free; test_createpts cp62
+C        failed now and then on macOS).
+         call mmfindbk('lstptl',blkname,iplstptl,lstptlen,icscode)
+         call mmfindbk('lstfail',blkname,iplstfal,leni,icscode)
+         call cmo_get_info('itp1',cmo,ipitp1,leni,icmotype,ierr)
+         call cmo_get_info('itet',cmo,ipitet,leni,icmotype,ierr)
          if (ntets.le.0) call x3d_warn(isubname,'set info 0 elements')
          if (npoints.le.0) call x3d_warn(isubname,'set info 0 points')
          call cmo_set_info('nelements',cmo,ntets,1,1,icscode)
