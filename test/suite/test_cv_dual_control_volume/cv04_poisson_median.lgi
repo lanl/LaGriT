@@ -1,0 +1,8 @@
+# cv04_poisson_median.lgi -- test_cv_dual_control_volume (see 00README)
+# the same mesh, median control volumes, the matrix file and its image,
+# ParaView files of the vertices in a box (six numbers in the command)
+read / avs / test_3d_poi_01.inp / mo_poi
+dump / avs / mesh.inp / mo_poi
+dump / control_volume / mo_poi / cv, median / stor, a.stor / matrix, m.vtu / matrix_bins, 10 / paraview, pv / paraview_subset, box 0. 0. 0. 0.2 0.2 0.1
+dump / avs / after.inp / mo_poi
+finish

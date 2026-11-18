@@ -488,6 +488,13 @@ C
          ioption=cmsgin(2)
          leno=icharlnf(ioption)
  
+C     DUMP / control_volume / mo_name / keyword, value / ... (cv_dual)
+         if (ioption(1:leno) .eq. 'control_volume') then
+           call dump_control_volume(imsgin,xmsgin,cmsgin,msgtype,
+     *                              nwds,ierror_return)
+           go to 9999
+         endif
+ 
 C     DUMP / colormap
          if (ioption .eq. 'colormap') then
  

@@ -39,6 +39,7 @@ The second line shows the short form where `file_type` is recognized by the file
 |&nbsp;&nbsp; [**elem_adj_elem**](#elem_adj) &nbsp;&nbsp; |&nbsp;&nbsp; [**fehm**](#fehm) &nbsp;&nbsp; |&nbsp;&nbsp; [**geofest**](#geofest) &nbsp;&nbsp; |&nbsp;&nbsp; [**geom**](#geom) &nbsp;&nbsp; |
 |&nbsp;&nbsp; [**pflotran**](#pflotran) &nbsp;&nbsp; |&nbsp;&nbsp; [**recolor**](#recolor) &nbsp;&nbsp; |&nbsp;&nbsp; [**stl**](#stl) &nbsp;&nbsp; |&nbsp;&nbsp; [**stor**](#stor) &nbsp;&nbsp; |
 |&nbsp;&nbsp; [**tecplot**](#tecplot) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_imt**](#zone) &nbsp;&nbsp; |&nbsp;&nbsp; [**zone_outside**](#zone) &nbsp;&nbsp;   |
+|&nbsp;&nbsp; [**control_volume**](#control_volume) &nbsp;&nbsp; |   |   |   |
 
 
 <hr>
@@ -117,6 +118,26 @@ For a description of the AVS file format see the [`read/avs` command](../read_av
 </pre>
 
 Will output a file nodes, faces, and connectivity for tet, hex, pyr, or pri in CHAD format. Writes attributes imt and itp.
+
+<br>
+
+### **`CONTROL_VOLUME`** <a name="control_volume"></a>
+
+<pre>
+<b>dump / control_volume</b> / mo_name / keyword, value / keyword, value / ...
+</pre>
+
+Control volumes (Voronoi, median, or a hybrid between them) and their
+geometric coefficients by cv_dual, written as FEHM `.stor`, PFLOTRAN
+`.uge` or TOUGH `MESH` files, after checking that the mesh is valid
+and Delaunay; **`attribute_cv_volume`** also puts the volumes in a
+vertex attribute. The mesh object is required. A new path beside
+**`dump/stor`**, which is unchanged. Every keyword: [click here for
+details](dump/DUMP_CONTROL_VOLUME.md).
+
+```
+dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / attribute_cv_volume
+```
 
 <br>
 

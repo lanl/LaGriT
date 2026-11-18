@@ -1,0 +1,80 @@
+test_cv_dual_control_volume -- LaGriT's command dump / control_volume (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_control_volume_tests.sh [path-to-lagrit]   11 cases, about 2 s
+  open summary.html
+
+  (cv_dual is the one beside lagrit: build/cv_dual)
+
+WHAT IS TESTED
+
+  dump / control_volume / mo_name / keyword, value / ... runs cv_dual
+  (src/cv_dual) on a mesh object, through src/dump_control_volume.f90
+  and the entry point cv_dual_lagrit_entry, with the mesh object's
+  own arrays. Each case is a LaGriT deck, NAME.lgi, run in work/NAME;
+  the deck writes the mesh with dump / avs (mesh.inp) before the
+  command, and again after it (after.inp). Then the cv_dual program
+  runs on mesh.inp in work/NAME/prog with the same options (the
+  case's program arguments in cases.txt).
+
+  Cases that must work (cv01 ... cv08): tets (a moved lattice, the
+  Poisson mesh of test_poisson_3d case 1), 2D triangles, a dfnWorks
+  fracture network, two materials; every output format, voronoi,
+  median and hybrid control volumes, ParaView and matrix files, a box
+  subset (six numbers in the command), zero_tol as a real, check_only,
+  attribute_cv_volume with and without a name, and parent/child
+  chains (settets / parents) refused, then resetpts / parent and
+  rmpoint / compress and the same command working.
+
+  Cases that must fail (er01 ... er03): an unknown keyword, avs, a bad
+  value, no mesh object, an unknown one, an attribute name taken by an
+  integer attribute, a hex mesh, a mesh that is not Delaunay (with
+  Voronoi; cv median then goes on).
+
+WHAT IS CHECKED (check_control_volume.py)
+
+  ran        LaGriT ran the whole deck (after.inp exists)
+  errors     the number of "ERROR: dump/control_volume" lines
+  message    each text cases.txt names is in LaGriT's output
+  nothing    no file named bad* (the failing commands' outputs)
+  files      the command wrote the same files as the program, no other
+  bytes      every file equal byte for byte, the .stor's line 2 aside
+  line2      the .stor's line 2 ends with (cv_dual dump /
+             control_volume / MO / ...), the command
+  screen     the program's lines appear, in order, in LaGriT's output
+             (cv_dual's lines go to LaGriT's log)
+  attribute  the attribute is in after.inp and equals the .stor's
+             volumes in every digit; with none asked for, after.inp has
+             the same attributes as mesh.inp
+
+  The meshes come from other suites: test_cv_dual_dfn
+  (full_mesh.inp), test_cv_dual_parity (two_mat.inp),
+  test_cv_dual_poisson_lagrit (test_3d_poi_01.inp) and
+  test_cv_dual_delaunay's generator (flip3d.inp, made in work/gen).
+
+WHAT WAS FOUND (Nov 17 2026)
+
+  - LaGriT's log writes each line with (a80): a shorter line comes out
+    at the right, and a longer one is cut at column 80 with the rest
+    at the right. The command sends cv_dual's lines in an 80-column
+    (or longer) buffer, and keeps its own lines within 80 columns.
+  - settets / parents on a mesh read from AVS made no parents (itp1
+    stays 0); after connect with an interface surface it makes them.
+    After resetpts / parent the children are dudded vertices in no
+    cell (cv_dual gives them volume 0 and a warning); rmpoint /
+    compress removes them. cv_dual's message names both commands.
+
+PICTURES (logs/)
+
+  NAME.svg   the mesh (a large tet mesh by its boundary faces), its
+             vertices colored by the control-volume attribute when the
+             case makes one, gray otherwise
+
+FILES
+
+  run_control_volume_tests.sh   runner (work/, logs/)
+  cases.txt                     the cases
+  check_control_volume.py       checks, pictures, summary.html
+  cv*.lgi, er*.lgi              the decks

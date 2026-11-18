@@ -20,7 +20,8 @@ Checks:
            2 (date and command) and the report's options lines (the
            program names its mesh file and says it is reading it)
   line2    the .stor's line 2 ends with (cv_dual OPTIONS), the options
-           of the last call
+           of the last call, or (COMMAND) with -command (LaGriT passes
+           its command as typed)
   screen   the last call's log lines equal the program's screen output
            (options lines aside); with -sink every one came through the
            hook (lagrit| ...), without it straight to the screen
@@ -152,7 +153,12 @@ def main():
                     stors.append(f)
                     la, lb = a.split(b'\n'), b.split(b'\n')
                     same = la[:1] + la[2:] == lb[:1] + lb[2:]
-                    tail = '(cv_dual %s)' % call_list[-1].strip()
+                    fw = flags.split()
+                    if '-command' in fw:
+                        cmdtxt = fw[fw.index('-command') + 1]
+                        tail = '(%s)' % cmdtxt.replace('~', ' ')
+                    else:
+                        tail = '(cv_dual %s)' % call_list[-1].strip()
                     l2 = la[1].decode('latin-1').rstrip()
                     put('line2', '%s: ...%s' % (f, l2[-60:]),
                         l2.endswith(tail))

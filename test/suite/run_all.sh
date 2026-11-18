@@ -5,7 +5,7 @@
 # Runs every test suite (seven for createpts/poisson_disk, one for the
 # other createpts options, one for triangulate, one for interpolate and
 # compute, one for read / dump avs, LaGriT's level01 tests from
-# ../level01, the 13 suites of cv_dual (test_cv_dual_*; ONLY=cv_dual
+# ../level01, the 14 suites of cv_dual (test_cv_dual_*; ONLY=cv_dual
 # runs them alone), and, with BIG=1 only, the connect timing suite and
 # cv_dual's timing suite), one after another, and prints one line per
 # suite. Each suite's own
@@ -123,6 +123,7 @@ test_cv_dual_policy:run_policy_tests.sh:15:cv_dual,2d,3d,dfn
 test_cv_dual_paraview:run_paraview_tests.sh:12:cv_dual,2d,3d,dfn
 test_cv_dual_matrix:run_matrix_tests.sh:6:cv_dual,2d,3d,dfn
 test_cv_dual_entry:run_entry_tests.sh:7:cv_dual,errors,stor,2d,3d,dfn
+test_cv_dual_control_volume:run_control_volume_tests.sh:2:cv_dual,stor,errors,2d,3d,dfn
 test_cv_dual_timing:run_timing_tests.sh:180:cv_dual,2d,3d,big
 test_connect_timing:run_connect_timing.sh:290:connect,2d,3d,big
 "

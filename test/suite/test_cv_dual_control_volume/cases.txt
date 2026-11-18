@@ -1,0 +1,24 @@
+# test_cv_dual_control_volume cases: one per line,
+#   name | program arguments | attribute | errors | messages | what it does
+#
+# Each case runs LaGriT on its deck NAME.lgi in work/NAME (the deck
+# writes mesh.inp before the command and after.inp after it). With
+# program arguments (not -), the cv_dual program then runs on mesh.inp
+# in work/NAME/prog:  cv_dual -avs mesh.inp ARGUMENTS, and every file it
+# writes must equal the command's. attribute: the vertex attribute the
+# command must make, equal to the .stor's volumes; - for none (the
+# mesh object must be unchanged). errors: the number of ERROR lines of
+# dump/control_volume the run must print. messages: text LaGriT's
+# output must hold, separated by ;; (- for none).
+#
+cv01_box3d          | -stor a.stor -uge a.uge -tough a_MESH | cv_volume | 0 | cv_dual: wrote tough a_MESH | A 9 x 7 x 6 lattice of tets, interior vertices moved: .stor, .uge and TOUGH MESH from the command equal the program's on the same mesh, byte for byte (the .stor's second line, which ends with the LaGriT command, aside). attribute_cv_volume with no name makes cv_volume, equal to the .stor's volumes in every digit.
+cv02_square2d       | -stor a.stor -zero_area keep -compress off | - | 0 | - | A 2D triangle mesh, every connection kept, uncompressed. No attribute asked for: the mesh object's attributes are unchanged.
+cv03_poisson_hybrid | -cv hybrid -stor a.stor -alpha_file a.vtu -paraview pv | cv_hyb | 0 | cv_dual control volumes: hybrid | LaGriT's Poisson disk mesh (test_poisson_3d case 1) with the hybrid: the .stor, the alpha file and every ParaView file equal the program's; attribute_cv_volume, cv_hyb names the attribute.
+cv04_poisson_median | -cv median -stor a.stor -matrix m.vtu -matrix_bins 10 -paraview pv -paraview_subset box 0 0 0 0.2 0.2 0.1 | - | 0 | - | The same mesh with median control volumes, the matrix file and its image, and ParaView files of the vertices in a box: six numbers in the command (LaGriT reads them as reals and the command passes every digit on).
+cv05_dfn            | -stor a.stor -uge a.uge -paraview pv | cv_volume | 0 | fracture intersection edges | A dfnWorks fracture network (4_user_rects_uniform: 4 fractures, 771 vertices, 1386 triangles in 3D): .stor, .uge and ParaView files equal the program's; cv_volume holds each vertex's area.
+cv06_two_mat        | -stor a.stor -zero_area keep -zero_tol 1e-13 | cv_volume | 0 | zero_tol=1.0E-13 | Two materials on a grid of tets (an interface, no parent vertices), zero-area connections kept, zero_tol given as a real number: LaGriT's 1e-13 reaches cv_dual exactly.
+cv07_check_only     | -check_only on -stor a.stor | - | 0 | check_only on: no control volumes, attribute cv_volume not set | check_only on: the mesh is checked and nothing is written, as by the program; the attribute is not made, and the mesh object is unchanged.
+cv08_parents        | -stor a.stor | cv_volume | 1 | this mesh has parent/child chains ;; run resetpts / parent, then rmpoint / compress | Two materials across an interface plane: settets / parents makes parent/child chains (itp1 = 41), and the command refuses the mesh (an ERROR, nothing written), saying what to run. After resetpts / parent (the children become dudded vertices) and rmpoint / compress (removed), the same command runs and equals the program.
+er01_errors         | - | - | 6 | unknown keyword bogus ;; avs: not here ;; zero_area maybe ;; a mesh object name is needed ;; no mesh object mo_nothere ;; attribute imt1 exists and is not a real vertex attribute | Six commands that must fail: an unknown keyword, avs, a bad value, no mesh object, an unknown one, an attribute name already used by an integer attribute. Each prints cv_dual's (or the command's) message and an ERROR line, writes nothing, and LaGriT goes on (after.inp is written).
+er02_hex            | - | - | 1 | triangles or tets only | A hex mesh: refused (cv_dual takes triangles or tets only); nothing written; LaGriT goes on.
+er03_not_delaunay   | -cv median -stor a.stor | - | 1 | not Delaunay ;; cv median does not need a Delaunay mesh | test_cv_dual_delaunay's flip3d, not Delaunay: Voronoi is refused (an ERROR; only the violations file written); cv median on the same mesh object goes on and equals the program.

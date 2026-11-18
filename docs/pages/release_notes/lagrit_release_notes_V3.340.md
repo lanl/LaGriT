@@ -22,6 +22,7 @@ Previous release  LaGriT V3.3.3  Jan 4, 2024
 - **connect options** (#317): **noadd**, **check_interface** and **old_order** may be anywhere in the command, in 2D and 3D, in any combination; `connect / 1,0,0` and `connect / pset,get,name` read the point range as CONNECT1.md shows.
 - **compute / distance_field / ... / facet**: the exact distance to the nearest point of the source's triangles, line segments or quads (inside a cell, on an edge or at a vertex) instead of the distance to its nearest vertex, which can be too large by up to about 0.58 of a triangle's edge next to the surface. A sixth word; `vertex` (or no sixth word) keeps the old result. New suite test_distance_field (against brute force). Also: commands_cat.md describes DEFINE as "assign a value to a character string".
 - **cv_dual** (src/cv_dual; manual docs/pages/docs/cv_dual/cv_dual_manual.md): Voronoi control volumes and geometric coefficients from Delaunay triangle and tet meshes (2D, 3D and fracture networks), written as FEHM .stor, PFLOTRAN .uge and TOUGH MESH with 17 significant digits; the mesh and Delaunay checks; median, blend and adaptive hybrid control volumes; ParaView files of the control volumes and of the coefficient matrix. Built with LaGriT as the program `build/cv_dual`, with an entry point for LaGriT (`cv_dual_lagrit_entry`; the command `dump / control_volume` comes next). Developed as del_vor (github.com/cwgable/del_vor, ported from lanl/voronoi without PETSc), whose history is merged in; 13 new suites test_cv_dual_*.
+- **dump / control_volume** (docs/pages/docs/commands/dump/DUMP_CONTROL_VOLUME.md): cv_dual on a mesh object, with the program's keywords (`dump / control_volume / mo_name / stor, mesh.stor / uge, mesh.uge / cv, hybrid`): Voronoi, median or hybrid control volumes and their coefficients as .stor, .uge and TOUGH MESH files, after checking that the mesh is valid and Delaunay; the mesh object's arrays used in place; **attribute_cv_volume** [, name] puts the control volumes in a vertex attribute (default cv_volume). The .stor's second line ends with the command. A new path beside dump / stor, which is unchanged. New suite test_cv_dual_control_volume.
 
 ### Fixes
 
@@ -79,6 +80,7 @@ Pull requests merged since V3.3.3 (dependabot updates of the documentation site 
 
 | Date | PR | Title |
 | --- | --- | --- |
+| 2026-11-17 | #339 | cv_dual (formerly del_vor) in LaGriT, with its history: src/cv_dual, the program build/cv_dual, 13 suites test_cv_dual_* |
 | 2026-11-06 | #322 | Brings to master what #303, #306, #307, #308 and #321 were merged into other branches with; the 2D hull fill's macOS fix; no stray recon file |
 | 2026-11-04 | #320 | 3D connect fills to the convex hull; connect / nohull; suite pages |
 | 2026-11-04 | #319 | connect / exact: exact 3D in-sphere tests; exact predicates in every case |

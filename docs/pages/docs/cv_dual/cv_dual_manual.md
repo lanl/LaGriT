@@ -4,7 +4,7 @@ Control volumes and their geometric coefficients from Delaunay
 triangle and tet meshes: Voronoi control volumes, median control
 volumes, or a hybrid between Voronoi and median. This manual covers
 the stand-alone program `cv_dual` and its library and LaGriT entry
-point ([section 17](#17-the-library-and-the-lagrit-entry-point)). The
+point ([section 17](#17-the-library-the-lagrit-entry-point-and-the-command)). The
 LaGriT command (`dump / control_volume`) is described in
 [`DUMP_CONTROL_VOLUME.md`](../commands/dump/DUMP_CONTROL_VOLUME.md).
 cv_dual was developed as del_vor in
@@ -29,7 +29,7 @@ Contents
 14. [Tests](#14-tests)
 15. [Comparing .stor files, and parity with LaGriT](#15-comparing-stor-files-and-parity-with-lagrit)
 16. [Speed and memory](#16-speed-and-memory)
-17. [The library and the LaGriT entry point](#17-the-library-and-the-lagrit-entry-point)
+17. [The library, the LaGriT entry point and the command](#17-the-library-the-lagrit-entry-point-and-the-command)
 
 ## 1. What cv_dual does
 
@@ -238,7 +238,7 @@ run stops with exit status 1 and writes nothing.
 | conformity | `ERROR: N tet faces shared by 3 or more tets` | not a conforming tet mesh |
 | | `ERROR: N edges in 3 or more triangles of one itetclr` | a "book" of triangles in one surface |
 | orientation | `ERROR: N pairs of neighboring triangles oriented differently` | two neighbors of one itetclr run along their shared edge the same way: one is turned over (or the surface, like a Moebius strip, cannot be oriented) |
-| parent/child chains | `cv_dual: this mesh has parent/child chains (N vertices with itp1 = 41)`, then `cv_dual: run resetpts / parent first; nothing is written` | vertices with `itp1` = 41, LaGriT's parents (`settets / parents` makes them at interfaces); split control volumes are not built yet. Checked before the others |
+| parent/child chains | `cv_dual: this mesh has parent/child chains (N vertices with itp1 = 41)`, then `cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written` | vertices with `itp1` = 41, LaGriT's parents (`settets / parents` makes them at interfaces); split control volumes are not built yet. Checked before the others |
 
 Each ERROR line is followed by `first: cell ...` naming the first
 cell (or pair of cells) found, so it can be looked at in LaGriT or
@@ -875,7 +875,7 @@ Exit status 1, and no coefficient file written:
 | an output named like the mesh | `cv_dual: mesh.inp is the mesh; it would be overwritten` |
 | no mesh | `cv_dual: no mesh given (-avs MESH.inp)` |
 | the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 6](#6-the-mesh-checks) |
-| parent/child chains | `cv_dual: this mesh has parent/child chains (3 vertices with itp1 = 41)`, `cv_dual: run resetpts / parent first; nothing is written` |
+| parent/child chains | `cv_dual: this mesh has parent/child chains (3 vertices with itp1 = 41)`, `cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written` |
 | a mesh check fails | the ERROR lines of [section 6](#6-the-mesh-checks), then `cv_dual: the mesh failed its checks (above)` |
 | not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `cv_dual: not Delaunay; nothing else is written` (the violations file and the report are written). With `cv median` the run goes on instead: `cv_dual: cv median does not need a Delaunay mesh: going on` |
 | a keyword for another `cv` | `cv_dual: alpha is for cv blend (here cv is hybrid)`, `cv_dual: hybrid_tol is for cv hybrid (here cv is median)`, `cv_dual: cv blend needs alpha (a number from 0 to 1)` |
@@ -886,7 +886,7 @@ gfortran adds the line `STOP 1` after the message.
 
 ```
 cd test/suite
-ONLY=cv_dual JOBS=6 sh run_all.sh   # cv_dual's 12 suites, about 15 s
+ONLY=cv_dual JOBS=6 sh run_all.sh   # cv_dual's 13 suites, about 15 s
 JOBS=6 sh run_all.sh                # with every LaGriT suite
 ```
 
@@ -967,7 +967,7 @@ against 140.2 s for `dump / stor`. cv_dual's largest steps at 10
 million cells: writing the `.stor` (37 % for tets, 64 % for
 triangles) and `jtet` (32 % for tets).
 
-## 17. The library and the LaGriT entry point
+## 17. The library, the LaGriT entry point and the command
 
 Everything after the mesh is read is one library routine,
 `run_mesh` (`src/cv_dual_run.F90`); the program (`src/cv_dual.F90`)
@@ -981,7 +981,7 @@ calls with no interface block:
 ```fortran
       call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
      *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
-     *     options, vol, ierr)
+     *     options, command, vol, ierr)
 ```
 
 - The mesh is the mesh object's own arrays (8-byte integers, as
@@ -993,8 +993,10 @@ calls with no interface block:
   separated by blanks, commas or slashes, a keyword's dash optional:
   `'stor, mesh.stor / zero_area, keep'`. Same parser, defaults and
   messages as the program; `avs` is refused (the mesh is the
-  arguments). The `.stor`'s second line ends with
-  `(cv_dual OPTIONS)`.
+  arguments).
+- `command` is the text for the end of the `.stor`'s second line,
+  `(COMMAND)`; blank gives `(cv_dual OPTIONS)`. LaGriT passes its
+  command as typed: `cv_dual dump / control_volume / mo_name / ...`.
 - `vol` (`nnodes`) gets the control volumes; with `check_only on` or
   after an error it is left as it was. `ierr` is 0, or 1 after an
   error.
@@ -1004,7 +1006,21 @@ calls with no interface block:
 - A mesh with parent/child chains is refused, in the program and in
   LaGriT ([section 6](#6-the-mesh-checks)).
 
-The suite `test_cv_dual_entry` calls the entry point from fixed-form Fortran
+LaGriT's command **`dump / control_volume / mo_name / keyword, value
+/ ...`** ([its page](../commands/dump/DUMP_CONTROL_VOLUME.md);
+`src/dump_control_volume.f90`) takes the mesh object's arrays with
+`cmo_get_info`, joins the rest of the command into `options` (numbers
+with every digit), sends cv_dual's lines to LaGriT's log, and calls
+the entry point. Its one keyword of its own, `attribute_cv_volume
+[, name]`, puts the control volumes in a vertex attribute (default
+`cv_volume`). An error gives cv_dual's message and LaGriT's ERROR
+line; nothing is written and LaGriT goes on.
+
+The suite `test_cv_dual_control_volume` runs the command on meshes
+LaGriT makes or reads and checks that every file equals the
+program's on the mesh written with `dump / avs`, that the attribute
+equals the `.stor`'s volumes, and that errors leave LaGriT going. The
+suite `test_cv_dual_entry` calls the entry point from fixed-form Fortran
 compiled with LaGriT's flags (the harness `cv_dual_entry_test`, built
 next to `cv_dual`) and checks that every file, the screen output and
 the volumes equal the program's on the same mesh, and that errors

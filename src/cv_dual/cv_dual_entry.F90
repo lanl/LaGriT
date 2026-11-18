@@ -5,7 +5,7 @@
 !
 !   call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
 !  *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
-!  *     options, vol, ierr)
+!  *     options, command, vol, ierr)
 !
 ! The arguments are a LaGriT mesh object's own arrays, used in place
 ! (never copied, never changed). Integers are 8 bytes (LaGriT builds
@@ -27,17 +27,22 @@
 !                      zero_area, keep'. Same parser, defaults and
 !                      messages as the program; no avs (the mesh is
 !                      the arguments). jtet is built inside.
+!   command            the command for the .stor's second line, which
+!                      ends with (COMMAND); blank: (cv_dual OPTIONS).
+!                      LaGriT passes 'cv_dual dump / control_volume /
+!                      mo_name / ...', the command as typed
 !   vol                out: the control volumes (nnodes); unchanged
 !                      with check_only on or after an error
 !   ierr               out: 0, or 1 after an error, whose message is
 !                      already in the log; cv_dual never stops
 !
 ! Every line goes through cv_dual_log (log_set_sink sends it to
-! LaGriT's log). The .stor's second line ends with (cv_dual OPTIONS).
+! LaGriT's log).
 !-----------------------------------------------------------------------
 subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
                                 zic, itettyp, itetoff, itet, itetclr, &
-                                imt1, itp1, isn1, options, vol, ierr)
+                                imt1, itp1, isn1, options, command, &
+                                vol, ierr)
    use cv_dual_kinds, only: ik, rk
    use cv_dual_log, only: log_line, errmsg
    use cv_dual_options, only: options_t, parse_options, &
@@ -51,7 +56,7 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    integer(ik), target :: itettyp(nelements), itetoff(nelements)
    integer(ik), target :: itet(nen*nelements), itetclr(nelements)
    integer(ik), target :: imt1(nnodes), itp1(nnodes), isn1(nnodes)
-   character(len=*), intent(in) :: options
+   character(len=*), intent(in) :: options, command
    real(rk), intent(inout) :: vol(nnodes)
    integer(ik), intent(out) :: ierr
 
@@ -75,7 +80,9 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    if (ie /= 0) then
       call log_line(errmsg)
       call log_line('cv_dual: keywords are')
-      call log_line('  '//option_keywords)
+      ! the program's list without avs (here the mesh is the
+      ! arguments)
+      call log_words(option_keywords(5:))
       ierr = 1
       return
    end if
@@ -134,7 +141,11 @@ subroutine cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, &
    m%itp1 => itp1
    m%isn1 => isn1
 
-   call run_mesh(m, opt, 'cv_dual '//trim(adjustl(options)), v, ie)
+   if (len_trim(command) > 0) then
+      call run_mesh(m, opt, trim(adjustl(command)), v, ie)
+   else
+      call run_mesh(m, opt, 'cv_dual '//trim(adjustl(options)), v, ie)
+   end if
    if (ie /= 0) then
       ierr = 1
    else
@@ -152,6 +163,36 @@ contains
       call run_abandon()
       ierr = 1
    end subroutine refuse
+
+   ! The words of t on lines of at most 78 columns, indented 2 (LaGriT's
+   ! log cuts lines at 80).
+   subroutine log_words(t)
+      character(len=*), intent(in) :: t
+      character(len=80) :: ln
+      integer :: p, q, n
+      ln = ' '
+      n = 1
+      p = 1
+      do while (p <= len(t))
+         q = index(t(p:), ' ')
+         if (q == 0) then
+            q = len(t) + 1
+         else
+            q = p + q - 1
+         end if
+         if (q > p) then
+            if (n + 1 + (q - p) > 78 .and. n > 1) then
+               call log_line(ln(1:n))
+               ln = ' '
+               n = 1
+            end if
+            ln(n + 2:) = t(p:q - 1)
+            n = n + 1 + (q - p)
+         end if
+         p = q + 1
+      end do
+      if (n > 1) call log_line(ln(1:n))
+   end subroutine log_words
 
    ! The words of s, separated by blanks, tabs, commas and '/'; a word
    ! -keyword loses its dash (a value keeps it: -1e-3, -file).

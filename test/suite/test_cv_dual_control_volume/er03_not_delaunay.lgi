@@ -1,0 +1,9 @@
+# er03_not_delaunay.lgi -- test_cv_dual_control_volume (see 00README)
+# test_cv_dual_delaunay's flip3d (three 2-3 flips: not Delaunay):
+# Voronoi is refused after the violations file; cv median goes on
+read / avs / flip3d.inp / mo_flip
+dump / avs / mesh.inp / mo_flip
+dump / control_volume / mo_flip / stor, bad.stor
+dump / control_volume / mo_flip / cv, median / stor, a.stor
+dump / avs / after.inp / mo_flip
+finish
