@@ -76,6 +76,8 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
  ```
  
 6.  **\_outside_vor.area** (default) or **\_outside_med.area**
+    (with **cv_dual** also **\_outside_hyb.area**, named by the
+    control volumes; see [cv_dual OR matbld](#cv_dual-or-matbld))
     uses outside nodes to write a list of
     2D area or 1D length vectors (Ax\_i,Ay\_i,Az\_i) associated with
     each and listed the same order as zones and nodes in the file root_name_outside.zone.
@@ -156,7 +158,13 @@ The following command settings are optional and can occur in any order after the
 **delatt** or  **keepatt**  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
 
 
-**hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
+**hybrid** or **nohybrid** Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid. With **cv_dual**, **hybrid** is cv_dual's hybrid.
+
+
+**cv_dual** or **matbld** choose the code that computes the control volumes, the coefficients and the boundary areas. Default is matbld. See [cv_dual OR matbld](#cv_dual-or-matbld).
+
+
+**voronoi**, **median** or **hybrid**, with **cv_dual**: the kind of control volumes. Default is voronoi.
  
 
 
@@ -281,6 +289,79 @@ ij\_ccoef(j) = i
 
  *NOTE: The hybrid option is only available with the default implmentation using no other options or including **all**, **graph**, and **scalar** in the command.*
 
+ With **cv_dual** (below), **hybrid** means cv_dual's hybrid instead: it
+ starts as this one does (a boundary cell whose circumcenter lies
+ outside has its point moved onto its boundary face), then checks
+ every edge and moves cell points toward their centroids, only as far
+ as needed, until no coefficient is negative. It works in 2D, 3D and
+ on fracture networks, and with every option cv_dual has.
+
+
+#### cv_dual OR matbld:
+
+**matbld** (default) is LaGriT's sparse matrix code described above,
+unchanged.
+
+**cv_dual** computes the control volumes, their geometric coefficients
+and the boundary areas with cv_dual, the code of the command
+[dump/control_volume](DUMP_CONTROL_VOLUME.md) (its
+[manual](../../cv_dual/cv_dual_manual.md)), on the mesh object's own
+arrays. The mesh must be all triangles (2D, or a fracture network) or
+all tets. cv_dual first checks the mesh (cell types, positive
+area/volume, conformity, orientation, no parent/child chains) and,
+for Voronoi control volumes, the Delaunay property. A mesh it refuses
+gives cv_dual's message and an ERROR line, and nothing is written:
+with **dump/fehm** not the geometry and zone files either. (The
+facets that fail the Delaunay check go to violations.vtu, for
+ParaView.)
+
+The kind of control volumes, with **cv_dual**:
+
+* **voronoi** (default): the Voronoi control volumes.
+* **median**: the median control volumes (cell centroids). The mesh
+  need not be Delaunay. Only with **cv_dual**.
+* **hybrid**: cv_dual's hybrid, no negative coefficients (above).
+
+The other options, with **cv_dual**:
+
+| option | with cv_dual |
+|---|---|
+| **all**, **coefs** | the .stor compressed (cv_dual's compress on) |
+| **graph**, **none** | not compressed (compress off) |
+| **scalar** (default) | as is |
+| **dump/stor**, **dump/fehm**: zero-area connections | kept: one connection per mesh edge, as matbld writes them |
+| **dump/pflotran**: **filter_zero** (default), **nofilter_zero** | zero-area connections left out, or kept |
+| **vector**, **both**, **area_scalar**, **area_vector**, **area_both**, **binary**, **unformatted**, pflotran's **verbose** | cv_dual does not have these: matbld writes this dump, with one line saying so |
+| **keepatt_voronoi**, **keepatt_median** | keep the boundary-area attributes, named by the control volumes: xn_varea, xn_marea or xn_harea (and y, z) |
+
+What is written with **cv_dual**:
+
+* **.stor** (**dump/stor**, **dump/fehm**) and **.uge**
+  (**dump/pflotran**): cv_dual's, with 17 significant digits. The
+  .stor's first line names the control volumes (Voronoi, Median or
+  Hybrid Coefficients); its second line ends with the command, in
+  parentheses: `(cv_dual dump / stor / root / mo / cv_dual)`.
+* **\_outside\_vor.area**, **\_outside\_med.area**,
+  **\_outside\_hyb.area** (**dump/fehm**, **dump/zone_outside**):
+  each outside vertex's boundary vector area is the part of its own
+  control volume on the mesh boundary, from the same points as the
+  coefficients. Voronoi splits each boundary triangle at its
+  circumcenter, median gives each vertex a third, as matbld does; the
+  numbers equal matbld's to rounding. Hybrid uses the points the
+  hybrid moved. On each side of a box the vertices' areas add up to
+  the side's area, for every kind. In 2D and on a fracture's edges,
+  each vertex gets half of each boundary edge, as a length vector.
+* The other files (.fehmn and the zone files) as matbld writes them.
+
+`dump / control_volume` writes the same files and more (ParaView
+files, a report) with every cv_dual keyword; its **outside_area**
+keyword lists the boundary areas of every boundary vertex in one file.
+
+Errors (an ERROR line, nothing written): **median** without
+**cv_dual**; **cv_dual** with **matbld**; two of **voronoi**,
+**median**, **hybrid**; **median** with an option cv_dual does not
+have (matbld, which would write it, has no median).
+
 
 ## EXAMPLES:
 
@@ -290,6 +371,17 @@ ij\_ccoef(j) = i
  dump / fehm / file_name / cmo / binary / none (write all FEHM files, STOR file will be unformatted compressed) 
  dump / stor / file_name_as / cmo / ascii / none / vector (write ascii STOR file with vector coefficients) 
  dump / stor / file_name_as / cmo / ascii / none / area_scalar (ascii STOR file with area coefficients without distance) 
+```
+
+With **cv_dual**:
+
+```
+ dump / stor / file_name / cmo / cv_dual   (cv_dual's Voronoi .stor, ascii compressed)
+ dump / fehm / file_name / cmo / cv_dual / hybrid   (all FEHM files; the .stor and file_name_outside_hyb.area from cv_dual's hybrid)
+ dump / fehm / file_name / cmo / cv_dual / median / keepatt_median   (median control volumes; keep xn_marea, yn_marea, zn_marea)
+ dump / pflotran / file_name / cmo / cv_dual / nofilter_zero   (cv_dual's .uge, zero-area connections kept)
+ dump / zone_outside / file_name / cmo / cv_dual   (the outside zones, and Voronoi areas from cv_dual)
+ dump / stor / file_name / cmo / cv_dual / vector   (cv_dual has no vector coefficients: matbld writes this .stor, and says so)
 ```
 
 ## OLD EXAMPLES (recognized but no longer used):

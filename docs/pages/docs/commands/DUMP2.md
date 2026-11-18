@@ -220,6 +220,7 @@ The following keyword commands are optional and can occur in any order after the
 * `all`,  `graph`,  `coefs`, or  `none` are Compression Options for the stor file. Default is all.
 * `delatt` or  `keepatt`  deletes or keeps CMO Attributes created to find outside zone nodes. Default is delatt.
 * `hybrid` or `nohybrid` Specify whether hybrid median-Voronoi control volumes should be used. Default is nohybrid.
+* `cv_dual` or `matbld` choose the code for the control volumes, the coefficients and the boundary areas. Default is matbld (as before). With `cv_dual` they come from cv_dual (as [dump/control_volume](dump/DUMP_CONTROL_VOLUME.md)), and `voronoi` (default), `median` or `hybrid` (cv_dual's) choose the control volumes. See [cv_dual OR matbld](dump/DUMP3.md#cv_dual-or-matbld).
 
 The default options will delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
 The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.
@@ -234,7 +235,7 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
 * `.fehm` - mesh coordinates and geometry ( see `dump/coord/...` command)
 * `_material.zone` - node imt (material) zone lists ( see `dump/zone_imt/...` command)
 * `_outside.zone` - node external boundary zone lists (see `dump/zone_outside/...` command)
-* `_outside_vor.area` - node external boundary area lists (see `dump/zone_outside/...` command)
+* `_outside_vor.area` - node external boundary area lists (see `dump/zone_outside/...` command); `_outside_med.area` for median areas, and with `cv_dual` `_outside_hyb.area` for hybrid
 * `_interface.zone` - zone lists for nodes along material interfaces 
 * `_multi_mat.zone` - lists of node pairs connected across material interfaces 
 * `.stor` - FEHM format file giving the voronoi (control volume) associated with each node and the sparce matrix structure
@@ -304,9 +305,12 @@ Write a LaGriT restart file that contains geometry and mesh object information. 
 <pre>
 <b>dump / pflotran</b> / file_name_root / cmo_name / 
 <b>dump / pflotran</b> / file_name_root / cmo_name / nofilter_zero
+<b>dump / pflotran</b> / file_name_root / cmo_name / [<b>cv_dual</b> | <b>matbld</b>] / [<b>voronoi</b> | <b>median</b> | <b>hybrid</b>] / [<b>filter_zero</b> | <b>nofilter_zero</b>]
 </pre>
 
 Write coefficient matrix (stor) style values in PFLOTRAN **.uge** format file. The default **`dump/pflotran`** command does not write zero coupling coefficients. Use the keyword nofilter_zero to include zero coupling coefficients in the file.
+
+With **`cv_dual`** the .uge comes from cv_dual (17 significant digits), with Voronoi (default), median or hybrid control volumes; **`matbld`** (default) is the code as before. See [cv_dual OR matbld](dump/DUMP3.md#cv_dual-or-matbld).
 
 The following is the format used by PFLOTRAN for **.uge** (explicit unstructured grid) file.
 
@@ -363,13 +367,15 @@ See more about the STL format at [dump examples](../demos/description_dump.md)
 <b>dump / stor /</b> file_name_root / cmo_name /
 [ascii  OR  binary ] / 
 [scalar  OR  vector  OR  both  OR  area_scalar  OR  area_vector  OR  area_both] \
-[all  OR  graph  OR  coefs  OR  none] / [hybrid  OR  nohybrid ] 
+[all  OR  graph  OR  coefs  OR  none] / [hybrid  OR  nohybrid ] /
+[cv_dual  OR  matbld] / [voronoi  OR  median  OR  hybrid]
 </pre>
 
 Same syntax as **`dump/fehm`** except the only output is the FEHM sparse matrix coefficient STOR file `rootname.stor`. 
 File can be written in ascii or binary (fortran unformatted platform dependent). The area coefficient values can be written as scalar or vector.
 The compression default is **all** which will compress both the list of area coefficients and the indices. The coefs compression, or none compression both use and older algorithm and will result in larger files and may take longer to run.
 The stor file is one of a set of files written when the fehm file type is called. 
+With **`cv_dual`** the .stor comes from cv_dual, with Voronoi (default), median or hybrid control volumes; **`matbld`** (default) is the code as before. See [cv_dual OR matbld](dump/DUMP3.md#cv_dual-or-matbld).
 
 [Click here for further explanation of syntax options.](dump/DUMP3.md)
 
@@ -430,6 +436,7 @@ The `zone_imt` file is one of a set of files written when the fehm file type is 
 <pre>
 <b>dump / zone_outside</b>  OR  <b>zone_outside_minmax /</b> file_name /[cmo_name] / 
 [delatt  OR  keepatt]  [keepatt_voronoi  OR  keepatt_median] 
+<b>dump / zone_outside /</b> file_name / cmo_name / ... / [cv_dual  OR  matbld] / [voronoi  OR  median  OR  hybrid]
 </pre>
 
 Write fehm zone format files that contain the outside node list and the associated outside area list. 
@@ -462,6 +469,12 @@ nnum
 If the keyword keepatt_voronoi is specified, three node attributes `(xn_varea, yn_varea, zn_varea)` representing the voronoi area are added.
 If the keyword keepatt_median is specified, three node attributes `(xn_marea, yn_marea, zn_marea)` representing the median area are added and the file name will be file_name_outside_med.area. 
 Note that the old version file name file_name_outside.area has area vectors computed with the median strategy.
+
+With **`cv_dual`** the areas come from cv_dual: each outside node's area is the part of its own control volume on the boundary, from the same points as the coefficients, and the file is named by the control volumes: `file_name_outside_vor.area` (voronoi, the default), `file_name_outside_med.area` (median) or `file_name_outside_hyb.area` (hybrid). Voronoi and median equal matbld's to rounding. `keepatt_voronoi` or `keepatt_median` keeps the attributes, named by the control volumes (`xn_harea, yn_harea, zn_harea` for hybrid). See [cv_dual OR matbld](dump/DUMP3.md#cv_dual-or-matbld).
+
+```
+dump / zone_outside / file_name / cmo_name / cv_dual / hybrid
+```
 
 The option `zone_outside_minmax` is used to find the min and max external node along each row and column of a regular structured grid where the index for i, j, and k can be detirmined. The node attributes `i_index, j_index, and k_index` are created.
 

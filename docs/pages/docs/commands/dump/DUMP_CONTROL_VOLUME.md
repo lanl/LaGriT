@@ -18,7 +18,10 @@ volumes in a vertex attribute. It is the new path beside
 **`dump/stor`**, which is unchanged (it uses **`matbld2d`** and
 **`matbld3d`**); both can run on the same mesh to compare. The same
 code is the stand-alone program `cv_dual` (built with LaGriT,
-`build/cv_dual`; its [manual](../../cv_dual/cv_dual_manual.md)).
+`build/cv_dual`; its [manual](../../cv_dual/cv_dual_manual.md)), and
+the keyword **`cv_dual`** on **`dump/stor`**, **`dump/fehm`**,
+**`dump/pflotran`** and **`dump/zone_outside`** runs it for those
+commands' files ([cv_dual OR matbld](DUMP3.md#cv_dual-or-matbld)).
 
 Before any geometry **`dump/control_volume`** checks the mesh (cell
 types, cells of positive area/volume, conformity, orientation) and tests it for the
@@ -45,6 +48,7 @@ command changes nothing in the mesh object, except the attribute of
      / [<b>paraview_subset</b>, <b>all</b>|<b>boundary</b>|<b>flagged</b>|<b>material</b> N|<b>box</b> x1 y1 z1 x2 y2 z2] &
      / [<b>vtu_format</b>, <b>binary</b>|<b>ascii</b>] / [<b>vtu_layout</b>, <b>new</b>|<b>legacy</b>] &
      / [<b>matrix</b>, file_name] / [<b>matrix_bins</b>, n] &
+     / [<b>outside_area</b>, file_name] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name] &
@@ -215,6 +219,20 @@ the step that set it (0 none, 1 the boundary clamp, 2 the
 correction), whether the cell touches an edge still negative, and
 its **itetclr**.
 
+**`outside_area`**, file_name
+
+each boundary vertex's vector area (Ax, Ay, Az): the part of its
+control volume on the mesh boundary, from the same points as the
+coefficients (Voronoi: each boundary triangle split at its
+circumcenter; median: a third each; hybrid: the points it moved), the
+area vector pointing outward. One line per vertex on the boundary
+(vertex number, Ax, Ay, Az, 17 significant digits), then the sums. In
+2D and on a fracture's edges each vertex gets half of each boundary
+edge, as a length vector. **`dump/fehm`** and **`dump/zone_outside`**
+with **`cv_dual`** write the same numbers in FEHM's outside zones
+(`_outside_vor.area`, `_med`, `_hyb`). With **`outside_area`** and no
+other output, only this file is written.
+
 **`delaunay_tol`**, value
 
 For each facet (tet face, triangle edge) shared by two cells with
@@ -360,3 +378,15 @@ dump / control_volume / mo_mesh / stor, mesh.stor / paraview, mesh_cv / paraview
 ```
 also the control volumes of the boundary vertices for ParaView: open
 `mesh_cv.pvd`.
+
+```
+dump / control_volume / mo_mesh / cv, hybrid / outside_area, mesh_bnd.txt
+```
+only the boundary vector area of each boundary vertex, from the hybrid
+control volumes.
+
+```
+dump / fehm / mesh / mo_mesh / cv_dual / hybrid
+```
+the FEHM files, with the .stor and `mesh_outside_hyb.area` from
+cv_dual's hybrid (see [cv_dual OR matbld](DUMP3.md#cv_dual-or-matbld)).

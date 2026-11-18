@@ -101,6 +101,7 @@ cv_dual -avs MESH.inp [-stor FILE] [-uge FILE] [-tough FILE]
         [-paraview ROOT] [-paraview_faces on|off]
         [-paraview_subset all|boundary|flagged|material N|box ...]
         [-vtu_format binary|ascii] [-vtu_layout new|legacy]
+        [-matrix FILE] [-matrix_bins N] [-outside_area FILE]
 ```
 
 Options are keyword / value pairs, in any order; the dash is
@@ -165,6 +166,7 @@ lanl/voronoi's options `-type fehm|pflotran|tough`, `-o FILE` and
 | `vtu_layout` | `new`, `legacy` | `new` | VTK's polyhedron layout: `new` for ParaView 6, `legacy` for ParaView 5 |
 | `matrix` | file | none | the coefficient matrix for ParaView ([section 10](#the-matrix-file)) |
 | `matrix_bins` | whole number >= 1 | none | with `matrix`: also an N x N image of the matrix |
+| `outside_area` | file | none | each boundary vertex's vector area, the boundary part of its control volume ([section 10](#boundary-vector-areas)); an output: with it alone, no `voronoi.stor` |
 | `delaunay_tol` | number >= 0 | `1e-10` | a tie within ±delaunay_tol; below -delaunay_tol a facet is not Delaunay |
 | `delaunay_fatal` | number >= 0 | `1e-2` | between -delaunay_fatal and -delaunay_tol: a warning, the run goes on; below -delaunay_fatal: fatal |
 | `violations` | file | `violations.vtu` | the flagged facets; written only when some facet is flagged |
@@ -610,8 +612,8 @@ The control volumes are never changed by this choice.
 
 ## 10. Output files
 
-Several outputs can be written in one run; with none given, cv_dual
-writes `voronoi.stor`. No two files of one run may share a name, and
+Several outputs can be written in one run; with none given (nor
+`outside_area`), cv_dual writes `voronoi.stor`. No two files of one run may share a name, and
 no output may be named like the mesh.
 
 **FEHM `.stor`** (`-stor FILE`): ASCII, in the layout LaGriT's
@@ -769,6 +771,41 @@ areas (voronoi wrote absolute values, which hides negative
 coefficients); a negative TOUGH number is written with one digit
 less to fit its 10 columns. Whether this is what PFLOTRAN and TOUGH
 users want is also an open question.
+
+### Boundary vector areas
+
+`-outside_area FILE` lists, for each vertex on the mesh boundary
+(on an exterior face, or edge in 2D), the part of its control volume
+on the boundary as a vector area (Ax, Ay, Az), pointing outward. A
+flux through the boundary, such as infiltration, multiplies it. The
+pieces come from the same dual points as the coefficients:
+
+- tets: each exterior face (a, b, c) with its face point F gives a the
+  quadrilateral (a, m(ab), F, m(ca)), m the edge midpoints; likewise
+  b and c. The three add up to the face's area vector whatever F is.
+  With `cv voronoi` F is the face's circumcenter (a circumcenter
+  outside the face makes a negative piece), with `cv median` its
+  centroid (a third to each vertex), with `cv hybrid` or `blend` the
+  point the policy chose;
+- triangles (2D, fracture networks): each exterior edge gives each of
+  its vertices half of it, as a length vector normal to the edge in
+  the triangle's plane. Interface and fracture-intersection edges are
+  not boundary.
+
+```
+# cv_dual outside_area: Voronoi boundary vector areas, 803 boundary vertices
+#     vertex                      Ax                        Ay                        Az
+          1   -1.2266332204474229E-04   -1.2094912154999060E-04   -1.0718696382558404E-04
+...
+# sum         -1.0316183671199575E-16    9.0530881402539620E-18   -3.7947076036992655E-18
+```
+
+On a closed boundary the sum is zero. LaGriT's `dump / fehm` and
+`dump / zone_outside` with `cv_dual` write the same numbers in FEHM's
+outside zones (`_outside_vor.area`, `_med`, `_hyb`; [section
+17](#17-the-library-the-lagrit-entry-point-and-the-command)); for
+Voronoi and median they equal LaGriT's own (`get_xcontab`) to
+rounding.
 
 ## 11. Fracture networks
 
@@ -981,7 +1018,7 @@ calls with no interface block:
 ```fortran
       call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic,
      *     itettyp, itetoff, itet, itetclr, imt1, itp1, isn1,
-     *     options, command, vol, ierr)
+     *     options, command, vol, want_area, barea, ierr)
 ```
 
 - The mesh is the mesh object's own arrays (8-byte integers, as
@@ -1000,6 +1037,10 @@ calls with no interface block:
 - `vol` (`nnodes`) gets the control volumes; with `check_only on` or
   after an error it is left as it was. `ierr` is 0, or 1 after an
   error.
+- With `want_area` 1, `barea` (3, `nnodes`) gets each vertex's
+  boundary vector area ([section 10](#boundary-vector-areas); 0
+  inside); with no output named in `options`, no file is written
+  (LaGriT's `dump / zone_outside`). With 0, `barea` is not touched.
 - Every line goes through `cv_dual_log`; `log_set_sink(p)` sends the
   lines to a routine `p(line)` instead of the screen (inside LaGriT,
   one that calls `writloga`).
@@ -1016,6 +1057,20 @@ the entry point. Its one keyword of its own, `attribute_cv_volume
 `cv_volume`). An error gives cv_dual's message and LaGriT's ERROR
 line; nothing is written and LaGriT goes on.
 
+The keyword **`cv_dual`** on **`dump / stor`**, **`dump / fehm`**,
+**`dump / pflotran`** and **`dump / zone_outside`**
+([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld);
+`src/dump_cv_dual.f90`) runs cv_dual on the mesh object for those
+commands' files: the `.stor` (`zero_area keep`, one connection per
+mesh edge as LaGriT's matbld writes them; `all`, `coefs` compress,
+`graph`, `none` do not), the `.uge` (`filter_zero`, the default,
+leaves zero-area connections out), and the boundary areas in FEHM's
+outside zones. `voronoi` (default), `median` or `hybrid` (cv_dual's)
+choose the control volumes. Options cv_dual does not have (vector
+and area coefficients, binary, pflotran's `verbose`) leave the dump
+to matbld, with one line saying so; `matbld`, the default, is
+LaGriT's code as before.
+
 The suite `test_cv_dual_control_volume` runs the command on meshes
 LaGriT makes or reads and checks that every file equals the
 program's on the mesh written with `dump / avs`, that the attribute
@@ -1024,4 +1079,9 @@ suite `test_cv_dual_entry` calls the entry point from fixed-form Fortran
 compiled with LaGriT's flags (the harness `cv_dual_entry_test`, built
 next to `cv_dual`) and checks that every file, the screen output and
 the volumes equal the program's on the same mesh, and that errors
-come back cleanly and the next call works.
+come back cleanly and the next call works. The suite
+`test_cv_dual_dump_keyword` runs the dump commands with `cv_dual` and
+`matbld` and checks that each `.stor` and `.uge` equals the
+program's, that the geometry and zone files equal matbld's, and that
+the boundary areas equal the program's `outside_area` lists, matbld's
+for Voronoi and median, and add up to each side of a box.

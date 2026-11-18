@@ -12,7 +12,8 @@ coefficients of two-point-flux finite-volume codes, written as FEHM
 One core library, two front ends: the standalone program `cv_dual`
 (AVS UCD `.inp` input) and the LaGriT entry point
 `cv_dual_lagrit_entry`, which takes a mesh object's arrays (the
-command `dump / control_volume`, next). It is meant to replace
+command `dump / control_volume`, and the keyword `cv_dual` on the
+dump commands for FEHM and PFLOTRAN). It is meant to replace
 `matbld2d` and `matbld3d` in LaGriT later.
 
 cv_dual was developed as del_vor (Carl Gable, November 2026) in
@@ -20,48 +21,47 @@ cv_dual was developed as del_vor (Carl Gable, November 2026) in
 archived; its whole history is in LaGriT's (`git log --follow` on any
 of its files). Where del_vor's notes say `del_vor_`, read `cv_dual_`.
 
-## Status
+## What it does
 
-Phase 6b of 6: in LaGriT. Phase 1: the lanl/voronoi kernels and writers ported
-to one edge-based sparse structure, without PETSc or MPI, with
-keyword options for the outputs, zero-area connections and
-compression. Phase 2: the mesh is checked before any geometry (cell
-types, positive size, conformity, orientation) and tested for the
-Delaunay property; facets that fail are written for ParaView.
-
-Phase 5: ParaView files (`-paraview ROOT`): the control volumes as
-polygons (2D, one per vertex per fracture in a network) or closed
-polyhedra (3D), drawn from the dual points the coefficients came
-from, with the mesh, the negative coefficients and optionally the
-dual faces; subsets; binary or text; VTK's new or legacy polyhedron
-layout. The coefficient matrix itself can be written for ParaView
-(`-matrix FILE`): a point per `.stor` entry at (j, -i), with its
-values, and with `-matrix_bins N` an N x N image of the whole matrix.
-Fracture networks (triangles of several itetclr crossing along shared
-edges) are handled. Phase 3: `test/suite/cv_dual_tools/stor_compare.py` compares any two
-`.stor` files and explains every difference; cv_dual agrees with
-LaGriT's `dump / stor` on 14 meshes and dfnWorks networks; a faster
-reader; timing of every step (linear in the mesh size up to 10
-million cells; 2.4 times faster than LaGriT's read + `dump / stor`
-there, with 1.5 to 2.2 times less memory); slightly non-Delaunay
-facets (nearly co-spherical, as LaGriT's `connect` leaves a few) give
-a warning, not an error (`delaunay_fatal`).
-
-Phase 4: control-volume policies (`cv`): median (centroids; the mesh
-need not be Delaunay), blend (one alpha everywhere) and the adaptive
-hybrid, which moves dual points toward the centroid only where a
-coefficient would be negative (stage A, a closed-form clamp at the
-boundary; stage B, cell-by-cell correction), with an alpha file for
-ParaView.
-
-Phase 6a: the run is a library routine that never stops, and LaGriT
-can call it through `cv_dual_lagrit_entry` with its own mesh arrays
-in place (manual, section 17); a mesh with parent/child chains
-(`itp1` = 41) is refused. Next: cv_dual moves into LaGriT, renamed
-cv_dual (6b), and becomes `dump / control_volume` (6c).
+- Control volumes and their geometric coefficients from Delaunay
+  triangle and tet meshes (2D, 3D, fracture networks), the
+  lanl/voronoi kernels and writers on one edge-based sparse structure,
+  without PETSc or MPI; FEHM `.stor`, PFLOTRAN `.uge` and TOUGH `MESH`
+  files with 17 significant digits; keyword options for the outputs,
+  zero-area connections and compression.
+- The mesh is checked before any geometry (cell types, positive
+  size, conformity, orientation, no parent/child chains) and tested
+  for the Delaunay property; facets that fail are written for
+  ParaView. Slightly non-Delaunay facets (nearly co-spherical, as
+  LaGriT's `connect` leaves a few) give a warning, not an error
+  (`delaunay_fatal`).
+- Control-volume policies (`cv`): Voronoi, median (centroids; the
+  mesh need not be Delaunay), blend (one alpha everywhere) and the
+  adaptive hybrid, which moves dual points toward the centroid only
+  where a coefficient would be negative, with an alpha file for
+  ParaView.
+- ParaView files (`-paraview ROOT`): the control volumes as polygons
+  (2D, one per vertex per fracture in a network) or closed polyhedra
+  (3D), drawn from the dual points the coefficients came from, with
+  the mesh, the negative coefficients and optionally the dual faces;
+  the coefficient matrix itself (`-matrix FILE`, and with
+  `-matrix_bins N` an N x N image of it).
+- Each boundary vertex's vector area, the part of its control volume
+  on the boundary (`-outside_area FILE`).
+- `test/suite/cv_dual_tools/stor_compare.py` compares any two `.stor`
+  files and explains every difference; cv_dual agrees with LaGriT's
+  `dump / stor` on 14 meshes and dfnWorks networks. Its time grows
+  linearly with the mesh up to 10 million cells: 2.4 times faster
+  than LaGriT's read + `dump / stor` there, with 1.5 to 2.2 times
+  less memory.
+- In LaGriT: the run is a library routine that never stops, called
+  through `cv_dual_lagrit_entry` with the mesh object's own arrays in
+  place (manual, section 17), by the command `dump / control_volume`
+  and by the keyword `cv_dual` on `dump / stor`, `fehm`, `pflotran`
+  and `zone_outside`.
 
 The manual: [`cv_dual_manual.md`](cv_dual_manual.md).
-The LaGriT command page (a draft until phase 6c):
+The LaGriT command page:
 [`DUMP_CONTROL_VOLUME.md`](../commands/dump/DUMP_CONTROL_VOLUME.md).
 
 ## Build
@@ -139,6 +139,15 @@ control volumes in a vertex attribute
 dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
 ```
 
+and LaGriT's `dump / stor`, `dump / fehm`, `dump / pflotran` and
+`dump / zone_outside` take the keyword `cv_dual` (with `voronoi`,
+`median` or `hybrid`) to have their files made by cv_dual
+([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld)):
+
+```
+dump / fehm / out / mo_dfn / cv_dual
+```
+
 A run prints the mesh checks, the Delaunay check and a summary: sizes,
 the volume balance (control volumes against the mesh volume), and the
 numbers of zero-area and negative coefficients. Exit status 0 on
@@ -148,7 +157,7 @@ where, and then no coefficient file is written.
 
 ## Tests
 
-cv_dual's 14 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
+cv_dual's 15 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
 
 ```
 cd test/suite
@@ -182,6 +191,7 @@ The files are in `src/cv_dual`.
 | `cv_dual_policy.F90` | where each cell's dual points go: the blend, face weights, stage A's closed form |
 | `cv_dual_hybrid.F90` | the adaptive hybrid: stage A, stage B, boundary edges |
 | `cv_dual_tess.F90` | the control volumes as polygons and polyhedra, the mesh and negative-coefficient grids, for ParaView |
+| `cv_dual_boundary.F90` | each boundary vertex's vector area, from the dual points; the `outside_area` file |
 | `cv_dual_vtu.F90` | a .vtu writer (text or appended binary; VTK's new and legacy polyhedron layouts) and the .pvd |
 | `cv_dual_assemble.F90` | cell-by-cell accumulation into the CSR |
 | `cv_dual_write_stor.F90` | FEHM `.stor`, LaGriT's layout |
@@ -191,6 +201,7 @@ The files are in `src/cv_dual`.
 | `cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
 | `cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
 | `src/dump_control_volume.f90` | LaGriT's command `dump / control_volume` (in liblagrit): the mesh object's arrays, the options, the log, the attribute |
+| `src/dump_cv_dual.f90` | the keyword `cv_dual` / `matbld` on `dump / stor`, `fehm`, `pflotran`, `zone_outside` (in liblagrit) |
 | `cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
 | `test/suite/test_cv_dual_entry/harness/` | `cv_dual_entry_test`: calls the entry point as LaGriT will (used by `test_cv_dual_entry`) |
 | `test/suite/cv_dual_tools/cv_dual_selftest.F90` | kernel checks used by `test/suite/test_cv_dual_kernels` |
