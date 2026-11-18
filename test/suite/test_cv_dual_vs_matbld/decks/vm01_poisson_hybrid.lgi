@@ -1,0 +1,7 @@
+# vm01_poisson_hybrid.lgi -- test_cv_dual_vs_matbld (see 00README)
+# LaGriT's Poisson disk mesh of test_poisson_3d case 1 (75 negative
+# Voronoi coefficients): dump / stor with Voronoi and with hybrid
+read / avs / test_3d_poi_01.inp / mo_poi
+dump / stor / vm01_vor / mo_poi
+dump / stor / vm01_hyb / mo_poi / hybrid
+finish

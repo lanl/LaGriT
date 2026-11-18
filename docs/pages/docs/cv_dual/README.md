@@ -61,6 +61,7 @@ of its files). Where del_vor's notes say `del_vor_`, read `cv_dual_`.
   and `zone_outside`.
 
 The manual: [`cv_dual_manual.md`](cv_dual_manual.md).
+cv_dual and LaGriT's matbld compared: [`cv_dual_vs_matbld.md`](cv_dual_vs_matbld.md).
 The LaGriT command page:
 [`DUMP_CONTROL_VOLUME.md`](../commands/dump/DUMP_CONTROL_VOLUME.md).
 
@@ -157,7 +158,7 @@ where, and then no coefficient file is written.
 
 ## Tests
 
-cv_dual's 15 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
+cv_dual's 16 suites (`test/suite/test_cv_dual_*`) run with LaGriT's:
 
 ```
 cd test/suite

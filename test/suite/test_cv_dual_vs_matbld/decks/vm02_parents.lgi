@@ -1,0 +1,20 @@
+# vm02_parents.lgi -- test_cv_dual_vs_matbld (see 00README)
+# two materials across a plane; settets / parents makes parent/child
+# chains at the interface (itp1 = 41): dump / stor on that mesh, then
+# after resetpts / parent and rmpoint / compress
+cmo / create / mo_pc / / / tet
+surface / s_box / reflect / box / 0. 0. 0. / 1. 1. 1.
+surface / s_mid / intrface / plane / 0. 0. 0.5 / 1. 0. 0.5 / 1. 1. 0.5
+region / r1 / le s_box and lt s_mid
+region / r2 / le s_box and gt s_mid
+mregion / m1 / le s_box and lt s_mid
+mregion / m2 / le s_box and gt s_mid
+createpts / xyz / 5 5 5 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+setpts
+connect
+settets / parents
+dump / stor / vm02_chains / mo_pc
+resetpts / parent
+rmpoint / compress
+dump / stor / vm02_single / mo_pc
+finish

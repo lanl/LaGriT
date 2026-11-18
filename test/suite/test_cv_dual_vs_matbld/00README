@@ -1,0 +1,88 @@
+test_cv_dual_vs_matbld -- cv_dual against matbld on LaGriT's own decks (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_vs_matbld_tests.sh [path-to-lagrit]   16 decks, about 5 s
+  open summary.html
+
+WHAT IS TESTED
+
+  LaGriT's decks that write .stor, .uge and FEHM files (level01
+  hybrid_volume, io_agf_simple, pflotran_stor, zone_outside; level03
+  stor_precision_diff; the nine decks of test_stor_utm; and two of
+  its own in decks/: vm01, the Poisson mesh of test_poisson_3d case 1
+  with Voronoi and hybrid, and vm02, parent/child chains) each run
+  twice, with every file of the deck's folder beside them:
+
+    work/NAME/matbld    the deck as written (matbld: LaGriT's sparse
+                        matrix code, the default)
+    work/NAME/cv_dual   the same deck with / cv_dual on every
+                        dump / stor, fehm, pflotran, zone_outside
+
+  prepare_decks.py writes both: before each such dump line it adds
+  dump / avs / _mesh_ROOT.inp / MO (the mesh that dump sees, for
+  stor_compare's zero-area and coordinate rules). Nothing else in the
+  decks changes.
+
+WHAT IS CHECKED (check_vs_matbld.py)
+
+  Every file of one run against the same file of the other; every
+  difference must be explained:
+
+  mesh     _mesh_ROOT.inp: the same vertices and cells. matbld adds the
+           attributes ccoef, ij_ccoef to the mesh object when it finds
+           negative coefficients; cv_dual changes nothing.
+  stor     stor_compare (cv_dual_tools/stor_compare.py) with the mesh:
+           digits, round_off, zero_area (cv_dual keeps one connection
+           per edge in dump / stor and fehm; matbld3d_astor drops
+           them), merge (matbld's compression merges values within
+           1e-8 of the largest), nstor_magnitude, dropped ... A .stor
+           matbld wrote in both runs (binary, vector, ...: options
+           cv_dual does not have) must be the same file. matbld's
+           graph compression writes no title lines; a copy with them
+           goes to stor_compare.
+  hybrid   matbld's and cv_dual's hybrids are different methods: the
+           negative coefficients of each are counted (MEASURED), the
+           values not judged.
+  uge      volumes and connection areas: digits, round_off, merge
+           (matbld compresses a .uge's coefficients), zero_area.
+  area     boundary areas: equal to their 13 digits.
+  refused  every file of a dump cv_dual refused (a hex mesh; a mesh
+           that is not Delaunay) is missing from the cv_dual run, with
+           cv_dual's ERROR in its output.
+  violations  cv_dual's violations.vtu: the facets its Delaunay check
+           flagged (MEASURED).
+  bytes    every other file (.fehmn, zone files) byte for byte.
+
+  logs/results.json holds every comparison's numbers (for the report,
+  docs/pages/docs/cv_dual/cv_dual_vs_matbld.md).
+
+WHAT WAS FOUND (Nov 18 2026)
+
+  - Voronoi: the same coefficients and volumes on every deck, to the
+    printed digits and round-off, but matbld's merged values (up to
+    1e-8 of the largest) and the zero-area connections matbld3d_astor
+    leaves out. Both find the same negative coefficients: 349 on
+    st04's random points, 51 on st05's Poisson mesh.
+  - Hybrid: on vm01's Poisson mesh matbld's hybrid leaves 43 of the 75
+    negative Voronoi coefficients, on st04's random points 339 of 349;
+    cv_dual's leaves none.
+  - vm02, parent/child chains: matbld prints "Error: There are
+    parential issues involved!!!!!!!" 3,126 times and writes a .stor
+    with 203 of its 384 vertices at zero volume; cv_dual refuses the
+    mesh and names resetpts / parent, rmpoint / compress. After them
+    both write the same control volumes.
+  - st09 moves vertices after connect: its mesh is not Delaunay (45
+    facets beyond delaunay_fatal, delta/L to -0.35). matbld writes
+    Voronoi coefficients for it without a word; cv_dual refuses it.
+  - hybrid_volume's hex meshes: matbld writes nothing (the mesh does not
+    qualify), cv_dual refuses them with an ERROR.
+
+FILES
+
+  run_vs_matbld_tests.sh   runner (work/, logs/)
+  cases.txt                the decks
+  prepare_decks.py         the two copies of a deck
+  decks/                   vm01, vm02: this suite's own decks
+  check_vs_matbld.py       comparisons, summary.html, logs/results.json
