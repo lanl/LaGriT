@@ -230,15 +230,15 @@ run stops with exit status 1 and writes nothing.
 
 | check | message | what is wrong |
 |---|---|---|
-| cell types | `mixed cell types; all triangles or all tets` | triangles and tets in one mesh |
-| | `cell type quad not allowed; triangles or tets only` | any other cell type |
-| | `cell refers to a vertex that does not exist` | a vertex number above the vertex count |
-| positive area/volume | `ERROR: N tets with zero or negative volume` | an inverted tet (negative volume in LaGriT's vertex order), a flat one, or one naming a vertex twice |
-| | `ERROR: N triangles with zero area` | three vertices on one line |
-| conformity | `ERROR: N tet faces shared by 3 or more tets` | not a conforming tet mesh |
-| | `ERROR: N edges in 3 or more triangles of one itetclr` | a "book" of triangles in one surface |
-| orientation | `ERROR: N pairs of neighboring triangles oriented differently` | two neighbors of one itetclr run along their shared edge the same way: one is turned over (or the surface, like a Moebius strip, cannot be oriented) |
-| parent/child chains | `cv_dual: this mesh has parent/child chains (N vertices with itp1 = 41)`, then `cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written` | vertices with `itp1` = 41, LaGriT's parents (`settets / parents` makes them at interfaces); split control volumes are not built yet. Checked before the others |
+| cell types | "mixed cell types; all triangles or all tets" | triangles and tets in one mesh |
+| | "cell type quad not allowed; triangles or tets only" | any other cell type |
+| | "cell refers to a vertex that does not exist" | a vertex number above the vertex count |
+| positive area/volume | "ERROR: N tets with zero or negative volume" | an inverted tet (negative volume in LaGriT's vertex order), a flat one, or one naming a vertex twice |
+| | "ERROR: N triangles with zero area" | three vertices on one line |
+| conformity | "ERROR: N tet faces shared by 3 or more tets" | not a conforming tet mesh |
+| | "ERROR: N edges in 3 or more triangles of one itetclr" | a "book" of triangles in one surface |
+| orientation | "ERROR: N pairs of neighboring triangles oriented differently" | two neighbors of one itetclr run along their shared edge the same way: one is turned over (or the surface, like a Moebius strip, cannot be oriented) |
+| parent/child chains | "cv_dual: this mesh has parent/child chains (N vertices with itp1 = 41)", then "cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written" | vertices with `itp1` = 41, LaGriT's parents (`settets / parents` makes them at interfaces); split control volumes are not built yet. Checked before the others |
 
 Each ERROR line is followed by `first: cell ...` naming the first
 cell (or pair of cells) found, so it can be looked at in LaGriT or
@@ -868,17 +868,17 @@ Exit status 1, and no coefficient file written:
 
 | cause | message (examples) |
 |---|---|
-| an unknown keyword | `cv_dual: unknown keyword -zero_areas`, then `cv_dual: keywords are` and the list |
-| a keyword with no value | `cv_dual: keyword zero_tol needs a value` |
-| a bad value | `cv_dual: delaunay_tol -1: must be a number >= 0`, `cv_dual: check_only maybe: must be on or off` |
-| two files with one name | `cv_dual: output file a.stor given twice` |
-| an output named like the mesh | `cv_dual: mesh.inp is the mesh; it would be overwritten` |
-| no mesh | `cv_dual: no mesh given (-avs MESH.inp)` |
-| the mesh cannot be read | `read_avs: cannot open nothere.inp`, `read_avs: MESH: bad vertex line`, and the cell type messages of [section 6](#6-the-mesh-checks) |
-| parent/child chains | `cv_dual: this mesh has parent/child chains (3 vertices with itp1 = 41)`, `cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written` |
-| a mesh check fails | the ERROR lines of [section 6](#6-the-mesh-checks), then `cv_dual: the mesh failed its checks (above)` |
-| not Delaunay (delta/L < -delaunay_fatal) | `Delaunay check FAILED ...`, then `cv_dual: not Delaunay; nothing else is written` (the violations file and the report are written). With `cv median` the run goes on instead: `cv_dual: cv median does not need a Delaunay mesh: going on` |
-| a keyword for another `cv` | `cv_dual: alpha is for cv blend (here cv is hybrid)`, `cv_dual: hybrid_tol is for cv hybrid (here cv is median)`, `cv_dual: cv blend needs alpha (a number from 0 to 1)` |
+| an unknown keyword | "cv_dual: unknown keyword -zero_areas", then "cv_dual: keywords are" and the list |
+| a keyword with no value | "cv_dual: keyword zero_tol needs a value" |
+| a bad value | "cv_dual: delaunay_tol -1: must be a number >= 0", "cv_dual: check_only maybe: must be on or off" |
+| two files with one name | "cv_dual: output file a.stor given twice" |
+| an output named like the mesh | "cv_dual: mesh.inp is the mesh; it would be overwritten" |
+| no mesh | "cv_dual: no mesh given (-avs MESH.inp)" |
+| the mesh cannot be read | "read_avs: cannot open nothere.inp", "read_avs: MESH: bad vertex line", and the cell type messages of [section 6](#6-the-mesh-checks) |
+| parent/child chains | "cv_dual: this mesh has parent/child chains (3 vertices with itp1 = 41)", "cv_dual: run resetpts / parent, then rmpoint / compress; nothing is written" |
+| a mesh check fails | the ERROR lines of [section 6](#6-the-mesh-checks), then "cv_dual: the mesh failed its checks (above)" |
+| not Delaunay (delta/L < -delaunay_fatal) | "Delaunay check FAILED ...", then "cv_dual: not Delaunay; nothing else is written" (the violations file and the report are written). With "cv median" the run goes on instead: "cv_dual: cv median does not need a Delaunay mesh: going on" |
+| a keyword for another `cv` | "cv_dual: alpha is for cv blend (here cv is hybrid)", "cv_dual: hybrid_tol is for cv hybrid (here cv is median)", "cv_dual: cv blend needs alpha (a number from 0 to 1)" |
 
 gfortran adds the line `STOP 1` after the message.
 

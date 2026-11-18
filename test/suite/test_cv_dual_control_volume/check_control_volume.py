@@ -104,9 +104,9 @@ def main():
         deck = open(os.path.join(HERE, name + '.lgi')).read()
         cmds = [ln.strip() for ln in deck.split('\n')
                 if ln.startswith('dump / control_volume')]
-        cmd = '<br>'.join(c.replace('<', '&lt;') for c in cmds)
+        cmd = '\n'.join(cmds)
         if args != '-':
-            cmd += '<br>cv_dual -avs mesh.inp ' + args
+            cmd += '\ncv_dual -avs mesh.inp ' + args
         try:
             out = open(os.path.join(d, 'run.out'),
                        errors='replace').read()

@@ -103,7 +103,7 @@ def main():
             mname, '' if flags == '-' else flags,
             ' '.join("'%s'" % c for c in call_list))
         if args != '-':
-            cmd = 'cv_dual -avs %s %s<br>' % (mname, args) + cmd
+            cmd = 'cv_dual -avs %s %s\n' % (mname, args) + cmd
         try:
             rc = int(open(os.path.join(de, 'run.rc')).read())
             out = open(os.path.join(de, 'run.out')).read().split('\n')
