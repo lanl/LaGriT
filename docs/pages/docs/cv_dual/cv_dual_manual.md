@@ -956,7 +956,7 @@ some labels), `--eps` (LaGriT's `compress_eps`, default 1e-8),
 
 | label | explains |
 |---|---|
-| `digits` | the same number printed with the fewer significant digits of the two files (13 for LaGriT, 17 for cv_dual) |
+| `digits` | the same number printed with the fewer significant digits of the two files (17 for cv_dual; LaGriT 13 before V3.3.4, 17 since) |
 | `round_off` | small values made by cancellation, within 64 u (1.4e-14) of the largest |
 | `coord_digits` | coordinates rounded in the mesh file (with `--coord_digits`) |
 | `merge` | LaGriT's compression stored one value for all within 1e-8 of the largest (anothermatbld3d) |
@@ -969,15 +969,19 @@ some labels), `--eps` (LaGriT's `compress_eps`, default 1e-8),
 meshes (lanl/voronoi's, LaGriT's Poisson meshes and level01 meshes, a
 two-material mesh, a mesh at UTM-size coordinates, two fracture
 networks) and, outside git, dfnWorks TPL_nonuniform (114,739
-triangles). Every difference is explained; most pairs agree to all 13
-digits LaGriT prints. Found in LaGriT along the way:
+triangles). Every difference is explained; most pairs agree to every
+digit LaGriT prints. `test_cv_dual_vs_matbld` runs LaGriT's own decks
+with matbld and with `cv_dual`; [cv_dual and matbld
+compared](cv_dual_vs_matbld.md) sums up both. Found in LaGriT along
+the way:
 
 - In 3D, `dump / stor ... / none` uses LaGriT's old writer
   (`matbld3d_stor`), which stores \|A\|/d: every negative coefficient
   comes out positive (all 75 of LaGriT's test_poisson_3d case 1).
   The default `dump / stor` keeps the sign.
-- At UTM-size coordinates, LaGriT's 3D volumes are wrong (a box of
-  volume 0.032 gets -100.5); cv_dual gets 0.0319999999944.
+- Before V3.3.4, at UTM-size coordinates, LaGriT's 3D volumes were
+  wrong (a box of volume 0.032 got -100.5; cv_dual 0.0319999999944).
+  Fixed in V3.3.4 (#333, #338).
 
 ## 16. Speed and memory
 
