@@ -135,31 +135,34 @@ Material      3 has       204 nodes. #nodes/nnodes is   0.181818187237
 Material      4 has       180 nodes. #nodes/nnodes is   0.160427808762
 </pre>
 
-The routine `AMatbld3d_stor` generates a report summary regarding the voronoi volumes and number of coefficients.
- 
+The control volumes and coefficients come from cv_dual (the default of **`dump/fehm`** since LaGriT V3.4.0; [cv_dual OR matbld](../../docs/commands/dump/DUMP3.md#cv_dual-or-matbld)). It first checks the mesh and its Delaunay property, then prints a summary of the control volumes and coefficients. On this mesh the control volumes add up to the mesh volume exactly, and no coefficient is negative. The 3490 zero-area connections (edges whose control volumes only touch, as in a lattice) are left out of the `.stor`.
 
 <pre class="lg-output">
-AMatbld3d_stor: *****Zero Negative Coefficients ******
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs  0
-AMatbld3d_stor: npoints =     1122  ncoefs =       7144
-AMatbld3d_stor: Number of unique coefs =              6
-AMatbld3d_stor: Maximum num. connections to a node =  7
-AMatbld3d_stor: Volume min =   6.2500000E+01
-AMatbld3d_stor: Volume max =   5.0000000E+02
+cv_dual summary
+  vertices                     1122
+  tets                         4800
+  edges                        6501
+  positive tets                4800
+  negative tets                   0
+  mesh volume   4.000000000000E+05
+  sum of control volume   4.000000000000E+05
+  relative difference  0.00E+00
+  negative volumes                0
+  zero-area edges              3490  (zero_tol 1.0E-12)
+  zero_area remove: left out of the output files
+  negative A(ij)                  0
+  minimum A(ij)/d(ij)  1.250000000000E+00
 </pre>
 
-Negative coefficients can occur on non-convex boundaries or with unstructured complex meshes. If they occur, these negative coefficients are stored in a node attribute named `ccoef`. Viewing this attribute can provide help in finding areas of the mesh that need adjustment. It is possible that a mesh has ccoef values at or very close to zero, in which case they can be ignored. The following pset commands can help find ccoef values of concern.
-
-Note. The `cmo/addatt` command is called but will not be used if the `AMatbld3d_stor` routine creates it. We create it just in case it does not exist so the commands using it do not fail with an Error.
+Negative coefficients can occur on non-convex boundaries or with unstructured complex meshes. To find them, [**`dump/control_volume`**](../../docs/commands/dump/DUMP_CONTROL_VOLUME.md) can put each vertex's smallest coefficient A(ij)/d(ij) in the attribute `ccoef_areabydist_min`, and the vertex at the other end of that connection in `ccoef_ij_areabydist_min`. Viewing these attributes can help find areas of the mesh that need adjustment. It is possible that a mesh has values at or very close to zero, in which case they can be ignored. The following pset commands find the interior vertices with a negative coefficient. (Before V3.4.0, **`dump/fehm`** made a similar attribute, `ccoef`; it still does with the keyword **`matbld`**.)
 
 ```
-cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/
+dump / control_volume / mo_tet / stor, tet_check.stor / ccoef_areabydist_min / ccoef_ij_areabydist_min
 cmo select mo_tet
 pset pin attribute itp   1,0,0 lt 10
-pset pneg attribute ccoef 1,0,0 lt -.0001
+pset pneg attribute ccoef_areabydist_min 1,0,0 lt -.0001
 pset pBAD inter pin pneg
-cmo printatt mo_tet ccoef minmax
-cmo printatt mo_tet -all- minmax
+cmo printatt mo_tet ccoef_areabydist_min minmax
 ```
 
 ## Create zone file for vertical well
@@ -245,7 +248,8 @@ ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH
  right_e                         -5                5              10      1122
  back_n                          -5                6              11      1122
  front_s                         -5                4               9      1122
- ccoef              0.000000000E+00  0.000000000E+00 0.000000000E+00      1122
+ ccoef_areabydist_  1.250000000E+00  5.000000000E+00 3.750000000E+00      1122
+ ccoef_ij_areabydi                1             1120            1119      1122
  ncon50                        2500             2500               0         1
  nconbnd                          1                1               0         1
  icontab                          0                2               2      2500

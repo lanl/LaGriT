@@ -19,9 +19,10 @@ volumes in a vertex attribute. It is the new path beside
 **`matbld3d`**); both can run on the same mesh to compare. The same
 code is the stand-alone program `cv_dual` (built with LaGriT,
 `build/cv_dual`; its [manual](../../cv_dual/cv_dual_manual.md)), and
-the keyword **`cv_dual`** on **`dump/stor`**, **`dump/fehm`**,
-**`dump/pflotran`** and **`dump/zone_outside`** runs it for those
-commands' files ([cv_dual OR matbld](DUMP3.md#cv_dual-or-matbld)).
+**`dump/stor`**, **`dump/fehm`**, **`dump/pflotran`** and
+**`dump/zone_outside`** run it for those commands' files, by default
+since V3.4.0 ([cv_dual OR matbld](DUMP3.md#cv_dual-or-matbld)). Only
+**`dump/control_volume`** takes every keyword below.
 
 Before any geometry **`dump/control_volume`** checks the mesh (cell
 types, cells of positive area/volume, conformity, orientation) and tests it for the
@@ -31,8 +32,8 @@ facets that fail are written to a file for ParaView.
 
 The mesh is all triangles (2D, or a fracture network in 3D: one
 itetclr per fracture) or all tets. Its arrays are used in place: the
-command changes nothing in the mesh object, except the attribute of
-**`attribute_cv_volume`**.
+command changes nothing in the mesh object, except the attributes of
+**`attribute_cv_volume`** and the **`ccoef_*`** keywords.
 
 ## SYNTAX ##
 
@@ -52,7 +53,12 @@ command changes nothing in the mesh object, except the attribute of
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name] &
-     / [<b>attribute_cv_volume</b> [, attribute_name]]
+     / [<b>attribute_cv_volume</b> [, attribute_name]] &
+     / [<b>ccoef_area_min</b> [, attribute_name]] / [<b>ccoef_area_max</b> [, attribute_name]] &
+     / [<b>ccoef_ij_area_min</b> [, attribute_name]] / [<b>ccoef_ij_area_max</b> [, attribute_name]] &
+     / [<b>ccoef_areabydist_min</b> [, attribute_name]] / [<b>ccoef_areabydist_max</b> [, attribute_name]] &
+     / [<b>ccoef_ij_areabydist_min</b> [, attribute_name]] / [<b>ccoef_ij_areabydist_max</b> [, attribute_name]] &
+     / [<b>ccoef_distance_min</b> [, attribute_name]] / [<b>ccoef_distance_max</b> [, attribute_name]]
 </pre>
 
 mo_name, the mesh object, is required; there is no default (**-def-**
@@ -290,6 +296,45 @@ anything is written), and is overwritten. With **`check_only, on`** no
 volumes are computed and the attribute is not set. Without
 **`attribute_cv_volume`** the mesh object is not changed.
 
+**`ccoef_area_min`**, **`ccoef_area_max`**, **`ccoef_ij_area_min`**,
+**`ccoef_ij_area_max`**, **`ccoef_areabydist_min`**,
+**`ccoef_areabydist_max`**, **`ccoef_ij_areabydist_min`**,
+**`ccoef_ij_areabydist_max`**, **`ccoef_distance_min`**,
+**`ccoef_distance_max`** [, attribute_name]
+
+each puts one value per vertex in a vertex attribute of its own name
+(or attribute_name), over the vertex's connections, leaving out the
+zero-area ones. For the connection from vertex i to vertex j, A(ij) is
+the area of the control volumes' shared face, d(ij) the length of the
+edge, and A(ij)/d(ij) the geometric coefficient written in the .stor;
+a negative A(ij) or A(ij)/d(ij) is a negative coefficient.
+
+| keyword | each vertex gets |
+|---|---|
+| **`ccoef_area_min`**, **`ccoef_area_max`** | the smallest, the largest A(ij) |
+| **`ccoef_ij_area_min`**, **`ccoef_ij_area_max`** | the vertex j at the other end of those two connections |
+| **`ccoef_areabydist_min`**, **`ccoef_areabydist_max`** | the smallest, the largest A(ij)/d(ij) |
+| **`ccoef_ij_areabydist_min`**, **`ccoef_ij_areabydist_max`** | the vertex j at the other end of those two connections |
+| **`ccoef_distance_min`**, **`ccoef_distance_max`** | the shortest, the longest d(ij) |
+
+The **`_ij_`** attributes are integers (VINT), the others reals
+(VDOUBLE); each is scalar, one value per vertex, made if the mesh
+object does not have it (an existing one must be of that kind, else
+an error before anything is written) and written by **`dump/avs`**. A
+vertex with no connection left gets 0. Where two connections tie, the
+first found (the lowest j) is named. With **`check_only, on`** nothing
+is computed and the attributes are not set.
+
+**`ccoef_areabydist_min`** with **`ccoef_ij_areabydist_min`** gives
+what matbld's attributes ccoef and ij\_ccoef gave (its most negative
+coefficient and that connection's other vertex; **`dump/stor`** and
+**`dump/fehm`** with **`matbld`** still make those). The vertices with
+a negative coefficient:
+
+```
+pset / pneg / attribute / ccoef_areabydist_min / 1,0,0 / lt / 0.
+```
+
 ### Mesh checks ###
 
 Each of these stops the command and nothing is written:
@@ -339,11 +384,21 @@ mesh is not Delaunay, open `violations.vtu` in ParaView.
 
 ```
 dump / control_volume / mo_mesh / stor, mesh.stor / zero_area, keep / compress, off
-dump / stor / mesh_matbld / mo_mesh / ascii / none
+dump / stor / mesh_matbld / mo_mesh / ascii / none / matbld
 ```
 one matrix entry per mesh edge, every value written, then the same
 mesh through LaGriT's own matrix builder, also uncompressed (**none**),
 to compare `mesh.stor` with `mesh_matbld.stor`.
+
+```
+dump / control_volume / mo_mesh / stor, mesh.stor / ccoef_areabydist_min / ccoef_ij_areabydist_min
+pset / pneg / attribute / ccoef_areabydist_min / 1,0,0 / lt / 0.
+dump / avs / mesh_ccoef.inp / mo_mesh
+```
+each vertex's most negative coefficient (or its smallest positive
+one) and the vertex at the other end of that connection; the vertices
+with a negative coefficient in the set pneg; the mesh with the two
+attributes, to color by them in ParaView.
 
 ```
 read / avs / full_mesh.inp / mo_dfn

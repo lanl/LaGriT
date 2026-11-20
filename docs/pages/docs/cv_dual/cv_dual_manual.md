@@ -1055,24 +1055,31 @@ LaGriT's command **`dump / control_volume / mo_name / keyword, value
 `src/dump_control_volume.f90`) takes the mesh object's arrays with
 `cmo_get_info`, joins the rest of the command into `options` (numbers
 with every digit), sends cv_dual's lines to LaGriT's log, and calls
-the entry point. Its one keyword of its own, `attribute_cv_volume
-[, name]`, puts the control volumes in a vertex attribute (default
-`cv_volume`). An error gives cv_dual's message and LaGriT's ERROR
+the entry point. Its keywords of its own: `attribute_cv_volume
+[, name]` puts the control volumes in a vertex attribute (default
+`cv_volume`), and the ten `ccoef_*` keywords put per-vertex extremes
+of the connections in vertex attributes (the smallest and largest
+A(ij), A(ij)/d(ij) and d(ij), and the vertex at the other end of the
+A and A/d extremes; zero-area connections left out; vertex_stats in
+`cv_dual_run.F90`). An error gives cv_dual's message and LaGriT's ERROR
 line; nothing is written and LaGriT goes on.
 
-The keyword **`cv_dual`** on **`dump / stor`**, **`dump / fehm`**,
-**`dump / pflotran`** and **`dump / zone_outside`**
+Since V3.4.0 **`dump / stor`**, **`dump / fehm`**,
+**`dump / pflotran`** and **`dump / zone_outside`** run cv_dual on the
+mesh object for those commands' files, unless the command says
+**`matbld`**
 ([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld);
-`src/dump_cv_dual.f90`) runs cv_dual on the mesh object for those
-commands' files: the `.stor` (`zero_area keep`, one connection per
-mesh edge as LaGriT's matbld writes them; `all`, `coefs` compress,
-`graph`, `none` do not), the `.uge` (`filter_zero`, the default,
-leaves zero-area connections out), and the boundary areas in FEHM's
-outside zones. `voronoi` (default), `median` or `hybrid` (cv_dual's)
-choose the control volumes. Options cv_dual does not have (vector
-and area coefficients, binary, pflotran's `verbose`) leave the dump
-to matbld, with one line saying so; `matbld`, the default, is
-LaGriT's code as before.
+`src/dump_cv_dual.f90`): the `.stor` (zero-area connections left out
+unless `nofilter_zero`; `all`, `coefs` compress, `graph`, `none` do
+not), the `.uge` (`filter_zero`, the default, leaves zero-area
+connections out), and the boundary areas in FEHM's outside zones.
+`voronoi` (default), `median` or `hybrid` (cv_dual's) choose the
+control volumes. Flagged facets go to `ROOT_violations.vtu`, beside
+the dump's files. Options cv_dual does not have (vector and area
+coefficients, binary, pflotran's `verbose`) and meshes of other cells
+than triangles or tets leave the dump to matbld, with one line saying
+so; a mesh cv_dual refuses gives an ERROR whose message names
+`matbld`. `matbld` is LaGriT's earlier code, unchanged.
 
 The suite `test_cv_dual_control_volume` runs the command on meshes
 LaGriT makes or reads and checks that every file equals the

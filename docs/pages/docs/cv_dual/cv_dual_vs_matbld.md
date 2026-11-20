@@ -8,11 +8,12 @@ tags: cv_dual matbld stor fehm pflotran voronoi hybrid comparison
 LaGriT computes control volumes and their geometric coefficients for
 `dump / stor`, `dump / fehm` and `dump / pflotran` with its sparse
 matrix code, matbld (`matbld2d_stor`, `matbld3d_stor`,
-`anothermatbld3d`). The same commands with the keyword **`cv_dual`**
-use cv_dual instead ([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld); cv_dual's
+`anothermatbld3d`), until V3.4.0; since then with cv_dual by default,
+and with matbld when the command says **`matbld`**
+([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld); cv_dual's
 [manual](cv_dual_manual.md)). This page compares the two: where their
-files agree, every way they differ and why, and what that means for
-making cv_dual the default.
+files agree, every way they differ and why, and what changed when
+cv_dual became the default.
 
 The evidence comes from three test suites in `test/suite`, each
 rerunnable:
@@ -40,8 +41,8 @@ cause.
 - **Voronoi control volumes: the same numbers.** On every deck the
   volumes and coefficients agree to the printed digits or to
   round-off, apart from differences that come from how matbld stores
-  them: values its compression merged, zero-area connections it leaves
-  out, small coefficients it drops. Both codes find the same negative
+  them: values its compression merged, zero-area connections one
+  writer keeps and the other leaves out, small coefficients it drops. Both codes find the same negative
   coefficients.
 - **Hybrid: cv_dual's removes the negative coefficients; matbld's
   only some.** On LaGriT's Poisson disk mesh, Voronoi has 75 negative
@@ -54,8 +55,7 @@ cause.
   2.2 times less memory.**
 - **matbld has options cv_dual does not**: vector and area
   coefficients, binary `.stor` files, `dump / pflotran`'s `verbose`.
-  With `cv_dual` these already leave the dump to matbld, with one line
-  saying so.
+  These leave the dump to matbld, with one line saying so.
 
 ## Voronoi: where the files differ, and why
 
@@ -65,14 +65,16 @@ largest value; the labels that explain them):
 
 | deck | vertices | connections | coefficients | volumes | explained by |
 |---|---|---|---|---|---|
-| st01 (moved lattice, origin and UTM) | 378 | 2241 / 1988 | 2.8e-13 | 6.4e-16 | digits, round_off, merge 5; 253 zero_area |
-| st03 (`coefs`, `none`: matbld3d_stor) | 378 | 2241 / 2241 | 4.3e-16 | 7.4e-16 | digits, round_off |
+| st01 (moved lattice, origin and UTM) | 378 | 1988 / 1988 | 2.8e-13 | 6.4e-16 | digits, round_off, merge 5 |
+| st03 (`coefs`, `none`: matbld3d_stor) | 378 | 1988 / 2241 | 4.3e-16 | 7.4e-16 | digits, round_off; 253 zero_area |
 | st04 (random points in a box) | 308 | 2017 / 2009 | 9.8e-9 | 5.0e-9 | merge 125; 8 dropped (15 volumes) |
 | st05 (Poisson disk mesh) | 857 | 5083 / 5083 | 5.4e-9 | 8.6e-16 | digits, round_off, merge 1 |
 | vm01 (Poisson disk mesh, test_poisson_3d case 1) | 1647 | 10235 / 10233 | 9.9e-9 | 6.8e-9 | merge 7; 2 dropped (4 volumes) |
 | st06 (2D triangles) | 1271 | 3670 / 3670 | 5.1e-16 | 2.9e-16 | digits, round_off |
-| level01 pflotran_stor (sample tets) | 63 | 255 / 255 | 3.4e-16 | 4.4e-16 | digits, round_off |
-| level01 hybrid_volume (lattice) | 1331 | 7884 / 3630 | 0 | 1.0e-15 | digits, round_off; 4254 zero_area |
+| level01 pflotran_stor (sample tets) | 60 | 255 / 255 | 3.4e-16 | 4.4e-16 | digits, round_off |
+| level01 pflotran_stor (2D triangles, 3 x 4) | 12 | 17 / 23 | 1.5e-16 | 1.7e-16 | digits, round_off; 6 zero_area |
+| level01 hybrid_volume (lattice, default writer) | 1331 | 3630 / 3630 | 0 | 1.0e-15 | digits |
+| level01 hybrid_volume (lattice, `none`, `coefs`) | 1331 | 3630 / 7884 | 6e-17 | 1.3e-15 | digits, round_off; 4254 zero_area |
 
 The `.uge` files (`dump / pflotran`) and the boundary areas
 (`_outside_vor.area`) agree the same way, and every other file
@@ -88,11 +90,11 @@ What the labels mean, in the order they matter:
   coefficient can move by up to 1e-8 of the largest. cv_dual merges
   only values within 1e-14, so its numbers are the computed ones.
 - **zero_area.** A lattice, or any mesh with four or more vertices on
-  one sphere, has edges whose Voronoi face has zero area. matbld's
-  default writer leaves them out; cv_dual, in `dump / stor` and
-  `dump / fehm`, writes one connection per mesh edge, as matbld's other
-  writers do (in `dump / pflotran`, filtered unless `nofilter_zero`).
-  The control volumes are the same either way. Even with
+  one sphere, has edges whose Voronoi face has zero area. cv_dual
+  leaves them out (`nofilter_zero` keeps them, one connection per mesh
+  edge), as matbld's default 3D writer does; matbld's other writers
+  (`coefs`, `none`, and 2D) write them. The control volumes are the
+  same either way. Even with
   `nofilter_zero`, matbld leaves out some zero-area connections (7 of
   pflotran_stor's hex-derived mesh, 34 of stor_precision_diff's).
 - **dropped.** matbld also leaves out real coefficients below 1e-8 of
@@ -111,8 +113,11 @@ What the labels mean, in the order they matter:
 
 matbld also adds two attributes, `ccoef` and `ij_ccoef`, to the mesh
 object when it finds negative coefficients. cv_dual never changes the
-mesh object (except an attribute asked for with
-`attribute_cv_volume`).
+mesh object, except the attributes `dump / control_volume` is asked
+for: `attribute_cv_volume`, and the `ccoef_*` keywords, of which
+`ccoef_areabydist_min` and `ccoef_ij_areabydist_min` give what
+`ccoef` and `ij_ccoef` gave (equal on every vertex with a negative
+coefficient of test_poisson_3d case 1, test_cv_dual_control_volume).
 
 ## Negative coefficients and the hybrids
 
@@ -165,26 +170,39 @@ against LaGriT's read + `dump / stor` (manual, [section 16](cv_dual_manual.md#16
 
 Both grow linearly with the mesh; cv_dual a little more slowly.
 
-## Making cv_dual the default
+## cv_dual the default (V3.4.0)
 
-Switching the default of `dump / stor`, `dump / fehm`, `dump / pflotran`
-and `dump / zone_outside` from `matbld` to `cv_dual` would change, for
-users:
+Since V3.4.0 `dump / stor`, `dump / fehm`, `dump / pflotran` and
+`dump / zone_outside` use cv_dual unless the command says `matbld`.
+What changed for users, from the comparison above:
 
-- **More connections in the `.stor`**: one per mesh edge, zero-area ones
-  included (as matbld's own `coefs`, `none` and 2D writers already do).
-  FEHM reads them as any other connection.
-- **The computed values**, not values merged within 1e-8; small real
-  coefficients kept.
+- **The `.stor` holds the same connections as matbld's default 3D
+  writer** (zero-area ones left out; `nofilter_zero` keeps them), with
+  **the computed values**, not values merged within 1e-8, and the small
+  real coefficients matbld drops kept. In 2D, matbld wrote the
+  zero-area connections; cv_dual leaves them out there too.
 - **A mesh that is not Delaunay is refused** for Voronoi control
-  volumes, where matbld wrote a file. This is the one change that can
-  stop a deck that runs today; the message says where the mesh fails,
-  `violations.vtu` shows it, and `median` or `matbld` gets a file.
+  volumes, where matbld wrote a file; the message says where the mesh
+  fails, `ROOT_violations.vtu` (beside the dump's files) shows it, and
+  names `median`, `hybrid` and `matbld`, which get a file. A mesh with
+  parent/child chains is refused too, naming `matbld`, where matbld
+  wrote zero volumes.
+- **A mesh of other cells** (hexes, prisms, mixed) goes to matbld, as
+  before, with one line saying so.
 - **`hybrid` gives no negative coefficients** instead of matbld's
   boundary fix.
 - **The `.stor`'s two header lines** name the control volumes and the
   command that wrote the file.
+- **`ccoef` and `ij_ccoef` are not made**: `dump / control_volume`
+  with `ccoef_areabydist_min` and `ccoef_ij_areabydist_min` gives them
+  (and eight more), or `matbld`.
+- **Each dump says which code wrote it**, in one line.
 
 Nothing else changes: the other FEHM files are the same, options
 cv_dual does not have still go to matbld (with a line saying so), and
-`matbld` gives today's files byte for byte.
+`matbld` gives the earlier files byte for byte. On eight
+[dfnWorks](https://dfnworks.lanl.gov) fracture-network meshes (up to
+479,021 triangles; run outside the test suite) the Voronoi `.stor`
+files agree with matbld's, every difference explained, the control
+volumes add up to the same total, and cv_dual took 0.54 to 0.81 of
+matbld's time and about half its memory.

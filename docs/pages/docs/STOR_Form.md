@@ -31,11 +31,11 @@ Title Line: The first line consists of a character string of 72 or less characte
 
 Date Line: The second line contains a character string of 72 or less characters. This line contains a time stamp of when the file was written and the code option used for writing this file.  
 
-A .stor from cv_dual ([dump/control_volume](commands/dump/DUMP_CONTROL_VOLUME.md), or **`dump/stor`** and **`dump/fehm`** with the keyword **`cv_dual`**, see [cv_dual OR matbld](commands/dump/DUMP3.md#cv_dual-or-matbld)) has the same layout. Its title line names the control volumes (Voronoi, Median, Blend or Hybrid Coefficients), and its date line ends with the command that wrote it, in parentheses, which can run past 72 characters (FEHM reads 72 and ignores the rest):
+A .stor from cv_dual ([dump/control_volume](commands/dump/DUMP_CONTROL_VOLUME.md), and **`dump/stor`** and **`dump/fehm`** by default since V3.4.0, see [cv_dual OR matbld](commands/dump/DUMP3.md#cv_dual-or-matbld)) has the same layout. Its title line names the control volumes (Voronoi, Median, Blend or Hybrid Coefficients), and its date line ends with the command that wrote it, in parentheses, which can run past 72 characters (FEHM reads 72 and ignores the rest):
 
 ```
 fehmstor ascir8i4 LaGriT Sparse Matrix Hybrid Coefficients
- Wed Nov 18 03:01:55 2026 3-D Linear Diffusion Model (cv_dual dump / stor / mesh / mo_mesh / cv_dual / hybrid)
+ Wed Nov 18 03:01:55 2026 3-D Linear Diffusion Model (cv_dual dump / stor / mesh / mo_mesh / hybrid)
 ```
 
 
