@@ -62,7 +62,7 @@ CASES = [
      [("st01", "stor")],
      "A 9 x 7 x 6 lattice in a 1 x 0.75 x 0.5 box; the interior vertices "
      "are moved at random by up to 0.03 and the mesh is connected again. "
-     "dump / stor with no options: the 3D default writer "
+     "dump / stor / ... / matbld: the 3D writer "
      "(anothermatbld3d.c, compression all). Before the fix this file was "
      "wrong at UTM coordinates: the volumes added up to -113.8, with 217 "
      "negative volumes."),
@@ -97,6 +97,12 @@ CASES = [
      "fehm and dump / avs. The coor block of the .fehmn file must hold "
      "exactly the doubles of the AVS file (both write 17 digits; with 13, "
      "the coordinates at 3.2e6 were rounded to 1e-6)."),
+    ("st10_cv_dual", "brick lattice, dump / stor with cv_dual",
+     [("st10", "stor")],
+     "st01's mesh, dump / stor with no keyword: cv_dual, the default "
+     "since V3.4.0 (decks st01 to st09 name matbld, the code this suite "
+     "was written for). The same file at the origin and at UTM "
+     "coordinates, and the independent check."),
     ("st07_pflotran", "brick lattice, dump / pflotran (.uge)",
      [("st07", "uge")],
      "st01's mesh, dump / pflotran: the .uge file (cell volumes and "

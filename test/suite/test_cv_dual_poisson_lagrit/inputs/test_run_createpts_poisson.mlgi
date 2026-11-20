@@ -4,7 +4,7 @@ quality/pcc
 quality / edge_min / y
 quality / edge_max / y
 dump / avs / AVS_OUT / mo_box_poi
-dump / stor / STOR_OUT / mo_box_poi
+dump / stor / STOR_OUT / mo_box_poi / matbld
 
 trans / 1 0 0 / 0. 0. 0. / 0. 0. Z_TRANSLATE
 addmesh / merge / mo_merge / mo_merge / mo_box_poi

@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  8  16:12:09          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/18                 *                 
+*               *    Run Time: 2026/Nov 20  15:34:50          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -62,8 +64,56 @@ Total possible materials  =      1
 Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000     
 * write outside zone file only                                                  
 dump/zone_outside/output_out/cmo                                                
+dump/zone_outside: control volumes by cv_dual (voronoi)                         
+cv_dual: options cv=voronoi zero_area=remove zero_tol=1.0E-12 compress=on       
+  delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02                                   
+  violations=output_out_violations.vtu check_only=off                           
+ 
+cv_dual mesh checks                                                             
+  faces paired, same itetclr               4                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                          12                                    
+  mesh checks passed                                                            
+ 
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                   4                                    
+  ties (|delta/L| <= tol)                  4                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         5                   
+    at  3.333333E-01  6.666667E-01  3.333333E-01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 4                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary faces checked                  12                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       8.6603E-01                                    
+  Delaunay check passed                                                         
+ 
+cv_dual summary                                                                 
+  vertices                        8                                             
+  tets                            5                                             
+  edges                          18                                             
+  positive tets                   5                                             
+  negative tets                   0                                             
+  mesh volume   1.000000000000E+00                                              
+  sum of control volume   1.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 6  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E-01                                       
+ 
 *********dump_outside_list********                                              
-Voronoi Areas used for outside faces.                                           
+cv_dual Voronoi areas used for outside faces.                                   
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
 cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
@@ -111,6 +161,55 @@ finish
 * dump FEHM files                                                               
 * dump / fehm / outbin / cmo / binary / / scalar                                
 dump/fehm/outascii/cmo/ascii//scalar                                            
+dump/fehm: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=outascii.stor cv=voronoi zero_area=remove                 
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=outascii_violations.vtu check_only=off                             
+ 
+cv_dual mesh checks                                                             
+  faces paired, same itetclr               4                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                          12                                    
+  mesh checks passed                                                            
+ 
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                   4                                    
+  ties (|delta/L| <= tol)                  4                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         5                   
+    at  3.333333E-01  6.666667E-01  3.333333E-01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 4                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary faces checked                  12                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       8.6603E-01                                    
+  Delaunay check passed                                                         
+ 
+cv_dual summary                                                                 
+  vertices                        8                                             
+  tets                            5                                             
+  edges                          18                                             
+  positive tets                   5                                             
+  negative tets                   0                                             
+  mesh volume   1.000000000000E+00                                              
+  sum of control volume   1.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 6  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E-01                                       
+ 
+cv_dual: wrote stor outascii.stor                                               
 *** Write FEHMN GEOM AND ZONE FILES ***                                         
 *********dump_material_lists********                                            
 Minimum material ID value =      1                                              
@@ -122,7 +221,7 @@ Material           1 has         8 nodes. #nodes/nnodes is    1.00000000000
 log/tty/off                                                                     
 finish                                                                          
 *********dump_outside_list********                                              
-Voronoi Areas used for outside faces.                                           
+cv_dual Voronoi areas used for outside faces.                                   
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
 cmo/addatt/cmo/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/               
@@ -170,32 +269,6 @@ finish
 log/tty/on                                                                      
 finish                                                                          
 *********dump_parent_list********                                               
- 
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
- 
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =        8  ncoefs =         32                         
-AMatbld3d_stor: Number of unique coefs =         2                              
-AMatbld3d_stor: Maximum num. connections to a node =          4                 
-AMatbld3d_stor: Volume min =   1.2500000E-01                                    
-AMatbld3d_stor: Volume max =   1.2500000E-01                                    
-AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
-AMatbld3d_stor Matrix compression used for graph and coefficient values         
-ascii STOR file written with name outascii.stor                                 
- 
-*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
- 
-3D Matrix Coefficient file written with name outascii.stor                      
- 
 cmo/printatt//-all-/minmax                                                      
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
  -def-              0.000000000E+00  0.000000000E+00 0.000000000E+00         8  

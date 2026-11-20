@@ -15,10 +15,12 @@ WHAT IS TESTED
   with Voronoi and hybrid, and vm02, parent/child chains) each run
   twice, with every file of the deck's folder beside them:
 
-    work/NAME/matbld    the deck as written (matbld: LaGriT's sparse
-                        matrix code, the default)
-    work/NAME/cv_dual   the same deck with / cv_dual on every
-                        dump / stor, fehm, pflotran, zone_outside
+    work/NAME/matbld    the deck with / matbld on every dump / stor,
+                        fehm, pflotran, zone_outside (LaGriT's sparse
+                        matrix code, the default before V3.4.0)
+    work/NAME/cv_dual   the same deck with / cv_dual on each of them
+                        (a code a line names already is taken out
+                        first)
 
   prepare_decks.py writes both: before each such dump line it adds
   dump / avs / _mesh_ROOT.inp / MO (the mesh that dump sees, for

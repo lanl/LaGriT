@@ -15,7 +15,7 @@ resetpts / itp
 trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
 trans / 1 0 0 / 0. 0. 0. / -700000. -3200000. -1500.
 dump / avs / st07_mesh.inp / mo_box
-dump / pflotran / st07_o / mo_box
+dump / pflotran / st07_o / mo_box / matbld
 trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
-dump / pflotran / st07_u / mo_box
+dump / pflotran / st07_u / mo_box / matbld
 finish

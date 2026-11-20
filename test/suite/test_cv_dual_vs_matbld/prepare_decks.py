@@ -8,8 +8,11 @@ zone_outside line both copies get
 
 (the mesh as the dump command sees it, for stor_compare's zero-area
 and coordinate rules; ROOT the dump's file root, MO its mesh object,
-or the current one). In the cv_dual copy each such dump line ends with
-/ cv_dual. Every other line is copied as it is. Prints the dump lines
+or the current one). Each such dump line ends with / matbld in the
+matbld copy and with / cv_dual in the other (cv_dual is the default
+since V3.4.0, so the matbld copy must say so); a code the line names
+already is taken out first. Every other line is
+copied as it is. Prints the dump lines
 found. Python 3 standard library.
 """
 import re
@@ -20,7 +23,8 @@ KEYWORDS = {'ascii', 'binary', 'unformatted', 'scalar', 'vector', 'both',
             'area_scalar', 'area_vector', 'area_both', 'graph', 'coefs',
             'none', 'all', 'keepatt', 'delatt', 'keepatt_voronoi',
             'keepatt_median', 'keepatt_area', 'hybrid', 'nohybrid',
-            'nofilter_zero', 'filter_zero', 'verbose', '-def-'}
+            'nofilter_zero', 'filter_zero', 'verbose', '-def-',
+            'cv_dual', 'matbld'}
 
 
 def dump_line(line):
@@ -45,8 +49,13 @@ def main():
             kind, root, mo = dl
             av = 'dump / avs / _mesh_%s.inp%s' % (root, ' / ' + mo
                                                    if mo else '')
-            mb += [av, line]
-            cv += [av, line.rstrip() + ' / cv_dual']
+            # a deck may name a code already (level01 hybrid_volume,
+            # level03 stor_precision_diff say matbld): each copy names
+            # its own
+            bare = re.sub(r'[\s/,]+(matbld|cv_dual)(?=[\s/,]|$)', '',
+                          line.rstrip(), flags=re.I)
+            mb += [av, bare + ' / matbld']
+            cv += [av, bare + ' / cv_dual']
             print('%s %s %s' % (kind, root, mo or '(current)'))
         else:
             mb.append(line)

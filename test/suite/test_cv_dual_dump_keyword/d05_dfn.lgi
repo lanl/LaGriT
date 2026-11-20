@@ -4,6 +4,6 @@ read / avs / full_mesh.inp / mo_dfn
 resetpts / itp
 dump / avs / mesh.inp / mo_dfn
 dump / fehm / f_vor / mo_dfn / cv_dual
-dump / fehm / f_mb / mo_dfn
+dump / fehm / f_mb / mo_dfn / matbld
 dump / avs / after.inp / mo_dfn
 finish

@@ -11,10 +11,10 @@ dump avs out_tet_3x4m.inp mohex 1 1 0 0
 quality
 cmo/setatt/mohex idebug 5
 *****************
-dump / stor / out_hex_3x4 / mohex
+dump / stor / out_hex_3x4 / mohex / matbld
 *****************
-dump / pflotran / out_hex_3x4 / mohex
+dump / pflotran / out_hex_3x4 / mohex / matbld
 *****************
-dump / pflotran / out_hex_3x4_0 / mohex / nofilter_zero
+dump / pflotran / out_hex_3x4_0 / mohex / nofilter_zero / matbld
 
 finish

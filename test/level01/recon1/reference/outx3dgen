@@ -5,8 +5,8 @@
 *               *    Program:  LaGriT V3.3.4   Linux          *                 
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 14.2.0                 *                 
-*               *    Date Compile: 2026/11/03                 *                 
-*               *    Run Time: 2026/Nov  3  06:58:42          *                 
+*               *    Date Compile: 2026/11/18                 *                 
+*               *    Run Time: 2026/Nov 20  15:34:51          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -1572,47 +1572,57 @@ min aspect ratio =  0.3877E+00  max aspect ratio =  0.1000E+01
       5773 total elements evaluated.                                            
  
 dump stor output_dfn mo                                                         
-***Construct Regular Sparse Matrix:2D***                                        
-Matbldtri: total neg       20 mincoef=  -1.5584216E-01 maxcoef=   2.0243665E+00 
-Negative coeff2d:        sort   edge     vor_coeff        row_node  col_node    
-Negative coeff2d:          1      9368 -1.5584216E-01      1290      2919       
-Negative coeff2d:          2     20166 -1.5584216E-01      2919      1290       
-Negative coeff2d:          3      9369 -1.4553635E-01      1291         9       
-Negative coeff2d:          4        43 -1.4553635E-01         9      1291       
-Negative coeff2d:          5      1134 -1.4056409E-01       159        43       
-Negative coeff2d:          6       288 -1.4056409E-01        43       159       
-Negative coeff2d:          7     10675 -1.0349588E-01      1480       128       
-Negative coeff2d:          8       911 -1.0349588E-01       128      1480       
-Negative coeff2d:          9      2476 -8.3681107E-02       337      1480       
-Negative coeff2d:         10     10676 -8.3681107E-02      1480       337       
-Negative coeff2d:         11        16 -5.4148198E-02         3      2688       
-Negative coeff2d:         12     18640 -5.4148198E-02      2688         3       
-Negative coeff2d:         13       283 -5.1931821E-02        42       332       
-Negative coeff2d:         14      2447 -5.1931821E-02       332        42       
-Negative coeff2d:         15      2448 -5.1931821E-02       332       124       
-Negative coeff2d:         16       887 -5.1931821E-02       124       332       
-Negative coeff2d:         17      5216 -2.0553861E-02       714      2956       
-Negative coeff2d:         18     20409 -2.0553861E-02      2956       714       
-Negative coeff2d:         19       933 -1.2926804E-02       132      1671       
-Negative coeff2d:         20     11978 -1.2926804E-02      1671       132       
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =       2956                                        
-Max. Connection to a Node   =         10                                        
-Number of Area Coefficients =      20412                                        
-Minimum Voronoi area        =   1.2890083E-03                                   
-Maximum Voronoi area        =   7.5937659E-02                                   
-Minimum Voronoi edge length =  -1.5584216E-01                                   
-Maximum Voronoi edge length =   2.0243665E+00                                   
-Total   Voronoi area        =   2.1639800E+01                                   
-Total   Triangle area       =   2.1639800E+01                                   
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=output_dfn.stor cv=voronoi zero_area=remove               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=output_dfn_violations.vtu check_only=off                           
  
-Matbldtri  writing FEHM stor format.                                            
+cv_dual mesh checks                                                             
+  edges paired, same itetclr            8591                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                         137                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                8591                                    
+  ties (|delta/L| <= tol)                  0                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  7.4356E-05  cells      1635 and      3432                   
+    at  4.571790E+00  6.891025E+00 -6.789062E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 0                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                29                                    
+      1.0E-02 to      +inf              8562                                    
+  boundary edges checked                 137                                    
+  boundary circumcenter outside           10                                    
+    farthest outside, /L  1.5584E-01  cell      4700                            
+    (negative boundary coefficients are likely there; reported, not fatal)      
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       1.3243E+00                                    
+  Delaunay check passed                                                         
+cv_dual: wrote flagged facets to output_dfn_violations.vtu                      
  
-2D Matrix Coefficient file written with name output_dfn.stor                    
+cv_dual summary                                                                 
+  vertices                     2956                                             
+  triangles                    5773                                             
+  edges                        8728                                             
+  mesh area     2.163980030912E+01                                              
+  sum of control area     2.163980030912E+01                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 0  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                 10                                             
+  minimum A(ij)/d(ij) -1.558421571830E-01                                       
  
+cv_dual: wrote stor output_dfn.stor                                             
 quality                                                                         
  
 epsilonl, epsilonaspect:   1.6715512E-12  4.6704537E-36                         
@@ -1667,25 +1677,54 @@ Edge-refined tris: before=      5773 after=      5783
 RECON2D reconnection loop2d:     2                                              
 RECON: done.                                                                    
 dump stor output_dfn_recon1 mo                                                  
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =       2966                                        
-Max. Connection to a Node   =         10                                        
-Number of Area Coefficients =      20462                                        
-Minimum Voronoi area        =   7.0109978E-04                                   
-Maximum Voronoi area        =   7.5937659E-02                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   2.0243665E+00                                   
-Total   Voronoi area        =   2.1639800E+01                                   
-Total   Triangle area       =   2.1639800E+01                                   
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=output_dfn_recon1.stor cv=voronoi zero_area=remove        
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=output_dfn_recon1_violations.vtu check_only=off                    
  
-Matbldtri  writing FEHM stor format.                                            
+cv_dual mesh checks                                                             
+  edges paired, same itetclr            8601                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                         147                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                8601                                    
+  ties (|delta/L| <= tol)                  0                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  7.4356E-05  cells      1635 and      3432                   
+    at  4.571790E+00  6.891025E+00 -6.789062E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 0                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                29                                    
+      1.0E-02 to      +inf              8572                                    
+  boundary edges checked                 147                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       1.3243E+00                                    
+  Delaunay check passed                                                         
  
-2D Matrix Coefficient file written with name output_dfn_recon1.stor             
+cv_dual summary                                                                 
+  vertices                     2966                                             
+  triangles                    5783                                             
+  edges                        8748                                             
+  mesh area     2.163980030912E+01                                              
+  sum of control area     2.163980030912E+01                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 0  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  7.435638038410E-05                                       
  
+cv_dual: wrote stor output_dfn_recon1.stor                                      
 dump/avs/output_dfn_recon1.inp/mo                                               
 cmo/modatt/-def-/-def-/ioflag/x                                                 
 finish                                                                          

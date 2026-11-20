@@ -14,7 +14,8 @@ resetpts / itp
 dump / avs / mesh.inp / mo_box
 dump / stor / s_cv / mo_box / cv_dual
 dump / stor / s_none / mo_box / cv_dual / none
-dump / stor / s_mb / mo_box
-dump / stor / s_mb2 / mo_box / matbld
+dump / stor / s_keep / mo_box / cv_dual / nofilter_zero
+dump / stor / s_def / mo_box
+dump / stor / s_mb / mo_box / matbld
 dump / avs / after.inp / mo_box
 finish

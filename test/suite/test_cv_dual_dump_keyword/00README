@@ -12,8 +12,9 @@ WHAT IS TESTED
 
   dump / stor, dump / fehm, dump / pflotran and dump / zone_outside
   take the keyword cv_dual or matbld (src/dump_cv_dual.f90, called by
-  writedump.f). matbld, the default, is LaGriT's code as before. With
-  cv_dual the .stor (stor, fehm), the .uge (pflotran) and the boundary
+  writedump.f). cv_dual is the default since V3.4.0; matbld is LaGriT's
+  earlier code, as before. With cv_dual the .stor (stor, fehm), the .uge
+  (pflotran) and the boundary
   areas (_outside_vor.area, _med, _hyb: fehm, zone_outside) come from
   cv_dual on the mesh object, with voronoi (default), median or hybrid
   control volumes. Each case is a LaGriT deck, NAME.lgi, run in
@@ -22,8 +23,9 @@ WHAT IS TESTED
   argument list of the case (work/NAME/prog1, prog2, ...), with
   -outside_area to list each boundary vertex's vector area.
 
-  d01 dump / stor on a moved lattice of tets: compressed and none;
-      matbld by default and by name give the same file.
+  d01 dump / stor on a moved lattice of tets: compressed, none and
+      nofilter_zero; no keyword and cv_dual give the same file; matbld
+      by name.
   d02 dump / fehm on LaGriT's Poisson disk mesh in a box: voronoi,
       median, hybrid against matbld (and matbld's keepatt_median).
   d03 dump / pflotran: filter_zero (default) and nofilter_zero.
@@ -34,6 +36,10 @@ WHAT IS TESTED
   d07 options cv_dual does not have (vector, both, pflotran verbose):
       matbld writes the dump, with one line saying so; a keyword as
       the sixth token of dump / fehm.
+  d08 the default (no keyword): a hex mesh goes to matbld (with a
+      line); a mesh that is not Delaunay and one with parent/child
+      chains give an ERROR naming / matbld, and nothing is written;
+      with / matbld (and / median) they are written.
   er01 six commands that must fail: median without cv_dual, cv_dual
       with matbld, two kinds of control volumes, median with binary,
       dump / fehm on a mesh that is not Delaunay and on hexes.

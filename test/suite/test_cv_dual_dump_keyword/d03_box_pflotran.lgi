@@ -13,6 +13,6 @@ resetpts / itp
 dump / avs / mesh.inp / mo_box
 dump / pflotran / p_cv / mo_box / cv_dual
 dump / pflotran / p_all / mo_box / cv_dual / nofilter_zero
-dump / pflotran / p_mb / mo_box
+dump / pflotran / p_mb / mo_box / matbld
 dump / avs / after.inp / mo_box
 finish

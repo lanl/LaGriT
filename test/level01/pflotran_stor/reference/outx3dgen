@@ -5,8 +5,8 @@
 *               *    Program:  LaGriT V3.3.4   Linux          *                 
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 14.2.0                 *                 
-*               *    Date Compile: 2026/11/03                 *                 
-*               *    Run Time: 2026/Nov  3  06:58:42          *                 
+*               *    Date Compile: 2026/11/18                 *                 
+*               *    Run Time: 2026/Nov 20  15:34:50          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -88,93 +88,154 @@ All elements have volume  5.0000000E-01
  
 *****************                                                               
 dump/stor/out_tri_1x1m/motri                                                    
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   2.5000000E-01                                   
-Maximum Voronoi area        =   2.5000000E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   1.0000000E+00                                   
-Total   Triangle area       =   1.0000000E+00                                   
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=out_tri_1x1m.stor cv=voronoi zero_area=remove             
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_1x1m_violations.vtu check_only=off                         
  
-Matbldtri  writing FEHM stor format.                                            
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  5.000000E-01  5.000000E-01  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-2D Matrix Coefficient file written with name out_tri_1x1m.stor                  
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     1.000000000000E+00                                              
+  sum of control area     1.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
+cv_dual: wrote stor out_tri_1x1m.stor                                           
 ******************                                                              
 dump/pflotran/out_tri_1x1m/motri                                                
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   2.5000000E-01                                   
-Maximum Voronoi area        =   2.5000000E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   1.0000000E+00                                   
-Total   Triangle area       =   1.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_1x1m.uge cv=voronoi zero_area=remove               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_1x1m_violations.vtu check_only=off                         
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =            4                                        
-PFLOTRAN will filter zero coefs.                                                
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   5.0000000E-01                
-PFLOTRAN filter = epsilon * abs(max Aij/Xij) :  1.0000000E-12  5.0000000E-01    
-PFLOTRAN coefficients: epsilon for zero filter =   5.0000000E-13                
-PFLOTRAN total matbld matrix coefficients   =        14                         
-PFLOTRAN matrix  i>j (written)              =         5                         
-PFLOTRAN matrix  i<=j (not written)        =          9                         
-PFLOTRAN zero coefs < epsilon (not written) =         1                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =          4                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  5.000000E-01  5.000000E-01  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN Warning: ij count differs from num written.                            
-PFLOTRAN coefficient  Aij min              =   5.0000000E-01                    
-PFLOTRAN coefficient  Aij max              =   5.0000000E-01                    
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     1.000000000000E+00                                              
+  sum of control area     1.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
- 
-2D Matrix Coefficient file written with name out_tri_1x1m.uge                   
- 
+cv_dual: wrote uge out_tri_1x1m.uge                                             
 *****************                                                               
 dump/pflotran/out_tri_1x1m_0/motri/nofilter_zero                                
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   2.5000000E-01                                   
-Maximum Voronoi area        =   2.5000000E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   1.0000000E+00                                   
-Total   Triangle area       =   1.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_1x1m_0.uge cv=voronoi zero_area=keep               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_1x1m_0_violations.vtu check_only=off                       
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =            4                                        
-PFLOTRAN will not filter zero coefs.                                            
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   5.0000000E-01                
-PFLOTRAN total matbld matrix coefficients   =        14                         
-PFLOTRAN matrix  i>j (written)              =         5                         
-PFLOTRAN matrix  i<=j (not written)        =          9                         
-PFLOTRAN zero coefs < epsilon    (written)  =         1                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =          5                         
-PFLOTRAN coefficient  Aij min              =   0.0000000E+00                    
-PFLOTRAN coefficient  Aij max              =   5.0000000E-01                    
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  5.000000E-01  5.000000E-01  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     1.000000000000E+00                                              
+  sum of control area     1.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area keep: written, one connection per edge                              
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
-2D Matrix Coefficient file written with name out_tri_1x1m_0.uge                 
- 
+cv_dual: wrote uge out_tri_1x1m_0.uge                                           
 *****************                                                               
 * 2 meter width                                                                 
 cmo delete motri                                                                
@@ -231,93 +292,154 @@ All elements have volume  2.0000000E+00
  
 *****************                                                               
 dump/stor/out_tri_2x2m/motri                                                    
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   1.0000000E+00                                   
-Maximum Voronoi area        =   1.0000000E+00                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=out_tri_2x2m.stor cv=voronoi zero_area=remove             
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_2x2m_violations.vtu check_only=off                         
  
-Matbldtri  writing FEHM stor format.                                            
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  1.000000E+00  1.000000E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-2D Matrix Coefficient file written with name out_tri_2x2m.stor                  
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
+cv_dual: wrote stor out_tri_2x2m.stor                                           
 *****************                                                               
 dump/pflotran/out_tri_2x2m/motri                                                
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   1.0000000E+00                                   
-Maximum Voronoi area        =   1.0000000E+00                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_2x2m.uge cv=voronoi zero_area=remove               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_2x2m_violations.vtu check_only=off                         
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =            4                                        
-PFLOTRAN will filter zero coefs.                                                
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   5.0000000E-01                
-PFLOTRAN filter = epsilon * abs(max Aij/Xij) :  1.0000000E-12  5.0000000E-01    
-PFLOTRAN coefficients: epsilon for zero filter =   5.0000000E-13                
-PFLOTRAN total matbld matrix coefficients   =        14                         
-PFLOTRAN matrix  i>j (written)              =         5                         
-PFLOTRAN matrix  i<=j (not written)        =          9                         
-PFLOTRAN zero coefs < epsilon (not written) =         1                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =          4                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  1.000000E+00  1.000000E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN Warning: ij count differs from num written.                            
-PFLOTRAN coefficient  Aij min              =   1.0000000E+00                    
-PFLOTRAN coefficient  Aij max              =   1.0000000E+00                    
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
- 
-2D Matrix Coefficient file written with name out_tri_2x2m.uge                   
- 
+cv_dual: wrote uge out_tri_2x2m.uge                                             
 *****************                                                               
 dump/pflotran/out_tri_2x2m_0/motri/nofilter_zero                                
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =          4                                        
-Max. Connection to a Node   =          4                                        
-Number of Area Coefficients =         14                                        
-Minimum Voronoi area        =   1.0000000E+00                                   
-Maximum Voronoi area        =   1.0000000E+00                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   5.0000000E-01                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_2x2m_0.uge cv=voronoi zero_area=keep               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_2x2m_0_violations.vtu check_only=off                       
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =            4                                        
-PFLOTRAN will not filter zero coefs.                                            
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   5.0000000E-01                
-PFLOTRAN total matbld matrix coefficients   =        14                         
-PFLOTRAN matrix  i>j (written)              =         5                         
-PFLOTRAN matrix  i<=j (not written)        =          9                         
-PFLOTRAN zero coefs < epsilon    (written)  =         1                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr               1                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                           4                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =          5                         
-PFLOTRAN coefficient  Aij min              =   0.0000000E+00                    
-PFLOTRAN coefficient  Aij max              =   1.0000000E+00                    
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                   1                                    
+  ties (|delta/L| <= tol)                  1                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  1.000000E+00  1.000000E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 1                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary edges checked                   4                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       7.0711E-01                                    
+  Delaunay check passed                                                         
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual summary                                                                 
+  vertices                        4                                             
+  triangles                       2                                             
+  edges                           5                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 1  (zero_tol 1.0E-12)                         
+  zero_area keep: written, one connection per edge                              
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  5.000000000000E-01                                       
  
-2D Matrix Coefficient file written with name out_tri_2x2m_0.uge                 
- 
+cv_dual: wrote uge out_tri_2x2m_0.uge                                           
 *****************                                                               
 * 3 x 4 nodes                                                                   
 cmo delete motri                                                                
@@ -374,93 +496,154 @@ All elements have volume  3.3333333E-01
  
 *****************                                                               
 dump/stor/out_tri_3x4/motri                                                     
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =         12                                        
-Max. Connection to a Node   =          7                                        
-Number of Area Coefficients =         58                                        
-Minimum Voronoi area        =   1.6666667E-01                                   
-Maximum Voronoi area        =   6.6666667E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   1.5000000E+00                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=out_tri_3x4.stor cv=voronoi zero_area=remove              
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_3x4_violations.vtu check_only=off                          
  
-Matbldtri  writing FEHM stor format.                                            
+cv_dual mesh checks                                                             
+  edges paired, same itetclr              13                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                          10                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                  13                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L -5.1241E-17  cells         2 and         3                   
+    at  5.000000E-01  1.666667E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 2                                    
+      0.0E+00 to   1.0E-10                 4                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 7                                    
+  boundary edges checked                  10                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       9.0139E-01                                    
+  Delaunay check passed                                                         
  
-2D Matrix Coefficient file written with name out_tri_3x4.stor                   
+cv_dual summary                                                                 
+  vertices                       12                                             
+  triangles                      12                                             
+  edges                          23                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 6  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  3.333333333333E-01                                       
  
+cv_dual: wrote stor out_tri_3x4.stor                                            
 *****************                                                               
 dump/pflotran/out_tri_3x4/motri                                                 
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =         12                                        
-Max. Connection to a Node   =          7                                        
-Number of Area Coefficients =         58                                        
-Minimum Voronoi area        =   1.6666667E-01                                   
-Maximum Voronoi area        =   6.6666667E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   1.5000000E+00                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_3x4.uge cv=voronoi zero_area=remove                
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_3x4_violations.vtu check_only=off                          
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =           12                                        
-PFLOTRAN will filter zero coefs.                                                
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   1.5000000E+00                
-PFLOTRAN filter = epsilon * abs(max Aij/Xij) :  1.0000000E-12  1.5000000E+00    
-PFLOTRAN coefficients: epsilon for zero filter =   1.5000000E-12                
-PFLOTRAN total matbld matrix coefficients   =        58                         
-PFLOTRAN matrix  i>j (written)              =        23                         
-PFLOTRAN matrix  i<=j (not written)        =         35                         
-PFLOTRAN zero coefs < epsilon (not written) =         6                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr              13                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                          10                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =         17                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                  13                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L -5.1241E-17  cells         2 and         3                   
+    at  5.000000E-01  1.666667E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 2                                    
+      0.0E+00 to   1.0E-10                 4                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 7                                    
+  boundary edges checked                  10                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       9.0139E-01                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN Warning: ij count differs from num written.                            
-PFLOTRAN coefficient  Aij min              =   3.3333333E-01                    
-PFLOTRAN coefficient  Aij max              =   1.0000000E+00                    
+cv_dual summary                                                                 
+  vertices                       12                                             
+  triangles                      12                                             
+  edges                          23                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 6  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  3.333333333333E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
- 
-2D Matrix Coefficient file written with name out_tri_3x4.uge                    
- 
+cv_dual: wrote uge out_tri_3x4.uge                                              
 *****************                                                               
 dump/pflotran/out_tri_3x4_0/motri/nofilter_zero                                 
-***Construct Regular Sparse Matrix:2D***                                        
-------------                                                                    
-Matbldtri                                                                       
-Number of Nodes             =         12                                        
-Max. Connection to a Node   =          7                                        
-Number of Area Coefficients =         58                                        
-Minimum Voronoi area        =   1.6666667E-01                                   
-Maximum Voronoi area        =   6.6666667E-01                                   
-Minimum Voronoi edge length =   0.0000000E+00                                   
-Maximum Voronoi edge length =   1.5000000E+00                                   
-Total   Voronoi area        =   4.0000000E+00                                   
-Total   Triangle area       =   4.0000000E+00                                   
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_tri_3x4_0.uge cv=voronoi zero_area=keep                
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_tri_3x4_0_violations.vtu check_only=off                        
  
-Matbldtri  writing PFLOTRAN format.                                             
-PFLOTRAN total CELL nodes =           12                                        
-PFLOTRAN will not filter zero coefs.                                            
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   1.5000000E+00                
-PFLOTRAN total matbld matrix coefficients   =        58                         
-PFLOTRAN matrix  i>j (written)              =        23                         
-PFLOTRAN matrix  i<=j (not written)        =         35                         
-PFLOTRAN zero coefs < epsilon    (written)  =         6                         
+cv_dual mesh checks                                                             
+  edges paired, same itetclr              13                                    
+  edges paired, other itetclr              0                                    
+  boundary edges                          10                                    
+  fracture intersection edges              0                                    
+  mesh checks passed                                                            
  
-PFLOTRAN total CONNECTIONS written         =         23                         
-PFLOTRAN coefficient  Aij min              =   0.0000000E+00                    
-PFLOTRAN coefficient  Aij max              =   1.0000000E+00                    
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior edges checked                  13                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L -5.1241E-17  cells         2 and         3                   
+    at  5.000000E-01  1.666667E+00  0.000000E+00  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 2                                    
+      0.0E+00 to   1.0E-10                 4                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 7                                    
+  boundary edges checked                  10                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       9.0139E-01                                    
+  Delaunay check passed                                                         
  
-*** SPARSE COEFFICIENT MATRIX for 2D SUCCESSFUL ***                             
+cv_dual summary                                                                 
+  vertices                       12                                             
+  triangles                      12                                             
+  edges                          23                                             
+  mesh area     4.000000000000E+00                                              
+  sum of control area     4.000000000000E+00                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 6  (zero_tol 1.0E-12)                         
+  zero_area keep: written, one connection per edge                              
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  3.333333333333E-01                                       
  
-2D Matrix Coefficient file written with name out_tri_3x4_0.uge                  
- 
+cv_dual: wrote uge out_tri_3x4_0.uge                                            
 ******* 3D ****************************************                             
 * NOTE these hex meshes are connected into tets                                 
 * LaGriT does not write stor files for hex elements                             
@@ -485,6 +668,7 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 tets to reach the convex hull                         
 LaGriT FINISH: connect                                                          
  
 rmpoint compress                                                                
@@ -518,108 +702,157 @@ All elements have volume  1.6666667E-01
  
 *****************                                                               
 dump/stor/out_hex_1x1m/mohex                                                    
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=out_hex_1x1m.stor cv=voronoi zero_area=remove             
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_hex_1x1m_violations.vtu check_only=off                         
  
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
+cv_dual mesh checks                                                             
+  faces paired, same itetclr               6                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                          12                                    
+  mesh checks passed                                                            
  
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =        8  ncoefs =         32                         
-AMatbld3d_stor: Number of unique coefs =         2                              
-AMatbld3d_stor: Maximum num. connections to a node =          4                 
-AMatbld3d_stor: Volume min =   1.2500000E-01                                    
-AMatbld3d_stor: Volume max =   1.2500000E-01                                    
-AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
-AMatbld3d_stor Matrix compression used for graph and coefficient values         
-ascii STOR file written with name out_hex_1x1m.stor                             
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                   6                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         5                   
+    at  6.666667E-01  3.333333E-01  3.333333E-01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 6                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary faces checked                  12                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       8.6603E-01                                    
+  Delaunay check passed                                                         
  
-*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+cv_dual summary                                                                 
+  vertices                        8                                             
+  tets                            6                                             
+  edges                          19                                             
+  positive tets                   6                                             
+  negative tets                   0                                             
+  mesh volume   1.000000000000E+00                                              
+  sum of control volume   1.000000000000E+00                                    
+  relative difference -1.11E-16                                                 
+  negative volumes                0                                             
+  zero-area edges                 7  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E-01                                       
  
-3D Matrix Coefficient file written with name out_hex_1x1m.stor                  
- 
+cv_dual: wrote stor out_hex_1x1m.stor                                           
 *****************                                                               
 dump/pflotran/out_hex_1x1m/mohex                                                
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_hex_1x1m.uge cv=voronoi zero_area=remove               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_hex_1x1m_violations.vtu check_only=off                         
  
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
+cv_dual mesh checks                                                             
+  faces paired, same itetclr               6                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                          12                                    
+  mesh checks passed                                                            
  
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =        8  ncoefs =         32                         
-AMatbld3d_stor: Number of unique coefs =         2                              
-AMatbld3d_stor: Maximum num. connections to a node =          4                 
-PFLOTRAN total CELL nodes =            8                                        
-AMatbld3d_stor: Volume min =   1.2500000E-01                                    
-AMatbld3d_stor: Volume max =   1.2500000E-01                                    
-AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-PFLOTRAN will filter zero coefs.                                                
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   0.0000000E+00                
-PFLOTRAN filter = epsilon * abs(max Aij/Xij) :  1.0000000E-12  0.0000000E+00    
-PFLOTRAN coefficients: epsilon for zero filter =   1.0000000E-12                
-PFLOTRAN total matbld matrix coefficients   =        32                         
-PFLOTRAN matrix  i>j (written)              =        12                         
-PFLOTRAN matrix  i<=j (not written)        =         20                         
-PFLOTRAN zero coefs < epsilon (not written) =         0                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                   6                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         5                   
+    at  6.666667E-01  3.333333E-01  3.333333E-01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 6                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary faces checked                  12                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       8.6603E-01                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN total CONNECTIONS written         =         12                         
-PFLOTRAN coefficient  Aij min              =   2.5000000E-01                    
-PFLOTRAN coefficient  Aij max              =   2.5000000E-01                    
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+cv_dual summary                                                                 
+  vertices                        8                                             
+  tets                            6                                             
+  edges                          19                                             
+  positive tets                   6                                             
+  negative tets                   0                                             
+  mesh volume   1.000000000000E+00                                              
+  sum of control volume   1.000000000000E+00                                    
+  relative difference -1.11E-16                                                 
+  negative volumes                0                                             
+  zero-area edges                 7  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for PFLOTRAN SUCCESSFUL ***                       
- 
-3D Matrix Coefficient file written with name out_hex_1x1m.uge                   
- 
+cv_dual: wrote uge out_hex_1x1m.uge                                             
 *****************                                                               
 dump/pflotran/out_hex_1x1m_0/mohex/nofilter_zero                                
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_hex_1x1m_0.uge cv=voronoi zero_area=keep               
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_hex_1x1m_0_violations.vtu check_only=off                       
  
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
+cv_dual mesh checks                                                             
+  faces paired, same itetclr               6                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                          12                                    
+  mesh checks passed                                                            
  
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =        8  ncoefs =         32                         
-AMatbld3d_stor: Number of unique coefs =         2                              
-AMatbld3d_stor: Maximum num. connections to a node =          4                 
-PFLOTRAN total CELL nodes =            8                                        
-AMatbld3d_stor: Volume min =   1.2500000E-01                                    
-AMatbld3d_stor: Volume max =   1.2500000E-01                                    
-AMatbld3d_stor: Total Volume:   1.0000000E+00                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.5000000E-01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.5000000E-01                                 
-PFLOTRAN will not filter zero coefs.                                            
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   0.0000000E+00                
-PFLOTRAN total matbld matrix coefficients   =        32                         
-PFLOTRAN matrix  i>j (written)              =        12                         
-PFLOTRAN matrix  i<=j (not written)        =         20                         
-PFLOTRAN zero coefs < epsilon    (written)  =         0                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                   6                                    
+  ties (|delta/L| <= tol)                  6                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         5                   
+    at  6.666667E-01  3.333333E-01  3.333333E-01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 6                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf                 0                                    
+  boundary faces checked                  12                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       8.6603E-01                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN total CONNECTIONS written         =         12                         
-PFLOTRAN coefficient  Aij min              =   2.5000000E-01                    
-PFLOTRAN coefficient  Aij max              =   2.5000000E-01                    
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+cv_dual summary                                                                 
+  vertices                        8                                             
+  tets                            6                                             
+  edges                          19                                             
+  positive tets                   6                                             
+  negative tets                   0                                             
+  mesh volume   1.000000000000E+00                                              
+  sum of control volume   1.000000000000E+00                                    
+  relative difference -1.11E-16                                                 
+  negative volumes                0                                             
+  zero-area edges                 7  (zero_tol 1.0E-12)                         
+  zero_area keep: written, one connection per edge                              
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for PFLOTRAN SUCCESSFUL ***                       
- 
-3D Matrix Coefficient file written with name out_hex_1x1m_0.uge                 
- 
+cv_dual: wrote uge out_hex_1x1m_0.uge                                           
 *****************                                                               
 ****************                                                                
 * Sample slanted box mesh from Satish for testing                               
@@ -659,71 +892,106 @@ finish
 finish                                                                          
 *****************                                                               
 dump/stor/out_sample_tet/motet                                                  
+dump/stor: control volumes by cv_dual (voronoi)                                 
+cv_dual: options stor=out_sample_tet.stor cv=voronoi zero_area=remove           
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_sample_tet_violations.vtu check_only=off                       
  
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
+cv_dual mesh checks                                                             
+  faces paired, same itetclr             236                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                         104                                    
+  mesh checks passed                                                            
  
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =       60  ncoefs =        570                         
-AMatbld3d_stor: Number of unique coefs =       163                              
-AMatbld3d_stor: Maximum num. connections to a node =         15                 
-AMatbld3d_stor: Volume min =   1.9214006E+02                                    
-AMatbld3d_stor: Volume max =   3.1199559E+03                                    
-AMatbld3d_stor: Total Volume:   6.6240000E+04                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.1147826E+01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.1147826E+01                                 
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
-AMatbld3d_stor Matrix compression used for graph and coefficient values         
-ascii STOR file written with name out_sample_tet.stor                           
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                 236                                    
+  ties (|delta/L| <= tol)                  0                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  2.5574E-02  cells        28 and        55                   
+    at  1.266667E+01  4.400000E+01  1.066667E+01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 0                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf               236                                    
+  boundary faces checked                 104                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       1.0838E+00                                    
+  Delaunay check passed                                                         
  
-*** SPARSE COEFFICIENT MATRIX _astor SUCCESSFUL ***                             
+cv_dual summary                                                                 
+  vertices                       60                                             
+  tets                          144                                             
+  edges                         255                                             
+  positive tets                 144                                             
+  negative tets                   0                                             
+  mesh volume   6.624000000000E+04                                              
+  sum of control volume   6.624000000000E+04                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 0  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  1.375661375661E-01                                       
  
-3D Matrix Coefficient file written with name out_sample_tet.stor                
- 
+cv_dual: wrote stor out_sample_tet.stor                                         
 *****************                                                               
 dump pflotran out_sample_tet motet                                              
+dump/pflotran: control volumes by cv_dual (voronoi)                             
+cv_dual: options uge=out_sample_tet.uge cv=voronoi zero_area=remove             
+  zero_tol=1.0E-12 compress=on delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02      
+  violations=out_sample_tet_violations.vtu check_only=off                       
  
-*** Construct and Compress Sparse Matrix:3D ***                                 
-   *** Compress Area Coefficient Values ***                                     
+cv_dual mesh checks                                                             
+  faces paired, same itetclr             236                                    
+  faces paired, other itetclr              0                                    
+  boundary faces                         104                                    
+  mesh checks passed                                                            
  
-AMatbld3d_stor: Matrix compress_eps:  0.1000000E-07                             
-AMatbld3d_stor: Local epsilon:  0.1000000E-14                                   
-AMatbld3d_stor: *****Zero Negative Coefficients ******                          
-AMatbld3d_stor: Number of 'zero' (< compress_eps) coefs         0               
-AMatbld3d_stor: npoints =       60  ncoefs =        570                         
-AMatbld3d_stor: Number of unique coefs =       163                              
-AMatbld3d_stor: Maximum num. connections to a node =         15                 
-PFLOTRAN total CELL nodes =           60                                        
-AMatbld3d_stor: Volume min =   1.9214006E+02                                    
-AMatbld3d_stor: Volume max =   3.1199559E+03                                    
-AMatbld3d_stor: Total Volume:   6.6240000E+04                                   
-AMatbld3d_stor: abs(Aij/xij) min =   0.0000000E+00                              
-AMatbld3d_stor: abs(Aij/xij) max =   2.1147826E+01                              
-AMatbld3d_stor: (Aij/xij) max =   0.0000000E+00                                 
-AMatbld3d_stor: (Aij/xij) min =  -2.1147826E+01                                 
-PFLOTRAN will filter zero coefs.                                                
-PFLOTRAN coefficient from matbld Aij/Xij  max  =   0.0000000E+00                
-PFLOTRAN filter = epsilon * abs(max Aij/Xij) :  1.0000000E-12  0.0000000E+00    
-PFLOTRAN coefficients: epsilon for zero filter =   1.0000000E-12                
-PFLOTRAN total matbld matrix coefficients   =       570                         
-PFLOTRAN matrix  i>j (written)              =       255                         
-PFLOTRAN matrix  i<=j (not written)        =        315                         
-PFLOTRAN zero coefs < epsilon (not written) =         0                         
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked                 236                                    
+  ties (|delta/L| <= tol)                  0                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  2.5574E-02  cells        28 and        55                   
+    at  1.266667E+01  4.400000E+01  1.066667E+01  itetclr     1                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10                 0                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf               236                                    
+  boundary faces checked                 104                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)            0                                    
+  largest R / shortest edge       1.0838E+00                                    
+  Delaunay check passed                                                         
  
-PFLOTRAN total CONNECTIONS written         =        255                         
-PFLOTRAN coefficient  Aij min              =   3.2063536E+00                    
-PFLOTRAN coefficient  Aij max              =   2.2305694E+02                    
-AMatbld3d_stor Matrix coefficient values stored as scalar area/distance         
+cv_dual summary                                                                 
+  vertices                       60                                             
+  tets                          144                                             
+  edges                         255                                             
+  positive tets                 144                                             
+  negative tets                   0                                             
+  mesh volume   6.624000000000E+04                                              
+  sum of control volume   6.624000000000E+04                                    
+  relative difference  0.00E+00                                                 
+  negative volumes                0                                             
+  zero-area edges                 0  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  1.375661375661E-01                                       
  
-*** SPARSE COEFFICIENT MATRIX for PFLOTRAN SUCCESSFUL ***                       
- 
-3D Matrix Coefficient file written with name out_sample_tet.uge                 
- 
+cv_dual: wrote uge out_sample_tet.uge                                           
 *****************                                                               
 cmo/printatt/motet/-all- minmax                                                 
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  

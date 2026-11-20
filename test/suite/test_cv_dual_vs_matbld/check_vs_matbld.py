@@ -27,6 +27,7 @@ Each file is judged by its kind:
             to their 13 digits.
   others    byte for byte.
 A file one run wrote and the other did not: cv_dual's violations.vtu
+or ROOT_violations.vtu (the dump commands name it for their files)
 (its Delaunay check flagged facets); _outside_hyb.area against
 matbld's _outside_vor.area (hybrid); or every file of a dump cv_dual
 refused, with its ERROR in the run's output (a hex mesh, a mesh that
@@ -200,12 +201,13 @@ def main():
                             False)
                     continue
                 if f not in fm:
-                    if f == 'violations.vtu':
+                    if f == 'violations.vtu' or \
+                            f.endswith('_violations.vtu'):
                         m = re.findall(r'violations +(\d+)\s+beyond '
                                        r'delaunay_fatal +(\d+)', out_c)
                         bo = re.findall(r'boundary circumcenter outside '
                                         r'+(\d+)', out_c)
-                        info('violations', 'violations.vtu: cv_dual\'s '
+                        info('violations', f + ': cv_dual\'s '
                              'Delaunay check flagged facets in %d run(s): '
                              'violations %s, beyond delaunay_fatal %s, '
                              'boundary circumcenters outside the mesh %s'

@@ -1,0 +1,29 @@
+# d08_default.lgi -- test_cv_dual_dump_keyword (see 00README)
+# cv_dual is the default (V3.4.0): a dump without cv_dual or matbld on
+# a hex mesh (matbld writes it), on a mesh that is not Delaunay and on
+# a mesh with parent/child chains (an ERROR naming / matbld), and the
+# same with / matbld and / median
+read / avs / flip3d.inp / mo_flip
+resetpts / itp
+dump / avs / mesh.inp / mo_flip
+dump / stor / n_def / mo_flip
+dump / stor / n_mb / mo_flip / matbld
+dump / stor / n_med / mo_flip / median
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / stor / h_def / mo_hex
+cmo / create / mo_pc / / / tet
+surface / s_box / reflect / box / 0. 0. 0. / 1. 1. 1.
+surface / s_mid / intrface / plane / 0. 0. 0.5 / 1. 0. 0.5 / 1. 1. 0.5
+region / r1 / le s_box and lt s_mid
+region / r2 / le s_box and gt s_mid
+mregion / m1 / le s_box and lt s_mid
+mregion / m2 / le s_box and gt s_mid
+createpts / xyz / 5 5 5 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+setpts
+connect
+settets / parents
+dump / stor / p_def / mo_pc
+dump / stor / p_mb / mo_pc / matbld
+dump / avs / after.inp / mo_flip
+finish
