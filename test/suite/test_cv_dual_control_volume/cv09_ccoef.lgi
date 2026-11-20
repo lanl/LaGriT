@@ -1,0 +1,12 @@
+# cv09_ccoef.lgi -- test_cv_dual_control_volume (see 00README)
+# LaGriT's Poisson disk tet mesh (test_poisson_3d case 1, negative
+# Voronoi coefficients on its boundary): the ten ccoef_* attributes
+# (ccoef_distance_max renamed dmax), every connection in the .stor,
+# uncompressed, to check them; then matbld's .stor and its ccoef,
+# ij_ccoef on the same mesh object
+read / avs / test_3d_poi_01.inp / mo_poi
+dump / avs / mesh.inp / mo_poi
+dump / control_volume / mo_poi / stor, a.stor / zero_area, keep / compress, off / attribute_cv_volume / ccoef_area_min / ccoef_area_max / ccoef_ij_area_min / ccoef_ij_area_max / ccoef_areabydist_min / ccoef_areabydist_max / ccoef_ij_areabydist_min / ccoef_ij_areabydist_max / ccoef_distance_min / ccoef_distance_max, dmax
+dump / stor / matbld_mb / mo_poi / matbld
+dump / avs / after.inp / mo_poi
+finish

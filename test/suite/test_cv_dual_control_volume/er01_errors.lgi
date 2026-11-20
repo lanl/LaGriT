@@ -1,7 +1,7 @@
 # er01_errors.lgi -- test_cv_dual_control_volume (see 00README)
 # commands that must fail with a message and write nothing, each
 # followed by LaGriT going on: an unknown keyword, avs, a bad value, no
-# mesh object, an unknown mesh object, an attribute of another type
+# mesh object, an unknown mesh object, attributes of another type
 cmo / create / mo_box / / / tet
 createpts / xyz / 9 7 6 / 0. 0. 0. / 1. 0.75 0.5 / 1 1 1
 cmo / setatt / mo_box / imt / 1 0 0 / 1
@@ -18,5 +18,6 @@ dump / control_volume / mo_box / zero_area, maybe / stor, bad3.stor
 dump / control_volume
 dump / control_volume / mo_nothere / stor, bad4.stor
 dump / control_volume / mo_box / stor, bad5.stor / attribute_cv_volume, imt1
+dump / control_volume / mo_box / stor, bad6.stor / ccoef_ij_area_min, xic
 dump / avs / after.inp / mo_box
 finish

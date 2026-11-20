@@ -19,18 +19,21 @@ WHAT IS TESTED
   runs on mesh.inp in work/NAME/prog with the same options (the
   case's program arguments in cases.txt).
 
-  Cases that must work (cv01 ... cv08): tets (a moved lattice, the
+  Cases that must work (cv01 ... cv09): tets (a moved lattice, the
   Poisson mesh of test_poisson_3d case 1), 2D triangles, a dfnWorks
   fracture network, two materials; every output format, voronoi,
   median and hybrid control volumes, ParaView and matrix files, a box
   subset (six numbers in the command), zero_tol as a real, check_only,
   attribute_cv_volume with and without a name, and parent/child
   chains (settets / parents) refused, then resetpts / parent and
-  rmpoint / compress and the same command working.
+  rmpoint / compress and the same command working; the ten ccoef_*
+  attributes (cv09), against the command's .stor, matbld's .stor and
+  matbld's ccoef / ij_ccoef (cv_dual_tools/ccoef_check.py).
 
   Cases that must fail (er01 ... er03): an unknown keyword, avs, a bad
   value, no mesh object, an unknown one, an attribute name taken by an
-  integer attribute, a hex mesh, a mesh that is not Delaunay (with
+  integer attribute, a ccoef_ij_* name taken by a real attribute, a
+  hex mesh, a mesh that is not Delaunay (with
   Voronoi; cv median then goes on).
 
 WHAT IS CHECKED (check_control_volume.py)
