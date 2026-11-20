@@ -35,8 +35,7 @@ with LaGriT and may be obtained from their respective sources.
             MSTK open source LA-CC-04-010
             https://github.com/MeshToolkit/MSTK
 
--   [LASETUP - interface for generating and viewing LaGriT
-    geometries.](lasetup.md)
+-   [LASETUP - interface for generating and viewing LaGriT geometries.](lasetup.md)
 
 ### Modeling Software Used with LaGriT generated files
 

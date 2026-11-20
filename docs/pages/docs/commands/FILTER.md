@@ -97,8 +97,7 @@ tags: filter, filterkd, filter element
    number of elements above and below an element (in numerical order)
    to search. The default is 10.
 
-   For more on **filter/element** see [filter/element
-   details.](FILTER_element.md)
+   For more on **filter/element** see [filter/element details.](FILTER_element.md)
 
   **EXAMPLES:**
 

@@ -971,8 +971,7 @@ two-material mesh, a mesh at UTM-size coordinates, two fracture
 networks) and, outside git, dfnWorks TPL_nonuniform (114,739
 triangles). Every difference is explained; most pairs agree to every
 digit LaGriT prints. `test_cv_dual_vs_matbld` runs LaGriT's own decks
-with matbld and with `cv_dual`; [cv_dual and matbld
-compared](cv_dual_vs_matbld.md) sums up both. Found in LaGriT along
+with matbld and with `cv_dual`; [cv_dual and matbld compared](cv_dual_vs_matbld.md) sums up both. Found in LaGriT along
 the way:
 
 - In 3D, `dump / stor ... / none` uses LaGriT's old writer

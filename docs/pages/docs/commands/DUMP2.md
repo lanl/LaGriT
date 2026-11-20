@@ -132,8 +132,7 @@ geometric coefficients by cv_dual, written as FEHM `.stor`, PFLOTRAN
 `.uge` or TOUGH `MESH` files, after checking that the mesh is valid
 and Delaunay; **`attribute_cv_volume`** also puts the volumes in a
 vertex attribute. The mesh object is required. A new path beside
-**`dump/stor`**, which is unchanged. Every keyword: [click here for
-details](dump/DUMP_CONTROL_VOLUME.md).
+**`dump/stor`**, which is unchanged. Every keyword: [click here for details](dump/DUMP_CONTROL_VOLUME.md).
 
 ```
 dump / control_volume / mo_mesh / stor, mesh.stor / uge, mesh.uge / attribute_cv_volume

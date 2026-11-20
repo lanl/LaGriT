@@ -45,8 +45,7 @@ title: 7
 
  set\_user\_bounds
 
-  This routine allows the user to set boundary values. [See the
-  boundary command.](commands/BOUNDAR1.md)
+  This routine allows the user to set boundary values. [See the boundary command.](commands/BOUNDAR1.md)
   **set\_user\_bounds**(**nubndpts,ubndpts,cmo,ipattr, idfield**)
 
   **nubndpts** - number of boundary nodes
@@ -69,8 +68,7 @@ title: 7
   number containing the query point.  Coordinates of the query point
   are in xq, yq, zq.  Coordinates of the vertices of the element are
   in x1, y1, z1, x2.....  The coordinates of these vertices of the
-  element must be specified in the correct order ([see the section on
-  Mesh Object Connectivity)](meshobjcon.md).  For triangular
+  element must be specified in the correct order ([see the section on Mesh Object Connectivity)](meshobjcon.md).  For triangular
   elements both **inside\_tri** and **inside\_tri2d ** must be called;
   the first call will determine if the query point is in the plane of
   the triangle;  the second, if it is in the interior of the

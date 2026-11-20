@@ -9,8 +9,7 @@ LaGriT computes control volumes and their geometric coefficients for
 `dump / stor`, `dump / fehm` and `dump / pflotran` with its sparse
 matrix code, matbld (`matbld2d_stor`, `matbld3d_stor`,
 `anothermatbld3d`). The same commands with the keyword **`cv_dual`**
-use cv_dual instead ([cv_dual OR
-matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld); cv_dual's
+use cv_dual instead ([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld); cv_dual's
 [manual](cv_dual_manual.md)). This page compares the two: where their
 files agree, every way they differ and why, and what that means for
 making cv_dual the default.
@@ -32,8 +31,7 @@ rerunnable:
 - **test_cv_dual_timing**: time and memory from 9,000 to 10 million
   cells.
 
-The comparisons use `stor_compare.py` (manual, [section
-15](cv_dual_manual.md#15-comparing-stor-files-and-parity-with-lagrit)),
+The comparisons use `stor_compare.py` (manual, [section 15](cv_dual_manual.md#15-comparing-stor-files-and-parity-with-lagrit)),
 which labels every difference between two `.stor` files with its
 cause.
 
@@ -157,8 +155,7 @@ direction), so a coefficient means the same thing in both.
 ## Speed and memory
 
 From test_cv_dual_timing on an Intel Mac (6 cores), cv_dual's program
-against LaGriT's read + `dump / stor` (manual, [section
-16](cv_dual_manual.md#16-speed-and-memory)):
+against LaGriT's read + `dump / stor` (manual, [section 16](cv_dual_manual.md#16-speed-and-memory)):
 
 | mesh | cv_dual | peak | LaGriT read + `dump / stor` | peak |
 |---|---|---|---|---|
