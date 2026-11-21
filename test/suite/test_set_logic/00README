@@ -29,7 +29,7 @@ THE DECKS
 
 WHY
 
-  In LaGriT V3.3.4 and earlier, eltset inter and not with three or more
+  In LaGriT V3.3.3 and earlier, eltset inter and not with three or more
   sets gave wrong results without a message (inter gave an empty set):
   src/eset.f read the running result from the stored set bits instead of
   the work array (inter), and garbled the shift and the and (not). pset

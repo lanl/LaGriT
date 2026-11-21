@@ -345,7 +345,7 @@ C
 C     More than 100 points: insert them in a BRIO order (random rounds,
 C     each along a Morton curve; lg_brio_order.c), so that each search
 C     starts near the new point. connect / old_order keeps the order
-C     of LaGriT V3.3.4 and earlier (a fixed prime stride).
+C     of LaGriT V3.3.3 and earlier (a fixed prime stride).
       call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)
       call mmfindbk('vol',nname,ipvol,lenvol,icscode)
       call lg_connect_order_get(iold_order)

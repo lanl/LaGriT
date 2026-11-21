@@ -7,7 +7,7 @@ C     level, for read_command_lg and read_line_lg. Include AFTER
 C     commands_lg.h (it uses maxnlevels).
 C
 C     LINE_NOTE_LEN  a command line longer than this is used in full
-C                    but a NOTE says so: LaGriT V3.3.4 and earlier read
+C                    but a NOTE says so: LaGriT V3.3.3 and earlier read
 C                    only the first 80 columns and ignored the rest
 C                    without a word
 C     LINE_MAX_LEN   a line longer than this is an ERROR and its

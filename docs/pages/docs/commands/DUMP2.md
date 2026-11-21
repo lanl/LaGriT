@@ -52,13 +52,13 @@ The second line shows the short form where `file_type` is recognized by the file
 
 Will write the AVS UCD (Unstructured Cell Data) file format. 
 
-**`avs`**  = **`avs3`** writes data values as real or integer depending on type, with spacing dependent on size of values, and every real (vertex coordinates, real attributes) with 17 significant digits (1pe24.16). A double written this way reads back exactly, so a dump and read changes no coordinate, also at large (UTM) coordinates. (Since V3.3.4. A vertex line is 12 characters longer than in avs2: a tet mesh file is about 5-10% larger.)
+**`avs`**  = **`avs3`** writes data values as real or integer depending on type, with spacing dependent on size of values, and every real (vertex coordinates, real attributes) with 17 significant digits (1pe24.16). A double written this way reads back exactly, so a dump and read changes no coordinate, also at large (UTM) coordinates. (Since V3.3.3. A vertex line is 12 characters longer than in avs2: a tet mesh file is about 5-10% larger.)
 
-**`avs2`** = the same layout with 13 significant digits for the coordinates (1pe20.12) and 12 for real attributes (e20.12): the default before V3.3.4. At x = 3.2e6 the 13th digit is 1e-6, so a dump and read moves the vertices by up to 5e-7.
+**`avs2`** = the same layout with 13 significant digits for the coordinates (1pe20.12) and 12 for real attributes (e20.12): the default before V3.4.0. At x = 3.2e6 the 13th digit is 1e-6, so a dump and read moves the vertices by up to 5e-7.
 
 **`avs1`** = old avs writes all data values as real with large spacing (larger file size), 13 significant digits. 
 
-**`att_node`** and **`att_elem`** write reals with 17 digits as avs3 does (since V3.3.4).
+**`att_node`** and **`att_elem`** write reals with 17 digits as avs3 does (since V3.4.0).
 
 `iopt values` indicate which data to write or skip, default is everything on with `iopt` values = 1 1 1 1.
 

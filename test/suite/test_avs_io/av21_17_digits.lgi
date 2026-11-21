@@ -1,4 +1,4 @@
-# dump / avs writes avs3 (since V3.3.4): avs2 with 17 significant
+# dump / avs writes avs3 (since V3.4.0): avs2 with 17 significant
 # digits (1pe24.16) for coordinates and real attributes, so the doubles
 # come back exactly; dump / avs2 keeps 13 (and 12) digits. A mesh at
 # UTM-sized coordinates, a real vertex attribute.

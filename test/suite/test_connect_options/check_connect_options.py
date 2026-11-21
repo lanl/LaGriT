@@ -232,11 +232,11 @@ details summary{cursor:pointer;color:#0969da;font-size:12px}</style></head><body
 there is still read as the point range. The coordinates of the enclosing tetrahedron (12 numbers) or triangle (9) are
 used with a WARNING that they are deprecated; fewer numbers give a WARNING and are ignored. Mesh A: 3D, two materials
 split by a tilted plane, 216 points. Mesh B: 3D, 125 points, points 1 to 60 chosen. Mesh C: 2D, two materials, 49
-points. The column V3.3.4 says what LaGriT V3.3.4 did with the same command.</p>
+points. The column V3.3.3 says what LaGriT V3.3.3 did with the same command.</p>
 <p>The pictures show each deck's mesh: for the two-material meshes (A, C) the vertices coloured by material (blue,
 yellow) with the points connect added in red, so <b>noadd</b> shows as no red points; for mesh B the vertices that are in a
 tet (green) and those left out by the point range or pset (grey).</p>
-<table><tr><th>deck</th><th>result</th><th>command</th><th>nodes / elements</th><th>V3.3.4</th><th>LaGriT's warnings</th><th style="min-width:240px">mesh</th></tr>"""]
+<table><tr><th>deck</th><th>result</th><th>command</th><th>nodes / elements</th><th>V3.3.3</th><th>LaGriT's warnings</th><th style="min-width:240px">mesh</th></tr>"""]
     for d, r, fails, msgs, e, (nn, ne) in rows:
         o.append('<tr><td>%s<details><summary>What it does</summary>%s</details></td><td class="%s">%s</td>'
                  '<td><code>%s</code></td><td>%s / %s</td><td>%s</td><td><pre>%s</pre>%s</td><td style="min-width:240px">%s</td></tr>'

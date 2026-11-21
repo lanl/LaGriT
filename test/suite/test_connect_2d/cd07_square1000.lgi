@@ -6,7 +6,7 @@
 #   test/level01/connect_errors records as failing.
 #
 # EXPECT:
-#   4 points connected into 2 triangles. LaGriT V3.3.4 and earlier:
+#   4 points connected into 2 triangles. LaGriT V3.3.3 and earlier:
 #   no triangles (the 4 points were left out).
 #####################################################################
 cmo / create / mo_tri / / / triplane

@@ -177,11 +177,11 @@ ABOUT = {
         "origin: the reference mesh the offset decks (cd02-cd06) must "
         "match triangle for triangle. The complete Delaunay triangulation "
         "of these points has 783 triangles (2n - 2 - h, with h = 15 points "
-        "on the convex hull). LaGriT V3.3.4 made 778: it lost 5 thin "
+        "on the convex hull). LaGriT V3.3.3 made 778: it lost 5 thin "
         "triangles along the hull with the enclosing triangle.",
     "cd02_utm":
         "The same points moved to x = 400,000, y = 3,900,000 (UTM-sized "
-        "coordinates). LaGriT V3.3.4 placed a vertex of its enclosing "
+        "coordinates). LaGriT V3.3.3 placed a vertex of its enclosing "
         "triangle at 1.01 times the centre coordinate, 4,000 m from a "
         "100 m box, so the triangle did not contain the points and "
         "connect made no triangles. A correct result is the cd01 mesh: "
@@ -191,7 +191,7 @@ ABOUT = {
         "enclosing-triangle fix must work for negative coordinates too.",
     "cd04_y_only":
         "The same points moved in y only (y = 3,900,000; x still starts "
-        "at 0). LaGriT V3.3.4 got this one right, because the misplaced "
+        "at 0). LaGriT V3.3.3 got this one right, because the misplaced "
         "vertex depends on the x centre: a control case.",
     "cd05_yz_plane":
         "The same points in the plane x = 0 (moved to y = 200,000, "
@@ -208,14 +208,14 @@ ABOUT = {
     "cd08_graded":
         "400 points crowded toward the left and bottom sides ((u^3, v^3) "
         "x 100), so triangle sizes span many orders of magnitude. LaGriT "
-        "V3.3.4 left 42 boundary edges off the convex hull (thin hull "
+        "V3.3.3 left 42 boundary edges off the convex hull (thin hull "
         "triangles lost with the enclosing triangle). Many points lie "
         "within about 1e-6 of a straight side; connect deliberately does "
         "not fill corners flatter than 1e-6, which leaves one long, very "
         "thin sliver along the left side (area far below 1e-6 of the "
         "hull).",
     "cd09_stretched":
-        "A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.4 compared "
+        "A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.3 compared "
         "every in-circle test with a tolerance scaled by the longest side "
         "of the box squared (1,000,000), so at the short spacing every "
         "test looked degenerate and 37 points were left out. Exact tests "
@@ -225,7 +225,7 @@ ABOUT = {
         "up to 1e-9. On the exact grid both diagonals of each square are "
         "Delaunay; after the jitter the four corners are no longer "
         "cocircular (r^2 - d^2 between 1e-13 and 2e-10), so exactly one "
-        "diagonal is correct. LaGriT V3.3.4's tolerance (6.5e-9) and its "
+        "diagonal is correct. LaGriT V3.3.3's tolerance (6.5e-9) and its "
         "recon/0 (1e-6 of the longest edge) could not see the "
         "difference, so the diagonal was decided by insertion order: 416 "
         "of 900 squares wrong (purple). The exact test gets every one "
@@ -236,7 +236,7 @@ ABOUT = {
         "A centre point and 10 rings of equally spaced points: many sets "
         "of four or more cocircular points (exact ties). Any choice among "
         "tied triangulations is Delaunay; the test is that the mesh is "
-        "valid and has no edge strictly non-Delaunay. LaGriT V3.3.4 left "
+        "valid and has no edge strictly non-Delaunay. LaGriT V3.3.3 left "
         "one edge just non-Delaunay (in-circle determinant 5e-21, a "
         "near-tie its tolerances could not see).",
     "cd13_dyadic":
@@ -248,7 +248,7 @@ ABOUT = {
         "came out just non-Delaunay.",
     "cd12_old_order":
         "The points of cd08 again, with connect / old_order: the points "
-        "are inserted in the order of LaGriT V3.3.4 (a fixed prime "
+        "are inserted in the order of LaGriT V3.3.3 (a fixed prime "
         "stride through the list) instead of the default BRIO order "
         "(random rounds, each sorted along a Morton curve). With exact "
         "tests the order may change only how exact ties are split, and "

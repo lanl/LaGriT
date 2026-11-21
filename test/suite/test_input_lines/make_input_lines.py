@@ -12,7 +12,7 @@ mesh objects exist, and with  finish.
   il01_80      a command exactly 80 characters long: no NOTE
   il02_note    commands of 81, 500 and 1024 characters: used, one NOTE
                each; a command whose cell type is past column 80
-               (LaGriT V3.3.4 made a tet mesh object, now hex)
+               (LaGriT V3.3.3 made a tet mesh object, now hex)
   il03_long    commands of 1025 and 3000 characters: ERROR each, not
                run; the commands after them run
   il04_huge    a command of 1,000,000 characters: ERROR, not run
@@ -64,7 +64,7 @@ def main(work):
     E["il02_note"] = {"mo": ["mo81", "mo500", "mo1024", "mo_type"], "no_mo": [],
                       "has": ["NOTE: line 1 of the input has 81 characters;",
                               "NOTE: line 3 of the input has 1024 characters;",
-                              "LaGriT V3.3.4 and earlier used only the first 80 of them.",
+                              "LaGriT V3.3.3 and earlier used only the first 80 of them.",
                               "element type =                hex"],
                       "count": {"NOTE:": 4, "ERROR": 0}}
 

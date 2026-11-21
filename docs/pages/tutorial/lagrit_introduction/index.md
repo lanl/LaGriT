@@ -28,7 +28,7 @@ lagrit < input.lgi
 
 LaGriT reads commands and command options from each line at prompt or each line in a file. Each line starts with a **command** followed by command options. Syntax is very important and the [commands](https://lanl.github.io/LaGriT/pages/commands.html) reference pages should be followed, or errors may occur. The following conventions apply:
 
-- Lines can be up to 1024 characters long (LaGriT V3.3.4 and earlier read only the first 80), and names, keywords and file names up to 32 characters.
+- Lines can be up to 1024 characters long (LaGriT V3.3.3 and earlier read only the first 80), and names, keywords and file names up to 32 characters.
 - A command can be continued by an “&” as the last character of a line, up to 16384 characters in all.
 - Command and token separators are comma, slash, or blank. (‘,’ ‘/’ ‘ ‘).
 - White space is ignored except between slashes with empty space indicating default for that option should be used.

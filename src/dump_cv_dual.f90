@@ -31,7 +31,8 @@
 ! gives its message and an ERROR line, and nothing is written (with
 ! dump / fehm not the geometry and zone files either); without either
 ! word the message also names / matbld (the file matbld wrote), and
-! / median, / hybrid for a mesh that is not Delaunay.
+! / median for a mesh that is not Delaunay (the only control volumes
+! cv_dual makes on one; hybrid starts from Voronoi and is refused too).
 !-----------------------------------------------------------------------
 subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
                         ioption, ifile, ifileini, iomode, coef_opt, &
@@ -214,7 +215,7 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
       else
          if (ncv == 0) call say(trim(cmd)//': the file matbld '// &
             'wrote before: add / matbld; a mesh that is not '// &
-            'Delaunay: / median or / hybrid')
+            'Delaunay: / median')
          call fail(trim(cmd)//': cv_dual stopped (see above); '// &
                    'nothing written')
       end if

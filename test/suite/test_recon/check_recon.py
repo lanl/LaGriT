@@ -204,7 +204,7 @@ def measure(fn, dim):
     # them all inside (Murphy and Gable 2000): positive coupling coefficients
     # A center on the boundary to round-off (a right angle there, as
     # recon / 1 makes) counts as inside: tolerance 1e-12 of the box size
-    # (dump / avs writes 17 digits since V3.3.4, so the files carry the
+    # (dump / avs writes 17 digits since V3.4.0, so the files carry the
     # doubles' round-off; 13 digits used to round it away).
     lo = [min(p[i] for p in Vf) for i in range(dim)]
     hi = [max(p[i] for p in Vf) for i in range(dim)]

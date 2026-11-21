@@ -84,7 +84,7 @@ What the labels mean, in the order they matter:
 
 - **digits, round_off.** The same number, or two sums of the same
   pieces added in a different order (within 64 u, 1.4e-14, of the
-  largest value). Both codes write 17 significant digits since V3.3.4.
+  largest value). Both codes write 17 significant digits since V3.4.0.
 - **merge.** matbld's compression (`all`, the default, and every `.uge`)
   stores one value for all values within 1e-8 of the largest, so a
   coefficient can move by up to 1e-8 of the largest. cv_dual merges
@@ -105,9 +105,9 @@ What the labels mean, in the order they matter:
   older writer, which stores \|A\|/d: a negative coefficient comes out
   positive (all 75 of test_poisson_3d case 1's, test_cv_dual_parity).
   cv_dual keeps the sign.
-- **UTM-size coordinates.** Before V3.3.4, matbld's 3D writer computed
+- **UTM-size coordinates.** Before V3.4.0, matbld's 3D writer computed
   tet volumes from absolute coordinates and lost every digit there (a
-  box of volume 0.032 got -100.5). Fixed in V3.3.4 (#333, #338); the
+  box of volume 0.032 got -100.5). Fixed in V3.4.0 (#333, #338); the
   `_u` decks of test_stor_utm now agree with cv_dual as their origin
   twins do.
 

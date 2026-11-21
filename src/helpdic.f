@@ -63,10 +63,11 @@ C
 C
       if(nwds.lt.2) then
          write(logmess,10)
- 10      format('See LaGriT Home Page http://lagrit.lanl.gov')
+ 10      format('See LaGriT Home Page https://lanl.github.io/LaGriT')
          call writloga('default',0,logmess,0,ierr)
          write(logmess,20)
- 20      format('See Manual at http://lagrit.lanl.gov/manual.shtml')
+ 20      format('See Manual at https://lanl.github.io/LaGriT/',
+     &          'pages/manual.html')
          call writloga('default',0,logmess,0,ierr)
          go to 9999
       endif

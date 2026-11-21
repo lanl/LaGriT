@@ -111,14 +111,14 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
     compression option, hybrid) computes the geometry of each cell
     relative to one of its vertices, so a mesh at UTM-sized
     coordinates (x about 7e5, y about 3.2e6) gets the same volumes and
-    coefficients as the same mesh at the origin (since V3.3.4; before,
+    coefficients as the same mesh at the origin (since V3.4.0; before,
     the 3D default gave wrong volumes and coefficients there).
     Checked by the suite test/suite/test_stor_utm.
 
     **17 digits:** the ASCII .stor, the .uge (dump / pflotran) and the
     coordinates of the .fehmn file are written with 17 significant
     digits (1pe24.16), so a value read back is the double LaGriT
-    computed (since V3.3.4; before, 13 digits: at UTM coordinates a
+    computed (since V3.4.0; before, 13 digits: at UTM coordinates a
     vertex was rounded to 1e-6). FEHM and PFLOTRAN read these files
     by white space, so the wider fields need no change there.
 
@@ -334,12 +334,11 @@ and the boundary areas with cv_dual, the code of the command
 arrays. The mesh must be all triangles (2D, or a fracture network) or
 all tets. cv_dual first checks the mesh (cell types, positive
 area/volume, conformity, orientation, no parent/child chains) and,
-for Voronoi control volumes, the Delaunay property. A mesh it refuses
+for every kind of control volume but median, the Delaunay property. A mesh it refuses
 gives cv_dual's message and an ERROR line, and nothing is written:
 with **dump/fehm** not the geometry and zone files either. Without
 either word the message also names **matbld** (the file matbld wrote
-before) and, for a mesh that is not Delaunay, **median** or
-**hybrid**. The facets the Delaunay check flags (beyond its tolerance,
+before) and, for a mesh that is not Delaunay, **median**. The facets the Delaunay check flags (beyond its tolerance,
 and the few slightly off that it accepts with a WARNING) go to
 file\_name\_violations.vtu, beside the dump's files, for ParaView.
 

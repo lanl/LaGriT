@@ -447,7 +447,8 @@ C   dump / zone / outside (i.e. top, bottom, left_w, back_n, etc.)
      &          //"Please use dump/zone_outside or manually specify a "
      &          //"top and bottom using the same attribute names, so "
      &          //"this routine may function properly. See the online "
-     &          //"documentation at lagrit.lanl.gov/docs/COMPUTE.html"
+     &          //"documentation at lanl.github.io/LaGriT/pages/docs/"
+     &          //"commands/COMPUTE.html"
      &          //" for more details." 
           goto 9990
       endif

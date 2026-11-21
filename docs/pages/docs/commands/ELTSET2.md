@@ -66,7 +66,7 @@ logical operations on previously defined eltsets. Each takes a list of any numbe
 
 One command can list up to 31 eltsets, and a mesh object can hold at most 32 eltsets at a time; remove the ones no longer needed with **`delete`**.
 
-In LaGriT V3.3.4 and earlier, **`inter`** and **`not`** with three or more eltsets gave wrong results without a message (**`inter`** gave an empty set). With two eltsets they were correct, and **`union`** was correct with any number.
+In LaGriT V3.3.3 and earlier, **`inter`** and **`not`** with three or more eltsets gave wrong results without a message (**`inter`** gave an empty set). With two eltsets they were correct, and **`union`** was correct with any number.
 
 Examples:
 ```

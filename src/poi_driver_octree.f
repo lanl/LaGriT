@@ -8,7 +8,7 @@ C #####################################################################
 C     PURPOSE - Set the h lookup options to their defaults.
 C     if_poi_octree = -1 means h_lookup was not given: the 3D driver
 C     then uses the octree when a control file sets h (variable h)
-C     and the uniform hex grid for a uniform h (as before V3.340);
+C     and the uniform hex grid for a uniform h (as before V3.4.0);
 C     2d_polygon always uses its grid.
 C #####################################################################
       implicit none

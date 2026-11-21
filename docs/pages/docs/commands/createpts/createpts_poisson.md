@@ -149,10 +149,10 @@ With `h_lookup hex_grid` the 3D form reads h from a hex mesh covering the box at
 **The default** (when `h_lookup` is not given):
 
 * **With a control file** (`user_resolution.mlgi`, a variable h): `octree`. A hex grid fine enough for the smallest h can need far more memory and time; on the example below, 150 s and 550 MB against 1 s and 15 MB.
-* **Without a control file** (a uniform h): `hex_grid`, the mesh LaGriT made before V3.340. For a uniform h the octree places about 20 to 27% more vertices and is slower (see **The vertices** below).
+* **Without a control file** (a uniform h): `hex_grid`, the mesh LaGriT made before V3.4.0. For a uniform h the octree places about 20 to 27% more vertices and is slower (see **The vertices** below).
 * **With `octree_k_factor`, `octree_batch` or `octree_dump`:** `octree`.
 
-LaGriT says which it used, for example `poisson_disk 3d_box: h_lookup octree (the default with a control file)`. Give `h_lookup` to choose. Before V3.340 the default was always `hex_grid`: a deck with a control file and no `h_lookup` now uses the octree, and gives a different, somewhat denser set of vertices. A control file that uses the cells of `mo_poi_h_field` (the hex mesh) needs `h_lookup hex_grid`, since the octree's `mo_poi_h_field` has no cells.
+LaGriT says which it used, for example `poisson_disk 3d_box: h_lookup octree (the default with a control file)`. Give `h_lookup` to choose. Before V3.4.0 the default was always `hex_grid`: a deck with a control file and no `h_lookup` now uses the octree, and gives a different, somewhat denser set of vertices. A control file that uses the cells of `mo_poi_h_field` (the hex mesh) needs `h_lookup hex_grid`, since the octree's `mo_poi_h_field` has no cells.
 
 | keyword | value | default |
 | --- | --- | --- |

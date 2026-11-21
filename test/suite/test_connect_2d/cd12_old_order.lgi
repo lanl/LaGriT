@@ -3,7 +3,7 @@
 #
 # WHAT:
 #   The points of cd08_graded, connected with connect / old_order
-#   (insert in the order of LaGriT V3.3.4 instead of BRIO).
+#   (insert in the order of LaGriT V3.3.3 instead of BRIO).
 #
 # EXPECT:
 #   Exactly the triangles of cd08_graded: with exact tests the order

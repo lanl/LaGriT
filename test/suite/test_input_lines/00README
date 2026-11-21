@@ -11,7 +11,7 @@ THE RULES TESTED
   A command line (not a comment) of
     up to 80 characters      is read as always;
     81 to 1024 characters    is used in full, with a NOTE: LaGriT
-                             V3.3.4 and earlier silently ignored
+                             V3.3.3 and earlier silently ignored
                              everything past column 80;
     over 1024 characters     is an ERROR: the command is skipped
                              (never cut, never run in part), with its
