@@ -150,3 +150,29 @@
 .accordion-item input:checked ~ .accordion-content {
   max-height: 800px; /* Set a reasonable max-height */
 }
+
+/* Front-page band (Nov 2026): tagline and buttons on the left, the
+   "LaGriT" letters mesh on the right, on the manual pages' slate. */
+.extended-content-container.lg-front {
+    background-color: #2b3245;
+    padding-top: 34px;
+    padding-bottom: 34px;
+    border-bottom: 4px solid #3e6fd8;
+    border-image: linear-gradient(90deg, #3e6fd8, #d9583b) 1;
+}
+.lg-front .extended-content {
+    background-color: transparent;
+    display: flex; align-items: center; gap: 36px;
+    max-width: 1180px; margin: 0 auto; padding: 0 40px; box-sizing: border-box;
+    text-align: left; font-size: 24pt; line-height: 1.25;
+}
+.lg-front-text { flex: 0 0 auto; }
+.lg-front-img {
+    flex: 1 1 auto; min-width: 0; max-width: 620px; margin-left: auto;
+    height: auto; border-radius: 6px; box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+}
+.lg-front .button { margin: 18px 14px 0 0; }
+@media only screen and (max-width: 960px) {
+  .lg-front .extended-content { display: block; text-align: center; }
+  .lg-front-img { display: none; }
+}
