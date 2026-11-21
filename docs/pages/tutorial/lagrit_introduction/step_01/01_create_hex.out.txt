@@ -2,17 +2,17 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Program:  LaGriT V3.4.0   Linux          *                 
 *               *    Compiler Name: GNU                       *                 
-*               *    Compiler Version: 9.4.0                  *                 
-*               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Jan 16  16:17:30          *                 
-*               *    Manual:   https://lagrit.lanl.gov        *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/21                 *                 
+*               *    Run Time: 2026/Nov 21  04:52:21          *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+             Manual: https://lanl.github.io/LaGriT/pages/manual.html            
   Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
   program was produced under U.S. Government contract 89233218CNA000001         
   for Los Alamos National Laboratory (LANL), which is operated by Triad         
@@ -30,8 +30,8 @@
 Output log file: lagrit.out                                                     
 Command log file: lagrit.log                                                    
  
-# Tutorial Example 1                                                            
-#                                                                               
+# Tutorial LaGriT Introduction                                                  
+# Step 1. Build a Hex Mesh                                                      
 # Create an empty hex mesh object called 3dmesh                                 
 cmo/create/3dmesh///hex                                                         
 # View the mesh object attributes                                               
