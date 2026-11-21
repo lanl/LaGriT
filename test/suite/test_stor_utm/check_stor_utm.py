@@ -601,7 +601,7 @@ def check_fehmn(work, root, lines):
     lines.append("%s %s coor: %d vertices, mesh %d" %
                  (verdict(ok), root, n, len(xyz)))
     # 17 significant digits in every coordinate field (d.dddE+ee: 16
-    # after the point); with 13 the AVS file (also 13 before V3.3.4)
+    # after the point); with 13 the AVS file (also 13 before V3.4.0)
     # would agree with it and hide the rounding
     nd = [len(m.group(1)) for i in range(n)
           for m in [re.match(r"-?\d\.(\d+)", v)

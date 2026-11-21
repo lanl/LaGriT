@@ -1,0 +1,8 @@
+# One name and email per contributor in git shortlog, git log --use-mailmap
+# and GitHub's contributor lists. Format: Proper Name <proper@email> Name <commit@email>
+Carl Gable <cwgable@gmail.com> Carl Walter Gable <gable@lanl.gov>
+Jeffrey Hyman <jhyman@lanl.gov> Jeffrey De'Haven Hyman <jhyman@lanl.gov>
+Jeffrey Hyman <jhyman@lanl.gov> <you@ejhyman@lanl.gov>
+Jeffrey Hyman <jhyman@lanl.gov> <hymanjd@gmail.com>
+Erica Hinrichs <ehinrichs@lanl.gov> ehinrichs <54997013+ehinrichs@users.noreply.github.com>
+Erica Hinrichs <ehinrichs@lanl.gov> ehinrichs <ehinrichs@lanl.gov>

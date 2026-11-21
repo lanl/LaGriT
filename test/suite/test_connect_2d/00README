@@ -30,7 +30,7 @@ WHAT IS TESTED
   cd11_rings       a centre point and 10 rings of equally spaced points
                    (many cocircular sets)
   cd12_old_order   the cd08 points with connect / old_order (insert in
-                   the order of LaGriT V3.3.4, not BRIO): must give
+                   the order of LaGriT V3.3.3, not BRIO): must give
                    exactly the cd08 triangles
 
   HARD checks, every deck: LaGriT finished with no ERROR; connect left
@@ -54,7 +54,7 @@ WHAT IS TESTED
 WHY
 
   connect (2D) starts from a large triangle enclosing the points
-  (src/make_bigtri_lg.f). In LaGriT V3.3.4 and earlier its third vertex
+  (src/make_bigtri_lg.f). In LaGriT V3.3.3 and earlier its third vertex
   was placed at 1.01 times the centre coordinate of the points. Far from
   the origin that is far outside the box (4,000 m away for a 100 m box
   at x = 400,000), the triangle no longer encloses the points, every
@@ -76,7 +76,7 @@ WHY
   displaced are added back and the mesh is flipped to Delaunay, exactly
   (lg_connect2d_hull.c).
 
-  On LaGriT V3.3.4 and earlier, cd02, cd03, cd05, cd06 and cd07 make no
+  On LaGriT V3.3.3 and earlier, cd02, cd03, cd05, cd06 and cd07 make no
   triangles; the 400-point meshes miss 5 hull triangles; cd08 misses
   part of its hull; cd09 leaves 37 points out; cd10 and cd11 are not
   exactly Delaunay.

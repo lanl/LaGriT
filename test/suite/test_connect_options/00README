@@ -15,7 +15,7 @@ THE RULES TESTED
                    small-element pass (2D and 3D)
   check_interface  3D: also check edges between two interface points;
                    2D: a WARNING, ignored
-  old_order        the insertion order of LaGriT V3.3.4 and earlier
+  old_order        the insertion order of LaGriT V3.3.3 and earlier
   delaunay         token 2, the algorithm name (the only one). When it
                    is left out and token 2 is a number or pset, it is
                    taken as the start of the point range.
@@ -24,12 +24,12 @@ THE RULES TESTED
                    the point range: used, with a WARNING that they are
                    deprecated. Fewer numbers: a WARNING, ignored.
 
-  What LaGriT V3.3.4 did instead: noadd and check_interface were read
+  What LaGriT V3.3.3 did instead: noadd and check_interface were read
   only as the last token in 3D (so not both), noadd only as token 18
   in 2D; anything after the point range was read as 12 coordinates,
   past the end of the command if need be (no tets); a point range or
   pset in token 2 was misread (no tets, or every point connected).
-  Run against V3.3.4, 11 of the 20 decks fail.
+  Run against V3.3.3, 11 of the 20 decks fail.
 
 THE MESHES
 
@@ -47,6 +47,6 @@ THE MESHES
 FILES
 
   make_connect_options.py   writes the decks and work/expect.json
-                            (what each deck tests, and what V3.3.4 did)
+                            (what each deck tests, and what V3.3.3 did)
   check_connect_options.py  judges them; summary.html
   run_connect_options_tests.sh

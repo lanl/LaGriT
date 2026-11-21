@@ -22,7 +22,7 @@
  * or tilted). lg_brio_order3 (3D connect): all three coordinates.
  *
  * lg_connect_order_set(iold) records the connect option old_order
- * (1: keep the order of LaGriT V3.3.4 and earlier, 0: BRIO, the
+ * (1: keep the order of LaGriT V3.3.3 and earlier, 0: BRIO, the
  * default); lg_connect_order_get(iold) returns it.
  * lg_connect_opts_set(noadd,check) and lg_connect_opts_get record the
  * options noadd and check_interface (1 given, 0 not), read from any

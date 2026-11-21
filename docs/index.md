@@ -29,6 +29,8 @@ title: LaGriT - Home
   </div>
 </div>
 
+<div class="lg-more" style="margin-bottom:22px"><strong style="align-self:center">New: LaGriT V3.4.0 (November 20, 2026)</strong> <a href="{{ "/pages/release_notes/whats_new_V3.400.html" | relative_url }}">What's new</a> <a href="{{ "/pages/release_notes/lagrit_release_notes_V3.400.html" | relative_url }}">Release notes</a> <a href="https://github.com/lanl/LaGriT/releases">Download</a></div>
+
 **LaGriT (Los Alamos Grid Toolbox) LA-CC-15-069** is a library of user
 callable tools that provide mesh generation, mesh optimization and
 dynamic mesh maintenance in two and three dimensions. LaGriT is used for

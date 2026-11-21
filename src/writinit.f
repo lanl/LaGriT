@@ -298,12 +298,6 @@ C
  9009 format('*',15x,'*    Run Time: ',a4,'/',a6,'  ',a9,'         *')
       call writloga('default',0,interfil,0,ierrdum)
 
-C-----Banner Man pages
-C
-      write(interfil,9007)
- 9007 format('*',15x,'*    Manual:   https://lagrit.lanl.gov        *')
-      call writloga('default',0,interfil,0,ierrdum)
-
 C
 C-----Banner Bottom
 C
@@ -325,6 +319,13 @@ C
       write(interfil,'(a)')
      * '             LaGriT V3 LA-CC-15-069 '
      * //' https://github.com/lanl/LaGriT'
+      call writloga('default',0,interfil,0,ierrdum)
+
+C     the manual (lagrit.lanl.gov is gone; the URL is too long for
+C     the box above)
+      write(interfil,'(a)')
+     * '             Manual: https://lanl.github.io/LaGriT/'
+     * //'pages/manual.html'
       call writloga('default',0,interfil,0,ierrdum)
 
       write(interfil,'(a)')
@@ -415,7 +416,7 @@ c     ishow_warn = 1
  9020   format(20x,'WARNING WARNING WARNING WARNING WARNING')
  9021   format(20x,'LaGriT code expiration date has passed.')
  9022   format(20x,'  This version is no longer supported.')
- 9023   format(20x,'    Visit:  http://lagrit.lanl.gov')
+ 9023   format(20x,'    Visit:  https://github.com/lanl/LaGriT')
 
 c         no longer end here, just give warning
 c         call termcode()

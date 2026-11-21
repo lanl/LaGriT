@@ -6,7 +6,7 @@ Conventions that apply to all commands include:
 
 - **Line length.** A command line can be up to 1024 characters long.
   Lines longer than 80 characters are used in full, with a NOTE in the
-  output, because LaGriT V3.3.4 and earlier read only the first 80
+  output, because LaGriT V3.3.3 and earlier read only the first 80
   characters of a line and ignored the rest without a message. A line
   longer than 1024 characters is an ERROR: its command is not run (it is
   never cut short or run in part), and LaGriT goes on with the next

@@ -164,7 +164,7 @@ C
          write(cmsg,'(a,a,a,i0,a)') 'NOTE: ',cwhere(1:lw),' has ',
      &      ntot,' characters;'
          call writloga('default',0,cmsg,0,ierrw)
-         write(cmsg,'(a)') '  LaGriT V3.3.4 and earlier used only the'
+         write(cmsg,'(a)') '  LaGriT V3.3.3 and earlier used only the'
      &      //' first 80 of them.'
          call writloga('default',0,cmsg,0,ierrw)
          return

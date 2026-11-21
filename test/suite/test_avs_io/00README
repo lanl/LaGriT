@@ -20,7 +20,7 @@ WHAT IT TESTS
     which dump / avs keeps), cells (type, material, vertices in AVS
     order) and attributes (type; integers exactly, reals within 1e-11:
     avs2 writes 12 significant digits of a real attribute, avs1 13; the
-    default dump / avs, avs3 since V3.3.4, writes 17);
+    default dump / avs, avs3 since V3.4.0, writes 17);
   - every file LaGriT wrote is byte-identical to golden/ (written by
     LaGriT at master 1f5f0de, before any change to read / dump avs;
     rewritten Nov 2026 for avs3, 17 digits: the values are the same):

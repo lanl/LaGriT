@@ -47,7 +47,7 @@ DECKS = [
      "must be exactly po01's."),
     ("po09_default_uniform",
      "po06 without h_lookup: for a uniform h the default lookup is hex_grid (the mesh of LaGriT "
-     "before V3.340), so the vertices must be exactly po06_constant_h_hex_grid's."),
+     "before V3.4.0), so the vertices must be exactly po06_constant_h_hex_grid's."),
 ]
 
 BLUES = ["#dbe9f6", "#b3d1ea", "#7fb0d8", "#4a8cc4", "#2166ac", "#0b3c7a", "#061f45"]

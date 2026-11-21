@@ -1000,7 +1000,7 @@ def run(S, P):
                        href_tet=("cmo / addatt / mo_tet / h_ref / VDOUBLE / scalar / nnodes\n"
                                  "interpolate / voronoi / mo_tet h_ref / 1,0,0 / mo_dfn h_ref\n") if ref else "",
                        href_del="cmo / delatt / mo_tet / h_ref\n" if ref else "",
-                       # h_lookup always given: without it, LaGriT V3.340 uses the
+                       # h_lookup always given: without it, LaGriT V3.4.0 uses the
                        # octree for a control file such as h_dfn.mlgi
                        lookup=(" / &\n      h_lookup hex_grid" if a.h_lookup != "octree" else
                                " / &\n      h_lookup octree / octree_k_factor %r" % a.octree_k_factor +

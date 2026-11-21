@@ -1030,7 +1030,7 @@ C
                io_format = 4
             else
 C              dump / avs, dump / avs3, dump / file.inp: avs3 (avs2
-C              with 17 significant digits; since V3.3.4)
+C              with 17 significant digits; since V3.4.0)
                io_format = 5
             endif
 

@@ -10,12 +10,13 @@ filter/1,0,0
 rmpoint/compress                                                                
 dump/fehm/tet/mo_tet/keepatt                                                    
 dump/avs/tet_fehm.inp/mo_tet                                                    
-cmo/addatt/mo_tet/ccoef/VDOUBLE/scalar/nnodes/linear/                           
+dump/control_volume/mo_tet/stor,tet_check.stor/ccoef_areabydist_min/ccoef_ij_are
+abydist_min                                                                     
 cmo select mo_tet                                                               
 pset pin attribute itp 1,0,0 lt 10                                              
-pset pneg attribute ccoef 1,0,0 lt -.0001                                       
+pset pneg attribute ccoef_areabydist_min 1,0,0 lt -.0001                        
 pset pBAD inter pin pneg                                                        
-cmo printatt mo_tet ccoef minmax                                                
+cmo printatt mo_tet ccoef_areabydist_min minmax                                 
 cmo printatt mo_tet -all- minmax                                                
 cmo/select/mo_tet                                                               
 surface/s_box/reflect/box/49.5 19.5 19./50.5 20.5 100.                          

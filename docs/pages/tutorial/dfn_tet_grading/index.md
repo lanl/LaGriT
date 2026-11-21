@@ -24,7 +24,7 @@ step can then remove the tets next to the surface and put the triangles
 into the tet mesh, which works best when the tets there are not smaller
 than the triangles. That step is not part of this tutorial.
 
-It needs LaGriT V3.340 or later (master after November 6, 2026): the
+It needs LaGriT V3.4.0 or later (master after November 6, 2026): the
 `edge_lengths_mean` attribute and the octree h lookup of
 `createpts / poisson_disk / 3d_box` are new in that version.
 

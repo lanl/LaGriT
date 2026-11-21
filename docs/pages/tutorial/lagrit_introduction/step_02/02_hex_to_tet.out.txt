@@ -2,17 +2,17 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Program:  LaGriT V3.4.0   Linux          *                 
 *               *    Compiler Name: GNU                       *                 
-*               *    Compiler Version: 9.4.0                  *                 
-*               *    Date Compile: 2024/05/06                 *                 
-*               *    Run Time: 2025/Jan 21  12:03:38          *                 
-*               *    Manual:   https://lagrit.lanl.gov        *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/21                 *                 
+*               *    Run Time: 2026/Nov 21  04:52:21          *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+             Manual: https://lanl.github.io/LaGriT/pages/manual.html            
   Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
   program was produced under U.S. Government contract 89233218CNA000001         
   for Los Alamos National Laboratory (LANL), which is operated by Triad         
@@ -30,13 +30,13 @@
 Output log file: lagrit.out                                                     
 Command log file: lagrit.log                                                    
  
-# LaGriT Tutorial Example 2                                                     
-# Create tet mesh from hex mesh                                                 
+# Tutorial LaGriT Introduction                                                  
+# Step 2. Convert Hex Mesh to Tet Mesh                                          
 # Use commands connect and grid2grid                                            
 # Create hex mesh from Example 1                                                
 infile 01_create_hex.lgi                                                        
-# Tutorial Example 1                                                            
-#                                                                               
+# Tutorial LaGriT Introduction                                                  
+# Step 1. Build a Hex Mesh                                                      
 # Create an empty hex mesh object called 3dmesh                                 
 cmo/create/3dmesh///hex                                                         
 # View the mesh object attributes                                               
@@ -269,6 +269,7 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 tets to reach the convex hull                         
 LaGriT FINISH: connect                                                          
  
 # Check for 0 or negative elements                                              
@@ -281,19 +282,24 @@ elements with aspect ratio b/w .01 and .02:          0
 elements with aspect ratio b/w .02 and .05:          0                          
 elements with aspect ratio b/w .05 and .1 :          0                          
 elements with aspect ratio b/w .1  and .2 :          0                          
-elements with aspect ratio b/w .2  and .5 :        926                          
-elements with aspect ratio b/w .5  and 1. :       3874                          
-min aspect ratio =  0.4483E+00  max aspect ratio =  0.6202E+00                  
+elements with aspect ratio b/w .2  and .5 :        483                          
+elements with aspect ratio b/w .5  and 1. :       4295                          
+min aspect ratio =  0.4483E+00  max aspect ratio =  0.8165E+00                  
  
 epsilonvol:   8.8817842E-08                                                     
 ---------------------------------------                                         
-All elements have volume  8.3333333E+01                                         
+element volumes b/w  0.8333E+02 and  0.9572E+02:      4756                      
+element volumes b/w  0.9572E+02 and  0.1100E+03:         0                      
+element volumes b/w  0.1100E+03 and  0.1263E+03:         0                      
+element volumes b/w  0.1263E+03 and  0.1451E+03:         0                      
+element volumes b/w  0.1451E+03 and  0.1667E+03:        22                      
+min volume =   8.3333333E+01  max volume =   1.6666667E+02                      
 -----------------------------------------------------------                     
-      4800 total elements evaluated.                                            
+      4778 total elements evaluated.                                            
  
 # set default materials and boundary tags                                       
 cmo/setatt/mo_tet/itetclr/1                                                     
-      4800 values reset for attribute itetclr                                   
+      4778 values reset for attribute itetclr                                   
  
 resetpts/itp                                                                    
 geniee                                                                          
@@ -414,7 +420,7 @@ mo_hex2tet attribute with voronoi volumes created with name vor_vol
  
 cmo/printatt/mo_tet/tet_vol/minmax                                              
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  
- tet_vol            8.333333333E+01  8.333333333E+01 0.000000000E+00      4800  
+ tet_vol            8.333333333E+01  1.666666667E+02 8.333333333E+01      4778  
  
 cmo/printatt/mo_tet/vor_vol/minmax                                              
 ATTRIBUTE NAME              MIN               MAX         DIFFERENCE    LENGTH  

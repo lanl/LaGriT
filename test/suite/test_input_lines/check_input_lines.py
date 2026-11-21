@@ -73,7 +73,7 @@ def main(work, logdir):
                 fails.append('"%s" %d times, expected %d' % (t, got, n))
         msgs = [l.rstrip() for l in text.splitlines()
                 if l.startswith(("NOTE:", "ERROR", "WARNING: token", "  It starts", "  Command skipped",
-                                 "  LaGriT V3.3.4", "  joined with", "  \"")) or re.match(r"^  \d+ characters", l)]
+                                 "  LaGriT V3.3.3", "  joined with", "  \"")) or re.match(r"^  \d+ characters", l)]
         res = "PASS" if not fails else "FAIL"
         ok_all &= not fails
         with open(os.path.join(logdir, deck + ".check"), "w") as f:
@@ -93,7 +93,7 @@ padding:3px 6px;text-align:left;vertical-align:top}th{background:#f6f8fa}.PASS{c
 <p style="margin:0 0 8px;font-size:13px"><a href="../../summary.html">&larr; all suites (top-level summary)</a></p>
 <h1 style="font-size:20px">Input line limits: long lines, continuation lines, long tokens</h1>
 <p>A command line of up to 80 characters is read as always. From 81 to 1024 characters it is used in full with a NOTE
-(LaGriT V3.3.4 and earlier silently ignored everything past column 80). Over 1024 characters, or over 16384 characters
+(LaGriT V3.3.3 and earlier silently ignored everything past column 80). Over 1024 characters, or over 16384 characters
 for a command joined from &amp; continuation lines, it is an ERROR: the command is skipped, never cut or run in part,
 its continuation lines are skipped with it, and LaGriT goes on with the next command. A word token over 32 characters
 is cut to 32 with a WARNING. Each deck below says what it holds; the messages are LaGriT's own.</p>

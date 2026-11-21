@@ -3,7 +3,7 @@
 #
 # WHAT:
 #   The same points moved to x 4.0e5, y 3.9e6 (UTM-sized
-#   coordinates). LaGriT V3.3.4 and earlier: 0 triangles.
+#   coordinates). LaGriT V3.3.3 and earlier: 0 triangles.
 #
 # EXPECT:
 #   Every point connected; 778 triangles, the same triangles (by

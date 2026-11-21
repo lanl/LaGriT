@@ -384,7 +384,7 @@ c        test1=min(smalvol,smalarea)/2.d0
 C     More than 100 points: insert them in a BRIO order (random rounds,
 C     each along a 3D Morton curve; lg_brio_order.c), so that each
 C     search starts near the new point. connect / old_order keeps the
-C     order of LaGriT V3.3.4 and earlier (a fixed prime stride).
+C     order of LaGriT V3.3.3 and earlier (a fixed prime stride).
 C     lenold, lenfl and lenvol track the block lengths (every resize is
 C     done here), so the blocks are not looked up by name per point.
       call mmfindbk('ifacelst',isubname,ipifacelst,lenfl,icscode)

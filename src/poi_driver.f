@@ -488,7 +488,7 @@ C
       if(ierror .ne. 0) goto 9999
 C
 C     h_lookup not given: the octree when a control file sets h, the
-C     uniform hex grid for a uniform h (the same mesh as before V3.340)
+C     uniform hex grid for a uniform h (the same mesh as before V3.4.0)
 C
       call poi_3d_choose_lookup(if_h_field_variable)
 C

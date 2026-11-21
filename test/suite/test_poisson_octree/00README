@@ -67,7 +67,7 @@ THE DECKS
                       vertices are exactly po01's
   po09_default_uniform po06 without h_lookup: for a uniform h the
                       default is hex_grid (it says so; the mesh of
-                      LaGriT before V3.340); the vertices are exactly
+                      LaGriT before V3.4.0); the vertices are exactly
                       po06_constant_h_hex_grid's
 
   The error and warning cases of the new keywords are in

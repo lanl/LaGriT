@@ -29,7 +29,7 @@ Growth
   better, p > 1 worse; p = 2 doubles the time... four-fold per doubling.
   HARD  p is at most 1.3 in 2D and 1.2 in 3D for every order: connect
         inserts the points in a BRIO order of its own, so the order they
-        are given in must not matter (in LaGriT V3.3.4 random order grew
+        are given in must not matter (in LaGriT V3.3.3 random order grew
         about as N^1.6 to 1.9 in 2D and N^1.3 in 3D).
 Exit status: 1 on any FAIL.
 """

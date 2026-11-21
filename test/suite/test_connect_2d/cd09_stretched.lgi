@@ -2,7 +2,7 @@
 # cd09_stretched.lgi   (test_connect_2d)
 #
 # WHAT:
-#   A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.4 and
+#   A 31 x 31 grid 1000 long and 1 high. LaGriT V3.3.3 and
 #   earlier left 37 of the 961 points out.
 #
 # EXPECT:

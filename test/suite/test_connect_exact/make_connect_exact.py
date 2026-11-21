@@ -37,7 +37,7 @@ import sys
 ABOUT = {
  "g0": "A regular grid: every cube's 8 corners are exactly cospherical, so many tetrahedralizations are Delaunay.",
  "j12": "The grid moved by up to 1e-12: the ties are broken, and there is exactly one Delaunay tetrahedralization, full of thin tets.",
- "j9": "The grid moved by up to 1e-9. The tolerance tests see ties; V3.3.4 made no tets at all.",
+ "j9": "The grid moved by up to 1e-9. The tolerance tests see ties; V3.3.3 made no tets at all.",
  "j6a": "The grid moved by up to 1e-6 (seed 2). The tolerance tests dud some real vertices.",
  "j6b": "The grid moved by up to 1e-6 (seed 5).",
  "j3": "The grid moved by up to 1e-3: far from ties; both tests agree.",
