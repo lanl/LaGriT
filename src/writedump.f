@@ -1316,9 +1316,9 @@ C          dump / stor / file_name_as / cmo / asciic / / alternate_scalar
             endif
            enddo
 
-C          cv_dual | matbld (dump_cv_dual.f90): with cv_dual the
-C          files come from cv_dual (ihandled 1); matbld, the default,
-C          goes on below unchanged
+C          cv_dual | matbld (dump_cv_dual.f90): cv_dual, the default,
+C          writes the files (ihandled 1); with matbld, or cells that
+C          are not all triangles or tets, matbld goes on below
 
 C          token 6 is an FEHM .ini file only if it is not a keyword
            if (dump_fehm_word(ioption2)) ioption2 = ' '

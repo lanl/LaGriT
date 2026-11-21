@@ -10,5 +10,5 @@ pset / p_in / attribute / itp / 1 0 0 / eq / 0
 perturb / pset get p_in / 0.03 0.03 0.03
 trans / 1 0 0 / 0. 0. 0. / 700000.1 3200000.3 1500.7
 dump / avs / st09_mesh.inp / mo_box
-dump / fehm / st09_f / mo_box
+dump / fehm / st09_f / mo_box / matbld
 finish

@@ -12,9 +12,10 @@ coefficients of two-point-flux finite-volume codes, written as FEHM
 One core library, two front ends: the standalone program `cv_dual`
 (AVS UCD `.inp` input) and the LaGriT entry point
 `cv_dual_lagrit_entry`, which takes a mesh object's arrays (the
-command `dump / control_volume`, and the keyword `cv_dual` on the
-dump commands for FEHM and PFLOTRAN). It is meant to replace
-`matbld2d` and `matbld3d` in LaGriT later.
+command `dump / control_volume`, and the dump commands for FEHM and
+PFLOTRAN). Since V3.4.0 it is the default of those dump commands in
+place of `matbld2d` and `matbld3d`, which the keyword `matbld` still
+calls.
 
 cv_dual was developed as del_vor (Carl Gable, November 2026) in
 [github.com/cwgable/del_vor](https://github.com/cwgable/del_vor), now
@@ -57,8 +58,9 @@ of its files). Where del_vor's notes say `del_vor_`, read `cv_dual_`.
 - In LaGriT: the run is a library routine that never stops, called
   through `cv_dual_lagrit_entry` with the mesh object's own arrays in
   place (manual, section 17), by the command `dump / control_volume`
-  and by the keyword `cv_dual` on `dump / stor`, `fehm`, `pflotran`
-  and `zone_outside`.
+  and by `dump / stor`, `fehm`, `pflotran` and `zone_outside` (the
+  default since V3.4.0; the keyword `matbld` for LaGriT's earlier
+  code).
 
 The manual: [`cv_dual_manual.md`](cv_dual_manual.md).
 cv_dual and LaGriT's matbld compared: [`cv_dual_vs_matbld.md`](cv_dual_vs_matbld.md).
@@ -141,12 +143,13 @@ dump / control_volume / mo_dfn / stor, out.stor / uge, out.uge / zero_area, keep
 ```
 
 and LaGriT's `dump / stor`, `dump / fehm`, `dump / pflotran` and
-`dump / zone_outside` take the keyword `cv_dual` (with `voronoi`,
-`median` or `hybrid`) to have their files made by cv_dual
-([cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld)):
+`dump / zone_outside` have their files made by cv_dual, by default
+since V3.4.0 (with `voronoi`, `median` or `hybrid`; `matbld` for
+LaGriT's earlier code;
+[cv_dual OR matbld](../commands/dump/DUMP3.md#cv_dual-or-matbld)):
 
 ```
-dump / fehm / out / mo_dfn / cv_dual
+dump / fehm / out / mo_dfn
 ```
 
 A run prints the mesh checks, the Delaunay check and a summary: sizes,
@@ -202,7 +205,7 @@ The files are in `src/cv_dual`.
 | `cv_dual_run.F90` | one run on a mesh in memory (the library): checks, policies, coefficients, every output file; never stops |
 | `cv_dual_entry.F90` | the LaGriT entry point `cv_dual_lagrit_entry`: LaGriT's mesh arrays in place, the options as one string |
 | `src/dump_control_volume.f90` | LaGriT's command `dump / control_volume` (in liblagrit): the mesh object's arrays, the options, the log, the attribute |
-| `src/dump_cv_dual.f90` | the keyword `cv_dual` / `matbld` on `dump / stor`, `fehm`, `pflotran`, `zone_outside` (in liblagrit) |
+| `src/dump_cv_dual.f90` | cv_dual, the default, or the keyword `matbld` on `dump / stor`, `fehm`, `pflotran`, `zone_outside` (in liblagrit) |
 | `cv_dual.F90` | the standalone program: options, the AVS file, then `cv_dual_run` |
 | `test/suite/test_cv_dual_entry/harness/` | `cv_dual_entry_test`: calls the entry point as LaGriT will (used by `test_cv_dual_entry`) |
 | `test/suite/cv_dual_tools/cv_dual_selftest.F90` | kernel checks used by `test/suite/test_cv_dual_kernels` |

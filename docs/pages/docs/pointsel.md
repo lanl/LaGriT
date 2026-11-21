@@ -17,8 +17,7 @@
   This routine returns in the array iparents the parent point
   corresponding to each child point i, if point i is a child point.
   Ordinary points are their own parents.  The first three arguments
-  are usually mesh object attributes described in [Section
-  III.a](meshobject.md)
+  are usually mesh object attributes described in [Section III.a](meshobject.md)
 
   npoints                        input number of nodes (integer)
 

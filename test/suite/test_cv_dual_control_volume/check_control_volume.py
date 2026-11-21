@@ -41,7 +41,8 @@ from pagekit import read_cases, write_case_page  # noqa: E402
 from svgdraw import Svg, ramp, Projector  # noqa: E402
 from check_voronoi_gold import read_stor  # noqa: E402
 
-# what a case folder holds besides the command's outputs
+# what a case folder holds besides the command's outputs (and, in
+# cv09_ccoef, matbld's .stor, matbld_*, beside them)
 KNOWN = {'mesh.inp', 'after.inp', 'run.out', 'run.rc', 'prog',
          'lagrit.out', 'lagrit.log', 'outx3dgen', 'logx3dgen',
          'full_mesh.inp', 'two_mat.inp', 'test_3d_poi_01.inp',
@@ -141,7 +142,8 @@ def main():
                 pass
             pf = set(os.listdir(p)) - {'mesh.inp', 'run.out', 'run.rc'} \
                 if os.path.isdir(p) else set()
-            mine = files - KNOWN - set(bad)
+            mine = set(f for f in files - KNOWN - set(bad)
+                       if not f.startswith('matbld_'))
             put('files', '%d: %s' % (len(pf), ' '.join(sorted(pf)))
                 if mine == pf and prc == 0 else 'command %s, program %s '
                 '(exit %d)' % (sorted(mine), sorted(pf), prc),
@@ -190,6 +192,21 @@ def main():
                 put('attribute', 'none made: attributes %s' %
                     ' '.join(sorted(after)) if ok else 'changed: %s -> '
                     '%s' % (sorted(before), sorted(after)), ok)
+
+        # the ccoef_* attributes (cv09_ccoef): see ccoef_check.py
+        if 'ccoef_' in deck and int(nerr) == 0 and \
+                os.path.exists(os.path.join(d, 'after.inp')):
+            from ccoef_check import check_ccoef
+            rename = dict(re.findall(r'(ccoef_\w+), (\w+)', deck))
+            try:
+                for c, v, ok in check_ccoef(
+                        avs_attributes(os.path.join(d, 'after.inp')),
+                        read_avs(os.path.join(d, 'after.inp')).xyz,
+                        os.path.join(d, 'a.stor'),
+                        os.path.join(d, 'matbld_mb.stor'), rename):
+                    put(c, v, ok)
+            except (OSError, ValueError, IndexError, KeyError) as e:
+                put('ccoef', 'cannot check: %s' % e, False)
 
         pic = name + '.svg'
         try:

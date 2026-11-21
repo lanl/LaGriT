@@ -58,7 +58,21 @@ module cv_dual_run
    implicit none
    private
    public :: run_start, run_mesh, run_finish, run_abandon, &
-             log_options
+             log_options, want_vertex_stats, vertex_stats
+
+   ! For LaGriT's dump / control_volume (its ccoef_* keywords): with
+   ! want_vertex_stats set, run_mesh fills vertex_stats(10, nnodes),
+   ! over each vertex's connections that are not zero-area (always
+   ! left out here, whatever zero_area says):
+   !    1, 2   smallest, largest A(ij)
+   !    3, 4   the other vertex j of those two connections
+   !    5, 6   smallest, largest A(ij)/d(ij)
+   !    7, 8   the other vertex j of those two connections
+   !    9, 10  shortest, longest d(ij)
+   ! A vertex with no such connection: all 0. The vertex numbers are
+   ! stored as reals (exact). Ties: the first connection found.
+   logical, save :: want_vertex_stats = .false.
+   real(rk), allocatable, save :: vertex_stats(:, :)
 
    ! LaGriT's vertex type of a parent (ifitpcup, blockcom.h)
    integer(ik), parameter :: itp_parent = 41
@@ -302,6 +316,10 @@ contains
                        ' '//trim(opt%out_file(k)))
       end do
 
+      ! per-vertex extremes of the connections, for dump /
+      ! control_volume's ccoef_* attributes
+      if (want_vertex_stats) call vertex_stats_fill()
+
       ! the boundary vector areas: the outside_area file, the caller
       if (len_trim(opt%outside_area) > 0 .or. present(barea)) then
          call timer_start('boundary areas')
@@ -334,6 +352,63 @@ contains
       ! Place the dual points for cv median, blend or hybrid, and
       ! assemble: area, vol, stats, plus asum and avec for the report.
       ! ierr /= 0 on an error.
+      ! vertex_stats (see the module's header): one pass over the
+      ! edges, both ends of each connection that is not zero-area.
+      subroutine vertex_stats_fill()
+         integer(ik) :: i, j, kk, e, v, w
+         real(rk) :: a, d, q, rw
+         logical, allocatable :: seen(:)
+         if (allocated(vertex_stats)) deallocate (vertex_stats)
+         allocate (vertex_stats(10, m%nnodes), seen(m%nnodes))
+         vertex_stats = 0.0_rk
+         seen = .false.
+         do i = 1, m%nnodes
+            do kk = iedge_off(i), iedge_off(i + 1) - 1
+               if (zero(kk)) cycle
+               j = jedge(kk)
+               a = area(kk)
+               d = norm2([m%xic(j) - m%xic(i), m%yic(j) - m%yic(i), &
+                          m%zic(j) - m%zic(i)])
+               q = a/d
+               do e = 1, 2
+                  if (e == 1) then
+                     v = i
+                     w = j
+                  else
+                     v = j
+                     w = i
+                  end if
+                  rw = real(w, rk)
+                  if (.not. seen(v)) then
+                     vertex_stats(:, v) = [a, a, rw, rw, q, q, rw, rw, &
+                                           d, d]
+                     seen(v) = .true.
+                     cycle
+                  end if
+                  if (a < vertex_stats(1, v)) then
+                     vertex_stats(1, v) = a
+                     vertex_stats(3, v) = rw
+                  end if
+                  if (a > vertex_stats(2, v)) then
+                     vertex_stats(2, v) = a
+                     vertex_stats(4, v) = rw
+                  end if
+                  if (q < vertex_stats(5, v)) then
+                     vertex_stats(5, v) = q
+                     vertex_stats(7, v) = rw
+                  end if
+                  if (q > vertex_stats(6, v)) then
+                     vertex_stats(6, v) = q
+                     vertex_stats(8, v) = rw
+                  end if
+                  vertex_stats(9, v) = min(vertex_stats(9, v), d)
+                  vertex_stats(10, v) = max(vertex_stats(10, v), d)
+               end do
+            end do
+         end do
+         deallocate (seen)
+      end subroutine vertex_stats_fill
+
       subroutine run_policy()
          allocate (pol%alpha(m%nelements), stage(m%nelements))
          allocate (asum(nedges), avec(3, nedges), bedge(nedges))

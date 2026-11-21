@@ -912,9 +912,12 @@ def row_case(cases, cid, outlog, svgdir):
     segs = log_segments(outlog)
     idx = [d["id"] for d in cases["cases"]].index(cid)
     seg = segs[idx] if idx < len(segs) else []
+    # matbld's report lines, and cv_dual's (the default since V3.4.0)
     LOGKEYS = ("Total negative ccoefs found", "Number of Negative Coef",
                "Significant Negative Coefs", "(Aij/xij) max",
-               "Total Volume", "Volume min")
+               "Total Volume", "Volume min",
+               "negative A(ij)", "sum of control volume",
+               "negative volumes", "minimum A(ij)/d(ij)")
     if seg:
         nerr = sum(1 for l in seg["lines"]
                    if l.strip() in ("ERROR", "WARNING")

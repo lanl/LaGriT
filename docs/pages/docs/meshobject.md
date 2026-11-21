@@ -130,9 +130,7 @@ is established by the **settets** command and is undone by the **resetpts/parent
 
 **jtetoff** (`integer array` index into jtet array list for elements, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#jtetoff))
 
-**itet** (`integer array` of node vertices for each element, for an example of usage see [Mesh Object Connectivity (meshobjcon.md#itet))
-
-**jtet** (`integer array` of element connectivity, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#jtet))
+**itet** (`integer array` of node vertices for each element, for an example of usage see [Mesh Object Connectivity (meshobjcon.md#itet)) **jtet** (`integer array` of element connectivity, for an example of usage see [Mesh Object Connectivity](meshobjcon.md#jtet))
 
 **ipolydat**, **vor2d**, **vor3d**  (`character yes or no`, default **yes**. These flags include data when writing GMV output files, these can decrease the file size but limits the information written.) **ipolydat** writes polygon data, **vor2d** writes voronoi and median cells for 2D, **vor3d** writes voronoi and median cells for 3D meshes. See **[dump/gmv](commands/DUMP2.md)**
 

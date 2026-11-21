@@ -12,7 +12,7 @@ connect
 resetpts / itp
 dump / avs / mesh.inp / mo_sq
 dump / fehm / f_vor / mo_sq / cv_dual
-dump / fehm / f_mb / mo_sq
+dump / fehm / f_mb / mo_sq / matbld
 dump / pflotran / p_cv / mo_sq / cv_dual
 dump / avs / after.inp / mo_sq
 finish

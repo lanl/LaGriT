@@ -10,12 +10,13 @@ Checks (cases.txt explains the ones a case names):
   ran        LaGriT ran the whole deck: after.inp exists
   errors     the number of "ERROR: dump/" lines is the one expected
   message    each expected text is in LaGriT's output
-  nothing    no file whose name starts with bad was written
+  nothing    no file whose name starts with bad was written (but
+             ROOT_violations.vtu, the flagged facets)
   progK      program run K exited 0 and each file it wrote (but its
              outside_area list) equals the deck's file of that name,
              byte for byte; a .stor's second line aside, which must end
              with (cv_dual dump / ...), the LaGriT command
-  eq, zones, areaeq, arealist, boxsum, att, exists, cvline2: see
+  eq, zones, areaeq, arealist, boxsum, att, exists, absent, cvline2: see
              cases.txt
 """
 
@@ -174,7 +175,8 @@ def main():
                 m = ' '.join(m.split())
                 put('message', '"%s" %s' % (m, 'found' if m in flat
                                              else 'NOT found'), m in flat)
-        bad = sorted(f for f in os.listdir(d) if f.startswith('bad'))
+        bad = sorted(f for f in os.listdir(d) if f.startswith('bad')
+                     and not f.endswith('_violations.vtu'))
         put('nothing', 'no bad* file' if not bad else 'wrote '
             + ' '.join(bad), not bad)
 
@@ -297,6 +299,10 @@ def main():
                     ok = os.path.exists(os.path.join(d, arg))
                     put('exists', '%s %s' % (arg, 'written' if ok else
                                              'NOT written'), ok)
+                elif kind == 'absent':
+                    ok = not os.path.exists(os.path.join(d, arg))
+                    put('absent', '%s %s' % (arg, 'not written' if ok else
+                                             'WRITTEN'), ok)
                 elif kind == 'cvline2':
                     l2 = line2(os.path.join(d, arg))
                     ok = LINE2.search(l2) is not None

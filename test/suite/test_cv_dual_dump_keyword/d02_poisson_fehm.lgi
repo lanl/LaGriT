@@ -7,7 +7,7 @@ dump / avs / mesh.inp / mo_poi
 dump / fehm / f_vor / mo_poi / cv_dual
 dump / fehm / f_med / mo_poi / cv_dual / median
 dump / fehm / f_hyb / mo_poi / cv_dual / hybrid
-dump / fehm / f_mb / mo_poi
-dump / fehm / f_mbmed / mo_poi / keepatt_median
+dump / fehm / f_mb / mo_poi / matbld
+dump / fehm / f_mbmed / mo_poi / keepatt_median / matbld
 dump / avs / after.inp / mo_poi
 finish

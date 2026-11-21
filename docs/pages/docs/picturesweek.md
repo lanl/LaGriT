@@ -12,14 +12,11 @@ Author: Jan Wills
    microscopy
    simulation](http://www.t12.lanl.gov/~LaGriT/denise.md)
   
-   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Tetrahedral LaGriT
-   mesh](tinka's.md)
+   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Tetrahedral LaGriT mesh](tinka's.md)
   
-   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Finite Element
-   Calculation](pictures.md)
+   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Finite Element Calculation](pictures.md)
   
-   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Laplacian
-   smoothing](tee.md)
+   <img height="300" width="300" src="bl_pin.gif">"21" "21"[Laplacian smoothing](tee.md)
   
    <img height="300" width="300" src="bl_pin.gif">"21" "21"[Biological
    Structures](biology.pdf" download> </a>

@@ -15,6 +15,20 @@
 !                                  cv_volume; a real per vertex; made
 !                                  if missing)
 !
+! and ten more, each the vertex attribute of its own name (or name):
+! per vertex, over its connections that are not zero-area (A(ij) the
+! connection's dual face area, d(ij) its length):
+!
+!   ccoef_area_min, ccoef_area_max              smallest, largest A
+!   ccoef_ij_area_min, ccoef_ij_area_max        the other vertex of
+!                                               those (integers)
+!   ccoef_areabydist_min, ccoef_areabydist_max  smallest, largest A/d
+!   ccoef_ij_areabydist_min, ..._max            the other vertex of
+!                                               those (integers)
+!   ccoef_distance_min, ccoef_distance_max      shortest, longest d
+!
+! (cv_dual_run's vertex_stats; 0 at a vertex with no such connection)
+!
 ! The mesh object's arrays are used in place (never copied, never
 ! changed). cv_dual's lines go to LaGriT's log (writloga). The .stor's
 ! second line ends with (cv_dual dump / control_volume / mo_name /
@@ -202,6 +216,7 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
    use dump_control_volume_lg, only: to_writloga, num_text, say
    use cv_dual_log, only: log_set_sink
    use cv_dual_options, only: is_keyword
+   use cv_dual_run, only: want_vertex_stats, vertex_stats
    implicit none
    integer :: nwds, ierror_return
    integer :: imsgin(nwds), msgtype(nwds)
@@ -224,7 +239,9 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
    pointer (ipitp1, itp1)
    pointer (ipisn1, isn1)
    pointer (ipvatt, vatt)
+   pointer (ipiatt, iatt)
    real*8 :: xic(*), yic(*), zic(*), vatt(*)
+   integer :: iatt(*)
    integer :: itettyp(*), itetoff(*), itet(*), itetclr(*)
    integer :: imt1(*), itp1(*), isn1(*)
 
@@ -238,10 +255,26 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
    integer :: nnodes, nelements, nen, ilen, ityp, ierr, k, ind
    logical :: want_att, in_group, have_att
    real*8, parameter :: unset = -huge(1.0d0)
+   ! the ccoef_* keywords: vertex_stats row s of keyword s
+   character(len=32), parameter :: skw(10) = [character(len=32) :: &
+      'ccoef_area_min', 'ccoef_area_max', 'ccoef_ij_area_min', &
+      'ccoef_ij_area_max', 'ccoef_areabydist_min', &
+      'ccoef_areabydist_max', 'ccoef_ij_areabydist_min', &
+      'ccoef_ij_areabydist_max', 'ccoef_distance_min', &
+      'ccoef_distance_max']
+   logical :: swant(10), shave(10), sint(10)
+   character(len=32) :: sname(10)
+   integer :: ks
 
    ierror_return = 0
    want_att = .false.
    aname = 'cv_volume'
+   swant = .false.
+   shave = .false.
+   sname = skw
+   do ks = 1, 10
+      sint(ks) = index(skw(ks), '_ij_') > 0
+   end do
 
    ! the mesh object (required)
    if (nwds < 3) then
@@ -277,13 +310,29 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
          in_group = .true.
          if (k + 1 <= nwds) then
             if (msgtype(k + 1) == 3 .and. &
-                .not. is_keyword(token(k + 1))) then
+                .not. our_word(token(k + 1))) then
                aname = cmsgin(k + 1)
                command = trim(command)//', '//trim(aname)
                k = k + 1
             end if
          end if
          in_group = .false.
+         k = k + 1
+         cycle
+      end if
+      ks = 0
+      if (msgtype(k) == 3) ks = findloc(skw, trim(word), 1)
+      if (ks > 0) then
+         swant(ks) = .true.
+         command = trim(command)//' / '//trim(skw(ks))
+         if (k + 1 <= nwds) then
+            if (msgtype(k + 1) == 3 .and. &
+                .not. our_word(token(k + 1))) then
+               sname(ks) = cmsgin(k + 1)
+               command = trim(command)//', '//trim(sname(ks))
+               k = k + 1
+            end if
+         end if
          k = k + 1
          cycle
       end if
@@ -339,19 +388,99 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
       end if
    end if
 
+   ! the ccoef_* attributes likewise: real ones VDOUBLE, the vertex
+   ! numbers VINT, scalar, one per vertex
+   do ks = 1, 10
+      if (.not. swant(ks)) cycle
+      call cmo_get_attparam(sname(ks), mo, ind, ctype, crank, clen, &
+                            cinter, cpers, cio, ierr)
+      if (ierr /= 0) cycle
+      if ((sint(ks) .and. ctype(1:4) /= 'VINT') .or. &
+          (.not. sint(ks) .and. ctype(1:7) /= 'VDOUBLE') .or. &
+          crank(1:6) /= 'scalar' .or. clen(1:6) /= 'nnodes') then
+         if (sint(ks)) then
+            call fail('dump/control_volume: attribute '// &
+                      trim(sname(ks))//' exists and is not an '// &
+                      'integer vertex attribute (VINT, scalar, '// &
+                      'nnodes); nothing written')
+         else
+            call fail('dump/control_volume: attribute '// &
+                      trim(sname(ks))//' exists and is not a real '// &
+                      'vertex attribute (VDOUBLE, scalar, nnodes); '// &
+                      'nothing written')
+         end if
+         return
+      end if
+      shave(ks) = .true.
+   end do
+
    ! the run, its lines to LaGriT's log
    allocate (vol(nnodes))
    vol = unset
+   want_vertex_stats = any(swant)
    call log_set_sink(to_writloga)
    call cv_dual_lagrit_entry(nnodes, nelements, nen, xic, yic, zic, &
                              itettyp, itetoff, itet, itetclr, imt1, &
                              itp1, isn1, trim(adjustl(options)), &
                              trim(command), vol, 0, dummy, ierr)
    call log_set_sink()
+   want_vertex_stats = .false.
    if (ierr /= 0) then
+      if (allocated(vertex_stats)) deallocate (vertex_stats)
       call fail('dump/control_volume: cv_dual stopped (see above); '// &
                 'nothing written')
       return
+   end if
+
+   ! the ccoef_* attributes, if asked for
+   if (any(swant)) then
+      if (.not. allocated(vertex_stats)) then
+         call say('dump/control_volume: check_only on: no '// &
+                  'coefficients, the ccoef_* attributes not set')
+      else
+         do ks = 1, 10
+            if (.not. swant(ks)) cycle
+            if (.not. shave(ks)) then
+               if (sint(ks)) then
+                  cbuf = 'cmo/addatt/'//mo(1:icharlnf(mo))//'/'// &
+                         trim(sname(ks))//'/VINT/scalar/nnodes/'// &
+                         'linear/permanent/agfx/0 ; finish'
+               else
+                  cbuf = 'cmo/addatt/'//mo(1:icharlnf(mo))//'/'// &
+                         trim(sname(ks))//'/VDOUBLE/scalar/nnodes/'// &
+                         'linear/permanent/agfx/0.0 ; finish'
+               end if
+               call dotaskx3d(cbuf, ierr)
+               if (ierr /= 0) then
+                  deallocate (vertex_stats)
+                  call fail('dump/control_volume: cannot make '// &
+                            'attribute '//trim(sname(ks)))
+                  return
+               end if
+            end if
+            if (sint(ks)) then
+               call cmo_get_info(sname(ks), mo, ipiatt, ilen, ityp, &
+                                 ierr)
+            else
+               call cmo_get_info(sname(ks), mo, ipvatt, ilen, ityp, &
+                                 ierr)
+            end if
+            if (ierr /= 0 .or. ilen < nnodes) then
+               deallocate (vertex_stats)
+               call fail('dump/control_volume: cannot reach '// &
+                         'attribute '//trim(sname(ks)))
+               return
+            end if
+            if (sint(ks)) then
+               iatt(1:nnodes) = nint(vertex_stats(ks, 1:nnodes))
+            else
+               vatt(1:nnodes) = vertex_stats(ks, 1:nnodes)
+            end if
+            call say('dump/control_volume: '//trim(skw(ks))// &
+                     ' in attribute '//trim(sname(ks)))
+         end do
+         deallocate (vertex_stats)
+      end if
    end if
 
    ! the control volumes into a vertex attribute, if asked for
@@ -402,6 +531,14 @@ contains
          t = cmsgin(k)
       end select
    end function token
+
+   ! A word that is not an attribute name: one of cv_dual's keywords,
+   ! attribute_cv_volume or a ccoef_* keyword.
+   logical function our_word(w)
+      character(len=*), intent(in) :: w
+      our_word = is_keyword(w) .or. trim(w) == 'attribute_cv_volume' &
+                 .or. findloc(skw, trim(w), 1) > 0
+   end function our_word
 
    ! LaGriT's ERROR line, ierror_return 1.
    subroutine fail(why)

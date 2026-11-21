@@ -5,7 +5,7 @@ read / avs / test_3d_poi_01.inp / mo_poi
 resetpts / itp
 dump / avs / mesh.inp / mo_poi
 dump / zone_outside / z_vor / mo_poi / cv_dual
-dump / zone_outside / z_mb / mo_poi
+dump / zone_outside / z_mb / mo_poi / matbld
 dump / zone_outside / z_hyb / mo_poi / keepatt_voronoi / cv_dual / hybrid
 dump / avs / after.inp / mo_poi
 finish

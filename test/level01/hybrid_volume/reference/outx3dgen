@@ -5,8 +5,8 @@
 *               *    Program:  LaGriT V3.3.4   Linux          *                 
 *               *    Compiler Name: GNU                       *                 
 *               *    Compiler Version: 14.2.0                 *                 
-*               *    Date Compile: 2026/11/03                 *                 
-*               *    Run Time: 2026/Nov  3  22:09:04          *                 
+*               *    Date Compile: 2026/11/18                 *                 
+*               *    Run Time: 2026/Nov 20  15:35:49          *                 
 *               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
@@ -70,10 +70,11 @@ connect
  
  The mesh is now complete!                                                      
  
+ connect: added         0 tets to reach the convex hull                         
 LaGriT FINISH: connect                                                          
  
 # dump / out_01.gmv / mo1                                                       
-dump/stor/out_01/mo1/hybrid                                                     
+dump/stor/out_01/mo1/hybrid/matbld                                              
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     
@@ -196,7 +197,7 @@ createpts/brick/xyz/11,11,11/0,0,0/10,10,10/1,1,1
           Number of negative volume elements:           0                       
           Total volume:     0.100000000000E+04                                  
 # dump / out_02.gmv / mo2                                                       
-dump/stor/out_02/mo2/hybrid                                                     
+dump/stor/out_02/mo2/hybrid/matbld                                              
  
 *** DUMP/STOR  Mesh object does not qualify for sparse matrix. ***              
  
@@ -247,7 +248,7 @@ The current-mesh-object(CMO) is: mo3
 finish                                                                          
 finish                                                                          
 # dump / out_03.gmv / mo3                                                       
-dump/stor/out_03/mo3/hybrid                                                     
+dump/stor/out_03/mo3/hybrid/matbld                                              
  
 *** DUMP/STOR  Mesh object does not qualify for sparse matrix. ***              
  
@@ -308,7 +309,7 @@ The current-mesh-object(CMO) is: mo4
 finish                                                                          
 finish                                                                          
 # dump / out_04.gmv / mo4                                                       
-dump/stor/out_04/mo4/hybrid                                                     
+dump/stor/out_04/mo4/hybrid/matbld                                              
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
 Matbldtri                                                                       
@@ -328,7 +329,7 @@ Matbldtri  writing FEHM stor format.
  
 2D Matrix Coefficient file written with name out_04.stor                        
  
-dump/stor/out_04/mo4/nohybrid                                                   
+dump/stor/out_04/mo4/nohybrid/matbld                                            
 ***Construct Regular Sparse Matrix:2D***                                        
 ------------                                                                    
 Matbldtri                                                                       
@@ -350,7 +351,7 @@ Matbldtri  writing FEHM stor format.
  
 # Check that it gives an error message if it is asked to do the hybrid option   
 # along with the "none" or "coefs" compression options.                         
-dump/stor/out_05/mo1/none/hybrid                                                
+dump/stor/out_05/mo1/none/hybrid/matbld                                         
  
 Warning: ignoring hybrid option because it is not supported in combination with 
                                                        the other chosen options.
@@ -383,7 +384,7 @@ ascii STOR file written with name out_05.stor
  
 *** SPARSE COEFFICIENT MATRIX _nstor SUCCESSFUL ***                             
  
-dump/stor/out_06/mo1/coefs/hybrid                                               
+dump/stor/out_06/mo1/coefs/hybrid/matbld                                        
  
 Warning: ignoring hybrid option because it is not supported in combination with 
                                                        the other chosen options.
@@ -424,7 +425,7 @@ ascii STOR file written with name out_06.stor
 # from previous versions of LaGriT. Actually there should be slight numerical   
 # differences because the new code calculates area coefficients in a slightly   
 # different way.                                                                
-dump/stor/out_07/mo1                                                            
+dump/stor/out_07/mo1/matbld                                                     
  
 *** Construct and Compress Sparse Matrix:3D ***                                 
    *** Compress Area Coefficient Values ***                                     

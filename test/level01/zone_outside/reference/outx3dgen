@@ -2,10 +2,12 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  9  16:06:31          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.3.4   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/18                 *                 
+*               *    Run Time: 2026/Nov 20  15:34:51          *                 
+*               *    Manual:   https://lagrit.lanl.gov        *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
@@ -56,8 +58,57 @@ cmo/setatt/cmo1/idebug 9
          1 values reset for attribute idebug                                    
  
 dump/zone_outside/output/cmo1 keepatt                                           
+dump/zone_outside: control volumes by cv_dual (voronoi)                         
+cv_dual: options cv=voronoi zero_area=remove zero_tol=1.0E-12 compress=on       
+  delaunay_tol=1.0E-10 delaunay_fatal=1.0E-02 violations=output_violations.vtu  
+  check_only=off                                                                
+ 
+cv_dual mesh checks                                                             
+  faces paired, same itetclr          185920                                    
+  faces paired, other itetclr           6646                                    
+  boundary faces                       11444                                    
+  mesh checks passed                                                            
+ 
+cv_dual Delaunay check (delaunay_tol 1.0E-10, delaunay_fatal 1.0E-02)           
+  interior faces checked              185920                                    
+  interface faces checked               6646                                    
+  ties (|delta/L| <= tol)              99144                                    
+  violations                               0                                    
+    beyond delaunay_fatal                  0                                    
+  smallest delta/L  0.0000E+00  cells         1 and         2                   
+    at  5.611667E+05  4.082917E+06  5.933333E+02  itetclr     6                 
+  delta/L histogram                                                             
+         -inf to  -1.0E-02                 0                                    
+     -1.0E-02 to  -1.0E-06                 0                                    
+     -1.0E-06 to  -1.0E-10                 0                                    
+     -1.0E-10 to   0.0E+00                 0                                    
+      0.0E+00 to   1.0E-10             99144                                    
+      1.0E-10 to   1.0E-06                 0                                    
+      1.0E-06 to   1.0E-02                 0                                    
+      1.0E-02 to      +inf             93422                                    
+  boundary faces checked               11444                                    
+  boundary circumcenter outside            0                                    
+  slivers (R/shortest edge > 5)        51990                                    
+  largest R / shortest edge       1.7685E+01                                    
+  Delaunay check passed                                                         
+ 
+cv_dual summary                                                                 
+  vertices                    19495                                             
+  tets                        99144                                             
+  edges                      124360                                             
+  positive tets               99144                                             
+  negative tets                   0                                             
+  mesh volume   3.075312500000E+10                                              
+  sum of control volume   3.075312500000E+10                                    
+  relative difference -1.24E-16                                                 
+  negative volumes                0                                             
+  zero-area edges             68957  (zero_tol 1.0E-12)                         
+  zero_area remove: left out of the output files                                
+  negative A(ij)                  0                                             
+  minimum A(ij)/d(ij)  2.500000000000E+00                                       
+ 
 *********dump_outside_list********                                              
-Voronoi Areas used for outside faces.                                           
+cv_dual Voronoi areas used for outside faces.                                   
  
 assign_quadrant_id epsilon for zero:   1.0000000E-15                            
 cmo/addatt/cmo1/top/vint/scalar/nnodes/linear/permanent/afgx/-5.0/              

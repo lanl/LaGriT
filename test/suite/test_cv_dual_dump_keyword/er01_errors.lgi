@@ -7,7 +7,7 @@ cmo / setatt / mo_box / imt / 1 0 0 / 1
 connect
 resetpts / itp
 dump / avs / mesh.inp / mo_box
-dump / stor / bad1 / mo_box / median
+dump / stor / bad1 / mo_box / matbld / median
 dump / stor / bad2 / mo_box / cv_dual / matbld
 dump / stor / bad3 / mo_box / cv_dual / voronoi / hybrid
 dump / stor / bad4 / mo_box / cv_dual / median / binary

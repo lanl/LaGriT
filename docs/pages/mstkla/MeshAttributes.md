@@ -32,8 +32,7 @@ one
 includes "*mstkla.h*". The specific names (which are pretty much the
 strings
 
-that are used in LaGriT) are given in *mstkla\_types.h* (See [MSTKLA
-typedefs](prelim.md))
+that are used in LaGriT) are given in *mstkla\_types.h* (See [MSTKLA typedefs](prelim.md))
 
 'persist' must be 0 for temporary atts and 1 for permanent attribs
 
@@ -130,8 +129,7 @@ an
 
 attribute for a given element or use **MR\_SetAttVal** to set it.
 
-See attribute operators for[Mesh Vertices](MeshVertex.md#MV-Attribs),[Mesh Regions](MeshRegion.md#MR-Attribs) and [Mesh
-Faces](MeshFace.md#MF-Attribs)
+See attribute operators for[Mesh Vertices](MeshVertex.md#MV-Attribs),[Mesh Regions](MeshRegion.md#MR-Attribs) and [Mesh Faces](MeshFace.md#MF-Attribs)
 
  
 <img height="300" width="300" src="https://lanl.github.io/LaGriT/assets/images/arrow2.gif">"30"

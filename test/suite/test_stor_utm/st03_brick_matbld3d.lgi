@@ -15,9 +15,9 @@ resetpts / itp
 trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
 trans / 1 0 0 / 0. 0. 0. / -700000. -3200000. -1500.
 dump / avs / st03_mesh.inp / mo_box
-dump / stor / st03n_o / mo_box / ascii / scalar / none
-dump / stor / st03c_o / mo_box / ascii / scalar / coefs
+dump / stor / st03n_o / mo_box / ascii / scalar / none / matbld
+dump / stor / st03c_o / mo_box / ascii / scalar / coefs / matbld
 trans / 1 0 0 / 0. 0. 0. / 700000. 3200000. 1500.
-dump / stor / st03n_u / mo_box / ascii / scalar / none
-dump / stor / st03c_u / mo_box / ascii / scalar / coefs
+dump / stor / st03n_u / mo_box / ascii / scalar / none / matbld
+dump / stor / st03c_u / mo_box / ascii / scalar / coefs / matbld
 finish

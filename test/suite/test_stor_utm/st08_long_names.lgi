@@ -8,16 +8,16 @@ createpts / xyz / 4 4 4 / 0. 0. 0. / 1. 1. 1. / 1 1 1
 cmo / setatt / mo_box / imt / 1 0 0 / 1
 connect
 resetpts / itp
-dump / stor / st08_stor_26_characters_xx / mo_box
-dump / stor / st08_stor_30_characters_xxxxxx / mo_box
-dump / stor / st08_stor_32_characters_xxxxxxxx / mo_box
-dump / pflotran / st08_stor_32_characters_xxxxxxxx / mo_box
-dump / fehm / st08_fehm_29_characters_xxxxx / mo_box
+dump / stor / st08_stor_26_characters_xx / mo_box / matbld
+dump / stor / st08_stor_30_characters_xxxxxx / mo_box / matbld
+dump / stor / st08_stor_32_characters_xxxxxxxx / mo_box / matbld
+dump / pflotran / st08_stor_32_characters_xxxxxxxx / mo_box / matbld
+dump / fehm / st08_fehm_29_characters_xxxxx / mo_box / matbld
 dump / tecplot / st08_tecplot_31_characters_xxxx / mo_box
 cmo / create / mo_tri / / / triplane
 createpts / xyz / 4 4 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
 cmo / setatt / mo_tri / imt / 1 0 0 / 1
 connect
 resetpts / itp
-dump / stor / st08_2d_stor_31_characters_xxxx / mo_tri
+dump / stor / st08_2d_stor_31_characters_xxxx / mo_tri / matbld
 finish

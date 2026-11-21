@@ -6,9 +6,7 @@
 ! (docs/pages/docs/commands/DUMP2.md). Called by writedump before
 ! dumpfehm (or dump_outside_list) with the options writedump found.
 !
-!   matbld (default)  ihandled 0: writedump goes on as before, the
-!                     files unchanged. median here is an error.
-!   cv_dual           the .stor (stor, fehm) or .uge (pflotran) and the
+!   cv_dual (default) the .stor (stor, fehm) or .uge (pflotran) and the
 !                     boundary areas (fehm, zone_outside) by cv_dual on
 !                     the current mesh object, through cv_dual_mo_run
 !                     (dump_control_volume.f90); the zone and geometry
@@ -16,12 +14,24 @@
 !                     volumes: voronoi (default), median or hybrid
 !                     (here cv_dual's hybrid). The .stor's second line
 !                     ends with the command. ihandled 1.
+!                     Zero-area connections (|A| <= zero_tol d^2,
+!                     d in 2D) are left out unless the command says
+!                     nofilter_zero (dump / pflotran: filter_zero is
+!                     its default, as before).
+!   matbld            ihandled 0: writedump goes on as before, the
+!                     files unchanged. median here is an error.
+!
+! Without either word, a mesh whose cells are not all triangles or all
+! tets goes to matbld, with one line saying so (cv_dual has no other
+! cells). With either word, the code named is used.
 !
 ! With cv_dual, an option cv_dual does not have (vector, both,
 ! area_*, binary, unformatted, pflotran's verbose) leaves the dump to
 ! matbld (ihandled 0) with one line saying so. A mesh cv_dual refuses
 ! gives its message and an ERROR line, and nothing is written (with
-! dump / fehm not the geometry and zone files either).
+! dump / fehm not the geometry and zone files either); without either
+! word the message also names / matbld (the file matbld wrote), and
+! / median, / hybrid for a mesh that is not Delaunay.
 !-----------------------------------------------------------------------
 subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
                         ioption, ifile, ifileini, iomode, coef_opt, &
@@ -45,7 +55,8 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
    character(len=4096) :: options, command
    character(len=132) :: logmess
    integer :: k, ncv, nmat, npol, nnodes, ierr, want_area
-   logical :: is_fehm, is_stor, is_pflo, is_zone
+   integer :: nen, ilen, ityp
+   logical :: is_fehm, is_stor, is_pflo, is_zone, keepzero
 
    ihandled = 0
    ierror_return = 0
@@ -61,6 +72,7 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
    nmat = 0
    npol = 0
    pol = 'voronoi'
+   keepzero = .false.
    do k = ifirst, nwds
       if (msgtype(k) /= 3) cycle
       select case (trim(cmsgin(k)))
@@ -74,6 +86,10 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
       case ('hybrid')
          npol = npol + 1
          pol = 'hybrid'
+      case ('nofilter_zero')
+         keepzero = .true.
+      case ('filter_zero')
+         keepzero = .false.
       end select
    end do
    if (ncv > 0 .and. nmat > 0) then
@@ -82,13 +98,30 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
       return
    end if
 
-   ! matbld: as before (median is cv_dual's)
-   if (ncv == 0) then
+   ! matbld when the command says so (median is cv_dual's)
+   if (nmat > 0) then
       if (trim(pol) == 'median' .and. npol == 1) then
-         call fail(trim(cmd)//': median needs cv_dual (/ cv_dual / '// &
-                   'median); nothing written')
+         call fail(trim(cmd)//': median needs cv_dual; nothing written')
       end if
       return
+   end if
+
+   ! neither word: cv_dual, the default, unless the cells are not all
+   ! triangles or all tets (matbld writes those, as before)
+   if (ncv == 0) then
+      call cmo_get_name(mo, ierr)
+      call cmo_get_info('nodes_per_element', mo, nen, ilen, ityp, ierr)
+      if (ierr == 0 .and. nen /= 3 .and. nen /= 4) then
+         if (trim(pol) == 'median') then
+            call fail(trim(cmd)//': cv_dual takes triangles or '// &
+                      'tets only and matbld has no median; '// &
+                      'nothing written')
+            return
+         end if
+         call say(trim(cmd)//': cells are not all triangles or '// &
+                  'tets; matbld writes this dump')
+         return
+      end if
    end if
 
    if (npol > 1) then
@@ -136,7 +169,12 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
    want_area = 0
    if (is_stor .or. is_fehm) then
       options = trim(options)//' / stor, '//ifile(1:icharlnf(ifile))// &
-                '.stor / zero_area, keep'
+                '.stor'
+      if (keepzero) then
+         options = trim(options)//' / zero_area, keep'
+      else
+         options = trim(options)//' / zero_area, remove'
+      end if
       if (write_opt(1:5) == 'graph' .or. write_opt(1:4) == 'none') then
          options = trim(options)//' / compress, off'
       else
@@ -151,6 +189,10 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
          options = trim(options)//' / zero_area, keep'
       end if
    end if
+   ! flagged facets (a mesh slightly not Delaunay) go beside the
+   ! files, named for them, not to violations.vtu
+   options = trim(options)//' / violations, '// &
+             ifile(1:icharlnf(ifile))//'_violations.vtu'
    if (is_fehm .or. is_zone) want_area = 1
    command = 'cv_dual'
    do k = 1, nwds
@@ -162,6 +204,7 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
    end do
 
    call cmo_get_name(mo, ierr)
+   call say(trim(cmd)//': control volumes by cv_dual ('//trim(pol)//')')
    call cv_dual_mo_run(mo, trim(options), trim(command), want_area, &
                        nnodes, ierr)
    if (ierr /= 0) then
@@ -169,6 +212,9 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
          call fail(trim(cmd)//': mesh object '//mo(1:icharlnf(mo))// &
                    ' has no vertices or no cells; nothing written')
       else
+         if (ncv == 0) call say(trim(cmd)//': the file matbld '// &
+            'wrote before: add / matbld; a mesh that is not '// &
+            'Delaunay: / median or / hybrid')
          call fail(trim(cmd)//': cv_dual stopped (see above); '// &
                    'nothing written')
       end if

@@ -47,6 +47,7 @@ test_poisson_2d/h_field_out.inp
 test_poisson_2d_shapes/raw_p2d*.inp
 test_poisson_3d/test_3d_poi_*.inp
 test_poisson_3d/test_3d_poi_*.stor
+test_poisson_3d/test_3d_poi_*_violations.vtu
 test_poisson_3d/poisson_h_of_x_y.inp
 *.stor
 

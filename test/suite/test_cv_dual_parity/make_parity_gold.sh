@@ -4,7 +4,8 @@
 #
 # Makes the LaGriT .stor files of test_cv_dual_parity: for every mesh of
 # cases.txt, LaGriT reads the same .inp cv_dual reads and writes
-#   NAME_lg.stor        dump / stor / NAME_lg / mo   (LaGriT's default)
+#   NAME_lg.stor        dump / stor / NAME_lg / mo / matbld   (LaGriT's
+#                       default until V3.4.0)
 #   NAME_lg_none.stor   dump / stor / NAME_lg_none / mo / ascii / none
 # into inputs/, with the deck (inputs/gold.lgi), LaGriT's screen output
 # (inputs/gold.out) and LaGriT's version (inputs/LAGRIT_VERSION).
@@ -69,8 +70,8 @@ grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name mesh about; do
     cp "$src" "$T/$name.inp"
     cat >> "$DECK" <<EOF
 read / avs / $name.inp / mo_$name
-dump / stor / ${name}_lg / mo_$name
-dump / stor / ${name}_lg_none / mo_$name / ascii / none
+dump / stor / ${name}_lg / mo_$name / matbld
+dump / stor / ${name}_lg_none / mo_$name / ascii / none / matbld
 cmo / release / mo_$name
 EOF
 done || exit 1
