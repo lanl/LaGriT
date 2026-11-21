@@ -1,9 +1,10 @@
 ---
 title: 'DUMP/CONTROL_VOLUME'
 tags: dump control_volume cv_dual voronoi stor uge tough delaunay
+header_image: control_volume.jpg
+header_title: DUMP / CONTROL_VOLUME
+header_subtitle: Voronoi control volumes of a Delaunay mesh, and the coefficients written for FEHM, PFLOTRAN and TOUGH.
 ---
-
-# DUMP/CONTROL_VOLUME #
 
 ------------------------
 

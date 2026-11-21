@@ -1,9 +1,10 @@
 ---
 title: LaGriT Release Notes
+header_image: release.jpg
+header_title: Release Notes
+header_subtitle: What changed in each LaGriT version.
 ---
 
-Release Notes
---------------
 [LaGriT V3.3.4 (in development)](release_notes/lagrit_release_notes_V3.340.md) Changes since V3.3.3, updated as pull requests merge
 
 [LaGriT V3.3.3 2021](release_notes/lagrit_release_notes_V3.330.md) Release Open Source LA-CC-15-069
