@@ -229,6 +229,7 @@ C variables
  
       character*32 ich1,ich2,ich3, cmo, crank, ctype,clen
       character*132 logmess
+      character*17 cshort
 c
 c#######################################################################
 c BEGIN begin
@@ -789,9 +790,19 @@ C         PRINT ATTRIBUTE NAME LIST
               call writloga('default',0,logmess,0,ierr)
             endif
  
-            write(logmess,'(i5,a,a18,i10)') i, ') ', cname(1:17),attlen
-            if (irank.gt.1) write(logmess,'(i5,a,a18,i10,a,i3)
-     *         ') i, ') ', cname(1:17),attlen,' x',irank
+C           names up to 17 characters as before; a longer one (up to
+C           32) in full, the length after it
+            if (icharlnf(cname).le.17) then
+              write(logmess,'(i5,a,a18,i10)') i, ') ', cname(1:17),
+     *           attlen
+              if (irank.gt.1) write(logmess,'(i5,a,a18,i10,a,i3)
+     *           ') i, ') ', cname(1:17),attlen,' x',irank
+            else
+              write(logmess,'(i5,a,a33,i10)') i, ') ', cname(1:32),
+     *           attlen
+              if (irank.gt.1) write(logmess,'(i5,a,a33,i10,a,i3)
+     *           ') i, ') ', cname(1:32),attlen,' x',irank
+            endif
             call writloga('default',0,logmess,0,ierrw)
             itotal=itotal+1
  
@@ -825,18 +836,29 @@ c           check if mpary block exists
                goto 9998
             endif
  
+C           a name longer than 17 characters (up to 32): in full on a
+C           line of its own, the numbers below it in the usual columns
+C           (a row stays within 80 columns)
+            if (icharlnf(cname).gt.17 .and.
+     >          (attyp.eq.1 .or. attyp.eq.2)) then
+              write(logmess,'(1x,a)') cname(1:icharlnf(cname))
+              call writloga('default',0,logmess,0,ierrw)
+              cshort = ' '
+            else
+              cshort = cname(1:17)
+            endif
             if (attyp.eq.1 ) then
               write(logmess,'(a18,2(1x,i16),1x,i15,i10)')
-     >        cname(1:17),imin,imax,imax-imin,attlen
+     >        cshort,imin,imax,imax-imin,attlen
               if (irank.gt.1)
      >          write(logmess,'(a18,2(1x,i16),1x,i15,i10,a1,i1)')
-     >          cname(1:17),imin,imax,imax-imin,attlen,'x',irank
+     >          cshort,imin,imax,imax-imin,attlen,'x',irank
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1
  
             elseif (attyp.eq.2 ) then
               write(logmess,'(a18,2(1x,1pe16.9),1x,1pe15.9,i10)')
-     >        cname(1:17),xmin,xmax,xmax-xmin,attlen
+     >        cshort,xmin,xmax,xmax-xmin,attlen
               call writloga('default',0,logmess,0,ierrw)
               itotal=itotal+1
             endif
