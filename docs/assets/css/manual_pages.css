@@ -1,0 +1,122 @@
+/* Manual landing pages: header band and section cards.
+   Used by _includes/page_header.html and pages/manual.md. */
+
+:root {
+  --lg-slate: #2b3245;
+  --lg-slate-2: #3b4560;
+  --lg-accent: #3e6fd8;
+  --lg-warm: #d9583b;
+  --lg-ink: #1f2533;
+  --lg-muted: #5d6476;
+  --lg-line: #e3e6ee;
+  --lg-tint: #f5f7fb;
+}
+
+/* ---------- header band ---------- */
+.lg-hero {
+  position: relative;
+  min-height: 230px;
+  background-color: var(--lg-slate);
+  background-size: auto 100%;
+  background-position: right center;
+  background-repeat: no-repeat;
+  color: #fff;
+  overflow: hidden;
+}
+.lg-hero-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,
+      rgba(43,50,69,0.85) 0%, rgba(43,50,69,0.4) 25%, rgba(43,50,69,0) 40%);
+}
+.lg-hero-text {
+  position: relative;
+  padding-top: 52px; padding-bottom: 44px;
+}
+.lg-hero-kicker {
+  font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: #b9c3dc; margin-bottom: 6px;
+}
+.lg-hero-title {
+  color: #fff; margin: 0; font-size: 2.6rem; line-height: 1.1; font-weight: 600;
+}
+.lg-hero-subtitle {
+  color: #dfe5f2; margin: 12px 0 0; max-width: 27em; font-size: 1.05rem;
+}
+.lg-hero::after {          /* thin accent rule along the bottom */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+  background: linear-gradient(90deg, var(--lg-accent), var(--lg-warm));
+}
+.lg-hero-credit {
+  position: absolute; right: 10px; bottom: 8px;
+  font-size: 0.7rem; color: rgba(255,255,255,0.75);
+}
+/* the layout's top padding is not needed under the band */
+.lg-has-hero.tm-main { padding-top: 36px; }
+
+@media (max-width: 640px) {
+  .lg-hero { min-height: 170px; }
+  .lg-hero-title { font-size: 1.9rem; }
+  .lg-hero-shade { background: rgba(43,50,69,0.82); }
+}
+
+/* ---------- section cards ---------- */
+.lg-intro { font-size: 1.08rem; color: var(--lg-muted); margin-bottom: 28px; }
+
+.lg-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 22px; margin: 0 0 36px;
+}
+.lg-card {
+  border: 1px solid var(--lg-line); border-radius: 8px; overflow: hidden;
+  background: #fff; display: flex; flex-direction: column;
+  box-shadow: 0 1px 2px rgba(20,30,60,0.05);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.lg-card:hover { box-shadow: 0 6px 18px rgba(20,30,60,0.12); transform: translateY(-2px); }
+.lg-card-img {
+  height: 120px; background-size: cover; background-position: center;
+  border-bottom: 1px solid var(--lg-line);
+}
+.lg-card-body { padding: 16px 20px 18px; }
+.lg-card-num {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--lg-accent); text-transform: uppercase;
+}
+.lg-card h2 {
+  font-size: 1.22rem; margin: 2px 0 10px; color: var(--lg-ink); line-height: 1.25;
+}
+.lg-card ul { list-style: none; padding: 0; margin: 0; }
+.lg-card li { padding: 4px 0; border-top: 1px dotted var(--lg-line); }
+.lg-card li:first-child { border-top: 0; }
+.lg-card li a { color: #234; text-decoration: none; }
+.lg-card li a:hover { color: var(--lg-accent); text-decoration: underline; }
+
+/* ---------- image pair (e.g. Delaunay mesh and its Voronoi dual) ---------- */
+.lg-pair {
+  margin: 0 0 36px; padding: 22px 22px 18px;
+  background: var(--lg-slate); border-radius: 8px; color: #dfe5f2;
+}
+.lg-pair h2 { color: #fff; font-size: 1.3rem; margin: 0 0 4px; }
+.lg-pair p { margin: 0 0 16px; color: #c6cede; }
+.lg-pair-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.lg-pair figure { margin: 0; }
+.lg-pair img { width: 100%; height: auto; display: block; border-radius: 4px; }
+.lg-pair figcaption { font-size: 0.88rem; color: #c6cede; margin-top: 8px; text-align: center; }
+.lg-pair code { font-size: 0.85em; color: #fff; background: rgba(255,255,255,0.12); padding: 0 4px; border-radius: 3px; }
+@media (max-width: 640px) { .lg-pair-row { grid-template-columns: 1fr; } }
+
+/* ---------- strip of quick links ---------- */
+.lg-more {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  padding: 18px 20px; background: var(--lg-tint);
+  border: 1px solid var(--lg-line); border-radius: 8px;
+}
+.lg-more a {
+  display: inline-block; padding: 8px 16px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--lg-line);
+  color: var(--lg-ink); text-decoration: none; font-size: 0.95rem;
+}
+.lg-more a:hover { border-color: var(--lg-accent); color: var(--lg-accent); }
+.lg-more > p { display: contents; }
+.lg-pair a { color: #9fc0ff; }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ "/assets/css/uikit_theme.css" | relative_url }}">
     <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
     <link rel="stylesheet" type="text/css" href="{{ "/assets/css/footer.css" | relative_url }}">
+    <link rel="stylesheet" type="text/css" href="{{ "/assets/css/manual_pages.css" | relative_url }}">
 
     <!-- load stylesheets -->
     <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>
@@ -102,8 +103,10 @@
         <div class="uk-sticky-placeholder" style="height: 80px; margin: 0px;"></div>
         <!-- End Header -->
 
+        {% if page.header_image %}{% include page_header.html %}{% endif %}
+
         <!-- Main Body text -->
-        <div class="tm-main uk-section uk-section-default">
+        <div class="tm-main uk-section uk-section-default{% if page.header_image %} lg-has-hero{% endif %}">
             <div class="uk-container uk-container-small uk-position-relative">
 
                 {{ content }}
