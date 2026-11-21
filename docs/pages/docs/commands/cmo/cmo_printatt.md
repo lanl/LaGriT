@@ -30,6 +30,8 @@ Tags: cmo printatt
 - **list**   will print attribute name along with its length
 - **minmax** will print name and the min and max of the attribute field and length
 
+Attribute names are printed in full (up to 32 characters). With **minmax**, a name longer than 17 characters is on a line of its own and its numbers are on the next line, in the same columns, so every line stays within 80 columns (before V3.4.0 such names were cut to 17 characters).
+
 `index_set` is the range istart,istride,ilast using pset, eltset, or index numbers where 1,0,0 are all.
  
    
