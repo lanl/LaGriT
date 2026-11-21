@@ -1,3 +1,9 @@
+---
+title: LaGriT Tutorials and Examples
+header_image: tutorial.jpg
+header_title: Tutorials and Examples
+header_subtitle: Step-by-step examples, from a first mesh to stratigraphy and control volumes.
+---
 <!-- This is a button toggling the modal with the default close button -->
 <button class="uk-button uk-button-default uk-margin-small-right" type="button" uk-toggle="target: #modal-close-default">Mesh Design, why does it matter?</button>
 
@@ -27,7 +33,6 @@
     </div>
 </div>
 
-<h1 class="uk-heading-line"><span>Tutorials</span></h1>
 
 <!-- Tutorial card -->
 <div uk-filter="target: .js-filter">

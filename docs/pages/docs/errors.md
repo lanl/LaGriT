@@ -1,4 +1,4 @@
-###  Errors in Parsing or Executing Commands:
+###  Errors in Parsing or Executing Commands: <a name="parse"></a>
 
  These errors cause an error message to be written to the output batch
  file, called logx3dgen by default and to the standard output file. 
@@ -29,14 +29,14 @@ would appear followed by
     
     error in command: region/r1/le s1 and gg s2
 
-**Out of Memory Errors:**
+<a name="memory"></a>**Out of Memory Errors:**
 
  If a user specifies a probelem that is too large, LaGriT will fail
  with and "MALLOCF: Out of memory" or "REALLOCF: Reallocation error -
  aborting" mesage. The user must decrease the size of the problem or
  move to a more powerful platform.
 
-**Fatal Memory Management Errors:**
+<a name="panic"></a>**Fatal Memory Management Errors:**
 
  Fatal memory management errors are signaled by a message containing
  ":PANIC!." This type of error should be reported to the code manager,

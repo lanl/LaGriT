@@ -4,21 +4,28 @@ title: LaGriT - Home
 
 <link rel="stylesheet" href="{{ "/assets/css/index_page_style.css" | relative_url }}">
 
-<div class="extended-content-container">
+<div class="extended-content-container lg-front">
   <div class="extended-content">
-    <br>Powerful mesh generation,<br>optimization, and maintenance.<br>      
-    <div class="button" id="button-3">
-      <div id="circle"></div>
-        <a href="https://github.com/lanl/LaGriT/releases">Download</a>
-    </div>                
-    <div class="button" id="button-3">
-      <div id="circle"></div>
-        <a href="{{ "/pages/tutorial/index.html" | relative_url }}">LaGriT Tutorial</a>
+    <div class="lg-front-text">
+      Powerful mesh generation,<br>optimization, and maintenance.<br>
+      <div class="button" id="button-3">
+        <div id="circle"></div>
+          <a href="https://github.com/lanl/LaGriT/releases">Download</a>
+      </div>
+      <div class="button" id="button-3">
+        <div id="circle"></div>
+          <a href="{{ "/pages/tutorial/index.html" | relative_url }}">LaGriT Tutorial</a>
+      </div><br>
+      <div class="button" id="button-3">
+        <div id="circle"></div>
+          <a href="https://lagrit.lanl.gov/">Contact Us</a>
+      </div>
+      <div class="button" id="button-3">
+        <div id="circle"></div>
+          <a href="{{ "/pages/manual.html" | relative_url }}">Online Manual</a>
+      </div>
     </div>
-    <div class="button" id="button-3">
-      <div id="circle"></div>
-        <a href="https://lagrit.lanl.gov/">Contact Us</a>
-    </div>
+    <img class="lg-front-img" src="{{ "/assets/img/gallery/letters.jpg" | relative_url }}" alt="The word LaGriT meshed with tetrahedra, cut and coloured by edge length">
   </div>
 </div>
 
@@ -37,6 +44,15 @@ boundary conditions, setting of material properties and other model
 setup functions. It can also be use as a tool to pre- and post-process
 and analyze vertex and mesh based data.
 
+
+<div class="lg-pair">
+<h2>A Delaunay mesh and its Voronoi dual</h2>
+<p>A discrete fracture network (DFN) meshed with LaGriT and <a href="https://lanl.github.io/dfnWorks/intro.html">dfnWorks</a>. The control volumes on the right are what <code>dump / stor</code> uses for the coefficients it writes to FEHM and PFLOTRAN.</p>
+<div class="lg-pair-row">
+<figure><img src="{{ "/assets/img/gallery/dfn_delaunay.jpg" | relative_url }}" alt="Delaunay triangle mesh of a discrete fracture network, coloured by vertex number"><figcaption>Delaunay triangulation</figcaption></figure>
+<figure><img src="{{ "/assets/img/gallery/dfn_voronoi.jpg" | relative_url }}" alt="Voronoi control volumes of the same fracture network"><figcaption>Voronoi control volumes</figcaption></figure>
+</div>
+</div>
 
 <div class="accordion">
   <div class="accordion-item">

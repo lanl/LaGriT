@@ -1,5 +1,9 @@
-LaGriT Commands by Category
-===========================
+---
+title: LaGriT Commands by Category
+header_image: commands_cat.jpg
+header_title: Commands by Category
+header_subtitle: Geometry, mesh creation, refinement, smoothing, I/O and more.
+---
 
 ## Geometry Commands:
 

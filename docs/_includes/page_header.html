@@ -1,0 +1,21 @@
+{%- comment -%}
+  Standard header band for the manual landing pages.
+  Turned on by front matter in the page:
+    header_image:    file in assets/img/headers (required)
+    header_title:    large title (default: page.title)
+    header_subtitle: one line under the title (optional)
+    header_credit:   small caption for the image (optional)
+{%- endcomment -%}
+<div class="lg-hero" style="background-image: url('{{ "/assets/img/headers/" | append: page.header_image | relative_url }}');">
+  <div class="lg-hero-shade"></div>
+  <div class="uk-container uk-container-small lg-hero-text">
+    <div class="lg-hero-kicker">LaGriT &middot; Los Alamos Grid Toolbox</div>
+    <h1 class="lg-hero-title">{{ page.header_title | default: page.title }}</h1>
+    {%- if page.header_subtitle %}
+    <p class="lg-hero-subtitle">{{ page.header_subtitle }}</p>
+    {%- endif %}
+  </div>
+  {%- if page.header_credit %}
+  <div class="lg-hero-credit">{{ page.header_credit }}</div>
+  {%- endif %}
+</div>

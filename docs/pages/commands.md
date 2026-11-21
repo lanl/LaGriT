@@ -1,9 +1,12 @@
 ---
 title: "LaGriT Commands - Alphabetical"
 tags: command list all options
+header_image: commands.jpg
+header_title: LaGriT Commands
+header_subtitle: Alphabetic listing of every command, with links to each command's page.
 ---
 
-# Alphabetic Listing of LaGriT Commands <a name="top"></a>
+<a name="top"></a>
 
 
 |  | | |  | | | |  | | | |  | | | |  | | | |  | | | | | | |
