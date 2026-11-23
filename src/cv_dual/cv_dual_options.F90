@@ -60,6 +60,17 @@
 ! alpha_file file                         ParaView file of the mesh
 !                                         with alpha and stage per
 !                                         cell (cv_dual_write_vtu)
+! exclude    N [N ...]                    the materials (imt1) whose
+!                                         vertices are not written in
+!                                         the stor, uge and tough files
+!                                         (the ghost generators of a
+!                                         conforming Voronoi mesh): the
+!                                         coefficients are computed on
+!                                         the whole mesh, then those
+!                                         vertices and every connection
+!                                         to them are left out; the
+!                                         others keep their order,
+!                                         numbered 1, 2, ...
 ! outside_area file                       each boundary vertex's
 !                                         vector area: the boundary
 !                                         part of its control volume
@@ -131,6 +142,8 @@ module cv_dual_options
       logical :: check_only = .false.
       character(len=lpath) :: report = ' '
       logical :: timing = .false.
+      integer :: nexclude = 0
+      integer :: exclude(64) = 0
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
@@ -138,7 +151,7 @@ module cv_dual_options
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
       'paraview paraview_faces paraview_subset vtu_format '// &
-      'vtu_layout matrix matrix_bins outside_area '// &
+      'vtu_layout matrix matrix_bins outside_area exclude '// &
       'type o tough2'
 
 contains
@@ -155,6 +168,7 @@ contains
       integer :: i, ios, j
       real(rk) :: x
       character(len=16) :: hyb_key
+      integer :: ipt
 
       ierr = 0
       legacy_type = ' '
@@ -209,6 +223,33 @@ contains
                         'all, boundary, flagged, material N or box')
                return
             end select
+            cycle
+         case ('exclude')
+            ! one or more material numbers, up to the next keyword
+            j = 0
+            do while (i + j + 1 <= n)
+               if (is_keyword(lowercase(adjustl(tokens(i + j + 1))))) &
+                  exit
+               read (tokens(i + j + 1), *, iostat=ios) ipt
+               if (ios /= 0) then
+                  call bad('exclude: '//trim(tokens(i + j + 1))// &
+                           ' is not a material number')
+                  return
+               end if
+               if (opt%nexclude >= size(opt%exclude)) then
+                  call bad('exclude: more than 64 materials')
+                  return
+               end if
+               opt%nexclude = opt%nexclude + 1
+               opt%exclude(opt%nexclude) = ipt
+               j = j + 1
+            end do
+            if (j == 0) then
+               call bad('keyword exclude needs one or more material '// &
+                        'numbers')
+               return
+            end if
+            i = i + j + 1
             cycle
          case ('compress')
             ! value optional, for lanl/voronoi's bare -compress
@@ -642,6 +683,13 @@ contains
          if (opt%matrix_bins > 0) &
             t = t//' matrix_bins='//inum(opt%matrix_bins)
       end if
+      if (opt%nexclude > 0) then
+         t = t//' exclude='
+         do k = 1, opt%nexclude
+            t = t//inum(opt%exclude(k))
+            if (k < opt%nexclude) t = t//','
+         end do
+      end if
       t = t//' check_only='//trim(merge('on ', 'off', opt%check_only))
       if (len_trim(opt%report) > 0) t = t//' report='//trim(opt%report)
       if (opt%timing) t = t//' timing=on'
@@ -659,7 +707,7 @@ contains
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
             'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
             'paraview_subset', 'vtu_format', 'vtu_layout', 'matrix', &
-            'matrix_bins', 'outside_area')
+            'matrix_bins', 'outside_area', 'exclude')
          is_keyword = .true.
       case default
          is_keyword = .false.

@@ -50,7 +50,7 @@ command changes nothing in the mesh object, except the attributes of
      / [<b>paraview_subset</b>, <b>all</b>|<b>boundary</b>|<b>flagged</b>|<b>material</b> N|<b>box</b> x1 y1 z1 x2 y2 z2] &
      / [<b>vtu_format</b>, <b>binary</b>|<b>ascii</b>] / [<b>vtu_layout</b>, <b>new</b>|<b>legacy</b>] &
      / [<b>matrix</b>, file_name] / [<b>matrix_bins</b>, n] &
-     / [<b>outside_area</b>, file_name] &
+     / [<b>outside_area</b>, file_name] / [<b>exclude</b>, imt [imt ...]] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name] &
@@ -225,6 +225,33 @@ writes the mesh as a VTK file for ParaView, with each cell's alpha,
 the step that set it (0 none, 1 the boundary clamp, 2 the
 correction), whether the cell touches an edge still negative, and
 its **itetclr**.
+
+**`exclude`**, imt [imt ...]
+
+the materials (**imt1** values) whose vertices are left out of the
+**`stor`**, **`uge`** and **`tough`** files: the ghost generators of a
+conforming Voronoi mesh, the seeds outside the model (above the
+topography, beyond its sides) that make the Voronoi faces between them
+and the model's own seeds fall on the model's boundary. The control
+volumes and coefficients are computed on the whole mesh, as without
+**`exclude`**; then the excluded vertices, and every connection to
+one of them, are not written. The other vertices keep their order and
+are numbered 1, 2, ... in the files (the n-th vertex kept is vertex n),
+with the volumes and coefficients of the whole-mesh run. This is not
+the same as removing the ghosts first (**`rmmat`**, or **`rmpoint`**
+on a pset) and dumping: the volumes of the vertices on the boundary
+would then be cut off by what is left of the mesh, not by the
+conforming faces. A material not in the mesh is ignored; excluding
+every vertex is refused. The vertex attributes (**`attribute_cv_volume`**,
+the **`ccoef_*`** keywords), the ParaView, matrix and alpha files and
+**`outside_area`** still cover the whole mesh. How the areas of the
+faces between the model and its ghosts (the model's boundary) are
+passed to FEHM is not settled yet.
+
+```
+dump / control_volume / mo_mesh / stor, model.stor / exclude, 4
+dump / control_volume / mo_mesh / stor, model.stor / exclude, 4 6 9
+```
 
 **`outside_area`**, file_name
 
