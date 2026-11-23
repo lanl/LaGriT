@@ -2068,6 +2068,19 @@ C                    if both nodes are in pset
      1                          cmo_name,nnode,ilen,ityp,ierr)
           call cmo_get_intinfo('nelements',
      1                          cmo_name,nelem,ilen,ityp,ierr)
+C
+C       These need edges: a mesh object with no nodes or no cells
+C       has none (and a zero length request to mmgetblk crashes).
+        if (nnode.le.0 .or. nelem.le.0) then
+           write(logmess,'(a,a,a)') 'ERROR cmo/addatt/',
+     *       fill_type(1:flen),': the mesh object has no nodes or no'
+           call writloga('default',0,logmess,0,ierr)
+           write(logmess,'(a,a,a)') '  cells (edges are needed): ',
+     *       cmo_name(1:icharlnf(cmo_name)),'; attribute not filled.'
+           call writloga('default',0,logmess,0,ierr)
+           ierror_return = -1
+           go to 9999
+        endif
       
         call cmo_get_info('itettyp',cmo_name,ipitettyp,ilen,ityp,ierr)
         call cmo_get_info('itetoff',cmo_name,ipitetoff,ilen,ityp,ierr)

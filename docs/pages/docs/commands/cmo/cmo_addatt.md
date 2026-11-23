@@ -88,7 +88,7 @@ compute the normals to the surface mesh.
 
 
 <a name="edge_lengths"></a>
-**edge_lengths_min**, **edge_lengths_max**, **edge_lengths_mean** / `att_sink`<br> creates a real (VDOUBLE) node attribute and fills it with the shortest, longest or mean length of the edges at each node. The edges are the sides of the cells (all 6 vertex pairs of a tet; the diagonals of a quad are not edges); an edge shared by several cells counts once. A node in no cell gets 0. The attribute name is required. Any cell type can be used, so a triangle surface mesh can set a resolution for a volume mesh, for example the `h_field_att` of [createpts / poisson_disk](../createpts/createpts_poisson.md).
+**edge_lengths_min**, **edge_lengths_max**, **edge_lengths_mean** / `att_sink`<br> creates a real (VDOUBLE) node attribute and fills it with the shortest, longest or mean length of the edges at each node. The edges are the sides of the cells (all 6 vertex pairs of a tet; the diagonals of a quad are not edges); an edge shared by several cells counts once. A node in no cell gets 0. The attribute name is required. A mesh object with no nodes or no cells has no edges: these keywords (and `edge_connections` and `node_num_diff`) then stop with an ERROR and leave the attribute unfilled. Any cell type can be used, so a triangle surface mesh can set a resolution for a volume mesh, for example the `h_field_att` of [createpts / poisson_disk](../createpts/createpts_poisson.md).
 ```
 cmo / addatt / mo_dfn / edge_lengths_mean / h_dfn
 cmo / addatt / mo_dfn / edge_lengths_min  / h_dfn_min

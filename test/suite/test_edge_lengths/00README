@@ -3,7 +3,7 @@ test_edge_lengths -- cmo / addatt / edge_lengths_min, _max, _mean (Oct 2026)
 
 QUICK START
 
-  sh run_edge_lengths_tests.sh [path-to-lagrit]     8 decks, about 1 s
+  sh run_edge_lengths_tests.sh [path-to-lagrit]     9 decks, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -29,6 +29,10 @@ THE DECKS (meshes from make_edge_inputs.py, except el07)
   el07_tet     a brick of cubes cut into 6 tets each (hextotet)
   el08_errors  no attribute name (none, or -def-): an error, nothing
                made; then a valid call works
+  el09_empty   a mesh object with no nodes, and one with nodes but no
+               cells: an ERROR, not a crash (edge_lengths_* and the
+               other edge attributes, edge_connections and
+               node_num_diff); then a valid call works
 
 WHAT IS CHECKED (check_edge_lengths.py)
 
