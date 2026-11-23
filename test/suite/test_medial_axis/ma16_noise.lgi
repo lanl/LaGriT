@@ -1,0 +1,8 @@
+# ma16: the slab 10 x 1 with noisy long faces (up to 0.002 and 0.01)
+read / avs / ma16_noise_small.inp / mo_s1
+compute / medial_axis / mo_a1 / mo_s1
+dump / avs / ma16_axis_small.inp / mo_a1
+read / avs / ma16_noise_large.inp / mo_s2
+compute / medial_axis / mo_a2 / mo_s2
+dump / avs / ma16_axis_large.inp / mo_a2
+finish

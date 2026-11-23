@@ -1,0 +1,6 @@
+# ma15: a dumbbell, two disks of radius 1 joined by a channel 0.4 wide: 0.4 in the channel, 2 in the disks
+read / avs / ma15_neck.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma15_axis.inp / mo_a
+dump / avs / ma15_surf.inp / mo_s
+finish

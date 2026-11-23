@@ -1,0 +1,6 @@
+# ma11: an ellipse, semi-axes 2 and 1 (256 segments): every ball centered on the major axis, radius known exactly
+read / avs / ma11_ellipse.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma11_axis.inp / mo_a
+dump / avs / ma11_surf.inp / mo_s
+finish

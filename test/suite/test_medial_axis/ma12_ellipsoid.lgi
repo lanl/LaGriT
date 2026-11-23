@@ -1,0 +1,6 @@
+# ma12: a prolate ellipsoid, semi-axes 2, 1, 1 (5120 triangles): every ball centered on the long axis
+read / avs / ma12_ellipsoid.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma12_axis.inp / mo_a
+dump / avs / ma12_surf.inp / mo_s
+finish

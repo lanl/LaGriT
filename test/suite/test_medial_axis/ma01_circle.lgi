@@ -1,0 +1,8 @@
+# ma01: a circle of radius 1 (128 segments), side both: every ball
+# into the circle is centered at its center; every ball out of it is
+# not stopped (radius rmax, flagged)
+read / avs / ma01_circle.inp / mo_s
+compute / medial_axis / mo_a / mo_s / both
+dump / avs / ma01_axis.inp / mo_a
+dump / avs / ma01_surf.inp / mo_s
+finish

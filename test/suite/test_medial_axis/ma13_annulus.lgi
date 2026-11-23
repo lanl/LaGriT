@@ -1,0 +1,6 @@
+# ma13: an annulus (a ring), radii 1 and 2 (inner loop clockwise): thickness 1 everywhere
+read / avs / ma13_annulus.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma13_axis.inp / mo_a
+dump / avs / ma13_surf.inp / mo_s
+finish

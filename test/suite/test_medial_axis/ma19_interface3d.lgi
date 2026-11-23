@@ -1,0 +1,6 @@
+# ma19: two materials in 3D, a box 6 x 6 x 3 with an interior sheet at z = 1, side both; the sheet's rim is on edges of 3 or more triangles (flagged)
+read / avs / ma19_interface3d.inp / mo_s
+compute / medial_axis / mo_a / mo_s / both
+dump / avs / ma19_axis.inp / mo_a
+dump / avs / ma19_surf.inp / mo_s
+finish

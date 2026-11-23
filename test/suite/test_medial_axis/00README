@@ -1,0 +1,109 @@
+test_medial_axis -- compute / medial_axis (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_medial_axis_tests.sh [path-to-lagrit]     19 decks, about 30 s
+  open summary.html
+
+WHAT IS TESTED
+
+  compute / medial_axis / mo_axis / mo_surface / [in|out|both]
+          / [alpha_sharp] / [rmax]
+  grows, at every vertex of a line mesh (2D) or a triangle surface
+  (3D), the largest ball tangent there that holds no part of the
+  surface (a shrinking ball). The centers are points of the medial
+  axis (mo_axis, with ma_r, ma_src, ma_side, ma_angle, ma_keep);
+  twice the radius is the thickness at the vertex (ma_thick_in,
+  ma_thick_out on mo_surface, with ma_keep_in, ma_keep_out).
+
+  The checker (plain Python, standard library, written independently
+  of the Fortran) checks every ball:
+    - its center is P + r n, with the vertex normal n computed again
+      (3D: angle-weighted average of the triangles' normals; 2D: the
+      average of the two segments' normals D x z), into its side;
+    - it is empty: no point of the surface, by brute force over every
+      cell, is closer to the center than r (1 - TAU), TAU = 1 -
+      cos(10 deg), the sag allowed for a faceted surface;
+    - it is as large as it can be: a point of the surface is at
+      distance r (a bigger tangent ball would hold it), unless the
+      ball has radius rmax;
+    - its flag: ma_keep 1 exactly when the ball was stopped, has a
+      normal, is not at a junction (2D: a vertex not on two segments;
+      3D: a vertex on an edge of three or more triangles) and its
+      object angle is at least 180 - alpha_sharp;
+    - the surface's attributes are 2 r and the ball's flag;
+    - round trip: the shape rebuilt as the union of its kept balls,
+      on a grid of points inside it: the covered fraction and how far
+      the farthest uncovered point is from the union; shapes with no
+      corners (circle, sphere, annulus, neck) must be covered to 2 h
+      (they are covered fully); for the others it is reported (the
+      flagged branches of corners and rounded ends stay uncovered);
+  and the answers known for each shape:
+
+  ma01  a circle of radius 1 (128 segments), side both: in, every
+        center within 1e-3 of the circle's center, radius between
+        cos(pi/128) and 1, kept; out, every ball not stopped (rmax,
+        the box diagonal), flagged
+  ma02  a sphere of radius 1 (1280 triangles): centers within 0.01 of
+        its center, radius above 0.99, kept
+  ma03  a slab 10 x 1 (2D, segments 0.1): thickness 1 (1e-9) on the
+        long faces with 1 <= x <= 9, centers on y = 0.5; the 4 corners
+        radius 0, flagged; alpha_sharp 0: nothing flagged; rmax 0.3:
+        no radius above 0.3, the long faces flagged
+  ma04  a box 10 x 10 x 1 (3D): thickness 1 (1e-9) on top and bottom
+        away from the sides
+  ma05  teeth 0.5 high and 1 wide under a flat top at 2 (2D, the
+        prototype's shape): 1.5 above the middle tips; the valleys
+        (90 degree corners) flagged
+  ma06  two materials in a box 10 x 3, the interface at y = 1, side
+        both: 2 above and 1 below the interface (1e-9), kept; the two
+        vertices on three segments flagged, with no ball
+  ma07  a 3D pinch-out, a wedge of a = 11.3 degrees (top z = 0.2 x):
+        thickness 2 x tan(a/2) along the bottom (1e-9), kept since a
+        is under alpha_sharp
+  ma08  a 3D layer 1 to 1.8 thick whose top rises in a dome: kept,
+        thickness within the layer's (brute force on every 3rd ball)
+  ma09  refused with an ERROR, LaGriT going on: a tet, quads, points
+        with no cells, no such mesh object, mo_axis the same as
+        mo_surface, a side that is not in, out or both
+  ma10  timing: a layer 20 x 20 with two domes (41,600 triangles,
+        21,602 balls; about 0.5 s on 2 cores; brute force on every
+        150th ball)
+
+  ma11  an ellipse, semi-axes 2 and 1: each ball centered on the
+        major axis at 3x/4 with the exact radius (kept: within 1e-4,
+        relative); its flag as the exact object angle 2 atan(y/(x/4))
+        says, beyond 2 degrees of 145 (the ends are flagged)
+  ma12  a prolate ellipsoid, 2 x 1 x 1 (5120 triangles): the same in
+        3D (kept: within 3e-3); every ball touches along a ring, so
+        the object angle must be the widest point of the ring
+  ma13  an annulus, radii 1 and 2 (a hole; the inner loop clockwise):
+        thickness 1 within the facets' sag, centers on radius 1.5
+  ma14  a pipe, radii 1 and 1.5, length 6: thickness 0.5 in the
+        walls within the sag
+  ma15  a dumbbell, two disks of radius 1 and a channel 0.4 wide:
+        0.4 in the channel (1e-9), 2 in the disks; no ball centered in
+        the channel is wider than it
+  ma16  the slab with noisy faces (uniform, up to 0.002 and 0.01;
+        fixed seed): kept thickness within 1 +- 2 x the noise; at
+        least 95% and 50% of the face vertices kept (the rest are
+        hair, flagged)
+  ma17  resolution sweep: circles of 16 to 512 segments, spheres of
+        80 to 5120 triangles: the coarsest (turns over 20 degrees) are
+        read as corners and flagged; the rest kept, the radius error
+        falling 4 times per halving of the edge length (h^2)
+  ma18  the slab and the box moved to UTM-sized coordinates
+        (x + 500000, y + 4000000, z + 1500): radii and flags as in
+        ma03 and ma04 (within 1e-6)
+  ma19  two materials in 3D: a box 6 x 6 x 3 with a sheet at z = 1,
+        side both: 1 below and 2 above (1e-9), kept; the 48 vertices
+        where the sheet meets the box (edges of 3 or 4 triangles)
+        flagged with no ball
+
+FILES
+
+  run_medial_axis_tests.sh   runs the decks, then the checker
+  make_medial_inputs.py      writes the AVS inputs into work/
+  ma*.lgi                    the LaGriT decks
+  check_medial_axis.py       the checks and the pictures (logs/*.svg)

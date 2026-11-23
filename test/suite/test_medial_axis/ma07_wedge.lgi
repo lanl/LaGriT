@@ -1,0 +1,7 @@
+# ma07: a 3D pinch-out, a wedge of 11.3 degrees (top z = 0.2 x):
+# thickness 2 x tan(a/2) along the bottom, kept (a < alpha_sharp)
+read / avs / ma07_wedge.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma07_axis.inp / mo_a
+dump / avs / ma07_surf.inp / mo_s
+finish
