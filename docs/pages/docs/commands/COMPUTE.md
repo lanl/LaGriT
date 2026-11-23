@@ -1,6 +1,6 @@
 ---
 title: COMPUTE 
-tags: compute, signed_distance_field, distance_field
+tags: compute, signed_distance_field, distance_field, medial_axis
 ---
 
 # COMPUTE
@@ -20,6 +20,8 @@ being added to the mesh objects. The action of the command will be controled by 
 <b>compute/signed_distance_field</b>/mo_sink/mo_source/distance_field_attribute
   
 <b>compute/linear_transform</b>/mo_main/mo_surface/[direction/att_name]
+
+<b>compute/medial_axis</b>/mo_axis/mo_surface/[in|out|both]/[alpha_sharp]/[rmax]
 </pre>
 
 
@@ -105,6 +107,102 @@ and the surface - values from the surface are extrapolated "downward" into the m
   each vertex. The attribute chosen must already exist in both the
   surface and main meshes.
  
+**`medial_axis`** is the keyword for the medial axis of a surface and
+  its thickness. At every vertex P of `mo_surface` (a line mesh in a
+  plane, 2D, or a triangle surface, 3D) it grows the largest ball that
+  is tangent to the surface at P and holds no part of the surface (a
+  shrinking ball). The ball's center is a point of the medial axis (the
+  medial lines in 2D, the medial surface in 3D) and twice its radius is
+  the thickness of the material at P.
+
+- `mo_axis`: the new mesh object of medial points, one per vertex of
+  `mo_surface` and side, with no cells (replaced if it exists). Its
+  vertex attributes: `ma_r` the radius; `ma_src` the surface vertex;
+  `ma_side` 1 in, 2 out (and `imt` the same); `ma_angle` the object
+  angle in degrees, the widest angle at the center between P and a
+  point where the ball touches the surface (a ball can touch along a
+  ring, as in an ellipsoid); `ma_keep` 1 kept, 0 flagged.
+- `mo_surface`: lines only or triangles only (convert quads with
+  `grid2grid / quadtotri2` or `quadtotri4`). It gets `ma_thick_in`
+  (2 x the radius) and `ma_keep_in`, and with `out` or `both` also
+  `ma_thick_out` and `ma_keep_out`. The thickness can be used as a
+  resolution field, for example in `poisson_disk`.
+- `in` (the default), `out` or `both`: the side the balls grow into.
+  `in` is against the normals: in 3D the cells' normals (a closed
+  surface with outward normals: the inside); in 2D the normal of a
+  segment is its direction crossed with the plane's axis (+z for a mesh
+  in the xy plane), so a loop traversed counterclockwise has its inside
+  on the `in` side. `both` grows two balls at every vertex, one into
+  each side; use it for an interface between two materials.
+- `alpha_sharp`: degrees, default 35. A corner wider than this
+  (measured inside the material) has a branch of the medial axis that
+  says nothing about thickness; its balls have an object angle under
+  180 - `alpha_sharp` and are flagged (`ma_keep` 0). A wedge of angle a
+  gives the angle 180 - a, so a pinch-out sharper than `alpha_sharp` is
+  measured and kept. 0: nothing is flagged by its angle.
+- `rmax`: the largest radius, default the diagonal of the surface's
+  bounding box. A ball not stopped at `rmax` (the open side of a
+  surface) keeps the radius `rmax` and is flagged.
+
+Also flagged, with radius 0: a vertex with no normal; in 2D a vertex
+that is not on exactly two segments (a junction or an end); in 3D a
+vertex on an edge of three or more triangles (where three or more
+materials meet).
+The flagged points stay in `mo_axis`, so `pset` and `rmpoint` can
+remove them (see the example). Vertex normals are the angle-weighted
+average of the triangles' normals at P (3D) and the average of the two
+segments' normals (2D).
+
+The search uses the [kdtree](kdtree.md) of the surface's cells and the
+exact nearest point on a triangle or segment, as `distance_field` /
+`facet` does. A faceted surface always cuts a tangent ball a little
+near P (the sag of its facets): points seen from the center within 90
+degrees of P count only when they are closer than r (1 - cos 10°), so
+turns of up to 20 degrees per vertex are read as a sampled smooth
+surface and sharper ones as corners; points further round count
+exactly. Flat faces give exact thicknesses; on curved surfaces the
+error falls as the square of the edge length (a circle of 128
+segments: 1e-4 of its radius). A surface coarser than 20 degrees per
+vertex (a circle of 16 segments) is a polygon with corners, and its
+balls are flagged. The balls flagged near rounded ends (an ellipse's)
+can be a few percent too large; the kept ones are accurate. About 0.5 s
+for a surface of 41,600 triangles.
+
+**Resolution of the output.** `medial_axis` has no resolution
+parameter: `mo_axis` gets one point per vertex of `mo_surface` and side,
+so its resolution is the resolution of the input surface. The medial
+points are as dense as the surface's vertices, and they follow them: a
+slab gives two interleaved rows on its mid-plane, one from each face,
+and a whole circle or sphere gives a single center. The thickness
+attributes are likewise one value per surface vertex.
+
+It is up to the user to give the input surface a resolution compatible
+with the output resolution wanted. LaGriT has tools to make a surface
+finer or coarser before `compute / medial_axis`:
+
+- [refine2d](refine2d.md) splits every triangle into 4 by bisecting its
+  edges, doubling the resolution of a triangle surface each time it is
+  called. It works on triangles only: convert a quad surface to
+  triangles first with [grid2grid](GRID2GRID.md) (`quadtotri2`, or
+  `quadtotri4` with a new point at each quad's center).
+  `compute / medial_axis` itself also needs triangles (or lines), so a
+  quad surface is converted with `grid2grid` in any case.
+- [refine](REFINE.md) with `maxsize` or `rivara` refines to a size the
+  user gives (for example edges longer than a length), for a
+  triangulation whose resolution varies.
+- [derefine](DEREFINE.md) removes points to make a mesh coarser.
+
+The new vertices of a refinement lie on the old triangles, so refining
+gives more medial points and thickness values but no more geometric
+detail than the surface had: a sphere of 1280 triangles refined once
+with `refine2d` (642 to 2562 vertices) gives four times as many balls,
+with the accuracy of the 1280 triangles.
+
+`compute / distance_field` gives the distance from points to a surface
+everywhere on a background mesh; the medial axis is where that field
+has a ridge. `medial_axis` finds those points directly from the
+surface and gives the thickness at every surface vertex.
+
   Other places to look for modules that compute some standard mesh
   attributes include, [**QUALITY**](QUALITY.md), which
   will compute aspect ratio and volume,
@@ -150,6 +248,44 @@ up to 0.35 too large between them; the facet distance is 0 all along
 the surface (the triangles cut by the plane). The test suite
 test/suite/test_distance_field checks `facet` against a brute-force
 computation.
+
+The medial axis and the thickness of a layer (a triangle surface
+around it, outward normals). The flagged points are removed from the
+medial points with `pset` and `rmpoint`; `compute` leaves the mesh
+object that was current before it current, so select `mo_ma` first:
+
+```
+ read / avs / layer.inp / mo_s
+ compute / medial_axis / mo_ma / mo_s / in / 35.
+ cmo / printatt / mo_s / ma_thick_in / minmax
+ cmo / select / mo_ma
+ pset / pflag / attribute / ma_keep / 1 0 0 / eq 0
+ rmpoint / pset get pflag / exclusive
+ rmpoint / compress
+ dump / avs / medial_points.inp / mo_ma
+ finish
+```
+
+In 2D, teeth 0.5 high under a flat top (a line mesh): the kept medial
+points (blue) run along the middle and every 8th ball is drawn; the
+branches into the corners (grey) are flagged. Above the middle tips the
+thickness is 1.5:
+
+ <img src="https://lanl.github.io/LaGriT/assets/images/compute_medial_axis_2d.png" width="520">
+
+In 3D, a pinch-out (a wedge of 11.3 degrees, under `alpha_sharp`): a
+section through the medial surface, and the thickness on the bottom,
+2 x tan(11.3°/2) x the distance from the tip; the rings near the sides
+and the far end are flagged (their balls touch a side or the end):
+
+ <img src="https://lanl.github.io/LaGriT/assets/images/compute_medial_axis_3d.png" width="1040">
+
+The test suite test/suite/test_medial_axis checks every ball by brute
+force (center, empty, touching, flag), the shapes whose answers are
+known (a circle, a sphere, an ellipse and an ellipsoid, slabs, an
+annulus and a pipe, a neck, a wedge, two materials in 2D and 3D), a
+noisy slab, a resolution sweep, coordinates of UTM size, and rebuilds
+each shape as the union of its kept balls.
 
 See also the tutorial [Tet Mesh Graded by a Surface's Edge Lengths](../../tutorial/dfn_tet_grading/index.md), which uses `distance_field` in a poisson_disk h field.     
                                                                                                            

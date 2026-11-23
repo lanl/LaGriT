@@ -1,0 +1,7 @@
+# ma04: a box 10 x 10 x 1 (triangles 0.5 on a side): thickness 1 on
+# the top and bottom faces away from the sides
+read / avs / ma04_box.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in / 35.
+dump / avs / ma04_axis.inp / mo_a
+dump / avs / ma04_surf.inp / mo_s
+finish

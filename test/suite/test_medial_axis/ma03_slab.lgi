@@ -1,0 +1,11 @@
+# ma03: a slab 10 x 1 (segments 0.1 long): thickness 1 on the long
+# faces, the corner branches flagged; again with alpha_sharp 0 (no
+# angle flag) and with rmax 0.3
+read / avs / ma03_slab.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in / 35.
+dump / avs / ma03_axis.inp / mo_a
+compute / medial_axis / mo_a0 / mo_s / in / 0
+dump / avs / ma03_axis_alpha0.inp / mo_a0
+compute / medial_axis / mo_ar / mo_s / -def- / -def- / 0.3
+dump / avs / ma03_axis_rmax.inp / mo_ar
+finish

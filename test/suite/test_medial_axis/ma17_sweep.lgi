@@ -1,0 +1,33 @@
+# ma17: resolution sweep, circles of 16 to 512 segments and spheres of
+# 80 to 5120 triangles
+read / avs / ma17_circle_16.inp / mo_c16
+compute / medial_axis / mo_ac16 / mo_c16
+dump / avs / ma17_axis_circle_16.inp / mo_ac16
+read / avs / ma17_circle_32.inp / mo_c32
+compute / medial_axis / mo_ac32 / mo_c32
+dump / avs / ma17_axis_circle_32.inp / mo_ac32
+read / avs / ma17_circle_64.inp / mo_c64
+compute / medial_axis / mo_ac64 / mo_c64
+dump / avs / ma17_axis_circle_64.inp / mo_ac64
+read / avs / ma17_circle_128.inp / mo_c128
+compute / medial_axis / mo_ac128 / mo_c128
+dump / avs / ma17_axis_circle_128.inp / mo_ac128
+read / avs / ma17_circle_256.inp / mo_c256
+compute / medial_axis / mo_ac256 / mo_c256
+dump / avs / ma17_axis_circle_256.inp / mo_ac256
+read / avs / ma17_circle_512.inp / mo_c512
+compute / medial_axis / mo_ac512 / mo_c512
+dump / avs / ma17_axis_circle_512.inp / mo_ac512
+read / avs / ma17_sphere_1.inp / mo_p1
+compute / medial_axis / mo_ap1 / mo_p1
+dump / avs / ma17_axis_sphere_1.inp / mo_ap1
+read / avs / ma17_sphere_2.inp / mo_p2
+compute / medial_axis / mo_ap2 / mo_p2
+dump / avs / ma17_axis_sphere_2.inp / mo_ap2
+read / avs / ma17_sphere_3.inp / mo_p3
+compute / medial_axis / mo_ap3 / mo_p3
+dump / avs / ma17_axis_sphere_3.inp / mo_ap3
+read / avs / ma17_sphere_4.inp / mo_p4
+compute / medial_axis / mo_ap4 / mo_p4
+dump / avs / ma17_axis_sphere_4.inp / mo_ap4
+finish

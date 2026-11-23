@@ -1,0 +1,6 @@
+# ma10: timing, a layer 20 x 20 with two domes (41,600 triangles)
+read / avs / ma10_biglayer.inp / mo_s
+compute / medial_axis / mo_a / mo_s
+dump / avs / ma10_axis.inp / mo_a
+dump / avs / ma10_surf.inp / mo_s
+finish

@@ -10,6 +10,8 @@ C
 C       Valid strings for the second argument are:
 C       / distance_field /
 C       / signed_distance_field /
+C       / linear_transform /
+C       / medial_axis /
 C
 C
 C######################################################################
@@ -73,6 +75,16 @@ C
      &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
         write(logmess,'(a)')'COMPUTE linear_transform: Done.'
         call writloga('default',0,logmess,0,ierrw)
+        return
+
+      elseif(cmsgin(2) .eq. 'medial_axis')then
+
+        call medial_axis
+     &   (imsgin,xmsgin,cmsgin,msgtype,nwds,ierror)
+        if (ierror .eq. 0) then
+          write(logmess,'(a)')'COMPUTE medial_axis: Done.'
+          call writloga('default',0,logmess,0,ierrw)
+        endif
         return
 
       else

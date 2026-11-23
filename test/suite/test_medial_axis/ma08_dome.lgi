@@ -1,0 +1,6 @@
+# ma08: a 3D layer whose top rises in a dome (1 to 1.8 thick)
+read / avs / ma08_dome.inp / mo_s
+compute / medial_axis / mo_a / mo_s
+dump / avs / ma08_axis.inp / mo_a
+dump / avs / ma08_surf.inp / mo_s
+finish

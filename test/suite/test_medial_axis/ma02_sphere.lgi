@@ -1,0 +1,6 @@
+# ma02: a sphere of radius 1 (1280 triangles), side in (the default)
+read / avs / ma02_sphere.inp / mo_s
+compute / medial_axis / mo_a / mo_s
+dump / avs / ma02_axis.inp / mo_a
+dump / avs / ma02_surf.inp / mo_s
+finish

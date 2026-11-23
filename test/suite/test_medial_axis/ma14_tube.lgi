@@ -1,0 +1,6 @@
+# ma14: a pipe, radii 1 and 1.5, length 6: thickness 0.5 in its walls
+read / avs / ma14_tube.inp / mo_s
+compute / medial_axis / mo_a / mo_s / in
+dump / avs / ma14_axis.inp / mo_a
+dump / avs / ma14_surf.inp / mo_s
+finish

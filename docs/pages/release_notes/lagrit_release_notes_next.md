@@ -1,0 +1,22 @@
+LaGriT Release Notes: changes since V3.4.0
+====================
+
+These changes are on master and not yet in a release. The file is renamed
+for the next release when its version number is chosen.
+
+Previous release  LaGriT V3.4.0  Nov 20, 2026
+
+### New capabilities
+
+- **compute / medial_axis:** for every vertex of a line mesh (2D) or a
+  triangle surface (3D), the largest ball tangent there that holds no
+  part of the surface. The ball centers become a new mesh object of
+  medial points (the medial axis), twice the radius becomes a thickness
+  attribute on the surface, and balls on the branches of wide corners
+  are flagged so they can be removed. See [COMPUTE](../docs/commands/COMPUTE.md).
+
+### Pull requests
+
+| Date | PR | Description |
+| --- | --- | --- |
+| 2026-11-23 | | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |

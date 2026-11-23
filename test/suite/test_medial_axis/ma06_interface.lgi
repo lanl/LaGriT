@@ -1,0 +1,8 @@
+# ma06: two materials, 1 thick below an interface and 2 thick above
+# it, side both; the vertices where the interface meets the box are
+# on three segments (flagged)
+read / avs / ma06_interface.inp / mo_s
+compute / medial_axis / mo_a / mo_s / both
+dump / avs / ma06_axis.inp / mo_a
+dump / avs / ma06_surf.inp / mo_s
+finish

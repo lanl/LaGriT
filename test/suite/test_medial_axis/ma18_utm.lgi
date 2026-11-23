@@ -1,0 +1,9 @@
+# ma18: the slab (ma03) and the box (ma04) moved to UTM-sized
+# coordinates (x + 500000, y + 4000000, z + 1500): the same answers
+read / avs / ma18_slab_utm.inp / mo_s1
+compute / medial_axis / mo_a1 / mo_s1
+dump / avs / ma18_axis_slab.inp / mo_a1
+read / avs / ma18_box_utm.inp / mo_s2
+compute / medial_axis / mo_a2 / mo_s2
+dump / avs / ma18_axis_box.inp / mo_a2
+finish

@@ -1,0 +1,14 @@
+# ma09: inputs medial_axis refuses; LaGriT must keep going
+read / avs / ma09_tet.inp / mo_tet
+read / avs / ma09_quad.inp / mo_quad
+read / avs / ma09_points.inp / mo_pts
+read / avs / ma01_circle.inp / mo_s
+compute / medial_axis / mo_e1 / mo_tet
+compute / medial_axis / mo_e2 / mo_quad
+compute / medial_axis / mo_e3 / mo_pts
+compute / medial_axis / mo_e4 / mo_none
+compute / medial_axis / mo_s / mo_s
+compute / medial_axis / mo_e5 / mo_s / sideways
+compute / medial_axis / mo_ok / mo_s
+dump / avs / ma09_axis.inp / mo_ok
+finish

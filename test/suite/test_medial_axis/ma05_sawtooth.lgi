@@ -1,0 +1,6 @@
+# ma05: teeth 0.5 high under a flat top (2D), the prototype's shape
+read / avs / ma05_sawtooth.inp / mo_s
+compute / medial_axis / mo_a / mo_s
+dump / avs / ma05_axis.inp / mo_a
+dump / avs / ma05_surf.inp / mo_s
+finish
