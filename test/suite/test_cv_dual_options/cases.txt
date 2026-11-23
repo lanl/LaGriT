@@ -31,6 +31,13 @@ legacy_tough   | 0 | -avs simple_3D.inp -type tough | lanl/voronoi's -type with 
 legacy_compr   | 0 | -avs mesh_3D.inp -o a.stor -compress | lanl/voronoi's bare -compress (no value) means on. Checked: the .stor is compressed.
 imt_short      | 0 | -avs imt_short.inp -tough a_MESH | The vertex material read from the vertex data named imt1: mesh_3D with materials 1 and 2. Reference for imt_long.
 imt_long       | 0 | -avs imt_long.inp -tough a_MESH | The same mesh with the vertex material named integer_material_type, another name for imt1. Checked: the TOUGH file is the same as imt_short's, with materials 1 and 2.
+# --- exclude: the ghost generators of a conforming Voronoi mesh (Carl, Nov 23)
+excl_full      | 0 | -avs imt_short.inp -stor a.stor -uge a.uge -tough a_MESH -compress off | The reference for excl_2: imt_short (mesh_3D with materials 1 and 2), all vertices, three outputs.
+excl_2         | 0 | -avs imt_short.inp -stor a.stor -uge a.uge -tough a_MESH -compress off -exclude 2 | exclude 2: the coefficients are computed on the whole mesh, then the material-2 vertices and every connection to them are left out of all three files. Checked: the kept vertices in their order, their volumes and every coefficient between two of them equal excl_full's; nothing else is written; the TOUGH file has material 1 only.
+excl_absent    | 0 | -avs imt_short.inp -stor a.stor -uge a.uge -tough a_MESH -compress off -exclude 7 | exclude a material that is not in the mesh: nothing is left out (the same files as excl_full).
+excl_all       | 1 | -avs imt_short.inp -stor a.stor -exclude 1 2 | exclude every material: refused, nothing written.
+excl_novalue   | 1 | -avs imt_short.inp -stor a.stor -exclude | exclude with no material number: refused.
+excl_text      | 1 | -avs imt_short.inp -stor a.stor -exclude ghost | exclude takes material numbers; ghost is refused.
 # --- refused: exit 1, a message naming the token, no output written
 bad_keyword    | 1 | -avs mesh_3D.inp -stor a.stor -zero_areas keep | A misspelled keyword (zero_areas). Must stop with a message naming it and write nothing.
 no_value       | 1 | -avs mesh_3D.inp -stor a.stor -zero_tol | A keyword at the end with no value. Must say zero_tol needs a value.

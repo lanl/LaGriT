@@ -163,6 +163,11 @@ contains
       integer(ik) :: nb(3), ni(3)
       real(rk) :: rmin(3), angmax, angmean
       character(len=1024) :: arg
+      ! exclude: the kept vertices' arrays (exclude_reduce)
+      integer(ik) :: nx
+      real(rk), allocatable :: xx(:), yx(:), zx(:), volx(:), areax(:)
+      integer(ik), allocatable :: imtx(:), offx(:), jx(:)
+      logical, allocatable :: skipx(:)
 
       ierr = 0
       errmsg = ' '
@@ -292,8 +297,29 @@ contains
          if (ierr /= 0) go to 900
       end if
 
+      if (opt%nexclude > 0 .and. opt%nout > 0) then
+         call exclude_reduce()
+         if (ierr /= 0) go to 900
+      end if
       do k = 1, opt%nout
          call timer_start('write '//trim(opt%out_type(k)))
+         if (opt%nexclude > 0) then
+            ! only the vertices not excluded (exclude_reduce)
+            select case (trim(opt%out_type(k)))
+            case ('stor')
+               call write_stor(opt%out_file(k), ndim, nx, xx, yx, zx, &
+                               offx, jx, areax, volx, skipx, &
+                               opt%compress, ierr, &
+                               policy=trim(policy_word(opt%cv)), &
+                               settings=cmd)
+            case ('uge')
+               call write_uge(opt%out_file(k), nx, xx, yx, zx, offx, &
+                              jx, areax, volx, skipx, ierr)
+            case ('tough')
+               call write_tough(opt%out_file(k), nx, xx, yx, zx, imtx, &
+                                offx, jx, areax, volx, skipx, ierr)
+            end select
+         else
          select case (trim(opt%out_type(k)))
          case ('stor')
             call write_stor(opt%out_file(k), ndim, m%nnodes, m%xic, &
@@ -310,6 +336,7 @@ contains
                              m%zic, m%imt1, iedge_off, jedge, area, &
                              vol, skip, ierr)
          end select
+         end if
          call timer_stop()
          if (ierr /= 0) go to 900
          call log_line('cv_dual: wrote '//trim(opt%out_type(k))// &
@@ -354,6 +381,80 @@ contains
       ! ierr /= 0 on an error.
       ! vertex_stats (see the module's header): one pass over the
       ! edges, both ends of each connection that is not zero-area.
+      ! exclude (the ghost generators of a conforming Voronoi mesh):
+      ! the coefficients were computed on the whole mesh; keep the
+      ! vertices whose imt1 is not excluded, in their order (numbered
+      ! 1, 2, ...), and the connections between two of them.
+      subroutine exclude_reduce()
+         logical, allocatable :: keep(:)
+         integer(ik), allocatable :: newid(:)
+         integer(ik) :: i, e, j, ne, nlost
+         character(len=256) :: ln
+         allocate (keep(m%nnodes), newid(m%nnodes))
+         do i = 1, m%nnodes
+            keep(i) = .not. any(opt%exclude(1:opt%nexclude) == &
+                                int(m%imt1(i)))
+         end do
+         nx = count(keep)
+         if (nx == 0) then
+            errmsg = 'cv_dual: exclude leaves no vertex; nothing '// &
+                     'is written'
+            ierr = 1
+            return
+         end if
+         newid = 0
+         j = 0
+         do i = 1, m%nnodes
+            if (keep(i)) then
+               j = j + 1
+               newid(i) = j
+            end if
+         end do
+         ne = 0
+         nlost = 0
+         do i = 1, m%nnodes
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (keep(i) .and. keep(jedge(e))) then
+                  ne = ne + 1
+               else if (keep(i) .or. keep(jedge(e))) then
+                  nlost = nlost + 1
+               end if
+            end do
+         end do
+         allocate (xx(nx), yx(nx), zx(nx), volx(nx), imtx(nx), &
+                   offx(nx + 1), jx(max(ne, 1_ik)), &
+                   areax(max(ne, 1_ik)), skipx(max(ne, 1_ik)))
+         ne = 0
+         do i = 1, m%nnodes
+            if (.not. keep(i)) cycle
+            j = newid(i)
+            xx(j) = m%xic(i)
+            yx(j) = m%yic(i)
+            zx(j) = m%zic(i)
+            volx(j) = vol(i)
+            imtx(j) = m%imt1(i)
+            offx(j) = ne + 1
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (.not. keep(jedge(e))) cycle
+               ne = ne + 1
+               jx(ne) = newid(jedge(e))
+               areax(ne) = area(e)
+               skipx(ne) = skip(e)
+            end do
+         end do
+         offx(nx + 1) = ne + 1
+         write (ln, '(a,i0,a,i0,a,i0,a)') 'cv_dual: exclude: ', nx, &
+            ' of ', m%nnodes, ' vertices written (', m%nnodes - nx, &
+            ' excluded)'
+         call log_line(trim(ln))
+         write (ln, '(a,i0,a)') 'cv_dual: exclude: ', nlost, &
+            ' connections to excluded vertices left out'
+         call log_line(trim(ln))
+         if (len_trim(opt%outside_area) > 0) call log_line( &
+            'cv_dual: exclude: outside_area is the whole mesh''s '// &
+            '(its numbering)')
+      end subroutine exclude_reduce
+
       subroutine vertex_stats_fill()
          integer(ik) :: i, j, kk, e, v, w
          real(rk) :: a, d, q, rw

@@ -3,7 +3,7 @@ test_cv_dual_options -- cv_dual's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-cv_dual]    70 runs, about 1 s
+  sh run_options_tests.sh [path-to-cv_dual]    76 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -32,6 +32,15 @@ WHAT IS TESTED
     check_only on|off         default off
     report FILE               default none
     timing on|off             default off (development only)
+    exclude N [N ...]         the materials whose vertices are left out
+                              of the files (the ghost generators of a
+                              conforming Voronoi mesh): excl_2 against
+                              excl_full on imt_short (materials 1 and
+                              2): the kept vertices in order, their
+                              volumes and coefficients identical; the
+                              .uge and TOUGH files the same; a material
+                              not in the mesh changes nothing; all
+                              excluded, no number, or a word: refused
 
   lanl/voronoi's -type, -o and bare -compress, and commands that must
   be refused. One case per line of cases.txt, run in work/NAME on the

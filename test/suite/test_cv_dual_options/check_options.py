@@ -55,6 +55,9 @@ EXPECT = {
     'compress_off': ['a.stor'], 'legacy_type': ['a.uge'],
     'legacy_tough': ['MESH_VORONOI'], 'legacy_compr': ['a.stor'],
     'imt_short': ['a_MESH'], 'imt_long': ['a_MESH'],
+    'excl_full': ['a.stor', 'a.uge', 'a_MESH'],
+    'excl_2': ['a.stor', 'a.uge', 'a_MESH'],
+    'excl_absent': ['a.stor', 'a.uge', 'a_MESH'],
     'mx_files': ['a.stor', 'm.vtu', 'm.vti'],
     'mx_noext': ['a.uge', 'mm', 'mm.vti'],
     'hdr_blend': ['a.stor'], 'hdr_median': ['a.stor'],
@@ -98,6 +101,9 @@ REFUSED = {
     'bins_alone': 'matrix_bins needs matrix',
     'bad_bins': 'matrix_bins 0: must be a whole number >= 1',
     'mx_twice': 'm.vti given twice',
+    'excl_all': 'exclude leaves no vertex',
+    'excl_novalue': 'exclude needs one or more material numbers',
+    'excl_text': 'exclude: ghost is not a material number',
 }
 
 TOL = 1e-14
@@ -186,6 +192,72 @@ def same_matrix(s1, s2):
     return ''
 
 
+def check_exclude(ran):
+    lines = open(os.path.join(ran['excl_full'], 'imt_short.inp')).read() \
+        .split('\n')
+    nn, nc, nnd = (int(v) for v in lines[0].split()[:3])
+    k = 1 + nn + nc
+    nat = int(lines[k].split()[0])
+    imt = [int(float(lines[k + 1 + nat + i].split()[1])) for i in range(nn)]
+    keep = [i for i in range(nn) if imt[i] != 2]
+    new = {old: n for n, old in enumerate(keep)}
+    full = read_stor(os.path.join(ran['excl_full'], 'a.stor'))
+    ex = read_stor(os.path.join(ran['excl_2'], 'a.stor'))
+    cf, ce = stor_pairs(full), stor_pairs(ex)
+    want = {(new[i], new[j]): v for (i, j), v in cf.items()
+            if i in new and j in new}
+    ok_n = ex['neq'] == len(keep)
+    ev = max([abs(ex['vol'][n] - full['vol'][o]) / max(abs(full['vol'][o]),
+              1e-300) for n, o in enumerate(keep)] or [0.0]) if ok_n else 1
+    ok_p = set(ce) == set(want)
+    ec = max([abs(ce[q] - want[q]) / max(abs(want[q]), 1e-300)
+              for q in want if q in ce] or [0.0])
+    lost = sum(1 for (i, j) in cf if (i in new) != (j in new)) // 2
+    good = ok_n and ok_p and ev <= TOL and ec <= TOL
+    put('excl_2', 'stor', '%d of %d vertices kept (material 2: %d '
+        'excluded), %d connections as in excl_full (%d to excluded '
+        'vertices left out); volumes within %.1e, coefficients within '
+        '%.1e' % (ex['neq'], full['neq'], nn - len(keep), len(ce) // 2, lost,
+                  ev, ec), 'PASS' if good else 'FAIL')
+    # .uge: the same cells (volume last) and connections, renumbered
+    try:
+        cf_, nf_ = read_uge(os.path.join(ran['excl_full'], 'a.uge'))
+        ce_, ne_ = read_uge(os.path.join(ran['excl_2'], 'a.uge'))
+        wv = {new[i - 1] + 1: v[3] for i, v in cf_.items() if i - 1 in new}
+        wc = {}
+        for (a, b), v in nf_.items():
+            if a - 1 in new and b - 1 in new:
+                wc[(new[a - 1] + 1, new[b - 1] + 1)] = v[3]
+        gv = {i: v[3] for i, v in ce_.items()}
+        gc = {q: v[3] for q, v in ne_.items()}
+        gu = (gv == wv and set(gc) == set(wc) and
+              all(abs(gc[q] - wc[q]) <= TOL * max(abs(wc[q]), 1e-300)
+                  for q in wc))
+        put('excl_2', 'uge', '%d cells and %d connections, as in '
+            'excl_full renumbered' % (len(gv), len(gc)),
+            'PASS' if gu else 'FAIL')
+    except (ValueError, IndexError, KeyError) as e:
+        put('excl_2', 'uge', 'cannot read: %r' % e, 'FAIL')
+    m2 = open(os.path.join(ran['excl_2'], 'a_MESH')).read()
+    ele = m2.split('CONNE')[0].split('\n')[1:]
+    mats = set(ln[15:20].strip() for ln in ele if ln.strip())
+    nel = sum(1 for ln in ele if ln.strip())
+    put('excl_2', 'tough', '%d elements, materials %s' %
+        (nel, ' '.join(sorted(mats))),
+        'PASS' if nel == len(keep) and mats == {'1'} else 'FAIL')
+    if 'excl_absent' in ran:
+        same = all(open(os.path.join(ran['excl_absent'], f)).read()
+                   .split('\n')[2:] ==
+                   open(os.path.join(ran['excl_full'], f)).read()
+                   .split('\n')[2:] for f in ('a.stor',)) and all(
+            open(os.path.join(ran['excl_absent'], f)).read() ==
+            open(os.path.join(ran['excl_full'], f)).read()
+            for f in ('a.uge', 'a_MESH'))
+        put('excl_absent', 'same', 'the same files as excl_full (the '
+            '.stor from its third line)' if same else 'files differ',
+            'PASS' if same else 'FAIL')
+
+
 def main():
     work, logs = sys.argv[1], sys.argv[2]
     gold = os.path.join(os.path.dirname(HERE), 'test_cv_dual_voronoi_gold',
@@ -240,6 +312,12 @@ def main():
         put('imt_long', 'material', 'the same MESH as imt_short; '
             'materials %s' % ' '.join(sorted(mats)),
             'PASS' if a == b and mats == {'1', '2'} else 'FAIL')
+
+    # exclude: the kept vertices (imt1 not 2) in their order, their
+    # volumes and the coefficients between two of them, as in the
+    # whole-mesh run; the .uge and TOUGH files the same way
+    if 'excl_full' in ran and 'excl_2' in ran:
+        check_exclude(ran)
 
     # every .stor's header: line 1 names the policy; line 2 is LaGriT's
     # text ending (cv_dual), then the run's settings (from the

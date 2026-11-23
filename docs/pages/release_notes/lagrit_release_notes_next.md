@@ -15,6 +15,12 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   attribute on the surface, and balls on the branches of wide corners
   are flagged so they can be removed. See [COMPUTE](../docs/commands/COMPUTE.md).
 
+- **dump / control_volume / ... / exclude, imt [imt ...]:** the vertices
+  of those materials (the ghost generators of a conforming Voronoi mesh)
+  are left out of the .stor, .uge and TOUGH files; the control volumes
+  and coefficients are computed on the whole mesh first, so the model's
+  boundary vertices keep their conforming volumes.
+
 ### Fixes
 
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
@@ -26,5 +32,6 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 
 | Date | PR | Description |
 | --- | --- | --- |
-| 2026-11-23 | | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-24 | | dump / control_volume: exclude, the ghost generators' materials left out of the files |
+| 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
