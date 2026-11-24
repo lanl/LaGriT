@@ -55,6 +55,13 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   see the fractures (a vertex on an intersection has one polygon per
   fracture, each with that vertex's one imt1).
 
+- **dump / control_volume / paraview (and cv_dual -paraview), 3D: a
+  crash** (segmentation fault) at a vertex with more than 682 tets
+  around it, as at the center of seeds on a sphere (a lens in a
+  conforming Voronoi mesh). The buffers of one cell had a fixed size;
+  they are now sized from the mesh, and no face is cut short. The .stor
+  and FEHM files were not affected.
+
 ### Pull requests
 
 | Date | PR | Description |
@@ -68,3 +75,4 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
+| 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |
