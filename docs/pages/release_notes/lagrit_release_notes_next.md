@@ -51,8 +51,9 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 
 | Date | PR | Description |
 | --- | --- | --- |
-| 2026-11-24 | | dump / control_volume / paraview, 2D: a polygon's material is its vertex's imt1; new cell field itetclr |
+| 2026-11-24 | #352 | dump / control_volume / paraview, 2D: a polygon's material is its vertex's imt1; new cell field itetclr |
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
+| 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
-| 2026-11-24 | | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
+| 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
