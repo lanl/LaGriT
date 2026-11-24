@@ -43,11 +43,12 @@ module cv_dual_tess
              boundary_vertices, interface_edges, cell_points
 
    ! the buffers of one cell: maxf its faces (and the triangles at a
-   ! vertex), maxp the points of one face. Set from the mesh in
-   ! build_cells: a vertex can have hundreds of cells around it (seeds
-   ! on a sphere around it), so no fixed size is safe.
+   ! vertex), maxq the points of all its faces, one after another. Set
+   ! from the mesh in build_cells: a vertex can have hundreds of cells
+   ! around it (seeds on a sphere around it), so no fixed size is safe;
+   ! both grow with the most cells at a vertex, not faster.
    integer :: maxf = 4096
-   integer :: maxp = 64
+   integer :: maxq = 16384
 
 contains
 
@@ -166,10 +167,11 @@ contains
       integer(ik) :: ncell, nconn, nfc, nfconn, np
       real(rk) :: pc(3), pf(3, 4), d
       integer :: q
-      ! one cell's faces, as point slots: fp(:, f) its points, fn(f)
-      ! how many, fe(f) its edge (0: a boundary piece), fj(f) the
-      ! edge's other end
-      integer(ik), allocatable :: fp(:, :), fn(:), fe(:), fj(:), ubuf(:)
+      ! one cell's faces, as point slots: fq(fs(f):fs(f) + fn(f) - 1)
+      ! the points of face f (the faces one after another), fe(f) its
+      ! edge (0: a boundary piece), fj(f) the edge's other end
+      integer(ik), allocatable :: fq(:), fn(:), fe(:), fj(:), ubuf(:)
+      integer, allocatable :: fs(:)
       ! the triangles at a vertex (3D): points, edge, other end
       integer(ik), allocatable :: tri(:, :), tre(:), trj(:)
       ! the boundary pieces at a vertex (3D): the next and previous
@@ -207,8 +209,8 @@ contains
       allocate (bv(nn))
       call boundary_vertices(m, bv)
       call buffer_sizes()
-      allocate (fp(maxp, maxf), fn(maxf), fe(maxf), fj(maxf), &
-                ubuf(maxp*maxf), tri(3, maxf), tre(maxf), trj(maxf))
+      allocate (fq(maxq), fs(maxf), fn(maxf), fe(maxf), fj(maxf), &
+                ubuf(maxq), tri(3, maxf), tre(maxf), trj(maxf))
       allocate (bnx(maxf), bpv(maxf), bky(maxf), bflat(maxf), &
                 bnr(3, maxf))
       allocate (ej(maxf), evor(maxf), tri2(3, maxf), tre2(maxf), &
@@ -352,18 +354,18 @@ contains
             nfc = nfc + nf
             do f = 1, nf
                nfconn = nfconn + fn(f)
-               ren(fp(1:fn(f), f)) = 1
+               ren(fq(fs(f):fs(f) + fn(f) - 1)) = 1
                if (fe(f) > 0) then
                   if (.not. sel(fj(f)) .or. fj(f) > i) &
                      call count_face(f)
                end if
             end do
          else
-            ! 2D: faces2d gave the polygons in fp(:, f), one per cell
+            ! 2D: faces2d gave the polygons as faces, one per cell
             do f = 1, nf
                ncell = ncell + 1
                nconn = nconn + fn(f)
-               ren(fp(1:fn(f), f)) = 1
+               ren(fq(fs(f):fs(f) + fn(f) - 1)) = 1
             end do
          end if
       end subroutine count_cell
@@ -374,7 +376,7 @@ contains
          nfconn_out = nfconn_out + fn(f)
       end subroutine count_face
 
-      ! The distinct points of the faces fp(:, 1:nf), in the order
+      ! The distinct points of the faces 1 to nf, in the order
       ! met: stamp(slot) remembers the last cell that took a slot.
       subroutine unique_points(nf, u, nu)
          integer, intent(in) :: nf
@@ -385,7 +387,7 @@ contains
          nu = 0
          do f = 1, nf
             do a = 1, int(fn(f))
-               q = fp(a, f)
+               q = fq(fs(f) + a - 1)
                if (stamp(q) /= ncur) then
                   stamp(q) = ncur
                   nu = nu + 1
@@ -396,40 +398,42 @@ contains
       end subroutine unique_points
 
       ! 3D: the faces of vertex i's control volume, as slots.
-      ! maxf: 6 triangles for each cell at a vertex (3D; 2D: one),
-      ! with room for the boundary pieces; maxp: two points for each
-      ! cell around an edge (3D; 2D: around a vertex), and the ends
+      ! maxf: the faces of one cell and the triangles at a vertex. 3D:
+      ! 6 triangles for each cell at the vertex (each a face of its own
+      ! where the dual face is not planar) and 3 boundary pieces;
+      ! 2D: one polygon for each triangle. maxq: the points of all the
+      ! faces, at most 3 for each triangle and 4 for each boundary
+      ! piece (2D: 2 for each triangle and 2 for each polygon).
       subroutine buffer_sizes()
-         integer(ik) :: ii, jt, kk
-         integer :: a, b, e, mxi, mxe
-         integer, allocatable :: ecnt(:)
+         integer(ik) :: ii
+         integer :: mxi
          mxi = 0
          do ii = 1, nn
             mxi = max(mxi, int(inc_off(ii + 1) - inc_off(ii)))
          end do
-         mxe = 0
          if (m%nen == 4) then
-            allocate (ecnt(nedges))
-            ecnt = 0
-            do jt = 1, m%nelements
-               do e = 1, 6
-                  a = iedge_tet(1, e)
-                  b = iedge_tet(2, e)
-                  kk = edge_index(m%itet(m%itetoff(jt) + a), &
-                                  m%itet(m%itetoff(jt) + b), nn, &
-                                  iedge_off, jedge)
-                  if (kk > 0) ecnt(kk) = ecnt(kk) + 1
-               end do
-            end do
-            if (nedges > 0) mxe = maxval(ecnt)
-            deallocate (ecnt)
-            maxf = max(4096, 6*mxi + 64)
-            maxp = max(64, 2*mxe + 8)
+            maxf = max(4096, 9*mxi + 64)
          else
             maxf = max(4096, mxi + 64)
-            maxp = max(64, 2*mxi + 8)
          end if
+         maxq = 4*maxf
       end subroutine buffer_sizes
+
+      ! a new face nf: its points start after the last face's
+      subroutine new_face(f)
+         integer, intent(in) :: f
+         if (f == 1) then
+            fs(f) = 1
+         else
+            fs(f) = fs(f - 1) + int(fn(f - 1))
+         end if
+      end subroutine new_face
+
+      ! the slots left for face f
+      integer function room(f)
+         integer, intent(in) :: f
+         room = maxq - fs(f) + 1
+      end function room
 
       subroutine faces3d(i, nf)
          integer(ik), intent(in) :: i
@@ -539,20 +543,23 @@ contains
                          .not. trd(e)) cycle
                      if (tri(3, e) == tri(2, t)) then
                         nf = nf + 1
+                        call new_face(nf)
                         fn(nf) = 3
                         fe(nf) = tre(t)
                         fj(nf) = trj(t)
-                        fp(1:3, nf) = [tri(1, t), tri(2, e), tri(3, t)]
+                        fq(fs(nf):fs(nf) + 2) = &
+                           [tri(1, t), tri(2, e), tri(3, t)]
                         exit
                      end if
                   end do
                   cycle
                end if
                nf = nf + 1
+               call new_face(nf)
                fn(nf) = 3
                fe(nf) = tre(t)
                fj(nf) = trj(t)
-               fp(1:3, nf) = tri(:, t)
+               fq(fs(nf):fs(nf) + 2) = tri(:, t)
             end do
             if (w > 0) call join(tri2, tre2, trj2, w, nf)
          end if
@@ -638,25 +645,26 @@ contains
                if (done(p)) cycle
                if (st == 1 .and. hasp(p)) cycle
                nf = nf + 1
+               call new_face(nf)
                fe(nf) = 0
                fj(nf) = 0
                n = 0
                if (st == 1) then
-                  fp(1:2, nf) = [i, mid(i, bnx(p))]
+                  fq(fs(nf):fs(nf) + 1) = [i, mid(i, bnx(p))]
                   n = 2
                end if
                q = p
                do
                   done(q) = .true.
-                  if (n < maxp) n = n + 1
-                  fp(n, nf) = s_f + bky(q)
+                  if (n < room(nf)) n = n + 1
+                  fq(fs(nf) + n - 1) = s_f + bky(q)
                   if (nxt(q) == 0) exit
                   if (done(nxt(q))) exit
                   q = nxt(q)
                end do
-               if (st == 1 .and. n < maxp) then
+               if (st == 1 .and. n < room(nf)) then
                   n = n + 1
-                  fp(n, nf) = mid(i, bpv(q))
+                  fq(fs(nf) + n - 1) = mid(i, bpv(q))
                end if
                fn(nf) = n
             end do
@@ -736,6 +744,7 @@ contains
                if (tri(3, mem(u)) == tri(2, s)) hasb = .true.
             end do
             nf = nf + 1
+            call new_face(nf)
             fe(nf) = ek(g0)
             fj(nf) = trj(s)
             n = 0
@@ -745,17 +754,17 @@ contains
             if (.not. hasb) then
                if (all(bflat(1:nflat) /= trj(s))) then
                   n = 1
-                  fp(1, nf) = tri(1, s)       ! m
+                  fq(fs(nf)) = tri(1, s)       ! m
                end if
             end if
             n = n + 1
-            fp(n, nf) = tri(2, s)
+            fq(fs(nf) + n - 1) = tri(2, s)
             t = s
             do
                used(t) = .true.
-               if (n >= maxp) exit
+               if (n >= room(nf)) exit
                n = n + 1
-               fp(n, nf) = tri(3, t)
+               fq(fs(nf) + n - 1) = tri(3, t)
                s = 0
                do u = gs(g0), gs(g0 + 1) - 1
                   if (.not. used(mem(u)) .and. &
@@ -765,7 +774,7 @@ contains
                t = s
             end do
             ! a ring ends where it began: drop the repeated point
-            if (fp(n, nf) == fp(1, nf)) n = n - 1
+            if (fq(fs(nf) + n - 1) == fq(fs(nf))) n = n - 1
             ! a face point between two circumcenters lies on the line
             ! through them, but not always between them: not a
             ! corner, so it is left out (the boundary face points at
@@ -779,20 +788,20 @@ contains
          integer, intent(in) :: f
          integer, intent(inout) :: n
          integer :: a, k, prv, nxt
-         logical :: keep(maxp)
+         logical :: keep(n)
          do a = 1, n
             prv = a - 1
             if (prv == 0) prv = n
             nxt = mod(a, n) + 1
-            keep(a) = .not. (is_face(fp(a, f)) .and. &
-                             is_cell(fp(prv, f)) .and. &
-                             is_cell(fp(nxt, f)))
+            keep(a) = .not. (is_face(fq(fs(f) + a - 1)) .and. &
+                             is_cell(fq(fs(f) + prv - 1)) .and. &
+                             is_cell(fq(fs(f) + nxt - 1)))
          end do
          k = 0
          do a = 1, n
             if (keep(a)) then
                k = k + 1
-               fp(k, f) = fp(a, f)
+               fq(fs(f) + k - 1) = fq(fs(f) + a - 1)
             end if
          end do
          n = k
@@ -830,7 +839,8 @@ contains
          isb = .false.
          do f = 1, nf
             nfc = nfc + 1
-            g%fconn(nfconn + 1:nfconn + fn(f)) = ren(fp(1:fn(f), f))
+            g%fconn(nfconn + 1:nfconn + fn(f)) = &
+               ren(fq(fs(f):fs(f) + fn(f) - 1))
             nfconn = nfconn + fn(f)
             g%foff(nfc) = nfconn
             g%pfaces(nfc) = nfc
@@ -860,7 +870,7 @@ contains
          kk = fe(f)
          nface_out = nface_out + 1
          faces%conn(nfconn_out + 1:nfconn_out + fn(f)) = &
-            ren(fp(1:fn(f), f))
+            ren(fq(fs(f):fs(f) + fn(f) - 1))
          nfconn_out = nfconn_out + fn(f)
          faces%off(nface_out) = nfconn_out
          faces%types(nface_out) = merge(7_int8, 5_int8, fn(f) > 3)
@@ -870,10 +880,11 @@ contains
               m%zic(jj) - m%zic(i)]
          ! the face's own vector area, about its first point
          av = 0.0_rk
-         p0 = g%xyz(:, ren(fp(1, f)))
+         p0 = g%xyz(:, ren(fq(fs(f))))
          do a = 2, int(fn(f)) - 1
-            av = av + 0.5_rk*cross(g%xyz(:, ren(fp(a, f))) - p0, &
-                                   g%xyz(:, ren(fp(a + 1, f))) - p0)
+            av = av + 0.5_rk* &
+               cross(g%xyz(:, ren(fq(fs(f) + a - 1))) - p0, &
+                     g%xyz(:, ren(fq(fs(f) + a))) - p0)
          end do
          fo_a(nface_out) = dot_product(av, e)/norm2(e)
          fo_c(nface_out) = area(kk)/norm2(e)
@@ -884,7 +895,7 @@ contains
       end subroutine put_face
 
       ! 2D: the polygon(s) of vertex i, one per chain of triangles
-      ! (one per fracture in a network), as slots in fp(:, f).
+      ! (one per fracture in a network), as faces of slots.
       subroutine faces2d(i, nf)
          integer(ik), intent(in) :: i
          integer, intent(out) :: nf
@@ -910,11 +921,12 @@ contains
                open = m%jtet(m%jtetoff(it) + pv) == m%mbndry
                if (guard == 1 .and. .not. open) cycle
                nf = nf + 1
+               call new_face(nf)
                fe(nf) = it
                n = 0
                if (open) then
                   n = 1
-                  fp(1, nf) = i
+                  fq(fs(nf)) = i
                end if
                s = t
                do
@@ -924,16 +936,16 @@ contains
                   li = findloc(v, i, dim=1)
                   nx = mod(li, 3) + 1
                   pv = mod(li + 1, 3) + 1
-                  if (n + 3 > maxp) exit
+                  if (n + 3 > room(nf)) exit
                   if (n == 0 .or. open .and. n == 1) then
                      n = n + 1
-                     fp(n, nf) = s_e + edge_index(i, v(nx), nn, &
-                                                  iedge_off, jedge)
+                     fq(fs(nf) + n - 1) = s_e + &
+                        edge_index(i, v(nx), nn, iedge_off, jedge)
                   end if
                   n = n + 1
-                  fp(n, nf) = s_c + it
+                  fq(fs(nf) + n - 1) = s_c + it
                   n = n + 1
-                  fp(n, nf) = s_e + edge_index(i, v(pv), nn, &
+                  fq(fs(nf) + n - 1) = s_e + edge_index(i, v(pv), nn, &
                                                iedge_off, jedge)
                   ! the neighbor across edge (i, prev): face nx
                   code = m%jtet(m%jtetoff(it) + nx)
@@ -949,13 +961,15 @@ contains
                   if (vor_cell(it) .and. vor_cell(jt)) n = n - 1
                   if (done(s)) exit
                end do
-               if (.not. open .and. fp(n, nf) == fp(1, nf)) then
+               if (.not. open .and. &
+                   fq(fs(nf) + n - 1) == fq(fs(nf))) then
                   n = n - 1
                else if (.not. open) then
                   ! the ring closed on the start triangle after
                   ! dropping its midpoint: drop the first one too
                   if (vor_cell(fe(nf)) .and. vor_cell(it)) then
-                     fp(1:n - 1, nf) = fp(2:n, nf)
+                     fq(fs(nf):fs(nf) + n - 2) = &
+                        fq(fs(nf) + 1:fs(nf) + n - 1)
                      n = n - 1
                   end if
                end if
@@ -972,7 +986,8 @@ contains
          call faces2d(i, nf)
          do f = 1, nf
             ncell = ncell + 1
-            g%conn(nconn + 1:nconn + fn(f)) = ren(fp(1:fn(f), f))
+            g%conn(nconn + 1:nconn + fn(f)) = &
+               ren(fq(fs(f):fs(f) + fn(f) - 1))
             nconn = nconn + fn(f)
             g%off(ncell) = nconn
             g%types(ncell) = 7_int8
@@ -989,8 +1004,8 @@ contains
             sa = 0.0_rk
             do a = 1, int(fn(f))
                sa = sa + 0.5_rk*dot_product(cross( &
-                  g%xyz(:, ren(fp(a, f))) - p0, &
-                  g%xyz(:, ren(fp(mod(a, int(fn(f))) + 1, f))) - p0), &
+                  g%xyz(:, ren(fq(fs(f) + a - 1))) - p0, &
+                  g%xyz(:, ren(fq(fs(f) + mod(a, int(fn(f)))))) - p0), &
                   nrm)
             end do
             cid(ncell) = i
@@ -1000,7 +1015,7 @@ contains
             cclr(ncell) = m%itetclr(it0)
             cmat(ncell) = m%itetclr(it0)
             if (associated(m%imt1)) cmat(ncell) = m%imt1(i)
-            cbnd(ncell) = merge(1_ik, 0_ik, fp(1, f) == i)
+            cbnd(ncell) = merge(1_ik, 0_ik, fq(fs(f)) == i)
             cface(ncell) = fn(f)
             cmin(ncell) = minc(i)
          end do
