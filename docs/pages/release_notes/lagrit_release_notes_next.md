@@ -21,6 +21,15 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   and coefficients are computed on the whole mesh first, so the model's
   boundary vertices keep their conforming volumes.
 
+- **dump / fehm / ... / exclude, imt [imt ...]** (and **dump / stor**):
+  the complete FEHM file set for a conforming Voronoi mesh without its
+  ghost generators, in one command. The .stor as dump / control_volume
+  exclude writes it; the .fehmn and the material, interface and
+  multi-material zones for the kept vertices, numbered as in the .stor;
+  the outside zones and areas from the faces the model shares with the
+  ghosts (each face to the side its normal points to most; each side
+  adds up to its area).
+
 ### Fixes
 
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
@@ -46,3 +55,4 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
+| 2026-11-24 | | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |

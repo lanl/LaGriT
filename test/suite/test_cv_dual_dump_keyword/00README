@@ -3,7 +3,7 @@ test_cv_dual_dump_keyword -- cv_dual | matbld on LaGriT's dump commands (Nov 202
 
 QUICK START
 
-  sh run_dump_keyword_tests.sh [path-to-lagrit]   8 cases, about 2 s
+  sh run_dump_keyword_tests.sh [path-to-lagrit]   12 cases, about 3 s
   open summary.html
 
   (cv_dual is the one beside lagrit: build/cv_dual)
@@ -40,6 +40,22 @@ WHAT IS TESTED
       line); a mesh that is not Delaunay and one with parent/child
       chains give an ERROR naming / matbld, and nothing is written;
       with / matbld (and / median) they are written.
+  d09 exclude (conforming Voronoi, ghosts left out), 2D: generators
+      at the centers of a 10 x 10 grid of squares in the unit square
+      (2 materials) and their mirror images (ghosts, material 3).
+      dump / fehm / ... / exclude, 3: the .stor equals dump / stor's,
+      dump / control_volume's and the program's; the .fehmn and
+      material zones equal those written after removing the ghosts
+      (dump / coord, dump / zone_imt); each side's outside areas add up
+      to 1; the corner cells are in 2 zones.
+  d10 the same in 3D: a box 1 x 0.8 x 0.6, ghosts across six sides;
+      each side adds up to its area; corner cells in 3 zones, the other
+      edge cells in 2.
+  d11 a mesh from the 2D FEHM test set (inputs/lens_seeds.inp: a
+      100 x 50 box, a lens, seeds2d.py's generators): the same checks
+      as d09; the sides add up to 100 and 50.
+  er02 exclude commands that must fail: no number, every material,
+      dump / pflotran, with matbld, on hexes.
   er01 six commands that must fail: median without cv_dual, cv_dual
       with matbld, two kinds of control volumes, median with binary,
       dump / fehm on a mesh that is not Delaunay and on hexes.
@@ -58,6 +74,11 @@ WHAT IS CHECKED (check_dump_keyword.py; cases.txt lists each case's)
   zones      the geometry and zone files equal matbld's byte for byte
   areaeq     boundary areas equal matbld's to their 13 digits
              (Voronoi, median)
+  same       two files equal byte for byte (a .stor's line 2 aside)
+  ghostsum   exclude: each side's outside vectors add up to the side
+             of the box (2D: length); none has a part off its side's
+             normal
+  ghostcorner  exclude: how many outside vertices are in 2 zones, 3
   arealist   each vertex's boundary area in LaGriT's zone and area files
              equals the program's outside_area list
   boxsum     on a box each side's signed areas along its normal add up

@@ -1,0 +1,35 @@
+# d09_exclude2d.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a conforming Voronoi mesh of the unit square in 2 materials: the
+# generators at the centers of a 10 x 10 grid of squares (material 1
+# below y = 0.5, 2 above) and their mirror images across the sides
+# (the ghosts, material 3). dump / fehm, dump / stor and
+# dump / control_volume with exclude, 3; and the route without it:
+# the ghosts removed, then dump / coord and dump / zone_imt.
+cmo / create / mo / / / triplane
+createpts / xyz / 12 12 1 / -0.05 -0.05 0. / 1.05 1.05 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+resetpts / itp
+pset / p2 / attribute / yic / 1 0 0 / gt 0.5
+cmo / setatt / mo / imt / pset get p2 / 2
+pset / pg1 / attribute / xic / 1 0 0 / lt 0.
+pset / pg2 / attribute / xic / 1 0 0 / gt 1.
+pset / pg3 / attribute / yic / 1 0 0 / lt 0.
+pset / pg4 / attribute / yic / 1 0 0 / gt 1.
+pset / pg / union / pg1 pg2 pg3 pg4
+cmo / setatt / mo / imt / pset get pg / 3
+dump / avs / mesh.inp / mo
+dump / fehm / f_ex / mo / exclude, 3
+dump / stor / s_ex / mo / exclude, 3
+dump / control_volume / mo / stor, c_ex.stor / exclude, 3
+cmo / copy / mo2 / mo
+cmo / select / mo2
+pset / pgh / attribute / imt1 / 1 0 0 / eq 3
+rmpoint / pset get pgh / inclusive
+rmpoint / compress
+dump / coord / r_ex / mo2
+dump / zone_imt / r_ex / mo2
+cmo / select / mo
+dump / avs / after.inp / mo
+finish

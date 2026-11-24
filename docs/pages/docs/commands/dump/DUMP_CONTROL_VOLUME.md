@@ -247,9 +247,10 @@ would then be cut off by what is left of the mesh, not by the
 conforming faces. A material not in the mesh is ignored; excluding
 every vertex is refused. The vertex attributes (**`attribute_cv_volume`**,
 the **`ccoef_*`** keywords), the ParaView, matrix and alpha files and
-**`outside_area`** still cover the whole mesh. How the areas of the
-faces between the model and its ghosts (the model's boundary) are
-passed to FEHM is not settled yet.
+**`outside_area`** still cover the whole mesh. For a complete FEHM
+file set without the ghosts (the .fehmn, the zones, and the outside
+zones and areas from the faces shared with the ghosts), use
+[dump / fehm ... / exclude](../DUMP2.md#fehm).
 
 ```
 dump / control_volume / mo_mesh / stor, model.stor / exclude, 4

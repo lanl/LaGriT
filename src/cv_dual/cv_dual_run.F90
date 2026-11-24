@@ -59,6 +59,19 @@ module cv_dual_run
    private
    public :: run_start, run_mesh, run_finish, run_abandon, &
              log_options, want_vertex_stats, vertex_stats
+   public :: want_ghost_faces, nghost_face, ghost_face_v, &
+             ghost_face_vec
+
+   ! For LaGriT's dump / fehm ... / exclude: with want_ghost_faces set
+   ! and exclude given, exclude_reduce lists every face between a kept
+   ! vertex and an excluded one (a ghost): ghost_face_v(k) the kept
+   ! vertex in the kept numbering (1, 2, ... as in the .stor),
+   ! ghost_face_vec(:, k) A(ij) times the unit vector from the vertex
+   ! to the ghost. Zero-area connections are left out.
+   logical, save :: want_ghost_faces = .false.
+   integer(ik), save :: nghost_face = 0
+   integer(ik), allocatable, save :: ghost_face_v(:)
+   real(rk), allocatable, save :: ghost_face_vec(:, :)
 
    ! For LaGriT's dump / control_volume (its ccoef_* keywords): with
    ! want_vertex_stats set, run_mesh fills vertex_stats(10, nnodes),
@@ -388,7 +401,8 @@ contains
       subroutine exclude_reduce()
          logical, allocatable :: keep(:)
          integer(ik), allocatable :: newid(:)
-         integer(ik) :: i, e, j, ne, nlost
+         integer(ik) :: i, e, j, k, ne, nlost, nf, ntiny
+         real(rk) :: d(3), dl, amax, atol
          character(len=256) :: ln
          allocate (keep(m%nnodes), newid(m%nnodes))
          do i = 1, m%nnodes
@@ -443,6 +457,73 @@ contains
             end do
          end do
          offx(nx + 1) = ne + 1
+         if (want_ghost_faces) then
+            ! the faces between kept vertices and ghosts (see the
+            ! module's header)
+            ! (each edge is stored once, at its lower vertex: the
+            ! kept vertex is either end). A face below 1e-10 of the
+            ! largest is round-off (four nearly co-circular points) and
+            ! is left out.
+            amax = 0.0_rk
+            do i = 1, m%nnodes
+               do e = iedge_off(i), iedge_off(i + 1) - 1
+                  if (keep(i) .eqv. keep(jedge(e))) cycle
+                  if (skip(e)) cycle
+                  amax = max(amax, abs(area(e)))
+               end do
+            end do
+            atol = 1.0e-10_rk*amax
+            nf = 0
+            ntiny = 0
+            do i = 1, m%nnodes
+               do e = iedge_off(i), iedge_off(i + 1) - 1
+                  if (keep(i) .eqv. keep(jedge(e))) cycle
+                  if (skip(e) .or. area(e) == 0.0_rk) cycle
+                  if (abs(area(e)) <= atol) then
+                     ntiny = ntiny + 1
+                     cycle
+                  end if
+                  nf = nf + 1
+               end do
+            end do
+            if (allocated(ghost_face_v)) deallocate (ghost_face_v)
+            if (allocated(ghost_face_vec)) deallocate (ghost_face_vec)
+            allocate (ghost_face_v(max(nf, 1_ik)), &
+                      ghost_face_vec(3, max(nf, 1_ik)))
+            nf = 0
+            do i = 1, m%nnodes
+               do e = iedge_off(i), iedge_off(i + 1) - 1
+                  if (keep(i) .eqv. keep(jedge(e))) cycle
+                  if (skip(e) .or. abs(area(e)) <= atol) cycle
+                  if (area(e) == 0.0_rk) cycle
+                  ! k the kept vertex, j the ghost
+                  if (keep(i)) then
+                     k = i
+                     j = jedge(e)
+                  else
+                     k = jedge(e)
+                     j = i
+                  end if
+                  d = [m%xic(j) - m%xic(k), m%yic(j) - m%yic(k), &
+                       m%zic(j) - m%zic(k)]
+                  dl = norm2(d)
+                  if (dl == 0.0_rk) cycle
+                  nf = nf + 1
+                  ghost_face_v(nf) = newid(k)
+                  ghost_face_vec(:, nf) = area(e)*d/dl
+               end do
+            end do
+            nghost_face = nf
+            write (ln, '(a,i0,a)') 'cv_dual: exclude: ', nf, &
+               ' faces between kept and excluded vertices'
+            call log_line(trim(ln))
+            if (ntiny > 0) then
+               write (ln, '(a,i0,a)') 'cv_dual: exclude: ', ntiny, &
+                  ' of them below 1e-10 of the largest left out '// &
+                  '(round-off)'
+               call log_line(trim(ln))
+            end if
+         end if
          write (ln, '(a,i0,a,i0,a,i0,a)') 'cv_dual: exclude: ', nx, &
             ' of ', m%nnodes, ' vertices written (', m%nnodes - nx, &
             ' excluded)'
@@ -453,6 +534,8 @@ contains
          if (len_trim(opt%outside_area) > 0) call log_line( &
             'cv_dual: exclude: outside_area is the whole mesh''s '// &
             '(its numbering)')
+
+
       end subroutine exclude_reduce
 
       subroutine vertex_stats_fill()
