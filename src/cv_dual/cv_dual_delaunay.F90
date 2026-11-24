@@ -81,6 +81,7 @@ module cv_dual_delaunay
       integer(ik) :: nviol(2) = 0      ! violations beyond tol
       integer(ik) :: nfatal(2) = 0     ! of them, beyond fatal_tol
       integer(ik) :: nties = 0         ! |delta/L| <= tol
+      integer(ik) :: nflat = 0         ! facets of flat tets (ties)
       real(rk) :: worst = huge(1.0_rk) ! smallest delta/L
       integer(ik) :: worst_cell(2) = 0
       real(rk) :: worst_x(3) = 0.0_rk  ! facet center there
@@ -112,7 +113,7 @@ contains
       real(rk) :: dl, el, r1, r2, s
       integer(ik) :: it, jt, code, fv(3), o1, o2, jf
       integer :: j, k, nf, cls
-      logical :: ok1, ok2, iface
+      logical :: ok1, ok2, iface, fl1, fl2
 
       d%tol = tol
       d%fatal_tol = max(fatal_tol, tol)
@@ -140,9 +141,10 @@ contains
             end do
             o1 = itet(itetoff(it) + j)
             if (code == mbndry) then
-               ! boundary facet: T's circumcenter beyond it?
-               call circ(it, ref, c1, ok1)
-               if (.not. ok1) cycle
+               ! boundary facet: T's circumcenter beyond it? (not for
+               ! a flat tet: its center is in its plane)
+               call circ(it, ref, c1, ok1, fl1)
+               if (.not. ok1 .or. fl1) cycle
                w = xyz(o1) - ref
                n = facet_normal(p, w)
                n = -n
@@ -168,13 +170,19 @@ contains
             jf = code - nen*(jt - 1)
             if (jt < it) cycle             ! each facet once
             o2 = itet(itetoff(jt) + jf)
-            call circ(it, ref, c1, ok1)
-            call circ(jt, ref, c2, ok2)
+            call circ(it, ref, c1, ok1, fl1)
+            call circ(jt, ref, c2, ok2, fl2)
             if (.not. (ok1 .and. ok2)) cycle
             w = xyz(o2) - ref
             n = facet_normal(p, w)
             el = facet_length(p)
             dl = dot_product(c2 - c1, n)/el
+            ! a facet of a flat tet (four points on a circle) is a tie:
+            ! the flat tet's center stands for a whole axis of centers
+            if (fl1 .or. fl2) then
+               dl = 0.0_rk
+               d%nflat = d%nflat + 1
+            end if
             cls = class_interior
             if (iface) cls = class_interface
             d%nchecked(cls) = d%nchecked(cls) + 1
@@ -224,22 +232,27 @@ contains
       end subroutine facet
 
       ! circumcenter of cell ic, relative to the point r0
-      subroutine circ(ic, r0, c, ok)
+      subroutine circ(ic, r0, c, ok, flat)
          integer(ik), intent(in) :: ic
          real(rk), intent(in) :: r0(3)
          real(rk), intent(out) :: c(3)
          logical, intent(out) :: ok
-         real(rk) :: q(3, 4)
+         logical, intent(out), optional :: flat
+         real(rk) :: q(3, 4), qa(3, 4)
+         logical :: fl
          integer :: m
          do m = 1, int(nen)
-            q(:, m) = xyz(itet(itetoff(ic) + m)) - r0
+            qa(:, m) = xyz(itet(itetoff(ic) + m))
+            q(:, m) = qa(:, m) - r0
          end do
+         fl = .false.
          if (nen == 3) then
             call circumcenter_tri(q(:, 1), q(:, 2), q(:, 3), c, ok)
          else
             call circumcenter_tet(q(:, 1), q(:, 2), q(:, 3), q(:, 4), &
-                                  c, ok)
+                                  c, ok, fl, qa, r0)
          end if
+         if (present(flat)) flat = fl
       end subroutine circ
 
       ! circumradius / shortest edge of cell ic

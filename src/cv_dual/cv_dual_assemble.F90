@@ -180,7 +180,7 @@ contains
       integer(ik), intent(in), optional :: jtetoff(:), jtet(:), mbndry
       real(rk), intent(in), optional :: a_cell
 
-      real(rk) :: x(3, 4), x0(3), pc(3), pf(3, 4)
+      real(rk) :: x(3, 4), xa(3, 4), x0(3), pc(3), pf(3, 4)
       real(rk) :: avec(3, 6), wvol(6), e(3), a, af(4)
       integer(ik) :: iv(4)
       integer :: j, ie, ia, ib
@@ -194,7 +194,8 @@ contains
       ! shift so vertex 1 is at the origin
       x0 = [xic(iv(1)), yic(iv(1)), zic(iv(1))]
       do j = 1, int(nen)
-         x(:, j) = [xic(iv(j)), yic(iv(j)), zic(iv(j))] - x0
+         xa(:, j) = [xic(iv(j)), yic(iv(j)), zic(iv(j))]
+         x(:, j) = xa(:, j) - x0
       end do
 
       a = 1.0_rk
@@ -216,7 +217,7 @@ contains
                              pol%clamp, pol%amin, af)
             if (present(a_cell)) af = min(af, a_cell)
          end if
-         call dual_points_tet(x, a, af, pc, pf, okp)
+         call dual_points_tet(x, a, af, pc, pf, okp, xa, x0)
          call kernel_tet(x, pc, pf, avec, wvol, ok)
       end if
       p%ok = ok .and. okp
