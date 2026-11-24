@@ -676,7 +676,7 @@ look at, clip and color in ParaView. Open `ROOT.pvd`; it loads:
 | file | cells | data |
 |---|---|---|
 | `ROOT_mesh.vtu` | the input triangles or tets | cell: `itetclr`, `alpha`, `stage`; vertex: `vertex`, `volume`, `imt1`, `boundary` |
-| `ROOT_cells.vtu` | one per control volume: a polygon (triangles; in a fracture network one per vertex per fracture) or a polyhedron (tets) | `vertex`, `volume`, `material`, `boundary`, `nfaces`, `min_coefficient` |
+| `ROOT_cells.vtu` | one per control volume: a polygon (triangles; in a fracture network one per vertex per fracture) or a polyhedron (tets) | `vertex`, `volume`, `material` (the vertex's `imt1`), `boundary`, `nfaces`, `min_coefficient`; polygons also `itetclr` (the color of their triangles: in a fracture network, the fracture) |
 | `ROOT_negative.vtu` | one segment per negative coefficient (written only if there is one) | `coefficient`, `class` (1 boundary, 2 interior, 3 interface), `vertex_i`, `vertex_j` |
 | `ROOT_faces.vtu` | with `-paraview_faces on` (tets): each dual face, one polygon (Voronoi) or its triangles | `vertex_i`, `vertex_j`, `area` (along the edge), `coefficient`, `angle` |
 | the violations file | when the Delaunay check flagged facets | ([section 8](#8-the-violations-file)) |

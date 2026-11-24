@@ -177,7 +177,10 @@ mesh (`root_mesh.vtu`), one cell per control volume
 fracture in a network; a polyhedron for tets), and the negative
 coefficients as segments (`root_negative.vtu`, when there are any).
 The cells are drawn from the dual points the coefficients came from
-(moved ones with **`cv, hybrid`**).
+(moved ones with **`cv, hybrid`**). Each cell's `material` is its
+vertex's **imt1**, the material the .stor and zone files use; a polygon
+also has `itetclr`, the color of the triangles it comes from (in a
+fracture network, its fracture).
 
 **`paraview_faces`**, **`on`** | **`off`**
 

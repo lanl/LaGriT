@@ -3,7 +3,7 @@ test_cv_dual_paraview -- the ParaView files (Nov 2026)
 
 QUICK START
 
-  sh run_paraview_tests.sh [path-to-cv_dual]   11 runs, about 5 s
+  sh run_paraview_tests.sh [path-to-cv_dual]   12 runs, about 5 s
   open summary.html
 
 WHAT IS TESTED
@@ -17,8 +17,10 @@ WHAT IS TESTED
                        per vertex per fracture in a network) or a
                        polyhedron (3D), drawn from the dual points the
                        coefficients came from (moved ones with cv
-                       hybrid); data: vertex, volume, material,
-                       boundary, nfaces, min_coefficient
+                       hybrid); data: vertex, volume, material
+                       (the vertex's imt1), boundary, nfaces,
+                       min_coefficient; polygons also itetclr (their
+                       triangles' color: the fracture in a network)
     ROOT_negative.vtu  one segment per negative coefficient (when
                        there is one): coefficient, class
     ROOT_faces.vtu     with paraview_faces on (tets): one polygon per
@@ -89,5 +91,7 @@ FILES
 
   run_paraview_tests.sh   runner (work/, logs/)
   cases.txt               the cases: name | mesh | arguments | about
+  inputs/two_mat2d.inp    a 6 x 4 grid of triangles in two materials,
+                          imt1 and itetclr different on one row
   vtu_read.py             the reader and the measures
   check_paraview.py       checks, pictures, summary.html
