@@ -75,13 +75,13 @@ rootname_material.zone      rootname_multi_mat.zone      rootname_outside.zone  
 
  ```
 
-    For a mesh of any shape, each outside face goes to the side its
-    outward normal points to most (its largest component), a face whose
-    normal is exactly between two or three sides goes to each of them,
-    and a node is listed in the zone of every side its faces go to. The
-    details, with pictures of spheres meshed three ways, a box, and a
-    conforming Voronoi mesh, are in
-    [Outside zones: how they are chosen](OUTSIDE_ZONES.md).
+For a mesh of any shape, each outside face goes to the side its
+outward normal points to most (its largest component), a face whose
+normal is exactly between two or three sides goes to each of them,
+and a node is listed in the zone of every side its faces go to. The
+details, with pictures of spheres meshed three ways, a box, and a
+conforming Voronoi mesh, are in
+[Outside zones: how they are chosen](OUTSIDE_ZONES.md).
  
 6.  **\_outside_vor.area** (default) or **\_outside_med.area**
     (with **cv_dual** also **\_outside_hyb.area**, named by the
