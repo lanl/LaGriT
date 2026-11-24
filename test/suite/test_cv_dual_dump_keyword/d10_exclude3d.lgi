@@ -1,0 +1,24 @@
+# d10_exclude3d.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a conforming Voronoi mesh of the box 1 x 0.8 x 0.6: the generators at
+# the centers of a 5 x 4 x 3 grid of cubes and their mirror images
+# across the six sides (the ghosts, material 2). dump / fehm with
+# exclude, 2: each side's faces add up to its area; the corner cells
+# are in three zones, the edge cells in two.
+cmo / create / mo / / / tet
+createpts / xyz / 7 6 5 / -0.1 -0.1 -0.1 / 1.1 0.9 0.7 / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+resetpts / itp
+pset / pg1 / attribute / xic / 1 0 0 / lt 0.
+pset / pg2 / attribute / xic / 1 0 0 / gt 1.
+pset / pg3 / attribute / yic / 1 0 0 / lt 0.
+pset / pg4 / attribute / yic / 1 0 0 / gt 0.8
+pset / pg5 / attribute / zic / 1 0 0 / lt 0.
+pset / pg6 / attribute / zic / 1 0 0 / gt 0.6
+pset / pg / union / pg1 pg2 pg3 pg4 pg5 pg6
+cmo / setatt / mo / imt / pset get pg / 2
+dump / avs / mesh.inp / mo
+dump / fehm / f_ex / mo / exclude, 2
+dump / avs / after.inp / mo
+finish

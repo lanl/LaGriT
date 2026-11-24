@@ -57,7 +57,8 @@ python3 -I ../test_cv_dual_delaunay/make_delaunay_inputs.py "$WORK/gen" \
     > "$LOGDIR/make_inputs.out" || exit 1
 INPUTS="../test_cv_dual_dfn/inputs/full_mesh.inp
 ../test_cv_dual_poisson_lagrit/inputs/test_3d_poi_01.inp
-$WORK/gen/flip3d.inp"
+$WORK/gen/flip3d.inp
+inputs/lens_seeds.inp"
 
 grep -v '^#' cases.txt | grep '|' | while IFS='|' read -r name runs rest; do
     name=$(echo "$name" | tr -d ' ')

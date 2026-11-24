@@ -1,0 +1,29 @@
+# d11_exclude_lens.lgi -- test_cv_dual_dump_keyword (see 00README)
+# a conforming Voronoi mesh from the 2D FEHM test set (P5_lens,
+# U_cvor, coarse; seeds2d.py's generators): a 100 x 50 box, a lens of
+# material 2 (radius 10) in material 1, ghosts of material 3.
+# dump / fehm with exclude, 3, against dump / control_volume and the
+# route that removes the ghosts.
+cmo / create / mo / / / triplane
+read / avs / lens_seeds.inp / mo
+cmo / addatt / mo / imt_keep / VINT / scalar / nnodes
+cmo / copyatt / mo mo / imt_keep imt1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+resetpts / itp
+cmo / copyatt / mo mo / imt1 imt_keep
+cmo / DELATT / mo / imt_keep
+dump / avs / mesh.inp / mo
+dump / fehm / f_ex / mo / exclude, 3
+dump / control_volume / mo / stor, c_ex.stor / exclude, 3
+cmo / copy / mo2 / mo
+cmo / select / mo2
+pset / pgh / attribute / imt1 / 1 0 0 / eq 3
+rmpoint / pset get pgh / inclusive
+rmpoint / compress
+dump / coord / r_ex / mo2
+dump / zone_imt / r_ex / mo2
+cmo / select / mo
+dump / avs / after.inp / mo
+finish

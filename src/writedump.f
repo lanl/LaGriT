@@ -278,7 +278,7 @@ C     dump_cv_dual: the keyword cv_dual | matbld
      
       integer icharlnf 
 
-      logical lopt1, lopt2
+      logical lopt1, lopt2, lexcl
 
       character*32 idsb
       character*32 ioption, ioption2, ioption3, ifile, iomode
@@ -628,7 +628,14 @@ C        keywords are checked just before call to dumpfehm
      1      (ioption(1:leno).eq.'stor')) then
 
 C           check for integer imt1 value for material list
-            if (msgtype(nwds).eq.1) then
+C           (not the numbers after exclude: those are its materials)
+            lexcl = .false.
+            do ii = 5, nwds
+               if (msgtype(ii).eq.3) then
+                  if (cmsgin(ii).eq.'exclude') lexcl = .true.
+               endif
+            enddo
+            if (msgtype(nwds).eq.1 .and. .not.lexcl) then
                imt_select = imsgin(nwds)
                nwds=nwds-1
             endif

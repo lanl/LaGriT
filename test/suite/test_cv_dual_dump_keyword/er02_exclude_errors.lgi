@@ -1,0 +1,25 @@
+# er02_exclude_errors.lgi -- test_cv_dual_dump_keyword (see 00README)
+# exclude commands that must fail, on d09's square: no number, every
+# material excluded, dump / pflotran, with matbld, on hexes. Each
+# gives an ERROR line, writes nothing, and LaGriT goes on.
+cmo / create / mo / / / triplane
+createpts / xyz / 12 12 1 / -0.05 -0.05 0. / 1.05 1.05 0. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+cmo / setatt / mo / itp / 1 0 0 / 0
+connect
+resetpts / itp
+pset / pg1 / attribute / xic / 1 0 0 / lt 0.
+pset / pg2 / attribute / xic / 1 0 0 / gt 1.
+pset / pg3 / attribute / yic / 1 0 0 / lt 0.
+pset / pg4 / attribute / yic / 1 0 0 / gt 1.
+pset / pg / union / pg1 pg2 pg3 pg4
+cmo / setatt / mo / imt / pset get pg / 3
+dump / fehm / bad1 / mo / exclude
+dump / fehm / bad2 / mo / exclude, 1, 3
+dump / pflotran / bad3 / mo / exclude, 3
+dump / fehm / bad4 / mo / matbld / exclude, 3
+cmo / create / mo_hex / / / hex
+createpts / brick / xyz / 3 3 3 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+dump / stor / bad5 / mo_hex / exclude, 1
+dump / avs / after.inp / mo
+finish

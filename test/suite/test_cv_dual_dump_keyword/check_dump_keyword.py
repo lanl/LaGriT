@@ -290,6 +290,54 @@ def main():
                     put('boxsum', '%s (%s): %d sides add up to their '
                         'areas (largest relative difference %.1e)' % (
                             a[0], a[1], n, worst), ok)
+                elif kind == 'same':
+                    # two files equal byte for byte (a .stor's line 2
+                    # aside): exclude against the route without it
+                    ok = same_bytes(open(os.path.join(d, a[0]), 'rb').read(),
+                                    open(os.path.join(d, a[1]), 'rb').read(),
+                                    a[0])
+                    put('same', '%s %s %s' % (a[0], '=' if ok else
+                                              'DIFFERS from', a[1]), ok)
+                elif kind == 'ghostsum':
+                    # exclude: each side's faces (shared with ghosts)
+                    # add up to the side of the box Lx x Ly x Lz (a 0
+                    # for the plane of a 2D mesh); every vector in a
+                    # side's zone points along that side's normal
+                    L = [float(x) for x in a[2:5]]
+                    worst, n, off = 0.0, 0, 0.0
+                    seen = []
+                    for zn, vv in zone_areas(d, a[0], a[1]):
+                        ax, sg = NORMAL[zn]
+                        want = 1.0
+                        for i in range(3):
+                            if i != ax and L[i] > 0.0:
+                                want *= L[i]
+                        got = sg * sum(vec[ax] for _, vec in vv)
+                        worst = max(worst, abs(got - want) / want)
+                        off = max([off] + [abs(vec[i]) for _, vec in vv
+                                           for i in range(3) if i != ax])
+                        n += 1
+                        seen.append(zn)
+                    nside = sum(1 for x in L if x > 0.0) * 2
+                    ok = n == nside and worst <= 1e-12 and \
+                        off <= 1e-12 * max(L)
+                    put('ghostsum', '%s: %d sides (%s) add up to their '
+                        'areas (largest relative difference %.1e); '
+                        'off-normal parts %.1e' % (
+                            a[0], n, ' '.join(seen), worst, off), ok)
+                elif kind == 'ghostcorner':
+                    # how many vertices are in 2 zones, and in 3
+                    cnt = {}
+                    for zn, verts in zone_blocks(
+                            os.path.join(d, a[0] + '_outside.zone'), False):
+                        for v in verts:
+                            cnt[v] = cnt.get(v, 0) + 1
+                    n2 = sum(1 for c in cnt.values() if c == 2)
+                    n3 = sum(1 for c in cnt.values() if c == 3)
+                    ok = n2 == int(a[1]) and n3 == int(a[2])
+                    put('ghostcorner', '%s: %d outside vertices, %d in 2 '
+                        'zones (expected %s), %d in 3 (expected %s)' % (
+                            a[0], len(cnt), n2, a[1], n3, a[2]), ok)
                 elif kind == 'att':
                     have = avs_attributes(os.path.join(d, 'after.inp'))
                     put('att', '%s %s' % (arg, 'in after.inp' if arg in
