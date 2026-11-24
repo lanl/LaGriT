@@ -50,7 +50,7 @@ command changes nothing in the mesh object, except the attributes of
      / [<b>paraview_subset</b>, <b>all</b>|<b>boundary</b>|<b>flagged</b>|<b>material</b> N|<b>box</b> x1 y1 z1 x2 y2 z2] &
      / [<b>vtu_format</b>, <b>binary</b>|<b>ascii</b>] / [<b>vtu_layout</b>, <b>new</b>|<b>legacy</b>] &
      / [<b>matrix</b>, file_name] / [<b>matrix_bins</b>, n] &
-     / [<b>outside_area</b>, file_name] / [<b>exclude</b>, imt [imt ...]] &
+     / [<b>outside_area</b>, file_name] / [<b>exclude</b>, imt [imt ...]] / [<b>exclude_force</b>] &
      / [<b>delaunay_tol</b>, value] / [<b>delaunay_fatal</b>, value] &
      / [<b>violations</b>, file_name] &
      / [<b>check_only</b>, <b>on</b>|<b>off</b>] / [<b>report</b>, file_name] &
@@ -252,9 +252,29 @@ file set without the ghosts (the .fehmn, the zones, and the outside
 zones and areas from the faces shared with the ghosts), use
 [dump / fehm ... / exclude](../DUMP2.md#fehm).
 
+Two checks that the mesh is what **`exclude`** is for (Nov 2026).
+(1) The excluded vertices must surround the model: if any kept vertex
+is on the outside of the whole mesh (its outer boundary, or a gap in
+it), the excluded materials do not enclose the model (a real material
+excluded by mistake, a wrong number, a mesh that is not a conforming
+Voronoi mesh), and nothing is written, with an ERROR; the keyword
+**`exclude_force`** writes the files anyway, with a WARNING. A planned
+hole is fine when it has ghosts of its own inside it: the Delaunay
+mesh fills the hole with them, so no kept vertex is on the outside.
+(2) The faces between kept and excluded vertices are grouped into
+pieces (faces that meet at a cell's circumcenter are in one piece),
+and each piece must be closed: its face vectors add up to zero. Each
+piece's vertices and area are listed, with the kept volume; a piece
+that is not closed gives a WARNING. For a cube with a cube-shaped hole
+there are two closed pieces, the outside and the hole's walls. Nothing
+can tell a hole that was meant but has no ghosts (the Delaunay mesh
+fills it with kept cells): the list of pieces shows it (one where two
+were expected).
+
 ```
 dump / control_volume / mo_mesh / stor, model.stor / exclude, 4
 dump / control_volume / mo_mesh / stor, model.stor / exclude, 4 6 9
+dump / control_volume / mo_mesh / stor, model.stor / exclude, 4 / exclude_force
 ```
 
 **`outside_area`**, file_name

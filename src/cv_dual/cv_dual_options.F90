@@ -144,6 +144,10 @@ module cv_dual_options
       logical :: timing = .false.
       integer :: nexclude = 0
       integer :: exclude(64) = 0
+      ! exclude_force: write even when kept vertices are on the
+      ! outside of the mesh (the excluded materials do not surround
+      ! the model)
+      logical :: exclude_force = .false.
    end type options_t
 
    character(len=*), parameter :: option_keywords = &
@@ -151,7 +155,7 @@ module cv_dual_options
       'delaunay_tol delaunay_fatal violations check_only report '// &
       'timing alpha hybrid_tol alpha_min hybrid_iter alpha_file '// &
       'paraview paraview_faces paraview_subset vtu_format '// &
-      'vtu_layout matrix matrix_bins outside_area exclude '// &
+      'vtu_layout matrix matrix_bins outside_area exclude exclude_force '// &
       'type o tough2'
 
 contains
@@ -250,6 +254,11 @@ contains
                return
             end if
             i = i + j + 1
+            cycle
+         case ('exclude_force')
+            ! no value
+            opt%exclude_force = .true.
+            i = i + 1
             cycle
          case ('compress')
             ! value optional, for lanl/voronoi's bare -compress
@@ -690,6 +699,7 @@ contains
             if (k < opt%nexclude) t = t//','
          end do
       end if
+      if (opt%exclude_force) t = t//' exclude_force=on'
       t = t//' check_only='//trim(merge('on ', 'off', opt%check_only))
       if (len_trim(opt%report) > 0) t = t//' report='//trim(opt%report)
       if (opt%timing) t = t//' timing=on'
@@ -707,7 +717,7 @@ contains
             'delaunay_fatal', 'alpha', 'hybrid_tol', 'alpha_min', &
             'hybrid_iter', 'alpha_file', 'paraview', 'paraview_faces', &
             'paraview_subset', 'vtu_format', 'vtu_layout', 'matrix', &
-            'matrix_bins', 'outside_area', 'exclude')
+            'matrix_bins', 'outside_area', 'exclude', 'exclude_force')
          is_keyword = .true.
       case default
          is_keyword = .false.

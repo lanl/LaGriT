@@ -267,6 +267,16 @@ subroutine dump_cv_dual(imsgin, xmsgin, cmsgin, msgtype, nwds, ifirst, &
          options = trim(options)//', '//trim(why)
       end do
    end if
+   ! exclude_force: write even if the excluded materials do not
+   ! surround the model (cv_dual refuses otherwise)
+   if (nexcl > 0) then
+      do k = ifirst, nwds
+         if (msgtype(k) == 3) then
+            if (trim(cmsgin(k)) == 'exclude_force') &
+               options = trim(options)//' / exclude_force'
+         end if
+      end do
+   end if
    ! flagged facets (a mesh slightly not Delaunay) go beside the
    ! files, named for them, not to violations.vtu
    options = trim(options)//' / violations, '// &
@@ -546,7 +556,8 @@ logical function dump_fehm_word(w)
          'none', 'all', 'keepatt', 'delatt', 'keepatt_voronoi', &
          'keepatt_median', 'keepatt_area', 'hybrid', 'nohybrid', &
          'more', 'verbose', 'filter_zero', 'nofilter_zero', &
-         'cv_dual', 'matbld', 'voronoi', 'median', 'exclude')
+         'cv_dual', 'matbld', 'voronoi', 'median', 'exclude', &
+         'exclude_force')
       dump_fehm_word = .true.
    case default
       dump_fehm_word = .false.

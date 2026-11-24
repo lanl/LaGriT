@@ -3,7 +3,7 @@ test_cv_dual_dump_keyword -- cv_dual | matbld on LaGriT's dump commands (Nov 202
 
 QUICK START
 
-  sh run_dump_keyword_tests.sh [path-to-lagrit]   12 cases, about 3 s
+  sh run_dump_keyword_tests.sh [path-to-lagrit]   14 cases, about 3 s
   open summary.html
 
   (cv_dual is the one beside lagrit: build/cv_dual)
@@ -54,6 +54,15 @@ WHAT IS TESTED
   d11 a mesh from the 2D FEHM test set (inputs/lens_seeds.inp: a
       100 x 50 box, a lens, seeds2d.py's generators): the same checks
       as d09; the sides add up to 100 and 50.
+  d12 a planned hole: a cube with a cube cut out of its middle, ghosts
+      outside and inside the hole: the check that the ghosts surround
+      the model passes; 2 closed pieces (the outside, the hole's
+      walls); each side's zone holds the box side and the hole wall
+      facing the same way.
+  er03 exclude on meshes that are not conforming: a layer excluded
+      from a grid, and a gap with no ghosts in it: ERROR, nothing
+      written; the first with exclude_force: written, with WARNINGs
+      (kept vertices on the outside; a piece NOT closed).
   er02 exclude commands that must fail: no number, every material,
       dump / pflotran, with matbld, on hexes.
   er01 six commands that must fail: median without cv_dual, cv_dual
@@ -79,6 +88,8 @@ WHAT IS CHECKED (check_dump_keyword.py; cases.txt lists each case's)
              of the box (2D: length); none has a part off its side's
              normal
   ghostcorner  exclude: how many outside vertices are in 2 zones, 3
+  sidesum    exclude: one side's vectors along its normal add up to the
+             value given
   arealist   each vertex's boundary area in LaGriT's zone and area files
              equals the program's outside_area list
   boxsum     on a box each side's signed areas along its normal add up

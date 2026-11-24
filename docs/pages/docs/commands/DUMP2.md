@@ -230,6 +230,8 @@ The following keyword commands are optional and can occur in any order after the
 The default options will delete the outside node attributes and will not add attributes for the outside voronoi or median areas. 
 The stor file will be written in ASCII format with scalar coefficient values with compression of area coefficient list and indices.
 
+With `exclude`, two checks run before anything is written (see [dump/control_volume ... / exclude](dump/DUMP_CONTROL_VOLUME.md)): if any kept vertex is on the outside of the whole mesh, the excluded materials do not surround the model and nothing is written (ERROR; the keyword `exclude_force` writes anyway, with a WARNING); and the faces shared with the excluded vertices are listed as pieces (a cube with a planned hole: two, the outside and the hole's walls), each of which must be closed (a WARNING if not).
+
 The `rootname` will be used to form full names for the files that are written:
 
 ```

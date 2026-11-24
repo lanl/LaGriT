@@ -3,7 +3,7 @@ test_cv_dual_options -- cv_dual's keyword options (Nov 2026)
 
 QUICK START
 
-  sh run_options_tests.sh [path-to-cv_dual]    76 runs, about 1 s
+  sh run_options_tests.sh [path-to-cv_dual]    77 runs, about 1 s
   open summary.html
 
 WHAT IS TESTED
@@ -40,7 +40,11 @@ WHAT IS TESTED
                               volumes and coefficients identical; the
                               .uge and TOUGH files the same; a material
                               not in the mesh changes nothing; all
-                              excluded, no number, or a word: refused
+                              excluded, no number, or a word: refused;
+                              excl_noforce: imt_short is not a
+                              conforming mesh (material 2 does not
+                              surround material 1): refused unless
+                              exclude_force (excl_2 uses it)
 
   lanl/voronoi's -type, -o and bare -compress, and commands that must
   be refused. One case per line of cases.txt, run in work/NAME on the

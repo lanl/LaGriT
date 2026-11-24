@@ -401,8 +401,15 @@ contains
       subroutine exclude_reduce()
          logical, allocatable :: keep(:)
          integer(ik), allocatable :: newid(:)
-         integer(ik) :: i, e, j, k, ne, nlost, nf, ntiny
+         integer(ik) :: i, e, j, k, ne, nlost, nf, ntiny, nkb, np, ri, rj
+         integer(ik) :: ned, it, nk, e1, nf2
+         integer :: a1, b1
+         integer(ik), allocatable :: fpiece(:), seen(:)
          real(rk) :: d(3), dl, amax, atol
+         logical, allocatable :: bvx(:), touch(:)
+         integer(ik), allocatable :: root(:), piece(:), pn(:)
+         real(rk), allocatable :: pvec(:, :), parea(:)
+         real(rk) :: vkept
          character(len=256) :: ln
          allocate (keep(m%nnodes), newid(m%nnodes))
          do i = 1, m%nnodes
@@ -415,6 +422,32 @@ contains
                      'is written'
             ierr = 1
             return
+         end if
+         ! check 1: the excluded vertices (ghosts) must surround the
+         ! model: no kept vertex on the outside of the whole mesh (the
+         ! outer boundary or a gap in it)
+         ! (nothing excluded: a material not in the mesh; no check)
+         nkb = 0
+         if (nx < m%nnodes) then
+            allocate (bvx(m%nnodes))
+            call boundary_vertices(m, bvx)
+            nkb = count(keep .and. bvx)
+            deallocate (bvx)
+         end if
+         if (nkb > 0) then
+            write (ln, '(a,i0,a)') 'cv_dual: exclude: ', nkb, &
+               ' kept vertices on the outside of the mesh'
+            if (.not. opt%exclude_force) then
+               call log_line(trim(ln)//':')
+               call log_line('  the excluded materials do not '// &
+                             'surround the model (not ghosts?)')
+               errmsg = 'cv_dual: exclude: nothing is written '// &
+                        '(exclude_force writes it anyway)'
+               ierr = 1
+               return
+            end if
+            call log_line('WARNING: '//trim(ln))
+            call log_line('  exclude_force: written anyway')
          end if
          newid = 0
          j = 0
@@ -457,72 +490,183 @@ contains
             end do
          end do
          offx(nx + 1) = ne + 1
-         if (want_ghost_faces) then
-            ! the faces between kept vertices and ghosts (see the
-            ! module's header)
-            ! (each edge is stored once, at its lower vertex: the
-            ! kept vertex is either end). A face below 1e-10 of the
-            ! largest is round-off (four nearly co-circular points) and
-            ! is left out.
-            amax = 0.0_rk
-            do i = 1, m%nnodes
-               do e = iedge_off(i), iedge_off(i + 1) - 1
-                  if (keep(i) .eqv. keep(jedge(e))) cycle
-                  if (skip(e)) cycle
-                  amax = max(amax, abs(area(e)))
-               end do
+         ! the faces between kept vertices and ghosts (see the
+         ! module's header; kept for LaGriT when want_ghost_faces).
+         ! Each edge is stored once, at its lower vertex: the kept
+         ! vertex is either end. A face below 1e-10 of the largest is
+         ! round-off (four nearly co-circular points), left out.
+         amax = 0.0_rk
+         do i = 1, m%nnodes
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (keep(i) .eqv. keep(jedge(e))) cycle
+               if (skip(e)) cycle
+               amax = max(amax, abs(area(e)))
             end do
-            atol = 1.0e-10_rk*amax
-            nf = 0
-            ntiny = 0
-            do i = 1, m%nnodes
-               do e = iedge_off(i), iedge_off(i + 1) - 1
-                  if (keep(i) .eqv. keep(jedge(e))) cycle
-                  if (skip(e) .or. area(e) == 0.0_rk) cycle
-                  if (abs(area(e)) <= atol) then
-                     ntiny = ntiny + 1
-                     cycle
-                  end if
-                  nf = nf + 1
-               end do
+         end do
+         atol = 1.0e-10_rk*amax
+         nf = 0
+         ntiny = 0
+         do i = 1, m%nnodes
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (keep(i) .eqv. keep(jedge(e))) cycle
+               if (skip(e) .or. area(e) == 0.0_rk) cycle
+               if (abs(area(e)) <= atol) then
+                  ntiny = ntiny + 1
+                  cycle
+               end if
+               nf = nf + 1
             end do
-            if (allocated(ghost_face_v)) deallocate (ghost_face_v)
-            if (allocated(ghost_face_vec)) deallocate (ghost_face_vec)
-            allocate (ghost_face_v(max(nf, 1_ik)), &
-                      ghost_face_vec(3, max(nf, 1_ik)))
-            nf = 0
-            do i = 1, m%nnodes
-               do e = iedge_off(i), iedge_off(i + 1) - 1
-                  if (keep(i) .eqv. keep(jedge(e))) cycle
-                  if (skip(e) .or. abs(area(e)) <= atol) cycle
-                  if (area(e) == 0.0_rk) cycle
-                  ! k the kept vertex, j the ghost
-                  if (keep(i)) then
-                     k = i
-                     j = jedge(e)
-                  else
-                     k = jedge(e)
-                     j = i
-                  end if
-                  d = [m%xic(j) - m%xic(k), m%yic(j) - m%yic(k), &
-                       m%zic(j) - m%zic(k)]
-                  dl = norm2(d)
-                  if (dl == 0.0_rk) cycle
-                  nf = nf + 1
-                  ghost_face_v(nf) = newid(k)
-                  ghost_face_vec(:, nf) = area(e)*d/dl
-               end do
+         end do
+         if (allocated(ghost_face_v)) deallocate (ghost_face_v)
+         if (allocated(ghost_face_vec)) deallocate (ghost_face_vec)
+         allocate (ghost_face_v(max(nf, 1_ik)), &
+                   ghost_face_vec(3, max(nf, 1_ik)))
+         allocate (touch(m%nnodes))
+         touch = .false.
+         nf = 0
+         do i = 1, m%nnodes
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (keep(i) .eqv. keep(jedge(e))) cycle
+               if (skip(e) .or. abs(area(e)) <= atol) cycle
+               if (area(e) == 0.0_rk) cycle
+               ! k the kept vertex, j the ghost
+               if (keep(i)) then
+                  k = i
+                  j = jedge(e)
+               else
+                  k = jedge(e)
+                  j = i
+               end if
+               d = [m%xic(j) - m%xic(k), m%yic(j) - m%yic(k), &
+                    m%zic(j) - m%zic(k)]
+               dl = norm2(d)
+               if (dl == 0.0_rk) cycle
+               nf = nf + 1
+               ghost_face_v(nf) = k
+               ghost_face_vec(:, nf) = area(e)*d/dl
+               touch(k) = .true.
             end do
-            nghost_face = nf
-            write (ln, '(a,i0,a)') 'cv_dual: exclude: ', nf, &
-               ' faces between kept and excluded vertices'
+         end do
+         nghost_face = nf
+         write (ln, '(a,i0,a)') 'cv_dual: exclude: ', nf, &
+            ' faces between kept and excluded vertices'
+         call log_line(trim(ln))
+         if (ntiny > 0) then
+            write (ln, '(a,i0,a)') 'cv_dual: exclude: ', ntiny, &
+               ' of them below 1e-10 of the largest left out '// &
+               '(round-off)'
             call log_line(trim(ln))
-            if (ntiny > 0) then
-               write (ln, '(a,i0,a)') 'cv_dual: exclude: ', ntiny, &
-                  ' of them below 1e-10 of the largest left out '// &
-                  '(round-off)'
+         end if
+
+         ! check 2: the faces form closed surfaces. Faces dual to
+         ! edges of one cell meet at that cell's circumcenter: the
+         ! kept-excluded edges of each cell are joined (zero-area ones
+         ! too, as links), and each piece's face vectors must add up to
+         ! zero.
+         ned = iedge_off(m%nnodes + 1) - 1
+         allocate (root(ned))
+         do e = 1, ned
+            root(e) = e
+         end do
+         do it = 1, m%nelements
+            nk = 0
+            do a1 = 1, int(m%nen) - 1
+               do b1 = a1 + 1, int(m%nen)
+                  i = m%itet(m%itetoff(it) + a1)
+                  j = m%itet(m%itetoff(it) + b1)
+                  if (keep(i) .eqv. keep(j)) cycle
+                  e = edge_index(i, j, m%nnodes, iedge_off, jedge)
+                  if (e <= 0) cycle
+                  nk = nk + 1
+                  if (nk == 1) then
+                     e1 = e
+                  else
+                     ri = e1
+                     do while (root(ri) /= ri)
+                        ri = root(ri)
+                     end do
+                     rj = e
+                     do while (root(rj) /= rj)
+                        rj = root(rj)
+                     end do
+                     if (ri /= rj) root(max(ri, rj)) = min(ri, rj)
+                  end if
+               end do
+            end do
+         end do
+         allocate (piece(ned))
+         piece = 0
+         np = 0
+         allocate (fpiece(max(nf, 1_ik)))
+         nf2 = 0
+         do i = 1, m%nnodes
+            do e = iedge_off(i), iedge_off(i + 1) - 1
+               if (keep(i) .eqv. keep(jedge(e))) cycle
+               if (skip(e) .or. abs(area(e)) <= atol) cycle
+               if (area(e) == 0.0_rk) cycle
+               j = jedge(e)
+               if (m%xic(i) == m%xic(j) .and. m%yic(i) == m%yic(j) &
+                   .and. m%zic(i) == m%zic(j)) cycle
+               k = e
+               do while (root(k) /= k)
+                  k = root(k)
+               end do
+               if (piece(k) == 0) then
+                  np = np + 1
+                  piece(k) = np
+               end if
+               nf2 = nf2 + 1
+               if (nf2 <= nf) fpiece(nf2) = piece(k)
+            end do
+         end do
+         allocate (pvec(3, max(np, 1_ik)), parea(max(np, 1_ik)), &
+                   pn(max(np, 1_ik)), seen(m%nnodes))
+         pvec = 0.0_rk
+         parea = 0.0_rk
+         pn = 0
+         seen = 0
+         do k = 1, nf
+            j = fpiece(k)
+            pvec(:, j) = pvec(:, j) + ghost_face_vec(:, k)
+            parea(j) = parea(j) + norm2(ghost_face_vec(:, k))
+            if (seen(ghost_face_v(k)) /= j) then
+               seen(ghost_face_v(k)) = j
+               pn(j) = pn(j) + 1
+            end if
+         end do
+         vkept = sum(vol, mask=keep)
+         write (ln, '(a,es13.6)') 'cv_dual: exclude: kept volume ', vkept
+         call log_line(trim(ln))
+         write (ln, '(a,i0,a)') 'cv_dual: exclude: faces shared with '// &
+            'excluded vertices: ', np, ' piece(s)'
+         call log_line(trim(ln))
+         do k = 1, np
+            dl = norm2(pvec(:, k))/max(parea(k), tiny(1.0_rk))
+            if (k > 10 .and. dl <= 1.0e-8_rk) cycle
+            write (ln, '(a,i0,a,i0,a,es13.6)') 'cv_dual: exclude:   '// &
+               'piece ', k, ': ', pn(k), ' vertices, area ', parea(k)
+            if (dl <= 1.0e-8_rk) then
+               call log_line(trim(ln)//', closed')
+            else
+               call log_line(trim(ln))
+               write (ln, '(a,i0,a,es8.1,a)') 'WARNING: cv_dual: '// &
+                  'exclude: piece ', k, ' is NOT closed (net ', dl, &
+                  ' of its area)'
                call log_line(trim(ln))
             end if
+         end do
+         if (np > 10) then
+            write (ln, '(a,i0,a)') 'cv_dual: exclude:   and ', np - 10, &
+               ' more pieces'
+            call log_line(trim(ln))
+         end if
+         ! the module's list, numbered as written (kept numbering)
+         do k = 1, nf
+            ghost_face_v(k) = newid(ghost_face_v(k))
+         end do
+         if (.not. want_ghost_faces) then
+            deallocate (ghost_face_v, ghost_face_vec)
+            nghost_face = 0
          end if
          write (ln, '(a,i0,a,i0,a,i0,a)') 'cv_dual: exclude: ', nx, &
             ' of ', m%nnodes, ' vertices written (', m%nnodes - nx, &

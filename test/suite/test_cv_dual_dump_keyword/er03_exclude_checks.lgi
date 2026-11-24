@@ -1,0 +1,42 @@
+# er03_exclude_checks.lgi -- test_cv_dual_dump_keyword (see 00README)
+# exclude on meshes that are not conforming Voronoi meshes with ghosts
+# around the model. (a) a grid of triangles in two layers, the upper one
+# excluded: the kept vertices are on the outside of the mesh (ERROR,
+# nothing written); (b) d09's square with its ghosts, but a hole made by
+# removing the generators inside it and their cells (no ghosts there):
+# the vertices around the gap are on the outside (ERROR); (c) (a) with
+# exclude_force: written, with a WARNING, and the faces shared with the
+# excluded layer are NOT closed (a WARNING).
+cmo / create / mo_a / / / triplane
+createpts / xyz / 11 11 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
+cmo / setatt / mo_a / imt / 1 0 0 / 1
+cmo / setatt / mo_a / itp / 1 0 0 / 0
+connect
+resetpts / itp
+pset / p2 / attribute / yic / 1 0 0 / gt 0.55
+cmo / setatt / mo_a / imt / pset get p2 / 2
+dump / fehm / bad_a / mo_a / exclude, 2
+dump / fehm / force_a / mo_a / exclude, 2 / exclude_force
+cmo / create / mo_b / / / triplane
+createpts / xyz / 12 12 1 / -0.05 -0.05 0. / 1.05 1.05 0. / 1 1 1
+cmo / setatt / mo_b / imt / 1 0 0 / 1
+cmo / setatt / mo_b / itp / 1 0 0 / 0
+connect
+resetpts / itp
+pset / pg1 / attribute / xic / 1 0 0 / lt 0.
+pset / pg2 / attribute / xic / 1 0 0 / gt 1.
+pset / pg3 / attribute / yic / 1 0 0 / lt 0.
+pset / pg4 / attribute / yic / 1 0 0 / gt 1.
+pset / pg / union / pg1 pg2 pg3 pg4
+cmo / setatt / mo_b / imt / pset get pg / 3
+pset / ph1 / attribute / xic / 1 0 0 / gt 0.4
+pset / ph2 / attribute / xic / 1 0 0 / lt 0.6
+pset / ph3 / attribute / yic / 1 0 0 / gt 0.4
+pset / ph4 / attribute / yic / 1 0 0 / lt 0.6
+pset / ph / inter / ph1 ph2 ph3 ph4
+rmpoint / pset get ph / inclusive
+rmpoint / compress
+dump / fehm / bad_b / mo_b / exclude, 3
+dump / avs / mesh.inp / mo_b
+dump / avs / after.inp / mo_b
+finish

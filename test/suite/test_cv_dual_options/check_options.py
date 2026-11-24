@@ -101,6 +101,7 @@ REFUSED = {
     'bins_alone': 'matrix_bins needs matrix',
     'bad_bins': 'matrix_bins 0: must be a whole number >= 1',
     'mx_twice': 'm.vti given twice',
+    'excl_noforce': 'exclude_force writes it anyway',
     'excl_all': 'exclude leaves no vertex',
     'excl_novalue': 'exclude needs one or more material numbers',
     'excl_text': 'exclude: ghost is not a material number',
