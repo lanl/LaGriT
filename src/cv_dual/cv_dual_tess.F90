@@ -153,6 +153,9 @@ contains
 
       integer(ik), allocatable :: inc_off(:), inc(:), ren(:)
       integer(ik), allocatable :: cid(:), cface(:), cbnd(:), cmat(:)
+      ! 2D: the itetclr of the triangles a polygon comes from (in a
+      ! fracture network, its fracture)
+      integer(ik), allocatable :: cclr(:)
       real(rk), allocatable :: cvol(:), cmin(:), minc(:)
       logical, allocatable :: touch(:), bv(:)
       integer(ik) :: nedges, nslot, s_e, s_c, s_f, i, it, k, j, nn, ip
@@ -285,6 +288,7 @@ contains
       allocate (g%conn(nconn), g%off(ncell), g%types(ncell))
       allocate (cid(ncell), cface(ncell), cbnd(ncell), cmat(ncell), &
                 cvol(ncell), cmin(ncell))
+      if (m%nen /= 4) allocate (cclr(ncell))
       if (m%nen == 4) then
          g%nf = nfc
          allocate (g%fconn(nfconn), g%foff(nfc), g%pfaces(nfc), &
@@ -316,6 +320,7 @@ contains
       call add_cdata(g, 'vertex', i=cid)
       call add_cdata(g, 'volume', r=cvol)
       call add_cdata(g, 'material', i=cmat)
+      if (m%nen /= 4) call add_cdata(g, 'itetclr', i=cclr)
       call add_cdata(g, 'boundary', i=cbnd)
       call add_cdata(g, 'nfaces', i=cface)
       call add_cdata(g, 'min_coefficient', r=cmin)
@@ -950,7 +955,11 @@ contains
             end do
             cid(ncell) = i
             cvol(ncell) = sa
+            ! material: the vertex's imt1, as in 3D and in the .stor
+            ! and zone files; itetclr: the triangles' (the fracture)
+            cclr(ncell) = m%itetclr(it0)
             cmat(ncell) = m%itetclr(it0)
+            if (associated(m%imt1)) cmat(ncell) = m%imt1(i)
             cbnd(ncell) = merge(1_ik, 0_ik, fp(1, f) == i)
             cface(ncell) = fn(f)
             cmin(ncell) = minc(i)

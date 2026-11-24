@@ -18,6 +18,9 @@ Checks:
              the vertex's volume; a vertex's polygons add up to its
              .stor volume (1e-12 of the largest)
     per      networks: a vertex has one polygon per fracture it is in
+  material   each cell's material is its vertex's imt1 (as in the .stor
+             and zone files); 2D: its itetclr is the color of the
+             triangles it comes from (two_mat2d: they differ somewhere)
   3D (polyhedra):
     closed   every face edge is matched once in the opposite direction
     volume   the volume from the faces (divergence theorem) equals the
@@ -186,6 +189,42 @@ def main():
         ok('mesh', '%d cells (%d touch the subset); volumes %.1e'
            % (len(gm.cells), ncell, e / vmax),
            len(gm.cells) == ncell and e <= 1e-15 * vmax)
+
+        # material: the vertex's imt1 (from the mesh file), in 2D and
+        # 3D; 2D also has itetclr, the color of the polygon's triangles
+        vimt = {}
+        if 'imt1' in gm.pdata:
+            for q in range(len(gm.points)):
+                vimt[gm.pdata['vertex'][q] - 1] = gm.pdata['imt1'][q]
+        if vimt:
+            badm = sum(1 for c in range(len(g.cells))
+                       if g.cdata['material'][c] !=
+                       vimt[g.cdata['vertex'][c] - 1])
+            differ = 0
+            if m.nen == 3:
+                clr_at = {}
+                for c, cl in zip(m.cells, m.clr):
+                    for v in c:
+                        clr_at.setdefault(v, set()).add(cl)
+                badm += sum(1 for c in range(len(g.cells))
+                            if g.cdata['itetclr'][c] not in
+                            clr_at[g.cdata['vertex'][c] - 1])
+                # a vertex's polygons: one per color around it, each
+                # with its own (networks: one per fracture)
+                got_clr = {}
+                for c in range(len(g.cells)):
+                    got_clr.setdefault(g.cdata['vertex'][c] - 1,
+                                       []).append(g.cdata['itetclr'][c])
+                if len(set(m.clr)) > 1 and view_is_3d(m):
+                    badm += sum(1 for i, cl in got_clr.items()
+                                if sorted(cl) != sorted(clr_at[i]))
+                differ = sum(1 for c in range(len(g.cells))
+                             if g.cdata['itetclr'][c] !=
+                             g.cdata['material'][c])
+            ok('material', 'material is the vertex imt1%s; %d wrong'
+               % ('; itetclr one of its triangles (%d cells where the '
+                  'two differ)' % differ if m.nen == 3 else '', badm),
+               badm == 0 and (differ > 0 or name != 'two_mat2d'))
 
         three = m.nen == 4
         if not three:
