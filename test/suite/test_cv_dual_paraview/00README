@@ -3,7 +3,7 @@ test_cv_dual_paraview -- the ParaView files (Nov 2026)
 
 QUICK START
 
-  sh run_paraview_tests.sh [path-to-cv_dual]   12 runs, about 5 s
+  sh run_paraview_tests.sh [path-to-cv_dual]   13 runs, about 7 s
   open summary.html
 
 WHAT IS TESTED

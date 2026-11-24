@@ -42,8 +42,12 @@ module cv_dual_tess
    public :: build_cells, build_mesh_grid, build_negative_grid, &
              boundary_vertices, interface_edges, cell_points
 
-   integer, parameter :: maxf = 4096   ! faces of one polyhedron
-   integer, parameter :: maxp = 64     ! points of one face
+   ! the buffers of one cell: maxf its faces (and the triangles at a
+   ! vertex), maxp the points of one face. Set from the mesh in
+   ! build_cells: a vertex can have hundreds of cells around it (seeds
+   ! on a sphere around it), so no fixed size is safe.
+   integer :: maxf = 4096
+   integer :: maxp = 64
 
 contains
 
@@ -202,6 +206,7 @@ contains
                            inc_off, inc)
       allocate (bv(nn))
       call boundary_vertices(m, bv)
+      call buffer_sizes()
       allocate (fp(maxp, maxf), fn(maxf), fe(maxf), fj(maxf), &
                 ubuf(maxp*maxf), tri(3, maxf), tre(maxf), trj(maxf))
       allocate (bnx(maxf), bpv(maxf), bky(maxf), bflat(maxf), &
@@ -391,6 +396,41 @@ contains
       end subroutine unique_points
 
       ! 3D: the faces of vertex i's control volume, as slots.
+      ! maxf: 6 triangles for each cell at a vertex (3D; 2D: one),
+      ! with room for the boundary pieces; maxp: two points for each
+      ! cell around an edge (3D; 2D: around a vertex), and the ends
+      subroutine buffer_sizes()
+         integer(ik) :: ii, jt, kk
+         integer :: a, b, e, mxi, mxe
+         integer, allocatable :: ecnt(:)
+         mxi = 0
+         do ii = 1, nn
+            mxi = max(mxi, int(inc_off(ii + 1) - inc_off(ii)))
+         end do
+         mxe = 0
+         if (m%nen == 4) then
+            allocate (ecnt(nedges))
+            ecnt = 0
+            do jt = 1, m%nelements
+               do e = 1, 6
+                  a = iedge_tet(1, e)
+                  b = iedge_tet(2, e)
+                  kk = edge_index(m%itet(m%itetoff(jt) + a), &
+                                  m%itet(m%itetoff(jt) + b), nn, &
+                                  iedge_off, jedge)
+                  if (kk > 0) ecnt(kk) = ecnt(kk) + 1
+               end do
+            end do
+            if (nedges > 0) mxe = maxval(ecnt)
+            deallocate (ecnt)
+            maxf = max(4096, 6*mxi + 64)
+            maxp = max(64, 2*mxe + 8)
+         else
+            maxf = max(4096, mxi + 64)
+            maxp = max(64, 2*mxi + 8)
+         end if
+      end subroutine buffer_sizes
+
       subroutine faces3d(i, nf)
          integer(ik), intent(in) :: i
          integer, intent(out) :: nf
