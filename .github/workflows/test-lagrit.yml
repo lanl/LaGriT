@@ -6,14 +6,23 @@ name: LaGriT build and test
 # also runs every test/level01 test. The result pages of each run, and the
 # lagrit it built, can be downloaded from the run's Summary page (Artifacts).
 #
-# Runs on pushes to master, on every pull request, and by hand from the
+# Runs on pushes to master and on pull requests, except when every file
+# changed is documentation (docs/ or a .md file), and by hand from the
 # Actions tab ("Run workflow"; tick "big" for the slow parts as well:
 # tri21 and the connect timing suite, about 10 minutes more).
 
 on:
   push:
     branches: [master]
+    # documentation only (the docs site, Markdown pages): no build and
+    # no suite can change, so nothing runs (Carl, Nov 24, 2026)
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
   workflow_dispatch:
     inputs:
       big:
