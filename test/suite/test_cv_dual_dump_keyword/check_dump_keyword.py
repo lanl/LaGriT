@@ -325,6 +325,19 @@ def main():
                         'areas (largest relative difference %.1e); '
                         'off-normal parts %.1e' % (
                             a[0], n, ' '.join(seen), worst, off), ok)
+                elif kind == 'sidesum':
+                    # one side's outside vectors, along its normal, add
+                    # up to the value given
+                    want = float(a[3])
+                    got = None
+                    for zn, vv in zone_areas(d, a[0], a[1]):
+                        if zn == a[2]:
+                            ax, sg = NORMAL[zn]
+                            got = sg * sum(vec[ax] for _, vec in vv)
+                    ok = got is not None and abs(got - want) <= 1e-12 * \
+                        max(abs(want), 1.0)
+                    put('sidesum', '%s %s: %s (expected %s)' % (
+                        a[0], a[2], got, a[3]), ok)
                 elif kind == 'ghostcorner':
                     # how many vertices are in 2 zones, and in 3
                     cnt = {}
