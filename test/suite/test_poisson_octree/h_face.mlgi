@@ -1,0 +1,12 @@
+# h field of po11 and po12 (test_poisson_octree): a point source on the
+# bottom face, at (2, 5, 0): h = 0.1 + 0.2 * distance to it, at most 1.
+# mo_src (one vertex) is made by the deck before createpts.
+compute / distance_field / mo_poi_h_field / mo_src / d_src
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / d_src / 0.2
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.1
+math / ceiling / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 1.0
+cmo / DELATT / mo_poi_h_field / d_src
+finish

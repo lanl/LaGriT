@@ -1,0 +1,20 @@
+# po11_face_adaptive.lgi -- test_poisson_octree (see 00README)
+# The edge buffer on, a 10 x 10 x 5 box, h_spacing_scalar 0.05, h from
+# h_face.mlgi (0.1 at (2, 5, 0) on the bottom face, growing to 1):
+# the default with a control file: face_lattice adaptive.
+cmo / create / mo_src / / / tet
+createpts / xyz / 1 1 1 / 2. 5. 0. / 2. 5. 0. / 1 1 1
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 10.0
+define / POI_YMAX / 10.0
+define / POI_ZMAX / 5.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.05 / connect / &
+      h_face.mlgi / poisson_seed 1
+pset / p_face / attribute / itp1 / 1 0 0 / eq / 10
+dump / avs / po11_mesh.inp / mo_pts / 1 1 0 0
+dump / stor / po11 / mo_pts
+finish

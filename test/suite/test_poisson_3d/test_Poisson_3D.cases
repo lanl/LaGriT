@@ -26,6 +26,13 @@
 #               the distance to the nearest of `line_n` points spaced
 #               evenly on x=line_x, y=line_y, z from box zmin to zmax
 #   floor, ceil, slope, icpt, line_x, line_y, line_n   radial only
+#   faces       uniform (default) | adaptive: the face lattice of the
+#               edge buffer. adaptive (face_lattice adaptive, the default
+#               with h_lookup octree and a control file, since the next
+#               release after V3.4.0): the faces follow h and the sampler
+#               keeps buf x h(x) from them instead of filling a box shrunk
+#               by buf x h_spacing_scalar. Cases 06 to 08 (buffer on, the
+#               radial control file, the octree by default) are adaptive.
 #   stor_neg    0      = HARD: no positive (wrong sign) off-diagonal
 #                        area coefficients in the .stor file
 #               report = count them, do not judge
@@ -45,9 +52,9 @@ case 02 inp=test_3d_poi_02.inp stor=test_3d_poi_02.stor mlgi=test_run_createpts_
 case 03 inp=test_3d_poi_03.inp stor=test_3d_poi_03.stor mlgi=test_run_createpts_poisson.mlgi h=0.025  ifbuf=1 buf=0.5 ztrans=1.2 field=uniform stor_neg=report
 case 04 inp=test_3d_poi_04.inp stor=test_3d_poi_04.stor mlgi=test_run_createpts_poisson.mlgi h=0.0125 ifbuf=1 buf=2.0 ztrans=1.6 field=uniform stor_neg=0
 case 05 inp=test_3d_poi_05.inp stor=test_3d_poi_05.stor mlgi=test_run_poi_user_res.mlgi h=0.025  ifbuf=0 buf=1.0 ztrans=2.0 field=radial floor=0.025  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=report
-case 06 inp=test_3d_poi_06.inp stor=test_3d_poi_06.stor mlgi=test_run_poi_user_res.mlgi h=0.025  ifbuf=1 buf=1.0 ztrans=2.4 field=radial floor=0.025  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
-case 07 inp=test_3d_poi_07.inp stor=test_3d_poi_07.stor mlgi=test_run_poi_user_res.mlgi h=0.0125 ifbuf=1 buf=1.0 ztrans=2.8 field=radial floor=0.0125 ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
-case 08 inp=test_3d_poi_08.inp stor=test_3d_poi_08.stor mlgi=test_run_poi_user_res.mlgi h=0.008  ifbuf=1 buf=1.0 ztrans=3.2 field=radial floor=0.008  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+case 06 inp=test_3d_poi_06.inp stor=test_3d_poi_06.stor mlgi=test_run_poi_user_res.mlgi h=0.025  ifbuf=1 buf=1.0 faces=adaptive ztrans=2.4 field=radial floor=0.025  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+case 07 inp=test_3d_poi_07.inp stor=test_3d_poi_07.stor mlgi=test_run_poi_user_res.mlgi h=0.0125 ifbuf=1 buf=1.0 faces=adaptive ztrans=2.8 field=radial floor=0.0125 ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
+case 08 inp=test_3d_poi_08.inp stor=test_3d_poi_08.stor mlgi=test_run_poi_user_res.mlgi h=0.008  ifbuf=1 buf=1.0 faces=adaptive ztrans=3.2 field=radial floor=0.008  ceil=0.075 slope=0.1 icpt=0.0 line_x=0.5 line_y=0.5 line_n=400 stor_neg=0
 
 merge test_3d_poi_merge_all.inp
 

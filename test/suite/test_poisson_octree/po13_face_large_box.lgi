@@ -1,0 +1,18 @@
+# po13_face_large_box.lgi -- test_poisson_octree (see 00README)
+# The edge buffer on, a 24 x 24 x 14 box, h_spacing_scalar 0.05, h = 1
+# (h_one.mlgi), face_lattice adaptive by default: the faces at about h
+# instead of a lattice at 0.05 (po10's kind: about 1,000,000 vertices on
+# this box).
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 24.0
+define / POI_YMAX / 24.0
+define / POI_ZMAX / 14.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.05 / connect / &
+      h_one.mlgi / poisson_seed 1
+dump / avs / po13_mesh.inp / mo_pts / 1 1 0 0
+dump / stor / po13 / mo_pts
+finish

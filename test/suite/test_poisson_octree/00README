@@ -3,7 +3,7 @@ test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
 
 QUICK START
 
-  sh run_poisson_octree_tests.sh [path-to-lagrit]    11 decks, about 16 s
+  sh run_poisson_octree_tests.sh [path-to-lagrit]    14 decks, about 30 s
   open summary.html
 
   The page explains each deck and check, and shows:
@@ -76,7 +76,28 @@ THE DECKS
                       lattice), itp1 10 on all of them, the sampled
                       vertices at least 0.05 inside the box, peak
                       memory under 400 MB (the hex brick LaGriT V3.4.0
-                      built for them needed about 1.5 GB)
+                      built for them needed about 1.5 GB);
+                      face_lattice uniform (the lattice at
+                      h_spacing_scalar)
+  po11_face_adaptive  the edge buffer on, the 10 x 10 x 5 box,
+                      h_spacing_scalar 0.05, h = 0.1 + 0.2 x distance
+                      to (2, 5, 0), at most 1 (h_face.mlgi):
+                      face_lattice adaptive by default (it says so);
+                      the face count it reports is the vertices on the
+                      faces; no face vertex farther than h from its
+                      nearest face neighbor; the sampled vertices at
+                      least 0.9 max(h) from the face vertices; every
+                      tet with a facet on the box has its Voronoi point
+                      inside the box; no negative coupling coefficient
+                      in the .stor (dump / stor, cv_dual); fewer
+                      vertices than po12
+  po12_face_uniform   po11 with face_lattice uniform, for comparison:
+                      the negative coefficients are reported (13 here)
+  po13_face_large_box the edge buffer on, a 24 x 24 x 14 box,
+                      h_spacing_scalar 0.05, h = 1: face_lattice
+                      adaptive by default, po11's checks, under 20,000
+                      vertices (a uniform face lattice would be about
+                      1,000,000), peak memory under 200 MB
 
   The error and warning cases of the new keywords are in
   test_poisson_command_errors (err26 to err31, warn06).
@@ -84,7 +105,8 @@ THE DECKS
 FILES
 
   h_point.mlgi              the h field of po01 to po04 and po07
-  h_one.mlgi                h = 1, the h field of po10
+  h_one.mlgi                h = 1, the h field of po10 and po13
+  h_face.mlgi               the h field of po11 and po12
   po*.lgi                   the decks
   check_poisson_octree.py   the checker (Python 3, standard library)
   run_poisson_octree_tests.sh

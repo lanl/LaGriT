@@ -46,6 +46,10 @@ class Domain {
     unsigned int numVertices;
     // Numder of nodes in the point distribution
     unsigned int numNodes;
+    // the first numFixed nodes are given (the face lattice): their
+    // exclusion radius is fixedScale x h
+    unsigned int numFixed = 0;
+    double fixedScale = 1.0;
     // Points in the point distribution
     std::vector<Point> nodes;
     

@@ -17,7 +17,7 @@ This poisson_disk command is available for LaGriT versions V3.3.3 or greater.
 <pre>
 <b>createpts</b> / <b>poisson_disk</b> / <b>2d_polygon</b> / mo_out / mo_polygon / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
 
-<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ] [ h_lookup <b>hex_grid</b> | <b>octree</b> ] [ octree_k_factor real ] [ octree_batch integer ] [ octree_dump file ]
+<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ] [ h_lookup <b>hex_grid</b> | <b>octree</b> ] [ octree_k_factor real ] [ octree_batch integer ] [ octree_dump file ] [ face_lattice <b>uniform</b> | <b>adaptive</b> ]
 </pre>
 
 The 3D form has no `mo_polygon`: the box is given by define variables set before the command (see [3D Box and Edge Buffer](#3d-box-and-edge-buffer)), so every argument after `mo_out` is one position earlier than in 2D. The argument numbers below are those of the 2D form.
@@ -102,9 +102,11 @@ define / POI_EDGE_BUFFER / 1.0
 </pre>
 
 * **`IF_POI_EDGE_BUFFER`** (0 or 1, default 1).
-  * **1:** the sampler fills a box moved in by `POI_EDGE_BUFFER * h_spacing_scalar` on every face. Then a regular lattice of vertices, about `h_spacing_scalar` apart, is added on the six faces of the full box. The faces get regularly spaced vertices, and no sampled vertex lies closer than `POI_EDGE_BUFFER * h_spacing_scalar` to a face.
+  * **1:** the six faces of the box get regularly spaced vertices, and the sampled vertices stay a gap away from them. How depends on `face_lattice` (see [The face lattice](#the-face-lattice)):
+    * **`face_lattice uniform`** (the default for a uniform h, and with `h_lookup hex_grid`): the sampler fills a box moved in by `POI_EDGE_BUFFER * h_spacing_scalar` on every face, and a lattice of vertices about `h_spacing_scalar` apart is put on the six faces of the full box.
+    * **`face_lattice adaptive`** (the default with `h_lookup octree` and a control file): the faces get a lattice that follows h, a little denser than the interior, and the sampler fills the whole box, keeping `POI_EDGE_BUFFER * h` away from the face vertices, with h the local h.
   * **0:** the sampler fills the whole box, including irregularly placed vertices on the faces.
-* **`POI_EDGE_BUFFER`** (real, 0 or greater, default 1.0) is the width of the gap between the faces and the sampled interior, in units of `h_spacing_scalar`. It is used only when `IF_POI_EDGE_BUFFER` is 1.
+* **`POI_EDGE_BUFFER`** (real, 0 or greater, default 1.0) is the width of the gap between the faces and the sampled interior, in units of `h_spacing_scalar` (`face_lattice uniform`) or of the local h (`face_lattice adaptive`). It is used only when `IF_POI_EDGE_BUFFER` is 1.
 
 If either variable is not set, the command uses the default and writes a warning naming it. Set both explicitly, so the face treatment is a decision rather than a default.
 
@@ -160,10 +162,11 @@ LaGriT says which it used, for example `poisson_disk 3d_box: h_lookup octree (th
 | `octree_k_factor` | real > 0: an octree leaf is at most h / K; a larger K is a finer, more accurate octree | 0.75 |
 | `octree_batch` | the most octree vertices given to the control file in one run | 8000000 (about 2 GB) |
 | `octree_dump` | a file name: the octree leaves are written there as an AVS hex mesh, with `h_field_att` on the vertices and the level `itetlev` on the cells | not written |
+| `face_lattice` | `uniform` or `adaptive`: the vertices on the box faces when the edge buffer is on ([The face lattice](#the-face-lattice)); `adaptive` needs `h_lookup octree` | `adaptive` with `h_lookup octree` and a control file, `uniform` otherwise |
 
-These keywords are for `3d_box` only; `2d_polygon` refuses them.
+These keywords are for `3d_box` only; `2d_polygon` refuses them. `face_lattice` does not choose the h lookup; with the edge buffer off (`IF_POI_EDGE_BUFFER` 0) it is ignored, with a warning.
 
-**The control file.** It is the same file as for `hex_grid`, run on batches of octree vertices instead of one hex mesh. The field must therefore be a function of the position only: `xic`, `yic`, `zic`, distance fields (`compute / distance_field`), `interpolate` from another mesh object, `math`. It must not use the cells of `mo_poi_h_field`, which has none. h must be positive everywhere; the checks on h (at least 0.49 `h_spacing_scalar`, a warning above 100 times) are the same as with `hex_grid`.
+**The control file.** It is the same file as for `hex_grid`, run on batches of octree vertices instead of one hex mesh. The field must therefore be a function of the position only: `xic`, `yic`, `zic`, distance fields (`compute / distance_field`), `interpolate` from another mesh object, `math`. It must not use the cells of `mo_poi_h_field`, which has none. h must be positive everywhere; the checks on h (at least 0.49 `h_spacing_scalar`, a warning above 100 times) are the same as with `hex_grid`. With `face_lattice adaptive` it also runs, a few times, on the vertices of the box faces (a vertex-only `mo_poi_h_field` again).
 
 **The vertices.** A candidate vertex is rejected only when it is closer than max(h(x), h(q)) to an accepted vertex q. The fill of empty space is maximal: it stops only when every part of the box is either shown to be covered or smaller than h / 16. At the end of each fill, LaGriT prints where any vertex could still be added, for example:
 
@@ -175,7 +178,28 @@ These keywords are for `3d_box` only; `2d_polygon` refuses them.
 
 So `h_lookup octree` can place more vertices than `hex_grid` for the same h: about 20 to 27% more where h is close to `h_spacing_scalar` (constant h, or the finest part of a graded mesh), and about the same where h is many times larger. There, the edges of the tetrahedra are about 1.36 h long (median) instead of about 1.45 h. Raise h by about 7% to keep the same vertex count.
 
-**The edge buffer.** With `IF_POI_EDGE_BUFFER` 1, the box faces get vertices on a regular grid at `h_spacing_scalar`, whatever the field. When h is much larger than `h_spacing_scalar`, set `IF_POI_EDGE_BUFFER` to 0. Only the face vertices are made, so the memory for them grows with the area of the faces, (box / `h_spacing_scalar`)<sup>2</sup>. LaGriT V3.4.0 and earlier built a hex brick over the whole box and kept its outside vertices, which needed memory as the box volume / `h_spacing_scalar`<sup>3</sup> and could run out of memory on a large box; the face vertices are the same as before, in the same order.
+### The face lattice
+
+With the edge buffer on (`IF_POI_EDGE_BUFFER` 1), the six box faces get regularly spaced vertices of their own. `face_lattice` says how they are spaced.
+
+**`face_lattice adaptive`** (the default with `h_lookup octree` and a control file). Each face starts as a mesh of nearly square quads about as large as the shortest side of the box, made with `createpts / brick`. It is then refined with `refine` (a quadtree, kept 2:1 balanced by `refine` itself) in rounds: the control file runs on the face vertices, and a quad is refined when its longest edge is longer than h at one of its corners, down to quads of `h_spacing_scalar`. So the face vertices are between about h / 2 and h apart, a little denser than the interior, where the tetrahedra's edges are about 1.4 h. The vertices on the box edges are shared by the faces. The sampler then fills the whole box and keeps `POI_EDGE_BUFFER * h` away from the face vertices, as it keeps h away from any vertex. The tetrahedra on the faces are then a little longer inward than along the face, so their Voronoi points (circumcenters) lie inside the box and the coupling coefficients of the control volumes (`dump / stor`) are positive. LaGriT writes the face vertices first in `mo_out`, with itp1 10, and reports their count, for example:
+
+<pre>
+face_lattice adaptive:      1520 vertices on the box faces
+</pre>
+
+**`face_lattice uniform`** (the default for a uniform h, and the only lattice with `h_lookup hex_grid`). The faces get a lattice at `h_spacing_scalar`, whatever the field, and the sampler fills the box moved in by `POI_EDGE_BUFFER * h_spacing_scalar`. Where h is much larger than `h_spacing_scalar`, this puts far more vertices on the faces than inside and leaves a thin layer of short edges next to them; use `face_lattice adaptive`, or set `IF_POI_EDGE_BUFFER` to 0. Only the face vertices are made, so the memory for them grows with the area of the faces, (box / `h_spacing_scalar`)<sup>2</sup>. LaGriT V3.4.0 and earlier built a hex brick over the whole box and kept its outside vertices, which needed memory as the box volume / `h_spacing_scalar`<sup>3</sup> and could run out of memory on a large box; the face vertices are the same as before, in the same order.
+
+An example: a 10 &times; 10 &times; 5 box, `h_spacing_scalar` 0.05, h = 0.1 at a point on the bottom face growing to 1 (`test_poisson_octree`, decks po11 and po12):
+
+| | `face_lattice adaptive` | `face_lattice uniform` |
+| --- | --- | --- |
+| vertices (on the faces) | 1,993 (1,520) | 158,991 (158,008) |
+| tets | 7,260 | 388,584 |
+| negative coupling coefficients in the .stor | 0 | 13 |
+| time, peak memory | 0.9 s, 18 MB | 5.0 s, 267 MB |
+
+Before this option, decks with a control file and the edge buffer on got the uniform lattice; add `face_lattice uniform` to such a deck to get its old vertices.
 
 <hr>
 
