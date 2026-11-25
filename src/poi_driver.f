@@ -2374,22 +2374,25 @@ C
 C     PURPOSE -
 C
 C     Used when if_poi_edge_buffer = 1. The sampler was run on a box
-C     shrunk by h*poi_edge_buffer, leaving a gap at the walls. Build a
-C     regular brick mesh over the full user box, keep only the
-C     vertices on its outside surface, and merge those into the
-C     Poisson point set. The result has clean, uniformly spaced
-C     boundary faces.
+C     shrunk by h*poi_edge_buffer, leaving a gap at the walls. Put a
+C     regular lattice of vertices on the six faces of the full user
+C     box and merge them into the Poisson point set. The result has
+C     clean, uniformly spaced boundary faces.
 C
-C     FIXES applied to the command strings here:
-C       - 'cmo/delete'//name produced "cmo/deletename" with no
-C         separator, so the mesh object was never deleted and the
-C         intended name was mangled.
-C       - cmo/move and copypts used a space where every other command
-C         in this file uses a slash separator.
+C     The face vertices are the outside vertices of the brick
+C        createpts / brick / xyz / NPX NPY NPZ / POI_XMIN ... / 1 1 1
+C     in the same order and with the same coordinates, bit for bit.
+C     Building that brick needed memory for NPX*NPY*NPZ vertices and
+C     hexes, (box / h)**3, which ran out of memory on large boxes
+C     with a small h_spacing_scalar. Now only the face vertices are
+C     made: three lines of NPX, NPY and NPZ vertices give the brick's
+C     coordinate values along x, y and z (createpts / xyz gives the
+C     values createpts / brick gives), and the faces are filled from
+C     them in the brick's order (x fastest, then y, then z).
 C
-C     The brick is built from the user's own POI_XMIN..POI_ZMAX define
-C     variables, not from the buffered POI_3D_* ones, so the face
-C     vertices land exactly on the box the user asked for.
+C     The lattice is built from the user's own POI_XMIN..POI_ZMAX
+C     define variables, not from the buffered POI_3D_* ones, so the
+C     face vertices land exactly on the box the user asked for.
 C
 C #####################################################################
       implicit none
@@ -2399,8 +2402,16 @@ C
       real*8  h
       real*8  box_user(NBOX)
 C
-      integer ilen,icharlnf
+      pointer (ipxl,xl),(ipyl,yl),(ipzl,zl)
+      real*8  xl(*),yl(*),zl(*)
+      pointer (ipxf,xf),(ipyf,yf),(ipzf,zf)
+      real*8  xf(*),yf(*),zf(*)
+      pointer (ipitp,itp1)
+      integer itp1(*)
+      integer ilen,icharlnf,ityp,ierr,nline,nface
+      integer i,j,k,n,nx,ny,nz,joff,koff
       integer np(NDIR)
+      character*32 mo_line,mo_face
 C
 C     Vertex counts for a brick covering the full user box. No lattice
 C     fudge factor here: these are the actual boundary vertices, not a
@@ -2409,30 +2420,75 @@ C
       np(1) = ceiling((box_user(IBX_XMAX)-box_user(IBX_XMIN))/h)
       np(2) = ceiling((box_user(IBX_YMAX)-box_user(IBX_YMIN))/h)
       np(3) = ceiling((box_user(IBX_ZMAX)-box_user(IBX_ZMIN))/h)
+      nx = np(1)
+      ny = np(2)
+      nz = np(3)
 C
       call poi_define_int('POI_3D_NPX',np(1))
       call poi_define_int('POI_3D_NPY',np(2))
       call poi_define_int('POI_3D_NPZ',np(3))
 C
+C     The brick's coordinate values along each axis: a line of NPX
+C     vertices along x, then NPY along y, then NPZ along z.
+C
+      mo_line = POI_MO_TMPHEX
+      mo_face = POI_MO_TMPHEXOUT
       call poi_cmd('cmo / create / '//POI_MO_TMPHEX//
-     &     ' / / / hex; finish')
+     &     ' / / / tet; finish')
       call poi_cmd('cmo / select / '//POI_MO_TMPHEX//' ; finish')
-      call poi_cmd('createpts/brick/xyz/'//
-     &     'POI_3D_NPX POI_3D_NPY POI_3D_NPZ/'//
+      call poi_cmd('createpts/xyz/POI_3D_NPX 1 1/'//
      &     'POI_XMIN POI_YMIN POI_ZMIN/'//
-     &     'POI_XMAX POI_YMAX POI_ZMAX/1 1 1; finish')
-      call poi_cmd('resetpts / itp; finish')
+     &     'POI_XMAX POI_YMIN POI_ZMIN/1 1 1; finish')
+      call poi_cmd('createpts/xyz/1 POI_3D_NPY 1/'//
+     &     'POI_XMIN POI_YMIN POI_ZMIN/'//
+     &     'POI_XMIN POI_YMAX POI_ZMIN/1 1 1; finish')
+      call poi_cmd('createpts/xyz/1 1 POI_3D_NPZ/'//
+     &     'POI_XMIN POI_YMIN POI_ZMIN/'//
+     &     'POI_XMIN POI_YMIN POI_ZMAX/1 1 1; finish')
+      call cmo_get_info('nnodes',mo_line,nline,ilen,ityp,ierr)
+      if(ierr .ne. 0 .or. nline .ne. nx+ny+nz)then
+         call poi_cmd('cmo/delete/'//POI_MO_TMPHEX//'; finish')
+         return
+      endif
 C
-C     itp >= 10 marks vertices lying on the outside surface.
+C     The face vertices: the brick's vertices with i = 1 or nx,
+C     j = 1 or ny, or k = 1 or nz.
 C
-      call poi_cmd('pset/p_out/attribute/itp/1 0 0/ge 10; finish')
+      nface = nx*ny*nz - max(nx-2,0)*max(ny-2,0)*max(nz-2,0)
       call poi_cmd('cmo/create/'//POI_MO_TMPHEXOUT//
      &     '/ / / tet; finish')
-C     copypts names both objects, but cmo/create has just changed what
-C     is current and the pset referenced below was built on the hex.
-      call poi_cmd('copypts/'//POI_MO_TMPHEXOUT//'/'//
-     &     POI_MO_TMPHEX//'/0 0 /pset get p_out; finish')
+      call cmo_set_info('nnodes',mo_face,nface,1,1,ierr)
+      call cmo_newlen(mo_face,ierr)
+C
+      call cmo_get_info('xic',mo_line,ipxl,ilen,ityp,ierr)
+      call cmo_get_info('yic',mo_line,ipyl,ilen,ityp,ierr)
+      call cmo_get_info('zic',mo_line,ipzl,ilen,ityp,ierr)
+      call cmo_get_info('xic',mo_face,ipxf,ilen,ityp,ierr)
+      call cmo_get_info('yic',mo_face,ipyf,ilen,ityp,ierr)
+      call cmo_get_info('zic',mo_face,ipzf,ilen,ityp,ierr)
+      call cmo_get_info('itp1',mo_face,ipitp,ilen,ityp,ierr)
+C
+      joff = nx
+      koff = nx + ny
+      n = 0
+      do k = 1, nz
+         do j = 1, ny
+            do i = 1, nx
+               if(i.eq.1 .or. i.eq.nx .or. j.eq.1 .or. j.eq.ny .or.
+     &            k.eq.1 .or. k.eq.nz)then
+                  n = n + 1
+                  xf(n) = xl(i)
+                  yf(n) = yl(joff+j)
+                  zf(n) = zl(koff+k)
+                  itp1(n) = 10
+               endif
+            enddo
+         enddo
+      enddo
       call poi_cmd('cmo/delete/'//POI_MO_TMPHEX//'; finish')
+C
+C     itp1 10 on every face vertex, as resetpts / itp on the brick
+C     gave them (the old way copied it from the brick).
 C
       ilen = icharlnf(mo_poi_pts_out)
       call poi_cmd('addmesh/merge/'//mo_poi_pts_out(1:ilen)//'/'//

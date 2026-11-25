@@ -45,6 +45,17 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   (segmentation fault). The same for edge_connections and
   node_num_diff, which share the code.
 
+- **createpts / poisson_disk / 3d_box with the edge buffer on**
+  (`IF_POI_EDGE_BUFFER` 1, the default): the lattice of vertices on the
+  six box faces is now made face by face. It was made by building a hex
+  brick over the whole box at `h_spacing_scalar` and keeping its outside
+  vertices, so memory grew with the box volume / `h_spacing_scalar`
+  cubed, whatever the h field: a 24 x 24 x 14 box with
+  `h_spacing_scalar` 0.05 (65 million brick vertices) ran out of memory
+  at 6 GB after the sampling had finished. Now it needs 324 MB and
+  2.5 s. The face vertices, their order and their itp1 are the same as
+  before, bit for bit.
+
 - **dump / control_volume / paraview (and cv_dual -paraview), 2D:** a
   polygon's `material` in `root_cells.vtu` is now its vertex's imt1, as
   for polyhedra and as in the .stor and zone files; it was the itetclr
@@ -86,6 +97,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-25 | | createpts / poisson_disk / 3d_box: the edge buffer's face lattice made face by face, memory as the face area, not the box volume |
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |

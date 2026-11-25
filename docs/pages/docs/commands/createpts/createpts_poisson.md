@@ -175,7 +175,7 @@ These keywords are for `3d_box` only; `2d_polygon` refuses them.
 
 So `h_lookup octree` can place more vertices than `hex_grid` for the same h: about 20 to 27% more where h is close to `h_spacing_scalar` (constant h, or the finest part of a graded mesh), and about the same where h is many times larger. There, the edges of the tetrahedra are about 1.36 h long (median) instead of about 1.45 h. Raise h by about 7% to keep the same vertex count.
 
-**The edge buffer.** With `IF_POI_EDGE_BUFFER` 1, the box faces get vertices on a regular grid at `h_spacing_scalar`, whatever the field. When h is much larger than `h_spacing_scalar`, set `IF_POI_EDGE_BUFFER` to 0.
+**The edge buffer.** With `IF_POI_EDGE_BUFFER` 1, the box faces get vertices on a regular grid at `h_spacing_scalar`, whatever the field. When h is much larger than `h_spacing_scalar`, set `IF_POI_EDGE_BUFFER` to 0. Only the face vertices are made, so the memory for them grows with the area of the faces, (box / `h_spacing_scalar`)<sup>2</sup>. LaGriT V3.4.0 and earlier built a hex brick over the whole box and kept its outside vertices, which needed memory as the box volume / `h_spacing_scalar`<sup>3</sup> and could run out of memory on a large box; the face vertices are the same as before, in the same order.
 
 <hr>
 

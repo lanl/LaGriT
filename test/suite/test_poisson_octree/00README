@@ -3,7 +3,7 @@ test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
 
 QUICK START
 
-  sh run_poisson_octree_tests.sh [path-to-lagrit]    10 decks, about 15 s
+  sh run_poisson_octree_tests.sh [path-to-lagrit]    11 decks, about 16 s
   open summary.html
 
   The page explains each deck and check, and shows:
@@ -69,6 +69,14 @@ THE DECKS
                       default is hex_grid (it says so; the mesh of
                       LaGriT before V3.4.0); the vertices are exactly
                       po06_constant_h_hex_grid's
+  po10_face_lattice   the edge buffer on, a 10 x 10 x 5 box,
+                      h_spacing_scalar 0.05, h = 1 (h_one.mlgi): the
+                      face vertices are the outside of a 200 x 200 x
+                      100 lattice (158,008, counted and checked on the
+                      lattice), itp1 10 on all of them, the sampled
+                      vertices at least 0.05 inside the box, peak
+                      memory under 400 MB (the hex brick LaGriT V3.4.0
+                      built for them needed about 1.5 GB)
 
   The error and warning cases of the new keywords are in
   test_poisson_command_errors (err26 to err31, warn06).
@@ -76,6 +84,7 @@ THE DECKS
 FILES
 
   h_point.mlgi              the h field of po01 to po04 and po07
+  h_one.mlgi                h = 1, the h field of po10
   po*.lgi                   the decks
   check_poisson_octree.py   the checker (Python 3, standard library)
   run_poisson_octree_tests.sh
