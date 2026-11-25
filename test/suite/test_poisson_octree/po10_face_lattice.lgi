@@ -1,0 +1,19 @@
+# po10_face_lattice.lgi -- test_poisson_octree (see 00README)
+# The edge buffer on (the default) on a 10 x 10 x 5 box with
+# h_spacing_scalar 0.05 and h = 1 (h_one.mlgi): the six faces get a
+# lattice: the outside vertices of a 200 x 200 x 100 brick, 158,008.
+# LaGriT V3.4.0 built a hex brick of all 4,000,000 lattice vertices to
+# find them (about 1.5 GB); now only the face vertices are made.
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 10.0
+define / POI_YMAX / 10.0
+define / POI_ZMAX / 5.0
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_pts / 0.05 / no_connect / &
+      h_one.mlgi / poisson_seed 1
+pset / p_face / attribute / itp1 / 1 0 0 / eq / 10
+dump / avs / po10_points.inp / mo_pts / 1 0 0 0
+finish

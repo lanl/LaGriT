@@ -48,7 +48,16 @@ DECKS = [
     ("po09_default_uniform",
      "po06 without h_lookup: for a uniform h the default lookup is hex_grid (the mesh of LaGriT "
      "before V3.4.0), so the vertices must be exactly po06_constant_h_hex_grid's."),
+    ("po10_face_lattice",
+     "The edge buffer on (the default), a 10 &times; 10 &times; 5 box, h_spacing_scalar 0.05, h = 1 "
+     "(h_one.mlgi). The six faces get the outside vertices of a 200 &times; 200 &times; 100 lattice, "
+     "158,008 of them. LaGriT V3.4.0 built a hex brick of all 4,000,000 lattice vertices to find them "
+     "(about 1.5 GB of memory); now only the face vertices are made."),
 ]
+
+# po10's box and lattice (po10_face_lattice.lgi)
+BOX10 = ((0.0, 10.0), (0.0, 10.0), (0.0, 5.0))
+H10 = 0.05
 
 BLUES = ["#dbe9f6", "#b3d1ea", "#7fb0d8", "#4a8cc4", "#2166ac", "#0b3c7a", "#061f45"]
 OCT_COLOR, HEX_COLOR, INK, INK2, GRID = "#2166ac", "#e07b00", "#1f2328", "#57606a", "#d0d7de"
@@ -371,6 +380,87 @@ def read_angles(path):
     return mins, maxs
 
 
+def face_lattice(box, h):
+    """The lattice the edge buffer puts on the faces: n = ceil(L / h)
+    vertices along each side, from min to max."""
+    n = [int(math.ceil((b[1] - b[0]) / h)) for b in box]
+    axes = [[b[0] + i * (b[1] - b[0]) / (k - 1) for i in range(k)] for b, k in zip(box, n)]
+    count = n[0] * n[1] * n[2] - max(n[0] - 2, 0) * max(n[1] - 2, 0) * max(n[2] - 2, 0)
+    return n, axes, count
+
+
+def on_box_face(p, box, tol):
+    return any(abs(p[a] - box[a][0]) <= tol or abs(p[a] - box[a][1]) <= tol for a in range(3))
+
+
+def check_face_lattice(points, box, h):
+    """(face vertices, how many are off the lattice, smallest distance
+    of the other vertices to a face)"""
+    n, axes, _ = face_lattice(box, h)
+    tol = 1e-9 * max(b[1] - b[0] for b in box)
+    face, off, gap = 0, 0, float("inf")
+    for p in points:
+        if on_box_face(p, box, tol):
+            face += 1
+            for a in range(3):
+                b = box[a]
+                i = int(round((p[a] - b[0]) / (b[1] - b[0]) * (n[a] - 1)))
+                if not (0 <= i < n[a] and abs(p[a] - axes[a][i]) <= tol):
+                    off += 1
+                    break
+        else:
+            gap = min(gap, min(min(p[a] - box[a][0], box[a][1] - p[a]) for a in range(3)))
+    return face, off, gap
+
+
+def svg_face_lattice(points, box):
+    """Two panels of po10: the corner of the face z = 0 seen from above,
+    and the slice y = 5 seen from the side: the face lattice and the
+    sampled vertices."""
+    tol = 1e-9 * 10
+    face = [p for p in points if on_box_face(p, box, tol)]
+    inner = [p for p in points if not on_box_face(p, box, tol)]
+    W, M = 640, 28
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d 360" width="%d" role="img" '
+           'aria-label="face lattice of po10">' % (W, W)]
+    # panel 1: x, y in [0, 2], the face z = 0 and the vertices with z < 1.5
+    S = 280
+    out.append('<rect x="0" y="%d" width="%d" height="%d" fill="none" stroke="%s"/>' % (M, S, S, INK2))
+    for p in face:
+        if p[2] <= tol and p[0] <= 2 and p[1] <= 2:
+            out.append('<circle cx="%.1f" cy="%.1f" r="1.2" fill="%s"/>' % (p[0] / 2 * S, M + (1 - p[1] / 2) * S,
+                                                                          OCT_COLOR))
+    for p in inner:
+        if p[2] < 1.5 and p[0] <= 2 and p[1] <= 2:
+            out.append('<circle cx="%.1f" cy="%.1f" r="4" fill="%s"/>' % (p[0] / 2 * S, M + (1 - p[1] / 2) * S,
+                                                                        HEX_COLOR))
+    out.append('<text x="0" y="%d" font-size="12" fill="%s">corner of the face z = 0 (x, y from 0 to 2)</text>'
+               % (M - 8, INK))
+    # panel 2: the slice |y - 5| < 0.5, x in [0, 10], z in [0, 5]
+    x0, S2 = S + 40, W - S - 40
+    sc = S2 / 10.0
+    out.append('<rect x="%d" y="%d" width="%.0f" height="%.0f" fill="none" stroke="%s"/>'
+               % (x0, M, S2, 5 * sc, INK2))
+    for p in face:
+        if abs(p[1] - 5) < 0.5 and (p[1] > tol and p[1] < 10 - tol):
+            out.append('<circle cx="%.1f" cy="%.1f" r="1" fill="%s"/>' % (x0 + p[0] * sc, M + (5 - p[2]) * sc,
+                                                                        OCT_COLOR))
+    for p in inner:
+        if abs(p[1] - 5) < 0.5:
+            out.append('<circle cx="%.1f" cy="%.1f" r="3" fill="%s"/>' % (x0 + p[0] * sc, M + (5 - p[2]) * sc,
+                                                                        HEX_COLOR))
+    out.append('<text x="%d" y="%d" font-size="12" fill="%s">the slice y = 5 &plusmn; 0.5, from the side '
+               '(x 0 to 10, z 0 to 5)</text>' % (x0, M - 8, INK))
+    ly = M + S + 24
+    out.append('<circle cx="6" cy="%d" r="3" fill="%s"/><text x="16" y="%d" font-size="12" fill="%s">face '
+               'lattice (%s vertices, 0.05 apart)</text>' % (ly - 4, OCT_COLOR, ly, INK, "{:,}".format(len(face))))
+    out.append('<circle cx="%d" cy="%d" r="4" fill="%s"/><text x="%d" y="%d" font-size="12" fill="%s">sampled '
+               'vertices (%s, h = 1)</text>' % (x0 + 6, ly - 4, HEX_COLOR, x0 + 16, ly, INK,
+                                                 "{:,}".format(len(inner))))
+    out.append('</svg>')
+    return "\n".join(out)
+
+
 def read_rusage(work, deck):
     try:
         with open(os.path.join(work, deck + ".rusage")) as f:
@@ -509,12 +599,30 @@ def main():
     check("po01_point_source", "less peak memory than hex_grid (po07)", m1 and m7 and m1 < m7,
           "%.0f MB against %.0f MB" % ((m1 or 0) / 1e6, (m7 or 0) / 1e6))
 
+    # po10: the edge buffer's face lattice, made without the brick
+    p10 = pts("po10_points.inp")
+    t10 = out.get("po10_face_lattice", "")
+    _, _, nexp = face_lattice(BOX10, H10)
+    face10, off10, gap10 = check_face_lattice(p10, BOX10, H10) if p10 else (0, 0, 0.0)
+    check("po10_face_lattice", "vertices on the box faces: the lattice count", face10 == nexp,
+          "%d, expected %d" % (face10, nexp))
+    check("po10_face_lattice", "every face vertex on the lattice (to 1e-9 of the box)", p10 and off10 == 0,
+          "%d off" % off10)
+    nitp = re.search(r"THE PSET\s+p_face\s+HAS\s+(\d+) POINTS", t10)
+    check("po10_face_lattice", "itp1 10 on every face vertex", nitp is not None and int(nitp.group(1)) == nexp,
+          nitp.group(1) if nitp else "not reported")
+    check("po10_face_lattice", "the other vertices at least POI_EDGE_BUFFER x h_spacing_scalar (0.05) "
+          "inside the box", p10 and gap10 >= 0.05 * (1 - 1e-9), "smallest %.4f" % gap10)
+    r10 = read_rusage(work, "po10_face_lattice")
+    check("po10_face_lattice", "peak memory under 400 MB (the brick needed about 1.5 GB)",
+          r10[1] is not None and r10[1] < 400e6, "%.0f MB" % ((r10[1] or 0) / 1e6))
+
     npass = sum(r[2] for r in rows)
     nfail = len(rows) - npass
     width = max(len(r[0]) for r in rows)
     print("\n".join("%-4s  %-*s  %s  %s" % ("PASS" if r[2] else "FAIL", width, r[0], r[1], r[3]) for r in rows))
     print("\npassed %d   failed %d" % (npass, nfail))
-    extra = {"work": work, "p7": p7, "po": po, "ph": ph, "t7": out.get("po07_point_hex_grid", ""),
+    extra = {"work": work, "p7": p7, "po": po, "ph": ph, "t7": out.get("po07_point_hex_grid", ""), "p10": p10,
              "t2": out.get("po02_small_batch", "")}
     write_page(logs, rows, npass, nfail, octree, p1, nn1, nn6, t1, len(po), len(ph), extra)
     return 0 if nfail == 0 else 1
@@ -672,6 +780,16 @@ def write_page(logs, rows, npass, nfail, octree, p1, nn1, nn6, t1, n_oct, n_hex,
             o.append('<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>'
                      % ("first" if i == 0 else "resample %d" % i, "{:,}".format(int(a)), "{:,}".format(int(b)), c))
         o.append('</table>')
+    if extra.get("p10"):
+        r10 = read_rusage(extra["work"], "po10_face_lattice")
+        o.append('<h2>The edge buffer\'s face lattice (po10)</h2>')
+        o.append('<p class="note">With the edge buffer on, the sampler fills the box moved in by '
+                 'POI_EDGE_BUFFER &times; h_spacing_scalar, and a lattice at h_spacing_scalar is put on the six '
+                 'faces. Blue: the face lattice; orange: the sampled vertices (h = 1). LaGriT V3.4.0 found the face '
+                 'vertices by building a hex brick over the whole box (4,000,000 vertices here); now only the '
+                 'face vertices are made, the same ones in the same order. This run: %.1f s, %.0f MB.</p>'
+                 % (r10[0] or 0, (r10[1] or 0) / 1e6))
+        o.append(svg_face_lattice(extra["p10"], BOX10))
     o.append('</body></html>')
     os.makedirs(logs, exist_ok=True)
     with open(os.path.join(logs, "summary.html"), "w") as f:

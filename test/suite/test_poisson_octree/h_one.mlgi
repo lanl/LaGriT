@@ -1,0 +1,4 @@
+* h_one.mlgi -- test_poisson_octree (po10): h = 1 everywhere, 20 times
+* h_spacing_scalar, as a control file (so the octree is the default).
+cmo / setatt / mo_poi_h_field / h_field_att / 1 0 0 / 1.0
+finish

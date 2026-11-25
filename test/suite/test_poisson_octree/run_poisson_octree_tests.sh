@@ -45,7 +45,7 @@ mkdir -p "$WORK" "$LOGDIR"
 rm -rf "${WORK:?}"/* "${LOGDIR:?}"/*
 
 echo "lagrit : $LAGRIT"
-cp h_point.mlgi "$WORK"/
+cp h_point.mlgi h_one.mlgi "$WORK"/
 for deck in po[0-9]*.lgi; do
     name=${deck%.lgi}
     cp "$deck" "$WORK"/
