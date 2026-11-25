@@ -218,6 +218,11 @@ contains
       end if
       write (s, '(a,t33,i12)') '  ties (|delta/L| <= tol)', d%nties
       call log_line(s)
+      if (d%nflat > 0) then
+         write (s, '(a,t33,i12)') '    of them, facets of flat tets', &
+            d%nflat
+         call log_line(s)
+      end if
       write (s, '(a,t33,i12)') '  violations                   ', &
          sum(d%nviol)
       call log_line(s)

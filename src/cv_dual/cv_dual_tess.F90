@@ -114,7 +114,7 @@ contains
       type(cell_policy_t), intent(in) :: pol
       integer(ik), intent(in) :: it
       real(rk), intent(out) :: pc(3), pf(3, 4)
-      real(rk) :: x(3, 4), x0(3), a, af(4)
+      real(rk) :: x(3, 4), xa(3, 4), x0(3), a, af(4)
       integer(ik) :: iv
       integer :: j
       logical :: ok
@@ -123,6 +123,7 @@ contains
          x(:, j) = [m%xic(iv), m%yic(iv), m%zic(iv)]
       end do
       x0 = x(:, 1)
+      xa = x
       do j = 1, int(m%nen)
          x(:, j) = x(:, j) - x0
       end do
@@ -135,7 +136,7 @@ contains
          af = 1.0_rk
          if (allocated(pol%alpha)) call face_alphas(it, x, pol%alpha, &
             m%jtetoff, m%jtet, m%mbndry, pol%clamp, pol%amin, af)
-         call dual_points_tet(x, a, af, pc, pf, ok)
+         call dual_points_tet(x, a, af, pc, pf, ok, xa, x0)
          do j = 1, 4
             pf(:, j) = pf(:, j) + x0
          end do

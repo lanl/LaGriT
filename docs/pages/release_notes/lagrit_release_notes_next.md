@@ -65,6 +65,19 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   most tets at a vertex (a cylinder with 2000 points per ring: about
   1 MB, where a buffer of faces x points would need 4.6 GB).
 
+- **cv_dual (dump / control_volume, dump / fehm, dump / stor) on a
+  mesh from connect / exact with points on common spheres:** tets flat
+  to round-off had their circumcenter from round-off (in double
+  precision), and cv_dual stopped at its Delaunay check (delta/L of
+  -0.8 on a mesh that is exactly Delaunay). connect / exact makes such
+  tets wherever four points lie on a circle, as two pairs of mirror
+  images always do (the seeds of a conforming Voronoi mesh). A nearly
+  flat tet (determinant within 1e-6 of its size) now has its
+  circumcenter computed in double-double arithmetic from the
+  coordinates as stored, which gives the true center to round-off; a
+  tet coplanar even then takes the center of its circle and its facets
+  count as ties. Other meshes are unchanged.
+
 ### Pull requests
 
 | Date | PR | Description |
@@ -80,3 +93,4 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |
 | 2026-11-24 | | dump / control_volume / paraview: a cell's face points in one flat buffer (memory linear in the most tets at a vertex); suite case cylinder_axis |
+| 2026-11-24 | | cv_dual: the circumcenter of a nearly flat tet in double-double (connect / exact with points on common spheres); suite case mirror_seeds |

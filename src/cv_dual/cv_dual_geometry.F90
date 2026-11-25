@@ -32,6 +32,7 @@
 !-----------------------------------------------------------------------
 module cv_dual_geometry
    use cv_dual_kinds, only: rk
+   use cv_dual_dd, only: circumcenter_tet_dd
    implicit none
    private
    public :: cross, circumcenter_tri, circumcenter_tet
@@ -142,17 +143,60 @@ contains
       lam(1) = 1.0_rk - lam(2) - lam(3) - lam(4)
    end subroutine bary_tet
 
-   ! Circumcenter of tet p1..p4, relative to p1.
-   pure subroutine circumcenter_tet(p1, p2, p3, p4, c, ok)
+   ! Circumcenter of tet p1..p4, relative to p1. A tet nearly flat
+   ! (|det| <= 1e-6 x the product of its edge lengths from p1) has its
+   ! circumcenter computed in double-double (cv_dual_dd): connect /
+   ! exact makes tets flat to round-off where points lie on common
+   ! spheres (mirror images do), and their circumcenter in double
+   ! precision is round-off. A tet coplanar even in double-double has
+   ! no circumsphere of its own: its four points lie on a circle, and
+   ! every sphere through it is one. Its center is then the circle's
+   ! (the circumcenter of its largest face); every dual piece inside it
+   ! lies in its plane and adds nothing to the coefficient of any of
+   ! its edges. flat (optional) tells which.
+   pure subroutine circumcenter_tet(p1, p2, p3, p4, c, ok, flat, &
+                                    xabs, x0)
       real(rk), intent(in) :: p1(3), p2(3), p3(3), p4(3)
       real(rk), intent(out) :: c(3)
       logical, intent(out) :: ok
-      real(rk) :: a(3), b(3), d(3), bxd(3), den
+      logical, intent(out), optional :: flat
+      ! the points as stored (p = xabs - x0, rounded): a nearly flat
+      ! tet is computed from these, the differences exact
+      real(rk), intent(in), optional :: xabs(3, 4), x0(3)
+      real(rk), parameter :: ill_tol = 1.0e-6_rk
+      real(rk) :: a(3), b(3), d(3), bxd(3), den, s, ar(4), q(3, 4)
+      integer :: k, f(3, 4)
       a = p2 - p1
       b = p3 - p1
       d = p4 - p1
       bxd = cross(b, d)
       den = 2.0_rk*dot_product(a, bxd)
+      s = 2.0_rk*norm2(a)*norm2(b)*norm2(d)
+      if (present(flat)) flat = .false.
+      if (abs(den) <= ill_tol*s .and. s > 0.0_rk) then
+         if (present(xabs) .and. present(x0)) then
+            call circumcenter_tet_dd(xabs(:, 1), xabs(:, 2), &
+                                     xabs(:, 3), xabs(:, 4), x0, c, ok)
+         else
+            call circumcenter_tet_dd(p1, p2, p3, p4, &
+                                     [0.0_rk, 0.0_rk, 0.0_rk], c, ok)
+         end if
+         if (ok) return
+         if (present(flat)) flat = .true.
+         q(:, 1) = p1
+         q(:, 2) = p2
+         q(:, 3) = p3
+         q(:, 4) = p4
+         f = reshape([2, 3, 4, 1, 3, 4, 1, 2, 4, 1, 2, 3], [3, 4])
+         do k = 1, 4
+            ar(k) = norm2(cross(q(:, f(2, k)) - q(:, f(1, k)), &
+                                q(:, f(3, k)) - q(:, f(1, k))))
+         end do
+         k = maxloc(ar, dim=1)
+         call circumcenter_tri(q(:, f(1, k)), q(:, f(2, k)), &
+                               q(:, f(3, k)), c, ok)
+         return
+      end if
       ok = den /= 0.0_rk
       if (.not. ok) then
          c = p1

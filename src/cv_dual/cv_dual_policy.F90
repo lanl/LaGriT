@@ -105,8 +105,10 @@ contains
 
    ! Tet x(:,1:4); cell weight a, face weights af(k) for the face
    ! opposite vertex k. pf(:,k) is that face's point.
-   pure subroutine dual_points_tet(x, a, af, pc, pf, ok)
+   pure subroutine dual_points_tet(x, a, af, pc, pf, ok, xabs, x0)
       real(rk), intent(in) :: x(3, 4), a, af(4)
+      ! the vertices as stored and x = xabs - x0 (see circumcenter_tet)
+      real(rk), intent(in), optional :: xabs(3, 4), x0(3)
       real(rk), intent(out) :: pc(3), pf(3, 4)
       logical, intent(out) :: ok
       real(rk) :: c(3), g(3), y(3, 3)
@@ -118,7 +120,7 @@ contains
          pc = g
       else
          call circumcenter_tet(x(:, 1), x(:, 2), x(:, 3), x(:, 4), &
-                               c, ok)
+                               c, ok, xabs=xabs, x0=x0)
          pc = blend(g, c, a)
       end if
       do k = 1, 4
