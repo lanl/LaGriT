@@ -15,6 +15,24 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   attribute on the surface, and balls on the branches of wide corners
   are flagged so they can be removed. See [COMPUTE](../docs/commands/COMPUTE.md).
 
+- **createpts / poisson_disk / 3d_box / ... / face_lattice adaptive |
+  uniform:** with the edge buffer on, the vertices on the six box faces
+  can now follow the h field. `face_lattice adaptive` (the default with
+  h_lookup octree and a control file) makes each face a quad mesh,
+  refined with refine (a 2:1 balanced quadtree) until no quad is longer
+  than h at its corners, so the faces are a little denser than the
+  interior; the sampler then fills the whole box and keeps
+  POI_EDGE_BUFFER x h away from the face vertices. The tets on the faces
+  are a little long inward, so their Voronoi points lie inside the box
+  and the coupling coefficients are positive. On a 10 x 10 x 5 box with
+  h_spacing_scalar 0.05 and h from 0.1 to 1: 1,993 vertices and no
+  negative coefficients, against 158,991 vertices and 13 negative
+  coefficients with the lattice at h_spacing_scalar (`face_lattice
+  uniform`, the only lattice before; still the default for a uniform h
+  and with h_lookup hex_grid). A deck with a control file and the edge
+  buffer on now gets the adaptive faces; add `face_lattice uniform` for
+  its old vertices.
+
 - **dump / control_volume / ... / exclude, imt [imt ...]:** the vertices
   of those materials (the ghost generators of a conforming Voronoi mesh)
   are left out of the .stor, .uge and TOUGH files; the control volumes
@@ -101,6 +119,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
+| 2026-11-25 | | createpts / poisson_disk / 3d_box: face_lattice adaptive, the box faces follow h (the default with h_lookup octree and a control file); face_lattice uniform for the old lattice |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |

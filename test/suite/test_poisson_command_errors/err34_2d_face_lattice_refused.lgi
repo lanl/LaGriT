@@ -1,0 +1,10 @@
+#####################################################################
+# err34_2d_face_lattice_refused.lgi
+#
+# EXPECT:
+#   One ERROR block: face_lattice is for 3d_box only.
+#####################################################################
+read / avs / unit_square.poly / mo_polygon
+createpts / poisson_disk / 2d_polygon / mo_poisson_pts / mo_polygon &
+      / 0.05 / connect / face_lattice / uniform
+finish

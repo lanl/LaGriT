@@ -93,6 +93,7 @@ void Domain::octInitNeighborGrid() {
     for (unsigned int i = 0; i < numNodes; i++) {
         nodes[i].nodeNum = i + 1;
         getExclusionRadius(nodes[i]);
+        if (i < numFixed) nodes[i].radius *= fixedScale;
         tagNeighborCells(nodes[i]);
     }
     cout << "Initializing Grid Complete\n" << endl;

@@ -20,6 +20,12 @@ C
       common /poi_oct_r/ poi_oct_k
       common /poi_oct_c/ poi_oct_dump
 C
+C     face_lattice    uniform | adaptive      if_poi_face_lat 0 | 1
+C                     (-1 not given: adaptive with h_lookup octree and
+C                     a control file, uniform otherwise)
+      integer if_poi_face_lat
+      common /poi_oct_f/ if_poi_face_lat
+C
 C     defaults. A batch of octree vertices in mo_poi_h_field costs up
 C     to about 250 bytes each while the user's .mlgi runs (x, y, z, the
 C     standard attributes, h_field_att, the .mlgi's own arrays and

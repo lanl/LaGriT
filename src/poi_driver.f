@@ -282,9 +282,10 @@ C
          call poi_err_add(
      &      'token 3 says 3d_box but the 2D driver was called')
       endif
-      if(if_poi_oct_key .ne. 0)then
-         call poi_err_add('h_lookup, octree_k_factor, octree_batch '//
-     &      'and octree_dump are for 3d_box only')
+      if(if_poi_oct_key .ne. 0 .or. if_poi_face_lat .ge. 0)then
+         call poi_err_add('h_lookup, octree_k_factor, octree_batch, '//
+     &      'octree_dump and face_lattice')
+         call poi_err_add('are for 3d_box only')
       endif
 C     2D has no octree
       if_poi_octree = 0
@@ -429,6 +430,8 @@ C  it very hard to tell which box the sampler was really given.
 C
       integer if_poi_edge_buffer
       real*8  poi_edge_buffer,buffer_dxyz
+      integer if_face_h,nface_h
+      character*32 mo_face_h
 C
 C  lookup lattice
       integer np(NDIR)
@@ -507,6 +510,17 @@ C ---------------------------------------------------------------------
       call poi_err_report(ierror)
       if(ierror .ne. 0) goto 9999
 C
+C     The face lattice of the edge buffer: adaptive (following h, made
+C     with refine) by default with h_lookup octree and a control file,
+C     or when face_lattice adaptive is given; uniform (a lattice at
+C     h_spacing_scalar) otherwise.
+C
+      call poi_3d_choose_face(if_poi_edge_buffer,if_h_field_variable,
+     &     if_face_h,ierror)
+      if(ierror .ne. 0) goto 9999
+      mo_face_h = 'mo_poi_face_pts'
+      nface_h = 0
+C
 C ---------------------------------------------------------------------
 C     PHASE 3 - build the background search lattice.
 C     With h_lookup octree there is no lattice: the octree is built in
@@ -562,19 +576,33 @@ C     It stays tied to the lookup mesh even when the sample box is
 C     smaller.
 C ---------------------------------------------------------------------
  4500 continue
-      if(if_poi_edge_buffer .eq. 1)then
+      if(if_poi_edge_buffer .eq. 1 .and. if_face_h .eq. 0)then
          buffer_dxyz = -1.0d0*h*poi_edge_buffer
          call poi_buffer_box(1,buffer_dxyz,box_samp,box_user)
       else
          call poi_copy_box(box_samp,box_user)
+      endif
+      if(if_face_h .eq. 1)then
+C        the faces first; the sampler keeps POI_EDGE_BUFFER x h(x)
+C        away from their vertices instead of sampling a smaller box
+         call poi_3d_face_lattice_h(mo_face_h,file_user_h_field_att,
+     &     if_h_field_variable,h_spacing,box_user,nface_h,ierror)
+         if(ierror .ne. 0) goto 9999
       endif
       if(if_poi_octree .eq. 1)then
          call poi_oct_run
      &     (mo_poi_pts_out,file_user_h_field_att,poi_oct_dump,
      &      if_h_field_variable,if_poi_oct_dump,h_spacing,
      &      box_samp,box_look,poi_oct_k,poi_oct_batch,
-     &      seed,number_of_samples,resample_sweeps,ierror)
+     &      seed,number_of_samples,resample_sweeps,
+     &      mo_face_h,nface_h,poi_edge_buffer,ierror)
+         if(nface_h .gt. 0)then
+            call poi_cmd('cmo/delete/'//mo_face_h//' ; finish')
+         endif
          if(ierror .ne. 0) goto 9999
+         if(nface_h .gt. 0)then
+            call poi_set_itp_first(mo_poi_pts_out,nface_h,10)
+         endif
          goto 4600
       endif
 C
@@ -587,7 +615,7 @@ C
      &      seed,number_of_samples,resample_sweeps)
  4600 continue
 C
-      if(if_poi_edge_buffer .eq. 1)then
+      if(if_poi_edge_buffer .eq. 1 .and. if_face_h .eq. 0)then
          call poi_3d_add_face_points(mo_poi_pts_out,h,box_user)
       endif
 C
@@ -963,7 +991,8 @@ C           have been truncated without any sign that it had been.
             write(cmsg,'(a,a)') '   ',cvalid(1:lk)
             call poi_err_add(cmsg)
             call poi_err_add('   and, for 3d_box: h_lookup, '//
-     &         'octree_k_factor, octree_batch, octree_dump')
+     &         'octree_k_factor, octree_batch, octree_dump,')
+            call poi_err_add('   face_lattice')
             goto 50
          endif
 C

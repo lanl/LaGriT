@@ -52,8 +52,27 @@ DECKS = [
      "The edge buffer on (the default), a 10 &times; 10 &times; 5 box, h_spacing_scalar 0.05, h = 1 "
      "(h_one.mlgi). The six faces get the outside vertices of a 200 &times; 200 &times; 100 lattice, "
      "158,008 of them. LaGriT V3.4.0 built a hex brick of all 4,000,000 lattice vertices to find them "
-     "(about 1.5 GB of memory); now only the face vertices are made."),
+     "(about 1.5 GB of memory); now only the face vertices are made. face_lattice uniform: with a "
+     "control file the default is now the adaptive lattice (po11)."),
+    ("po11_face_adaptive",
+     "The edge buffer on, the 10 &times; 10 &times; 5 box, h_spacing_scalar 0.05, h = 0.1 + 0.2 &times; "
+     "distance to (2, 5, 0) on the bottom face, at most 1 (h_face.mlgi): face_lattice adaptive, the default "
+     "with a control file. Each face is a quad mesh refined with refine (a 2:1 balanced quadtree) until no "
+     "quad is longer than h at its corners, so the faces are a little denser than the interior; the sampler "
+     "fills the whole box and keeps h away from the face vertices."),
+    ("po12_face_uniform",
+     "po11 with face_lattice uniform, for comparison: the lattice at h_spacing_scalar on the faces and the "
+     "sampler in the box moved in by h_spacing_scalar, whatever h is."),
+    ("po13_face_large_box",
+     "The edge buffer on, a 24 &times; 24 &times; 14 box, h_spacing_scalar 0.05, h = 1 (h_one.mlgi), "
+     "face_lattice adaptive by default. A uniform face lattice at 0.05 would be about 1,000,000 vertices "
+     "here (it was killed at 6 GB with V3.4.0's brick)."),
 ]
+
+# po11 to po13: face_lattice adaptive
+FACE_SRC = (2.0, 5.0, 0.0)  # the point source of h_face.mlgi
+BOX11 = ((0.0, 10.0), (0.0, 10.0), (0.0, 5.0))
+BOX13 = ((0.0, 24.0), (0.0, 24.0), (0.0, 14.0))
 
 # po10's box and lattice (po10_face_lattice.lgi)
 BOX10 = ((0.0, 10.0), (0.0, 10.0), (0.0, 5.0))
@@ -461,6 +480,180 @@ def svg_face_lattice(points, box):
     return "\n".join(out)
 
 
+def h_face(p):
+    return min(1.0, 0.1 + 0.2 * math.dist(p, FACE_SRC))
+
+
+def h_one(p):
+    return 1.0
+
+
+def read_mesh(path):
+    """Vertices and tets of an AVS file (dump / avs ... / 1 1 0 0)."""
+    with open(path) as f:
+        nn, ne = (int(v) for v in f.readline().split()[:2])
+        pts = [tuple(float(v) for v in f.readline().split()[1:4]) for _ in range(nn)]
+        tets = []
+        for _ in range(ne):
+            w = f.readline().split()
+            if len(w) >= 7 and w[2] == "tet":
+                tets.append(tuple(int(v) - 1 for v in w[3:7]))
+    return pts, tets
+
+
+def circumcenter(a, b, c, d):
+    r = []
+    for p in (b, c, d):
+        u = [p[k] - a[k] for k in range(3)]
+        r.append(u + [0.5 * (u[0] * u[0] + u[1] * u[1] + u[2] * u[2])])
+
+    def det3(m):
+        return (m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+                - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+                + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]))
+    D = det3([row[:3] for row in r])
+    if D == 0.0:
+        return None
+    out = []
+    for k in range(3):
+        m = [row[:3] for row in r]
+        for i in range(3):
+            m[i][k] = r[i][3]
+        out.append(a[k] + det3(m) / D)
+    return out
+
+
+def grid_pairs(pts, cell):
+    """Spatial hash of pts, cell size cell."""
+    g = {}
+    for i, p in enumerate(pts):
+        g.setdefault((int(p[0] // cell), int(p[1] // cell), int(p[2] // cell)), []).append(i)
+    return g
+
+
+def near(g, cell, p, r):
+    """Indices in grid g within the cells r around p."""
+    n = int(math.ceil(r / cell))
+    c = (int(p[0] // cell), int(p[1] // cell), int(p[2] // cell))
+    for a in range(c[0] - n, c[0] + n + 1):
+        for b in range(c[1] - n, c[1] + n + 1):
+            for cc in range(c[2] - n, c[2] + n + 1):
+                for j in g.get((a, b, cc), ()):
+                    yield j
+
+
+def face_checks(pts, tets, box, hfun, spacing=True):
+    """For face_lattice adaptive: on the faces, the spacing of the face
+    vertices against h; the interior vertices' distance to the face
+    vertices against h; the tets with a facet on the box, and how many
+    of them have their circumcenter (Voronoi point) outside the box."""
+    L = max(b[1] - b[0] for b in box)
+    tol = 1e-9 * L
+    onf = [on_box_face(p, box, tol) for p in pts]
+    face = [i for i in range(len(pts)) if onf[i]]
+    inner = [i for i in range(len(pts)) if not onf[i]]
+    hv = [hfun(p) for p in pts]
+    hmax = max(hv)
+    cell = hmax
+    gf = grid_pairs([pts[i] for i in face], cell) if spacing else {}
+    # face spacing: nearest other face vertex on the same box face / h
+    sp_max, sp = 0.0, []
+    for k, i in enumerate(face if spacing else []):
+        p = pts[i]
+        best = float("inf")
+        for jj in near(gf, cell, p, 1.5 * hv[i]):
+            j = face[jj]
+            if j == i:
+                continue
+            q = pts[j]
+            same = any(abs(p[a] - b) <= tol and abs(q[a] - b) <= tol for a in range(3) for b in box[a])
+            if same:
+                best = min(best, math.dist(p, q))
+        if best < float("inf"):
+            sp.append(best / hv[i])
+    sp_max = max(sp) if sp else 0.0
+    # interior to face: d / max(h)
+    fi_min = float("inf")
+    for i in (inner if spacing else []):
+        p = pts[i]
+        for jj in near(gf, cell, p, 1.5 * hmax):
+            j = face[jj]
+            fi_min = min(fi_min, math.dist(p, pts[j]) / max(hv[i], hv[j]))
+    # boundary tets
+    nb = nout = 0
+    for t in tets:
+        q = [pts[i] for i in t]
+        if not any(sum(1 for v in q if abs(v[a] - b) <= tol) >= 3 for a in range(3) for b in box[a]):
+            continue
+        nb += 1
+        c = circumcenter(*q)
+        if c is None or any(c[a] < box[a][0] - tol or c[a] > box[a][1] + tol for a in range(3)):
+            nout += 1
+    return {"face": len(face), "inner": len(inner), "sp": sp, "sp_max": sp_max, "fi_min": fi_min,
+            "nb": nb, "nout": nout}
+
+
+def neg_aij(text):
+    m = re.findall(r"negative A\(ij\)\s+(\d+)", text)
+    return int(m[-1]) if m else None
+
+
+def svg_face_pair(ma, mb, la, lb, box):
+    """Two columns, po11 and po12: the bottom face z = 0 near the
+    source (its triangles: the facets of the tets on the face), and the
+    slice y = 5 from the side, face vertices blue, sampled orange."""
+    W, M, S = 640, 26, 290
+    G = W - 2 * S
+    out = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" role="img" '
+           'aria-label="face lattice adaptive and uniform">' % (W, S + 2 * M + 14 + S // 2 + 52, W)]
+    tol = 1e-9 * 10
+    for k, (m, lab) in enumerate(((ma, la), (mb, lb))):
+        pts, tets = m
+        x0 = k * (S + G)
+        # panel 1: bottom face, x 0..4, y 3..7
+        X0, X1, Y0, Y1 = 0.0, 4.0, 3.0, 7.0
+        sc = S / (X1 - X0)
+        out.append('<text x="%d" y="%d" font-size="12" fill="%s">%s: bottom face near (2, 5, 0)</text>'
+                   % (x0, M - 8, INK, html.escape(lab)))
+        out.append('<rect x="%d" y="%d" width="%d" height="%d" fill="none" stroke="%s"/>' % (x0, M, S, S, INK2))
+        segs = set()
+        for t in tets:
+            b = [i for i in t if abs(pts[i][2]) <= tol]
+            if len(b) == 3:
+                for a2 in range(3):
+                    e = tuple(sorted((b[a2], b[(a2 + 1) % 3])))
+                    segs.add(e)
+        lines = []
+        for i, j in segs:
+            p, q = pts[i], pts[j]
+            if X0 <= p[0] <= X1 and Y0 <= p[1] <= Y1 and X0 <= q[0] <= X1 and Y0 <= q[1] <= Y1:
+                lines.append('M%.1f %.1fL%.1f %.1f' % (x0 + (p[0] - X0) * sc, M + (Y1 - p[1]) * sc,
+                                                     x0 + (q[0] - X0) * sc, M + (Y1 - q[1]) * sc))
+        out.append('<path d="%s" stroke="%s" stroke-width="0.6" fill="none"/>' % (" ".join(lines), OCT_COLOR))
+        sx, sy = x0 + (FACE_SRC[0] - X0) * sc, M + (Y1 - FACE_SRC[1]) * sc
+        out.append('<circle cx="%.1f" cy="%.1f" r="4" fill="#c00"/>' % (sx, sy))
+        # panel 2: slice y = 5, x 0..10, z 0..5
+        top = M + S + M + 14
+        sc2 = S / 10.0
+        out.append('<text x="%d" y="%d" font-size="12" fill="%s">slice y = 5 &plusmn; 0.25, from the side</text>'
+                   % (x0, top - 8, INK))
+        out.append('<rect x="%d" y="%d" width="%d" height="%.0f" fill="none" stroke="%s"/>'
+                   % (x0, top, S, 5 * sc2, INK2))
+        for p in pts:
+            if abs(p[1] - 5) < 0.25:
+                f = on_box_face(p, box, tol)
+                out.append('<circle cx="%.1f" cy="%.1f" r="%s" fill="%s"/>'
+                           % (x0 + p[0] * sc2, top + (5 - p[2]) * sc2, "1.2" if f else "2.2",
+                              OCT_COLOR if f else HEX_COLOR))
+    yc = S + 2 * M + 14 + S // 2 + 22
+    out.append('<text x="0" y="%d" font-size="12" fill="%s">top: the triangles of the tets on the bottom '
+               'face (red: the source, h = 0.1)</text>' % (yc, INK2))
+    out.append('<text x="0" y="%d" font-size="12" fill="%s">bottom: blue face vertices, orange sampled '
+               'vertices</text>' % (yc + 16, INK2))
+    out.append('</svg>')
+    return "\n".join(out)
+
+
 def read_rusage(work, deck):
     try:
         with open(os.path.join(work, deck + ".rusage")) as f:
@@ -617,12 +810,60 @@ def main():
     check("po10_face_lattice", "peak memory under 400 MB (the brick needed about 1.5 GB)",
           r10[1] is not None and r10[1] < 400e6, "%.0f MB" % ((r10[1] or 0) / 1e6))
 
+    # po11 to po13: face_lattice adaptive
+    m11 = m12 = None
+    fc = {}
+    for deck, mesh, box, hfun in (("po11_face_adaptive", "po11_mesh.inp", BOX11, h_face),
+                                  ("po12_face_uniform", "po12_mesh.inp", BOX11, h_face),
+                                  ("po13_face_large_box", "po13_mesh.inp", BOX13, h_one)):
+        txt = out.get(deck, "")
+        path = os.path.join(work, mesh)
+        if not os.path.isfile(path):
+            check(deck, "mesh written", False, "missing")
+            continue
+        m = read_mesh(path)
+        if deck.startswith("po11"):
+            m11 = m
+        if deck.startswith("po12"):
+            m12 = m
+        r = face_checks(m[0], m[1], box, hfun, spacing=not deck.startswith("po12"))
+        fc[deck] = r
+        na = neg_aij(txt)
+        rr = read_rusage(work, deck)
+        if deck == "po12_face_uniform":
+            check(deck, "says face_lattice uniform", "face_lattice uniform" in txt, "")
+            check(deck, "reported: negative coupling coefficients in the .stor", na is not None,
+                  "%s negative A(ij); %d vertices; %d of %d tets on the box with the Voronoi point outside"
+                  % (na, len(m[0]), r["nout"], r["nb"]))
+            continue
+        check(deck, "says face_lattice adaptive (the default with a control file)",
+              "face_lattice adaptive (the default with a control file)" in txt, "")
+        nface = re.search(r"face_lattice adaptive:\s+(\d+) vertices", txt)
+        check(deck, "the face vertices it reports are those on the box faces",
+              nface is not None and int(nface.group(1)) == r["face"],
+              "%s reported, %d found" % (nface.group(1) if nface else "?", r["face"]))
+        check(deck, "face spacing: no face vertex farther than h from its nearest face neighbor",
+              r["sp_max"] <= 1.0 + 1e-6, "largest nearest-neighbor distance / h %.4f" % r["sp_max"])
+        check(deck, "the sampled vertices at least 0.9 max(h) from the face vertices (POI_EDGE_BUFFER 1)",
+              r["fi_min"] >= 0.9, "smallest %.4f" % r["fi_min"])
+        check(deck, "every tet with a facet on the box has its Voronoi point inside the box",
+              r["nb"] > 0 and r["nout"] == 0, "%d of %d outside" % (r["nout"], r["nb"]))
+        check(deck, "no negative coupling coefficients in the .stor (cv_dual)", na == 0, "%s" % na)
+        if deck == "po13_face_large_box":
+            check(deck, "under 20,000 vertices (a uniform face lattice: about 1,000,000)", len(m[0]) < 20000,
+                  "%d" % len(m[0]))
+            check(deck, "peak memory under 200 MB", rr[1] is not None and rr[1] < 200e6,
+                  "%.0f MB" % ((rr[1] or 0) / 1e6))
+    if m11 and m12:
+        check("po11_face_adaptive", "fewer vertices than po12 (face_lattice uniform)", len(m11[0]) < len(m12[0]),
+              "%d against %d" % (len(m11[0]), len(m12[0])))
+
     npass = sum(r[2] for r in rows)
     nfail = len(rows) - npass
     width = max(len(r[0]) for r in rows)
     print("\n".join("%-4s  %-*s  %s  %s" % ("PASS" if r[2] else "FAIL", width, r[0], r[1], r[3]) for r in rows))
     print("\npassed %d   failed %d" % (npass, nfail))
-    extra = {"work": work, "p7": p7, "po": po, "ph": ph, "t7": out.get("po07_point_hex_grid", ""), "p10": p10,
+    extra = {"work": work, "p7": p7, "po": po, "ph": ph, "t7": out.get("po07_point_hex_grid", ""), "p10": p10, "m11": m11, "m12": m12, "fc": fc,
              "t2": out.get("po02_small_batch", "")}
     write_page(logs, rows, npass, nfail, octree, p1, nn1, nn6, t1, len(po), len(ph), extra)
     return 0 if nfail == 0 else 1
@@ -790,6 +1031,32 @@ def write_page(logs, rows, npass, nfail, octree, p1, nn1, nn6, t1, n_oct, n_hex,
                  'face vertices are made, the same ones in the same order. This run: %.1f s, %.0f MB.</p>'
                  % (r10[0] or 0, (r10[1] or 0) / 1e6))
         o.append(svg_face_lattice(extra["p10"], BOX10))
+    if extra.get("m11") and extra.get("m12"):
+        fc = extra["fc"]
+        r11, r12 = read_rusage(extra["work"], "po11_face_adaptive"), read_rusage(extra["work"], "po12_face_uniform")
+        a, b = fc.get("po11_face_adaptive", {}), fc.get("po12_face_uniform", {})
+        o.append('<h2>face_lattice adaptive against uniform (po11, po12)</h2>')
+        o.append('<p class="note">The same box and h field (h = 0.1 at the red dot on the bottom face, growing '
+                 'to 1). Adaptive: each face is a quad mesh refined with refine until no quad is longer than h at '
+                 'its corners, so the face vertices are a little denser than the interior and the tets on the '
+                 'faces reach a little further inward than along the face; their Voronoi points stay inside the '
+                 'box and the coupling coefficients positive. Uniform: a lattice at h_spacing_scalar (0.05) on '
+                 'every face, whatever h is, and the sampled vertices from h_spacing_scalar inward.</p>'
+                 '<table><tr><th></th><th>adaptive (po11)</th><th>uniform (po12)</th></tr>')
+        rowsf = [("vertices", "{:,}".format(len(extra["m11"][0])), "{:,}".format(len(extra["m12"][0]))),
+                 ("vertices on the faces", "{:,}".format(a.get("face", 0)), "{:,}".format(b.get("face", 0))),
+                 ("tets", "{:,}".format(len(extra["m11"][1])), "{:,}".format(len(extra["m12"][1]))),
+                 ("tets on the box with the Voronoi point outside", "%d of %d" % (a.get("nout", 0), a.get("nb", 0)),
+                  "%d of %d" % (b.get("nout", 0), b.get("nb", 0))),
+                 ("negative coupling coefficients (.stor)",
+                  "%s" % neg_aij(read_text(os.path.join(extra["work"], "po11_face_adaptive.out"))),
+                  "%s" % neg_aij(read_text(os.path.join(extra["work"], "po12_face_uniform.out")))),
+                 ("LaGriT time, peak memory", "%.1f s, %.0f MB" % (r11[0] or 0, (r11[1] or 0) / 1e6),
+                  "%.1f s, %.0f MB" % (r12[0] or 0, (r12[1] or 0) / 1e6))]
+        for lab, x1, x2 in rowsf:
+            o.append('<tr><td>%s</td><td>%s</td><td>%s</td></tr>' % (lab, x1, x2))
+        o.append('</table>')
+        o.append(svg_face_pair(extra["m11"], extra["m12"], "adaptive (po11)", "uniform (po12)", BOX11))
     o.append('</body></html>')
     os.makedirs(logs, exist_ok=True)
     with open(os.path.join(logs, "summary.html"), "w") as f:

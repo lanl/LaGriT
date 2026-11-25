@@ -102,7 +102,8 @@ void poisson_3d_octree_build_(char mlgi_in[LG_NAME_SIZE], long *if_variable, dou
                               long *ierror);
 void poisson_3d_octree_dump_(char dump_in[LG_NAME_SIZE], long *ierror);
 void poisson_3d_octree_sample_(char mo_out_in[LG_NAME_SIZE], double *h, double *box_samp, long *seed,
-                               long *numSamples, long *resampleSweeps);
+                               long *numSamples, long *resampleSweeps, char mo_face_in[LG_NAME_SIZE],
+                               long *nface, double *fscale);
 void poisson_3d_octree_free_();
 }
 
@@ -170,8 +171,13 @@ void poisson_3d_octree_dump_(char dump_in[LG_NAME_SIZE], long *ierror) {
     if (*ierror == 0) cout << "  octree leaves written to " << dump << " (AVS hex, h_field_att, itetlev)" << endl;
 }
 
+// mo_face_in, nface > 0: the face lattice (face_lattice adaptive), a
+// vertex-only mesh object; its vertices are kept as they are, written
+// first, and the sampler keeps fscale x h away from them; the box faces
+// and edges are then not sampled
 void poisson_3d_octree_sample_(char mo_out_in[LG_NAME_SIZE], double *h, double *box_samp, long *seed,
-                               long *numSamples, long *resampleSweeps) {
+                               long *numSamples, long *resampleSweeps, char mo_face_in[LG_NAME_SIZE],
+                               long *nface, double *fscale) {
     char mo_out[LG_NAME_SIZE];
     process_lagrit_string(mo_out_in, mo_out);
     Domain domain;
@@ -186,11 +192,38 @@ void poisson_3d_octree_sample_(char mo_out_in[LG_NAME_SIZE], double *h, double *
     domain.seed = (unsigned int)(*seed);
     domain.octree = g_octree;
     domain.initializeRandomGenerator(domain.seed);
-    domain.setBoundary();
+    bool fixedFaces = false;
+    if (*nface > 0) {
+        char mo_face[LG_NAME_SIZE];
+        process_lagrit_string(mo_face_in, mo_face);
+        long icmolen = long(std::strlen(mo_face)), iattlen = 3, nlen = 0, ierr = 0;
+        double *px = nullptr, *py = nullptr, *pz = nullptr;
+        fc_cmo_get_vdouble_(mo_face, (char *)"xic", &px, &nlen, &ierr, icmolen, iattlen);
+        if (ierr == 0) fc_cmo_get_vdouble_(mo_face, (char *)"yic", &py, &nlen, &ierr, icmolen, iattlen);
+        if (ierr == 0) fc_cmo_get_vdouble_(mo_face, (char *)"zic", &pz, &nlen, &ierr, icmolen, iattlen);
+        if (ierr == 0 && nlen >= *nface) {
+            for (long i = 0; i < *nface; i++) {
+                Point p = {};
+                p.x = px[i]; p.y = py[i]; p.z = pz[i]; p.radius = *h;
+                domain.nodes.push_back(p);
+            }
+            domain.numNodes = domain.numVertices = (unsigned int)domain.nodes.size();
+            domain.numFixed = domain.numNodes;
+            domain.fixedScale = *fscale;
+            fixedFaces = true;
+            cout << "face lattice: " << domain.numFixed << " vertices kept, the others at least "
+                 << *fscale << " x h from them" << endl;
+        } else {
+            cout << "face lattice: could not read " << mo_face << "; the faces are sampled" << endl;
+        }
+    }
+    if (!fixedFaces) domain.setBoundary();
     domain.initializeVariables();
     domain.initializeNeighborGrid();
-    domain.sampleEdges();
-    for (unsigned int i = 0; i < 4; i++) domain.sampleFaces();
+    if (!fixedFaces) {
+        domain.sampleEdges();
+        for (unsigned int i = 0; i < 4; i++) domain.sampleFaces();
+    }
     domain.mainSampling(0, false);
     domain.findEmptyCells();
     domain.fillEmptyCells();

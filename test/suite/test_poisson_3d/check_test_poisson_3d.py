@@ -898,6 +898,11 @@ def row_case(cases, cid, outlog, svgdir):
     case = find_case(cases, cid)
     h0 = case["h"]
     ifbuf, buf = case["ifbuf"], case["buf"]
+    # faces=adaptive: the face lattice follows h (face_lattice adaptive,
+    # the default with h_lookup octree and a control file): the sampler
+    # fills the whole box and keeps buf x h(x) from the face vertices,
+    # instead of filling a box shrunk by buf x h_spacing_scalar
+    adaptive = case.get("faces") == "adaptive"
     radial = case.get("field") == "radial"
     variable = case.get("field", "uniform") != "uniform"
     L = max(box[1] - box[0], box[3] - box[2], box[5] - box[4])
@@ -907,6 +912,7 @@ def row_case(cases, cid, outlog, svgdir):
     R.put("h", h0)
     R.put("field", case.get("field"))
     R.put("edge_buffer", "%d x %g h" % (ifbuf, buf))
+    R.put("face_lattice", "adaptive" if adaptive else "uniform")
 
     # ---- log segment for this run --------------------------------------
     segs = log_segments(outlog)
@@ -974,7 +980,7 @@ def row_case(cases, cid, outlog, svgdir):
         # near-wall interior vertices, judged by h at the vertex
         R.put("interior_wall_gap_lt0.1h",
               sum(1 for g, i in zip(gap, inner) if g < 0.1 * hn[i]))
-    if ifbuf == 1:
+    if ifbuf == 1 and not adaptive:
         s = buf * h0
         nbad = sum(1 for g in gap if g < s - tol)
         R.hard("interior_in_sample_box", nbad == 0, nbad)
@@ -1001,6 +1007,14 @@ def row_case(cases, cid, outlog, svgdir):
             R.put("sep_%s_min" % k, ns["pmin"][k])
             R.put("sep_%s_pairs_lt1" % k, ns["plt1"][k])
             R.put("sep_%s_pairs_lt0.9" % k, ns["plt09"][k])
+    if ifbuf == 1 and adaptive:
+        # the sampler keeps max(buf x h at the face vertex, h at the new
+        # vertex) away; h here is exact, the sampler's is looked up in
+        # the octree, hence 0.9
+        fi = [ns["nn_fi"][i] for i in face if ns["nn_fi"][i] < float("inf")]
+        fmin = min(fi) if fi else float("inf")
+        R.hard("interior_from_faces_ge_buf_h", fmin >= 0.9 * min(buf, 1.0),
+               fmin)
     nnh = sorted(ns["nn_any"][i] / hn[i] for i in inner)
     if nnh:
         R.put("nn_interior_over_h_p05", pct(nnh, 0.05))
@@ -1137,7 +1151,7 @@ def row_case(cases, cid, outlog, svgdir):
         return thin(pick, MAX_DOTS)
     sel = slab(z, zm)
     boxes = []
-    if ifbuf:
+    if ifbuf and not adaptive:
         s = buf * h0
         boxes.append((box[0] + s, box[1] - s, box[2] + s, box[3] - s,
                       'stroke="#c00" stroke-dasharray="4 3"'))
@@ -1148,7 +1162,7 @@ def row_case(cases, cid, outlog, svgdir):
                  boxes, "x", "y")
     sel = slab(y, ym)
     boxes = []
-    if ifbuf:
+    if ifbuf and not adaptive:
         s = buf * h0
         boxes.append((box[0] + s, box[1] - s, box[4] + s, box[5] - s,
                       'stroke="#c00" stroke-dasharray="4 3"'))
@@ -1160,7 +1174,9 @@ def row_case(cases, cid, outlog, svgdir):
     svg.text(side[0], side[1] + side[3] + 36,
              "blue = interior node, grey = face node"
              + (", dashed red = sampler box (shrunk by buf*h)"
-                if ifbuf else ""), 10)
+                if ifbuf and not adaptive else "")
+             + (", face lattice adaptive (follows h)" if adaptive else ""),
+             10)
     fi_vals = [ns["nn_fi"][i] for i in face]
     series = [([ns["nn_any"][i] / hn[i] for i in inner], "#1f5fbf",
                "interior: nearest node d / h")]
