@@ -104,6 +104,8 @@ vector, the right thumb will point in the direction of the normal.
 
 - To separate commands on the same line use a semicolon (`;`).
 
+- A deck, and a file read with **infile**, ends with **finish**. If the input ends without it, LaGriT writes a WARNING and assumes finish: it goes back to the input that read the file, or, at the top level, stops as after finish (LaGriT V3.4.0 and earlier repeated "unexpected eof-command ignored" and stopped with "maximum number hit").
+
 - Three coordinate systems are used.
 
   **xyz** refers to the standard Cartesian coordinate system

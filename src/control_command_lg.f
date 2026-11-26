@@ -852,13 +852,25 @@ c  get rid of extra blanks
 c
       call pack_command_lg(ierror)
       go to 9999
- 1000 write(error_msg,9002)
- 9002 format('unexpected eof-command ignored')
-      call writloga('default',0,error_msg,0,icscode)
+ 1000 continue
+c  the input ends without finish: finish is assumed, with a WARNING
+c  (GitHub #22: "unexpected eof-command ignored" again and again, then
+c  "STOP maximum number hit, code aborting"). In a file read with
+c  infile, LaGriT goes back to the input that read it; at the top
+c  level it stops as after finish.
+      call input_line_where_lg(nline_lg(nlevels)+1,cwhere)
+      if(clevels(nlevels)(1:14).eq.'interactive_lg') then
+         write(error_msg,'(a)')
+     *      'WARNING: the input ends without finish: finish assumed'
+      else
+         write(error_msg,'(a,a,a)') 'WARNING: ',
+     *      cwhere(index(cwhere,' of ')+4:len_trim(cwhere)),
+     *      ' ends without finish: finish assumed'
+      endif
+      call writloga('default',1,error_msg,0,icscode)
       n_hits=n_hits+1
       if (n_hits.gt.1000) stop 'maximum number hit, code aborting'
-      ierror=1
-      cmd_buff=' '
+      cmd_buff='finish'
       go to 9999
 9999  return
       end
