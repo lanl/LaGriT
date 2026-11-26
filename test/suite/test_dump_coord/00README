@@ -1,0 +1,39 @@
+test_dump_coord -- FEHM's coor and elem lists (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_dump_coord_tests.sh [path-to-lagrit]     6 decks, about 1 s
+  open summary.html
+
+WHAT IS TESTED
+
+  dump / coord / NAME / mo writes NAME.fehmn: the vertices (coor) and
+  the cells (elem) in FEHM's format; dump / fehm writes the same file
+  with its zone and .stor files. The elem list is written for
+  triangles, quads, tets and hexes. Quads had an empty elem list
+  (GitHub #289); other cells (prisms, pyramids, lines, a hybrid mesh)
+  get no elem list and now a WARNING that says so.
+
+THE DECKS (each writes NAME.fehmn and the same mesh as NAME.inp)
+
+  dc01_tri      triangles in the plane z = 0
+  dc02_quad     the 3 x 101 quad grid of GitHub #289 (quadxy, then
+                createpts / brick to make the quads)
+  dc03_tet      tets (3 x 3 x 3 points, connected)
+  dc04_hex      a hex brick
+  dc05_prism    prisms (extrude): no elem list, a WARNING
+  dc06_fehm     the quad grid of dc02 with dump / fehm (matbld: cv_dual
+                takes triangles and tets only)
+
+WHAT IS CHECKED (check_dump_coord.py)
+
+  LaGriT finished; coor holds every vertex of NAME.inp with the same
+  coordinates; elem holds every cell of NAME.inp with the same
+  vertices in the same order (dump / avs writes cells in FEHM's
+  order); and from the coordinates alone: triangles and quads
+  counterclockwise in the x-y plane, tets with a negative signed
+  volume (LaGriT's 1 2 4 3), hexes with the top face first. For
+  dc05: no elem list, and "WARNING: no elem list written".
+  summary.html shows each mesh as it is in the .fehmn file (coor and
+  elem only).

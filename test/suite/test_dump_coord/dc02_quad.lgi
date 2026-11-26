@@ -1,0 +1,19 @@
+#####################################################################
+# dc02_quad.lgi
+#
+# GitHub #289: a 3 x 101 quad grid (quadxy, then createpts / brick
+# to make the quads), as in the issue. dump / coord wrote an empty
+# elem list for quads; now 200 quads, 4 vertices each, in LaGriT's
+# (counterclockwise) order.
+#
+# check : dc02 | quad | 4
+#####################################################################
+cmo / create / mo / / / quad
+quadxy / 3 101 / 0. 0. 0. / 2. 0. 0. / 2. 100. 0. / 0. 100. 0.
+createpts / brick / xyz / 3 101 1 / 1,0,0 / connect
+cmo / setatt / mo / imt / 1
+cmo / setatt / mo / itetclr / 1
+quality
+dump / coord / dc02 / mo
+dump / avs / dc02.inp / mo
+finish

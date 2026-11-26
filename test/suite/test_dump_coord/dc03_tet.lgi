@@ -1,0 +1,15 @@
+#####################################################################
+# dc03_tet.lgi
+#
+# A tet mesh (3 x 3 x 3 points, connected): elem lists 4 vertices a
+# cell in FEHM's order (LaGriT's 1 2 4 3).
+#
+# check : dc03 | tet | 4
+#####################################################################
+cmo / create / mo / / / tet
+createpts / xyz / 3,3,3 / 0. 0. 0. / 1. 1. 1. / 1,1,1
+cmo / setatt / mo / imt / 1
+connect
+dump / coord / dc03 / mo
+dump / avs / dc03.inp / mo
+finish

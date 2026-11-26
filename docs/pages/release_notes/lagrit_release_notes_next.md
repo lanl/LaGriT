@@ -84,6 +84,12 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   2.5 s. The face vertices, their order and their itp1 are the same as
   before, bit for bit.
 
+- **dump / coord and dump / fehm on a quad mesh** (GitHub #289): the
+  .fehmn file's elem list was empty; it now lists the quads, 4 vertices
+  each, counterclockwise as the triangles. For cells the elem list does
+  not take (prisms, pyramids, lines, a hybrid mesh) a WARNING now says
+  that no elem list was written. New suite test_dump_coord.
+
 - **dump / control_volume / paraview (and cv_dual -paraview), 2D:** a
   polygon's `material` in `root_cells.vtu` is now its vertex's imt1, as
   for polyhedra and as in the .stor and zone files; it was the itetclr
@@ -150,6 +156,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
+| 2026-11-25 | | dump / coord and dump / fehm: the elem list of a quad mesh (GitHub #289); a WARNING when no elem list is written |
 | 2026-11-25 | #364 | createpts / poisson_disk / 3d_box: face_lattice adaptive, the box faces follow h (the default with h_lookup octree and a control file); face_lattice uniform for the old lattice |
 | 2026-11-25 | #365 | createpts / poisson_disk / 3d_box: face_lattice_factor (default 1.5): face edges about as long as the tet edges inside, the gap to the face vertices grown with it |
 | 2026-11-25 | | file names up to 132 characters in read, dump, infile and the set writers; WARNING after the command for tokens used cut; suite test_long_names |

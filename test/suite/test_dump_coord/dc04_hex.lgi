@@ -1,0 +1,14 @@
+#####################################################################
+# dc04_hex.lgi
+#
+# A hex brick (3 x 3 x 2 vertices): elem lists 8 vertices a cell,
+# the top face first (LaGriT's 5 6 7 8 1 2 3 4).
+#
+# check : dc04 | hex | 8
+#####################################################################
+cmo / create / mo / / / hex
+createpts / brick / xyz / 3,3,2 / 0. 0. 0. / 2. 2. 1. / 1,1,1
+cmo / setatt / mo / imt / 1
+dump / coord / dc04 / mo
+dump / avs / dc04.inp / mo
+finish

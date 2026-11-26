@@ -379,6 +379,19 @@ C
             i4=itet1(index+4)
             write(iunit,9050) it,i1,i2,i4,i3
          enddo
+      elseif(nsdtopo.eq.2.and.nen.eq.4.and.nef.eq.4) then
+C        quads: in LaGriT's order, counterclockwise as the
+C        triangles (GitHub #289: the elem section was empty)
+         ns=4
+         write(iunit,'(i8,1x,i12)') ns,nelements
+         do it=1,nelements
+            index=nen*(it-1)
+            i1=itet1(index+1)
+            i2=itet1(index+2)
+            i3=itet1(index+3)
+            i4=itet1(index+4)
+            write(iunit,9050) it,i1,i2,i3,i4
+         enddo
       elseif(nen.eq.8.and.nef.eq.6) then
          ns=8
          write(iunit,'(i8,1x,i12)') ns,nelements
@@ -394,6 +407,16 @@ C
             i8=itet1(8+index)
             write(iunit,9050) it,i5,i6,i7,i8,i1,i2,i3,i4
          enddo
+      elseif(nelements.gt.0) then
+C        other cells (prisms, pyramids, lines, a hybrid mesh): no
+C        elem list; say so rather than leave it empty without a word
+         write(logmess,'(a,i0,a,i0,a)')
+     *     'WARNING: no elem list written: cells with ',nen,
+     *     ' vertices and ',nef,' faces'
+         call writloga('default',0,logmess,0,ierror)
+         write(logmess,'(a)')
+     *     '  (written for triangles, quads, tets and hexes only)'
+         call writloga('default',0,logmess,0,ierror)
       endif
       write(iunit,9074)
       logmess = 'stop'

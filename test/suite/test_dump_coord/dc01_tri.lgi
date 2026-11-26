@@ -1,0 +1,15 @@
+#####################################################################
+# dc01_tri.lgi
+#
+# A triangle mesh in the plane z = 0 (4 x 3 points, connected):
+# dump / coord writes its coor and elem lists (3 vertices a cell).
+#
+# check : dc01 | tri | 3
+#####################################################################
+cmo / create / mo / / / triplane
+createpts / xyz / 4,3,1 / 0. 0. 0. / 3. 2. 0. / 1,1,1
+cmo / setatt / mo / imt / 1
+connect
+dump / coord / dc01 / mo
+dump / avs / dc01.inp / mo
+finish

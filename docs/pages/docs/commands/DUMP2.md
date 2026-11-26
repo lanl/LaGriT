@@ -157,6 +157,8 @@ Will output a single file with node list x,y,z values and element connectivity l
 
 The coord file is one of a set of files written when the fehm file type is called. 
 
+The element connectivity list (elem) is written for meshes of triangles, quads, tets or hexes, in FEHM's order: triangles and quads counterclockwise, tets with LaGriT's vertices 1 2 4 3, hexes with the top face first (LaGriT's 5 6 7 8 1 2 3 4). For other cells (prisms, pyramids, lines, a hybrid mesh) no elem list is written, and a WARNING says so. LaGriT V3.4.0 and earlier wrote an empty elem list for quads (GitHub #289), and an empty one without a WARNING for other cells.
+
 <br>
 
 ### **`DATEX`** <a name="datex"></a>

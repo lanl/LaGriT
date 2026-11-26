@@ -1,0 +1,19 @@
+#####################################################################
+# dc05_prism.lgi
+#
+# A prism mesh (triangles stacked with extrude): FEHM's elem list is
+# written for triangles, quads, tets and hexes only. A WARNING says
+# that no elem list was written (it was left empty without a word).
+#
+# check : dc05 | none | 0
+#####################################################################
+cmo / create / mo_tri / / / triplane
+createpts / xyz / 3,3,1 / 0. 0. 0. / 2. 2. 0. / 1,1,1
+cmo / setatt / mo_tri / imt / 1
+connect
+extrude / mo / mo_tri / const / 1.0 / volume / 0. 0. 1.
+cmo / select / mo
+cmo / setatt / mo / imt / 1
+dump / coord / dc05 / mo
+dump / avs / dc05.inp / mo
+finish
