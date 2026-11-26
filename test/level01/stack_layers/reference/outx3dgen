@@ -1306,7 +1306,7 @@ The current-mesh-object(CMO) is: mohex
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66        layertyp VINT     scalar          nnodes linea perma agf  1.000E+00  
+ 66        layertyp VINT     scalar          nnodes linea perma agf  0.000E+00  
  67         nlayers  INT     scalar          scalar const tempo agl  1.000E+01  
  68      nnperlayer  INT     scalar          scalar const tempo agl  1.000E+02  
  69      neperlayer  INT     scalar          scalar const tempo agl  7.600E+01  
@@ -1385,7 +1385,7 @@ The current-mesh-object(CMO) is: mohex
  63       geom_name CHAR     scalar max_number_sets const perma   l -defaultge  
  64       fsetnames VCHA     scalar max_number_sets const perma   l             
  65 number_of_fsets  INT     scalar          scalar const perma   l  0.000E+00  
- 66        layertyp VINT     scalar          nnodes linea perma agf  1.000E+00  
+ 66        layertyp VINT     scalar          nnodes linea perma agf  0.000E+00  
  67         nlayers  INT     scalar          scalar const tempo agl  1.000E+01  
  68      nnperlayer  INT     scalar          scalar const tempo agl  1.000E+02  
  69      neperlayer  INT     scalar          scalar const tempo agl  1.520E+02  

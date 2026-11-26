@@ -150,8 +150,14 @@ c process finish command
       endif
 
 c parse command
+c  every token slot starts at 0: a command that reads a value past its
+c  own tokens gets 0, not what the previous command left there (cmo /
+c  addatt read its default from token 11: 1 after a command with 1.
+c  in that place)
       do i=1,maxcmd_args
          msgtype(i)=0
+         imsgout(i)=0
+         xmsgout(i)=0.0d0
       enddo
       call parse_string(imsgout,msgtype,xmsgout,cmsgout,nwds)
 c  handle file change commands
