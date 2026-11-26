@@ -17,10 +17,25 @@ Conventions that apply to all commands include:
   an ERROR and is skipped, with all its continuation lines. A token cannot
   be split between two lines.
 - **Token length.** A token (a name, keyword or value between delimiters)
-  is used up to 32 characters. A longer word is cut to its first 32
-  characters with a WARNING; names of mesh objects, attributes and files
-  given to a command are therefore limited to 32 characters. A number
-  is read in full.
+  is used up to 32 characters, except a file name: a command that takes
+  a file name (read, dump in every format, dump / control_volume,
+  infile, cmo / readatt, pset and eltset write, and others) uses it in
+  full, up to 132 characters (LaGriT V3.4.0 and earlier cut it to 32).
+  Names of mesh objects, attributes, psets and eltsets are limited to
+  32 characters. A longer word that is used cut gives a WARNING after
+  its command, and so does a file name over 132 characters, for
+  example:
+
+  ```
+  WARNING: token 3 has 40 characters; LaGriT uses the first 32:
+    "mo_abcdefghijabcdefghijabcdefghi"
+  ```
+
+  A number is read in full.
+- **Defines keep 32 characters.** The value of a `define` is kept with
+  32 characters (a WARNING says so when it is longer), so a file named
+  by a define is cut to 32 characters: give a long file name in the
+  command itself.
 - **File names, no paths.** LaGriT runs in one folder: a file is given
   by its name, without a path, since a command is split into words at
   each "/". `read / avs / ../dir/file.inp / mo` gives read the words

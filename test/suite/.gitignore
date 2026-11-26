@@ -25,6 +25,7 @@ test_stor_utm/work/
 test_set_logic/work/
 test_edge_lengths/work/
 test_input_lines/work/
+test_long_names/work/
 test_connect_options/work/
 test_connect_exact/work/
 test_predicates/work/

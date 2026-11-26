@@ -1,0 +1,48 @@
+test_long_names -- file names up to 132 characters (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_long_names_tests.sh [path-to-lagrit]     6 decks, about 2 s
+  open summary.html
+
+THE RULES TESTED
+
+  A word token is kept with 32 characters (cmsgin). A command that
+  takes a file name gets it in full, up to 132 characters: read (every
+  format, and the short form read / FILE.inp / mo), dump (every
+  format, and the short form dump / FILE.inp / mo), dump /
+  control_volume, infile and input, cmo / readatt, pset / write and
+  eltset / write (all tested here); also gcolor, massage, read /
+  sheetij, read / gocad and dump / exodus (the same change, not tested
+  here). LaGriT V3.4.0 and earlier cut every file name to 32
+  characters, without a message (V3.4.0 gave a WARNING).
+  A long word that was used cut gives a WARNING after the command:
+    WARNING: token 3 has 40 characters; LaGriT uses the first 32:
+      "mo_abcdefghijabcdefghijabcdefghi"
+  for a mesh object name, an attribute name or a define's value (all
+  kept with 32 characters), and for a file name over 132 characters
+  ("uses the first 132"). A define keeps 32 characters of its value,
+  so a file named by a define is cut to 32.
+
+THE DECKS (written by make_long_names.py into work/; see its comment)
+
+  ln01_dump     every dump format that takes a file name, 100-character
+                names; each file under its full name, none cut
+  ln02_read     read / avs, the short read and read / lagrit of
+                100-character names
+  ln03_stl      dump / stl of a triangle surface
+  ln04_infile   infile of a file with a 100-character name
+  ln05_sets     cmo / readatt, pset / write, eltset / write
+  ln06_limits   140 characters (cut to 132), a 40-character mesh object
+                name, a 50-character define value: a WARNING each,
+                after its command
+
+WHAT IS CHECKED (check_long_names.py)
+
+  LaGriT finished, with no signal, Fortran runtime error or MMVERIFY;
+  the mesh objects that must exist do; every file is written under its
+  full name and none under the name cut to 32 characters; the WARNING
+  lines, each the expected number of times, after their command.
+  summary.html lists the files and LaGriT's WARNING lines for every
+  deck. No mesh is drawn: these tests are about names.

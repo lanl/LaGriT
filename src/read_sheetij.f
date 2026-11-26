@@ -124,6 +124,7 @@ C
       real*8       x3,y3,z3
       real*8       x4,y4,z4
       character*132 ifile
+      integer lenf_tok
       character*32 cmotype
 
 C MESH_OBJECT POINTERS.
@@ -188,7 +189,7 @@ C       [binary or ascii, double or float, connect or points]
        i = 3
        if (cmsgin(1)(1:11) .eq. 'readsheetij') i = 2
 
-       ifile = cmsgin(i)
+       call token_full_lg(i,cmsgin(i),ifile,lenf_tok)
        i = i+1
 
 c      arguments /nx,ny/minx,miny/

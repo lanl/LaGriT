@@ -102,7 +102,8 @@ c
 c     variables
       character*132 log_io, dotask_command
       character*32 cmo_name, isubname, tstring
-      character*128 ifilename, logmess
+      character*128 logmess
+      character*160 ifilename
 c
       integer
      >   ierror, ierr, ics, ierrw, 

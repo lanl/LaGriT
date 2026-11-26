@@ -88,7 +88,8 @@ C
 C
 C.... Mesh Object Data.
 C
-      character*32 ifile
+      character*132 ifile
+      integer lenf_tok
       character*32 cmo, cmoatt, cglobal, cdefault
       character*1024 cbuff
       character*1024 fline
@@ -147,7 +148,7 @@ C   1     2      3       4 ....                             nwds
 C  cmo/readatt/cmo_name/attr1/attr2/.../pset,get,pset_name/file_name
 C  cmo/readatt/cmo_name/attr1/attr2/.../add//             /file_name
 
-      ifile=cmsgin(nwds)
+      call token_full_lg(nwds,cmsgin(nwds),ifile,lenf_tok)
       cmo=cmsgin(3)
       num_att = 0
       do i = 4,nwds-4

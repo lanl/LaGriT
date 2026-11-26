@@ -5,6 +5,7 @@ C
       parameter (nplen=1000000,ntlen=1000000)
 C
       character*128 file_name
+      integer lenf_tok
       character*132 logmess
 C
       pointer (ipisetwd, isetwd)
@@ -1131,7 +1132,7 @@ C
        endif
 
       if(iprint .eq. 1)then
-         file_name = cmsgin(4)
+         call token_full_lg(4,cmsgin(4),file_name,lenf_tok)
          if (name(1:5) .eq. '-all-') then
              file_name = file_name(1:icharlnf(file_name)) // '_' //
      *          eltsetnames(j)(1:icharlnf(eltsetnames(j)))

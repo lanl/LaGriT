@@ -66,7 +66,7 @@ C
       real*8 x(8), y(8), z(8)
       real*8 x12,y12,z12,x13,y13,z13,mag
       integer lenxic, lenyic, lenzic
-      character*32 ifile
+      character*(*) ifile
 C
       dimension xic(1000000), yic(1000000), zic(1000000)
 C

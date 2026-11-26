@@ -80,6 +80,8 @@ C
       real*8 xmsgout(maxcmd_args)
       character*32 cmsgout(maxcmd_args)
       character*32 isubname
+      character*132 cfull
+      integer lfull
 c
 CCCCCCCCCCCCCC
 C begin
@@ -166,9 +168,12 @@ c
 c  expand definitions if found
          call substitute_defs_lg(msgtype,imsgout,xmsgout,cmsgout,
      *        nwds,ierror)
+c  the file name in full (up to 132 characters)
+         call token_full_lg(2,cmsgout(2),cfull,lfull)
+         call token_warn_lg()
 c
          nlevels=nlevels+1
-         clevels(nlevels)=cmsgout(2)
+         clevels(nlevels)=cfull(1:lfull)
          iunit=-1
          call hassign(iunit,clevels(nlevels),icscode)
          if (iunit.lt.0 .or. icscode.lt.0) then
@@ -242,6 +247,8 @@ c
          lastchar_def=lastchar_def+len1
          definitions_off(ndefinitions+1)=lastchar_def+1
        endif
+c  a define's value keeps 32 characters: WARNING if it was longer
+       call token_warn_lg()
 c
       else
 c
@@ -253,6 +260,8 @@ c  go to msgtty to process other commands
 c
          ierror = 0
          call msgtty(imsgout,msgtype,xmsgout,cmsgout,nwds,ierror)
+c  WARNING for each long token the command used cut
+         call token_warn_lg()
          if (ierror.ne.0) then
               ierror=1
               write(error_msg,9004) command(1:80)
@@ -721,7 +730,7 @@ C
       integer ntot,ntc,ios,ibad,iline1
       character*1 lastnb
       character*1024 cl
-      character*100 cwhere
+      character*200 cwhere
       logical amp
       integer n_hits
       common /common_read_command_lg/ n_hits

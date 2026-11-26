@@ -107,6 +107,7 @@ test_hextotet:run_hextotet_tests.sh:1:3d
 test_set_logic:run_set_logic_tests.sh:1:sets
 test_edge_lengths:run_edge_lengths_tests.sh:1:quality,2d,3d
 test_input_lines:run_input_lines_tests.sh:2:parser
+test_long_names:run_long_names_tests.sh:2:parser,io
 test_connect_options:run_connect_options_tests.sh:2:connect,2d,3d
 test_connect_exact:run_connect_exact_tests.sh:40:connect,3d,slow
 test_predicates:run_predicates_tests.sh:10:connect,2d,3d

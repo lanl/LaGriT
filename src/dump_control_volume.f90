@@ -310,7 +310,7 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
          in_group = .true.
          if (k + 1 <= nwds) then
             if (msgtype(k + 1) == 3 .and. &
-                .not. our_word(token(k + 1))) then
+                .not. our_word(cmsgin(k + 1))) then
                aname = cmsgin(k + 1)
                command = trim(command)//', '//trim(aname)
                k = k + 1
@@ -327,7 +327,7 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
          command = trim(command)//' / '//trim(skw(ks))
          if (k + 1 <= nwds) then
             if (msgtype(k + 1) == 3 .and. &
-                .not. our_word(token(k + 1))) then
+                .not. our_word(cmsgin(k + 1))) then
                sname(ks) = cmsgin(k + 1)
                command = trim(command)//', '//trim(sname(ks))
                k = k + 1
@@ -518,17 +518,19 @@ subroutine dump_control_volume(imsgin, xmsgin, cmsgin, msgtype, nwds, &
 
 contains
 
-   ! Token k as text: a word as it is, a number with every digit.
+   ! Token k as text: a word as it is (in full, up to 132 characters,
+   ! for a file name), a number with every digit.
    function token(k) result(t)
       integer, intent(in) :: k
-      character(len=64) :: t
+      character(len=132) :: t
+      integer :: lt
       select case (msgtype(k))
       case (1)
          write (t, '(i0)') imsgin(k)
       case (2)
          t = num_text(xmsgin(k))
       case default
-         t = cmsgin(k)
+         call token_full_lg(k, cmsgin(k), t, lt)
       end select
    end function token
 

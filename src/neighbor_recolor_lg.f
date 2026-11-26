@@ -277,8 +277,10 @@ C
       external icharlnf,nextlun
 
       character*132 cbuf
-      character*32 dumptype,action,oldimtname,filename
+      character*32 dumptype,action,oldimtname
      &            ,cmo,cmosave,readtype,vaction
+      character*132 filename
+      integer lenf_tok
       character*32 mapname,save_mapname(20)
       common /gcolor_mapname_lg/ mapname,save_mapname
       save /gcolor_mapname_lg/
@@ -563,7 +565,7 @@ c ...........................
          else
             iwd=iwd+1
             if (nwds.ge.iwd.and.msgtyp(iwd).eq.3) then
-               filename=cmsgin(iwd)(1:icharlnf(cmsgin(iwd)))
+               call token_full_lg(iwd,cmsgin(iwd),filename,lenf_tok)
             else
                filename='-def-'
             endif
@@ -649,7 +651,7 @@ c.....................
          if (dumptype(1:dumplen).eq.'x3d') dumptype='lgt'
          iwd=iwd+1
          if (nwds.ge.iwd.and.msgtyp(iwd).eq.3) then
-            filename=cmsgin(iwd)(1:icharlnf(cmsgin(iwd)))
+            call token_full_lg(iwd,cmsgin(iwd),filename,lenf_tok)
             filelen=icharlnf(filename)
             if (filelen.lt.1.or.filename(1:1).eq.'-') goto 9999
          else
@@ -755,7 +757,7 @@ c... store the names of the files to read in "files" array
 c... if the action ends in "in", read the names from the indicated file
             iwd=iwd+1
             if (nwds.ge.iwd.and.msgtyp(iwd).eq.3) then
-               filename=cmsgin(iwd)(1:icharlnf(cmsgin(iwd)))
+               call token_full_lg(iwd,cmsgin(iwd),filename,lenf_tok)
                filelen=icharlnf(filename)
                if (filelen.lt.1) goto 9999
                call fexist(filename(1:filelen),iexist)

@@ -94,6 +94,20 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   see the fractures (a vertex on an intersection has one polygon per
   fracture, each with that vertex's one imt1).
 
+- **File names up to 132 characters.** A token is kept with 32
+  characters, and every file name was cut to 32 without a message (a
+  WARNING since V3.4.0), so a longer name wrote or read a different
+  file. A command that takes a file name now uses it in full, up to 132
+  characters: read and dump (every format, and their short forms),
+  dump / control_volume, infile and input, cmo / readatt, pset / write,
+  eltset / write, gcolor, massage, read / sheetij and read / gocad. The
+  gmv writer read past its 80-character name buffer; dump / stl and
+  dump / coord failed on long names. The WARNING for a long token now
+  comes after its command, and only for a token the command used cut (a
+  mesh object or attribute name, a define's value, a file name over 132
+  characters). A define still keeps 32 characters of its value. New
+  suite test_long_names.
+
 - **dump / control_volume / paraview (and cv_dual -paraview), 3D: a
   crash** (segmentation fault) at a vertex with more than 682 tets
   around it, as at the center of seeds on a sphere (a lens in a
@@ -131,6 +145,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-25 | #364 | createpts / poisson_disk / 3d_box: face_lattice adaptive, the box faces follow h (the default with h_lookup octree and a control file); face_lattice uniform for the old lattice |
 | 2026-11-25 | #365 | createpts / poisson_disk / 3d_box: face_lattice_factor (default 1.5): face edges about as long as the tet edges inside, the gap to the face vertices grown with it |
+| 2026-11-25 | | file names up to 132 characters in read, dump, infile and the set writers; WARNING after the command for tokens used cut; suite test_long_names |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |

@@ -285,7 +285,7 @@ C
      *  clength,cpers,crank
       real*8 cinterpolate
 C
-      character*80 cgmvfile
+      character*256 cgmvfile
       character*9 cgmvtype
       character*132 logmess
       integer nodeids(100)

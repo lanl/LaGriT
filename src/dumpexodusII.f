@@ -197,7 +197,9 @@ c     vars in place of nelmnen and nelmnef - quan
       pointer (ipflist, flist)
       character*72 flist(nwds)
 
-      character*72 ifile, ifile2, filename, cmo_name
+      character*132 ifile, ifile2, filename
+      character*72 cmo_name
+      integer lenf_tok
       character*24 now
       character*33 qarec_text(4),coor_names_text(3)
       character*33 name_nod_var0(500), name_elem_var0(500)
@@ -402,7 +404,7 @@ C     default - output ifile and cmoname must be provided
 C     dump/exo/ ifile / cmoname / option
 
       if (msgtype(3).eq. 3) then
-         ifile = cmsgin(3)
+         call token_full_lg(3,cmsgin(3),ifile,lenf_tok)
       else
          write(logmess,"(a,a)") isubname,
      *   " ERROR : filename not given."

@@ -153,7 +153,7 @@ C #####################################################################
       character*(*) buf
 C
       character*132 cmsg
-      character*100 cwhere
+      character*200 cwhere
       integer lw,ierrw
 C
       ibad = 0
