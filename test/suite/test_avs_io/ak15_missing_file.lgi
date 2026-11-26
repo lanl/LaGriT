@@ -1,0 +1,8 @@
+# GitHub #112: read / avs of a file that does not exist: an ERROR (it
+# was a message and two WARNINGs), and LaGriT goes on
+# check: finished
+# check: output ERROR read/avs: the file no_such_file.inp does not exist
+# check: output nothing read
+# check: nooutput MO has zero nodes
+read / avs / no_such_file.inp / mo1
+finish

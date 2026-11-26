@@ -1,0 +1,11 @@
+# GitHub #176: a cell names vertex 99, past the file's 12 vertices: an
+# ERROR naming the cell and the vertex numbers, nothing read, LaGriT
+# goes on (it wrote past its arrays: MMVERIFY "Array epilog
+# overwritten")
+# check: finished
+# check: nooutput PANIC|MMVERIFY|epilog
+# check: output cell +2 has vertex number +99
+# check: output the vertices are numbered +1 to +12
+# check: output nothing read
+read / avs / hex_past_end.inp / mo1
+finish
