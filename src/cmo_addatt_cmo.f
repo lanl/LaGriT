@@ -120,6 +120,8 @@ C
       integer idefault
       real*8 xdefault
       character*32 cdefault
+      integer idef11, mt11
+      real*8 xdef11
 C
       pointer (ipcmo_pointer, icmo_pointer)
       pointer (ipcmo_pointer, xcmo_pointer)
@@ -139,6 +141,16 @@ C
 C
 C
  
+C     the default value, token 11, only when the command has it (it
+C     read past the command's tokens: the previous command's value)
+      idef11=0
+      xdef11=0.0d0
+      mt11=0
+      if (nwds.ge.11) then
+         idef11=imsgin(11)
+         xdef11=xmsgin(11)
+         mt11=msgtype(11)
+      endif
       if (nwds.ge.12.and.msgtype(12).eq.1) then
          verbosity=imsgin(12)
       else
@@ -276,8 +288,8 @@ C
      *                    cmo_name,
      *                    ipcmo_pointer,mmlength,
      *                    1,ier)
-         idefault=imsgin(11)
-         if(msgtype(11).eq.2) idefault=nint(xmsgin(11))
+         idefault=idef11
+         if(mt11.eq.2) idefault=nint(xdef11)
 C
          if(ier.ne.0) then
                call cmo_mm_error('cmo_addatt_cmo')
@@ -303,8 +315,8 @@ C
      *                    cmo_name,
      *                    ipcmo_pointer,mmlength,
      *                    2,ier)
-         xdefault=xmsgin(11)
-         if(msgtype(11).eq.1) xdefault=imsgin(11)
+         xdefault=xdef11
+         if(mt11.eq.1) xdefault=idef11
 C
          if(ier.ne.0) then
                call cmo_mm_error('cmo_addatt_cmo')
@@ -327,7 +339,8 @@ C
      *                    cmo_name,
      *                    ipcmo_pointer,mmlength,
      *                    3,ier)
-         cdefault=cmsgin(11)
+         cdefault=' '
+         if(nwds.ge.11) cdefault=cmsgin(11)
 C
          if(ier.ne.0) then
                call cmo_mm_error('cmo_addatt_cmo')
@@ -340,17 +353,18 @@ C
          cmo_attparam_cdefault(natts)=cdefault
 C
       elseif(ctype(1:lentype).eq.'INT') then
-         idefault=imsgin(11)
-         if(msgtype(11).eq.2) idefault=nint(xmsgin(11))
+         idefault=idef11
+         if(mt11.eq.2) idefault=nint(xdef11)
          cmo_attparam_idefault(natts)=idefault
          cmo_attparam_rdefault(natts)=idefault
       elseif(ctype(1:lentype).eq.'REAL') then
-         xdefault=xmsgin(11)
-         if(msgtype(11).eq.1) xdefault=imsgin(11)
+         xdefault=xdef11
+         if(mt11.eq.1) xdefault=idef11
          cmo_attparam_rdefault(natts)=xdefault
          cmo_attparam_idefault(natts)=nint(xdefault)
       elseif(ctype(1:lentype).eq.'CHARACTER') then
-         cmo_attparam_cdefault(natts)=cmsgin(11)
+         cmo_attparam_cdefault(natts)=' '
+         if(nwds.ge.11) cmo_attparam_cdefault(natts)=cmsgin(11)
 C
 C
       else

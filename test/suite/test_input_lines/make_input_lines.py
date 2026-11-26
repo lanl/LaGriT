@@ -35,6 +35,11 @@ mesh objects exist, and with  finish.
                none), createpts / brick with 1e1 cells in z and the
                flags 1.,1.,1. makes the 60 vertices at the box corners
                (LaGriT V3.4.0 read 0: a crash, and cell centers)
+  il12_stale_tokens  a command never reads the previous command's
+               values: cmo / addatt without a default value, after a
+               command with 1. as its 11th token, makes attributes of
+               0 (the default came from that 1.: 1), and with a
+               default given, that default
 """
 import json
 import os
@@ -166,6 +171,22 @@ def main(work):
                                      "Number of elements:          18",
                                      " zic                0.000000000E+00  5.000000000E+01"],
                              "count": {"ERROR": 0, "WARNING: token": 0}}
+
+    write(work, "il12_stale_tokens.lgi", [
+        "cmo / create / mo / / / tet",
+        "createpts / xyz / 2,2,2 / 0. 0. 0. / 1. 1. 1. / 1,1,1",
+        "cmo / addatt / mo / ai / vint / scalar / nnodes",
+        "createpts / xyz / 2,2,2 / 0. 0. 0. / 1. 1. 1. / 1,1,1",
+        "cmo / addatt / mo / ar / vdouble / scalar / nnodes",
+        "cmo / addatt / mo / a5 / vint / scalar / nnodes / linear / permanent / / 5",
+        "cmo / printatt / mo / ai / minmax",
+        "cmo / printatt / mo / ar / minmax",
+        "cmo / printatt / mo / a5 / minmax"] + end)
+    E["il12_stale_tokens"] = {"mo": ["mo"], "no_mo": [],
+                              "has": [" ai                               0                0",
+                                      " ar                 0.000000000E+00  0.000000000E+00",
+                                      " a5                               5                5"],
+                              "count": {"ERROR": 0}}
 
     json.dump(E, open(os.path.join(work, "expect.json"), "w"), indent=1)
 

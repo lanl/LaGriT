@@ -126,6 +126,17 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   characters). A define still keeps 32 characters of its value. New
   suite test_long_names.
 
+- **A command no longer reads the values of the previous command.**
+  The integer and real value of every token place is now cleared
+  before each command is parsed. cmo / addatt took its default value
+  from the 11th token even when the command had fewer, so a new
+  attribute could get the previous command's value there; after #370
+  (whole numbers written as reals), `cmo / addatt / mo / a / vint /
+  scalar / nnodes` after a command with `1.` as its 11th token made
+  `a` all 1 instead of 0. cmo / addatt now reads its default only when
+  the command gives one. level01/stack_layers' reference shows the
+  default of layertyp as 0 (it was the 1 of the stack command).
+
 - **dump / control_volume / paraview (and cv_dual -paraview), 3D: a
   crash** (segmentation fault) at a vertex with more than 682 tets
   around it, as at the center of seeds on a sphere (a lens in a
@@ -171,6 +182,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-25 | | dump / coord and dump / fehm: the elem list of a quad mesh (GitHub #289); a WARNING when no elem list is written |
 | 2026-11-25 | #364 | createpts / poisson_disk / 3d_box: face_lattice adaptive, the box faces follow h (the default with h_lookup octree and a control file); face_lattice uniform for the old lattice |
+| 2026-11-26 | | parser: every token value cleared before each command; cmo / addatt reads its default only when given (after #370 a default could be the previous command's 1.) |
 | 2026-11-25 | #365 | createpts / poisson_disk / 3d_box: face_lattice_factor (default 1.5): face edges about as long as the tet edges inside, the gap to the face vertices grown with it |
 | 2026-11-25 | | file names up to 132 characters in read, dump, infile and the set writers; WARNING after the command for tokens used cut; suite test_long_names |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |

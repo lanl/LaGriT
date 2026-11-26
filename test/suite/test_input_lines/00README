@@ -52,6 +52,9 @@ THE DECKS (written by make_input_lines.py into work/; see its comment)
   il11_whole_reals  whole numbers written as reals (3. 1e1 1.) where a
                 command reads an integer: used as integers since the
                 fix of parking lot 1 (before: 0, without a message)
+  il12_stale_tokens  cmo / addatt without a default after a command
+                with 1. as its 11th token: 0, not 1 (every token slot
+                is cleared before each command)
 
 WHAT IS CHECKED (check_input_lines.py)
 
