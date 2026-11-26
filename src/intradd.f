@@ -1491,6 +1491,22 @@ C
          call cmo_memory(cmo, length, ntets, ierr)
          if(ierr.ne.0) call x3d_error(isubname,'cmo_memory')
 C
+C        cmo_memory can move the cell arrays as well as the vertex
+C        arrays (valgrind, level01 recon1): get every pointer again.
+C
+         call cmo_get_info('itetclr',cmo,ipitetclr,ilen,ityp,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+         call cmo_get_info('itettyp',cmo,ipitettyp,ilen,ityp,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+         call cmo_get_info('itetoff',cmo,ipitetoff,ilen,ityp,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+         call cmo_get_info('jtetoff',cmo,ipjtetoff,ilen,ityp,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+         call cmo_get_info('itet',cmo,ipitet,ilen,itype,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+         call cmo_get_info('jtet',cmo,ipjtet,ilen,itype,ierr)
+         if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
+C
          call cmo_get_info('imt1', cmo, ipimt1, ilen, itype, ierr)
          if(ierr.ne.0) call x3d_error(isubname,'cmo_get_info')
          call cmo_get_info('itp1', cmo, ipitp1, ilen, itype, ierr)

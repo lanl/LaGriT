@@ -98,6 +98,13 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   (segmentation fault). The same for edge_connections and
   node_num_diff, which share the code.
 
+- **recon after an interface (intradd.f):** when intradd added the
+  interface vertices, the mesh object could be moved in memory, but
+  only the vertex arrays were looked up again; the loop that fixes the
+  cell connectivity then read and wrote the old, freed arrays. The
+  result happened to be right on most machines (level01/recon1 failed
+  only under valgrind). The cell arrays are now looked up again too.
+
 - **Whole numbers written as reals** (`3.`, `3.0`, `1e1`) where a
   command reads an integer are now read as that integer; they were read
   as 0, without a message. `quadxy / 3. 3. / ...` made no points;
@@ -236,6 +243,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
 | 2026-11-26 | | extract / surfmesh: z kept for a 2D mesh in the x-z or y-z plane (GitHub #4); suite test_extract_surfmesh |
 | 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
+| 2026-11-26 | | intradd (recon after an interface): the cell arrays looked up again after the mesh object grows (freed memory read and written; valgrind, level01/recon1) |
 | 2026-11-25 | #363 | createpts / poisson_disk / 3d_box: the edge buffer's face lattice made face by face, memory as the face area, not the box volume |
 | 2026-11-26 | | read / avs: an ERROR for a cell vertex number past the last vertex (GitHub #176) and for a missing file (GitHub #112) |
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
