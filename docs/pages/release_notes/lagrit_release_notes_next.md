@@ -130,7 +130,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-25 | #364 | createpts / poisson_disk / 3d_box: face_lattice adaptive, the box faces follow h (the default with h_lookup octree and a control file); face_lattice uniform for the old lattice |
-| 2026-11-25 | | createpts / poisson_disk / 3d_box: face_lattice_factor (default 1.5): face edges about as long as the tet edges inside, the gap to the face vertices grown with it |
+| 2026-11-25 | #365 | createpts / poisson_disk / 3d_box: face_lattice_factor (default 1.5): face edges about as long as the tet edges inside, the gap to the face vertices grown with it |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |
