@@ -20,6 +20,8 @@ C #####################################################################
       if_poi_oct_dump = 0
       poi_oct_dump = ' '
       if_poi_face_lat = -1
+      poi_face_fac = POI_FACE_FAC_DEFAULT
+      if_poi_face_fac = 0
       return
       end
 C
@@ -40,6 +42,7 @@ C        octree_k_factor real or integer > 0
 C        octree_batch    integer > 0
 C        octree_dump     file name
 C        face_lattice    uniform | adaptive
+C        face_lattice_factor  real > 0
 C
 C #####################################################################
       implicit none
@@ -60,6 +63,24 @@ C
       lenopt = icharlnf(cmsgin(i))
       ckey = cmsgin(i)(1:lenopt)
       call poi_oct_lower(ckey)
+      if(ckey .eq. 'face_lattice_factor')then
+         kfound = 1
+         if_poi_face_fac = 1
+         jtyp = 0
+         if(i+1 .le. nwds) jtyp = msgtyp(i+1)
+         if(jtyp .eq. POI_TYPE_INT)then
+            poi_face_fac = dble(imsgin(i+1))
+         elseif(poi_token_type(msgtyp,nwds,i+1,POI_TYPE_REAL,
+     &      'face_lattice_factor'))then
+            poi_face_fac = xmsgin(i+1)
+         endif
+         if(.not. (poi_face_fac .gt. 0.0d0))then
+            write(cmsg,'(a,i3,a)') 'token ',i+1+POI_TOKEN_OFFSET,
+     &         ' face_lattice_factor must be more than 0'
+            call poi_err_add(cmsg)
+         endif
+         return
+      endif
       if(ckey .eq. 'face_lattice')then
          kfound = 1
 C        not if_poi_oct_key: face_lattice does not choose the octree
@@ -317,6 +338,7 @@ C
 C #####################################################################
       implicit none
       include 'poi_params.h'
+      include 'poi_octree_opts.h'
       character*32 mo_face,file_mlgi
       integer if_variable,nface,ierror
       real*8  h_spacing,box(NBOX)
@@ -387,8 +409,8 @@ C
       call poi_cmd('filter/1 0 0 ; finish')
       call poi_cmd('rmpoint/compress ; finish')
       call cmo_get_info('nnodes',mo_face,nface,ilen,ityp,ierr)
-      write(cbuf,'(a,i10,a)') 'face_lattice adaptive:',nface,
-     &     ' vertices on the box faces'
+      write(cbuf,'(a,i10,a,f6.2,a)') 'face_lattice adaptive:',nface,
+     &     ' vertices on the box faces (quads up to',poi_face_fac,' h)'
       call poi_log_info(cbuf)
       return
       end
@@ -498,10 +520,11 @@ C SUBROUTINE BEGIN ####################################################
       subroutine poi_face_mark(mo_q,h_spacing,nref)
 C #####################################################################
 C     Mark (poi_ref 1) the leaf quads of mo_q to refine: the longest
-C     edge longer than the smallest h (poi_hf) at the corners, and at
-C     least h_spacing_scalar. nref: how many.
+C     edge longer than face_lattice_factor x the smallest h (poi_hf) at
+C     the corners, and at least h_spacing_scalar. nref: how many.
 C #####################################################################
       implicit none
+      include 'poi_octree_opts.h'
       character*32 mo_q
       real*8  h_spacing
       integer nref
@@ -539,7 +562,7 @@ C
             hmin = min(hmin,hf(i1))
          enddo
          s = sqrt(s)
-         if(s .gt. hmin .and. s .ge. h_spacing)then
+         if(s .gt. poi_face_fac*hmin .and. s .ge. h_spacing)then
             iref(ie) = 1
             nref = nref + 1
          endif
@@ -565,7 +588,7 @@ C
       ierror = 0
       if_face_h = 0
       if(if_buffer .ne. 1)then
-         if(if_poi_face_lat .ge. 0)then
+         if(if_poi_face_lat .ge. 0 .or. if_poi_face_fac .eq. 1)then
             call poi_log_warn('face_lattice is ignored: '//
      &         'IF_POI_EDGE_BUFFER is 0 (no face lattice)')
          endif
@@ -591,6 +614,10 @@ C
      &      'default for a uniform h)'
       endif
       call poi_log_info(cmsg)
+      if(if_face_h .eq. 0 .and. if_poi_face_fac .eq. 1)then
+         call poi_log_warn('face_lattice_factor is ignored: it is '//
+     &      'for face_lattice adaptive')
+      endif
       return
       end
 C

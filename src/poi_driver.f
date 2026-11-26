@@ -282,9 +282,10 @@ C
          call poi_err_add(
      &      'token 3 says 3d_box but the 2D driver was called')
       endif
-      if(if_poi_oct_key .ne. 0 .or. if_poi_face_lat .ge. 0)then
+      if(if_poi_oct_key .ne. 0 .or. if_poi_face_lat .ge. 0 .or.
+     &   if_poi_face_fac .eq. 1)then
          call poi_err_add('h_lookup, octree_k_factor, octree_batch, '//
-     &      'octree_dump and face_lattice')
+     &      'octree_dump, face_lattice and face_lattice_factor')
          call poi_err_add('are for 3d_box only')
       endif
 C     2D has no octree
@@ -583,8 +584,9 @@ C ---------------------------------------------------------------------
          call poi_copy_box(box_samp,box_user)
       endif
       if(if_face_h .eq. 1)then
-C        the faces first; the sampler keeps POI_EDGE_BUFFER x h(x)
-C        away from their vertices instead of sampling a smaller box
+C        the faces first; the sampler keeps POI_EDGE_BUFFER x
+C        face_lattice_factor x h(x) away from their vertices instead of
+C        sampling a smaller box
          call poi_3d_face_lattice_h(mo_face_h,file_user_h_field_att,
      &     if_h_field_variable,h_spacing,box_user,nface_h,ierror)
          if(ierror .ne. 0) goto 9999
@@ -595,7 +597,7 @@ C        away from their vertices instead of sampling a smaller box
      &      if_h_field_variable,if_poi_oct_dump,h_spacing,
      &      box_samp,box_look,poi_oct_k,poi_oct_batch,
      &      seed,number_of_samples,resample_sweeps,
-     &      mo_face_h,nface_h,poi_edge_buffer,ierror)
+     &      mo_face_h,nface_h,poi_edge_buffer*poi_face_fac,ierror)
          if(nface_h .gt. 0)then
             call poi_cmd('cmo/delete/'//mo_face_h//' ; finish')
          endif
@@ -992,7 +994,7 @@ C           have been truncated without any sign that it had been.
             call poi_err_add(cmsg)
             call poi_err_add('   and, for 3d_box: h_lookup, '//
      &         'octree_k_factor, octree_batch, octree_dump,')
-            call poi_err_add('   face_lattice')
+            call poi_err_add('   face_lattice, face_lattice_factor')
             goto 50
          endif
 C

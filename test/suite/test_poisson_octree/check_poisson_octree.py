@@ -58,8 +58,12 @@ DECKS = [
      "The edge buffer on, the 10 &times; 10 &times; 5 box, h_spacing_scalar 0.05, h = 0.1 + 0.2 &times; "
      "distance to (2, 5, 0) on the bottom face, at most 1 (h_face.mlgi): face_lattice adaptive, the default "
      "with a control file. Each face is a quad mesh refined with refine (a 2:1 balanced quadtree) until no "
-     "quad is longer than h at its corners, so the faces are a little denser than the interior; the sampler "
-     "fills the whole box and keeps h away from the face vertices."),
+     "quad is longer than face_lattice_factor &times; h at its corners (1.5 by default: face edges about as "
+     "long as the tet edges inside); the sampler fills the whole box and keeps POI_EDGE_BUFFER &times; "
+     "face_lattice_factor &times; h away from the face vertices."),
+    ("po14_face_factor_1",
+     "po11 with face_lattice_factor 1: face quads up to h instead of 1.5 h (the default), so the faces are "
+     "about twice as fine as the interior, and the gap to the sampled vertices is h."),
     ("po12_face_uniform",
      "po11 with face_lattice uniform, for comparison: the lattice at h_spacing_scalar on the faces and the "
      "sampler in the box moved in by h_spacing_scalar, whatever h is."),
@@ -814,6 +818,7 @@ def main():
     m11 = m12 = None
     fc = {}
     for deck, mesh, box, hfun in (("po11_face_adaptive", "po11_mesh.inp", BOX11, h_face),
+                                  ("po14_face_factor_1", "po14_mesh.inp", BOX11, h_face),
                                   ("po12_face_uniform", "po12_mesh.inp", BOX11, h_face),
                                   ("po13_face_large_box", "po13_mesh.inp", BOX13, h_one)):
         txt = out.get(deck, "")
@@ -838,12 +843,17 @@ def main():
             continue
         check(deck, "says face_lattice adaptive (the default with a control file)",
               "face_lattice adaptive (the default with a control file)" in txt, "")
+        r["factor_txt"] = txt
         nface = re.search(r"face_lattice adaptive:\s+(\d+) vertices", txt)
         check(deck, "the face vertices it reports are those on the box faces",
               nface is not None and int(nface.group(1)) == r["face"],
               "%s reported, %d found" % (nface.group(1) if nface else "?", r["face"]))
-        check(deck, "face spacing: no face vertex farther than h from its nearest face neighbor",
-              r["sp_max"] <= 1.0 + 1e-6, "largest nearest-neighbor distance / h %.4f" % r["sp_max"])
+        fq = re.search(r"quads up to\s+([0-9.]+) h", txt)
+        F = float(fq.group(1)) if fq else 0.0
+        check(deck, "face_lattice_factor reported: 1.5 by default, 1 in po14",
+              abs(F - (1.0 if deck.startswith("po14") else 1.5)) < 1e-9, "%s" % (fq.group(1) if fq else "?"))
+        check(deck, "face spacing: no face vertex farther than face_lattice_factor x h from its nearest face "
+              "neighbor", F > 0 and r["sp_max"] <= F + 1e-6, "largest nearest-neighbor distance / h %.4f" % r["sp_max"])
         check(deck, "the sampled vertices at least 0.9 max(h) from the face vertices (POI_EDGE_BUFFER 1)",
               r["fi_min"] >= 0.9, "smallest %.4f" % r["fi_min"])
         check(deck, "every tet with a facet on the box has its Voronoi point inside the box",
@@ -1037,10 +1047,10 @@ def write_page(logs, rows, npass, nfail, octree, p1, nn1, nn6, t1, n_oct, n_hex,
         a, b = fc.get("po11_face_adaptive", {}), fc.get("po12_face_uniform", {})
         o.append('<h2>face_lattice adaptive against uniform (po11, po12)</h2>')
         o.append('<p class="note">The same box and h field (h = 0.1 at the red dot on the bottom face, growing '
-                 'to 1). Adaptive: each face is a quad mesh refined with refine until no quad is longer than h at '
-                 'its corners, so the face vertices are a little denser than the interior and the tets on the '
-                 'faces reach a little further inward than along the face; their Voronoi points stay inside the '
-                 'box and the coupling coefficients positive. Uniform: a lattice at h_spacing_scalar (0.05) on '
+                 'to 1). Adaptive: each face is a quad mesh refined with refine until no quad is longer than '
+                 'face_lattice_factor &times; h at its corners (1.5 h by default), and the sampler keeps 1.5 h from '
+                 'the face vertices, so the tets on the faces reach as far inward as along the face; their Voronoi '
+                 'points stay inside the box and the coupling coefficients positive. Uniform: a lattice at h_spacing_scalar (0.05) on '
                  'every face, whatever h is, and the sampled vertices from h_spacing_scalar inward.</p>'
                  '<table><tr><th></th><th>adaptive (po11)</th><th>uniform (po12)</th></tr>')
         rowsf = [("vertices", "{:,}".format(len(extra["m11"][0])), "{:,}".format(len(extra["m12"][0]))),

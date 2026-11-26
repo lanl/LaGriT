@@ -1,0 +1,19 @@
+#####################################################################
+# warn08_3d_face_lattice_factor_uniform.lgi
+#
+# EXPECT:
+#   One WARNING block: face_lattice_factor is ignored, it is for
+#   face_lattice adaptive (here face_lattice uniform). The mesh is
+#   still made.
+#####################################################################
+define / POI_XMIN / 0.0
+define / POI_YMIN / 0.0
+define / POI_ZMIN / 0.0
+define / POI_XMAX / 1.0
+define / POI_YMAX / 1.0
+define / POI_ZMAX / 0.3
+define / IF_POI_EDGE_BUFFER / 1
+define / POI_EDGE_BUFFER / 1.0
+createpts / poisson_disk / 3d_box / mo_box_poi / 0.1 / connect &
+      / face_lattice uniform / face_lattice_factor 2
+finish

@@ -3,7 +3,7 @@ test_poisson_octree -- createpts / poisson_disk / 3d_box with h_lookup octree
 
 QUICK START
 
-  sh run_poisson_octree_tests.sh [path-to-lagrit]    14 decks, about 30 s
+  sh run_poisson_octree_tests.sh [path-to-lagrit]    15 decks, about 35 s
   open summary.html
 
   The page explains each deck and check, and shows:
@@ -84,13 +84,17 @@ THE DECKS
                       to (2, 5, 0), at most 1 (h_face.mlgi):
                       face_lattice adaptive by default (it says so);
                       the face count it reports is the vertices on the
-                      faces; no face vertex farther than h from its
-                      nearest face neighbor; the sampled vertices at
+                      faces; face_lattice_factor 1.5 (the default)
+                      reported; no face vertex farther than 1.5 h from
+                      its nearest face neighbor; the sampled vertices at
                       least 0.9 max(h) from the face vertices; every
                       tet with a facet on the box has its Voronoi point
                       inside the box; no negative coupling coefficient
                       in the .stor (dump / stor, cv_dual); fewer
                       vertices than po12
+  po14_face_factor_1  po11 with face_lattice_factor 1: face quads up to
+                      h (twice as fine as the interior), the gap h;
+                      po11's checks
   po12_face_uniform   po11 with face_lattice uniform, for comparison:
                       the negative coefficients are reported (13 here)
   po13_face_large_box the edge buffer on, a 24 x 24 x 14 box,
