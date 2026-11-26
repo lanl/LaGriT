@@ -373,7 +373,7 @@ dump / avs / h_field_out.inp / MOH
 finish
 ```
 
-Keep every line of a control file within 80 columns and continue long commands with `&`. LaGriT drops the characters past column 80 without a warning; a file name cut off this way is read as a different, shorter name.
+A line of a control file, as of a deck, can be up to 1024 characters (LaGriT V3.3.3 and earlier used only the first 80, and dropped the rest without a warning); continue longer commands with `&`.
 
 ### How fast may h change? Rules of thumb
 
