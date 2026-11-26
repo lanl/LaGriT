@@ -1,0 +1,26 @@
+test_extract_surfmesh -- extract / surfmesh (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_extract_surfmesh_tests.sh [path-to-lagrit]     4 decks, 1 s
+  open summary.html
+
+WHAT IT TESTS
+
+  extract / surfmesh / 1,0,0 / mo_s / mo / external makes the boundary
+  of mo: line cells for a triangle mesh, triangles for a tet mesh.
+
+  es01_xy   triangles in the plane z = 0
+  es02_xz   triangles in the plane y = 0 (GitHub #4: the boundary got
+            z = 0)
+  es03_yz   triangles in the plane x = 0.5 (the same)
+  es04_tet  tets in the unit cube: the boundary has area 6
+
+WHAT IS CHECKED (check_extract_surfmesh.py)
+
+  Every boundary vertex is at the source vertex its attribute idnode0
+  names (x, y and z); the cells are lines (2D) or triangles (3D) and
+  add up to the domain's perimeter or area; every source vertex on
+  the edge of the domain is on the boundary. Each picture shows the
+  mesh (grey) and the boundary extracted (red).

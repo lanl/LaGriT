@@ -18,6 +18,7 @@ test_improve_tets/work_*/
 test_improve_tets/logs_*/
 test_connect_2d/work/
 test_avs_io/work/
+test_extract_surfmesh/work/
 test_hextotet/work/
 test_distance_field/work/
 test_medial_axis/work/

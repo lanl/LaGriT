@@ -1,0 +1,17 @@
+#####################################################################
+# es03_xy.lgi
+#
+# Triangles in the plane x = 0.5 (y 0 to 2, z 0 to 1): extract /
+# surfmesh gives the boundary as line cells, perimeter 6.
+#
+# check : es03 | 2d | 6.0
+#####################################################################
+cmo / create / mo / / / triplane
+createpts / xyz / 1,5,3 / 0.5 0. 0. / 0.5 2. 1. / 1,1,1
+cmo / setatt / mo / imt / 1
+connect
+resetpts / itp
+dump / avs / es03_in.inp / mo
+extract / surfmesh / 1,0,0 / mo_s / mo / external
+dump / avs / es03_out.inp / mo_s
+finish

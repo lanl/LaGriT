@@ -517,9 +517,12 @@ C     *** Copy node-based data into new mesh object.
  
       if (geom_dim .eq. 2) then
  
+C       z too: a 2D mesh may lie in another plane, such as x-z
+C       (GitHub #4: the lines got z = 0)
         do j = 1, nnnodes
           xicn(j) = xic(idnode0(j))
           yicn(j) = yic(idnode0(j))
+          zicn(j) = zic(idnode0(j))
           icr1n(j) = icr1(idnode0(j))
         end do
  
