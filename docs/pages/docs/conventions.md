@@ -45,6 +45,16 @@ Conventions that apply to all commands include:
   link the file into the working folder and give its name.
 - Messages about a line give its line number and file, for example
   `ERROR: line 12 of input.lgi is too long:`.
+- **Whole numbers written as reals.** Where a command reads an integer,
+  a whole number written as a real, such as `3.`, `3.0` or `1e1`, is
+  read as that integer: `quadxy / 3. 3. / ...` makes 3 x 3 points.
+  LaGriT V3.4.0 and earlier read such a value as 0, without a message
+  (quadxy made no points, createpts / brick with `1.,1.,1.` for its
+  `iiz,ijz,ikz` flags used 0, cell centers, instead of 1). A value that
+  is not a whole number, such as `2.5`, is still read as 0 where an
+  integer is expected. A command that checks that a value is an
+  integer, as quality / volume does for its number of bins, still
+  refuses `3.`.
 
 - Delimiters are comma, slash, equal sign, or blank. (',' '/', '=', ' ').
 

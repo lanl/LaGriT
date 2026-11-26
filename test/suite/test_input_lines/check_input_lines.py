@@ -96,7 +96,8 @@ padding:3px 6px;text-align:left;vertical-align:top}th{background:#f6f8fa}.PASS{c
 (LaGriT V3.3.3 and earlier silently ignored everything past column 80). Over 1024 characters, or over 16384 characters
 for a command joined from &amp; continuation lines, it is an ERROR: the command is skipped, never cut or run in part,
 its continuation lines are skipped with it, and LaGriT goes on with the next command. A word token over 32 characters
-is cut to 32 with a WARNING. Each deck below says what it holds; the messages are LaGriT's own.</p>
+is cut to 32 with a WARNING. A whole number written as a real (3. or 1e1) is also read as an integer, where a command
+reads one. Each deck below says what it holds; the messages are LaGriT's own.</p>
 <p><b>What it does:</b> the decks are written by make_input_lines.py (they hold lines of exact lengths, up to a million
 characters). Each one makes small mesh objects with commands of a given length; the checker reads LaGriT's output for the
 NOTE, ERROR and WARNING messages and for which mesh objects exist at the end (a skipped command makes none). No mesh is

@@ -73,6 +73,18 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   (segmentation fault). The same for edge_connections and
   node_num_diff, which share the code.
 
+- **Whole numbers written as reals** (`3.`, `3.0`, `1e1`) where a
+  command reads an integer are now read as that integer; they were read
+  as 0, without a message. `quadxy / 3. 3. / ...` made no points;
+  `createpts / brick / xyz / 3,2,1e1 / ...` crashed (segmentation
+  fault); createpts / brick's flags `1.,1.,1.` meant 0 (cell centers),
+  not 1. This changes the output of a deck that relied on the old
+  reading: of LaGriT's tests only level01/surface did (its brick flags
+  `1.,1.,1.`), and its reference output is updated (the brick now
+  fills the box given: volume 1.5e6, was 4.5e5). Other values (`2.5`) are read
+  as before. A token's type is unchanged, so a command that checks for
+  an integer still refuses `3.`.
+
 - **createpts / poisson_disk / 3d_box with the edge buffer on**
   (`IF_POI_EDGE_BUFFER` 1, the default): the lattice of vertices on the
   six box faces is now made face by face. It was made by building a hex
@@ -152,6 +164,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
 | 2026-11-25 | #363 | createpts / poisson_disk / 3d_box: the edge buffer's face lattice made face by face, memory as the face area, not the box volume |
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
