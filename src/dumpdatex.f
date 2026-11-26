@@ -98,8 +98,9 @@ C
       integer itetclr(*)
       integer itet(*), jtet(*)
 C
-      character*32 isubname, iprtname, jfile, cmo, cvelnm,
+      character*32 isubname, iprtname, cmo, cvelnm,
      *        cpresnm, cdensnm, cenernm,geom_name
+      character*160 jfile
  
       character*132 logmess
       logical iscontact

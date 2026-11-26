@@ -246,7 +246,7 @@ C     that you want to support into the arrays.
       integer namelen
       integer extlen
       integer extindex
-      character*128 newcommand
+      character*512 newcommand
 C
 C#######################################################################
 C begin
@@ -282,15 +282,16 @@ C
 C
 C
       if (nwds .eq. 3) then
+C***The file name in full (up to 132 characters)
+         call token_full_lg(2,cmsgin(2),filename,namelen)
 C***Find the index of the '.' in the file name         
-         extindex = index(cmsgin(2), '.', .TRUE.)
+         extindex = index(filename(1:namelen), '.', .TRUE.)
 C***If there is no '.', it is not valid, so try other syntax         
          if (extindex .eq. 0) then
              write(logmess,'(a)') 'Second argument is not a filename. '
      *                        // 'Try again.'
              call writloga('default',1,logmess,0,ierr)
          else 
-             filename = cmsgin(2)
              namelen = icharln(filename)
              fileext = filename(extindex+1:namelen)
              extlen = icharln(fileext)
@@ -344,7 +345,8 @@ C***The rest of the code is for handling all other cases
          if (nwds.le.2) then
             ifile='-def-'
          else
-            ifile=cmsgin(3)
+C           the file name in full (up to 132 characters)
+            call token_full_lg(3,cmsgin(3),ifile,lenfile)
          endif
          lenfile=icharlnf(ifile)
          icmsg=4
@@ -358,7 +360,7 @@ C        a folder, or too many words (a path split at its /): ERROR
             endif
          endif
       else
-         ifile=cmsgin(2)
+         call token_full_lg(2,cmsgin(2),ifile,lenfile)
          lenfile=icharlnf(ifile)
       endif
 C

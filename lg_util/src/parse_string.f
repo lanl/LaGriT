@@ -32,16 +32,19 @@ C
       integer i,j,istrt,length,inum,k,icharlnb
       logical isintgr,isreal
       real*8 xnum
-      integer lcm,ierrw
-      character*132 cmsg
+      integer lcm
 
       lenparse=icharlnb(command)
 C
-C     a token longer than cmsgout (32) is stored cut to that length,
-C     with a WARNING if it is a word; numbers are read from the full
-C     text. (The copy wrote past the token before, into the next
-C     token's place or past the last one.)
+C     a token longer than cmsgout (32) is stored cut to that length;
+C     numbers are read from the full text. A longer word is also kept
+C     in full (token_rec_lg), up to 132 characters, for commands that
+C     take a file name (token_full_lg); after the command,
+C     token_warn_lg writes a WARNING for each one used cut. (The copy
+C     wrote past the token before, into the next token's place or
+C     past the last one.)
       lcm=len(cmsgout(1))
+      call token_new_lg()
       nwds=0
       inum=0
       xnum=0.0d0
@@ -97,12 +100,8 @@ c  if length is zero fill in the default token
             endif
          endif
          if(length.gt.lcm .and. msgtype(nwds).eq.3) then
-            write(cmsg,'(a,i0,a,i0,a,i0,a)') 'WARNING: token ',nwds,
-     *        ' has ',length,' characters; LaGriT uses the first ',
-     *        lcm,':'
-            call writloga('default',0,cmsg,0,ierrw)
-            write(cmsg,'(a,a,a)') '  "',cmsgout(nwds)(1:lcm),'"'
-            call writloga('default',0,cmsg,0,ierrw)
+            call token_rec_lg(nwds,command(istrt:istrt+length-1),
+     *        length)
          endif
 C  look for next token
 25       istrt=j+1

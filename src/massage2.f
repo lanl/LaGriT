@@ -38,7 +38,9 @@ C######################################################################
       integer imin, imax, ntimes, tmp1, iout1, nrefine
 
       character*(*) cmsgin(nwds)
-      character*32 cmdsave(nwds), file_name, field_name, cmo,
+      character*132 file_name
+      integer lenf_tok
+      character*32 cmdsave(nwds), field_name, cmo,
      *             HSCALE_CHAR(10000000), REF_H_CHAR, cout
 
       character*132 cbuf, cbufsave, logmess
@@ -50,7 +52,7 @@ C######################################################################
 
       nrefine = 0
 
-      file_name = cmsgin(2)
+      call token_full_lg(2,cmsgin(2),file_name,lenf_tok)
       call fexist(file_name,ierr)
          if(ierr.eq.0) then
             print*,'Missing user-defined function file: ',file_name

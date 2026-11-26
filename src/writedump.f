@@ -281,7 +281,9 @@ C     dump_cv_dual: the keyword cv_dual | matbld
       logical lopt1, lopt2, lexcl
 
       character*32 idsb
-      character*32 ioption, ioption2, ioption3, ifile, iomode
+      character*32 ioption, ioption2, ioption3, iomode
+      character*132 ifile
+      integer lfull
       character*32 ioption4, ioption5, ioption6, ioption7
       character*132 logmess
 C
@@ -307,7 +309,7 @@ C     that you want to support into the arrays.
       integer namelen
       integer extlen
       integer extindex 
-      character*128 newcommand
+      character*512 newcommand
 C
       filetypes(1) = 'inp'
       fileoptions(1) = 'avs'
@@ -365,8 +367,10 @@ C
           else
               cmoname = cmsgin(3)(1:icharln(cmsgin(3)))
           endif
+C***The file name in full (up to 132 characters)
+         call token_full_lg(2,cmsgin(2),filename,namelen)
 C***Find the index of the '.' in the file name
-         extindex = index(cmsgin(2), '.', .TRUE.)
+         extindex = index(filename(1:namelen), '.', .TRUE.)
 
 C***If there is no '.', it is not valid, so try other syntax
          if (extindex .eq. 0) then
@@ -374,7 +378,6 @@ C***If there is no '.', it is not valid, so try other syntax
      *                        // 'Trying to use default mesh object.'
              call writloga('default',1,logmess,0,ierror)
          else
-             filename = cmsgin(2)
              namelen = icharln(filename)
              fileext = filename(extindex+1:namelen)
              extlen = icharln(fileext)
@@ -451,7 +454,8 @@ C     DUMP_RECOLOR
  
          ifile='-def-'
          if(nwds.ge.3) then
-            if(msgtype(3).eq.3) ifile=cmsgin(3)
+            if(msgtype(3).eq.3)
+     *         call token_full_lg(3,cmsgin(3),ifile,lfull)
          endif
  
          call cmo_get_name(cmo,if_def_cmo)
@@ -505,7 +509,7 @@ C     DUMP / colormap
            ifile = 'colormap'
            if (nwds .ge. 3) then
              if (msgtype(3).eq.3 .and. cmsgin(3).ne.'-def-') then
-               ifile = cmsgin(3)
+               call token_full_lg(3,cmsgin(3),ifile,lfull)
              endif
            endif
  
@@ -534,11 +538,11 @@ C     DUMP / x3d
              cmo='-all-'
              iomode='binary'
            elseif(nwds.le.3) then
-             ifile=cmsgin(3)
+             call token_full_lg(3,cmsgin(3),ifile,lfull)
              cmo='-all-'
              iomode='binary'
            elseif(nwds.le.4) then
-             ifile=cmsgin(3)
+             call token_full_lg(3,cmsgin(3),ifile,lfull)
              iomode='binary'
              cmo=cmsgin(4)
              if (cmsgin(4)(1:5).eq.'-def-')  cmo='-all-'
@@ -548,7 +552,7 @@ C     DUMP / x3d
                 iomode='ascii'
              endif
            elseif(nwds.le.5) then
-             ifile=cmsgin(3)
+             call token_full_lg(3,cmsgin(3),ifile,lfull)
              cmo=cmsgin(4)
              if (cmo.eq.'-def-')  cmo='-all-'
              if(cmsgin(5)(1:5).eq.'ascii') then
@@ -579,7 +583,7 @@ C
          if (nwds.le.2) then
             ifile='-def-'
          else
-            ifile=cmsgin(3)
+            call token_full_lg(3,cmsgin(3),ifile,lfull)
          endif
          lenfile=icharlnf(ifile)
  
@@ -700,7 +704,7 @@ C        ioption5 used for area type and attributes
 C     case idsb - first token
 C     NOT DUMP_RECOLOR OR DUMP
       else
-         ifile=cmsgin(2)
+         call token_full_lg(2,cmsgin(2),ifile,lfull)
          lenfile=icharlnf(ifile)
  
          call cmo_get_name (cmo, if_def_cmo)
@@ -1361,8 +1365,8 @@ c     ioption2 is expected to be an empty string for this call
 
             ioption2 = ' '
             lenfile=icharlnf(ifile)
-            write(logmess,'(a,a)')
-     *    'Writing FEHM coord/geom file: ',ifile(1:lenfile)//'.fehm' 
+            logmess='Writing FEHM coord/geom file: '//
+     *        ifile(1:lenfile)//'.fehm' 
             call writloga('default',0,logmess,0,ierror)
 
             call dump_fehm_geom(ifile(1:lenfile),ioption2)

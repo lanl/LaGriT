@@ -24,7 +24,9 @@ THE RULES TESTED
   were not skipped either.)
   Comment lines (# or * in column 1) may be any length.
   A word token over 32 characters is cut to its first 32 with a
-  WARNING. A number token is read in full.
+  WARNING after its command, unless the command takes it in full as a
+  file name (up to 132 characters: test_long_names). A number token is
+  read in full.
   Lengths count up to the last character that is not a blank, a tab
   or a carriage return. Messages name the file and the line number
   ("line 3 of sub.mlgi", or "of the input" for standard input).

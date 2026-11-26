@@ -86,22 +86,24 @@ void fgmvwriteopenfile_(char filnam[])
  char *name;
  int i,len;
 
- name = (char*)malloc(sizeof(char)*90);
+ /* filnam is a blank-padded Fortran buffer (cgmvfile, 256
+    characters in dumpgmv_hybrid.f; file names up to 132): copy up
+    to its first blank, never past 255 characters */
+ name = (char*)malloc(sizeof(char)*257);
 
  if(!name){
    printf("fgmvwriteopenfile: malloc failed for name pointer.\n");
-   printf("Attempted %d bytes.\n",sizeof(char)*90);
+   printf("Attempted %d bytes.\n",(int)(sizeof(char)*257));
    return;
   }
 
-  for (i=0;i<89;i++) name[i]=filnam[i];
- /*  teminate fname with null character */
  i = 0;
- while ( *(name+i) != ' ')
+ while (i < 256 && filnam[i] != ' ' && filnam[i] != '\0')
   {
+   name[i] = filnam[i];
    i++;
   }
- *(name+i) = '\0';
+ name[i] = '\0';
  gmvwriteopenfile(name);
  free(name);
 }

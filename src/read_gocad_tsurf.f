@@ -148,6 +148,7 @@ C     Local variables
       character*32 isubname, cmoname, cmoatt
       character*132 cline, cbuff
       character*132 ifile
+      integer lenf_tok
       character*512 logmess
 
 c     same size as used in parse_string2
@@ -200,7 +201,7 @@ C     ******************************************************************
 CCCC  parse commands
 
       if (nwds .ge. 3 .and. msgtyp(3).eq.if_character ) then
-         ifile = cmsgin(3)
+         call token_full_lg(3,cmsgin(3),ifile,lenf_tok)
          ilen = icharlnf(ifile)
          ftype= ifile(ilen-2:ilen)
       else

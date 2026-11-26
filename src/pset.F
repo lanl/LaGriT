@@ -477,6 +477,7 @@ C
       character*32  cgeom
       character*32 cmo,cvalue
       character*128 file_name
+      integer lenf_tok
       character*132 logmess
 
 C ######################################################################
@@ -2145,7 +2146,7 @@ ctam
       if(iprint .eq. 1)then
 
 c     get filename based on pset name
-      file_name = cmsgin(4)
+      call token_full_lg(4,cmsgin(4),file_name,lenf_tok)
       if (name(1:5) .eq. '-all-') then
           file_name = file_name(1:icharlnf(file_name)) // '_' //
      *      psetnames(j)(1:icharlnf(psetnames(j)))

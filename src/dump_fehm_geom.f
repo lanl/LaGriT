@@ -483,13 +483,14 @@ C
       include "local_element.h"
 C
       character*32 cmo,isubname
-      character*32 file_name
+      character*132 file_name
+      integer lenf_tok
  
       isubname='write_element_element'
 C
 C     Assign and open file
 C
-      file_name = cmsgin(3)
+      call token_full_lg(3,cmsgin(3),file_name,lenf_tok)
       lu_number = -1
       call hassign(lu_number, file_name, ibuffer)
       if (lu_number.lt.0 .or. ibuffer.lt.0) then
@@ -674,7 +675,8 @@ C
       include "local_element.h"
 C
       character*32 cmo,isubname
-      character*32 file_name
+      character*132 file_name
+      integer lenf_tok
  
       local_debug = 0
 
@@ -731,7 +733,7 @@ C     *****************************************************************
 C     Assign and open file
 C
       if((if_keepatt .eq. 0) .or. (if_keepatt .eq. 1))then
-      file_name = cmsgin(3)
+      call token_full_lg(3,cmsgin(3),file_name,lenf_tok)
       lu_number = -1
       call hassign(lu_number, file_name, ibuffer)
       if (lu_number.lt.0 .or. ibuffer.lt.0) then
