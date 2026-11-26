@@ -46,6 +46,8 @@ Files for known problems (see the decks with a "# known:" line):
   hex_far_z          one z coordinate is -1e31
   vec_rank3          one vertex attribute of rank 3
   hex_same_names     a cell attribute named va, like a vertex attribute
+  hex_past_end       the second hex names vertex 99, past the 12
+                     vertices (GitHub #176)
 
 Python 3, standard library only.
 """
@@ -284,6 +286,15 @@ def main():
     i = L.index("cr, real") + 1
     L[i + 1] = "3" + L[i + 1][1:]
     L.insert(i + 1, "2 999 %s" % fmt(9.99))
+    open(p, "w").write("\n".join(L))
+    # a cell vertex number past the last vertex (GitHub #176: memory
+    # corrupted, MMVERIFY "Array epilog overwritten")
+    p = os.path.join(out, "hex_past_end.inp")
+    std("hex_past_end.inp", V, C)
+    L = open(p).read().split("\n")
+    w = L[1 + 12 + 1].split()
+    w[-1] = "99"
+    L[1 + 12 + 1] = " ".join(w)
     open(p, "w").write("\n".join(L))
 
 

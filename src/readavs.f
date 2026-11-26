@@ -255,8 +255,11 @@ C
       call fexist(ifile(1:lenfile),ierr1)
       if(ierr1.eq.0) then
          write(logmess,9000) ifile(1:lenfile)
- 9000    format('The AVS file, ',a,', does not exist.')
+ 9000    format('ERROR read/avs: the file ',a,' does not exist')
          call writloga('default',1,logmess,0,ierr)
+         write(logmess,'(a)') 'ERROR read/avs: nothing read'
+         call writloga('default',0,logmess,1,ierr)
+         ierror=1
          goto 9999
       endif
       iunit=-1
@@ -481,6 +484,22 @@ C
             jtetoff(ielements)=jtoff
             itoff=itoff+nelmnen(ifelm)
             jtoff=jtoff+nelmnef(ifelm)
+C           every vertex number must be one of the file's vertices
+C           (GitHub #176: a number past them wrote past the arrays)
+            do k=1,nvert
+               if (ivert(k)+i_offset.lt.1 .or.
+     *             ivert(k)+i_offset.gt.npoints) then
+                  write(logmess,'(a,i10,a,i12)')
+     *              'ERROR read/avs: cell ',it,' has vertex number ',
+     *              ivert(k)
+                  call writloga('default',1,logmess,0,ierr)
+                  write(logmess,'(a,i12,a,i12)')
+     *              'ERROR read/avs: the vertices are numbered ',
+     *              1-i_offset,' to ',npoints-i_offset
+                  call writloga('default',0,logmess,0,ierr)
+                  goto 9992
+               endif
+            enddo
             do k=1,nvert
                itet1(itetoff(ielements)+lperm(k))=ivert(k)+i_offset
             enddo

@@ -735,8 +735,9 @@ C           current one and read into it)
      *                iopt_elements,
      *                iopt_values,
      *                ierror_return)
-C
-         call setsize()
+C        (after an ERROR the mesh object is empty: no setsize, whose
+C        WARNING about zero nodes would only repeat it)
+         if (ierror_return.eq.0) call setsize()
 C
       elseif(ioption(1:len1).eq.'iges_grid') then
 C
