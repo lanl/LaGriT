@@ -84,6 +84,8 @@ C
 C
 C   Get the existing cmo
 C
+C   the partition of the temporary arrays (the name was never set)
+      isubname='extract_iso'
       lnam=icharlnf(fieldname)
       call cmo_get_attparam(fieldname,cmoin,index,ctype,crank,
      *    clen,cinter,cpers,cio,ierror_return)

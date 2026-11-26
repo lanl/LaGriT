@@ -72,6 +72,13 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   #4) set z to 0 on the boundary lines; all three coordinates are now
   copied. New suite test_extract_surfmesh.
 
+- **perturb, extract / isosurface and shtgtsfp** gave their temporary
+  arrays a memory partition whose name was never set (in perturb the
+  line was commented out), so the release at the end could free the
+  wrong arrays: level01/createpts_filter (perturb) crashed on one
+  GitHub runner. Each sets its name now; valgrind is clean on that
+  deck.
+
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
   no nodes or no cells:** an ERROR and LaGriT goes on; it crashed
   (segmentation fault). The same for edge_connections and
@@ -196,6 +203,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-25 | | docs: createpts_poisson.md, a control-file line can be up to 1024 characters (it said 80) |
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
+| 2026-11-26 | | perturb, extract / isosurface, shtgtsfp: their memory partition named (an unset name; a crash on a GitHub runner in level01/createpts_filter) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
 | 2026-11-26 | | extract / surfmesh: z kept for a 2D mesh in the x-z or y-z plane (GitHub #4); suite test_extract_surfmesh |
 | 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
