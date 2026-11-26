@@ -67,7 +67,11 @@ C     local strings
       character*32 ich1,ich2,ich3,psetname,cmo,isubname
       character*132 logmess
 c
-c     isubname='perturb'
+c     the name of the memory partition of mpary and iparent, released
+c     at the end (it was commented out, so mmgetblk and mmrelprt got
+c     an unset name: a crash in level01/createpts_filter on one
+c     GitHub runner)
+      isubname='perturb_lg'
 c     set ierror to error in case we leave early 
       ierror = -1
 

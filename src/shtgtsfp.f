@@ -145,8 +145,10 @@ C
       call cmo_get_info('itet',cmoin,ipitet,ilen,icmotype,ierror)
 C
 C     *******************************************************************
-C     GET MEMORY FOR LOCAL ARRAYS.
+C     GET MEMORY FOR LOCAL ARRAYS (in the partition shtgtsfp: the name
+C     was never set).
 C
+      isubname='shtgtsfp'
       lenmm1=nelements
 C
       call mmgetblk('sck1',isubname,ipsck1,lenmm1,2,icscode)
