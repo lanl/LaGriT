@@ -66,6 +66,20 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   not closed gives a WARNING (a planned hole with its own ghosts: two
   closed pieces). The kept volume is reported.
 
+- **hfield** (new command): a named spacing h built from a few sources,
+  for createpts / poisson_disk without a control file. `near, mo` (a
+  point set, lines, a surface or a DFN) and `inside, surface / mo` (a
+  closed surface, or a closed polygon in 2D), each with h_value or
+  h_attribute (for example edge_lengths_mean) x h_factor, h_band and
+  h_growth; h = min(h_ceiling, max(h_floor, the smallest h_i)), so h
+  can never grow faster than h_growth. Actions create, add, list, eval
+  (h at the vertices of any mesh object), dump (a lattice for ParaView)
+  and delete. createpts / poisson_disk takes `hfield, hf_name` where
+  the control file goes, in 2D and 3D, with every h_lookup and
+  face_lattice option; a control file that sets the same h gives the
+  same mesh. h_floor below h_spacing_scalar: a WARNING. See
+  [HFIELD](../docs/commands/HFIELD.md). Test: test_hfield.
+
 ### Fixes
 
 - **extract / surfmesh of a 2D mesh in the x-z or y-z plane** (GitHub

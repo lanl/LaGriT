@@ -1543,6 +1543,13 @@ C           rotatept : ROTATE PART OF THE MESH ABOUT A CENTER POINT.
 C
             call rotatept(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
 C
+         elseif(idsb(1:lenidsb).eq.'hfield') then
+C
+C           ************************************************************
+C           hfield : A NAMED SPACING (h) FIELD FROM SOURCES.
+C
+            call hfield_lg(imsgout,xmsgout,cmsgout,msgtype,nwds,ierr2)
+C
          elseif(idsb(1:lenidsb).eq.'compute') then
 C
 C           ************************************************************

@@ -15,9 +15,9 @@ This poisson_disk command is available for LaGriT versions V3.3.3 or greater.
 ## SYNTAX
 
 <pre>
-<b>createpts</b> / <b>poisson_disk</b> / <b>2d_polygon</b> / mo_out / mo_polygon / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
+<b>createpts</b> / <b>poisson_disk</b> / <b>2d_polygon</b> / mo_out / mo_polygon / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi | <b>hfield</b>, hf_name] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ]
 
-<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ] [ h_lookup <b>hex_grid</b> | <b>octree</b> ] [ octree_k_factor real ] [ octree_batch integer ] [ octree_dump file ] [ face_lattice <b>uniform</b> | <b>adaptive</b> ] [ face_lattice_factor real ]
+<b>createpts</b> / <b>poisson_disk</b> / <b>3d_box</b> / mo_out / h_spacing_scalar / [<b>connect</b> | <b>no_connect</b>] / [user_resolution.mlgi | <b>hfield</b>, hf_name] / [ poisson_seed integer ] [ number_of_samples integer ] [ resample_sweeps integer ] [ h_lookup <b>hex_grid</b> | <b>octree</b> ] [ octree_k_factor real ] [ octree_batch integer ] [ octree_dump file ] [ face_lattice <b>uniform</b> | <b>adaptive</b> ] [ face_lattice_factor real ]
 </pre>
 
 The 3D form has no `mo_polygon`: the box is given by define variables set before the command (see [3D Box and Edge Buffer](#3d-box-and-edge-buffer)), so every argument after `mo_out` is one position earlier than in 2D. The argument numbers below are those of the 2D form.
@@ -55,6 +55,8 @@ In 3D, `connect` can leave a few vertices out of the tets (they fail its minimum
 ### Argument 7. Optional Resolution Arguments 
 
 Default if this option is not used, the mesh will be uniform resolution defined by Argument 5 `h_spacing_scalar`.
+
+**`hfield, hf_name`** (in place of the control file): the spacing h from an hfield made beforehand with [hfield](../HFIELD.md): sources such as points, lines, surfaces, DFNs and closed surfaces, with an h at each and a growth rate away from them, and no control file to write. For example `hfield / add / hf_dfn / near, mo_dfn / h_attribute, h_dfn / h_factor, 0.74`. Try an hfield first; a control file is for an h the hfield rule cannot express. Everything below about the control file (the h checks, h_lookup, face_lattice) holds for an hfield too. If the hfield's h_floor is below `h_spacing_scalar`, a WARNING says so and `h_spacing_scalar` is the floor. Give a control file or an hfield, not both.
 
 `user_resolution.mlgi` is the name of a LaGriT control file for user defined  resolution.
 The control file  defines a function h(x,y) (2D) or h(x,y,z) (3D) that will be used to control vertex spacing in a variable resolution mesh. See examples below.

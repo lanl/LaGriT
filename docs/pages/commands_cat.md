@@ -24,6 +24,8 @@ header_subtitle: Geometry, mesh creation, refinement, smoothing, I/O and more.
 
 [CREATEPTS](docs/commands/createpts.md) (create points)
 
+[HFIELD](docs/commands/HFIELD.md) (a spacing h from sources, for createpts / poisson_disk)
+
 [QUADXY](docs/commands/QUADXY.md) (define a logical xy node set)
 
 [QUADXYZ](docs/commands/QUADXYZ1.md) (define a logical xyz node set)
