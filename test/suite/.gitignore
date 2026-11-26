@@ -22,6 +22,7 @@ test_hextotet/work/
 test_distance_field/work/
 test_medial_axis/work/
 test_stor_utm/work/
+test_dump_coord/work/
 test_set_logic/work/
 test_edge_lengths/work/
 test_input_lines/work/

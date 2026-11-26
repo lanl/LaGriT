@@ -1,0 +1,18 @@
+#####################################################################
+# dc06_fehm.lgi
+#
+# GitHub #289, dump / fehm: the same quad grid as dc02 written with
+# dump / fehm. Its .fehmn (coor and elem) is made by the same code as
+# dump / coord, and had an empty elem list for quads too. matbld:
+# cv_dual (the default) takes triangles and tets only.
+#
+# check : dc06 | quad | 4
+#####################################################################
+cmo / create / mo / / / quad
+quadxy / 3 101 / 0. 0. 0. / 2. 0. 0. / 2. 100. 0. / 0. 100. 0.
+createpts / brick / xyz / 3 101 1 / 1,0,0 / connect
+cmo / setatt / mo / imt / 1
+cmo / setatt / mo / itetclr / 1
+dump / fehm / dc06 / mo / matbld
+dump / avs / dc06.inp / mo
+finish
