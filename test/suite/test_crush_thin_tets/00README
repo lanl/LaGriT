@@ -102,7 +102,7 @@ FOUND (Oct 21-22 2026)
   adds 4% - 13% vertices; the 11 are 6 not-1%-better and 5 caps).
 
   NOTE: until Oct 22 2026 ct_h_field.mlgi had four command lines longer
-  than 80 columns. LaGriT reads 80 columns of a line, so the rest was
+  than 80 columns. LaGriT then read 80 columns of a line, so the rest was
   cut off ("Illegal option or arguments to math") and the h field stayed
   uniform: the deck then called "ct11 graded" was uniform h = 0.05. That
   mesh is now ct13 (the numbers above are for it); ct11 is truly graded.

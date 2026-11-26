@@ -104,6 +104,12 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   most tets at a vertex (a cylinder with 2000 points per ring: about
   1 MB, where a buffer of faces x points would need 4.6 GB).
 
+- **Docs: control-file lines.** The createpts / poisson_disk page said
+  that LaGriT drops the characters of a control-file line past column 80
+  without a warning. Since V3.4.0 a line, in a deck or a control file,
+  can be up to 1024 characters; the page now says so (and three test
+  comments that said the same).
+
 - **cv_dual (dump / control_volume, dump / fehm, dump / stor) on a
   mesh from connect / exact with points on common spheres:** tets flat
   to round-off had their circumcenter from round-off (in double
@@ -122,6 +128,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | Date | PR | Description |
 | --- | --- | --- |
 | 2026-11-24 | #352 | dump / control_volume / paraview, 2D: a polygon's material is its vertex's imt1; new cell field itetclr |
+| 2026-11-25 | | docs: createpts_poisson.md, a control-file line can be up to 1024 characters (it said 80) |
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |

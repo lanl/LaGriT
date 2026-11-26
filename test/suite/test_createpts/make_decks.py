@@ -910,7 +910,7 @@ for c in cases:
     if "sphere_demo" not in n:                  # the user's decks: as given
         B = [mo_names(l, c) for l in B]
     for l in B:
-        assert len(l) <= 80, (n, len(l), l)     # LaGriT reads 80 columns
+        assert len(l) <= 80, (n, len(l), l)     # short lines, easy to read
     open(os.path.join(D, n + ".lgi"), "w").write("\n".join(H + B) + "\n")
 # the list of decks this generator wrote: the runner ignores (and
 # names) any other cp*.lgi, e.g. an old deck left behind when a newer
