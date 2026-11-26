@@ -1,0 +1,17 @@
+#####################################################################
+# es04_tet.lgi
+#
+# Tets in the unit cube (3 x 3 x 3 points, connected): extract /
+# surfmesh gives the boundary as triangles, area 6.
+#
+# check : es04 | 3d | 6.0
+#####################################################################
+cmo / create / mo / / / tet
+createpts / xyz / 3,3,3 / 0. 0. 0. / 1. 1. 1. / 1,1,1
+cmo / setatt / mo / imt / 1
+connect
+resetpts / itp
+dump / avs / es04_in.inp / mo
+extract / surfmesh / 1,0,0 / mo_s / mo / external
+dump / avs / es04_out.inp / mo_s
+finish

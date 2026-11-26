@@ -102,6 +102,7 @@ test_crush_thin_tets:run_crush_tests.sh:15:quality,3d
 test_element_angles:run_angle_tests.sh:2:quality,2d,3d
 test_improve_tets:run_improve_tests.sh:15:quality,3d
 test_avs_io:run_avs_io_tests.sh:5:io
+test_extract_surfmesh:run_extract_surfmesh_tests.sh:1:extract,2d,3d
 test_stor_utm:run_stor_utm_tests.sh:2:io,stor,2d,3d
 test_dump_coord:run_dump_coord_tests.sh:1:io,fehm,2d,3d
 test_hextotet:run_hextotet_tests.sh:1:3d

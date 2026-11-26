@@ -1,0 +1,18 @@
+#####################################################################
+# es02_xy.lgi
+#
+# Triangles in the plane y = 0 (x 0 to 2, z 0 to 1): extract /
+# surfmesh gives the boundary as line cells, perimeter 6, at the
+# vertices z of the triangles (GitHub #4: z was set to 0).
+#
+# check : es02 | 2d | 6.0
+#####################################################################
+cmo / create / mo / / / triplane
+createpts / xyz / 5,1,3 / 0. 0. 0. / 2. 0. 1. / 1,1,1
+cmo / setatt / mo / imt / 1
+connect
+resetpts / itp
+dump / avs / es02_in.inp / mo
+extract / surfmesh / 1,0,0 / mo_s / mo / external
+dump / avs / es02_out.inp / mo_s
+finish

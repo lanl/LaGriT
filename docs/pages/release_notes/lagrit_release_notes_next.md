@@ -68,6 +68,10 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 
 ### Fixes
 
+- **extract / surfmesh of a 2D mesh in the x-z or y-z plane** (GitHub
+  #4) set z to 0 on the boundary lines; all three coordinates are now
+  copied. New suite test_extract_surfmesh.
+
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
   no nodes or no cells:** an ERROR and LaGriT goes on; it crashed
   (segmentation fault). The same for edge_connections and
@@ -182,6 +186,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-26 | | extract / surfmesh: z kept for a 2D mesh in the x-z or y-z plane (GitHub #4); suite test_extract_surfmesh |
 | 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
 | 2026-11-25 | #363 | createpts / poisson_disk / 3d_box: the edge buffer's face lattice made face by face, memory as the face area, not the box volume |
 | 2026-11-26 | | read / avs: an ERROR for a cell vertex number past the last vertex (GitHub #176) and for a missing file (GitHub #112) |

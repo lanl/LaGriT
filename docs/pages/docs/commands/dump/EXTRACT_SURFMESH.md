@@ -15,7 +15,10 @@ tags: extract surfmesh
 Not all attributes in the input mesh object are created
   or initialize in the output mesh object. Among the array-valued
   attributes, only xic,yic,zic,itet,jtet,itetoff,itettyp, and icr1
-  are set. The node attribute imt is set to 1. The icontab array is copied from the
+  are set. A surface mesh may lie in any coordinate plane (x-y, x-z or
+  y-z): its edge mesh keeps all three coordinates (LaGriT V3.4.0 and
+  earlier set z to 0 for a 2D mesh, wrong in the x-z and y-z planes:
+  GitHub #4). The node attribute imt is set to 1. The icontab array is copied from the
   input mesh object to the output mesh object.
 
 The elements of the extracted surfmesh are detirmined by the faces of the original mesh elements. So if the original mesh is hexahedral, the surfmesh will be quads, if it is tetrahedral, the surfmesh will be triangles. If you want all triangles in the surfmesh you can first convert the mesh to tetrahedrals using the command [**`grid2grid`**](../GRID2GRID.md).
