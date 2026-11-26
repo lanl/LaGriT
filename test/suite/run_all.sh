@@ -106,6 +106,7 @@ test_stor_utm:run_stor_utm_tests.sh:2:io,stor,2d,3d
 test_dump_coord:run_dump_coord_tests.sh:1:io,fehm,2d,3d
 test_hextotet:run_hextotet_tests.sh:1:3d
 test_set_logic:run_set_logic_tests.sh:1:sets
+test_cmo_commands:run_cmo_commands_tests.sh:1:cmo,errors
 test_edge_lengths:run_edge_lengths_tests.sh:1:quality,2d,3d
 test_input_lines:run_input_lines_tests.sh:2:parser
 test_long_names:run_long_names_tests.sh:2:parser,io

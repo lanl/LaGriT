@@ -28,7 +28,7 @@ See the description of mesh object and attributes for setting options. [Mesh Obj
 `ifirst,ilast,istride` is the selection where 1,0,0 will operate on all members of the attribute. The node or element set syntax can be used instead of the integer range. See **pset** and **`eltset`** commands.
 If the range selection is not present, all members are applied.
 
-`value` is type integer or real depending on the type of the attribute.
+`value` is type integer or real depending on the type of the attribute. A word given as the value of an integer or real attribute (for example the name of a define that was never defined) is an ERROR and nothing is set; LaGriT V3.4.0 and earlier set the attribute to whatever number happened to be in memory (GitHub #55). Names of point types (itp1) are words and are accepted for itp1.
 The `value` is assigned to the selected range of `attribute_name'.
 
 

@@ -812,6 +812,34 @@ C   found existing attribute
 C   get type, length and rank
       call cmo_get_attparam(attr_name,mo,index,ctype,crank,
      *    clen,cinter,cpers,cio,ierror)
+C   imt, itp, icr, isn: the names of imt1, itp1, icr1, isn1, as in
+C   cmo / setatt (GitHub #31: math crashed on imt; its parameters
+C   are found, but it has no array of its own)
+      if (ierror.eq.0) then
+         call mmgetpr(attr_name,mo,ipxfield,icscode)
+         if (icscode.ne.0) ierror=1
+      endif
+      len = icharlnf(attr_name)
+      if (ierror.ne.0 .and. len.eq.3) then
+         if (attr_name(1:3).eq.'imt' .or. attr_name(1:3).eq.'itp'
+     *  .or. attr_name(1:3).eq.'icr' .or. attr_name(1:3).eq.'isn') then
+            attr_name = attr_name(1:3)//'1'
+            call cmo_get_attparam(attr_name,mo,index,ctype,crank,
+     *         clen,cinter,cpers,cio,ierror)
+            if (ierror.eq.0) then
+               call mmgetpr(attr_name,mo,ipxfield,icscode)
+               if (icscode.ne.0) ierror=1
+            endif
+         endif
+      endif
+      if (ierror.ne.0) then
+         write(logmess,'(a,a,a,a)') 'ERROR math: no attribute ',
+     *      attr_name(1:icharlnf(attr_name)),' in ',
+     *      mo(1:icharlnf(mo))
+         call writloga('default',0,logmess,0,ierrw)
+         error = 1
+         return
+      endif
          if(ierror.eq.0) then
             ilen=4
             if(clen(1:6).eq.'nnodes') ilen=1

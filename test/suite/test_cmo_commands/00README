@@ -1,0 +1,32 @@
+test_cmo_commands -- small fixes to cmo, math and setatt (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_cmo_commands_tests.sh [path-to-lagrit]     4 decks, about 1 s
+  open summary.html
+
+WHAT IT TESTS (GitHub issues)
+
+  cc01_delatt_all   #163, #108: cmo / delatt / mo / -all- deletes every
+                    temporary attribute (cmo / addatt makes temporary
+                    ones by default) and keeps the permanent and the
+                    standard ones; cmo / DELATT / mo / -all- deletes
+                    every attribute but the standard ones (those
+                    cmo / create makes). Both said "Attribute does not
+                    exist: -all-".
+  cc02_status_gone  #159: cmo / status of a deleted mesh object names
+                    it (it named the current mesh object).
+  cc03_math_imt     #31: math takes imt for imt1 (a segmentation
+                    fault); an unknown attribute is an ERROR.
+  cc04_setatt_word  #55: cmo / setatt with a word for the value of a
+                    number attribute (an undefined define name) is an
+                    ERROR and changes nothing (the attribute was set to
+                    garbage); a defined name is used.
+
+WHAT IS CHECKED (check_cmo_commands.py)
+
+  LaGriT finished, with no signal or MMVERIFY; the texts each deck must
+  print, the texts it must not, and the counted ones (make_cmo_commands
+  .py writes them with the decks into work/expect.json). summary.html
+  lists LaGriT's lines for every deck. No mesh is drawn.

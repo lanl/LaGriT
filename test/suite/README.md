@@ -106,6 +106,7 @@ run_all.sh`.
 | `test_dump_coord` | `dump / coord` and `dump / fehm`: the .fehmn coor and elem lists for triangles, quads (GitHub #289), tets, hexes and prisms (a WARNING, no elem list), against the same mesh from `dump / avs` and by orientation | 1 s |
 | `test_hextotet` | `hextotet` and `grid2grid`: every option on hex, prism, quad and pyramid meshes (issue #214), defaults, and options that do not fit the cells refused | 1 s |
 | `test_set_logic` | `eltset` and `pset` union / inter / not with 1 to 4 sets, every member against the definitions | 1 s |
+| `test_cmo_commands` | cmo / delatt and DELATT with -all-, cmo / status of a deleted mesh object, math with imt, setatt with a word for a number (GitHub #163, #108, #159, #31, #55) | 1 s |
 | `test_edge_lengths` | `cmo / addatt` edge_lengths_min / max / mean against an independent computation | 1 s |
 | `test_input_lines` | input lines up to 1024 characters, longer lines refused, cut tokens warned | 2 s |
 | `test_long_names` | file names up to 132 characters in read, dump, infile and the set writers; WARNING for long tokens used cut | 2 s |
