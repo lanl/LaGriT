@@ -26,6 +26,18 @@ C                     a control file, uniform otherwise)
       integer if_poi_face_lat
       common /poi_oct_f/ if_poi_face_lat
 C
+C     face_lattice_factor real > 0            poi_face_fac
+C                     (face_lattice adaptive: a face quad is refined
+C                     while longer than poi_face_fac x h; the sampler
+C                     keeps POI_EDGE_BUFFER x poi_face_fac x h from the
+C                     face vertices). if_poi_face_fac 1 when given.
+      real*8  poi_face_fac
+      integer if_poi_face_fac
+      common /poi_oct_g/ poi_face_fac
+      common /poi_oct_h/ if_poi_face_fac
+      real*8  POI_FACE_FAC_DEFAULT
+      parameter (POI_FACE_FAC_DEFAULT = 1.5d0)
+C
 C     defaults. A batch of octree vertices in mo_poi_h_field costs up
 C     to about 250 bytes each while the user's .mlgi runs (x, y, z, the
 C     standard attributes, h_field_att, the .mlgi's own arrays and

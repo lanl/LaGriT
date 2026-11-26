@@ -110,6 +110,7 @@
 #   err32  face_lattice octree, not uniform or adaptive
 #   err33  face_lattice adaptive with h_lookup hex_grid
 #   err34  2D refuses face_lattice
+#   err35  face_lattice_factor 0
 #
 # Warnings, must NOT abort
 #   warn01 nonconvex, reflex at vertex 4
@@ -121,6 +122,7 @@
 #   warn06 3D h_lookup octree, h field above the 100*h warning
 #          threshold (edge buffer off)
 #   warn07 3D face_lattice with the edge buffer off: ignored
+#   warn08 3D face_lattice_factor with face_lattice uniform: ignored
 #
 #######################################################################
 #
