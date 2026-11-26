@@ -116,7 +116,7 @@ C
      *     'The current-mesh-object(CMO) is: ',cmo_name_cur
         call writloga('default',1,logmess,0,ierr)
 C
-        len=icharlnf(cmo_name)
+        len=icharlnf(cmo_name_in)
 C
         if((cmo_name_in(1:len).eq.'-cmo-') .or.
      *     (cmo_name_in(1:len).eq.'-def-')) then
@@ -125,7 +125,7 @@ C....      Use the Current Mesh Object.
 C
            cmo_name_in=cmo_name_cur
 C
-           len=icharlnf(cmo_name)
+           len=icharlnf(cmo_name_in)
 C
         endif
 C
@@ -398,10 +398,12 @@ C
 C
 C....       Mesh Object does not exist.
 
+C           (GitHub #159: the name asked for, not the last one looked
+C           at)
             ierror_return=0
-            write(logmess,9050) cmo_name
+            write(logmess,9050) cmo_name_in(1:icharlnf(cmo_name_in))
             call writloga('default',0,logmess,0,ierr)
- 9050       format(' Mesh Object does not exist: ',a32)
+ 9050       format(' Mesh Object does not exist: ',a)
         endif
 C
       else
