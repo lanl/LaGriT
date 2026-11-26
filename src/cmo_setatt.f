@@ -222,6 +222,7 @@ C variables
       data NOWRITE, VALUES, LIST, MINMAX /0,1,2,3/
 
       logical iset, ivalid, mmset
+      logical iword
  
       character*32 attnam,cout,cvalue
       character*32 clength, cname,att_name,cinter,cpers,cio
@@ -324,6 +325,7 @@ c     4 - get attribute name or set of attributes
       endif
  
       inxt=5
+      iword=.false.
  
 c     if setatt or if set_var - this will be last value
 c     this is value to assign to attribute field
@@ -339,8 +341,10 @@ c     this is value to assign to attribute field
         elseif (msgtype(nwds).eq.3) then
           cvalue=cmsgin(nwds)
           ilast=ilast-1
+          iword=.true.
           if((attnam(1:lenattnam).eq.'itp1'.or.
      *        attnam(1:lenattnam).eq.'itp')) then
+              iword=.false.
               call getptyp(cmsgin(nwds),ivalue,ierror)
               if(ierror.ne.0 ) then
                  ierr=1
@@ -546,6 +550,22 @@ c          get type=attyp, length=ilength and rank=irank
                    attyp=4
                 else
                    attyp=3
+                endif
+C            a word for a number (an undefined define name): ERROR, the
+C            attribute unchanged (GitHub #55: it was set to garbage)
+                if (iset .and. iword .and. (attyp.eq.1 .or.
+     *              attyp.eq.2 .or. ctype(1:3).eq.'INT' .or.
+     *              ctype(1:4).eq.'REAL')) then
+                   write(logmess,'(a,a,a,a)')
+     *               'ERROR cmo/setatt: the value ',
+     *               cvalue(1:icharlnf(cvalue)),
+     *               ' is not a number, for ',cname(1:len)
+                   call writloga('default',0,logmess,0,ierrw)
+                   write(logmess,'(a)')
+     *               '  (an undefined define?); nothing set'
+                   call writloga('default',0,logmess,0,ierrw)
+                   ierror=1
+                   goto 9999
                 endif
 c            get field for current attribute
                 call mmgetpr(cname(1:len),cmo,ipxfield,ics)

@@ -197,7 +197,7 @@ C
       character*32 cmolist, attlist,cmo_sink,cmo_src,geom_name_arg
 
       integer len, ierr, ierr1, ierr2, lenopt, ierrw
-      integer inum1,inum2,inum3,inum4,inum5
+      integer inum1,inum2,inum3,inum4,inum5, ifall
 C
       character*132 logmess
 C
@@ -441,7 +441,13 @@ C....    DELATT Option.
 C
          if(nwds .ge. 4) then
 C
-            if (coption(1:lenopt).eq.'DELATT') then
+C           -all-: every temporary attribute (delatt), every attribute
+C           but the standard ones (DELATT); GitHub #163, #108
+            if (cmsgin(4)(1:5).eq.'-all-') then
+               ifall=0
+               if (coption(1:lenopt).eq.'DELATT') ifall=1
+               call cmo_delatt_every_lg(cmsgin(3),ifall,ierror_return)
+            elseif (coption(1:lenopt).eq.'DELATT') then
  
                !... delete even if permanent, and if a scalar
                !... also delete anything with this as rank or length

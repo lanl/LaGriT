@@ -41,6 +41,8 @@ operations.
 
 
 `value` is required by some math operations and can be of type constant or can be a cmo attribute.
+
+An attribute that does not exist is an ERROR. The short names `imt`, `itp`, `icr` and `isn` name `imt1`, `itp1`, `icr1` and `isn1`, as in **cmo / setatt** (before, math with `imt` stopped LaGriT with a segmentation fault: GitHub #31).
 For the standard arithmetic operations, value can be either a constant
 or an attribute. These arithmetic operations work for all types of
 attributes. For the mathematical functions other than **`floor`** and **`ceiling`**,

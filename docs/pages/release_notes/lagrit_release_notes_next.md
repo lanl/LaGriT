@@ -120,6 +120,20 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   not take (prisms, pyramids, lines, a hybrid mesh) a WARNING now says
   that no elem list was written. New suite test_dump_coord.
 
+- **cmo / delatt and cmo / DELATT with -all-** (GitHub #163, #108)
+  said "Attribute does not exist: -all-". Now `delatt / mo / -all-`
+  deletes every temporary attribute and keeps the permanent and
+  standard ones; `DELATT / mo / -all-` deletes every attribute but the
+  standard ones (those cmo / create makes).
+- **cmo / status of a deleted mesh object** (GitHub #159) said the
+  current mesh object does not exist; it names the one asked for.
+- **math with imt** (GitHub #31) stopped LaGriT with a segmentation
+  fault; imt, itp, icr and isn now name imt1, itp1, icr1 and isn1, and
+  an attribute that does not exist is an ERROR.
+- **cmo / setatt with a word for a number** (GitHub #55), such as an
+  undefined define name, set the attribute to garbage (6.95e-310); it
+  is an ERROR and nothing is set. New suite test_cmo_commands.
+
 - **dump / control_volume / paraview (and cv_dual -paraview), 2D:** a
   polygon's `material` in `root_cells.vtu` is now its vertex's imt1, as
   for polyhedra and as in the .stor and zone files; it was the itetclr
@@ -202,6 +216,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | #352 | dump / control_volume / paraview, 2D: a polygon's material is its vertex's imt1; new cell field itetclr |
 | 2026-11-25 | | docs: createpts_poisson.md, a control-file line can be up to 1024 characters (it said 80) |
 | 2026-11-24 | #351 | dump / control_volume: exclude, the ghost generators' materials left out of the files |
+| 2026-11-26 | | cmo / delatt and DELATT -all- (GitHub #163, #108); cmo / status of a deleted mesh object (#159); math with imt (#31); setatt with a word for a number (#55); suite test_cmo_commands |
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-26 | | perturb, extract / isosurface, shtgtsfp: their memory partition named (an unset name; a crash on a GitHub runner in level01/createpts_filter) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |

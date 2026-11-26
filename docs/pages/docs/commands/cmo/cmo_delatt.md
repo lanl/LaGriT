@@ -27,7 +27,12 @@ delete an attribute with a persistence of 'permanent'.
 `mo_name` is the mesh object. The mesh object name must be specified, but keywords can be used, such as -cmo- for current mesh object.
 
 
-`att_name` is the name of the attribute to delete from the mesh object. The attribute name must be specified, but keywords can be used, such as -all- for all attributes in the mesh object.
+`att_name` is the name of the attribute to delete from the mesh object. The attribute name must be specified; `-all-` names many attributes at once:
+
+- **`cmo / delatt / mo_name / -all-`** deletes every attribute whose persistence is temporary (the default of **cmo / addatt**). Permanent attributes are not touched, and neither are the standard attributes, those every mesh object has from **cmo / create**.
+- **`cmo / DELATT / mo_name / -all-`** deletes every attribute except the standard attributes that exist when **cmo / create** runs, whatever its persistence.
+
+Each prints how many attributes it deleted and how many it kept. (LaGriT V3.4.0 and earlier refused `-all-` with "Attribute does not exist: -all-": GitHub #163, #108.)
 
 
 
@@ -43,6 +48,11 @@ If mo_tet is the current mesh object, both commands will delete the attribute na
 cmo/delatt/ -cmo- / -all-
 ```  
 This will delete all attributes from the current mesh object with persistence of temporary.
+
+```
+cmo/DELATT/ mo_tet / -all-
+```
+This will delete every attribute of mo_tet that is not one of the standard attributes, permanent ones too.
 
 ```
  cmo/DELATT/ mo_tet/ imt1
