@@ -30,6 +30,11 @@ mesh objects exist, and with  finish.
   il09_infile  the limits inside a file read with infile: the messages
                give that file's name and line numbers
   il10_crlf    an infile with CRLF line ends and no newline at the end
+  il11_whole_reals  whole numbers written as reals where a command
+               reads an integer: quadxy / 3. 3. makes 9 points (it made
+               none), createpts / brick with 1e1 cells in z and the
+               flags 1.,1.,1. makes the 60 vertices at the box corners
+               (LaGriT V3.4.0 read 0: a crash, and cell centers)
 """
 import json
 import os
@@ -148,6 +153,19 @@ def main(work):
     E["il10_crlf"] = {"mo": ["mo_crlf1", "mo_crlf90", "mo_after"], "no_mo": [],
                       "has": ["NOTE: line 2 of il10_sub.mlgi has 90 characters;"],
                       "count": {"ERROR": 0}}
+
+    write(work, "il11_whole_reals.lgi", [
+        "cmo / create / mo_q / / / quad",
+        "quadxy / 3. 3. / 0. 0. 0. / 1. 0. 0. / 1. 1. 0. / 0. 1. 0.",
+        "cmo / create / mo_b / / / hex",
+        "createpts / brick / xyz / 3,2,1e1 / 0. 0. 0. / 100. 100. 50. / 1.,1.,1.",
+        "cmo / printatt / mo_b / zic / minmax"] + end)
+    E["il11_whole_reals"] = {"mo": ["mo_q", "mo_b"], "no_mo": [],
+                             "has": ["QUADXY GENERATED POINTS         1 TO         9",
+                                     "Number of nodes:          60",
+                                     "Number of elements:          18",
+                                     " zic                0.000000000E+00  5.000000000E+01"],
+                             "count": {"ERROR": 0, "WARNING: token": 0}}
 
     json.dump(E, open(os.path.join(work, "expect.json"), "w"), indent=1)
 

@@ -2,15 +2,17 @@
  
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
 *               *                                             *                 
-*               *    Program:  LaGriT V3.330   Linux          *                 
-*               *    date_compile: 2021/10/15 test            *                 
-*               *    Run Time: 2021/Nov  9  15:47:53          *                 
-*               *    Manual:   http://lagrit.lanl.gov         *                 
+*               *    Program:  LaGriT V3.4.0   Linux          *                 
+*               *    Compiler Name: GNU                       *                 
+*               *    Compiler Version: 14.2.0                 *                 
+*               *    Date Compile: 2026/11/26                 *                 
+*               *    Run Time: 2026/Nov 26  05:21:39          *                 
 *               *                                             *                 
 *               * * * * * * * * * * * * * * * * * * * * * * * *                 
  
                                -----oOo-----                                    
              LaGriT V3 LA-CC-15-069  https://github.com/lanl/LaGriT             
+             Manual: https://lanl.github.io/LaGriT/pages/manual.html            
   Copyright 2016. Triad National Security, LLC.  All rights reserved. This      
   program was produced under U.S. Government contract 89233218CNA000001         
   for Los Alamos National Laboratory (LANL), which is operated by Triad         
@@ -33,10 +35,10 @@ createpts/brick/xyz/3,2,10/0.,0.,-100./100.,100.,50./1.,1.,1./1,1,1
           Number of nodes:          60                                          
           Number of elements:          18                                       
           Number of negative volume elements:           0                       
-          Total volume:     0.450000000000E+06                                  
+          Total volume:     0.150000000000E+07                                  
 quality                                                                         
  
-epsilonl, epsilonaspect:   3.5227112E-11  4.3715064E-32                         
+epsilonl, epsilonaspect:   4.5775668E-11  9.5918874E-32                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
@@ -47,9 +49,9 @@ elements with aspect ratio b/w .2  and .5 :          0
 elements with aspect ratio b/w .5  and 1. :         18                          
 min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
  
-epsilonvol:   9.9920072E-08                                                     
+epsilonvol:   3.3306691E-07                                                     
 ---------------------------------------                                         
-All elements have volume  2.5000000E+04                                         
+All elements have volume  8.3333333E+04                                         
 -----------------------------------------------------------                     
         18 total elements evaluated.                                            
  
@@ -62,7 +64,7 @@ cmo/addatt//icontab/VINT/scalar/ncon50/constant/permanent/l/0.0
 finish                                                                          
 quality                                                                         
  
-epsilonl, epsilonaspect:   3.5227112E-11  4.3715064E-32                         
+epsilonl, epsilonaspect:   4.5775668E-11  9.5918874E-32                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
@@ -73,18 +75,18 @@ elements with aspect ratio b/w .2  and .5 :          0
 elements with aspect ratio b/w .5  and 1. :         18                          
 min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
  
-epsilonvol:   9.9920072E-08                                                     
+epsilonvol:   3.3306691E-07                                                     
 ---------------------------------------                                         
-All elements have volume  2.5000000E+04                                         
+All elements have volume  8.3333333E+04                                         
 -----------------------------------------------------------                     
         18 total elements evaluated.                                            
  
 define zmx 25.                                                                  
 surface/top/reflect/plane/0.,0.,zmx/1.,0.,zmx/1.,1.,zmx/                        
-  The unit vector for top      is  0.0000000i  -0.0000000j   1.0000000k         
+  The unit vector for top      is  0.0000000i   0.0000000j   1.0000000k         
 quality                                                                         
  
-epsilonl, epsilonaspect:   3.5227112E-11  4.3715064E-32                         
+epsilonl, epsilonaspect:   4.5775668E-11  9.5918874E-32                         
 --------------------------------------------                                    
 elements with aspect ratio < .01:                    0                          
 elements with aspect ratio b/w .01 and .02:          0                          
@@ -95,9 +97,9 @@ elements with aspect ratio b/w .2  and .5 :          0
 elements with aspect ratio b/w .5  and 1. :         18                          
 min aspect ratio =  0.1000E+01  max aspect ratio =  0.1000E+01                  
  
-epsilonvol:   9.9920072E-08                                                     
+epsilonvol:   3.3306691E-07                                                     
 ---------------------------------------                                         
-All elements have volume  2.5000000E+04                                         
+All elements have volume  8.3333333E+04                                         
 -----------------------------------------------------------                     
         18 total elements evaluated.                                            
  

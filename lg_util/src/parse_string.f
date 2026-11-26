@@ -6,7 +6,8 @@ C
 C      Uses syntax defined for LAGRIT command lines
 C      break up command, from commands_lg.h, into nwds tokens
 C      put integers in imsgout, reals in xmsgout, strings in
-C      cmsgout, msgtype is token type
+C      cmsgout, msgtype is token type; a real that is a whole
+C      number (3. 3.0 1e2) is also put in imsgout
 C
 C ######################################################################
 C
@@ -94,6 +95,12 @@ c  if length is zero fill in the default token
             if(isreal) then
                 xmsgout(nwds)=xnum
                 msgtype(nwds)=2
+C  a whole number written as a real (3. 3.0 1e2) also fills imsgout,
+C  so a command that reads imsgout gets 3, not 0; msgtype stays 2
+                if(xnum.eq.aint(xnum) .and.
+     *             abs(xnum).le.dble(huge(inum)/2)) then
+                   imsgout(nwds)=nint(xnum,kind(inum))
+                endif
             endif
          endif
          if(length.gt.lcm .and. msgtype(nwds).eq.3) then

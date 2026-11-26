@@ -47,6 +47,9 @@ THE DECKS (written by make_input_lines.py into work/; see its comment)
   il09_infile   the same inside an infile: messages name that file
                 and its line numbers
   il10_crlf     CRLF line ends and no newline at the end of the file
+  il11_whole_reals  whole numbers written as reals (3. 1e1 1.) where a
+                command reads an integer: used as integers since the
+                fix of parking lot 1 (before: 0, without a message)
 
 WHAT IS CHECKED (check_input_lines.py)
 
