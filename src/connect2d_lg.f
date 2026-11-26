@@ -559,8 +559,10 @@ C        after the point range (deprecated; connect places it itself)
       if(ierr1.ne.0) go to 9999
       write(logmess,"(' Coordinates of enclosing triangle are: ')")
       call writloga(cdefault,0,logmess,0,ierr)
+C     each number with a blank before it, as in 3D (GitHub #67: d12.5
+C     ran negative numbers together)
       do j=1,3
-        write(logmess,'(10x,3(d12.5))') xbigtet(j),ybigtet(j),
+        write(logmess,'(7x,3(1x,d14.5))') xbigtet(j),ybigtet(j),
      *        zbigtet(j)
         call writloga(cdefault,0,logmess,0,ierr)
       enddo

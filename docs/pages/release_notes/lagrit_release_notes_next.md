@@ -164,6 +164,17 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   can be up to 1024 characters; the page now says so (and three test
   comments that said the same).
 
+- **An input that ends without finish** (GitHub #22) gave "unexpected
+  eof-command ignored" again and again, then "STOP maximum number hit,
+  code aborting". Now a WARNING says finish is assumed: LaGriT goes
+  back to the input that read the file, or stops as after finish.
+- **2D connect's enclosing triangle** (GitHub #67) was printed with
+  negative numbers run together; each number now has a blank before
+  it, as in 3D.
+- **refine (refine_tet_add.f)** kept epsilonl in an integer variable
+  (GitHub #242); it is a real now. (It worked only because both take 8
+  bytes.)
+
 - **cv_dual (dump / control_volume, dump / fehm, dump / stor) on a
   mesh from connect / exact with points on common spheres:** tets flat
   to round-off had their circumcenter from round-off (in double
@@ -200,6 +211,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-25 | | file names up to 132 characters in read, dump, infile and the set writers; WARNING after the command for tokens used cut; suite test_long_names |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
+| 2026-11-26 | | input without finish: finish assumed (GitHub #22); 2D connect's enclosing triangle printed with blanks (#67); refine_tet_add.f epsilonl a real (#242) |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |
 | 2026-11-24 | | dump / control_volume / paraview: a cell's face points in one flat buffer (memory linear in the most tets at a vertex); suite case cylinder_axis |
 | 2026-11-24 | | cv_dual: the circumcenter of a nearly flat tet in double-double (connect / exact with points on common spheres); suite case mirror_seeds |

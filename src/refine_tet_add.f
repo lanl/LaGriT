@@ -166,7 +166,9 @@ C
      *  imesh_type, ifdebug
  
 C prd variables
-      integer nelements_save1, icount, dsmin
+      integer nelements_save1, icount
+C     epsilonl, a real (GitHub #242: it was declared integer)
+      real*8 dsmin
       integer iout,lout
       pointer (ipout,out)
       real*8 out(*)
