@@ -562,21 +562,14 @@ C
 C     GET MEMORY FOR THE MATERIAL-LIST ARRAY.
 C     count the number of different materials
 C
-      length=npoints
-      call mmgetblk('rimat',blkname,iprimat,length,1,icscode)
+C     matlst holds one bit per material, in blocks of 32: material
+C     imt is in block (imt-1)/32+1. So it needs blocks up to the
+C     largest imt (or material region number), not the number of
+C     materials (that count also started from lastimt, never set).
+      nmatmax=max(1,nmregs)
       do i=1,npoints
-        rimat(i)=imt1(i)
+         nmatmax=max(nmatmax,imt1(i))
       enddo
-      call hpsorti(npoints,rimat)
-      nmatmax=1
-      j=lastimt
-      do i=2,npoints
-         if(rimat(i) .gt.lastimt) then
-             lastimt=rimat(i)
-             nmatmax=nmatmax+1
-         endif
-      enddo
-      call mmrelblk('rimat',blkname,iprimat,icscode)
       matblks=max((nmatmax+31)/32,1)
 C        *** NUMBER OF BLOCKS OF THE MATERIAL ARRAY.  EACH BLOCK WILL
 C        *** HANDLE UP TO 32 MATERIALS.

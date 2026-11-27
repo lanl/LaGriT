@@ -92,7 +92,7 @@ below each surface that is read in to the stack routine. Buffers are not created
 
 
 **`trunc`**  causes all layers below the choosen surface to be truncated. The truncating surface is indicated by
-the integer `ifile_no`. For instance, 5 will truncate all layers below the 5th surface by the 5th surface. 
+the integer `ifile_no`. For instance, 5 will truncate all layers below the 5th surface by the 5th surface. Without `ifile_no`, the last (top) surface truncates.
 
 
 **`pinch`** `xthick` controls how layers are made coincident  where they cross and will also help to control the minimum thickness between layers.

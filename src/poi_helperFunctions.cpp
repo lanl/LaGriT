@@ -62,12 +62,14 @@ void printPoint(Point point) {
 void process_lagrit_string(char mo_name[LG_NAME_SIZE], char mo_name_trim[LG_NAME_SIZE]) {
     // removes white space from LaGriT string. LaGriT passes it in with white space
     // fortran will pads the strings with spaces/
-    // This copies each character until we hit a space
-    for (size_t len = 0; len < LG_NAME_SIZE - 1; len++) {
-        snprintf(mo_name_trim, len + 1, "%s", mo_name);
-        
-        if (mo_name[len] == ' ') {
-            break;
-        }
+    // This copies each character until we hit a space (or a null).
+    // mo_name has no terminating null (a Fortran string), so it is
+    // copied by hand: snprintf "%s" read past its end.
+    size_t len = 0;
+    while (len < LG_NAME_SIZE - 1 && mo_name[len] != ' ' &&
+           mo_name[len] != '\0') {
+        mo_name_trim[len] = mo_name[len];
+        len++;
     }
+    mo_name_trim[len] = '\0';
 }

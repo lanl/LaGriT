@@ -98,7 +98,7 @@ C     flag error for attributes that may not be present
       call cmo_get_info('itet',cmo,ipitet,leni,icmotype,ierr2)
       if (ierr2.ne.0) ierror = -1
       call cmo_get_info('jtet',cmo,ipjtet,leni,icmotype,ierr2)
-      if (ierr.ne.0) ierror = -1
+      if (ierr2.ne.0) ierror = -1
 
 C     preserve error and leni for primary attributes
       call cmo_get_info('imt1',cmo,ipimt1,leni,icmotype,ierr)

@@ -1050,10 +1050,15 @@ C        Default IO.
             cmsgin(10)=cioflag
          endif
 C
-         if((nwds.lt.11) .or. (cmsgin(11)(1:5).eq.'-def-') .or.
-     *                     (cmsgin(11)(1:9).eq.'-default-')) then
+C        token 11 (the value) is a number: look for -def- in its
+C        text only when it is a word (msgtype 3); a caller that
+C        passes a number may leave cmsgin(11) unset (geniee.f)
+         if(nwds.lt.11) then
 C        Default VALUE.
             xmsgin(11)= zero
+         elseif(msgtype(11).eq.3) then
+            if((cmsgin(11)(1:5).eq.'-def-') .or.
+     *         (cmsgin(11)(1:9).eq.'-default-')) xmsgin(11)= zero
          endif
 C
       endif

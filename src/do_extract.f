@@ -312,6 +312,8 @@ C     CMODE = 'EXTERNAL'
 C
          if (msgtype(5) .eq. 3 ) cmoout = cmsgin(5)
          if (msgtype(6) .eq. 3 ) cmoin = cmsgin(6)
+C        no mode word: all surfaces (cmode was left unset)
+         cmode = ' '
          if (msgtype(7) .eq. 3 ) cmode = cmsgin(7)
          if (msgtype(2) .eq. 1) then
             ipt1=imsgin(2)

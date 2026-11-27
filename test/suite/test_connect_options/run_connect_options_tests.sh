@@ -47,7 +47,7 @@ rm -rf "${WORK:?}"/* "${LOGDIR:?}"/*
 
 echo "lagrit : $LAGRIT"
 python3 -I make_connect_options.py "$WORK" || exit 1
-for path in "$WORK"/o[abc][0-9]*.lgi; do
+for path in "$WORK"/o[abcd][0-9]*.lgi; do
     deck=$(basename "$path")
     name=${deck%.lgi}
     ( cd "$WORK" && "$LAGRIT" < "$deck" > "$name.out" 2>&1 )

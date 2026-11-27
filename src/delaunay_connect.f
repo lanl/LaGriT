@@ -217,6 +217,8 @@ C
          if(idud.ne.0) then
             call cmo_get_name(cmo,ierr)
             call cmo_get_info('itp1',cmo,ipitp1,leni,icmotype,ierr)
+C           imt1 too: the arrays may have moved (the list below)
+            call cmo_get_info('imt1',cmo,ipimt1,leni,icmotype,ierr)
             call cmo_get_info('xic',cmo,ipxic,leni,icmotype,ierr)
             call cmo_get_info('yic',cmo,ipyic,leni,icmotype,ierr)
             call cmo_get_info('zic',cmo,ipzic,leni,icmotype,ierr)

@@ -1,0 +1,13 @@
+# a character attribute (VCHAR): dump / avs listed it in the header but
+# wrote no value for it, so read / avs could not read the file back
+# ("a line cannot be read"); now it is left out of the header too
+# check: finished
+# check: noerror
+# check: model out_vchar.inp hex_vertex_atts.inp
+# check: same out_vchar.inp out_vchar_back.inp
+read / avs / hex_vertex_atts.inp / mo1
+cmo / addatt / mo1 / cname / VCHAR /
+dump / avs / out_vchar.inp / mo1
+read / avs / out_vchar.inp / mo2
+dump / avs / out_vchar_back.inp / mo2
+finish

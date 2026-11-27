@@ -5,7 +5,7 @@ src/readavs.f and src/dumpavs.f)
 
 QUICK START
 
-  sh run_avs_io_tests.sh [path-to-lagrit]     36 decks, about 2 s
+  sh run_avs_io_tests.sh [path-to-lagrit]     37 decks, about 2 s
   open summary.html
 
 WHAT IT TESTS
@@ -92,6 +92,9 @@ THE DECKS
         (memory corrupted: MMVERIFY "Array epilog overwritten")
   ak15  a file that does not exist (GitHub #112): an ERROR, LaGriT goes
         on (a message and two WARNINGs)
+  ak16  a character attribute (VCHAR): dump / avs leaves it out of the
+        header and the rows, and the file reads back the same (it was
+        listed with no values: read / avs could not read the file)
   A deck may also carry a "# known:" line for a problem not yet fixed:
   it gives KNOWN while a check fails, FIXED once all hold.
 

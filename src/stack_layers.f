@@ -296,6 +296,8 @@ C-----INIT LOCAL VARS
       pinchout = 1
       gobeads = 0
       iopt_trunc = 0
+      nfiletrunc = 0
+      ntrunc = 0
       iopt_buff = 0
       iopt_refine = 0
       iopt_remove = 0
@@ -581,6 +583,9 @@ c      ntrunc are the layers to truncate by nfiletrunc
 c      nfiletrunc is the truncating layer, or top layer
 c      nfiletrunc can be buffered if it is not top layer
 c      ninter_top is the top interface that can be buffered
+c      trunc without a number: the top file (as below, but before
+c      nfiletrunc is used)
+       if (iopt_trunc.ne.0 .and. nfiletrunc.eq.0) nfiletrunc = nfile
        ninter_top = nfile - 1
        if (iopt_trunc.ne.0 .and. nfiletrunc.ne.nfile) 
      >     ninter_top = nfiletrunc

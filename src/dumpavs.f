@@ -252,6 +252,7 @@ C
       pointer (ipimax_vint, imax_vint)
       pointer (ipn_int_i, n_int_i)
       integer itype_flag(*), imin_vint(*), imax_vint(*), n_int_i(*)
+      integer iaflag
 C
       character*32 isubname, ctype, cinterp, crank, cpers, clen
       character*132 logmess
@@ -377,6 +378,19 @@ C
          call cmo_get_attparam(cnames(i),cmo,iindex,ctype,crank,
      *    clengths(i),cinterp,cpers,cioflags(i),ierror_return)
          call cmo_get_info(crank,cmo,iranks(i),ilen,ityp,icscode)
+C
+C        Only VINT and VDOUBLE values are written: leave any other
+C        type (VCHAR) out of the header too, by taking the a out of
+C        this copy of its ioflag (it was counted, with no values)
+         lent=icharlnf(ctype)
+         if (ctype(1:lent).ne.'VINT' .and.
+     *       ctype(1:lent).ne.'VDOUBLE') then
+            iaflag=index(cioflags(i),'a')
+            do while (iaflag.gt.0)
+               cioflags(i)(iaflag:iaflag)=' '
+               iaflag=index(cioflags(i),'a')
+            enddo
+         endif
 C
 C        Vectors (rank 3) are not written; see the history of this
 C        file for the format they would need.
@@ -886,6 +900,9 @@ c
 c
       length_filled = n_char_string
       istart = length_filled + 1
+C     a type with no value written (3, character) leaves the string
+C     as it came in (istop was never set for it)
+      istop = n_char_string
 
       if((n_space .gt. 0).and.(length_filled .ne. 0))then
          istart = length_filled + 1
