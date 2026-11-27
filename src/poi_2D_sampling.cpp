@@ -86,8 +86,8 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
             // make sure the point is in the domain and not too close the end point
             if (inBoundingBox(prevSample) && (distance2D(prevSample, x1) > 0.6 * prevSample.radius)) {
                 getExclusionRadius(prevSample);
-                prevSample.ix = getNeighborGridCellID(prevSample.x, xMin);
-                prevSample.iy = getNeighborGridCellID(prevSample.y, yMin);
+                // ix, iy: set by initializeNeighborGrid, which runs
+                // after this (iCellSize is not set yet here)
                 lineNodes.push_back(prevSample);
             } else {
                 break;
@@ -104,8 +104,7 @@ vector<Point> Polygon::sampleAlongLine(Point x0, Point x1) {
         // make sure the point is in the domain and not too close the end point
         if (inBoundingBox(prevSample)) {
             getExclusionRadius(prevSample);
-            prevSample.ix = getNeighborGridCellID(prevSample.x, xMin);
-            prevSample.iy = getNeighborGridCellID(prevSample.y, yMin);
+            // ix, iy: set by initializeNeighborGrid (see above)
             lineNodes.push_back(prevSample);
         }
     }
