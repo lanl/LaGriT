@@ -1235,7 +1235,8 @@ C
      *          jtetc1(jtetoffc(it)+i).lt.mbndryc) then
                jt=1+(jtetc1(jtetoffc(it)+i)-1)/nefcmo
                jf=jtetc1(jtetoffc(it)+i)-nefcmo*(it-1)
-               if(itetclra(it).ne.itetclra(jt)) then
+C  it and jt are cells of the new mesh object: compare its colors
+               if(itetclrc(it).ne.itetclrc(jt)) then
                   do j=1,ielmface0(i,itettypc(it))
                      node1=itetc1(itetoffc(it)+
      *                            ielmface1(j,i,itettypc(it)))
@@ -1253,8 +1254,11 @@ C
          enddo
       enddo
 C
-      do i=1,npointsa
-         if(itp1c(i).eq.ifitpint.or.itp1c(i).eq.ifitpini) icr1a(i)=0
+C  interior interface vertices of the new mesh object are not
+C  constrained (this loop used npointsa and icr1a, the first
+C  input mesh object's)
+      do i=1,npointsc
+         if(itp1c(i).eq.ifitpint.or.itp1c(i).eq.ifitpini) icr1c(i)=0
       enddo
 C
  
