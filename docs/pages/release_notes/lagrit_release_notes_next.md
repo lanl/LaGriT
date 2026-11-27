@@ -171,6 +171,58 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   deletes every temporary attribute and keeps the permanent and
   standard ones; `DELATT / mo / -all-` deletes every attribute but the
   standard ones (those cmo / create makes).
+- **Unset values found by valgrind** (a run of every suite and
+  level01); each could change a result from one machine to another:
+  - **connect** sized its material bit list from a count of the
+    materials that started from a variable never set. The list is
+    indexed by the imt value (32 materials a block), so it is now
+    sized from the largest imt (or material region number); imt
+    values above 32 that are not all used can no longer write past
+    it. The meshes are unchanged.
+  - **createpts / poisson_disk in 2D** looked up the neighbor grid
+    for the boundary points before the grid existed; those values
+    were always replaced. The lookup is gone; the points are
+    unchanged.
+  - **dump / avs of a character attribute** (VCHAR) left the length
+    of the line unset; the line was right only because of what the
+    previous call left on the stack.
+  - **crush_thin_tets** (refine_face_add.f) tested a counter that was
+    never set to 0 before running settets / parents.
+  - **cmo / addatt from inside LaGriT** (geniee) looked for -def- in
+    the text of the value token, which the caller had not set; it is
+    looked at now only when that token is a word.
+  - **stack / fill with trunc** used the truncating file number
+    before it was set; trunc without a number now means the top
+    file, before it is first used (as the code meant).
+  - **recon** (fnd2to3i.f) compared a vertex's material from an array
+    left unset when the vertex is not on an interface; it compares
+    the vertex's own material now.
+  - **connect's list of vertices it could not connect** printed imt1
+    through an old pointer after the mesh object had grown.
+  - **cv_dual's option line** (dump / control_volume, stor, fehm)
+    built its lines in an 80-character buffer: an option longer than
+    that (a long file name) was printed with stack garbage. The
+    buffer holds the longest option now.
+  - **createpts / poisson_disk** read mesh object names past their
+    end (snprintf on a Fortran string); they are copied by hand.
+  - **cmo_get_stdptrs** tested the wrong error code after jtet.
+  - **extract / surfmesh without a mode word** passed the mode
+    unset; it means all surfaces, as documented.
+
+- **connect with imt values above 32:** connect's material bit list
+  (32 materials a block, indexed by the imt value) was too short, so
+  imt 40 was written past it (MMVERIFY, no mesh; fixed above), and
+  connect's interface pass (multi_material) took the number of blocks
+  from the last vertex's imt, not the largest, so it never looked at
+  the blocks above. Both use the largest imt now. New cases od01 and
+  od02 in test_connect_options.
+
+- **dump / avs with a character attribute (VCHAR)** listed it in the
+  header with no values, so read / avs could not read the file back.
+  Only integer and real attributes are listed now, as only they are
+  written. level01/addmesh_append's reference and file change: 9
+  vertex attributes, not 10. New case ak16 in test_avs_io.
+
 - **cmo / status of a deleted mesh object** (GitHub #159) said the
   current mesh object does not exist; it names the one asked for.
 - **math with imt** (GitHub #31) stopped LaGriT with a segmentation
@@ -284,6 +336,8 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-25 | | file names up to 132 characters in read, dump, infile and the set writers; WARNING after the command for tokens used cut; suite test_long_names |
 | 2026-11-24 | | docs: DUMP3, the link to Outside zones was shown as code (an indented paragraph after a code block); now a paragraph with a live link |
 | 2026-11-24 | #353 | dump / fehm and dump / stor: exclude, the ghost generators left out of every file; outside zones from the faces shared with the ghosts |
+| 2026-11-26 | | unset values found by valgrind: connect's material list size, poisson_disk 2D grid lookups and names, dump / avs character attributes, crush_thin_tets, cmo / addatt value token, stack / fill trunc, recon fnd2to3i, connect's failed-vertex list, cv_dual option lines, cmo_get_stdptrs, extract / surfmesh mode |
+| 2026-11-26 | | connect and its interface pass with imt above 32 (the material list sized from the largest imt); dump / avs leaves character attributes out of the header; suites test_connect_options od01, od02, test_avs_io ak16 |
 | 2026-11-26 | | input without finish: finish assumed (GitHub #22); 2D connect's enclosing triangle printed with blanks (#67); refine_tet_add.f epsilonl a real (#242) |
 | 2026-11-24 | | dump / control_volume / paraview, 3D: no crash at a vertex with many tets (buffers sized from the mesh); suite case sphere_shell |
 | 2026-11-24 | | dump / control_volume / paraview: a cell's face points in one flat buffer (memory linear in the most tets at a vertex); suite case cylinder_axis |
