@@ -886,6 +886,9 @@ c
 c
       length_filled = n_char_string
       istart = length_filled + 1
+C     a type with no value written (3, character) leaves the string
+C     as it came in (istop was never set for it)
+      istop = n_char_string
 
       if((n_space .gt. 0).and.(length_filled .ne. 0))then
          istart = length_filled + 1
