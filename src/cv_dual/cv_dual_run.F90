@@ -117,10 +117,12 @@ contains
       call log_copy_close()
    end subroutine run_abandon
 
-   ! The run's options, keyword=value, wrapped at 78 columns.
+   ! The run's options, keyword=value, wrapped at 78 columns. A word
+   ! longer than that (a long file name) gets a line of its own, so ln
+   ! holds the longest word (it was 80: ln(1:n) read past its end).
    subroutine log_options(t)
       character(len=*), intent(in) :: t
-      character(len=80) :: ln
+      character(len=len(t) + 80) :: ln
       integer :: p, q, n
       ln = 'cv_dual: options'
       n = len_trim(ln)
