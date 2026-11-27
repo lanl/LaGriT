@@ -93,6 +93,17 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   GitHub runner. Each sets its name now; valgrind is clean on that
   deck.
 
+- **connect with an interface surface (intrface) on a mesh object with
+  no constraint table** crashed (a segmentation fault in
+  multi_material.f): when setpts had found no vertices on constrained
+  surfaces, the mesh object had no icontab, ncon50 or nconbnd, and the
+  first interface vertex was written to address 0. connect (3D and 2D)
+  now adds the three attributes when it needs them, and keeps ncon50
+  equal to icontab's length as the table grows. The createpts / amr
+  demo of the docs (test_createpts cp53) now runs; meshes that already
+  had the table are unchanged. The icontab table is described in the
+  Mesh Object page.
+
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
   no nodes or no cells:** an ERROR and LaGriT goes on; it crashed
   (segmentation fault). The same for edge_connections and
@@ -241,6 +252,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-26 | | perturb, extract / isosurface, shtgtsfp: their memory partition named (an unset name; a crash on a GitHub runner in level01/createpts_filter) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-26 | | connect with an intrface surface: no crash when the mesh object has no constraint table (icontab); the createpts / amr demo runs (test_createpts cp53); icontab described in meshobject.md |
 | 2026-11-26 | | extract / surfmesh: z kept for a 2D mesh in the x-z or y-z plane (GitHub #4); suite test_extract_surfmesh |
 | 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
 | 2026-11-26 | | intradd (recon after an interface): the cell arrays looked up again after the mesh object grows (freed memory read and written; valgrind, level01/recon1) |

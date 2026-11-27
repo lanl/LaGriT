@@ -205,6 +205,37 @@ associated with this mesh.  See **[geom)](commands/cmo/cmo_geom.md)**)
 The above are the default attributes for a mesh object. Multiple mesh objects can be defined, all with their own attributes and attribute values. Added attributes will be listed after this list of defaults if they have been added. The current state and list of attributes of a mesh object can be displayed by using the command **[cmo/status](commands/cmo/cmo_status.md)**.
 
 
+### icontab
+
+**icontab** is the table of vertex constraints: it records which
+constrained surfaces a vertex lies on, so that commands that move or
+add vertices keep it on them. It is not a default attribute. It is
+added to the mesh object, with two scalars, the first time it is
+needed:
+
+- **[setpts](commands/SETPTS.md)** adds it when it finds vertices on
+  constrained surfaces (for example **reflect** boundaries);
+- **[connect](commands/CONNECT1.md)** adds it when it puts new vertices on
+  an interface surface (**intrface**) and the mesh object has none yet.
+
+| attribute | type | what it holds |
+|---|---|---|
+| **icontab** | `VINT`, length **ncon50** | 50 integers for each combination of surfaces (one column) |
+| **nconbnd** | `INT` | the number of columns in use |
+| **ncon50** | `INT` | the length of icontab: 50 times the number of columns there is room for (2500 to start) |
+
+A vertex with **icr1** = 0 is not constrained. A vertex with **icr1** =
+j > 0 uses column j:
+
+| entry | what it holds |
+|---|---|
+| icontab(1,j) | n, the number of surfaces the vertex lies on |
+| icontab(2,j) | the vertex's degrees of freedom, max(0, 3 - n): 2 on one surface (it moves in a plane), 1 on two surfaces (along their line), 0 on three or more (fixed) |
+| icontab(3,j) ... icontab(2+n,j) | the numbers of those surfaces, sorted |
+
+Vertices on the same combination of surfaces share one column.
+
+
 ## Mesh Object Attribute Definition
 
 

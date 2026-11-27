@@ -536,19 +536,16 @@ case("cp_amr_doc_demo_connect", "amr", "none",
      "The tets must fill the unit cube (volume 1).",
      cmo=None, mesh="tet", parents_ok=True, coincident_ok=True,
      volume="1.", doc="CREATEPTSAMR.md, demo",
-     known="the doc's amr demo crashes in connect (multi_material)",
      found="segmentation fault in connect, in multi_material (valgrind:\n"
-           "invalid write); also on the original code. Not createpts.\n"
-           "Oct 16: valgrind (Debug build): invalid write at\n"
-           "multi_material.f:982 icontab(1,nconbnd)=n, called from\n"
-           "connect.f:886, as icontab gets a new interface-type entry.\n"
-           "Also crashes with imt 1, with connect before setpts, with or\n"
-           "without cmo/release. PARKED (user, Oct 16: do not modify\n"
-           "multi_material.f / connect.f for now).\n"
-           "The user's way round it: imt 1 for every vertex, connect,\n"
-           "then setpts and settets. It runs, but connect then sees one\n"
-           "material: settets reports 249 multimaterial tets (cross the\n"
-           "plane x = z). Not a conforming two-material mesh.",
+           "invalid write at multi_material.f:982). Not createpts.\n"
+           "Cause: setpts found no constrained vertices, so the tet mesh\n"
+           "object had no icontab (the constraint table), ncon50 or\n"
+           "nconbnd; connect's interface pass wrote its first entry to\n"
+           "address 0. FIXED (Nov 26): multi_material.f (and\n"
+           "multi_material2d_lg.f) make the three attributes when they\n"
+           "are missing, and keep ncon50 equal to icontab's length.\n"
+           "Now connect adds 75 vertices on the plane x = z and removes\n"
+           "every multimaterial connection.",
      tail="cmo/create/cmo///hex\n"
           "surface/inside/reflect/box/0,0,0/1,1,1\n"
           "surface/diag/intrface/plane/0,0,0/1,0,1/1,1,1\n"

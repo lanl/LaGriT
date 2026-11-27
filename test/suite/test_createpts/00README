@@ -34,6 +34,8 @@ QUICK START
       58 PASS, 3 REPORTED, 14 REFUSED, 1 KNOWN, 0 FAIL (76 decks,
       Oct 16; needs every createpts commit, the last one
       the brick re-type fix)
+      Nov 26: 59 PASS, 3 REPORTED, 14 REFUSED, 0 KNOWN, 0 FAIL
+      (cp53 runs since connect makes a missing icontab)
     without them (the original code): 17 FAIL, 4 of them crashes.
   Build LaGriT with both fixed files BEFORE running this version.
 
@@ -84,8 +86,8 @@ THE TESTS (case groups, in this order on the page)
                    examples as written (REPORTED: they do not make what
                    the doc says)
   amr     cp52-55  a 10 x 10 x 2 hex brick refined twice in a box region,
-                   connected (user, Oct 16); the doc's whole demo (KNOWN:
-                   connect crashes, multi_material); a 2 x 2 x 2 brick
+                   connected (user, Oct 16); the doc's whole demo (connect
+                   crashed in multi_material until Nov 26); a 2 x 2 x 2 brick
                    with a region; no region
   median  cp56-59  the doc's quads, ratio hexes, random tets (xmed etc.
                    = the average of the cell's vertices); no cells
