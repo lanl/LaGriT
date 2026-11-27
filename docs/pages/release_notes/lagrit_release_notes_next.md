@@ -144,6 +144,11 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   exist (GitHub #112) is an ERROR too, where it was a message and two
   WARNINGs.
 
+- **icharlnf and icharln** (the length of a word, used by most
+  commands) read one character past the end of a word that fills its
+  whole length (valgrind, read / avs closing its file). The loops now
+  stop at the end; the lengths are unchanged.
+
 - **createpts / poisson_disk / 3d_box with the edge buffer on**
   (`IF_POI_EDGE_BUFFER` 1, the default): the lattice of vertices on the
   six box faces is now made face by face. It was made by building a hex
@@ -269,6 +274,7 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-26 | | read / avs: an ERROR for a cell vertex number past the last vertex (GitHub #176) and for a missing file (GitHub #112) |
 | 2026-11-26 | | intersect: interface vertices of the new line mesh object found from its own cell colors (it read past the first input's color array; valgrind, level01/intersect) |
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
+| 2026-11-26 | | icharlnf, icharln: no read past the end of a word that fills its length (valgrind) |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-25 | | dump / coord and dump / fehm: the elem list of a quad mesh (GitHub #289); a WARNING when no elem list is written |
