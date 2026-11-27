@@ -1830,6 +1830,7 @@ C
       if(ierrdum.ne.0) call x3d_error('refine_edge_add', 'unpacktp')
 C
       icount=0
+      jcount=0
       do i=1,nadd1
          i1=list_sink(i)
          i2=iaddorder2(i)
