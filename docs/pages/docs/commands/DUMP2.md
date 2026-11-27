@@ -90,6 +90,7 @@ These options are provided to enable a user the flexiblity of writing ASCII file
 
 *`iopt_node_attributes`* are the node attributes listing name, type, node_id and values for each.  
 Note by default the AVS files include the mesh object node attributes imt1, itp1, icr1, and isn1        
+Only integer (VINT) and real (VDOUBLE) attributes are written; a character attribute (VCHAR) is left out, also of the header (V3.4.0 and earlier listed it with no values, and **`read/avs`** could not read the file).  
 * = 0 Do not output node attribute information
 * = 1 Output node attribute information 
 * = 2 Output node attribute information without node id in first column
