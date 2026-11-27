@@ -54,9 +54,12 @@ C
       istop=0
 C
 C.... Find the first Non-Blank Character.
+C     (the character is tested inside the loop: Fortran may test
+C     both sides of an .and., and iword(lenmax+1:lenmax+1) is
+C     past the end of iword)
 C
-      do while ((istop .lt. lenmax) .and. 
-     *          (iword(istop+1:istop+1) .eq. ' '))
+      do while (istop .lt. lenmax)
+         if (iword(istop+1:istop+1) .ne. ' ') exit
 C
          istop=istop+1
 C
@@ -64,9 +67,9 @@ C
 C
 C.... Now find the first Blank or Null Character.
 C
-      do while ((istop .lt. lenmax) .and. 
-     *          (iword(istop+1:istop+1) .ne. char(0)) .and.
-     *          (iword(istop+1:istop+1) .ne. ' '))
+      do while (istop .lt. lenmax)
+         if ((iword(istop+1:istop+1) .eq. char(0)) .or.
+     *       (iword(istop+1:istop+1) .eq. ' ')) exit
 C
          istop=istop+1
 C

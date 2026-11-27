@@ -127,6 +127,8 @@ C
       character*8 cnnodes,ickin
       character*32 isubname,geom_name
       character*132 logmess
+      character*132 ibuff
+      integer icn,icj
 C
       data isubname/'multimat'/
       data intpasmx/20/
@@ -157,6 +159,7 @@ C
       call cmo_get_info('itet',cmo,ipitet,leni,itype,ierr)
       call cmo_get_info('jtet',cmo,ipjtet,leni,itype,ierr)
       call cmo_get_info('nconbnd',cmo,nconbnd,leni,itype,ierr)
+      if(ierr.ne.0) nconbnd=0
       call cmo_get_info('icontab',cmo,ipicontab,leni,itype,ierr)
       npoints=nnodes
 c
@@ -766,11 +769,48 @@ C
                      fail=.true.
                   endif
                enddo
+C  the mesh object may have no constraint table yet (setpts
+C  found no constrained vertices): make ncon50, nconbnd and
+C  icontab as conbld does
+               call mmfindbk('icontab',cmo,ipicontab,leni,icscode)
+               if(icscode.ne.0) then
+                  ibuff='cmo/addatt/' // cmo //
+     *              '/ncon50/INT/scalar/scalar/constant/' //
+     *              'permanent/l/0 ; finish'
+                  call dotaskx3d(ibuff,icscode)
+                  ibuff='cmo/addatt/' // cmo //
+     *              '/nconbnd/INT/scalar/scalar/constant/' //
+     *              'permanent/l/0 ; finish'
+                  call dotaskx3d(ibuff,icscode)
+                  call cmo_set_info('ncon50',cmo,2500,1,1,icscode)
+                  ibuff='cmo/addatt/' // cmo //
+     *              '/icontab/VINT/scalar/ncon50/constant/' //
+     *              'permanent/l/0.0 ; finish'
+                  call dotaskx3d(ibuff,icscode)
+                  call mmfindbk('icontab',cmo,ipicontab,leni,
+     *              icscode)
+                  if(icscode.ne.0) then
+                     call x3d_error(isubname,'icontab')
+                     go to 18
+                  endif
+                  do icn=1,leni/50
+                     do icj=1,50
+                        icontab(icj,icn)=0
+                     enddo
+                  enddo
+               endif
                nconbnd=nconbnd+1
                call cmo_set_info('nconbnd',cmo,nconbnd,1,1,ierr)
-               call mmgetlen(ipicontab,leni,ierr)
-               if(leni.lt.50*nconbnd)
-     *           call mmincblk('icontab',cmo,ipicontab,500,ierr)
+C  grow icontab and ncon50 (its length) together
+               if(leni.lt.50*nconbnd) then
+                  call mmincblk('icontab',cmo,ipicontab,500,ierr)
+                  call cmo_set_info('ncon50',cmo,leni+500,1,1,ierr)
+                  do icn=leni/50+1,leni/50+10
+                     do icj=1,50
+                        icontab(icj,icn)=0
+                     enddo
+                  enddo
+               endif
                icontab(1,nconbnd)=n
                icontab(2,nconbnd)=max(0,3-n)
                do nn = 1,n

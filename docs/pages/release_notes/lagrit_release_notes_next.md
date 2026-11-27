@@ -93,10 +93,28 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   GitHub runner. Each sets its name now; valgrind is clean on that
   deck.
 
+- **connect with an interface surface (intrface) on a mesh object with
+  no constraint table** crashed (a segmentation fault in
+  multi_material.f): when setpts had found no vertices on constrained
+  surfaces, the mesh object had no icontab, ncon50 or nconbnd, and the
+  first interface vertex was written to address 0. connect (3D and 2D)
+  now adds the three attributes when it needs them, and keeps ncon50
+  equal to icontab's length as the table grows. The createpts / amr
+  demo of the docs (test_createpts cp53) now runs; meshes that already
+  had the table are unchanged. The icontab table is described in the
+  Mesh Object page.
+
 - **cmo / addatt / edge_lengths_min, _max, _mean on a mesh object with
   no nodes or no cells:** an ERROR and LaGriT goes on; it crashed
   (segmentation fault). The same for edge_connections and
   node_num_diff, which share the code.
+
+- **recon after an interface (intradd.f):** when intradd added the
+  interface vertices, the mesh object could be moved in memory, but
+  only the vertex arrays were looked up again; the loop that fixes the
+  cell connectivity then read and wrote the old, freed arrays. The
+  result happened to be right on most machines (level01/recon1 failed
+  only under valgrind). The cell arrays are now looked up again too.
 
 - **Whole numbers written as reals** (`3.`, `3.0`, `1e1`) where a
   command reads an integer are now read as that integer; they were read
@@ -110,12 +128,26 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
   as before. A token's type is unchanged, so a command that checks for
   an integer still refuses `3.`.
 
+- **intersect:** marking the interface vertices of the new line mesh
+  object compared the colors of its cells using the first input mesh
+  object's color array, and cleared constraints using that mesh
+  object's vertex count and icr1. With more line cells than input
+  cells it read past the array, and vertices could be marked as
+  interface (itp1 2) at random; level01/intersect had 48 of them on
+  a line mesh object of one color. The new mesh object's own colors
+  and vertices are used now; the input mesh objects are not touched.
+
 - **read / avs: a cell vertex number past the last vertex** (GitHub
   #176) corrupted memory (MMVERIFY "Array epilog overwritten", then a
   crash or wrong cells); it is now an ERROR naming the cell and the
   range of vertex numbers, and nothing is read. A file that does not
   exist (GitHub #112) is an ERROR too, where it was a message and two
   WARNINGs.
+
+- **icharlnf and icharln** (the length of a word, used by most
+  commands) read one character past the end of a word that fills its
+  whole length (valgrind, read / avs closing its file). The loops now
+  stop at the end; the lengths are unchanged.
 
 - **createpts / poisson_disk / 3d_box with the edge buffer on**
   (`IF_POI_EDGE_BUFFER` 1, the default): the lattice of vertices on the
@@ -234,11 +266,15 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 | 2026-11-24 | | docs: Outside zones, how top, bottom, left_w, right_e, front_s, back_n are chosen (OUTSIDE_ZONES.md, linked from DUMP3) |
 | 2026-11-26 | | perturb, extract / isosurface, shtgtsfp: their memory partition named (an unset name; a crash on a GitHub runner in level01/createpts_filter) |
 | 2026-11-23 | #350 | cmo / addatt / edge_lengths_*: an ERROR, not a crash, on a mesh object with no nodes or cells |
+| 2026-11-26 | | connect with an intrface surface: no crash when the mesh object has no constraint table (icontab); the createpts / amr demo runs (test_createpts cp53); icontab described in meshobject.md |
 | 2026-11-26 | | extract / surfmesh: z kept for a 2D mesh in the x-z or y-z plane (GitHub #4); suite test_extract_surfmesh |
 | 2026-11-25 | | parser: a whole number written as a real (3. 1e1) is also read as an integer, not as 0 |
+| 2026-11-26 | | intradd (recon after an interface): the cell arrays looked up again after the mesh object grows (freed memory read and written; valgrind, level01/recon1) |
 | 2026-11-25 | #363 | createpts / poisson_disk / 3d_box: the edge buffer's face lattice made face by face, memory as the face area, not the box volume |
 | 2026-11-26 | | read / avs: an ERROR for a cell vertex number past the last vertex (GitHub #176) and for a missing file (GitHub #112) |
+| 2026-11-26 | | intersect: interface vertices of the new line mesh object found from its own cell colors (it read past the first input's color array; valgrind, level01/intersect) |
 | 2026-11-24 | | GitHub checks: a change of documentation only (docs/, .md files) no longer builds and runs the suites |
+| 2026-11-26 | | icharlnf, icharln: no read past the end of a word that fills its length (valgrind) |
 | 2026-11-24 | | exclude: refused when the excluded materials do not surround the model (exclude_force); pieces of the faces shared with them, each closed |
 | 2026-11-23 | #349 | compute / medial_axis: the medial axis and thickness of a surface; suite test_medial_axis |
 | 2026-11-25 | | dump / coord and dump / fehm: the elem list of a quad mesh (GitHub #289); a WARNING when no elem list is written |
