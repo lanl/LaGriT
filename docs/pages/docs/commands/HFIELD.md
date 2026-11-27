@@ -68,6 +68,26 @@ h   = min(h_ceiling, max(h_floor, the smallest h_i))
 Every h_i grows by at most its h_growth per unit of distance, so h does
 too: the field cannot jump, whatever the sources.
 
+An example along a line: two point sources, mo_a (one vertex at x = 0)
+and mo_b (one vertex at x = 4):
+
+```
+hfield / create / hf_ex / h_floor, 0.06 / h_ceiling, 0.4 / h_growth, 0.2
+hfield / add / hf_ex / near, mo_a / h_value, 0.15 / h_band, 0.5 / h_growth, 0.3
+hfield / add / hf_ex / near, mo_b / h_value, 0.02
+```
+
+![h along the line through two point sources: each h_i dashed, h solid](figures/hfield_rule.svg)
+
+- Near A, h is A's h_value 0.15 out to its h_band 0.5, then grows by
+  A's own h_growth 0.3 per unit of distance.
+- B has no h_growth of its own, so it grows by create's 0.2. B's
+  h_value 0.02 is below h_floor, so near B h is h_floor 0.06.
+- Between the sources the smaller h_i wins; where both are above
+  h_ceiling, h is h_ceiling 0.4.
+- `hfield / eval` on the vertices of that line gives the values drawn
+  (the figure is made by figures/make_hfield_figures.py).
+
 | keyword | what | default |
 |---|---|---|
 | **h_floor** | the smallest h anywhere | required |
@@ -96,6 +116,13 @@ order as a closed polygon (as for `createpts / poisson_disk /
 be oriented the same way: hfield orients them first, then decides
 inside from the winding number, with the even-odd rule, so a hollow
 shape (a surface inside a surface) has its hole outside.
+
+![h in the plane: the whole inside of an L-shaped polygon gets its h_value, a point source with a band](figures/hfield_inside.svg)
+
+Above, in 2D: `inside, surface` on an L-shaped polygon (h_value 0.05)
+and `near` a point (h_value 0.1, h_band 0.3, h_growth 0.3), with
+h_floor 0.05, h_ceiling 0.3 and h_growth 0.2. The whole inside of the
+polygon gets 0.05, and h grows away from its sides.
 
 **list** writes the rule in words, one line per source.
 
