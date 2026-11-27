@@ -18,12 +18,14 @@ WHAT IT TESTS
   hf01 to hf08 evaluate hfields on query vertices (hfield / eval):
   near a point, lines, triangles, a quad; H from an attribute
   (edge_lengths_mean); two sources; inside a cube (quads and
-  triangles), a hollow ball (a third of its triangles turned over),
-  and an L-shaped polygon (vertices only, and lines with one turned
-  over). hf09 and hf10: createpts / poisson_disk with a control file
+  triangles; and triangles facing in, so inside, against the normals,
+  is the outside), a hollow ball (the inner sphere facing into the
+  hole), and an L-shaped polygon (vertices only, and lines with one
+  turned over). hf09 and hf10: createpts / poisson_disk with a control file
   and with hfield, NAME giving the same h make the same mesh (2D; 3D
   with the octree and with h_lookup, hex_grid). hf11: the ERRORs.
-  hf12: the WARNING for h_floor below h_spacing_scalar. hf13:
+  hf11 also refuses a surface whose triangles do not all face the
+  same way. hf12: the WARNING for h_floor below h_spacing_scalar. hf13:
   hfield / dump and hfield / delete.
 
 WHAT IS CHECKED (check_hfield.py)

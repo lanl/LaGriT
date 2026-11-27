@@ -108,14 +108,30 @@ line mesh, a triangle surface or a DFN (triangles and lines in any
 mix), or quads only.
 
 **inside, surface**, mo_surf: in 3D a closed (watertight) surface of
-triangles, or of quads (each cut into 4 triangles at its center); in 2D
-a closed loop of lines, or a mesh object of vertices only, taken in
-order as a closed polygon (as for `createpts / poisson_disk /
-2d_polygon`). Closed means every edge is shared by exactly two cells
-(every vertex of a loop is on exactly two lines). The cells need not
-be oriented the same way: hfield orients them first, then decides
-inside from the winding number, with the even-odd rule, so a hollow
-shape (a surface inside a surface) has its hole outside.
+triangles, or of quads only (each cut into 4 triangles at its center,
+as `hextotet / 4`, for the distance and for the inside test alike: a
+diagonal would make a bent quad a ridge or a valley); in 2D a closed loop of lines, or a mesh
+object of vertices only, taken in order as a closed polygon (as for
+`createpts / poisson_disk / 2d_polygon`). Closed means every edge is
+shared by exactly two cells (every vertex of a loop is on exactly two
+lines).
+
+In 3D, inside is the side against the normals of the cells (the
+normals by the right-hand rule from the order of each cell's
+vertices): the `lt` side, as for [region](REGION.md) and a
+[surface](SURFACE.md) / sheet, and found the same way (the k-D tree of
+the triangles and the normal of the nearest triangle, edge or vertex).
+So for the usual meaning, the normals point out, as they do from
+`extract / surfmesh` of a mesh. The orientation is the user's: hfield
+uses it as given, and refuses (an ERROR) a surface whose cells do not
+all face the same way. With normals pointing in, inside is the
+outside of the surface. A hollow shape (a surface inside a surface,
+in one mesh object) has its hole outside when the inner surface's
+normals point into the hole.
+
+In 2D the lines need not be oriented the same way: hfield orients
+them, and decides inside from the winding number with the even-odd
+rule.
 
 ![h in the plane: the whole inside of an L-shaped polygon gets its h_value, a point source with a band](figures/hfield_inside.svg)
 
@@ -153,9 +169,10 @@ Each of these is an ERROR, and nothing is changed:
 - h_attribute that is not a VDOUBLE scalar vertex attribute of the
   source; h_value with h_attribute; h_factor without h_attribute;
   h_attribute with inside;
-- inside, surface: a surface that is not closed, cannot be oriented
-  (a one-sided surface), or mixes cell types; a mesh object with no
-  cells and fewer than 3 vertices;
+- inside, surface: a surface that is not closed, whose cells do not
+  all face the same way (3D), that cannot be oriented (2D), or that
+  mixes cell types; a mesh object with no cells and fewer than 3
+  vertices;
 - eval: att exists and is not a VDOUBLE scalar vertex attribute.
 
 ## WITH CREATEPTS / POISSON_DISK

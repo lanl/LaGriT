@@ -69,7 +69,8 @@ Previous release  LaGriT V3.4.0  Nov 20, 2026
 - **hfield** (new command): a named spacing h built from a few sources,
   for createpts / poisson_disk without a control file. `near, mo` (a
   point set, lines, a surface or a DFN) and `inside, surface / mo` (a
-  closed surface, or a closed polygon in 2D), each with h_value or
+  closed surface, inside against its normals as for region / lt, by
+  the same k-D tree test; or a closed polygon in 2D), each with h_value or
   h_attribute (for example edge_lengths_mean) x h_factor, h_band and
   h_growth; h = min(h_ceiling, max(h_floor, the smallest h_i)), so h
   can never grow faster than h_growth. Actions create, add, list, eval
