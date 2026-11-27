@@ -82,3 +82,5 @@ run_all_usual.txt
 !test_avs_io/golden/*
 .run_all/
 .run_all_why.txt
+test_hfield/work/
+test_hfield/logs/

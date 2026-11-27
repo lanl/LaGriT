@@ -68,6 +68,7 @@ header_subtitle: Alphabetic listing of every command, with links to each command
 <br>
 <a name="h"></a><br>
 * [**`HELP`**](docs/commands/HELP.md) (print global variable)
+* [**`HFIELD`**](docs/commands/HFIELD.md) (a spacing h from sources, for poisson_disk)
 * [**`HEXTOTET`**](docs/commands/HEXTOTE.md) (convert elements, see grid2grid)
 <br>
 <a name="i"></a><br>

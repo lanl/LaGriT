@@ -1,0 +1,42 @@
+test_hfield -- the hfield command and createpts / poisson_disk with
+hfield, NAME (Nov 2026)
+=======================================================================
+
+QUICK START
+
+  sh run_hfield_tests.sh [path-to-lagrit]     13 decks, about 5 s
+  open summary.html
+
+WHAT IT TESTS
+
+  hfield builds a spacing h from a few sources. For each source i, with
+  d the distance to it (0 inside the surface, for inside, surface):
+
+     h_i = H + h_growth * max(0, d - h_band)
+     h   = min(h_ceiling, max(h_floor, the smallest h_i))
+
+  hf01 to hf08 evaluate hfields on query vertices (hfield / eval):
+  near a point, lines, triangles, a quad; H from an attribute
+  (edge_lengths_mean); two sources; inside a cube (quads and
+  triangles), a hollow ball (a third of its triangles turned over),
+  and an L-shaped polygon (vertices only, and lines with one turned
+  over). hf09 and hf10: createpts / poisson_disk with a control file
+  and with hfield, NAME giving the same h make the same mesh (2D; 3D
+  with the octree and with h_lookup, hex_grid). hf11: the ERRORs.
+  hf12: the WARNING for h_floor below h_spacing_scalar. hf13:
+  hfield / dump and hfield / delete.
+
+WHAT IS CHECKED (check_hfield.py)
+
+  LaGriT finished, with no signal or MMVERIFY. The checker computes the
+  rule itself (hflib.py), with its own distances (brute force over
+  every cell) and inside tests (radius, box, ray crossing), and
+  compares h at every vertex to 1e-9. The two poisson meshes of each
+  pair must have the same vertices and cells. hf11 to hf13: the texts
+  LaGriT must print, and the lattices of hfield / dump.
+
+FILES
+
+  make_hfield.py   writes the decks and the meshes they read (work/)
+  check_hfield.py  the checks, the pictures (logs/*.svg), summary.html
+  hflib.py         the shapes and the rule, used by both

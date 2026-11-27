@@ -36,6 +36,9 @@ using std::cout;
 using std::endl;
 using std::string;
 
+// poi_driver.f: h_field_att from the control file or the hfield
+extern "C" void poi_run_h_field_(const char *cname, std::size_t len);
+
 static const char *HMO = "mo_poi_h_field";
 static const char *HATT = "h_field_att";
 
@@ -73,7 +76,8 @@ static int hFromMlgi(std::size_t n, const double *x, const double *y, const doub
     std::snprintf(hs, sizeof hs, "%.12e", h_spacing);
     task(string("cmo/addatt/") + HMO + "/" + HATT + "/vdouble/scalar/nnodes");
     task(string("cmo/setatt/") + HMO + "/" + HATT + "/1 0 0/" + hs);
-    task("infile/" + mlgi);
+    // the control file, or the hfield (poi_driver.f poi_run_h_field)
+    poi_run_h_field_(mlgi.c_str(), (std::size_t)mlgi.size());
     // the .mlgi may have grown or replaced arrays: get them again
     iattlen = long(std::strlen(HATT));
     fc_cmo_get_vdouble_(mo, (char *)HATT, &ph, &nlen, &ierr, icmolen, iattlen);

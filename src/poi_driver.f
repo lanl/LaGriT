@@ -272,6 +272,7 @@ C
       call poi_parse_options(cmsgin,imsgin,xmsgin,msgtyp,nwds,7,
      &     if_h_field_variable,file_user_h_field_att,
      &     seed,number_of_samples,resample_sweeps)
+      call poi_hfield_check(file_user_h_field_att,h_spacing)
 C
 C     The dimension token must agree with the driver that was called.
 C     Catching a mismatch here means a 3d_box command routed to the 2D
@@ -480,6 +481,7 @@ C
       call poi_parse_options(cmsgin,imsgin,xmsgin,msgtyp,nwds,6,
      &     if_h_field_variable,file_user_h_field_att,
      &     seed,number_of_samples,resample_sweeps)
+      call poi_hfield_check(file_user_h_field_att,h_spacing)
 C
 C     The dimension token must agree with the driver that was called.
 C
@@ -902,6 +904,8 @@ C #####################################################################
       include 'poi_params.h'
       include 'poi_errors.h'
 C
+      include 'poi_hfield.h'
+C
       integer nwds,ifirst,if_h_field_variable,poi_lentrim
       character*32 cmsgin(nwds)
       integer imsgin(nwds),msgtyp(nwds)
@@ -935,6 +939,7 @@ C
       call poi_octree_defaults()
       if_h_field_variable = 0
       file_user_h_field_att = ' '
+      ipoi_hfield = 0
 C
       if(nwds .lt. ifirst) goto 100
 C
@@ -963,6 +968,22 @@ C
      &      'option keyword')) goto 50
 C
          lenopt = icharlnf(cmsgin(i))
+C
+C        hfield, NAME: an hfield instead of a control file.
+C
+         if(cmsgin(i)(1:lenopt) .eq. 'hfield')then
+            if(has_ctrl_file)then
+               call poi_err_add('give a control file or hfield, '//
+     &            'not both')
+            elseif(poi_token_type(msgtyp,nwds,i+1,POI_TYPE_CHAR,
+     &         'hfield name'))then
+               if_h_field_variable = 1
+               ipoi_hfield = 1
+               lenopt = icharlnf(cmsgin(i+1))
+               file_user_h_field_att = cmsgin(i+1)(1:lenopt)
+            endif
+            goto 50
+         endif
          kfound = 0
          do k = 1, NKEY
             lk = icharlnf(ckey(k))
@@ -992,7 +1013,7 @@ C           have been truncated without any sign that it had been.
             lk = poi_lentrim(cvalid)
             write(cmsg,'(a,a)') '   ',cvalid(1:lk)
             call poi_err_add(cmsg)
-            call poi_err_add('   and, for 3d_box: h_lookup, '//
+            call poi_err_add('   hfield, and, for 3d_box: h_lookup, '//
      &         'octree_k_factor, octree_batch, octree_dump,')
             call poi_err_add('   face_lattice, face_lattice_factor')
             goto 50
@@ -2370,8 +2391,7 @@ C     relies on the current object should see the right one.
 C
       call poi_cmd('cmo / select / '//POI_MO_HFIELD//' ; finish')
 C
-      ilen = icharlnf(file_user_h_field_att)
-      call poi_cmd('infile/'//file_user_h_field_att(1:ilen)//' ;finish')
+      call poi_run_h_field(file_user_h_field_att)
 C
       return
       end
@@ -3308,6 +3328,71 @@ C
       v1mag = sqrt(v1_x**2 + v1_y**2)
       v2mag = sqrt(v2_x**2 + v2_y**2)
       vertex_angle = acos(v1dotv2/(v1mag*v2mag))
+C
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_hfield_check(cname,h_spacing)
+C #####################################################################
+C
+C     PURPOSE - With hfield, NAME: the hfield must exist (an ERROR),
+C     and an h_floor below h_spacing_scalar is raised to it (a
+C     WARNING).
+C
+C #####################################################################
+      implicit none
+      include 'poi_params.h'
+      include 'poi_hfield.h'
+      character*32 cname
+      real*8 h_spacing,hfloor
+      integer ier,ln
+      character*(POI_MSG_LEN) clines(3)
+C
+      hpoi_hfloor_min = h_spacing
+      if(ipoi_hfield .ne. 1) return
+      ln = len_trim(cname)
+      call hfield_get_floor(cname,hfloor,ier)
+      if(ier .ne. 0)then
+         call poi_err_add('hfield '//cname(1:ln)//' does not exist '//
+     &      '(hfield / create makes it)')
+         return
+      endif
+      if(hfloor .lt. h_spacing)then
+         write(clines(1),'(a,a,a,1pe10.3)') 'hfield ',cname(1:ln),
+     &      ': h_floor',hfloor
+         write(clines(2),'(a,1pe10.3)')
+     &      'is below h_spacing_scalar',h_spacing
+         clines(3) = 'h_spacing_scalar is used as the floor'
+         call poi_log_warn_n(clines,3)
+      endif
+      return
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine poi_run_h_field(cname)
+C #####################################################################
+C
+C     PURPOSE - Set h_field_att on mo_poi_h_field: the user's control
+C     file (infile), or the hfield (hfield_eval, floor raised to
+C     h_spacing_scalar). Every place poisson_disk sets h comes here:
+C     poi_apply_user_h_field, poi_face_h and the octree batches
+C     (poi_3D_octree_lg.cpp).
+C
+C #####################################################################
+      implicit none
+      include 'poi_params.h'
+      include 'poi_hfield.h'
+      character*(*) cname
+      integer ilen,ier
+C
+      ilen = len_trim(cname)
+      if(ipoi_hfield .eq. 1)then
+         call hfield_eval(cname(1:ilen),POI_MO_HFIELD,POI_ATT_HFIELD,
+     &      hpoi_hfloor_min,0,ier)
+      else
+         call poi_cmd('infile/'//cname(1:ilen)//' ; finish')
+      endif
 C
       return
       end

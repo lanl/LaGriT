@@ -494,8 +494,7 @@ C     would leave out vertices refine has marked)
       write(cbuf,'(a,1pe24.16,a)') 'cmo/setatt/'//POI_MO_HFIELD//'/'//
      &     POI_ATT_HFIELD//'/1 0 0/',h_spacing,' ; finish'
       call poi_cmd(cbuf)
-      ilen = icharlnf(file_mlgi)
-      call poi_cmd('infile/'//file_mlgi(1:ilen)//' ; finish')
+      call poi_run_h_field(file_mlgi)
       call cmo_get_info('nnodes',POI_MO_HFIELD,n2,ilen,ityp,ierr)
       call cmo_get_info(POI_ATT_HFIELD,POI_MO_HFIELD,iph,ilen,ityp,
      &     ierr)
