@@ -967,11 +967,11 @@ C
 C SUBROUTINE BEGIN ####################################################
       subroutine hf_inside(csrc,nq,xq,yq,zq,dist,idist,ierror)
 C
-C     dist(i) = 0 for the query vertices inside the closed surface
-C     (3D, triangles or quads) or the closed loop (2D, lines) csrc:
-C     the winding number of the consistently oriented cells (hf_surf),
-C     with the even-odd rule, so a hollow shape (a shell inside a
-C     shell) has its hole outside. Coordinates relative to the
+C     dist(i) = 0 for the query vertices inside csrc. 3D (triangles or
+C     quads): hf_sheet_inside, against the normals. 2D (lines, or a
+C     polygon of vertices): the winding number of the consistently
+C     oriented lines (hf_surf), with the even-odd rule, so a loop
+C     inside a loop has its hole outside. Coordinates relative to the
 C     source's first vertex. idist 1 (a polygon of vertices, which
 C     has no cells for compute / distance_field): dist is first set
 C     here, to the distance to the polygon's sides.
@@ -983,9 +983,9 @@ C
       pointer (ipfv,ifv),(ipsx,sx),(ipsy,sy),(ipsz,sz)
       integer ifv(*)
       real*8 sx(*),sy(*),sz(*)
-      integer nvf,nf,ns,ilen,ier,i,j,i1,i2,i3,iw
-      real*8 x0,y0,z0,px,py,pz,ax,ay,az,bx,by,bz,cx,cy,cz,
-     &   la,lb,lc,det,den,wsum,pi,tol,bmin(3),bmax(3),t,d2,dmin2
+      integer nvf,nf,ns,ilen,ier,i,j,i1,i2,iw
+      real*8 x0,y0,z0,px,py,pz,ax,ay,az,bx,by,bz,
+     &   wsum,pi,tol,bmin(3),bmax(3),t,d2,dmin2
 C
       call hf_surf(csrc,1,nvf,nf,ns,ierror)
       if(ierror.ne.0) return
@@ -1040,6 +1040,17 @@ C
          enddo
       endif
 C
+C
+C     3D: LaGriT's sheet test (shttstv: the k-D tree of the triangles,
+C     then the normal of the nearest triangle, edge or vertex): inside
+C     is lt, the side against the normals, as for region / lt.
+C
+      if(nvf.eq.3)then
+         call mmrelprt('hfield_lg_s',ier)
+         call hf_sheet_inside(csrc,nq,xq,yq,zq,dist,ierror)
+         return
+      endif
+C
       do i=1,nq
          if(dist(i).le.0.0d0) goto 50
          px=xq(i)-x0
@@ -1048,43 +1059,16 @@ C
          if(px.lt.bmin(1)-tol .or. px.gt.bmax(1)+tol .or.
      &      py.lt.bmin(2)-tol .or. py.gt.bmax(2)+tol) goto 50
          wsum=0.0d0
-         if(nvf.eq.3)then
-            if(pz.lt.bmin(3)-tol .or. pz.gt.bmax(3)+tol) goto 50
-            do j=1,nf
-               i1=ifv(3*j-2)
-               i2=ifv(3*j-1)
-               i3=ifv(3*j)
-               ax=sx(i1)-px
-               ay=sy(i1)-py
-               az=sz(i1)-pz
-               bx=sx(i2)-px
-               by=sy(i2)-py
-               bz=sz(i2)-pz
-               cx=sx(i3)-px
-               cy=sy(i3)-py
-               cz=sz(i3)-pz
-               la=sqrt(ax*ax+ay*ay+az*az)
-               lb=sqrt(bx*bx+by*by+bz*bz)
-               lc=sqrt(cx*cx+cy*cy+cz*cz)
-               det=ax*(by*cz-bz*cy)-ay*(bx*cz-bz*cx)+
-     &             az*(bx*cy-by*cx)
-               den=la*lb*lc+(ax*bx+ay*by+az*bz)*lc+
-     &             (ax*cx+ay*cy+az*cz)*lb+(bx*cx+by*cy+bz*cz)*la
-               wsum=wsum+2.0d0*atan2(det,den)
-            enddo
-            iw=nint(abs(wsum)/(4.0d0*pi))
-         else
-            do j=1,nf
-               i1=ifv(2*j-1)
-               i2=ifv(2*j)
-               ax=sx(i1)-px
-               ay=sy(i1)-py
-               bx=sx(i2)-px
-               by=sy(i2)-py
-               wsum=wsum+atan2(ax*by-ay*bx,ax*bx+ay*by)
-            enddo
-            iw=nint(abs(wsum)/(2.0d0*pi))
-         endif
+         do j=1,nf
+            i1=ifv(2*j-1)
+            i2=ifv(2*j)
+            ax=sx(i1)-px
+            ay=sy(i1)-py
+            bx=sx(i2)-px
+            by=sy(i2)-py
+            wsum=wsum+atan2(ax*by-ay*bx,ax*bx+ay*by)
+         enddo
+         iw=nint(abs(wsum)/(2.0d0*pi))
          if(mod(iw,2).eq.1) dist(i)=0.0d0
    50    continue
       enddo
@@ -1102,8 +1086,10 @@ C     lines (a loop, 2D). A ridge is an edge of a triangle or quad,
 C     or an end vertex of a line. Closed: every ridge is shared by
 C     exactly two cells. Two cells agree in orientation when they go
 C     along their shared edge in opposite directions (a line: one
-C     starts where the other ends). The cells are flipped as needed,
-C     one connected piece at a time.
+C     starts where the other ends). Surfaces (3D) must agree
+C     everywhere (an ERROR if not: inside is decided from the user's
+C     normals); loops (2D) are flipped as needed, one connected piece
+C     at a time.
 C
 C     ikeep 1: the oriented facets are left in partition hfield_lg_s:
 C        hf_fv  (nvf*nf) vertex numbers; nvf 3 triangles, 2 lines;
@@ -1301,6 +1287,25 @@ C
          enddo
    40    continue
       enddo
+C
+C     3D: the user's orientation is used as given (inside is the lt
+C     side, against the normals), so every piece must already be
+C     oriented one way. 2D loops are oriented here.
+C
+      if(nvc.ne.2)then
+         nbad=0
+         do ic=1,ne
+            if(iflip(ic).eq.1) nbad=nbad+1
+         enddo
+         if(nbad.gt.0)then
+            write(cmess,'(a,a,a,i10,a)') 'inside: ',csrc(1:ls),
+     &         ' is not oriented the same way everywhere:',
+     &         min(nbad,ne-nbad),' cells are turned over'
+            call hf_err(cmess)
+            ierror=1
+            goto 900
+         endif
+      endif
       if(ikeep.eq.0) goto 900
 C
 C     The oriented facets.
@@ -1424,4 +1429,118 @@ C     Heap sort of iperm(1..n) by ikey(iperm(i)).
       endif
       iperm(i)=itmp
       goto 10
+      end
+C
+C SUBROUTINE BEGIN ####################################################
+      subroutine hf_sheet_inside(csrc,nq,xq,yq,zq,dist,ierror)
+C
+C     dist(i) = 0 for the query vertices (with dist(i) > 0) that are lt
+C     (against the normals of) the triangle or quad surface csrc, by
+C     shttstv, the test of surface / sheet and region / lt. csrc is
+C     copied to the temporary triangle mesh object hfield_sheet_tmp
+C     (quads: hextotet / 4, a center vertex per quad, so no diagonal
+C     makes it a ridge or a valley), with jtet and the k-D tree arrays linkt
+C     and sbox that shttstv needs, and deleted after.
+C
+      implicit none
+      include 'local_element.h'
+      character*(*) csrc
+      integer nq,ierror
+      real*8 xq(*),yq(*),zq(*),dist(*)
+      pointer (ipx,xic),(ipy,yic),(ipz,zic),(ipitet,itet),
+     &   (iplinkt,linkt),(ipsbox,sbox),(ipitettyp,itettyp)
+      real*8 xic(*),yic(*),zic(*),sbox(*)
+      integer itet(*),linkt(*),itettyp(*)
+      pointer (ipqx,qx),(ipqy,qy),(ipqz,qz),(ipiq,iq),(ipit,itst)
+      real*8 qx(*),qy(*),qz(*)
+      integer iq(*),itst(*)
+      integer ne,ilen,ity,ier,i,m,ls
+      real*8 epsln
+      character*32 csheet,ccur
+      character*256 cbuf
+C
+      ierror=0
+      ls=len_trim(csrc)
+      csheet='hfield_sheet_tmp'
+      m=0
+      do i=1,nq
+         if(dist(i).gt.0.0d0) m=m+1
+      enddo
+      if(m.eq.0) return
+      call cmo_get_name(ccur,ier)
+      call cmo_exist(csheet,ier)
+      if(ier.eq.0) call dotask('cmo/delete/hfield_sheet_tmp ; finish',
+     &   ier)
+      call cmo_get_info('itettyp',csrc,ipitettyp,ilen,ity,ier)
+      if(itettyp(1).eq.ifelmqud)then
+         cbuf='hextotet/4/hfield_sheet_tmp/'//csrc(1:ls)//' ; finish'
+      else
+         cbuf='cmo/copy/hfield_sheet_tmp/'//csrc(1:ls)//' ; finish'
+      endif
+      call dotask(cbuf,ier)
+      call cmo_exist(csheet,ier)
+      if(ier.ne.0)then
+         call hf_err('inside: could not copy '//csrc(1:ls))
+         ierror=1
+         goto 900
+      endif
+      call dotask('cmo/addatt/hfield_sheet_tmp/v2/INT/scalar/'//
+     &   'scalar/constant/permanent//2.0 ; finish',ier)
+      call dotask('cmo/addatt/hfield_sheet_tmp/linkt/VINT/v2/'//
+     &   'nelements//permanent/x/0.0 ; finish',ier)
+      call dotask('cmo/addatt/hfield_sheet_tmp/v12/INT/scalar/'//
+     &   'scalar/constant/permanent//12.0 ; finish',ier)
+      call dotask('cmo/addatt/hfield_sheet_tmp/sbox/VDOUBLE/v12/'//
+     &   'nelements/linear/permanent/x/0.0 ; finish',ier)
+      call geniee_cmo(csheet)
+      call cmo_get_info('nelements',csheet,ne,ilen,ity,ier)
+      call cmo_get_info('xic',csheet,ipx,ilen,ity,ier)
+      call cmo_get_info('yic',csheet,ipy,ilen,ity,ier)
+      call cmo_get_info('zic',csheet,ipz,ilen,ity,ier)
+      call cmo_get_info('itet',csheet,ipitet,ilen,ity,ier)
+      call cmo_get_info('linkt',csheet,iplinkt,ilen,ity,ier)
+      call cmo_get_info('sbox',csheet,ipsbox,ilen,ity,ier)
+      if(ier.ne.0)then
+         call hf_err('inside: no k-D tree arrays for '//csrc(1:ls))
+         ierror=1
+         goto 900
+      endif
+      call kdtree(xic,yic,zic,itet,ne,linkt,sbox,ier)
+C
+      call mmgetblk('hf_qx','hfield_lg_q',ipqx,m,2,ier)
+      call mmgetblk('hf_qy','hfield_lg_q',ipqy,m,2,ier)
+      call mmgetblk('hf_qz','hfield_lg_q',ipqz,m,2,ier)
+      call mmgetblk('hf_iq','hfield_lg_q',ipiq,m,1,ier)
+      call mmgetblk('hf_it','hfield_lg_q',ipit,m,1,ier)
+      if(ier.ne.0)then
+         call hf_err('inside: no memory')
+         ierror=1
+         goto 900
+      endif
+      m=0
+      do i=1,nq
+         if(dist(i).gt.0.0d0)then
+            m=m+1
+            qx(m)=xq(i)
+            qy(m)=yq(i)
+            qz(m)=zq(i)
+            iq(m)=i
+         endif
+      enddo
+      call get_epsilon('epsilonl',epsln)
+      call shttstv(qx,qy,qz,m,epsln,csheet,'lt',itst)
+      do i=1,m
+         if(itst(i).eq.1) dist(iq(i))=0.0d0
+      enddo
+C
+  900 continue
+      call mmrelprt('hfield_lg_q',ier)
+      call cmo_exist(csheet,ier)
+      if(ier.eq.0) call dotask('cmo/delete/hfield_sheet_tmp ; finish',
+     &   ier)
+      if(ccur.ne.' ' .and. ccur.ne.csheet)then
+         cbuf='cmo/select/'//ccur(1:len_trim(ccur))//' ; finish'
+         call dotask(cbuf,ier)
+      endif
+      return
       end

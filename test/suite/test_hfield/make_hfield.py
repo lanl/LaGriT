@@ -17,11 +17,13 @@ give, from the numbers in P below and the shapes in hflib.py.
   hf05_two_sources   two points with different h_value: the smaller
                      h wins everywhere
   hf06_inside_cube   inside, surface: a cube as quads (extract /
-                     surfmesh) and as triangles (hextotet), with h_band
+                     surfmesh) and as triangles (hextotet), with h_band;
+                     and a cube whose triangles face in: inside is lt,
+                     against the normals, so there inside is the
+                     outside of the cube
   hf07_inside_shell  inside, surface: a hollow ball (a sphere of radius
-                     1 around one of radius 0.5, 320 triangles each),
-                     a third of the triangles turned over: the hole is
-                     outside, and the orientation does not matter
+                     1 facing out around one of radius 0.5 facing in,
+                     320 triangles each): the hole is outside
   hf08_inside_poly   inside, surface in 2D: an L-shaped polygon, as
                      vertices only (as for 2d_polygon) and as a loop of
                      lines with one line turned over
@@ -88,6 +90,8 @@ ERRORS = [
      "near: mo_tet must have no cells,"),
     ("hfield / add / hf_ok / inside, surface / mo_open",
      "is not a closed surface:"),
+    ("hfield / add / hf_ok / inside, surface / mo_mixed",
+     "is not oriented the same way everywhere"),
     ("hfield / add / hf_ok / inside, surface / mo_pt",
      "fewer than 3 vertices"),
     ("hfield / eval / hf_none / mo_pt / h", "no hfield named hf_none"),
@@ -148,12 +152,21 @@ def shell_mesh():
     n = len(Vo)
     T = [(a, b, c) for a, b, c in Fo] + [(a + n, c + n, b + n)
                                          for a, b, c in Fi]
-    cells = []
-    for k, (a, b, c) in enumerate(T):
-        if k % 3 == 1:
-            a, b = b, a
-        cells.append(("tri", [a + 1, b + 1, c + 1]))
+    cells = [("tri", [a + 1, b + 1, c + 1]) for a, b, c in T]
     return V, T, cells
+
+
+def cube_tris(inward):
+    """The unit cube's surface, 12 triangles, normals out (or in)."""
+    V = [(x, y, z) for z in (0, 1) for y in (0, 1) for x in (0, 1)]
+    Q = [(0, 2, 3, 1), (4, 5, 7, 6), (0, 1, 5, 4), (2, 6, 7, 3),
+         (0, 4, 6, 2), (1, 3, 7, 5)]
+    T = []
+    for a, b, c, d in Q:
+        T += [(a, b, c), (a, c, d)]
+    if inward:
+        T = [(a, c, b) for a, b, c in T]
+    return V, [("tri", [a + 1, b + 1, c + 1]) for a, b, c in T]
 
 
 def main(work):
@@ -248,6 +261,8 @@ def main(work):
         "finish"])
 
     p = P["hf06"]
+    hflib.write_avs(os.path.join(work, "hf06_cube_in.inp"),
+                    *cube_tris(True))
     w("hf06_inside_cube", [
         "cmo / create / mo_hex",
         "createpts / brick / xyz / 3,3,3 / 0. 0. 0. / 1. 1. 1. / 1,1,1",
@@ -261,8 +276,13 @@ def main(work):
         mk % ("hf_ct", p["floor"], p["ceil"], p["growth"]),
         "hfield / add / hf_ct / inside, surface / mo_st / h_value, %g / "
         "h_band, %g" % (p["H"], p["band"]),
+        "read / avs / hf06_cube_in.inp / mo_in",
+        mk % ("hf_ci", p["floor"], p["ceil"], p["growth"]),
+        "hfield / add / hf_ci / inside, surface / mo_in / h_value, %g"
+        % p["H"],
         "hfield / eval / hf_cq / mo_q / hq",
         "hfield / eval / hf_ct / mo_q / ht",
+        "hfield / eval / hf_ci / mo_q / hi",
         "dump / avs / hf06_q.inp / mo_q",
         "finish"])
 
@@ -374,7 +394,12 @@ def main(work):
                     [(0, 0, 0), (1, 0, 0), (0, 1, 0), (0, 0, 1)],
                     [("tri", [1, 2, 3]), ("tri", [1, 2, 4]),
                      ("tri", [1, 3, 4])])
+    V, T, cells = shell_mesh()
+    cells = [(t, [ids[1], ids[0], ids[2]] if k % 3 == 1 else ids)
+             for k, (t, ids) in enumerate(cells)]
+    hflib.write_avs(os.path.join(work, "hf11_mixed.inp"), V, cells)
     lines = [
+        "read / avs / hf11_mixed.inp / mo_mixed",
         "read / avs / unit_square.poly / mo_poly",
         "read / avs / hf11_open.inp / mo_open",
         "cmo / create / mo_pt",

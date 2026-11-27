@@ -133,6 +133,14 @@ def ck_hf06(work, fails, notes):
         want = [hflib.hrule(src, p["floor"], p["ceil"], v) for v in V]
         compare(fails, V, a[att], want, p["ceil"],
                 "cube of %s" % ("quads" if att == "hq" else "triangles"))
+    # facing in: inside (lt) is the outside of the cube
+    def dbin(x):
+        if db(x) > 0:
+            return 0.0
+        return min(min(x[i], 1 - x[i]) for i in range(3))
+    src = [(const(p["H"]), dbin, 0.0, p["growth"])]
+    want = [hflib.hrule(src, p["floor"], p["ceil"], v) for v in V]
+    compare(fails, V, a["hi"], want, p["ceil"], "cube facing in")
     nin = sum(1 for v in V if db(v) == 0)
     notes["count"] = "%d of %d query vertices inside the cube" % (nin,
                                                                   len(V))
