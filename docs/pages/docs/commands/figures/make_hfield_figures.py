@@ -14,10 +14,18 @@ values (checked when the figure was made).
 hfield_inside.svg: h in the plane for an inside, surface source (a
 closed polygon, h_value 0.05) and a point (h_value 0.1, h_band 0.3,
 h_growth 0.3), h_floor 0.05, h_ceiling 0.3, h_growth 0.2.
+
+  python3 -I make_hfield_figures.py MESH.inp   also writes
+                                        hfield_flat_slope_flat.svg
+
+hfield_flat_slope_flat.svg: the mesh of the flat-slope-flat example of
+HFIELD.md (MESH.inp: its mo_pts with the attribute h, from hfield /
+eval), triangles colored by h, and h against x below it.
 """
 
 import math
 import os
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -247,6 +255,74 @@ def inside_figure():
     s.save('hfield_inside.svg')
 
 
+def read_avs(path):
+    L = open(path).read().split('\n')
+    nn, nc, nnd = map(int, L[0].split()[:3])
+    V = [tuple(map(float, L[1 + i].split()[1:4])) for i in range(nn)]
+    C = [[int(x) - 1 for x in L[1 + nn + i].split()[3:]]
+         for i in range(nc)]
+    k = 1 + nn + nc
+    names = [L[k + 1 + j].partition(',')[0].strip()
+             for j in range(int(L[k].split()[0]))]
+    col = names.index('h')
+    h = [float(L[k + 1 + len(names) + i].split()[1 + col])
+         for i in range(nn)]
+    return V, C, h
+
+
+def fsf_h(x):
+    """The flat-slope-flat h: 0.02 out to 0.1 from x = -0.5, growing
+    by 0.25, up to 0.1."""
+    return min(0.1, 0.02 + 0.25 * max(0.0, (x + 0.5) - 0.1))
+
+
+def fsf_figure(inp):
+    V, C, hv = read_avs(inp)
+    sc = 420.0
+    ox, oy = 60, 30
+    W, H = int(ox + sc + 140), int(oy + sc + 200)
+    X = lambda x: ox + sc * (x + 0.5)  # noqa
+    Y = lambda y: oy + sc * (0.5 - y)  # noqa
+    s = Svg(W, H)
+    lo, hi = 0.02, 0.1
+    for c in C:
+        hm = sum(hv[i] for i in c) / len(c)
+        pts = ' '.join('%.1f,%.1f' % (X(V[i][0]), Y(V[i][1])) for i in c)
+        s.add('<polygon points="%s" fill="%s" stroke="#333" '
+              'stroke-width="0.5"/>' % (pts, ramp((hm - lo) / (hi - lo))))
+    s.line(X(-0.5), Y(-0.5), X(-0.5), Y(0.5), '#e8833a', 3)
+    s.text(X(-0.5) - 6, Y(0.0), 'mo_edge', 11, 'end', '#e8833a', 'bold')
+    s.text(ox, 18, 'the mesh, triangles colored by h (%d vertices)'
+           % len(V), 12)
+    lx, ly, lh = X(0.5) + 25, oy + 10, 200
+    for i in range(50):
+        s.rect(lx, ly + lh * i / 50, 16, lh / 50 + 0.5, ramp(1 - i / 49))
+    s.text(lx + 22, ly + 8, '0.10', 11)
+    s.text(lx + 22, ly + lh, '0.02', 11)
+    # h against x, the same x scale
+    py0, ph = oy + sc + 40, 110
+    Yh = lambda v: py0 + ph - ph * v / 0.12  # noqa
+    s.line(X(-0.5), Yh(0), X(0.5), Yh(0), '#444')
+    s.line(X(-0.5), Yh(0), X(-0.5), Yh(0.12), '#444')
+    for v in (0.02, 0.1):
+        s.line(X(-0.5) - 4, Yh(v), X(-0.5), Yh(v), '#444')
+        s.text(X(-0.5) - 7, Yh(v) + 4, '%.2f' % v, 10, 'end')
+    xs = [-0.5 + i / 400 for i in range(401)]
+    s.path([(X(x), Yh(fsf_h(x))) for x in xs], '#222', 2.5)
+    for x, t, a in ((-0.45, 'flat', 'middle'),
+                    (-0.21, 'slope: h_growth 0.25', 'end'),
+                    (0.25, 'flat: h_ceiling', 'middle')):
+        s.text(X(x), Yh(fsf_h(x)) - 8, t, 11, a, '#b85d1a')
+    s.text(X(-0.4), Yh(0) + 16, 'h_band 0.1', 10, 'middle', '#b85d1a')
+    s.line(X(-0.4), Yh(0) - 4, X(-0.4), Yh(0) + 4, '#b85d1a')
+    s.text(X(0.5), Yh(0) + 30, 'x (distance from mo_edge = x + 0.5)',
+           11, 'end')
+    s.text(ox - 50, py0 - 4, 'h', 12, 'start', '#222', 'bold')
+    s.save('hfield_flat_slope_flat.svg')
+
+
 if __name__ == '__main__':
     rule_figure()
     inside_figure()
+    if len(sys.argv) > 1:
+        fsf_figure(sys.argv[1])

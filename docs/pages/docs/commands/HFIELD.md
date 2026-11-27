@@ -172,6 +172,71 @@ h_spacing_scalar as the floor.
 
 ## EXAMPLES
 
+**A control file and an hfield, side by side.** h is flat (0.02) out
+to 0.1 from the left side of a unit square, then grows by 0.25 per
+unit of distance, then is flat again (0.1). The square is
+unit_square.poly (-0.5 to 0.5; in test/suite/test_poisson_2d); the
+source mo_edge is a line of vertices on its left side.
+
+With a control file (before hfield). The deck:
+
+```
+read / avs / unit_square.poly / mo_polygon
+cmo / create / mo_edge
+createpts / line / 101 / / / -0.5 -0.5 0. / -0.5 0.5 0. / 1 1 1
+define / H_NEAR / 0.02
+define / BAND / 0.1
+define / SLOPE / 0.25
+define / H_FAR / 0.1
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon / 0.02 / &
+      connect / flat_slope_flat.mlgi / poisson_seed, 7
+dump / avs / old.inp / mo_pts
+finish
+```
+
+and the control file flat_slope_flat.mlgi, run by createpts on
+mo_poi_h_field:
+
+```
+# flat_slope_flat.mlgi: h = H_NEAR out to BAND from mo_edge, then
+# growing by SLOPE per unit of distance, up to H_FAR
+compute / distance_field / mo_poi_h_field / mo_edge / dfield
+math / sub / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / dfield / BAND
+math / floor / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / 0.
+math / multiply / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / SLOPE
+math / add / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / H_NEAR
+math / ceiling / mo_poi_h_field / h_field_att / 1,0,0 / &
+       mo_poi_h_field / h_field_att / H_FAR
+cmo / DELATT / mo_poi_h_field / dfield
+finish
+```
+
+With hfield, no control file:
+
+```
+read / avs / unit_square.poly / mo_polygon
+cmo / create / mo_edge
+createpts / line / 101 / / / -0.5 -0.5 0. / -0.5 0.5 0. / 1 1 1
+hfield / create / hf_edge / h_floor, 0.02 / h_ceiling, 0.1 / h_growth, 0.25
+hfield / add / hf_edge / near, mo_edge / h_value, 0.02 / h_band, 0.1
+createpts / poisson_disk / 2d_polygon / mo_pts / mo_polygon / 0.02 / &
+      connect / hfield, hf_edge / poisson_seed, 7
+dump / avs / new.inp / mo_pts
+finish
+```
+
+The two decks make the same mesh, vertex for vertex. In the control
+file, math / sub and math / floor make max(0, d - BAND): that is
+h_band. math / multiply, add and ceiling are h_growth, h_value and
+h_ceiling. The floor of the hfield (h_floor 0.02) is the control
+file's H_NEAR, the smallest h it makes.
+
+![the flat-slope-flat mesh, colored by h, and h against x](figures/hfield_flat_slope_flat.svg)
+
 A DFN: tets next to the fractures as long as the fractures' own edges,
 growing away from them:
 
