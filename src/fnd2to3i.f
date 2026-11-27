@@ -185,7 +185,9 @@ C
          kpt=id(kndx)
          call getchain(kpt,ichain1,imt1a,nmulti,ict,ipar)
          if (ict .eq. 0) then
-            if(imt1a(1).ne.imtx) then
+C           kpt has no chain (not a parent): getchain set no imt1a,
+C           so compare kpt's own material
+            if(imt1(kpt).ne.imtx) then
                write(logdan,260) it1,it2,it3,kpt
  260           format ('in fnd2to3i for tets ',3i8,
      *               ' point ',i10, ' not interface point')
