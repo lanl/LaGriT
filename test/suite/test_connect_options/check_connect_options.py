@@ -144,7 +144,7 @@ def picture(deck, e, work):
     if not os.path.isfile(fn):
         return ""
     X, C, imt = read_avs(fn)
-    n0 = {"A": 216, "B": 125, "C": 49}[e["setup"]]
+    n0 = {"A": 216, "B": 125, "C": 49, "D": 125}[e["setup"]]
     used = set(i for _, c in C for i in c)
     if e["setup"] == "C":     # 2D: the triangles
         segs = []
@@ -162,6 +162,12 @@ def picture(deck, e, work):
         segs = [(0.0, 0.55, 1.0, 0.45, "#cf222e", 1.0)]
         return svg_plot2d("3D vertices, side view (y, z); red line: interface", segs, pts, (), 230, 230,
                           note="red: added by connect (%d)" % max(0, len(X) - n0))
+    if e["setup"] == "D":     # 3D: oblique view, colored by imt
+        col = {1: "#0969da", 2: "#bf8700", 40: "#8250df"}
+        pts = [(X[i][0] + 0.18 * X[i][2], X[i][1] + 0.12 * X[i][2], col.get(imt[i], "#1f2328"), 3, "")
+               for i in range(len(X))]
+        return svg_plot2d("3D vertices (oblique view), by imt", (), pts, (), 230, 230,
+                          note="blue: imt 1; orange: 2; purple: 40; %d tets" % len(C))
     pts = [(X[i][0] + 0.18 * X[i][2], X[i][1] + 0.12 * X[i][2], "#1a7f37" if i in used else "#afb8c1",
             3 if i in used else 2, "") for i in range(len(X))]
     return svg_plot2d("3D vertices (oblique view)", (), pts, (), 230, 230,

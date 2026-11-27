@@ -189,8 +189,11 @@ C
          if(nmregs.ne.0) then
             nmatmax=nmregs
          else
+            nmatmax=1
+C        the largest imt (it kept the last vertex's: the blocks
+C        of materials above it were never looked at)
             do  i=1,npoints
-               nmatmax=max(1,imt1(i))
+               nmatmax=max(nmatmax,imt1(i))
                imt1(i)=max(1,imt1(i))
             enddo
          endif

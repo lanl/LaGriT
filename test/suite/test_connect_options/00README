@@ -3,7 +3,7 @@ test_connect_options -- the options of connect, 2D and 3D (Nov 2026)
 
 QUICK START
 
-  sh run_connect_options_tests.sh [path-to-lagrit]   20 decks, about 2 s
+  sh run_connect_options_tests.sh [path-to-lagrit]   22 decks, about 2 s
   open summary.html
 
 THE RULES TESTED
@@ -29,7 +29,12 @@ THE RULES TESTED
   in 2D; anything after the point range was read as 12 coordinates,
   past the end of the command if need be (no tets); a point range or
   pset in token 2 was misread (no tets, or every point connected).
-  Run against V3.3.3, 11 of the 20 decks fail.
+  Run against V3.3.3, 11 of the first 20 decks fail.
+
+  od02 (Nov 26): connect keeps a bit per material in blocks of 32, but
+  sized the blocks from a count of the materials that began with an
+  unset value; imt 40 was written past the list (MMVERIFY, no mesh)
+  on V3.4.0 and earlier.
 
 THE MESHES
 
@@ -39,6 +44,8 @@ THE MESHES
   B  3D, 5 x 5 x 5 points, pset p1 = points 1 to 60
   C  2D (triplane), 7 x 7 points, two materials split by a tilted
      plane: the interface pass adds points unless noadd
+  D  3D, 5 x 5 x 5 points, two materials by imt alone (no geometry):
+     x < 0.5 has imt 2 (od01, the control) or 40 (od02), the rest 1
 
   Counts are compared with other decks of the same mesh (equal, more
   than), and only fixed where noadd fixes them (216, 125, 49 nodes), so

@@ -3,7 +3,7 @@
 
 Writes the decks of test_connect_options (Python 3, standard library
 only) and WORKDIR/expect.json, what each deck must produce. Each deck
-runs one form of the connect command on one of three small meshes and
+runs one form of the connect command on one of four small meshes and
 ends with  cmo / status / brief  (the checker reads the node and
 element counts there) and  finish.
 
@@ -12,6 +12,9 @@ element counts there) and  finish.
   B  3D, 5 x 5 x 5 points, a subset chosen by a point range or a pset
   C  2D (triplane), two materials split by a tilted plane, 7 x 7
      points: the interface pass adds points unless noadd
+  D  3D, 5 x 5 x 5 points, two materials given by imt alone (no
+     geometry): x < 0.5 has imt 40 (or 2, the control), the rest 1;
+     the last vertex has imt 1
 
 Counts are compared with other decks of the same mesh (same as, more
 than), not with fixed numbers, so the suite does not depend on how
@@ -47,6 +50,12 @@ mregion / m1 / le s1 and lt p
 mregion / m2 / le s1 and gt p
 createpts / xyz / 7 7 1 / 0. 0. 0. / 1. 1. 0. / 1 1 1
 setpts
+""",
+"D": """cmo / create / mo
+createpts / xyz / 5 5 5 / 0. 0. 0. / 1. 1. 1. / 1 1 1
+cmo / setatt / mo / imt / 1 0 0 / 1
+pset / p_lo / attribute / xic / 1 0 0 / lt 0.5
+cmo / setatt / mo / itp / 1 0 0 / 0
 """,
 }
 BIG3 = "-10. -10. -10. / 10. -10. -10. / 0. 10. -10. / 0. 0. 10."
@@ -123,6 +132,15 @@ DECKS = {
     "2D: check_interface exists only in 3D: a WARNING, then a plain connect.", "ignored silently"),
 "oc06_old_order_noadd": ("C", "connect / old_order / noadd", {"nodes": ("eq", 49)},
     "2D: old_order and noadd together.", "-"),
+"od01_imt2": ("D", "cmo / setatt / mo / imt / pset get p_lo / 2\nconnect",
+    {"nodes": ("eq", 125), "elements": ("gt", 0)},
+    "Two materials, imt 1 and 2, set by imt alone (no geometry): the control for od02.",
+    "same"),
+"od02_imt40": ("D", "cmo / setatt / mo / imt / pset get p_lo / 40\nconnect",
+    {"nodes": ("eq", 125), "elements": ("same", "od01_imt2")},
+    "The same with imt 40 in place of 2. connect keeps a bit per material in blocks of 32, but sized them from a "
+    "count of the materials that started from an unset value, so imt 40 (block 2) was written past the list.",
+    "MMVERIFY: matlst overwritten, no mesh"),
 }
 
 
